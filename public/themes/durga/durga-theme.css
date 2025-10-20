@@ -1,0 +1,98 @@
+/* Maa Durga Theme Styles with Animated Text Effects */
+
+/* Enhanced text styling for the Durga theme */
+.theme-durga {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.theme-durga .heading-text {
+  color: hsl(0, 100%, 70%);
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+}
+
+.theme-durga .accent-text {
+  color: hsl(30, 100%, 50%);
+}
+
+/* Subtle card enhancements */
+.theme-durga .card {
+  border: 1px solid hsla(0, 100%, 40%, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Elegant button styling */
+.theme-durga .btn-primary {
+  background: linear-gradient(135deg, hsl(0, 100%, 40%), hsl(25, 100%, 30%));
+  border: none;
+  box-shadow: 0 2px 10px rgba(139, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-durga .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+}
+
+/* Durga giggling text animation */
+@keyframes durga-text-giggle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    text-shadow: 
+      0 0 5px rgba(255, 69, 0, 0.7),
+      0 0 10px rgba(255, 69, 0, 0.5);
+  }
+  25% {
+    transform: translateY(-2px) rotate(-1deg) scale(1.02);
+    text-shadow: 
+      0 0 8px rgba(255, 69, 0, 0.9),
+      0 0 15px rgba(255, 69, 0, 0.7);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(0.98);
+    text-shadow: 
+      0 0 5px rgba(255, 69, 0, 0.7),
+      0 0 10px rgba(255, 69, 0, 0.5);
+  }
+  75% {
+    transform: translateY(2px) rotate(1deg) scale(1.01);
+    text-shadow: 
+      0 0 10px rgba(255, 69, 0, 1),
+      0 0 20px rgba(255, 69, 0, 0.8);
+  }
+}
+
+/* Apply giggling animation to specific Sanskrit words */
+.durga-animated-text {
+  display: inline-block;
+  animation: durga-text-giggle 2.5s ease-in-out infinite;
+  color: #ff6347;
+  font-family: 'Devanagari MT', 'Noto Sans Devanagari', sans-serif;
+}
+
+/* Stagger animations for multiple elements */
+.durga-animated-text:nth-child(2n) {
+  animation-delay: 0.2s;
+}
+
+.durga-animated-text:nth-child(3n) {
+  animation-delay: 0.4s;
+}
+
+.durga-animated-text:nth-child(4n) {
+  animation-delay: 0.6s;
+}
+
+.durga-animated-text:nth-child(5n) {
+  animation-delay: 0.8s;
+}
+
+/* Subtle animations */
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+
+.theme-durga .pulse-gentle {
+  animation: gentle-pulse 4s ease-in-out infinite;
+}

@@ -1,0 +1,209 @@
+/* Krishna theme specific styles - divine green aesthetic */
+
+.theme-krishna {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: hsl(120 100% 96%);
+  background: var(--krishna-forest-gradient);
+}
+
+/* Enhanced card styling with divine border effects */
+.krishna-card {
+  background: linear-gradient(180deg, rgba(0, 60, 0, 0.85), rgba(0, 30, 0, 0.95));
+  border: 1px solid rgba(64, 255, 160, 0.15);
+  box-shadow: var(--krishna-divine-shadow);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.krishna-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(64, 255, 160, 0.4), transparent);
+}
+
+/* Enhanced text glow with multiple layers */
+.krishna-text-glow {
+  color: hsl(160 100% 50%);
+  text-shadow: 
+    0 0 5px rgba(64, 255, 160, 0.5),
+    0 0 10px rgba(64, 255, 160, 0.3),
+    0 0 20px rgba(64, 255, 160, 0.2);
+}
+
+/* Stronger text glow for headings */
+.krishna-text-glow-strong {
+  color: hsl(160 100% 60%);
+  text-shadow: 
+    0 0 8px rgba(64, 255, 160, 0.7),
+    0 0 15px rgba(64, 255, 160, 0.5),
+    0 0 30px rgba(64, 255, 160, 0.3);
+}
+
+/* Enhanced border styling */
+.krishna-border {
+  border: 1px solid rgba(64, 255, 160, 0.2);
+  box-shadow: 0 0 15px rgba(64, 255, 160, 0.1);
+}
+
+/* Premium button styling */
+.krishna-button {
+  background: linear-gradient(135deg, hsl(160 100% 45%), hsl(150 40% 30%));
+  color: hsl(120 100% 96%);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.krishna-button:hover {
+  background: linear-gradient(135deg, hsl(160 100% 50%), hsl(150 40% 35%));
+  box-shadow: 
+    0 0 15px rgba(64, 255, 160, 0.4),
+    0 0 30px rgba(64, 255, 160, 0.2);
+  transform: translateY(-2px);
+}
+
+.krishna-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(64, 255, 160, 0.3);
+}
+
+/* Mystical icon styling */
+.krishna-icon {
+  color: #40ffa0;
+  filter: drop-shadow(0 0 5px rgba(64, 255, 160, 0.5));
+}
+
+/* Enhanced animations */
+
+@keyframes krishna-pulse {
+  0%,100% { 
+    transform: scale(1); 
+    opacity: 1; 
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 0.95; 
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes krishna-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(2deg); }
+  66% { transform: translateY(-4px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes krishna-shimmer {
+  0% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+  50% { 
+    background-position: 100% 50%; 
+    opacity: 1;
+  }
+  100% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+}
+
+@keyframes krishna-yantra-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes krishna-glow-pulse {
+  0%,100% { 
+    box-shadow: 0 0 10px rgba(64, 255, 160, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(64, 255, 160, 0.7);
+  }
+}
+
+/* CSS class for rotating yantra element */
+.krishna-rotating-yantra {
+  animation: krishna-yantra-rotate 25s linear infinite;
+  transform-origin: center;
+}
+
+/* Simple rotation without pulsing */
+.krishna-yantra-simple {
+  animation: krishna-yantra-rotate 20s linear infinite;
+}
+
+/* Floating elements */
+.krishna-floating {
+  animation: krishna-float 6s ease-in-out infinite;
+}
+
+/* Pulsing glow effect */
+.krishna-glow-pulse {
+  animation: krishna-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Shimmer effect for special elements */
+.krishna-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(64, 255, 160, 0.1),
+    rgba(64, 255, 160, 0.3),
+    rgba(64, 255, 160, 0.1));
+  background-size: 200% 100%;
+  animation: krishna-shimmer 4s ease infinite;
+}
+
+/* Premium badge styling */
+.krishna-badge {
+  background: linear-gradient(135deg, 
+    rgba(0, 60, 0, 0.9),
+    rgba(0, 30, 0, 0.95));
+  border: 1px solid rgba(64, 255, 160, 0.3);
+  box-shadow: 
+    0 0 10px rgba(64, 255, 160, 0.2),
+    inset 0 0 10px rgba(64, 255, 160, 0.1);
+  color: #40ffa0;
+}
+
+/* Enhanced tooltip styling */
+.krishna-tooltip {
+  background: linear-gradient(135deg, 
+    rgba(0, 30, 0, 0.95),
+    rgba(0, 15, 0, 0.98));
+  border: 1px solid rgba(64, 255, 160, 0.4);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(64, 255, 160, 0.3);
+  color: #40ffa0;
+}
+
+/* Special highlight for important elements */
+.krishna-highlight {
+  background: linear-gradient(90deg, 
+    rgba(0, 60, 0, 0.2),
+    rgba(0, 120, 0, 0.3),
+    rgba(0, 60, 0, 0.2));
+  border: 1px solid rgba(64, 255, 160, 0.2);
+  position: relative;
+}
+
+.krishna-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(64, 255, 160, 0.6), 
+    transparent);
+}

@@ -1,0 +1,640 @@
+/* Form Validation Styles */
+
+/* Base Form Validation Classes */
+.form-validation {
+  @apply relative;
+}
+
+/* Input Validation States */
+.input-validation {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.input-validation--idle {
+  @apply border-input focus:border-primary focus:ring-primary/20;
+}
+
+.input-validation--validating {
+  @apply border-blue-500 bg-blue-50/30 focus:border-blue-600 focus:ring-blue-500/20;
+  animation: validationPulse 1.5s ease-in-out infinite;
+}
+
+.input-validation--valid {
+  @apply border-green-500 bg-green-50/30 focus:border-green-600 focus:ring-green-500/20;
+}
+
+.input-validation--invalid {
+  @apply border-red-500 bg-red-50/30 focus:border-red-600 focus:ring-red-500/20;
+  animation: validationShake 0.4s ease-in-out;
+}
+
+.input-validation--error {
+  @apply border-orange-500 bg-orange-50/30 focus:border-orange-600 focus:ring-orange-500/20;
+}
+
+/* Label Validation States */
+.label-validation {
+  @apply transition-colors duration-200;
+}
+
+.label-validation--idle {
+  @apply text-foreground;
+}
+
+.label-validation--valid {
+  @apply text-green-700;
+}
+
+.label-validation--invalid {
+  @apply text-red-700;
+}
+
+.label-validation--validating {
+  @apply text-blue-700;
+}
+
+.label-validation--error {
+  @apply text-orange-700;
+}
+
+/* Required Field Indicator */
+.label-required::after {
+  content: '*';
+  @apply text-red-500 ml-1;
+}
+
+/* Validation Message Containers */
+.validation-message {
+  @apply flex items-start gap-1.5 text-sm mt-1.5;
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+.validation-message--error {
+  @apply text-red-600;
+}
+
+.validation-message--success {
+  @apply text-green-600;
+}
+
+.validation-message--validating {
+  @apply text-blue-600;
+}
+
+.validation-message--info {
+  @apply text-gray-600;
+}
+
+/* Success Indicators */
+.success-indicator {
+  @apply inline-flex items-center gap-1.5 text-green-600 text-sm font-medium;
+  animation: successSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-indicator__icon {
+  @apply h-4 w-4 text-green-500;
+}
+
+.success-indicator--small {
+  @apply text-xs;
+}
+
+.success-indicator--small .success-indicator__icon {
+  @apply h-3 w-3;
+}
+
+.success-indicator--large {
+  @apply text-base;
+}
+
+.success-indicator--large .success-indicator__icon {
+  @apply h-5 w-5;
+}
+
+/* Error Indicators */
+.error-indicator {
+  @apply inline-flex items-center gap-1.5 text-red-600 text-sm font-medium;
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+.error-indicator__icon {
+  @apply h-4 w-4 text-red-500 flex-shrink-0;
+}
+
+/* Validation Icons */
+.validation-icon {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none;
+}
+
+.validation-icon--valid {
+  @apply text-green-500;
+  animation: iconBounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.validation-icon--invalid {
+  @apply text-red-500;
+  animation: iconShake 0.4s ease-in-out;
+}
+
+.validation-icon--validating {
+  @apply text-blue-500;
+  animation: iconSpin 1s linear infinite;
+}
+
+/* Validation Progress Bar */
+.validation-progress {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.validation-progress__bar {
+  @apply h-full rounded-full transition-all duration-500 ease-out;
+}
+
+.validation-progress__bar--valid {
+  @apply bg-green-500;
+}
+
+.validation-progress__bar--invalid {
+  @apply bg-red-500;
+}
+
+.validation-progress__bar--partial {
+  @apply bg-yellow-500;
+}
+
+/* Form Section Validation */
+.form-section-validation {
+  @apply rounded-lg border p-4 transition-all duration-200;
+}
+
+.form-section-validation--valid {
+  @apply border-green-200 bg-green-50/50;
+}
+
+.form-section-validation--invalid {
+  @apply border-red-200 bg-red-50/50;
+}
+
+.form-section-validation--validating {
+  @apply border-blue-200 bg-blue-50/50;
+  animation: sectionPulse 2s ease-in-out infinite;
+}
+
+/* Validation Summary */
+.validation-summary {
+  @apply rounded-lg border p-4 space-y-3;
+}
+
+.validation-summary--success {
+  @apply border-green-200 bg-green-50 text-green-800;
+}
+
+.validation-summary--error {
+  @apply border-red-200 bg-red-50 text-red-800;
+}
+
+.validation-summary--warning {
+  @apply border-yellow-200 bg-yellow-50 text-yellow-800;
+}
+
+.validation-summary__title {
+  @apply font-semibold flex items-center gap-2;
+}
+
+.validation-summary__list {
+  @apply list-disc list-inside space-y-1 text-sm;
+}
+
+/* Real-time Validation Feedback */
+.validation-feedback {
+  @apply space-y-2;
+}
+
+.validation-rule {
+  @apply flex items-center gap-2 text-sm transition-all duration-200;
+}
+
+.validation-rule--met {
+  @apply text-green-600;
+}
+
+.validation-rule--unmet {
+  @apply text-gray-500;
+}
+
+.validation-rule__check {
+  @apply w-4 h-4 rounded-full border transition-all duration-200 flex items-center justify-center;
+}
+
+.validation-rule__check--met {
+  @apply bg-green-500 border-green-500 text-white;
+}
+
+.validation-rule__check--unmet {
+  @apply border-gray-300;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  @apply mt-2 space-y-2;
+}
+
+.password-strength__bar {
+  @apply w-full h-2 bg-gray-200 rounded-full overflow-hidden;
+}
+
+.password-strength__fill {
+  @apply h-full transition-all duration-300 rounded-full;
+}
+
+.password-strength__fill--weak {
+  @apply bg-red-500 w-1/4;
+}
+
+.password-strength__fill--fair {
+  @apply bg-yellow-500 w-2/4;
+}
+
+.password-strength__fill--good {
+  @apply bg-blue-500 w-3/4;
+}
+
+.password-strength__fill--strong {
+  @apply bg-green-500 w-full;
+}
+
+.password-strength__text {
+  @apply text-sm font-medium;
+}
+
+.password-strength__text--weak {
+  @apply text-red-600;
+}
+
+.password-strength__text--fair {
+  @apply text-yellow-600;
+}
+
+.password-strength__text--good {
+  @apply text-blue-600;
+}
+
+.password-strength__text--strong {
+  @apply text-green-600;
+}
+
+/* Character Count */
+.char-count {
+  @apply text-xs tabular-nums;
+}
+
+.char-count--normal {
+  @apply text-gray-500;
+}
+
+.char-count--warning {
+  @apply text-yellow-600;
+}
+
+.char-count--error {
+  @apply text-red-600;
+  animation: charCountPulse 0.5s ease-in-out;
+}
+
+/* Field Groups */
+.field-group {
+  @apply space-y-4;
+}
+
+.field-group--inline {
+  @apply flex gap-4 space-y-0;
+}
+
+.field-group--grid {
+  @apply grid gap-4 space-y-0;
+}
+
+/* Conditional Fields */
+.conditional-field {
+  @apply overflow-hidden transition-all duration-300;
+}
+
+.conditional-field--hidden {
+  @apply max-h-0 opacity-0;
+}
+
+.conditional-field--visible {
+  @apply max-h-96 opacity-100;
+}
+
+/* Form Step Validation */
+.form-step {
+  @apply relative;
+}
+
+.form-step__indicator {
+  @apply w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium transition-all duration-200;
+}
+
+.form-step__indicator--pending {
+  @apply border-gray-300 text-gray-500 bg-white;
+}
+
+.form-step__indicator--active {
+  @apply border-blue-500 text-blue-600 bg-blue-50;
+}
+
+.form-step__indicator--valid {
+  @apply border-green-500 text-white bg-green-500;
+}
+
+.form-step__indicator--invalid {
+  @apply border-red-500 text-white bg-red-500;
+}
+
+/* Enhanced Validation Animations */
+@keyframes validationPulse {
+  0%, 100% {
+    border-color: rgb(59 130 246);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    border-color: rgb(37 99 235);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  }
+}
+
+@keyframes validationShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes successSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes iconBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes iconShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+
+@keyframes iconSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sectionPulse {
+  0%, 100% {
+    background-color: rgba(219, 234, 254, 0.5);
+  }
+  50% {
+    background-color: rgba(219, 234, 254, 0.8);
+  }
+}
+
+@keyframes charCountPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Enhanced Positioning Classes */
+.validation-position-top {
+  @apply mb-1;
+}
+
+.validation-position-bottom {
+  @apply mt-1;
+}
+
+.validation-position-left {
+  @apply mr-2;
+}
+
+.validation-position-right {
+  @apply ml-2;
+}
+
+/* Enhanced Animation Classes */
+.validation-animation-slide {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+.validation-animation-fade {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.validation-animation-bounce {
+  animation: successSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Touch-friendly Validation (Mobile) */
+@media (max-width: 768px) {
+  .validation-message {
+    @apply text-xs;
+  }
+  
+  .success-indicator,
+  .error-indicator {
+    @apply text-xs;
+  }
+  
+  .validation-icon {
+    @apply right-2;
+  }
+  
+  .form-section-validation {
+    @apply p-3;
+  }
+  
+  .validation-summary {
+    @apply p-3;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .input-validation--valid {
+    @apply border-2 border-green-600;
+  }
+  
+  .input-validation--invalid {
+    @apply border-2 border-red-600;
+  }
+  
+  .input-validation--validating {
+    @apply border-2 border-blue-600;
+  }
+  
+  .success-indicator {
+    @apply font-semibold;
+  }
+  
+  .error-indicator {
+    @apply font-semibold;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .input-validation,
+  .validation-message,
+  .success-indicator,
+  .error-indicator,
+  .validation-icon,
+  .validation-progress__bar,
+  .form-section-validation,
+  .conditional-field,
+  .form-step__indicator {
+    animation: none;
+    transition: none;
+  }
+  
+  .validation-icon--validating {
+    animation: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .input-validation--valid {
+    @apply bg-green-950/30 border-green-400;
+  }
+  
+  .input-validation--invalid {
+    @apply bg-red-950/30 border-red-400;
+  }
+  
+  .input-validation--validating {
+    @apply bg-blue-950/30 border-blue-400;
+  }
+  
+  .validation-progress {
+    @apply bg-gray-700;
+  }
+  
+  .form-section-validation--valid {
+    @apply border-green-800 bg-green-950/50;
+  }
+  
+  .form-section-validation--invalid {
+    @apply border-red-800 bg-red-950/50;
+  }
+  
+  .form-section-validation--validating {
+    @apply border-blue-800 bg-blue-950/50;
+  }
+  
+  .validation-summary--success {
+    @apply border-green-800 bg-green-950 text-green-200;
+  }
+  
+  .validation-summary--error {
+    @apply border-red-800 bg-red-950 text-red-200;
+  }
+  
+  .validation-summary--warning {
+    @apply border-yellow-800 bg-yellow-950 text-yellow-200;
+  }
+}
+
+/* Focus Management for Validation */
+.validation-focus-trap {
+  @apply focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500;
+}
+
+/* Accessibility Enhancements */
+.validation-sr-only {
+  @apply sr-only;
+}
+
+.validation-live-region {
+  @apply sr-only;
+}
+
+/* Custom Validation Utilities */
+.validation-container {
+  @apply relative;
+}
+
+.validation-floating-label {
+  @apply absolute left-3 transition-all duration-200 pointer-events-none;
+}
+
+.validation-floating-label--float {
+  @apply -top-2 left-2 text-xs bg-background px-1;
+}
+
+.validation-floating-label--inline {
+  @apply top-1/2 -translate-y-1/2 text-sm text-muted-foreground;
+}
+
+/* Multi-step Form Validation */
+.multistep-validation {
+  @apply space-y-6;
+}
+
+.multistep-validation__nav {
+  @apply flex justify-between items-center mb-6;
+}
+
+.multistep-validation__step {
+  @apply flex items-center gap-2;
+}
+
+.multistep-validation__progress {
+  @apply flex-1 mx-4 h-1 bg-gray-200 rounded-full overflow-hidden;
+}
+
+.multistep-validation__progress-bar {
+  @apply h-full bg-blue-500 transition-all duration-500;
+}

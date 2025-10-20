@@ -1,0 +1,439 @@
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float-diagonal {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -15px) rotate(90deg); }
+  50% { transform: translate(20px, 0) rotate(180deg); }
+  75% { transform: translate(10px, 15px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.float-diagonal {
+  animation: float-diagonal 8s ease-in-out infinite;
+}
+
+@keyframes cosmic-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.cosmic-pulse {
+  animation: cosmic-pulse 4s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animation for loading dots with consistent color scheme */
+@keyframes pulse {
+  0% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.animate-pulse-slow {
+  animation: pulse 6s ease-in-out infinite;
+}
+
+/* New color-specific glow animations */
+@keyframes glow-primary {
+  0%, 100% { box-shadow: 0 0 5px 2px hsla(var(--primary), 0.3); }
+  50% { box-shadow: 0 0 15px 5px hsla(var(--primary), 0.5); }
+}
+
+@keyframes glow-accent {
+  0%, 100% { box-shadow: 0 0 5px 2px hsla(var(--accent), 0.3); }
+  50% { box-shadow: 0 0 15px 5px hsla(var(--accent), 0.5); }
+}
+
+.glow-primary {
+  animation: glow-primary 3s ease-in-out infinite;
+}
+
+.glow-accent {
+  animation: glow-accent 3s ease-in-out infinite;
+}
+
+/* Paper scroll animations */
+@keyframes unfold {
+  0% { transform: scaleY(0.1); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+.unfold {
+  animation: unfold 1s ease-out forwards;
+  transform-origin: top center;
+}
+
+@keyframes ink-appear {
+  0% { opacity: 0; filter: blur(2px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+.ink-appear {
+  animation: ink-appear 1.5s ease-out 0.5s forwards;
+}
+
+/* Scroll parchment ambient glow */
+@keyframes parchment-glow {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.05) saturate(1.1); }
+}
+
+.parchment-glow {
+  animation: parchment-glow 4s ease-in-out infinite;
+}
+
+/* Custom cursor animations */
+@keyframes cursor-trail {
+  0% { 
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% { 
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes cursor-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 10px hsla(var(--primary), 0.3);
+  }
+  50% { 
+    transform: scale(1.1);
+    box-shadow: 0 0 15px hsla(var(--primary), 0.5);
+  }
+}
+
+/* Added cursor animation for smoother movement */
+@keyframes cursor-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cursor-appear {
+  animation: cursor-appear 0.3s ease-out forwards;
+}
+
+/* Spiritual fire cursor pulse animation */
+@keyframes fire-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 15px 5px rgba(245, 158, 11, 0.6);
+  }
+  50% { 
+    transform: scale(1.1);
+    box-shadow: 0 0 25px 10px rgba(245, 158, 11, 0.8);
+  }
+}
+
+.fire-pulse {
+  animation: fire-pulse 1.5s ease-in-out infinite;
+}
+
+/* Ash particle animation for cremation ground theme */
+@keyframes ash-float {
+  0% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  100% { 
+    transform: translate(5px, -15px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.ash-float {
+  animation: ash-float 2s ease-out infinite;
+}
+
+/* Floating lotus petal animation */
+@keyframes float-petal {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.3;
+  }
+  25% { 
+    transform: translate(10px, -20px) rotate(90deg) scale(1.1);
+    opacity: 0.5;
+  }
+  50% { 
+    transform: translate(20px, -40px) rotate(180deg) scale(1.2);
+    opacity: 0.7;
+  }
+  75% { 
+    transform: translate(10px, -60px) rotate(270deg) scale(1.1);
+    opacity: 0.5;
+  }
+  100% { 
+    transform: translate(0, -80px) rotate(360deg) scale(1);
+    opacity: 0.3;
+  }
+}
+
+.float-petal {
+  animation: float-petal 10s linear infinite;
+}
+
+/* Divine aura animation */
+@keyframes divine-aura {
+  0%, 100% { 
+    box-shadow: 0 0 10px 2px rgba(187, 134, 252, 0.5),
+                0 0 20px 5px rgba(187, 134, 252, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 20px 5px rgba(187, 134, 252, 0.7),
+                0 0 30px 10px rgba(187, 134, 252, 0.4);
+  }
+}
+
+.divine-aura {
+  animation: divine-aura 3s ease-in-out infinite;
+}
+
+/* Yantra rotation animation */
+@keyframes yantra-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.yantra-rotate {
+  animation: yantra-rotate 60s linear infinite;
+}
+
+/* Chakra energy pulse */
+@keyframes chakra-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.chakra-pulse {
+  animation: chakra-pulse 2s ease-in-out infinite;
+}
+
+/* Parchment unroll animation */
+@keyframes parchment-unroll {
+  0% { 
+    transform: scaleY(0.1) translateY(-50%);
+    opacity: 0;
+  }
+  100% { 
+    transform: scaleY(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.parchment-unroll {
+  animation: parchment-unroll 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: top center;
+}
+
+/* Fire burning animation */
+@keyframes fire-burn {
+  0% { 
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+  100% { 
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.fire-burn {
+  animation: fire-burn 5s ease-in-out forwards;
+}
+
+/* Ember particle animation */
+@keyframes ember-rise {
+  0% { 
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+}
+
+.ember-rise {
+  animation: ember-rise 2s ease-out forwards;
+}
+
+/* Smoke animation */
+@keyframes smoke-rise {
+  0% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  100% { 
+    transform: translateY(-50px) scale(2);
+    opacity: 0;
+  }
+}
+
+.smoke-rise {
+  animation: smoke-rise 3s ease-out forwards;
+}
+
+/* Spark fade animation */
+@keyframes spark-fade {
+  0% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.spark-fade {
+  animation: spark-fade 1s ease-out forwards;
+}
+
+/* Fade in animation for page transitions */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Library-specific mystical float */
+@keyframes library-float {
+  0% { transform: translateY(0) rotate(0deg) translateX(0); }
+  25% { transform: translateY(-8px) rotate(6deg) translateX(-4px); }
+  50% { transform: translateY(-16px) rotate(-6deg) translateX(4px); }
+  75% { transform: translateY(-8px) rotate(3deg) translateX(-2px); }
+  100% { transform: translateY(0) rotate(0deg) translateX(0); }
+}
+
+.library-float {
+  animation: library-float 7s ease-in-out infinite;
+}
+
+/* Sacred reveal for parchment & library cards */
+@keyframes sacred-reveal {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.sacred-reveal {
+  animation: sacred-reveal 600ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+
+/* Selection pulse for cosmic selection */
+@keyframes cosmic-select {
+  0% { transform: scale(0.98); box-shadow: 0 0 0 rgba(255,255,255,0); }
+  50% { transform: scale(1.02); box-shadow: 0 6px 20px rgba(255,200,100,0.12); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0); }
+}
+
+.cosmic-select {
+  animation: cosmic-select 420ms ease-out forwards;
+}
+
+/* Mystical drift for particles */
+@keyframes mystical-drift {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-20px) translateX(8px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(-40px) translateX(-4px) scale(0.95); opacity: 0.4; }
+}
+
+.mystical-drift {
+  animation: mystical-drift 12s linear infinite;
+}
+
+/* Library pulse variations */
+@keyframes library-pulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+.library-pulse { animation: library-pulse 3s ease-in-out infinite; }
+
+/* New animations for dashboard enhancements */
+
+/* Gradient shift for shimmer effects */
+@keyframes animate-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: animate-gradient-shift 3s ease infinite;
+}
+
+/* Floating 3D effect */
+@keyframes float-3d {
+  0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px); }
+  50% { transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateZ(10px); }
+}
+
+.float-3d {
+  animation: float-3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Enhanced shimmer effect */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Cosmic glow effect */
+@keyframes cosmic-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.3),
+                0 0 15px rgba(139, 92, 246, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5),
+                0 0 25px rgba(139, 92, 246, 0.3);
+  }
+}
+
+.cosmic-glow {
+  animation: cosmic-glow 3s ease-in-out infinite;
+}

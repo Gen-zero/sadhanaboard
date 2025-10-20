@@ -1,0 +1,6 @@
+# Redirects for SPA client-side routing
+/*    /index.html   200
+
+# API redirects (these will be handled by Netlify.toml but including for reference)
+/api/*  http://localhost:3004/api/:splat  200
+/socket.io/*  http://localhost:3004/socket.io/:splat  200

@@ -1,0 +1,24 @@
+{
+  "features": {
+    "biometric": false,
+    "music": true,
+    "notifications": true,
+    "darkMode": true,
+    "autoSave": true
+  },
+  "timers": {
+    "meditation": 20,
+    "mantra": 108,
+    "reflection": 10
+  },
+  "security": {
+    "sessionTimeout": 3600,
+    "maxLoginAttempts": 5,
+    "passwordMinLength": 8
+  },
+  "application": {
+    "maintenanceMode": false,
+    "newUserRegistration": true,
+    "emailVerification": false
+  }
+}

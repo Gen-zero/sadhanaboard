@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080/api
+      - VITE_SOCKET_BASE_URL=http://localhost:8080
+    depends_on:
+      - backend
+    networks:
+      - saadhanaboard-network
+
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=saadhanaboard
+      - DB_PORT=5432
+      - JWT_SECRET=saadhanaboard_jwt_secret
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=password
+      - ADMIN_EMAIL=admin@saadhanaboard.com
+      - CORS_ORIGIN=http://localhost:8080
+    depends_on:
+      - database
+    networks:
+      - saadhanaboard-network
+
+  # Database service
+  database:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=saadhanaboard
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - saadhanaboard-network
+
+volumes:
+  postgres_data:
+
+networks:
+  saadhanaboard-network:
+    driver: bridge

@@ -1,0 +1,260 @@
+/* Durga theme specific styles with animated text effects */
+
+.theme-durga {
+  font-family: 'Georgia', 'Garamond', serif;
+  color: hsl(0 100% 95%);
+  background: var(--durga-gradient);
+}
+
+/* Enhanced card styling with fiery border effects */
+.durga-card {
+  background: linear-gradient(180deg, rgba(139, 0, 0, 0.85), rgba(100, 0, 0, 0.95));
+  border: 1px solid rgba(255, 100, 100, 0.25);
+  box-shadow: var(--durga-fiery-shadow);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.durga-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+}
+
+/* Enhanced text glow with fiery layers */
+.durga-text-glow {
+  color: hsl(0 100% 70%);
+  text-shadow: 
+    0 0 5px rgba(255, 69, 0, 0.7),
+    0 0 10px rgba(255, 69, 0, 0.5),
+    0 0 20px rgba(255, 69, 0, 0.3);
+}
+
+/* Stronger text glow for headings */
+.durga-text-glow-strong {
+  color: hsl(0 100% 80%);
+  text-shadow: 
+    0 0 8px rgba(255, 69, 0, 0.9),
+    0 0 15px rgba(255, 69, 0, 0.7),
+    0 0 30px rgba(255, 69, 0, 0.5);
+}
+
+/* Enhanced border styling */
+.durga-border {
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.2);
+}
+
+/* Premium button styling */
+.durga-button {
+  background: linear-gradient(135deg, hsl(0 100% 40%), hsl(20 100% 25%));
+  color: hsl(0 100% 95%);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.durga-button:hover {
+  background: linear-gradient(135deg, hsl(0 100% 45%), hsl(20 100% 30%));
+  box-shadow: 
+    0 0 15px rgba(255, 69, 0, 0.6),
+    0 0 30px rgba(255, 69, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.durga-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+/* Mystical icon styling */
+.durga-icon {
+  color: #ff6347;
+  filter: drop-shadow(0 0 5px rgba(255, 99, 71, 0.7));
+}
+
+/* Durga giggling text animation */
+@keyframes durga-text-giggle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    text-shadow: 
+      0 0 5px rgba(255, 69, 0, 0.7),
+      0 0 10px rgba(255, 69, 0, 0.5);
+  }
+  25% {
+    transform: translateY(-2px) rotate(-1deg) scale(1.02);
+    text-shadow: 
+      0 0 8px rgba(255, 69, 0, 0.9),
+      0 0 15px rgba(255, 69, 0, 0.7);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(0.98);
+    text-shadow: 
+      0 0 5px rgba(255, 69, 0, 0.7),
+      0 0 10px rgba(255, 69, 0, 0.5);
+  }
+  75% {
+    transform: translateY(2px) rotate(1deg) scale(1.01);
+    text-shadow: 
+      0 0 10px rgba(255, 69, 0, 1),
+      0 0 20px rgba(255, 69, 0, 0.8);
+  }
+}
+
+/* Apply giggling animation to specific Sanskrit words */
+.durga-animated-text {
+  display: inline-block;
+  animation: durga-text-giggle 2.5s ease-in-out infinite;
+}
+
+/* Stagger animations for multiple elements */
+.durga-animated-text:nth-child(2n) {
+  animation-delay: 0.2s;
+}
+
+.durga-animated-text:nth-child(3n) {
+  animation-delay: 0.4s;
+}
+
+.durga-animated-text:nth-child(4n) {
+  animation-delay: 0.6s;
+}
+
+.durga-animated-text:nth-child(5n) {
+  animation-delay: 0.8s;
+}
+
+/* Enhanced animations */
+
+@keyframes durga-pulse {
+  0%,100% { 
+    transform: scale(1); 
+    opacity: 1; 
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 0.95; 
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes durga-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(2deg); }
+  66% { transform: translateY(-4px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes durga-shimmer {
+  0% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+  50% { 
+    background-position: 100% 50%; 
+    opacity: 1;
+  }
+  100% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+}
+
+@keyframes durga-yantra-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes durga-glow-pulse {
+  0%,100% { 
+    box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+  }
+}
+
+/* CSS class for rotating yantra element */
+.durga-rotating-yantra {
+  animation: durga-yantra-rotate 30s linear infinite;
+  transform-origin: center;
+}
+
+/* Simple rotation without pulsing */
+.durga-yantra-simple {
+  animation: durga-yantra-rotate 25s linear infinite;
+}
+
+/* Floating elements */
+.durga-floating {
+  animation: durga-float 5s ease-in-out infinite;
+}
+
+/* Pulsing glow effect */
+.durga-glow-pulse {
+  animation: durga-glow-pulse 2.5s ease-in-out infinite;
+}
+
+/* Shimmer effect for special elements */
+.durga-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 99, 71, 0.2),
+    rgba(255, 99, 71, 0.4),
+    rgba(255, 99, 71, 0.2));
+  background-size: 200% 100%;
+  animation: durga-shimmer 3s ease infinite;
+}
+
+/* Premium badge styling */
+.durga-badge {
+  background: linear-gradient(135deg, 
+    rgba(100, 0, 0, 0.9),
+    rgba(60, 0, 0, 0.95));
+  border: 1px solid rgba(255, 99, 71, 0.4);
+  box-shadow: 
+    0 0 10px rgba(255, 0, 0, 0.3),
+    inset 0 0 10px rgba(255, 99, 71, 0.2);
+  color: #ff6347;
+}
+
+/* Enhanced tooltip styling */
+.durga-tooltip {
+  background: linear-gradient(135deg, 
+    rgba(50, 0, 0, 0.95),
+    rgba(20, 0, 0, 0.98));
+  border: 1px solid rgba(255, 99, 71, 0.5);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 69, 0, 0.4);
+  color: #ff6347;
+}
+
+/* Special highlight for important elements */
+.durga-highlight {
+  background: linear-gradient(90deg, 
+    rgba(100, 0, 0, 0.3),
+    rgba(150, 0, 0, 0.4),
+    rgba(100, 0, 0, 0.3));
+  border: 1px solid rgba(255, 99, 71, 0.3);
+  position: relative;
+}
+
+.durga-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 99, 71, 0.7), 
+    transparent);
+}

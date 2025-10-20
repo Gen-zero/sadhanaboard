@@ -1,0 +1,34 @@
+{
+  "name": "saadhanaboard-sdk",
+  "version": "1.0.0",
+  "description": "API Client SDK for SaadhanaBoard - A spiritual productivity application",
+  "main": "saadhanaboard-client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Build process not implemented\" && exit 0"
+  },
+  "keywords": [
+    "saadhanaboard",
+    "api",
+    "client",
+    "sdk",
+    "spiritual",
+    "productivity"
+  ],
+  "author": "SaadhanaBoard Team",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/saadhanaboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/saadhanaboard/issues"
+  },
+  "homepage": "https://github.com/your-username/saadhanaboard#readme"
+}

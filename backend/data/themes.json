@@ -1,0 +1,41 @@
+[
+  {
+    "themeId": "legacy:1",
+    "name": "Divine Kali",
+    "deity": "Kali",
+    "available": true,
+    "colors": {
+      "primary": "#8B2A94",
+      "secondary": "#4A1547",
+      "accent": "#E91E63"
+    },
+    "migrated_from": 1,
+    "created_at": "2024-09-26T13:00:00.000Z"
+  },
+  {
+    "themeId": "ganesha",
+    "name": "Sacred Ganesha",
+    "deity": "Ganesha",
+    "available": true,
+    "colors": {
+      "primary": "#FF6B35",
+      "secondary": "#FF8E53",
+      "accent": "#FFA726"
+    },
+    "migrated_from": 2,
+    "created_at": "2024-09-26T13:00:00.000Z"
+  },
+  {
+    "themeId": "shiva",
+    "name": "Peaceful Shiva",
+    "deity": "Shiva",
+    "available": true,
+    "colors": {
+      "primary": "#2196F3",
+      "secondary": "#1976D2",
+      "accent": "#03DAC6"
+    },
+    "migrated_from": 3,
+    "created_at": "2024-09-26T13:00:00.000Z"
+  }
+]

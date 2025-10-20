@@ -1,0 +1,45 @@
+/* Elegant Maa Durga Theme Styles */
+
+/* Enhanced text styling for the Durga theme */
+.theme-fire {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.theme-fire .heading-text {
+  color: hsl(0, 100%, 70%);
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+}
+
+.theme-fire .accent-text {
+  color: hsl(30, 100%, 50%);
+}
+
+/* Subtle card enhancements */
+.theme-fire .card {
+  border: 1px solid hsla(0, 100%, 40%, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Elegant button styling */
+.theme-fire .btn-primary {
+  background: linear-gradient(135deg, hsl(0, 100%, 40%), hsl(25, 100%, 30%));
+  border: none;
+  box-shadow: 0 2px 10px rgba(139, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-fire .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+}
+
+/* Subtle animations */
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+
+.theme-fire .pulse-gentle {
+  animation: gentle-pulse 4s ease-in-out infinite;
+}

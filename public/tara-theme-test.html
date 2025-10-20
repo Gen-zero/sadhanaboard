@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tara Theme Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 50%, #001a4d 100%);
+        }
+        .theme-tara {
+            --background: 240 100% 2%;
+            --foreground: 210 20% 98%;
+            --primary: 220 100% 45%;
+            --secondary: 230 40% 15%;
+            --accent: 0 85% 50%;
+            --card: 240 95% 5%;
+            --tara-blue-glow: 0 0 20px rgba(0, 102, 255, 0.4);
+            --tara-mystical-shadow: 0 4px 20px rgba(0, 51, 255, 0.3);
+            --tara-night-gradient: linear-gradient(135deg, #001a4d 0%, #000d26 50%, #000000 100%);
+            
+            background: var(--tara-night-gradient);
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+        }
+        .test-card {
+            background: hsl(var(--card));
+            color: hsl(var(--foreground));
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            border: 1px solid hsl(var(--primary) / 0.3);
+            box-shadow: var(--tara-mystical-shadow);
+        }
+        .test-icon {
+            width: 64px;
+            height: 64px;
+            background-image: url('/themes/tara/assets/tara-icon.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 10px 0;
+        }
+        .test-yantra {
+            width: 200px;
+            height: 200px;
+            background-image: url('/themes/tara/assets/tara-yantra.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 10px auto;
+            display: block;
+        }
+        .rotating-yantra {
+            width: 150px;
+            height: 150px;
+            background-image: url('/themes/tara/assets/tara-yantra.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 20px auto;
+            display: block;
+            animation: rotate-yantra 20s linear infinite;
+        }
+        @keyframes rotate-yantra {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .primary-text {
+            color: hsl(var(--primary));
+            text-shadow: var(--tara-blue-glow);
+        }
+        .accent-text {
+            color: hsl(var(--accent));
+        }
+    </style>
+</head>
+<body class="theme-tara">
+    <div class="test-card">
+        <h1 class="primary-text">🌙 Maa Tara Theme Test</h1>
+        <p>This page tests if the Tara theme assets and colors are working correctly.</p>
+        
+        <h2>Icon Test:</h2>
+        <div class="test-icon"></div>
+        
+        <h2>Yantra Test:</h2>
+        <div class="test-yantra"></div>
+        
+        <h2>Rotating Yantra Test (No Pulsing):</h2>
+        <div class="rotating-yantra"></div>
+        <p><em>The yantra now rotates smoothly without zooming in/out effect on a light blue background.</em></p>
+        
+        <h2>Color Tests:</h2>
+        <p class="primary-text">Primary Text (Deep Sapphire Blue)</p>
+        <p class="accent-text">Accent Text (Crimson)</p>
+        
+        <h2>Background Test:</h2>
+        <p>The background should be a deep blue-black gradient representing the cremation ground.</p>
+        
+        <script>
+            console.log('Tara theme test page loaded');
+            console.log('Theme colors applied:', {
+                background: getComputedStyle(document.documentElement).getPropertyValue('--background'),
+                primary: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
+                accent: getComputedStyle(document.documentElement).getPropertyValue('--accent')
+            });
+        </script>
+    </div>
+</body>
+</html>

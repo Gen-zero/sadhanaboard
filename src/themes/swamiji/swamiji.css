@@ -1,0 +1,208 @@
+/* Swamiji theme specific styles */
+
+.theme-swamiji {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: hsl(45 100% 95%);
+  background: transparent;
+}
+
+/* Enhanced card styling with divine border effects */
+.swamiji-card {
+  background: linear-gradient(180deg, hsla(30, 100%, 20%, 0.85), hsla(0, 50%, 15%, 0.95));
+  border: 1px solid hsla(30, 100%, 50%, 0.3);
+  box-shadow: 0 0 20px hsla(30, 100%, 50%, 0.2);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.swamiji-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, hsla(30, 100%, 50%, 0.6), transparent);
+}
+
+/* Enhanced text glow with multiple layers */
+.swamiji-text-glow {
+  color: hsl(30 100% 70%);
+  text-shadow: 
+    0 0 5px hsla(30, 100%, 50%, 0.5),
+    0 0 10px hsla(30, 100%, 50%, 0.3),
+    0 0 20px hsla(30, 100%, 50%, 0.2);
+}
+
+/* Stronger text glow for headings */
+.swamiji-text-glow-strong {
+  color: hsl(30 100% 80%);
+  text-shadow: 
+    0 0 8px hsla(30, 100%, 50%, 0.7),
+    0 0 15px hsla(30, 100%, 50%, 0.5),
+    0 0 30px hsla(30, 100%, 50%, 0.3);
+}
+
+/* Enhanced border styling */
+.swamiji-border {
+  border: 1px solid hsla(30, 100%, 50%, 0.3);
+  box-shadow: 0 0 15px hsla(30, 100%, 50%, 0.1);
+}
+
+/* Premium button styling */
+.swamiji-button {
+  background: linear-gradient(135deg, hsl(30 100% 50%), hsl(0 50% 30%));
+  color: hsl(0 0% 100%);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.swamiji-button:hover {
+  background: linear-gradient(135deg, hsl(30 100% 60%), hsl(0 50% 35%));
+  box-shadow: 
+    0 0 15px hsla(30, 100%, 50%, 0.4),
+    0 0 30px hsla(30, 100%, 50%, 0.2);
+  transform: translateY(-2px);
+}
+
+.swamiji-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px hsla(30, 100%, 50%, 0.3);
+}
+
+/* Mystical icon styling */
+.swamiji-icon {
+  color: #FFA500;
+  filter: drop-shadow(0 0 5px hsla(30, 100%, 50%, 0.5));
+}
+
+/* Enhanced animations */
+@keyframes swamiji-pulse {
+  0%,100% { 
+    transform: scale(1); 
+    opacity: 1; 
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 0.95; 
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes swamiji-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(2deg); }
+  66% { transform: translateY(-4px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes swamiji-shimmer {
+  0% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+  50% { 
+    background-position: 100% 50%; 
+    opacity: 1;
+  }
+  100% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+}
+
+@keyframes swamiji-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes swamiji-glow-pulse {
+  0%,100% { 
+    box-shadow: 0 0 10px hsla(30, 100%, 50%, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 25px hsla(30, 100%, 50%, 0.7);
+  }
+}
+
+/* CSS class for rotating elements */
+.swamiji-rotating {
+  animation: swamiji-rotate 25s linear infinite;
+  transform-origin: center;
+}
+
+/* Simple rotation without pulsing */
+.swamiji-rotating-simple {
+  animation: swamiji-rotate 20s linear infinite;
+}
+
+/* Floating elements */
+.swamiji-floating {
+  animation: swamiji-float 6s ease-in-out infinite;
+}
+
+/* Pulsing glow effect */
+.swamiji-glow-pulse {
+  animation: swamiji-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Shimmer effect for special elements */
+.swamiji-shimmer {
+  background: linear-gradient(90deg, 
+    hsla(30, 100%, 50%, 0.1),
+    hsla(30, 100%, 50%, 0.3),
+    hsla(30, 100%, 50%, 0.1));
+  background-size: 200% 100%;
+  animation: swamiji-shimmer 4s ease infinite;
+}
+
+/* Premium badge styling */
+.swamiji-badge {
+  background: linear-gradient(135deg, 
+    hsla(30, 100%, 20%, 0.9),
+    hsla(0, 50%, 15%, 0.95));
+  border: 1px solid hsla(30, 100%, 50%, 0.4);
+  box-shadow: 
+    0 0 10px hsla(30, 100%, 50%, 0.2),
+    inset 0 0 10px hsla(30, 100%, 50%, 0.1);
+  color: #FFA500;
+}
+
+/* Enhanced tooltip styling */
+.swamiji-tooltip {
+  background: linear-gradient(135deg, 
+    hsla(0, 50%, 15%, 0.95),
+    hsla(0, 50%, 10%, 0.98));
+  border: 1px solid hsla(30, 100%, 50%, 0.5);
+  box-shadow: 
+    0 4px 20px hsla(0, 0%, 0%, 0.5),
+    0 0 20px hsla(30, 100%, 50%, 0.3);
+  color: #FFA500;
+}
+
+/* Special highlight for important elements */
+.swamiji-highlight {
+  background: linear-gradient(90deg, 
+    hsla(30, 100%, 20%, 0.2),
+    hsla(0, 50%, 30%, 0.3),
+    hsla(30, 100%, 20%, 0.2));
+  border: 1px solid hsla(30, 100%, 50%, 0.3);
+  position: relative;
+}
+
+.swamiji-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    hsla(30, 100%, 50%, 0.7), 
+    transparent);
+}

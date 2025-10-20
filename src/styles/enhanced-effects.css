@@ -1,0 +1,952 @@
+/* Enhanced cosmic effects for a more immersive experience */
+
+/* Advanced particle system for background */
+.cosmic-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Hide cosmic particles for Shiva theme */
+.shiva-theme .cosmic-particles {
+  display: none !important;
+}
+
+.cosmic-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: hsla(var(--primary), 0.7);
+  box-shadow: 0 0 10px hsla(var(--primary), 0.8),
+              0 0 20px hsla(var(--accent), 0.6);
+  animation: cosmic-drift linear infinite;
+}
+
+@keyframes cosmic-drift {
+  from {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(-100vh) translateX(20vw);
+    opacity: 0;
+  }
+}
+
+/* Enhanced glow effects with multiple layers */
+.cosmic-glow {
+  position: relative;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-glow::before,
+.cosmic-glow::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center,
+    hsla(var(--primary), 0.4) 0%,
+    hsla(var(--accent), 0.3) 30%,
+    transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cosmic-glow::after {
+  background: radial-gradient(circle at center,
+    hsla(var(--accent), 0.3) 0%,
+    hsla(var(--primary), 0.2) 40%,
+    transparent 80%);
+  filter: blur(30px);
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.cosmic-glow:hover::before,
+.cosmic-glow:hover::after {
+  opacity: 1;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Enhanced 3D floating effect */
+.float-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.float-3d:hover {
+  transform: translateZ(20px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Advanced shimmer effect for buttons and cards */
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    hsla(var(--primary), 0.2),
+    hsla(var(--accent), 0.3),
+    hsla(var(--primary), 0.2),
+    transparent);
+  transition: left 0.5s;
+  z-index: -1;
+}
+
+.shimmer-effect:hover::before {
+  left: 100%;
+}
+
+/* Enhanced text effects */
+.cosmic-text {
+  position: relative;
+  background: linear-gradient(90deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(var(--primary)));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 3s ease infinite;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Advanced card hover effects */
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateY(5deg) rotateX(5deg) translateZ(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+    hsla(var(--primary), 0.1),
+    hsla(var(--accent), 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.card-3d:hover::before {
+  opacity: 1;
+}
+
+/* Enhanced progress bars with cosmic styling */
+.cosmic-progress {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg,
+    hsla(var(--background), 0.8),
+    hsla(var(--secondary), 0.2));
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-progress::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress-width, 0%);
+  background: linear-gradient(90deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  box-shadow: 0 0 10px hsla(var(--primary), 0.5);
+  transition: width 0.5s ease;
+  z-index: -1;
+}
+
+.cosmic-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    hsla(var(--primary), 0.1) 5px,
+    hsla(var(--primary), 0.1) 10px
+  );
+  animation: progress-stripe 1s linear infinite;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+@keyframes progress-stripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 10px 0;
+  }
+}
+
+/* Enhanced input fields with cosmic glow */
+.cosmic-input {
+  position: relative;
+  background: hsla(var(--background), 0.7);
+  border: 1px solid hsla(var(--border), 0.3);
+  transition: all 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-input:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsla(var(--primary), 0.3);
+  outline: none;
+}
+
+.cosmic-input::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-input:focus::after {
+  opacity: 0.3;
+}
+
+/* Advanced modal backdrop with cosmic stars */
+.cosmic-backdrop {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    hsla(var(--background), 0.9) 0%,
+    hsla(var(--background), 0.95) 70%,
+    hsl(var(--background)) 100%);
+  backdrop-filter: blur(5px);
+  z-index: 50;
+}
+
+.cosmic-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20% 30%, hsla(var(--primary), 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, hsla(var(--accent), 0.4), transparent),
+    radial-gradient(1px 1px at 60% 40%, hsla(var(--primary), 0.3), transparent),
+    radial-gradient(2px 2px at 80% 60%, hsla(var(--accent), 0.5), transparent);
+  background-size: 200px 200px;
+  opacity: 0.3;
+  animation: stars-twinkle 5s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Hide stars for Shiva theme */
+.shiva-theme .cosmic-backdrop::before {
+  display: none !important;
+}
+
+@keyframes stars-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Enhanced button effects with cosmic energy */
+.cosmic-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px hsla(var(--primary), 0.4);
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent);
+  transition: left 0.5s;
+  z-index: -1;
+}
+
+.cosmic-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px hsla(var(--primary), 0.6);
+}
+
+.cosmic-button:hover::before {
+  left: 100%;
+}
+
+.cosmic-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-button:hover::after {
+  opacity: 1;
+}
+
+/* Advanced tooltip with cosmic styling */
+.cosmic-tooltip {
+  position: relative;
+  background: linear-gradient(135deg,
+    hsl(var(--popover)),
+    hsla(var(--primary), 0.2));
+  border: 1px solid hsla(var(--primary), 0.3);
+  box-shadow: 0 5px 15px hsla(var(--primary), 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1000; /* Ensure tooltips are visible above all content */
+}
+
+.cosmic-tooltip::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border-left: 1px solid hsla(var(--primary), 0.3);
+  border-top: 1px solid hsla(var(--primary), 0.3);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+/* Enhanced divider with cosmic energy */
+.cosmic-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    hsla(var(--primary), 0.5),
+    hsla(var(--accent), 0.5),
+    transparent);
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: hsl(var(--primary));
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px hsl(var(--primary));
+  animation: pulse-glow 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+/* Advanced loading spinner with cosmic theme */
+.cosmic-spinner {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  z-index: 100; /* Ensure spinner is visible above content */
+}
+
+.cosmic-spinner::before,
+.cosmic-spinner::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  z-index: -1;
+}
+
+.cosmic-spinner::before {
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top-color: hsl(var(--primary));
+  border-bottom-color: hsl(var(--accent));
+}
+
+.cosmic-spinner::after {
+  width: 70%;
+  height: 70%;
+  border: 2px solid transparent;
+  border-left-color: hsl(var(--accent));
+  border-right-color: hsl(var(--primary));
+  top: 15%;
+  left: 15%;
+  animation-duration: 1.5s;
+  animation-direction: reverse;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced badge with cosmic glow */
+.cosmic-badge {
+  position: relative;
+  background: linear-gradient(45deg,
+    hsla(var(--primary), 0.2),
+    hsla(var(--accent), 0.2));
+  border: 1px solid hsla(var(--primary), 0.3);
+  color: hsl(var(--primary));
+  box-shadow: 0 0 5px hsla(var(--primary), 0.3);
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 10px hsla(var(--primary), 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-badge:hover::after {
+  opacity: 1;
+}
+
+/* Advanced toggle switch with cosmic styling */
+.cosmic-toggle {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background: hsla(var(--background), 0.7);
+  border: 1px solid hsla(var(--border), 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-toggle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: hsl(var(--primary));
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px hsla(var(--primary), 0.5);
+  z-index: 1;
+}
+
+.cosmic-toggle.active {
+  background: linear-gradient(90deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  border-color: hsl(var(--primary));
+}
+
+.cosmic-toggle.active::before {
+  left: 28px;
+  box-shadow: 0 0 10px hsla(var(--primary), 0.8);
+}
+
+/* Enhanced card with cosmic border */
+.cosmic-card {
+  position: relative;
+  background: hsla(var(--card), 0.8);
+  border: 1px solid hsla(var(--border), 0.3);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid;
+  border-image: linear-gradient(45deg,
+    hsla(var(--primary), 0.5),
+    hsla(var(--accent), 0.5),
+    hsla(var(--primary), 0.5)) 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-card:hover::before {
+  opacity: 1;
+}
+
+/* Advanced slider with cosmic styling */
+.cosmic-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg,
+    hsla(var(--background), 0.7),
+    hsla(var(--secondary), 0.3));
+  border-radius: 3px;
+  outline: none;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 0 10px hsla(var(--primary), 0.8);
+  transition: all 0.2s ease;
+  z-index: 10; /* Ensure thumb is above slider track */
+}
+
+.cosmic-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px hsla(var(--primary), 1);
+}
+
+.cosmic-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px hsla(var(--primary), 0.8);
+  z-index: 10; /* Ensure thumb is above slider track */
+}
+
+/* Enhanced notification with cosmic styling */
+.cosmic-notification {
+  position: relative;
+  background: linear-gradient(135deg,
+    hsla(var(--background), 0.9),
+    hsla(var(--secondary), 0.2));
+  border-left: 4px solid hsl(var(--primary));
+  box-shadow: 0 5px 15px hsla(var(--primary), 0.2);
+  z-index: 100; /* Ensure notifications are visible above content */
+}
+
+.cosmic-notification::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--primary)),
+    transparent);
+  z-index: -1;
+}
+
+/* Advanced avatar with cosmic glow */
+.cosmic-avatar {
+  position: relative;
+  border: 2px solid hsla(var(--primary), 0.3);
+  box-shadow: 0 0 10px hsla(var(--primary), 0.3);
+  transition: all 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-avatar:hover {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 15px hsla(var(--primary), 0.5);
+  transform: scale(1.05);
+}
+
+.cosmic-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: linear-gradient(45deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-avatar:hover::after {
+  opacity: 0.3;
+}
+
+/* Enhanced table with cosmic styling */
+.cosmic-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-table th,
+.cosmic-table td {
+  border-bottom: 1px solid hsla(var(--border), 0.3);
+  padding: 12px 15px;
+}
+
+.cosmic-table th {
+  background: linear-gradient(to bottom,
+    hsla(var(--secondary), 0.3),
+    hsla(var(--background), 0.7));
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.cosmic-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cosmic-table tr:hover td {
+  background: hsla(var(--primary), 0.05);
+}
+
+/* Advanced dropdown with cosmic styling */
+.cosmic-dropdown {
+  position: relative;
+  background: hsla(var(--background), 0.8);
+  border: 1px solid hsla(var(--border), 0.3);
+  border-radius: 6px;
+  box-shadow: 0 5px 15px hsla(var(--primary), 0.1);
+  transition: all 0.3s ease;
+  z-index: 50; /* Ensure dropdowns are visible above content */
+}
+
+.cosmic-dropdown:hover {
+  border-color: hsla(var(--primary), 0.5);
+  box-shadow: 0 5px 15px hsla(var(--primary), 0.2);
+}
+
+.cosmic-dropdown::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 10px hsla(var(--primary), 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-dropdown:hover::after {
+  opacity: 1;
+}
+
+/* Enhanced pagination with cosmic styling */
+.cosmic-pagination button {
+  position: relative;
+  background: hsla(var(--background), 0.7);
+  border: 1px solid hsla(var(--border), 0.3);
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-pagination button:hover {
+  background: hsla(var(--primary), 0.2);
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
+
+.cosmic-pagination button.active {
+  background: linear-gradient(45deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  border-color: hsl(var(--primary));
+  color: white;
+  box-shadow: 0 0 10px hsla(var(--primary), 0.5);
+}
+
+.cosmic-pagination button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-pagination button:hover::after,
+.cosmic-pagination button.active::after {
+  opacity: 1;
+}
+
+/* Advanced breadcrumb with cosmic styling */
+.cosmic-breadcrumb {
+  display: flex;
+  align-items: center;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-breadcrumb-item {
+  position: relative;
+  color: hsl(var(--muted-foreground));
+  transition: color 0.3s ease;
+  z-index: 10; /* Ensure content is above background effects */
+}
+
+.cosmic-breadcrumb-item.active {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.cosmic-breadcrumb-item:hover:not(.active) {
+  color: hsl(var(--foreground));
+}
+
+.cosmic-breadcrumb-separator {
+  margin: 0 10px;
+  color: hsl(var(--muted-foreground));
+}
+
+.cosmic-breadcrumb-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.cosmic-breadcrumb-item.active::after,
+.cosmic-breadcrumb-item:hover::after {
+  transform: scaleX(1);
+}
+
+/* Enhanced alert with cosmic styling */
+.cosmic-alert {
+  position: relative;
+  background: linear-gradient(135deg,
+    hsla(var(--background), 0.9),
+    hsla(var(--secondary), 0.1));
+  border-left: 4px solid hsl(var(--primary));
+  box-shadow: 0 5px 15px hsla(var(--primary), 0.1);
+  z-index: 100; /* Ensure alerts are visible above content */
+}
+
+.cosmic-alert::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--primary)),
+    transparent);
+  z-index: -1;
+}
+
+.cosmic-alert-primary {
+  border-left-color: hsl(var(--primary));
+}
+
+.cosmic-alert-primary::before {
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--primary)),
+    transparent);
+}
+
+.cosmic-alert-success {
+  border-left-color: hsl(var(--success));
+}
+
+.cosmic-alert-success::before {
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--success)),
+    transparent);
+}
+
+.cosmic-alert-warning {
+  border-left-color: hsl(var(--warning));
+}
+
+.cosmic-alert-warning::before {
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--warning)),
+    transparent);
+}
+
+.cosmic-alert-error {
+  border-left-color: hsl(var(--destructive));
+}
+
+.cosmic-alert-error::before {
+  background: linear-gradient(90deg,
+    transparent,
+    hsl(var(--destructive)),
+    transparent);
+}
+
+/* New effects for dashboard enhancements */
+
+/* Interactive card effect */
+.interactive {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.interactive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent);
+  transition: left 0.5s;
+}
+
+.interactive:hover::before {
+  left: 100%;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating effect */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Enhanced cosmic card effect */
+.cosmic-card-enhanced {
+  position: relative;
+  background: hsla(var(--card), 0.7);
+  border: 1px solid hsla(var(--border), 0.2);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.cosmic-card-enhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%),
+    hsla(var(--primary), 0.1) 0%,
+    transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cosmic-card-enhanced:hover::before {
+  opacity: 1;
+}
+
+.cosmic-card-enhanced:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}

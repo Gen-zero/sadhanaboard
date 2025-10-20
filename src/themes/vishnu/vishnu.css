@@ -1,0 +1,209 @@
+/* Vishnu theme specific styles - divine blue aesthetic */
+
+.theme-vishnu {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: hsl(210 100% 96%);
+  background: var(--vishnu-ocean-gradient);
+}
+
+/* Enhanced card styling with divine border effects */
+.vishnu-card {
+  background: linear-gradient(180deg, rgba(0, 10, 60, 0.85), rgba(0, 5, 30, 0.95));
+  border: 1px solid rgba(64, 160, 255, 0.15);
+  box-shadow: var(--vishnu-divine-shadow);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.vishnu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(64, 160, 255, 0.4), transparent);
+}
+
+/* Enhanced text glow with multiple layers */
+.vishnu-text-glow {
+  color: hsl(240 100% 50%);
+  text-shadow: 
+    0 0 5px rgba(64, 160, 255, 0.5),
+    0 0 10px rgba(64, 160, 255, 0.3),
+    0 0 20px rgba(64, 160, 255, 0.2);
+}
+
+/* Stronger text glow for headings */
+.vishnu-text-glow-strong {
+  color: hsl(240 100% 60%);
+  text-shadow: 
+    0 0 8px rgba(64, 160, 255, 0.7),
+    0 0 15px rgba(64, 160, 255, 0.5),
+    0 0 30px rgba(64, 160, 255, 0.3);
+}
+
+/* Enhanced border styling */
+.vishnu-border {
+  border: 1px solid rgba(64, 160, 255, 0.2);
+  box-shadow: 0 0 15px rgba(64, 160, 255, 0.1);
+}
+
+/* Premium button styling */
+.vishnu-button {
+  background: linear-gradient(135deg, hsl(240 100% 45%), hsl(230 40% 30%));
+  color: hsl(210 100% 96%);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.vishnu-button:hover {
+  background: linear-gradient(135deg, hsl(240 100% 50%), hsl(230 40% 35%));
+  box-shadow: 
+    0 0 15px rgba(64, 160, 255, 0.4),
+    0 0 30px rgba(64, 160, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.vishnu-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(64, 160, 255, 0.3);
+}
+
+/* Mystical icon styling */
+.vishnu-icon {
+  color: #40a0ff;
+  filter: drop-shadow(0 0 5px rgba(64, 160, 255, 0.5));
+}
+
+/* Enhanced animations */
+
+@keyframes vishnu-pulse {
+  0%,100% { 
+    transform: scale(1); 
+    opacity: 1; 
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 0.95; 
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes vishnu-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(2deg); }
+  66% { transform: translateY(-4px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes vishnu-shimmer {
+  0% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+  50% { 
+    background-position: 100% 50%; 
+    opacity: 1;
+  }
+  100% { 
+    background-position: 0% 50%; 
+    opacity: 0.8;
+  }
+}
+
+@keyframes vishnu-yantra-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes vishnu-glow-pulse {
+  0%,100% { 
+    box-shadow: 0 0 10px rgba(64, 160, 255, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(64, 160, 255, 0.7);
+  }
+}
+
+/* CSS class for rotating yantra element */
+.vishnu-rotating-yantra {
+  animation: vishnu-yantra-rotate 25s linear infinite;
+  transform-origin: center;
+}
+
+/* Simple rotation without pulsing */
+.vishnu-yantra-simple {
+  animation: vishnu-yantra-rotate 20s linear infinite;
+}
+
+/* Floating elements */
+.vishnu-floating {
+  animation: vishnu-float 6s ease-in-out infinite;
+}
+
+/* Pulsing glow effect */
+.vishnu-glow-pulse {
+  animation: vishnu-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Shimmer effect for special elements */
+.vishnu-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(64, 160, 255, 0.1),
+    rgba(64, 160, 255, 0.3),
+    rgba(64, 160, 255, 0.1));
+  background-size: 200% 100%;
+  animation: vishnu-shimmer 4s ease infinite;
+}
+
+/* Premium badge styling */
+.vishnu-badge {
+  background: linear-gradient(135deg, 
+    rgba(0, 20, 60, 0.9),
+    rgba(0, 10, 30, 0.95));
+  border: 1px solid rgba(64, 160, 255, 0.3);
+  box-shadow: 
+    0 0 10px rgba(64, 160, 255, 0.2),
+    inset 0 0 10px rgba(64, 160, 255, 0.1);
+  color: #40a0ff;
+}
+
+/* Enhanced tooltip styling */
+.vishnu-tooltip {
+  background: linear-gradient(135deg, 
+    rgba(0, 10, 30, 0.95),
+    rgba(0, 5, 15, 0.98));
+  border: 1px solid rgba(64, 160, 255, 0.4);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(64, 160, 255, 0.3);
+  color: #40a0ff;
+}
+
+/* Special highlight for important elements */
+.vishnu-highlight {
+  background: linear-gradient(90deg, 
+    rgba(0, 20, 60, 0.2),
+    rgba(0, 40, 120, 0.3),
+    rgba(0, 20, 60, 0.2));
+  border: 1px solid rgba(64, 160, 255, 0.2);
+  position: relative;
+}
+
+.vishnu-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(64, 160, 255, 0.6), 
+    transparent);
+}

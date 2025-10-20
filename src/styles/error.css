@@ -1,0 +1,512 @@
+/* Error Handling Styles */
+
+/* Base Error Boundary Styles */
+.error-boundary {
+  @apply min-h-screen flex items-center justify-center p-4;
+}
+
+.error-boundary--isolated {
+  @apply min-h-0 p-4 rounded-lg border-2 border-dashed border-red-300 bg-red-50;
+}
+
+.error-boundary--full {
+  @apply min-h-screen bg-gradient-to-br from-red-50 to-red-100;
+}
+
+.error-boundary__container {
+  @apply max-w-md w-full mx-auto text-center;
+  animation: errorBoundaryFadeIn 0.5s ease-out;
+}
+
+.error-boundary__icon {
+  @apply flex justify-center mb-4;
+  animation: errorBoundaryIconPulse 2s infinite;
+}
+
+.error-boundary__content {
+  @apply space-y-4;
+}
+
+.error-boundary__title {
+  @apply text-xl font-semibold text-gray-900 mb-2;
+}
+
+.error-boundary__description {
+  @apply text-gray-600 mb-6;
+}
+
+.error-boundary__details {
+  @apply mt-4 text-left;
+}
+
+.error-boundary__details-summary {
+  @apply cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors;
+}
+
+.error-boundary__details-content {
+  @apply mt-2 p-3 bg-gray-100 rounded-md text-xs;
+}
+
+.error-boundary__stack {
+  @apply mt-2 p-2 bg-gray-800 text-green-400 rounded text-xs overflow-x-auto font-mono;
+  max-height: 200px;
+}
+
+.error-boundary__actions {
+  @apply flex flex-col sm:flex-row gap-3 justify-center mt-6;
+}
+
+.error-boundary__button {
+  @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.error-boundary__button--primary {
+  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+}
+
+.error-boundary__button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+.error-boundary__button--secondary {
+  @apply bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
+}
+
+.error-boundary__button--secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(75, 85, 99, 0.25);
+}
+
+.error-boundary__button--outline {
+  @apply border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 focus:ring-gray-500;
+}
+
+.error-boundary__retry-info {
+  @apply text-xs text-gray-500 mt-2;
+}
+
+/* Error Message Component Styles */
+.error-message {
+  @apply p-4 rounded-lg border transition-all duration-300;
+  animation: errorMessageSlideIn 0.3s ease-out;
+}
+
+.error-message--compact {
+  @apply p-2 rounded border;
+}
+
+.error-message:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Error Toast Styles */
+.error-toast {
+  @apply fixed top-4 right-4 z-50 max-w-sm w-full;
+  animation: errorToastSlideIn 0.3s ease-out;
+}
+
+.error-toast--exit {
+  animation: errorToastSlideOut 0.3s ease-in forwards;
+}
+
+/* Error Page Styles */
+.error-page {
+  @apply min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100;
+}
+
+.error-page__illustration {
+  @apply w-64 h-64 mb-8 opacity-60;
+  animation: errorPageFloat 6s ease-in-out infinite;
+}
+
+.error-page__content {
+  @apply text-center max-w-md;
+}
+
+.error-page__title {
+  @apply text-4xl font-bold text-gray-900 mb-4;
+  animation: errorPageTitleFade 0.8s ease-out 0.2s both;
+}
+
+.error-page__description {
+  @apply text-lg text-gray-600 mb-8;
+  animation: errorPageDescriptionFade 0.8s ease-out 0.4s both;
+}
+
+.error-page__actions {
+  @apply flex flex-col sm:flex-row gap-4 justify-center;
+  animation: errorPageActionsFade 0.8s ease-out 0.6s both;
+}
+
+/* Error Form Styles */
+.error-form {
+  @apply space-y-4;
+}
+
+.error-form__field {
+  @apply relative;
+}
+
+.error-form__input {
+  @apply w-full px-3 py-2 border rounded-md transition-colors duration-200;
+}
+
+.error-form__input--error {
+  @apply border-red-500 bg-red-50 focus:border-red-600 focus:ring-red-500;
+  animation: errorFormFieldShake 0.5s ease-in-out;
+}
+
+.error-form__error {
+  @apply mt-1 text-sm text-red-600;
+  animation: errorFormErrorFade 0.3s ease-out;
+}
+
+.error-form__error::before {
+  content: "⚠ ";
+}
+
+/* Error List Styles */
+.error-list {
+  @apply space-y-2;
+}
+
+.error-list__item {
+  @apply flex items-start gap-2 p-2 rounded bg-red-50 border-l-4 border-red-500;
+  animation: errorListItemSlide 0.3s ease-out;
+}
+
+.error-list__item:nth-child(odd) {
+  animation-delay: 0.1s;
+}
+
+.error-list__item:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+/* Error Badge Styles */
+.error-badge {
+  @apply inline-flex items-center px-2 py-1 text-xs font-medium rounded-full;
+}
+
+.error-badge--error {
+  @apply bg-red-100 text-red-800;
+}
+
+.error-badge--warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.error-badge--info {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.error-badge--success {
+  @apply bg-green-100 text-green-800;
+}
+
+/* Error Progress Styles */
+.error-progress {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.error-progress__bar {
+  @apply h-full bg-red-500 rounded-full transition-all duration-300;
+  animation: errorProgressPulse 1.5s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes errorBoundaryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorBoundaryIconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes errorMessageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes errorToastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes errorToastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes errorPageFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes errorPageTitleFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorPageDescriptionFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorPageActionsFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorFormFieldShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes errorFormErrorFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorListItemSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes errorProgressPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .error-boundary__container,
+  .error-boundary__icon,
+  .error-message,
+  .error-toast,
+  .error-page__illustration,
+  .error-page__title,
+  .error-page__description,
+  .error-page__actions,
+  .error-form__input--error,
+  .error-form__error,
+  .error-list__item,
+  .error-progress__bar {
+    animation: none;
+  }
+  
+  .error-boundary__button:hover,
+  .error-message:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .error-boundary--full {
+    @apply from-red-950 to-black;
+  }
+  
+  .error-boundary__title {
+    @apply text-gray-100;
+  }
+  
+  .error-boundary__description {
+    @apply text-gray-300;
+  }
+  
+  .error-boundary__details-summary {
+    @apply text-gray-300 hover:text-gray-100;
+  }
+  
+  .error-boundary__details-content {
+    @apply bg-gray-800 text-gray-300;
+  }
+  
+  .error-page {
+    @apply from-gray-900 to-black;
+  }
+  
+  .error-page__title {
+    @apply text-gray-100;
+  }
+  
+  .error-page__description {
+    @apply text-gray-300;
+  }
+  
+  .error-form__input--error {
+    @apply bg-red-950/20 border-red-400 text-gray-100;
+  }
+  
+  .error-form__error {
+    @apply text-red-400;
+  }
+  
+  .error-list__item {
+    @apply bg-red-950/20 border-red-400;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .error-boundary__button--primary {
+    @apply bg-black text-white border-2 border-white;
+  }
+  
+  .error-boundary__button--secondary {
+    @apply bg-white text-black border-2 border-black;
+  }
+  
+  .error-message {
+    @apply border-2;
+  }
+  
+  .error-form__input--error {
+    @apply border-4;
+  }
+}
+
+/* Focus Management */
+.error-boundary__button:focus,
+.error-form__input:focus {
+  @apply outline-none ring-2 ring-offset-2;
+}
+
+/* Error State Utilities */
+.error-highlight {
+  @apply bg-red-100 border-red-300 text-red-900;
+  animation: errorHighlight 0.5s ease-out;
+}
+
+@keyframes errorHighlight {
+  0% {
+    @apply bg-red-200;
+  }
+  100% {
+    @apply bg-red-100;
+  }
+}
+
+/* Loading Error States */
+.error-loading {
+  @apply relative overflow-hidden;
+}
+
+.error-loading::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-red-100 to-transparent;
+  animation: errorLoadingShimmer 1.5s infinite;
+}
+
+@keyframes errorLoadingShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Error State Transitions */
+.error-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.error-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.error-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.error-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}

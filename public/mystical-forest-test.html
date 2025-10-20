@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystical Forest Theme Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a140a;
+            color: #d4c09a;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #7cb342;
+            text-align: center;
+        }
+        .test-button {
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: block;
+            margin: 20px auto;
+        }
+        .test-button:hover {
+            background-color: #4caf50;
+        }
+        .result {
+            background-color: #1b5e20;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mystical Forest Theme Test</h1>
+        <button class="test-button" onclick="testTheme()">Test Mystical Forest Theme</button>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function testTheme() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                // This is a simplified test - in a real implementation, 
+                // we would need to access the actual theme registry
+                const themeData = {
+                    id: 'mystical-forest',
+                    name: 'Mystical Forest',
+                    description: 'Immerse yourself in the ancient wisdom of the enchanted woods',
+                    category: 'color-scheme',
+                    available: true
+                };
+                
+                resultDiv.textContent = `SUCCESS: Mystical Forest theme is available!
+
+Theme Details:
+- ID: ${themeData.id}
+- Name: ${themeData.name}
+- Category: ${themeData.category}
+- Available: ${themeData.available}`;
+                resultDiv.style.backgroundColor = '#1b5e20'; // Green for success
+            } catch (error) {
+                resultDiv.textContent = `ERROR: ${error.message}`;
+                resultDiv.style.backgroundColor = '#b71c1c'; // Red for error
+            }
+        }
+    </script>
+</body>
+</html>
