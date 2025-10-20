@@ -11,6 +11,7 @@ export interface Sadhana {
   tags?: string[];
   reflection?: string;
   sadhanaId?: number; // Link to the sadhana that created this task
+  streak?: number; // Add streak property
 }
 
 export type PrivacyLevel = 'public' | 'friends' | 'private';

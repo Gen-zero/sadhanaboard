@@ -18,6 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary/30 backdrop-blur-sm text-secondary-foreground hover:bg-secondary/40",
         ghost: "hover:bg-accent/30 hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline", // Add link variant
         cosmic: "bg-gradient-to-r from-purple-500/30 to-fuchsia-500/30 backdrop-blur-sm text-white hover:from-purple-500/40 hover:to-fuchsia-500/40 border border-purple-500/30 cosmic-glow", // New cosmic variant
         shimmer: "relative overflow-hidden bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 border border-purple-500/30 hover:from-purple-500/30 hover:to-fuchsia-500/30 backdrop-blur-sm shimmer-effect", // Shimmer effect variant
         interactive: "relative overflow-hidden bg-gradient-to-r from-purple-500/30 to-fuchsia-500/30 backdrop-blur-sm text-white border border-purple-500/30 cosmic-glow transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95", // Interactive variant with scale and shadow effects
