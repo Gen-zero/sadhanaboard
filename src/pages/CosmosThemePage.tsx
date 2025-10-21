@@ -9,12 +9,7 @@ const CosmosThemePage: React.FC = () => {
   const { toast } = useToast();
 
   const activateCosmosTheme = () => {
-    updateSettings({
-      appearance: {
-        ...settings?.appearance,
-        colorScheme: 'cosmos'
-      }
-    });
+    updateSettings(['appearance', 'colorScheme'], 'cosmos');
     
     toast({
       title: "Theme Activated",

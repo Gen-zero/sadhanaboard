@@ -8,7 +8,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { User, Eye, UserCircle, Crown, Star, Award, Calendar, TrendingUp, Paw, MapPin } from 'lucide-react';
+import { User, Eye, UserCircle, Crown, Star, Award, Calendar, TrendingUp, MapPin } from 'lucide-react';
 import { SettingsType } from './SettingsTypes';
 
 interface ProfileVisibilitySettingsProps {

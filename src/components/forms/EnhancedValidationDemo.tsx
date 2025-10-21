@@ -246,9 +246,10 @@ const EnhancedValidationDemo: React.FC = () => {
                 id="dateOfBirth"
                 name="dateOfBirth"
                 label="Date of Birth"
-                type="date"
+                type="text"
+                placeholder="YYYY-MM-DD"
                 icon={<Calendar />}
-                helpText="You must be at least 13 years old"
+                helpText="You must be at least 13 years old (format: YYYY-MM-DD)"
                 {...getFieldProps('dateOfBirth')}
               />
             </div>
@@ -518,7 +519,10 @@ const EnhancedValidationDemo: React.FC = () => {
                   type="password"
                   placeholder="Type a password to test strength"
                   className="w-full border rounded-md px-3 py-2"
-                  onChange={(e) => updateField('password', e.target.value)}
+                  onChange={(e) => {
+                    const event = e as React.ChangeEvent<HTMLInputElement>;
+                    updateField('password', event.target.value);
+                  }}
                 />
                 {values.password && (
                   <ValidationFeedback 
@@ -536,7 +540,10 @@ const EnhancedValidationDemo: React.FC = () => {
                   type="email"
                   placeholder="Type an email to test validation"
                   className="w-full border rounded-md px-3 py-2"
-                  onChange={(e) => updateField('email', e.target.value)}
+                  onChange={(e) => {
+                    const event = e as React.ChangeEvent<HTMLInputElement>;
+                    updateField('email', event.target.value);
+                  }}
                 />
                 <InlineValidation
                   state={fields.email?.state || 'idle'}

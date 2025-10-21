@@ -396,6 +396,14 @@ export const adminApi = {
     return adminRequest<BulkOperationResponse>(`/books/bulk-upload`, { method: 'POST', body: formData });
   },
   
+  async bulkImportFromURLs(urls: string[], metadataArray: BookMetadata[], onProgress?: (progress: { percent: number }) => void) {
+    return adminRequest<BulkOperationResponse>(`/books/bulk-import-urls`, { 
+      method: 'POST', 
+      body: JSON.stringify({ urls, metadata: metadataArray }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  },
+  
   async createTheme(payload: any) { return adminRequest<{ theme: any }>(`/themes`, { method: 'POST', body: JSON.stringify(payload) }); },
   async updateTheme(id: number, payload: any) { return adminRequest<{ theme: any }>(`/themes/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }); },
   async deleteTheme(id: number) { return adminRequest<{ message: string }>(`/themes/${id}`, { method: 'DELETE' }); },

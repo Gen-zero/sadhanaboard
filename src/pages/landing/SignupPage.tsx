@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { UserPlus, User, Mail, ArrowLeft, Loader2, CheckCircle } from "lucide-react";
+import { UserPlus, User, Mail, ArrowLeft, Loader2, CheckCircle, Key } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
 import { api } from "@/services/api.js";
 
@@ -22,6 +22,11 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   reason: z.string().optional(),
+  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+  confirmPassword: z.string().min(8, { message: "Password confirmation is required." }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 const SignupPage = () => {
@@ -37,6 +42,8 @@ const SignupPage = () => {
       name: "",
       email: "",
       reason: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -51,7 +58,8 @@ const SignupPage = () => {
       const response = await api.post('/auth/waitlist', {
         name: values.name,
         email: values.email,
-        reason: values.reason || null
+        reason: values.reason || null,
+        password: values.password
       });
       
       setSuccess(true);

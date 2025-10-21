@@ -36,6 +36,7 @@ const DEFAULT_SETTINGS: SettingsType = {
     backgroundSounds: true,
     timerDuration: 15,
     intervalBell: true,
+    soundVolume: 80,
   },
   accessibility: {
     screenReader: false,
