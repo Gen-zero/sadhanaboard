@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "packageManager": "npm@9.8.0",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "npm run dev:setup && vite",
     "dev:setup": "node scripts/ensure-theme-assets.js && node scripts/generate-theme-manifest.cjs && node scripts/copy-theme-icons.cjs && node scripts/move-assets.js && node scripts/copy-all-theme-assets.js",
