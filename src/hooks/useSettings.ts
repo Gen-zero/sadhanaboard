@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { SettingsType } from '@/components/settings/SettingsTypes';
+import { SettingsType } from '../components/settings/SettingsTypes';
 
 // Define default settings - ALWAYS use dark theme
 const DEFAULT_SETTINGS: SettingsType = {
@@ -74,6 +74,7 @@ export const useSettings = (): {
           // Merge default settings with saved settings to ensure all properties exist
           const parsedSettings = JSON.parse(localSettings);
           
+          // Create a more robust merge that ensures all nested properties exist
           const mergedSettings = {
             ...DEFAULT_SETTINGS,
             ...parsedSettings,
