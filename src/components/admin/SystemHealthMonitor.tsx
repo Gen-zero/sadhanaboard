@@ -83,8 +83,7 @@ export default function SystemHealthMonitor({ health }: { health?: SystemHealth 
   }
   
   // Determine status color
-  const statusColor = health.status === 'ok' ? 'text-green-400' : 
-                     health.status === 'warning' ? 'text-yellow-400' : 'text-red-400';
+  const statusColor = health.status === 'ok' ? 'text-green-400' : 'text-red-400';
   
   return (
     <Card className="cosmic-card">

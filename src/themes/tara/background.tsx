@@ -295,19 +295,30 @@ const TaraScene: React.FC<{ intensity?: number }> = ({ intensity = 1 }) => {
   );
 };
 
-const TaraAnimatedBackground: React.FC<{ className?: string; intensity?: number; enableParticles?: boolean; enableBloom?: boolean; enablePostFX?: boolean }> = ({ className = '', intensity = 1 }) => {
+const TaraAnimatedBackground: React.FC<{ className?: string; intensity?: number; enableParticles?: boolean; enableBloom?: boolean; enablePostFX?: boolean }> = ({ 
+  className = '', 
+  intensity = 1,
+  enableBloom = true,
+  enablePostFX = true 
+}) => {
   
   return (
     <div className={`absolute inset-0 pointer-events-none ${className}`}>
       <Canvas camera={{ position: [0, 2, 10], fov: 60 }}>
         <TaraScene intensity={intensity} />
         <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.1} intensity={1.8 * intensity} luminanceSmoothing={0.9} />
-          <Vignette eskil={false} offset={0.1} darkness={0.5} />
-          <Noise opacity={0.03 * intensity} />
-          <ChromaticAberration offset={[0.002 * intensity, 0.003 * intensity]} />
-        </EffectComposer>
+        {enablePostFX && (
+          <EffectComposer>
+            {enableBloom && <Bloom luminanceThreshold={0.1} intensity={1.8 * intensity} luminanceSmoothing={0.9} />}
+            <Vignette eskil={false} offset={0.1} darkness={0.5} />
+            <Noise opacity={0.03 * intensity} />
+            <ChromaticAberration 
+              offset={new THREE.Vector2(0.002 * intensity, 0.003 * intensity)} 
+              radialModulation={false}
+              modulationOffset={0}
+            />
+          </EffectComposer>
+        )}
       </Canvas>
     </div>
   );

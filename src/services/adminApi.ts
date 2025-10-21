@@ -45,6 +45,7 @@ async function adminRequest<T>(path: string, init: RequestInit = {}, asText = fa
 import type { DashboardSnapshot, ProgressStats, HealthStats } from '@/types/admin-dashboard';
 import type { CommunityPost, CommunityComment, CommunityReport, CommunityEvent, MentorshipPair, SpiritualMilestone, ActivityStreamEntry, Paginated, GetActivityParams } from '@/types/community';
 import type { Socket } from 'socket.io-client';
+import type { LibraryAnalytics, AdminBooksResponse, SpiritualBook, BookMetadata, BulkOperationResponse } from '@/types/books';
 
 export const adminApi = {
   async login(username: string, password: string) {
@@ -353,6 +354,48 @@ export const adminApi = {
     const json = await res.json().catch(() => ({}));
     return json.book || json;
   },
+  async getAllBooksAdmin(params: { search?: string; showDeleted?: boolean; traditions?: string[]; language?: string; year?: number; limit?: number; offset?: number } = {}) {
+    const search = new URLSearchParams();
+    if (params.search) search.append('search', params.search);
+    if (params.showDeleted) search.append('showDeleted', String(params.showDeleted));
+    if (params.traditions) search.append('traditions', params.traditions.join(','));
+    if (params.language) search.append('language', params.language);
+    if (params.year) search.append('year', String(params.year));
+    if (params.limit) search.append('limit', String(params.limit));
+    if (params.offset) search.append('offset', String(params.offset));
+    return adminRequest<AdminBooksResponse>(`/books?${search.toString()}`);
+  },
+  
+  async deleteBook(bookId: string) {
+    return adminRequest<{ message: string }>(`/books/${bookId}`, { method: 'DELETE' });
+  },
+  
+  async batchDeleteBooks(bookIds: string[]) {
+    return adminRequest<{ message: string }>(`/books/batch-delete`, { method: 'POST', body: JSON.stringify({ ids: bookIds }) });
+  },
+  
+  async batchUpdateBooks(updates: Array<{ id: string; bookData: any }>) {
+    return adminRequest<BulkOperationResponse>(`/books/batch-update`, { method: 'POST', body: JSON.stringify({ updates }) });
+  },
+  
+  async updateBook(bookId: string, bookData: any, file?: File) {
+    const formData = new FormData();
+    formData.append('bookData', JSON.stringify(bookData));
+    if (file) formData.append('file', file);
+    return adminRequest<SpiritualBook>(`/books/${bookId}`, { method: 'PATCH', body: formData });
+  },
+  
+  async bulkUploadBooks(files: File[], metadataArray: BookMetadata[], onProgress?: (progress: { percent: number }) => void) {
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      formData.append('files', file);
+      formData.append(`metadata_${index}`, JSON.stringify(metadataArray[index] || {}));
+    });
+    
+    // For progress tracking, we'll need a custom fetch implementation
+    return adminRequest<BulkOperationResponse>(`/books/bulk-upload`, { method: 'POST', body: formData });
+  },
+  
   async createTheme(payload: any) { return adminRequest<{ theme: any }>(`/themes`, { method: 'POST', body: JSON.stringify(payload) }); },
   async updateTheme(id: number, payload: any) { return adminRequest<{ theme: any }>(`/themes/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }); },
   async deleteTheme(id: number) { return adminRequest<{ message: string }>(`/themes/${id}`, { method: 'DELETE' }); },
@@ -662,5 +705,17 @@ export const adminApi = {
   
   waitlistCsvUrl() { 
     return `${ADMIN_API_BASE}/waitlist/export`; 
+  },
+  async getLibraryAnalytics(params: { days?: number } = {}) {
+    const search = new URLSearchParams();
+    if (params.days) search.append('days', String(params.days));
+    return adminRequest<LibraryAnalytics>(`/books/analytics?${search.toString()}`);
+  },
+  
+  async exportLibraryAnalytics(params: { days?: number }, format: 'csv' | 'json' = 'csv') {
+    const search = new URLSearchParams();
+    if (params.days) search.append('days', String(params.days));
+    search.append('format', format);
+    return adminRequest<string>(`/books/analytics/export?${search.toString()}`, {}, true);
   },
 };

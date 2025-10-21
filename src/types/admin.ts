@@ -28,6 +28,26 @@ export interface User {
   practices: number;
 }
 
+export interface EnhancedUser extends User {
+  profile?: {
+    experience_level?: 'beginner' | 'intermediate' | 'advanced';
+    traditions?: string[];
+    onboarding_completed?: boolean;
+    favorite_deity?: string;
+  };
+  analytics?: {
+    total_sadhanas: number;
+    streak: number;
+    last_active: string;
+  };
+}
+
+export interface UserSegmentationFilters {
+  experience_level?: 'beginner' | 'intermediate' | 'advanced';
+  onboarding_completed?: boolean;
+  preset?: 'new_users' | 'active_practitioners' | 'advanced_students';
+}
+
 export interface SystemMetric {
   name: string;
   value: number;

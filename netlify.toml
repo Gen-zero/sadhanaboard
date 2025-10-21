@@ -10,14 +10,14 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "http://localhost:3004/api/:splat"
+  to = "https://api.sadhanaboard.com/api/:splat"
   status = 200
   force = true
   headers = {X-Forwarded-Host = ":host"}
 
 [[redirects]]
   from = "/socket.io/*"
-  to = "http://localhost:3004/socket.io/:splat"
+  to = "https://api.sadhanaboard.com/socket.io/:splat"
   status = 200
   force = true
 
@@ -32,5 +32,5 @@
 [template.environment]
   VITE_SUPABASE_URL = "Your Supabase URL"
   VITE_SUPABASE_ANON_KEY = "Your Supabase Anon Key"
-  VITE_API_BASE_URL = "Your API Base URL"
-  VITE_SOCKET_BASE_URL = "Your Socket Base URL"
+  VITE_API_BASE_URL = "https://api.sadhanaboard.com/api"
+  VITE_SOCKET_BASE_URL = "https://api.sadhanaboard.com"

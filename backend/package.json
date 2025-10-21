@@ -16,9 +16,11 @@
     "reset:admin": "node ./scripts/admin/fix_admin_setup.js --force-reset",
     "logs:admin": "node -e \"console.log('Check logs in backend/logs')\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs:generate": "node ./scripts/generateApiDocs.js"
+    "docs:generate": "node ./scripts/generateApiDocs.js",
+    "migrate:supabase": "node ../supabase/migrate.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
@@ -27,7 +29,7 @@
     "cron-parser": "^4.0.6",
     "csv-writer": "^1.6.0",
     "date-fns": "^2.30.0",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "express": "^4.19.2",
     "googleapis": "^164.0.0",
     "helmet": "^7.1.0",

@@ -32,6 +32,7 @@ export type SettingsType = {
     backgroundSounds: boolean;
     timerDuration: number;
     intervalBell: boolean;
+    soundVolume: number;
   };
   accessibility: {
     screenReader: boolean;
