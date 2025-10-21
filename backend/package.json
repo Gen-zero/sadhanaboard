@@ -9,6 +9,8 @@
     "admin:create-demo": "node ./scripts/admin/setup_admin.js",
     "admin:setup": "node ./scripts/admin/setup_admin.js",
     "admin:create-default": "node ./scripts/admin/setup_admin_complete.js",
+    "user:create-demo": "node ./scripts/createDemoUser.js",
+    "user:verify-demo": "node ./scripts/verifyDemoUser.js",
     "debug:admin": "node ./scripts/admin/debug_admin_login.js",
     "fix:admin": "node ./scripts/admin/fix_admin_setup.js",
     "test:admin-login": "node -e \"console.log('Use debug:admin')\"",

@@ -21,8 +21,10 @@ if (useSupabase) {
   );
   
   // Create a pool for direct PostgreSQL connections to Supabase
-  const connectionString = process.env.SUPABASE_DATABASE_URL || 
+  const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL || 
     `${process.env.SUPABASE_URL}/postgres`.replace('https://', 'postgresql://postgres:');
+  
+  console.log('Connection string:', connectionString);
   
   pool = new Pool({
     connectionString,

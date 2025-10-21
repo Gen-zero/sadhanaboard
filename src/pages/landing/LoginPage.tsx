@@ -187,7 +187,7 @@ const LoginPage = () => {
           <div className="mt-4 text-center text-sm text-muted-foreground">
             <p>
               Don't have an account?{" "}
-              <Link to="/signup" className="text-purple-500 hover:text-purple-700 hover:underline">
+              <Link to="/waitlist" className="text-purple-500 hover:text-purple-700 hover:underline">
                 Join waitlist
               </Link>
             </p>
