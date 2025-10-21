@@ -1,6 +1,29 @@
 # Netlify Build Issues and Solutions
 
-## Issue 1: Radix UI Module Resolution Error
+## Issue 1: Node.js Version Mismatch
+
+### Problem
+The build failed due to unsupported Node.js version. The required Node.js version is '>=20.16.0' but the current version was set to '20.11.1'. Additionally, there's an unsupported engine for package 'pdfjs-dist@5.3.93'.
+
+### Diagnosis
+This error indicates that:
+
+1. The project requires Node.js >=20.16.0 (as specified in package.json engines)
+2. The pdfjs-dist@5.3.93 package specifically requires Node.js >=20.16.0 or >=22.3.0
+3. The .nvmrc file was specifying an older version (20.11.1) that doesn't meet these requirements
+
+### Solution
+1. **Update Node.js Version**: The .nvmrc file has been updated to use Node.js version 22.19.0 which:
+   - Meets the pdfjs-dist@5.3.93 requirement (>=20.16.0 or >=22.3.0)
+   - Is a valid, stable Node.js version
+   - Is supported by Netlify
+
+2. **Verify pdfjs-dist Dependency**: The pdfjs-dist package is properly included as a dependency of react-pdf in package.json:
+   ```json
+   "react-pdf": "^10.1.0",
+   ```
+
+## Issue 2: Radix UI Module Resolution Error
 
 ### Problem
 The Netlify build log shows the error:
@@ -23,9 +46,7 @@ This error indicates that Netlify cannot resolve the Radix UI React components d
    // ... other Radix UI packages
    ```
 
-2. **Update Node.js Version**: The .nvmrc file was specifying an invalid Node.js version (20.16.0). This has been updated to a valid LTS version (20.11.1).
-
-3. **Clean Installation**: Perform a clean installation of dependencies:
+2. **Clean Installation**: Perform a clean installation of dependencies:
    ```bash
    # Remove existing node_modules and package-lock.json
    rm -rf node_modules package-lock.json
@@ -34,27 +55,11 @@ This error indicates that Netlify cannot resolve the Radix UI React components d
    npm install
    ```
 
-## Issue 2: Invalid Node.js Version
-
-### Problem
-The build process attempted to use Node.js version '20.16.0' from the .nvmrc file which is not a valid Node.js release.
-
-### Solution
-Updated the .nvmrc file to use a valid LTS Node.js version:
-```
-20.11.1
-```
-
-This version is:
-- A valid Node.js release
-- Compatible with the project's requirements
-- Supported by Netlify
-
 ## Deployment Steps
 
 1. **Update .nvmrc**:
    ```
-   20.11.1
+   22.19.0
    ```
 
 2. **Commit Changes**:
@@ -92,7 +97,7 @@ If the build continues to fail:
 2. Ensure all dependencies are correctly listed in package.json
 3. Verify that no wildcard imports exist (e.g., `import * from '@radix-ui/react-*'`)
 4. Check for any custom import paths that might be causing resolution issues
-5. Consider using a different Node.js version if 20.11.1 still causes issues
+5. Consider using a different Node.js version if 22.19.0 still causes issues
 
 ## Verification
 
