@@ -32,21 +32,26 @@ Could not resolve entry module "@radix-ui/react-*".
 ```
 
 ### Diagnosis
-This error indicates that Netlify cannot resolve the Radix UI React components during the build process. This typically happens when:
-
-1. The Radix UI packages are not properly listed in dependencies
-2. The packages are not installed correctly
-3. There are version conflicts or missing peer dependencies
+This error indicates that Netlify cannot resolve the Radix UI React components during the build process. This is caused by an incorrect wildcard pattern in the Vite configuration that was trying to create a manual chunk for '@radix-ui/react-*'.
 
 ### Solution
-1. **Verify Dependencies**: All Radix UI packages are correctly listed in package.json:
+1. **Fix Vite Configuration**: Updated vite.config.ts to explicitly list all Radix UI packages instead of using a wildcard pattern:
+   ```javascript
+   'radix-ui': [
+     '@radix-ui/react-accordion',
+     '@radix-ui/react-alert-dialog',
+     // ... all other Radix UI packages
+   ]
+   ```
+
+2. **Verify Dependencies**: All Radix UI packages are correctly listed in package.json:
    ```json
    "@radix-ui/react-accordion": "^1.2.12",
    "@radix-ui/react-alert-dialog": "^1.1.15",
    // ... other Radix UI packages
    ```
 
-2. **Clean Installation**: Perform a clean installation of dependencies:
+3. **Clean Installation**: Perform a clean installation of dependencies:
    ```bash
    # Remove existing node_modules and package-lock.json
    rm -rf node_modules package-lock.json
