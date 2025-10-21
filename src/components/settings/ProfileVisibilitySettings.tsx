@@ -8,7 +8,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { User, Eye, UserCircle, Crown, Star, Award, Calendar, TrendingUp, MapPin } from 'lucide-react';
+import { User, Eye, UserCircle, Crown, Star, Award, Calendar, TrendingUp, PawPrint, MapPin } from 'lucide-react';
 import { SettingsType } from './SettingsTypes';
 
 interface ProfileVisibilitySettingsProps {
@@ -200,7 +200,7 @@ const ProfileVisibilitySettings: React.FC<ProfileVisibilitySettingsProps> = ({
             <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground">
-                  <Paw className="h-4 w-4 text-purple-500" />
+                  <PawPrint className="h-4 w-4 text-purple-500" />
                   Pet
                 </Label>
                 <p className="text-sm text-muted-foreground">

@@ -15,7 +15,7 @@ import {
   EyeOff,
   Info
 } from 'lucide-react';
-import { useFormValidation } from '@/hooks/useFormValidation';
+import { useFormValidation, FieldValidation } from '@/hooks/useFormValidation';
 import { EnhancedFormField } from './EnhancedFormField';
 import { 
   SuccessIndicator,
@@ -25,6 +25,7 @@ import {
   ValidationFeedback,
   FormSectionStatus
 } from './ValidationComponents';
+import { cn } from '@/lib/utils';
 
 // Enhanced demo form schema with more complex validation
 const enhancedFormSchema = z.object({
@@ -164,8 +165,8 @@ const EnhancedValidationDemo: React.FC = () => {
   const fieldStatuses = Object.entries(fields).map(([name, field]) => ({
     name,
     label: name.charAt(0).toUpperCase() + name.slice(1).replace(/([A-Z])/g, ' $1'),
-    state: field.state,
-    error: field.error
+    state: (field as FieldValidation).state,
+    error: (field as FieldValidation).error
   }));
 
   const tabs = {
@@ -371,7 +372,7 @@ const EnhancedValidationDemo: React.FC = () => {
             
             <button
               type="button"
-              onClick={reset}
+              onClick={() => reset()}
               className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2.5 px-4 rounded-md transition-colors"
             >
               Reset Form
@@ -519,9 +520,8 @@ const EnhancedValidationDemo: React.FC = () => {
                   type="password"
                   placeholder="Type a password to test strength"
                   className="w-full border rounded-md px-3 py-2"
-                  onChange={(e) => {
-                    const event = e as React.ChangeEvent<HTMLInputElement>;
-                    updateField('password', event.target.value);
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    updateField('password', e.target.value);
                   }}
                 />
                 {values.password && (
@@ -540,9 +540,8 @@ const EnhancedValidationDemo: React.FC = () => {
                   type="email"
                   placeholder="Type an email to test validation"
                   className="w-full border rounded-md px-3 py-2"
-                  onChange={(e) => {
-                    const event = e as React.ChangeEvent<HTMLInputElement>;
-                    updateField('email', event.target.value);
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    updateField('email', e.target.value);
                   }}
                 />
                 <InlineValidation
@@ -611,9 +610,6 @@ const EnhancedValidationDemo: React.FC = () => {
   );
 };
 
-// Helper function for class names (since cn might not be available in this context)
-function cn(...classes: (string | boolean | undefined)[]): string {
-  return classes.filter(Boolean).join(' ');
-}
+
 
 export default EnhancedValidationDemo;
