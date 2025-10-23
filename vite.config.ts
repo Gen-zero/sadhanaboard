@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
+// Polyfills for Node.js core modules
+import { createRequire } from 'module';
+import process from 'process';
+const require = createRequire(import.meta.url);
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -112,7 +117,9 @@ export default defineConfig({
       // Add crypto polyfills
       "crypto": "crypto-browserify",
       "stream": "stream-browserify",
-      "buffer": "buffer"
+      "buffer": "buffer",
+      "process": "process/browser",
+      "vm": "vm-browserify"
     },
   },
   // Build optimizations
@@ -169,5 +176,15 @@ export default defineConfig({
   // Add crypto polyfill for build process
   define: {
     global: 'globalThis',
-  }
+    process: 'process',
+  },
+  // Add Node.js polyfills
+  optimizeDeps: {
+    include: ['crypto-browserify', 'stream-browserify', 'buffer', 'process', 'vm-browserify'],
+    esbuildOptions: {
+      define: {
+        global: 'globalThis'
+      }
+    }
+  },
 });

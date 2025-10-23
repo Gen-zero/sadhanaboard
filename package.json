@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "npm@9.8.0",
   "engines": {
-    "node": "20.11.1"
+    "node": "20.19.0"
   },
   "scripts": {
     "dev": "npm run dev:setup && vite",
@@ -93,6 +93,7 @@
     "pdfjs-dist": "^5.4.296",
     "pg": "^8.16.3",
     "postprocessing": "^6.37.8",
+    "process": "^0.11.10",
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-day-picker": "^8.10.1",
@@ -121,6 +122,7 @@
     "uuid": "^13.0.0",
     "vaul": "^0.9.3",
     "vite-plugin-image-optimizer": "^2.0.2",
+    "vm-browserify": "^1.1.2",
     "winston": "^3.17.0",
     "zod": "^3.25.76"
   },
