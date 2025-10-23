@@ -109,6 +109,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@themes": path.resolve(__dirname, "./src/themes"),
+      // Add crypto polyfills
+      "crypto": "crypto-browserify",
+      "stream": "stream-browserify",
+      "buffer": "buffer"
     },
   },
   // Build optimizations
@@ -162,4 +166,8 @@ export default defineConfig({
   },
   // Ensure environment variables are properly loaded
   envPrefix: 'VITE_',
+  // Add crypto polyfill for build process
+  define: {
+    global: 'globalThis',
+  }
 });

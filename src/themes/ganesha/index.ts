@@ -1,7 +1,9 @@
 import { ThemeDefinition } from '../types';
 import colors from './colors';
 
-const iconPath = new URL('./assets/Ganesha.png', import.meta.url).href;
+// Use a more build-friendly approach for asset import
+// const iconPath = new URL('./assets/Ganesha.png', import.meta.url).href;
+const iconPath = '/themes/ganesha/assets/Ganesha.png';
 
 export const ganeshaTheme: ThemeDefinition = {
   metadata: {

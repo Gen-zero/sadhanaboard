@@ -1,7 +1,9 @@
 import { ThemeDefinition } from '../types';
 import colors from './colors';
 
-const iconPath = new URL('./assets/Bhagwan_Vishnu.png', import.meta.url).href;
+// Use a more build-friendly approach for asset import
+// const iconPath = new URL('./assets/Bhagwan_Vishnu.png', import.meta.url).href;
+const iconPath = '/themes/water/assets/Bhagwan_Vishnu.png';
 
 export const waterTheme: ThemeDefinition = {
   metadata: {

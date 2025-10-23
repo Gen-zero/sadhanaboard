@@ -5,6 +5,8 @@
 
 [build.environment]
   NODE_VERSION = "20.11.1"
+  # Add environment variables to help with crypto polyfills
+  NODE_OPTIONS = "--openssl-legacy-provider"
 
 [dev]
   command = "npm run dev"

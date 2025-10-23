@@ -4,6 +4,10 @@ import App from './App.tsx';
 import './styles/index.css';
 import './lib/i18n.ts'; // Import i18n configuration
 
+// Add polyfills for crypto functions that may be needed during build
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

@@ -3,10 +3,12 @@ import colors from './colors';
 import MahakaliBackground from './background';
 import './mahakali.css'; // Import the CSS file
 
+// Use a more build-friendly approach for asset import
 // Resolve theme-local asset using import.meta-based URL so bundlers produce a proper URL
 let skullPath: string;
 try {
-  skullPath = new URL('./assets/Skull and Bone Turnaround.gif', import.meta.url).href;
+  // Use a direct path approach that's more build-friendly
+  skullPath = '/themes/mahakali/assets/Skull and Bone Turnaround.gif';
 } catch (e) {
   console.warn('Failed to resolve Mahakali theme icon, using fallback');
   // Fallback to a more detailed skull SVG

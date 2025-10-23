@@ -1,7 +1,9 @@
 import { ThemeDefinition } from '../types';
 import colors from './colors';
 
-const iconPath = new URL('./assets/Bhagwan_Shiva_icon.png', import.meta.url).href;
+// Use a more build-friendly approach for asset import
+// const iconPath = new URL('./assets/Bhagwan_Shiva_icon.png', import.meta.url).href;
+const iconPath = '/themes/shiva/assets/Bhagwan_Shiva_icon.png';
 
 export const shivaTheme: ThemeDefinition = {
   metadata: {

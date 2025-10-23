@@ -2,7 +2,9 @@ import { ThemeDefinition } from '../types';
 import colors from './colors';
 import DurgaBackground from './DurgaBackground';
 
-const iconPath = new URL('./assets/Maa_Durga_icon.png', import.meta.url).href;
+// Use a more build-friendly approach for asset import
+// const iconPath = new URL('./assets/Maa_Durga_icon.png', import.meta.url).href;
+const iconPath = '/themes/durga/assets/Maa_Durga_icon.png';
 
 export const durgaTheme: ThemeDefinition = {
   metadata: {

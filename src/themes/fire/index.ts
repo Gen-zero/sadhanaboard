@@ -2,7 +2,9 @@ import { ThemeDefinition } from '../types';
 import colors from './colors';
 import FireBackground from './FireBackground';
 
-const iconPath = new URL('./assets/Maa_Durga_icon.png', import.meta.url).href;
+// Use a more build-friendly approach for asset import
+// const iconPath = new URL('./assets/Maa_Durga_icon.png', import.meta.url).href;
+const iconPath = '/themes/fire/assets/Maa_Durga_icon.png';
 
 export const fireTheme: ThemeDefinition = {
   metadata: {
