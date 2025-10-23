@@ -1,9 +1,0 @@
-node_modules
-.env
-.git
-.gitignore
-*.md
-!package*.json
-!.env.example
-logs
-*.log

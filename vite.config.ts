@@ -1,4 +1,4 @@
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
@@ -102,7 +102,8 @@ export default defineConfig({
         quality: 80,
       },
     }),
-    splitVendorChunkPlugin(), // Split vendor chunks for better caching
+    // splitVendorChunkPlugin() has been removed in Vite 5+
+    // Vendor chunking is now handled automatically
   ],
   resolve: {
     alias: {

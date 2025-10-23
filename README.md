@@ -447,7 +447,6 @@ npm run fix:admin
 ### 🏢 Hosting Options
 - **Self-Hosted**: 💻 VPS or dedicated server
 - **Cloud Platforms**: ☁️ AWS, Google Cloud, Azure
-- **Container Deployment**: 🐳 Docker support (planned)
 
 ## 🤝 Contributing
 

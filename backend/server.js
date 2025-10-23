@@ -274,14 +274,27 @@ try {
 }
 
 // Add this after the other requires at the top
-const { swaggerUi, specs } = require('./swagger');
 const adminBackupsRoutes = require('./routes/adminBackups');
 const adminSystemMonitoringRoutes = require('./routes/adminSystemMonitoring');
 const googleSheetsRoutes = require('./routes/googleSheets');
 const csvExportRoutes = require('./routes/csvExport');
 
-// Add this before the routes section
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+// Conditionally load Swagger only in development
+let swaggerUi, specs;
+if (process.env.NODE_ENV !== 'production') {
+  try {
+    const swaggerModule = require('./swagger');
+    swaggerUi = swaggerModule.swaggerUi;
+    specs = swaggerModule.specs;
+  } catch (e) {
+    console.warn('Swagger not available in production mode');
+  }
+}
+
+// Add this before the routes section, only in development
+if (process.env.NODE_ENV !== 'production' && swaggerUi && specs) {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+}
 
 // Mount admin auth routes (login, register) - these should not require authentication
 app.use('/api/admin', require('./routes/adminAuth'));

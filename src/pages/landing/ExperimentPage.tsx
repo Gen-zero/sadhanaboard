@@ -13,6 +13,8 @@ import * as THREE from "three";
 
 // Mahakali animated background component — mount for experimentation
 import MahakaliAnimatedBackground from "@/components/MahakaliAnimatedBackground";
+import ThemeToggle from '@/components/ThemeToggle';
+import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 
 // Dynamic yantra that responds to user interaction - cremation ground theme
 const InteractiveYantra = () => {
@@ -96,8 +98,6 @@ const ExperimentPage = () => {
   const [sankalpa, setSankalpa] = useState("");
   const [isEntering, setIsEntering] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [manifestationCount, setManifestationCount] = useState(1247);
-  const [energyLevel, setEnergyLevel] = useState(78);
   const [activeElement, setActiveElement] = useState(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
@@ -132,7 +132,6 @@ const ExperimentPage = () => {
   // Smooth parallax effects for different sections
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -50]);
   const featuresY = useTransform(scrollYProgress, [0.1, 0.5], [50, 0]);
-  const statsY = useTransform(scrollYProgress, [0.2, 0.6], [50, 0]);
   const testimonialsY = useTransform(scrollYProgress, [0.3, 0.7], [50, 0]);
   const inspirationY = useTransform(scrollYProgress, [0.4, 0.8], [50, 0]);
   const ctaY = useTransform(scrollYProgress, [0.6, 1], [50, 0]);
@@ -142,15 +141,6 @@ const ExperimentPage = () => {
     const interval = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Animated counters
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setManifestationCount((prev) => prev + Math.floor(Math.random() * 7));
-      setEnergyLevel((prev) => Math.min(100, prev + Math.floor(Math.random() * 4)));
-    }, 1500);
     return () => clearInterval(interval);
   }, []);
 
@@ -233,13 +223,6 @@ const ExperimentPage = () => {
     }
   ];
 
-  const stats = [
-    { value: manifestationCount, label: "Souls Transformed", icon: Skull },
-    { value: energyLevel, label: "Destruction Power %", icon: Flame },
-    { value: 500, label: "Sacred Yantras Created", icon: Compass },
-    { value: 98, label: "Liberation Rate %", icon: Wind }
-  ];
-
   const elements = [
     { name: "Destruction", icon: <Flame className="h-6 w-6" />, color: "from-red-700 to-red-900" },
     { name: "Transformation", icon: <Flame className="h-6 w-6" />, color: "from-orange-600 to-red-800" },
@@ -264,14 +247,12 @@ const ExperimentPage = () => {
   const featuresRef = useRef(null);
   const testimonialsRef = useRef(null);
   const inspirationRef = useRef(null);
-  const statsRef = useRef(null);
   const ctaRef = useRef(null);
 
   const isHeroInView = useInView(heroRef, { once: true, margin: "-100px" });
   const isFeaturesInView = useInView(featuresRef, { once: true, margin: "-100px" });
   const isTestimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" });
   const isInspirationInView = useInView(inspirationRef, { once: true, margin: "-100px" });
-  const isStatsInView = useInView(statsRef, { once: true, margin: "-100px" });
   const isCtaInView = useInView(ctaRef, { once: true, margin: "-100px" });
 
   // Animation controls
@@ -312,14 +293,6 @@ const ExperimentPage = () => {
         {/* FloatingElements retained only if desired for extra 2D overlays; currently suppressed to avoid visual duplication */}
       </div>
 
-      {/* Beta banner */}
-      <div className="px-2 sm:px-4 pt-2">
-        <div className="mx-auto max-w-5xl rounded-lg border border-amber-400/30 bg-amber-500/10 text-amber-200 text-xs sm:text-sm px-3 sm:px-4 py-2 flex items-center justify-center gap-2">
-          <span className="inline-block rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] sm:text-xs font-semibold">BETA</span>
-          We're in private beta. New registrations are closed — join the waitlist to get early access.
-        </div>
-      </div>
-
       {/* Sticky Navigation Bar - Glassy Spiritual Theme with Mahakali colors */}
       <div 
         className="sticky top-0 left-0 right-0 z-[999999] px-2 sm:px-4 pt-2 sm:pt-4"
@@ -349,7 +322,6 @@ const ExperimentPage = () => {
             }
           />
           
-  
           
           <div className="relative flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4">
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
@@ -380,7 +352,7 @@ const ExperimentPage = () => {
               
               <div className="flex flex-col">
                 <span className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-red-400 to-red-300">
-                  Mahakali's Cremation Ground
+                  SadhanaBoard
                 </span>
                 <span className="text-[10px] sm:text-xs text-red-400/70 font-medium tracking-wider hidden xs:block">
                   🔥 Destroyer of Illusions
@@ -399,6 +371,28 @@ const ExperimentPage = () => {
                   {/* Shimmer effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                   <span className="relative z-10">Enter</span>
+                </Link>
+              </Button>
+              
+              <Button 
+                asChild 
+                size="sm"
+                className="relative bg-gradient-to-r from-red-500/80 via-red-600/80 to-red-500/80 hover:from-red-400 hover:via-red-500 hover:to-red-400 backdrop-blur-sm border border-red-400/30 hover:border-red-400/50 shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+              >
+                <Link to="/careers">
+                  {/* Animated gradient background */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-red-500/20 to-red-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                  />
+                  {/* Floating sparkles - Smaller on mobile */}
+                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                  
+                  <span className="relative z-10 flex items-center">
+                    <span className="hidden xs:inline">Join Us</span>
+                    <span className="xs:hidden">Join</span>
+                    <Flame className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                  </span>
                 </Link>
               </Button>
               
@@ -428,7 +422,17 @@ const ExperimentPage = () => {
         </nav>
       </div>
 
+      {/* Beta banner - Moved below navigation bar */}
+      <div className="px-2 sm:px-4 pt-2">
+        <div className="mx-auto max-w-5xl rounded-lg border border-amber-400/30 bg-amber-500/10 text-amber-200 text-xs sm:text-sm px-3 sm:px-4 py-2 flex items-center justify-center gap-2">
+          <span className="inline-block rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] sm:text-xs font-semibold">BETA</span>
+          We're in private beta. New registrations are closed — join the waitlist to get early access.
+        </div>
+      </div>
+
       <div className="space-y-0 relative z-20">
+        <ThemeToggle />
+        
         {/* Hero Section - cremation ground theme */}
         <motion.section 
           ref={heroRef} 
@@ -436,74 +440,343 @@ const ExperimentPage = () => {
           style={{ y: heroY }}
         >
           {/* Visual background is provided by the MahakaliAnimatedBackground Three.js scene */}
-          <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="relative z-10 max-w-7xl mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-900/30 text-red-300 mb-6 border border-red-700/40">
-                <Flame className="h-4 w-4 text-yellow-400" />
-                <span className="text-sm font-medium">Destroyer of Illusions</span>
-              </div>
-              
-              <motion.h1 
-                className="text-5xl md:text-8xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-yellow-300 to-red-300"
-                animate={{
-                  textShadow: [
-                    '0 0 10px rgba(251, 191, 36, 0.5)',
-                    '0 0 20px rgba(251, 191, 36, 0.8)',
-                    '0 0 10px rgba(251, 191, 36, 0.5)'
-                  ]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                SACRED
-                <br />
-                <span className="block mt-2">CREMATION GROUND</span>
-              </motion.h1>
-              
-              <p className="text-xl md:text-3xl text-red-100 mb-16 max-w-4xl mx-auto leading-relaxed">
-                The ultimate spiritual battlefield where ego dies and the Divine awakens. 
-                <br />
-                <span className="text-yellow-300">Transform through destruction. Liberate through power.</span>
-              </p>
-            </motion.div>
-
-            {/* Interactive Sankalpa Input with Enhanced Design */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="max-w-3xl mx-auto"
-            >
-              <div className="bg-black/60 backdrop-blur-xl rounded-3xl p-10 border border-red-800/50 shadow-2xl relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-black/30"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Flame className="h-6 w-6 text-yellow-400" />
-                    <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-300">
-                      Declare Your Sacred Destruction
-                    </h2>
-                  </div>
-                  <p className="text-lg text-red-200 mb-6">
-                    Join the waitlist to get early access to this transformative experience.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button
-                      size="lg"
-                      className="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-800 hover:to-black h-16 px-10 text-xl group shadow-2xl shadow-red-900/40 border border-red-700"
-                      asChild
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+                {/* Left Side - Spiritual Content */}
+                <div className="lg:col-span-8 space-y-6 sm:space-y-8">
+                  <div className="text-center lg:text-left">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-900/30 text-red-300 mb-6 border border-red-700/40">
+                      <Flame className="h-4 w-4 text-yellow-400" />
+                      <span className="text-sm font-medium">Destroyer of Illusions</span>
+                    </div>
+                    
+                    <motion.h1 
+                      className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3 sm:mb-6"
+                      animate={{
+                        textShadow: [
+                          '0 0 10px rgba(251, 191, 36, 0.5)',
+                          '0 0 20px rgba(251, 191, 36, 0.8)',
+                          '0 0 10px rgba(251, 191, 36, 0.5)'
+                        ]
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
                     >
-                      <Link to="/waitlist">
-                        Join the Waitlist
-                        <ChevronRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
-                      </Link>
-                    </Button>
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-yellow-300 to-red-300">
+                        SACRED CREMATION GROUND
+                      </span>
+                    </motion.h1>
+                    
+                    <p className="text-xl sm:text-2xl text-red-100 mb-4 sm:mb-6 leading-relaxed">
+                      The ultimate spiritual battlefield where ego dies and the Divine awakens.
+                    </p>
+                    
+                    <p className="text-lg sm:text-xl text-red-50 mb-6 sm:mb-8 leading-relaxed">
+                      Transform through destruction. Liberate through power.
+                    </p>
+                    
+                    {/* CTA Buttons similar to main landing page */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                      className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-12"
+                    >
+                      <Button 
+                        size="lg" 
+                        className="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-800 hover:to-black text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 backdrop-blur-sm touch-target-large"
+                        asChild
+                      >
+                        <Link to="/waitlist">
+                          Join the Waitlist
+                        </Link>
+                      </Button>
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="border-red-700/50 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-red-900/30 backdrop-blur-sm touch-target-large"
+                        asChild
+                      >
+                        <Link to="/about">
+                          Explore Features
+                        </Link>
+                      </Button>
+                    </motion.div>
+                  </div>
+                </div>
+                
+                {/* Right Side - Sadhana Paper (Transparent Red Metallic) */}
+                <div className="lg:col-span-4 relative">
+                  <div className="relative max-w-xl mx-auto lg:mx-0">
+                    {/* Paper Container - Transparent Red Metallic styling, similar to main landing page */}
+                    <div 
+                      className="relative p-6 rounded-2xl border-2 backdrop-blur-md"
+                      style={{
+                        background: 'linear-gradient(145deg, rgba(255, 0, 0, 0.05) 0%, rgba(220, 38, 38, 0.08) 30%, rgba(185, 28, 28, 0.04) 70%, rgba(153, 27, 27, 0.06) 100%)',
+                        borderColor: 'rgba(220, 38, 38, 0.3)',
+                        fontFamily: 'Georgia, serif',
+                        boxShadow: `
+                          0 8px 32px rgba(220, 38, 38, 0.12),
+                          0 0 0 1px rgba(220, 38, 38, 0.15),
+                          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                          inset 0 -1px 0 rgba(220, 38, 38, 0.08)
+                        `,
+                        backdropFilter: 'blur(14px) saturate(140%)',
+                        WebkitBackdropFilter: 'blur(14px) saturate(140%)'
+                      }}
+                    >
+                      {/* Metallic overlay gradient */}
+                      <div 
+                        className="absolute inset-0 rounded-2xl pointer-events-none"
+                        style={{
+                          background: `
+                            linear-gradient(135deg, 
+                              rgba(255, 200, 200, 0.08) 0%, 
+                              transparent 25%, 
+                              rgba(220, 38, 38, 0.05) 50%, 
+                              transparent 75%, 
+                              rgba(255, 180, 180, 0.03) 100%
+                            )
+                          `,
+                          opacity: 0.5
+                        }}
+                      />
+                      
+                      {/* Enhanced ornate corners with red metallic effect */}
+                      <div 
+                        className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
+                        style={{
+                          borderColor: 'rgba(220, 38, 38, 0.8)',
+                          filter: 'drop-shadow(0 0 4px rgba(220, 38, 38, 0.4))'
+                        }}
+                      />
+                      <div 
+                        className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
+                        style={{
+                          borderColor: 'rgba(220, 38, 38, 0.8)',
+                          filter: 'drop-shadow(0 0 4px rgba(220, 38, 38, 0.4))'
+                        }}
+                      />
+                      <div 
+                        className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
+                        style={{
+                          borderColor: 'rgba(220, 38, 38, 0.8)',
+                          filter: 'drop-shadow(0 0 4px rgba(220, 38, 38, 0.4))'
+                        }}
+                      />
+                      <div 
+                        className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
+                        style={{
+                          borderColor: 'rgba(220, 38, 38, 0.8)',
+                          filter: 'drop-shadow(0 0 4px rgba(220, 38, 38, 0.4))'
+                        }}
+                      />
+                      
+                      {/* Header with enhanced red styling */}
+                      <div className="text-center mb-4 relative z-10">
+                        <h3 
+                          className="text-2xl font-bold mb-2" 
+                          style={{ 
+                            fontFamily: 'Georgia, serif',
+                            color: 'rgba(255, 223, 0, 0.95)',
+                            textShadow: '0 0 8px rgba(220, 38, 38, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)'
+                          }}
+                        >
+                          🕉️ Sadhana of Kali Sahasranama
+                        </h3>
+                        <div 
+                          className="w-20 h-0.5 mx-auto"
+                          style={{
+                            background: 'linear-gradient(to right, transparent, rgba(220, 38, 38, 0.8), transparent)',
+                            filter: 'drop-shadow(0 0 2px rgba(220, 38, 38, 0.4))'
+                          }}
+                        />
+                      </div>
+
+                      {/* Content with enhanced red metallic text */}
+                      <div className="space-y-2 relative z-10" style={{ fontFamily: 'Georgia, serif' }}>
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            Purpose:
+                          </div>
+                          <div 
+                            className="text-sm leading-relaxed pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            To invoke the divine power of Maa Kali through the recitation of her thousand names, seeking her blessings for spiritual transformation, protection, and liberation from ignorance.
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            Goal:
+                          </div>
+                          <div 
+                            className="text-sm leading-relaxed pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            To attain spiritual awakening through the fierce grace of Maa Kali, destroy ego attachments, and realize the ultimate truth of one's divine nature.
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            Divine Focus:
+                          </div>
+                          <div 
+                            className="text-sm leading-relaxed pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            Maa Kali in her thousand forms, the Divine Mother of Time, Change, and Power
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            Duration:
+                          </div>
+                          <div 
+                            className="text-sm leading-relaxed pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            108 days (traditional completion cycle) or 9 days (Navaratri)
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            Message:
+                          </div>
+                          <div 
+                            className="text-sm italic leading-relaxed pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            "May the fierce grace of Maa Kali destroy my ignorance and reveal my true divine nature. May her blessings protect me from all fears and lead me to liberation."
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div 
+                            className="font-semibold mb-1 text-base"
+                            style={{
+                              color: 'rgba(255, 223, 0, 0.95)',
+                              textShadow: '0 0 4px rgba(220, 38, 38, 0.4)'
+                            }}
+                          >
+                            My Offerings:
+                          </div>
+                          <div 
+                            className="text-sm space-y-0.5 pl-2"
+                            style={{
+                              color: 'rgba(255, 255, 255, 0.85)',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                            }}
+                          >
+                            <div>1. Daily recitation of Kali Sahasranama (108 times or as guided)</div>
+                            <div>2. Morning and evening meditation on Maa Kali's form</div>
+                            <div>3. Offering of red flowers and sweets</div>
+                            <div>4. Lighting of camphor and incense</div>
+                            <div>5. Chanting of Kali Mantras (Om Kreem Kalikayai Namaha)</div>
+                            <div>6. Reading of Devi Mahatmya and Kali-focused scriptures</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Enhanced metallic texture overlay */}
+                      <div 
+                        className="absolute inset-0 rounded-2xl pointer-events-none"
+                        style={{
+                          background: `
+                            radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.05) 0%, transparent 40%),
+                            radial-gradient(circle at 80% 70%, rgba(220, 38, 38, 0.04) 0%, transparent 40%),
+                            radial-gradient(circle at 40% 80%, rgba(185, 28, 28, 0.03) 0%, transparent 30%)
+                          `,
+                          opacity: 0.4
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Enhanced floating spiritual elements with red glow */}
+                    <div 
+                      className="absolute -top-3 -right-3 text-2xl animate-pulse"
+                      style={{
+                        filter: 'drop-shadow(0 0 6px rgba(220, 38, 38, 0.6))',
+                        opacity: 0.8
+                      }}
+                    >
+                      🔥
+                    </div>
+                    <div 
+                      className="absolute -bottom-3 -left-3 text-xl animate-pulse"
+                      style={{
+                        filter: 'drop-shadow(0 0 6px rgba(220, 38, 38, 0.6))',
+                        opacity: 0.8
+                      }}
+                    >
+                      🦴
+                    </div>
+                    <div 
+                      className="absolute top-1/2 -left-6 text-lg animate-bounce"
+                      style={{
+                        filter: 'drop-shadow(0 0 4px rgba(220, 38, 38, 0.5))',
+                        opacity: 0.7
+                      }}
+                    >
+                      ⚡
+                    </div>
                   </div>
                 </div>
               </div>
@@ -512,32 +785,7 @@ const ExperimentPage = () => {
         </motion.section>
 
         {/* Stats Section */}
-        <motion.section 
-          ref={statsRef} 
-          className="py-16 container mx-auto px-4"
-          style={{ y: statsY }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="backdrop-blur-md bg-black/50 p-6 rounded-2xl border border-red-800/40 text-center hover:border-yellow-500/40 transition-all duration-300"
-                >
-                  <Icon className="h-10 w-10 text-red-400 mx-auto mb-4" />
-                  <div className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-yellow-400 mb-2">
-                    {stat.value}{index === 1 ? '%' : ''}
-                  </div>
-                  <div className="text-sm text-red-200">{stat.label}</div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.section>
+        {/* Removed as per user request */}
 
         {/* Features Section - cremation ground theme */}
         <motion.section 
@@ -617,86 +865,12 @@ const ExperimentPage = () => {
           </div>
         </motion.section>
 
-        {/* Testimonials with Auto-Rotation */}
-        <motion.section 
-          ref={testimonialsRef} 
-          className="py-20 relative"
-          style={{ y: testimonialsY }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-black/30"></div>
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-16">
-              <motion.h2 
-                className="text-4xl md:text-6xl font-bold mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isTestimonialsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6 }}
-              >
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-yellow-300 to-red-300">
-                  Voices from the Ashes
-                </span>
-              </motion.h2>
-              <motion.p 
-                className="text-xl text-red-200 max-w-3xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isTestimonialsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                Hear from those who have walked the path of destruction
-              </motion.p>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <div className="relative h-96">
-                {testimonials.map((testimonial, index) => (
-                  <motion.div
-                    key={index}
-                    className={`absolute inset-0 ${index === activeTestimonial ? 'z-10' : 'z-0'}`}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{
-                      opacity: index === activeTestimonial ? 1 : 0,
-                      scale: index === activeTestimonial ? 1 : 0.9,
-                    }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Card className="backdrop-blur-md bg-black/60 border border-red-800/50 h-full flex flex-col">
-                      <CardContent className="p-8 flex flex-col flex-grow">
-                        <div className="flex items-center mb-6">
-                          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-red-700 to-red-900 mr-4 flex items-center justify-center text-lg font-bold">
-                            {testimonial.avatar}
-                          </div>
-                          <div>
-                            <p className="font-bold text-xl text-white">{testimonial.name}</p>
-                            <p className="text-sm text-red-300">{testimonial.role}</p>
-                            <p className="text-xs text-yellow-300 mt-1">{testimonial.practice}</p>
-                          </div>
-                        </div>
-                        <div className="flex-grow flex items-center">
-                          <p className="text-red-100/90 text-xl italic text-center">
-                            "{testimonial.content}"
-                          </p>
-                        </div>
-                        <div className="flex justify-center mt-6 space-x-2">
-                          {testimonials.map((_, dotIndex) => (
-                            <button
-                              key={dotIndex}
-                              className={`w-3 h-3 rounded-full transition-all ${
-                                dotIndex === activeTestimonial
-                                  ? "bg-yellow-500 scale-125"
-                                  : "bg-red-700/50"
-                              }`}
-                              onClick={() => setActiveTestimonial(dotIndex)}
-                            />
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.section>
+        {/* Theme Changing Section removed as per requirements */}
+
+        {/* Cosmic Library Showcase Section */}
+        <section className="py-16 container mx-auto px-4">
+          <CosmicLibraryShowcase />
+        </section>
 
         {/* Inspiration / "Why" Section - cremation ground theme */}
         <motion.section 
@@ -806,221 +980,173 @@ const ExperimentPage = () => {
           </div>
         </motion.section>
 
-        {/* Theme Changing Section - Mahakali Theme */}
-        <section className="py-16 container mx-auto px-4 relative overflow-hidden">
-          <div className="relative z-10 max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center mb-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
-                <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-red-600 to-yellow-600 flex items-center justify-center mx-auto">
-                  <span className="text-2xl text-white">🎨</span>
-                </div>
-              </div>
-            </div>
-            <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-yellow-500 to-red-400">
-              Divine Themes for Your Practice
-            </h2>
-            <p className="text-xl text-red-200 max-w-2xl mx-auto mb-10">
-              Personalize your spiritual journey with themes inspired by Hindu deities and traditions
+        {/* Final CTA Section - cremation ground theme */}
+        <section className="py-20 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-background/20 to-background/30 backdrop-blur-sm"></div>
+          <div className="relative z-10 max-w-3xl mx-auto px-4">
+            <Flame className="h-12 w-12 sm:h-16 sm:w-16 text-red-400 mx-auto mb-4 sm:mb-6" />
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6 text-red-100">Private Beta Is Live</h2>
+            <p className="text-red-50 mb-6 sm:mb-10 text-base sm:text-xl">
+              We're onboarding in waves. Join the waitlist to secure early access and explore our features.
             </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {[{
-                name: "Mahakali's Cremation Ground",
-                description: "Embrace the fierce power of transformation through destruction and renewal",
-                color: "from-red-800 to-red-900",
-                icon: "🔥",
-                link: "/MahakaliLandingpage"
-              }, {
-                name: "Cosmic Mystery",
-                description: "Unlock hidden knowledge and universal wisdom through cosmic exploration",
-                color: "from-indigo-800 to-indigo-900",
-                icon: "🔮",
-                link: "/MysteryLandingpage"
-              }].map((theme, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="group cursor-pointer h-full"
-                >
-                  <Link to={theme.link} className="h-full block">
-                    <div className="relative bg-gradient-to-br from-background/80 to-background/60 rounded-2xl p-6 border border-red-200/50 hover:border-red-300/70 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2 backdrop-blur-sm h-full flex flex-col">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl`}></div>
-                      <div className="relative z-10 flex flex-col h-full">
-                        <div className="text-4xl mb-4 flex justify-center">
-                          {theme.icon}
-                        </div>
-                        <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-red-300 transition-colors duration-300">
-                          {theme.name}
-                        </h3>
-                        <p className="text-red-200 text-sm mb-4 leading-relaxed flex-grow">
-                          {theme.description}
-                        </p>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="border-red-300/50 text-red-300 hover:bg-red-500/10 text-sm w-full transition-all duration-300 group-hover:border-red-400/70 mt-auto"
-                        >
-                          Explore Theme
-                        </Button>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-            
-            <div className="mt-10 inline-flex items-center bg-gradient-to-r from-red-500/15 to-yellow-500/15 border border-red-500/40 rounded-full px-6 py-3">
-              <Sparkles className="h-5 w-5 text-red-500 mr-3" />
-              <span className="text-base font-medium text-red-300">More themes coming soon with beta updates!</span>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-800 hover:to-black text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 backdrop-blur-sm touch-target-large"
+                asChild
+              >
+                <Link to="/waitlist">
+                  Join the Waitlist
+                </Link>
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-red-700/50 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-red-900/30 backdrop-blur-sm touch-target-large"
+                asChild
+              >
+                <Link to="/about">
+                  Explore Features
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
 
-        {/* Final CTA Section - cremation ground theme */}
-        <motion.section 
-          ref={ctaRef} 
-          className="py-32 text-center relative overflow-hidden"
-          style={{ y: ctaY }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-red-900/40 via-black/30 to-black/50 backdrop-blur-sm"></div>
-          
-
-          
-          <div className="relative z-10 max-w-5xl mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-900/30 text-red-300 mb-8 border border-red-700/40 mx-auto">
-                <Flame className="h-4 w-4 text-yellow-400" />
-                <span className="text-sm font-medium">Begin Your Transformation</span>
-              </div>
-              
-              <h2 className="text-5xl md:text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-yellow-300 to-red-300">
-                Enter the Sacred Fire
-              </h2>
-              
-              <p className="text-2xl md:text-3xl text-red-200 mb-16 max-w-3xl mx-auto leading-relaxed">
-                Join the circle of spiritual warriors. 
-                <br />
-                <span className="text-yellow-300">Destroy your limitations. Embrace your divine power.</span>
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={{
-                    boxShadow: [
-                      '0 0 20px rgba(220, 38, 38, 0.5)',
-                      '0 0 30px rgba(251, 191, 36, 0.8)',
-                      '0 0 20px rgba(220, 38, 38, 0.5)'
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <Button 
-                    size="lg" 
-                    className="bg-gradient-to-r from-red-700 via-red-800 to-black hover:from-red-800 hover:via-red-900 hover:to-black text-2xl px-16 py-10 backdrop-blur-sm shadow-2xl shadow-red-900/50 rounded-2xl border border-red-700"
-                    asChild
-                  >
-                    <Link to="/waitlist">
-                      Join the Waitlist
-                      <ChevronRight className="ml-3 h-8 w-8" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={{
-                    borderColor: [
-                      'rgba(185, 28, 28, 0.5)',
-                      'rgba(251, 191, 36, 0.8)',
-                      'rgba(185, 28, 28, 0.5)'
-                    ]
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="border-red-700/50 text-red-200 hover:bg-red-900/30 text-2xl px-16 py-10 backdrop-blur-sm rounded-2xl border-2"
-                    asChild
-                  >
-                    <Link to="/your-atma-yantra" className="flex items-center">
-                      <Flame className="mr-3 h-8 w-8 text-yellow-400" />
-                      Explore Features
-                    </Link>
-                  </Button>
-                </motion.div>
-              </div>
-              
-              <div className="flex items-center justify-center gap-4 text-red-300/80">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <span>Free Forever</span>
-                </div>
-                <div className="w-1 h-1 rounded-full bg-red-700/50"></div>
-                <div className="flex items-center gap-2">
-                  <Crown className="h-4 w-4 text-yellow-400" />
-                  <span>Divine Power</span>
-                </div>
-                <div className="w-1 h-1 rounded-full bg-red-700/50"></div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-red-400" />
-                  <span>Sacred Community</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.section>
-
         {/* Footer - cremation ground theme */}
-        <footer className="backdrop-blur-md bg-black/60 border-t border-red-800/30">
-          <div className="container mx-auto px-4 py-12">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center space-x-2 mb-4 md:mb-0">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-700 to-red-900 flex items-center justify-center">
-                  <Flame className="h-5 w-5 text-yellow-300" />
+        <div className="px-4 sm:px-4 pb-4 sm:pb-4">
+          <footer 
+            className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group"
+            style={
+              {
+                background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.08), rgba(139, 0, 0, 0.12), rgba(139, 0, 0, 0.08))',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: '1px solid rgba(255, 0, 0, 0.25)',
+                boxShadow: `
+                  0 8px 32px rgba(139, 0, 0, 0.1),
+                  0 0 0 1px rgba(255, 0, 0, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                `,
+              }
+            }
+          >
+            {/* Subtle gradient overlay */}
+            <div 
+              className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+              style={
+                {
+                  background: 'linear-gradient(45deg, rgba(255, 0, 0, 0.05), transparent, rgba(139, 0, 0, 0.05))'
+                }
+              }
+            />
+            
+            {/* Floating spiritual particles in footer - Hidden on mobile to avoid interference */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
+              <div className="absolute top-2 left-8 w-1 h-1 bg-red-400/60 rounded-full animate-pulse" />
+              <div className="absolute top-4 right-20 w-1.5 h-1.5 bg-red-400/40 rounded-full animate-bounce" style={{ animationDelay: '1s' }} />
+              <div className="absolute bottom-3 left-32 w-1 h-1 bg-red-400/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+              <div className="absolute bottom-2 right-8 w-0.5 h-0.5 bg-red-400/60 rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
+            </div>
+
+            <div className="relative z-20 container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="flex items-center space-x-3 sm:space-x-3">
+                  <div className="relative">
+                    <img
+                      src="/lovable-uploads/sadhanaboard_logo.png"
+                      alt="SadhanaBoard Logo"
+                      className="h-10 w-10 sm:h-10 sm:w-10 rounded-full cursor-pointer scale-110 shadow-lg shadow-red-500/30 relative z-10"
+                      style={
+                        {
+                          filter: 'drop-shadow(0 0 8px rgba(255, 0, 0, 0.3))'
+                        }
+                      }
+                    />
+                    {/* Constant glowing ring around logo */}
+                    <div 
+                      className="absolute inset-0 rounded-full"
+                      style={
+                        {
+                          background: 'conic-gradient(from 0deg, rgba(255, 0, 0, 0.3), rgba(139, 0, 0, 0.3), rgba(255, 0, 0, 0.3))',
+                          padding: '2px'
+                        }
+                      }
+                    >
+                      <div className="w-full h-full rounded-full bg-background/20" />
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col">
+                    <span className="text-xl sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-red-400 to-red-300">
+                      Mahakali's Cremation Ground
+                    </span>
+                    <span className="text-xs sm:text-xs text-red-400/70 font-medium tracking-wider">
+                      🔥 Destroyer of Illusions
+                    </span>
+                  </div>
                 </div>
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-yellow-300">
-                  Mahakali's Cremation Ground
-                </span>
+                
+                <div className="flex space-x-6 sm:space-x-6 text-sm">
+                  <Link 
+                    to="/about" 
+                    className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <span className="relative z-10">About</span>
+                  </Link>
+                  <Link 
+                    to="/careers" 
+                    className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <span className="relative z-10">Join Us</span>
+                  </Link>
+                  <Link 
+                    to="/manifesto" 
+                    className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <span className="relative z-10">Manifesto</span>
+                  </Link>
+                  <a 
+                    href="#" 
+                    className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <span className="relative z-10">Privacy</span>
+                  </a>
+                  <a 
+                    href="#" 
+                    className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    <span className="relative z-10">Terms</span>
+                  </a>
+                </div>
               </div>
-              <div className="flex space-x-8 text-lg text-red-300/80">
-                <Link to="/about" className="hover:text-yellow-300 transition-colors">
-                  About
-                </Link>
-                <a href="#" className="hover:text-yellow-300 transition-colors">
-                  Privacy
-                </a>
-                <a href="#" className="hover:text-yellow-300 transition-colors">
-                  Terms
-                </a>
+              
+              <div className="mt-6 text-center">
+                <div 
+                  className="inline-block px-4 py-2 rounded-full text-xs text-muted-foreground/80"
+                  style={
+                    {
+                      background: 'linear-gradient(135deg, rgba(255, 0, 0, 0.05), rgba(139, 0, 0, 0.08))',
+                      border: '1px solid rgba(255, 0, 0, 0.15)'
+                    }
+                  }
+                >
+                  © {new Date().getFullYear()} Mahakali's Cremation Ground. All rights reserved. A sacred space for spiritual warriors seeking liberation.
+                </div>
               </div>
             </div>
-            <div className="mt-8 text-center text-base text-red-300/70">
-              © {new Date().getFullYear()} Mahakali's Cremation Ground. All rights reserved. 
-              <br />
-              A sacred space for spiritual warriors seeking liberation.
-            </div>
-          </div>
-        </footer>
+          </footer>
+        </div>
       </div>
     </div>
   );

@@ -63,6 +63,9 @@ import { adminRoutes } from "./routes/adminRoutes";
 import { HelpProvider } from "./contexts/HelpContext"; // Add this import
 import TestDurgaPage from './pages/TestDurgaPage';
 import { AnimatePresence, motion } from 'framer-motion';
+// Add new page imports
+import CareersPage from './pages/landing/CareersPage';
+import ManifestoPage from './pages/landing/ManifestoPage';
 
 // Configure React Query for better performance
 const queryClient = new QueryClient({
@@ -248,6 +251,8 @@ const AppRoutes = () => {
       <Route path="/pages" element={<HomePage />} />
       <Route path="/MahakaliLandingpage" element={<ExperimentPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/careers" element={<CareersPage />} />
+      <Route path="/manifesto" element={<ManifestoPage />} />
       
       {/* Admin Panel - Using cosmic admin routes */}
       <Route path="/admin/*" element={<AdminLayout />}>

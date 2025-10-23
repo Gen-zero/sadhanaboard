@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 import { useSettings } from '@/hooks/useSettings';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
+import ThemeToggle from '@/components/ThemeToggle';
 
 // Simple count-up hook for animated stats
 const useCountUp = (targetValue: number, durationMs: number = 1500) => {
@@ -261,8 +262,29 @@ const HomePage = () => {
                 size="sm"
                 className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
               >
+                <Link to="/careers">
+                  {/* Animated gradient background */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                  />
+                  {/* Floating sparkles - Smaller on mobile */}
+                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                  
+                  <span className="relative z-10 flex items-center">
+                    <span className="hidden xs:inline">Join Us</span>
+                    <span className="xs:hidden">Join</span>
+                    <Sparkles className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                  </span>
+                </Link>
+              </Button>
+              
+              <Button 
+                asChild 
+                size="sm"
+                className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+              >
                 <Link to="/waitlist">
-
                   {/* Animated gradient background */}
                   <div 
                     className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
@@ -292,6 +314,8 @@ const HomePage = () => {
           </div>
         </div>
         <div className="space-y-16 animate-fade-in min-h-screen flex flex-col">
+          <ThemeToggle />
+          
           {/* Hero Section with Sadhana Paper */}
           <section className="flex-1 flex items-center justify-center px-2 sm:px-4 mt-6 sm:mt-10 relative overflow-hidden">
             {/* Yantra watermark behind hero */}
@@ -923,6 +947,22 @@ const HomePage = () => {
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                       <span className="relative z-10">About</span>
+                    </Link>
+                    <Link 
+                      to="/careers" 
+                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                    >
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                      <span className="relative z-10">Join Us</span>
+                    </Link>
+                    <Link 
+                      to="/manifesto" 
+                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                    >
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                      <span className="relative z-10">Manifesto</span>
                     </Link>
                     <a 
                       href="#" 

@@ -1,4 +1,59 @@
-const validator = require('validator');
+// Custom URL validation function to replace vulnerable validator.isURL
+function isValidURL(string, options = {}) {
+  try {
+    const url = new URL(string);
+    
+    // Check if protocol is required and present
+    if (options.require_protocol && !url.protocol) {
+      return false;
+    }
+    
+    // Check if protocol is in allowed list
+    if (options.protocols && options.protocols.length > 0) {
+      const protocol = url.protocol.slice(0, -1); // Remove the trailing ':'
+      if (!options.protocols.includes(protocol)) {
+        return false;
+      }
+    }
+    
+    // Basic URL structure validation
+    if (!url.hostname || url.hostname.length === 0) {
+      return false;
+    }
+    
+    // Check for valid hostname (not localhost/127.0.0.1 in our specific use case)
+    // This will be handled separately in our validation logic
+    
+    return true;
+  } catch (e) {
+    // Invalid URL
+    return false;
+  }
+}
+
+// Custom escape function to replace validator.escape
+function escapeHTML(str) {
+  if (typeof str !== 'string') return str;
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+// Custom email validation function
+function isValidEmail(email) {
+  // Basic email regex validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Custom email normalization function
+function normalizeEmail(email) {
+  if (typeof email !== 'string') return email;
+  return email.toLowerCase().trim();
+}
 
 class ValidationMiddleware {
   // Validate and sanitize string inputs
@@ -83,7 +138,7 @@ class ValidationMiddleware {
         
         // Sanitize
         if (options.sanitize !== false) {
-          value = validator.escape(value);
+          value = escapeHTML(value);
         }
         
         // Update the request with sanitized value
@@ -123,7 +178,7 @@ class ValidationMiddleware {
         
         value = String(value).trim().toLowerCase();
         
-        if (!validator.isEmail(value)) {
+        if (!isValidEmail(value)) {
           return res.status(400).json({ 
             message: 'Invalid email format',
             field: field,
@@ -145,8 +200,8 @@ class ValidationMiddleware {
           });
         }
         
-        // Sanitize
-        value = validator.normalizeEmail(value);
+        // Sanitize and normalize
+        value = escapeHTML(normalizeEmail(value));
         
         // Update the request with sanitized value
         if (req.body[field] !== undefined) {
@@ -248,7 +303,7 @@ class ValidationMiddleware {
     };
   }
   
-  // Validate URL
+  // Validate URL (modified to use custom function)
   static validateUrl(field, options = {}) {
     return (req, res, next) => {
       try {
@@ -268,8 +323,8 @@ class ValidationMiddleware {
         
         value = String(value).trim();
         
-        // Check if URL is valid
-        if (!validator.isURL(value, { protocols: ['http','https'], require_protocol: true })) {
+        // Check if URL is valid using our custom function
+        if (!isValidURL(value, { protocols: ['http','https'], require_protocol: true })) {
           return res.status(400).json({ 
             message: 'Invalid URL format',
             field: field,
