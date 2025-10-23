@@ -176,7 +176,10 @@ export default defineConfig({
   // Add crypto polyfill for build process
   define: {
     global: 'globalThis',
-    process: 'process',
+    // Properly define process object for browser environment
+    'process.env': '{}',
+    'process.browser': 'true',
+    'process.version': '""',
   },
   // Add Node.js polyfills
   optimizeDeps: {
