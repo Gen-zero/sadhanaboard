@@ -9,6 +9,7 @@ import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 import { useSettings } from '@/hooks/useSettings';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
 import ThemeToggle from '@/components/ThemeToggle';
+import MobileNav from '@/components/mobile/MobileNav';
 
 // Simple count-up hook for animated stats
 const useCountUp = (targetValue: number, durationMs: number = 1500) => {
@@ -184,7 +185,7 @@ const HomePage = () => {
         }}
       >
         <nav 
-          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group"
+          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group hidden md:flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4"
           style={{
             background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.08), rgba(255, 215, 0, 0.12), rgba(255, 165, 0, 0.08))',
             backdropFilter: 'blur(20px) saturate(180%)',
@@ -208,7 +209,7 @@ const HomePage = () => {
             <div className="absolute bottom-1 sm:bottom-3 left-16 sm:left-32 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-fuchsia-400/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
           </div>
           
-          <div className="relative flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
               <div className="relative">
                 <ResponsiveImage
@@ -242,67 +243,105 @@ const HomePage = () => {
                 </span>
               </div>
             </Link>
+          </div>
+          
+          {/* All buttons positioned on the right side */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <Button 
+              asChild 
+              variant="ghost" 
+              size="sm"
+              className="relative text-foreground/80 hover:text-foreground hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-amber-400/40 transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/login">
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <span className="relative z-10">Login</span>
+              </Link>
+            </Button>
             
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Button 
-                asChild 
-                variant="ghost" 
-                size="sm"
-                className="relative text-foreground/80 hover:text-foreground hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-amber-400/40 transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/login">
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                  <span className="relative z-10">Login</span>
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild 
-                size="sm"
-                className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/careers">
-                  {/* Animated gradient background */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                  />
-                  {/* Floating sparkles - Smaller on mobile */}
-                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
-                  
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden xs:inline">Join Us</span>
-                    <span className="xs:hidden">Join</span>
-                    <Sparkles className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
-                  </span>
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild 
-                size="sm"
-                className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/waitlist">
-                  {/* Animated gradient background */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                  />
-                  {/* Floating sparkles - Smaller on mobile */}
-                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
-                  
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden xs:inline">Join Waitlist</span>
-                    <span className="xs:hidden">Waitlist</span>
-                    <Sparkles className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
-                  </span>
-                </Link>
-              </Button>
-            </div>
+            <Button 
+              asChild 
+              size="sm"
+              className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/careers">
+                {/* Animated gradient background */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                />
+                {/* Floating sparkles - Smaller on mobile */}
+                <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                
+                <span className="relative z-10 flex items-center">
+                  <span className="hidden xs:inline">Join Us</span>
+                  <span className="xs:hidden">Join</span>
+                  <Sparkles className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                </span>
+              </Link>
+            </Button>
+            
+            <Button 
+              asChild 
+              size="sm"
+              className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/waitlist">
+                {/* Animated gradient background */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                />
+                {/* Floating sparkles - Smaller on mobile */}
+                <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                
+                <span className="relative z-10 flex items-center">
+                  <span className="hidden xs:inline">Join Waitlist</span>
+                  <span className="xs:hidden">Waitlist</span>
+                  <Sparkles className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                </span>
+              </Link>
+            </Button>
           </div>
         </nav>
+        
+        {/* Enhanced Mobile Navigation - only login button shown */}
+        <div className="md:hidden">
+          <div className="flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-md rounded-xl border border-amber-500/30 shadow-lg relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-1 right-4 w-1 h-1 bg-yellow-400 rounded-full animate-ping opacity-70"></div>
+              <div className="absolute bottom-2 left-6 w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse opacity-60" style={{ animationDelay: '1s' }}></div>
+            </div>
+            
+            <Link to="/" className="flex items-center space-x-2 relative z-10">
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-full bg-amber-400 opacity-30 blur"></div>
+                <ResponsiveImage
+                  src="/lovable-uploads/sadhanaboard_logo.png"
+                  alt="SadhanaBoard Logo"
+                  className="h-10 w-10 rounded-full cursor-pointer relative z-10"
+                  quality="high"
+                  lazy={false}
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.3))'
+                  }}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                  SadhanaBoard
+                </span>
+                <span className="text-xs text-yellow-400/80 font-medium tracking-wider flex items-center">
+                  <Sparkles className="mr-1 h-3 w-3" />
+                  Your Digital Yantra
+                </span>
+              </div>
+            </Link>
+            <MobileNav showHamburger={false} showLoginButton={true} />
+          </div>
+        </div>
       </div>
 
       <div className="min-h-screen bg-transparent">
@@ -840,7 +879,7 @@ const HomePage = () => {
           </div>
           </section>
 
-          {/* Call to Action */}
+          {/* Call to Action - with added Join Us button */}
           <section className="py-20 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background/20 to-background/30 backdrop-blur-sm"></div>
           <div className="relative z-10 max-w-3xl mx-auto px-4">
@@ -867,6 +906,18 @@ const HomePage = () => {
               >
                 <Link to="/about">
                   Explore Features
+                </Link>
+              </Button>
+              {/* Added Join Us button */}
+              <Button 
+                size="lg" 
+                variant="ghost" 
+                className="border-amber-500/40 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-amber-500/10 backdrop-blur-sm touch-target-large text-amber-300"
+                asChild
+              >
+                <Link to="/careers">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Join Us
                 </Link>
               </Button>
             </div>

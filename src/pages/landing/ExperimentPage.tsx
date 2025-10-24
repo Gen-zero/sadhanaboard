@@ -15,6 +15,7 @@ import * as THREE from "three";
 import MahakaliAnimatedBackground from "@/components/MahakaliAnimatedBackground";
 import ThemeToggle from '@/components/ThemeToggle';
 import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
+import MobileNav from '@/components/mobile/MobileNav';
 
 // Dynamic yantra that responds to user interaction - cremation ground theme
 const InteractiveYantra = () => {
@@ -301,7 +302,7 @@ const ExperimentPage = () => {
         }}
       >
         <nav 
-          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group"
+          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group hidden md:flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4"
           style={
             {
               background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.08), rgba(139, 0, 0, 0.12), rgba(139, 0, 0, 0.08))',
@@ -322,8 +323,7 @@ const ExperimentPage = () => {
             }
           />
           
-          
-          <div className="relative flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
               <div className="relative">
                 <img
@@ -359,67 +359,104 @@ const ExperimentPage = () => {
                 </span>
               </div>
             </Link>
+          </div>
+          
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <Button 
+              asChild 
+              variant="ghost" 
+              size="sm"
+              className="relative text-foreground/80 hover:text-foreground hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-red-400/40 transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/login">
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <span className="relative z-10">Enter</span>
+              </Link>
+            </Button>
             
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Button 
-                asChild 
-                variant="ghost" 
-                size="sm"
-                className="relative text-foreground/80 hover:text-foreground hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-red-400/40 transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/login">
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                  <span className="relative z-10">Enter</span>
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild 
-                size="sm"
-                className="relative bg-gradient-to-r from-red-500/80 via-red-600/80 to-red-500/80 hover:from-red-400 hover:via-red-500 hover:to-red-400 backdrop-blur-sm border border-red-400/30 hover:border-red-400/50 shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/careers">
-                  {/* Animated gradient background */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-red-500/20 to-red-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                  />
-                  {/* Floating sparkles - Smaller on mobile */}
-                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
-                  
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden xs:inline">Join Us</span>
-                    <span className="xs:hidden">Join</span>
-                    <Flame className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
-                  </span>
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild 
-                size="sm"
-                className="relative bg-gradient-to-r from-red-500/80 via-red-600/80 to-red-500/80 hover:from-red-400 hover:via-red-500 hover:to-red-400 backdrop-blur-sm border border-red-400/30 hover:border-red-400/50 shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
-              >
-                <Link to="/waitlist">
-                  {/* Animated gradient background */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-red-500/20 to-red-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                  />
-                  {/* Floating sparkles - Smaller on mobile */}
-                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
-                  
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden xs:inline">Join Waitlist</span>
-                    <span className="xs:hidden">Waitlist</span>
-                    <Flame className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
-                  </span>
-                </Link>
-              </Button>
-            </div>
+            <Button 
+              asChild 
+              size="sm"
+              className="relative bg-gradient-to-r from-red-500/80 via-red-600/80 to-red-500/80 hover:from-red-400 hover:via-red-500 hover:to-red-400 backdrop-blur-sm border border-red-400/30 hover:border-red-400/50 shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/careers">
+                {/* Animated gradient background */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-red-500/20 to-red-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                />
+                {/* Floating sparkles - Smaller on mobile */}
+                <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                
+                <span className="relative z-10 flex items-center">
+                  <span className="hidden xs:inline">Join Us</span>
+                  <span className="xs:hidden">Join</span>
+                  <Flame className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                </span>
+              </Link>
+            </Button>
+            
+            <Button 
+              asChild 
+              size="sm"
+              className="relative bg-gradient-to-r from-red-500/80 via-red-600/80 to-red-500/80 hover:from-red-400 hover:via-red-500 hover:to-red-400 backdrop-blur-sm border border-red-400/30 hover:border-red-400/50 shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm"
+            >
+              <Link to="/waitlist">
+                {/* Animated gradient background */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-red-500/20 to-red-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                />
+                {/* Floating sparkles - Smaller on mobile */}
+                <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                
+                <span className="relative z-10 flex items-center">
+                  <span className="hidden xs:inline">Join Waitlist</span>
+                  <span className="xs:hidden">Waitlist</span>
+                  <Flame className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 group-hover/cta:animate-spin" style={{ animationDuration: '2s' }} />
+                </span>
+              </Link>
+            </Button>
           </div>
         </nav>
+        
+        {/* Enhanced Mobile Navigation - only login button shown */}
+        <div className="md:hidden">
+          <div className="flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-md rounded-xl border border-red-500/30 shadow-lg relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-1 right-4 w-1 h-1 bg-red-500 rounded-full animate-ping opacity-70"></div>
+              <div className="absolute bottom-2 left-6 w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse opacity-60" style={{ animationDelay: '1s' }}></div>
+            </div>
+            
+            <Link to="/" className="flex items-center space-x-2 relative z-10">
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-full bg-red-500 opacity-30 blur"></div>
+                <img
+                  src="/lovable-uploads/sadhanaboard_logo.png"
+                  alt="SadhanaBoard Logo"
+                  className="h-10 w-10 rounded-full cursor-pointer relative z-10"
+                  style={
+                    {
+                      filter: 'drop-shadow(0 0 8px rgba(255, 0, 0, 0.3))'
+                    }
+                  }
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-red-400 to-red-300">
+                  SadhanaBoard
+                </span>
+                <span className="text-xs text-red-400/80 font-medium tracking-wider flex items-center">
+                  <Flame className="mr-1 h-3 w-3" />
+                  Destroyer of Illusions
+                </span>
+              </div>
+            </Link>
+            <MobileNav isMahakaliTheme={true} showHamburger={false} showLoginButton={true} />
+          </div>
+        </div>
       </div>
 
       {/* Beta banner - Moved below navigation bar */}
@@ -980,7 +1017,7 @@ const ExperimentPage = () => {
           </div>
         </motion.section>
 
-        {/* Final CTA Section - cremation ground theme */}
+        {/* Final CTA Section - with added Join Us button */}
         <section className="py-20 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background/20 to-background/30 backdrop-blur-sm"></div>
           <div className="relative z-10 max-w-3xl mx-auto px-4">
@@ -1007,6 +1044,18 @@ const ExperimentPage = () => {
               >
                 <Link to="/about">
                   Explore Features
+                </Link>
+              </Button>
+              {/* Added Join Us button */}
+              <Button 
+                size="lg" 
+                variant="ghost" 
+                className="border-red-700/50 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-red-900/30 backdrop-blur-sm touch-target-large text-red-300"
+                asChild
+              >
+                <Link to="/careers">
+                  <Flame className="mr-2 h-5 w-5" />
+                  Join Us
                 </Link>
               </Button>
             </div>

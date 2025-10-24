@@ -61,15 +61,12 @@ export default defineConfig({
             params: {
               overrides: {
                 cleanupNumericValues: false,
-                removeViewBox: false, // https://github.com/svg/svgo/issues/1128
+                convertPathData: false,
               },
-              cleanupIDs: {
-                minify: false,
-                remove: false,
-              },
-              convertPathData: false,
             },
           },
+          'removeViewBox',
+          'cleanupIds',
           'sortAttrs',
           {
             name: 'addAttributesToSVGElement',

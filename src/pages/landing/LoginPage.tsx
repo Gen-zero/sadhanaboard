@@ -83,10 +83,11 @@ const LoginPage = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/landingpage')}
-          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20"
+          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Homepage
+          <span className="hidden sm:inline">Back to Homepage</span>
+          <span className="sm:hidden">Back</span>
         </Button>
       </div>
 
@@ -98,7 +99,7 @@ const LoginPage = () => {
             <img 
               src="/lovable-uploads/sadhanaboard_logo.png" 
               alt="Saadhana Board Logo" 
-              className="h-20 w-20 rounded-full relative z-10" 
+              className="h-16 w-16 sm:h-20 sm:w-20 rounded-full relative z-10" 
               style={{
                 filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.3))'
               }}
@@ -114,7 +115,7 @@ const LoginPage = () => {
               <div className="w-full h-full rounded-full bg-background/20" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">Saadhana Board</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">Saadhana Board</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Access your spiritual journey
           </p>
@@ -143,7 +144,7 @@ const LoginPage = () => {
                     <FormControl>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Enter your email" className="pl-10" {...field} />
+                        <Input placeholder="Enter your email" className="pl-10 touch-target-large" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -160,7 +161,7 @@ const LoginPage = () => {
                     <FormControl>
                       <div className="relative">
                         <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input type="password" placeholder="Enter your password" className="pl-10" {...field} />
+                        <Input type="password" placeholder="Enter your password" className="pl-10 touch-target-large" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -168,7 +169,7 @@ const LoginPage = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 touch-target-large" disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -194,7 +195,7 @@ const LoginPage = () => {
           </div>
         </div>
 
-        <div className="text-center text-xs text-muted-foreground">
+        <div className="text-center text-xs text-muted-foreground mt-4">
           <p>Create an account to begin your spiritual journey</p>
         </div>
         </div>

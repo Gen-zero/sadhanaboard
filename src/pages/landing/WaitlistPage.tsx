@@ -72,10 +72,11 @@ const WaitlistPage = () => {
           <Button 
             onClick={() => navigate('/landingpage')}
             variant="ghost"
-            className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20"
+            className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Homepage
+            <span className="hidden sm:inline">Back to Homepage</span>
+            <span className="sm:hidden">Back</span>
           </Button>
         </div>
 
@@ -83,8 +84,8 @@ const WaitlistPage = () => {
         <div className="flex-1 flex items-center justify-center p-4">
           <div className="w-full max-w-lg animate-fade-in text-center">
             <div className="flex flex-col items-center mb-6">
-              <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
-              <h1 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
+              <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 text-green-500 mb-4" />
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
                 You're on the list!
               </h1>
               <p className="text-base text-muted-foreground mt-3 max-w-md">
@@ -95,7 +96,7 @@ const WaitlistPage = () => {
             <div className="space-y-4">
               <Button 
                 onClick={() => navigate('/landingpage')}
-                className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 max-w-sm mx-auto"
+                className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 max-w-sm mx-auto touch-target-large"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Homepage
@@ -118,10 +119,11 @@ const WaitlistPage = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/landingpage')}
-          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20"
+          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Homepage
+          <span className="hidden sm:inline">Back to Homepage</span>
+          <span className="sm:hidden">Back</span>
         </Button>
       </div>
 
@@ -133,7 +135,7 @@ const WaitlistPage = () => {
               <img 
                 src="/lovable-uploads/sadhanaboard_logo.png" 
                 alt="SadhanaBoard Logo" 
-                className="h-16 w-16 rounded-full relative z-10" 
+                className="h-12 w-12 sm:h-16 sm:w-16 rounded-full relative z-10" 
                 style={{
                   filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.3))'
                 }}
@@ -149,7 +151,7 @@ const WaitlistPage = () => {
                 <div className="w-full h-full rounded-full bg-background/20" />
               </div>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
               Join the Waitlist
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
@@ -188,7 +190,7 @@ const WaitlistPage = () => {
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             placeholder="Enter your full name"
-                            className="pl-10 h-9"
+                            className="pl-10 h-9 touch-target-large"
                             {...field}
                           />
                         </div>
@@ -209,7 +211,7 @@ const WaitlistPage = () => {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             placeholder="Enter your email address"
-                            className="pl-10 h-9"
+                            className="pl-10 h-9 touch-target-large"
                             {...field}
                           />
                         </div>
@@ -228,7 +230,7 @@ const WaitlistPage = () => {
                       <FormControl>
                         <Textarea
                           placeholder="Tell us about your spiritual journey..."
-                          className="resize-none text-sm"
+                          className="resize-none text-sm touch-target-large"
                           rows={3}
                           {...field}
                         />
@@ -240,7 +242,7 @@ const WaitlistPage = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 h-10"
+                  className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 h-10 touch-target-large"
                   disabled={isLoading}
                 >
                   {isLoading ? (
