@@ -144,7 +144,7 @@ const LoginPage = () => {
                     <FormControl>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Enter your email" className="pl-10 touch-target-large" {...field} />
+                        <Input placeholder="Enter your email" className="pl-10 input-placeholder-center touch-target-large" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -161,7 +161,7 @@ const LoginPage = () => {
                     <FormControl>
                       <div className="relative">
                         <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input type="password" placeholder="Enter your password" className="pl-10 touch-target-large" {...field} />
+                        <Input type="password" placeholder="Enter your password" className="pl-10 input-placeholder-center touch-target-large" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />

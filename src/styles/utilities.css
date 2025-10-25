@@ -130,3 +130,20 @@
 .my-responsive { margin-top: clamp(0.5rem, 3vw, 1rem); margin-bottom: clamp(0.5rem, 3vw, 1rem); }
 .p-responsive { padding: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
 .m-responsive { margin: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
+
+/* Centered placeholder text for input fields */
+.input-placeholder-center::placeholder {
+  text-align: center;
+}
+
+.input-placeholder-center::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.input-placeholder-center::-moz-placeholder {
+  text-align: center;
+}
+
+.input-placeholder-center:-ms-input-placeholder {
+  text-align: center;
+}

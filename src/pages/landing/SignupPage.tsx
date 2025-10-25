@@ -114,7 +114,7 @@ const SignupPage = () => {
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           placeholder="Enter your name"
-                          className="pl-10"
+                          className="pl-10 input-placeholder-center"
                           {...field}
                         />
                       </div>
@@ -135,7 +135,7 @@ const SignupPage = () => {
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           placeholder="Enter your email"
-                          className="pl-10"
+                          className="pl-10 input-placeholder-center"
                           {...field}
                         />
                       </div>
@@ -157,7 +157,7 @@ const SignupPage = () => {
                         <Input
                           type="password"
                           placeholder="Create password"
-                          className="pl-10"
+                          className="pl-10 input-placeholder-center"
                           {...field}
                         />
                       </div>
@@ -179,7 +179,7 @@ const SignupPage = () => {
                         <Input
                           type="password"
                           placeholder="Confirm password"
-                          className="pl-10"
+                          className="pl-10 input-placeholder-center"
                           {...field}
                         />
                       </div>

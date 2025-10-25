@@ -190,7 +190,7 @@ const WaitlistPage = () => {
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             placeholder="Enter your full name"
-                            className="pl-10 h-9 touch-target-large"
+                            className="pl-10 h-9 input-placeholder-center touch-target-large"
                             {...field}
                           />
                         </div>
@@ -211,7 +211,7 @@ const WaitlistPage = () => {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             placeholder="Enter your email address"
-                            className="pl-10 h-9 touch-target-large"
+                            className="pl-10 h-9 input-placeholder-center touch-target-large"
                             {...field}
                           />
                         </div>
