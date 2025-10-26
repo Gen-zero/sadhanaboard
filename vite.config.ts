@@ -11,6 +11,8 @@ const require = createRequire(import.meta.url);
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Set base path for Vercel deployment
+  base: '/',
   server: {
     host: "::",
     port: 8080,
