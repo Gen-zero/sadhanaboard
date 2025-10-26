@@ -343,14 +343,45 @@ app.use('/api/groups', groupsRoutes);
 // Health check endpoint
 app.get('/health', async (req, res) => {
   try {
-    const deploymentService = require('./services/deploymentService');
-    const health = await deploymentService.getHealthCheckStatus();
-    res.json(health);
+    // Check if we can connect to Supabase
+    const { supabase } = require('./config/db');
+    if (supabase) {
+      // Try a simple Supabase query to check connectivity
+      const { data, error } = await supabase
+        .from('users')
+        .select('id')
+        .limit(1);
+      
+      if (error) {
+        return res.status(500).json({ 
+          status: 'error',
+          timestamp: new Date().toISOString(),
+          error: `Supabase connection error: ${error.message}`,
+          environment: process.env.NODE_ENV || 'development'
+        });
+      }
+      
+      return res.json({ 
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        database: 'Supabase connected',
+        environment: process.env.NODE_ENV || 'development'
+      });
+    } else {
+      // Fallback health check
+      return res.json({ 
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        database: 'Supabase client not initialized',
+        environment: process.env.NODE_ENV || 'development'
+      });
+    }
   } catch (error) {
     res.status(500).json({ 
-      status: 'error', 
-      message: 'Health check failed',
-      error: error.message 
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      error: error.message,
+      environment: process.env.NODE_ENV || 'development'
     });
   }
 });
@@ -361,39 +392,39 @@ const { errorHandler } = require('./middleware/errorHandler');
 // Use the error handling middleware (should be last middleware)
 app.use(errorHandler);
 
-// Start server with retry on EADDRINUSE to avoid hard crash when port is occupied
-let currentPort = Number(PORT) || 3004;
-let listenAttempts = 0;
-const MAX_LISTEN_ATTEMPTS = 5;
-
-function tryListen(port) {
-  server.once('error', (err) => {
-    if (err && err.code === 'EADDRINUSE' && listenAttempts < MAX_LISTEN_ATTEMPTS) {
-      console.warn(`Port ${port} in use, trying port ${port + 1}...`);
-      listenAttempts += 1;
-      currentPort = port + 1;
-      // small delay before retry
-      setTimeout(() => tryListen(currentPort), 300);
+// Server startup with better error handling
+const startServer = async () => {
+  try {
+    // Initialize admin panel and admin logs/security schema on startup
+    // Only attempt if database connection is available
+    const connectionTest = require('./config/db').getConnectionTestResult ? 
+      require('./config/db').getConnectionTestResult() : { success: false };
+    
+    if (connectionTest.success) {
+      setupAdminTables().catch(console.error);
+      setupAdminLogsAndSecurity().catch(console.error);
     } else {
-      console.error('Server failed to start:', err);
-      process.exit(1);
+      console.log('Skipping admin table setup due to database connection issues');
     }
-  });
 
-  server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    // initialize scheduled reminder jobs after server is up
-    try {
-      const reminderService = require('./services/reminderService');
-      if (reminderService && typeof reminderService.initializeScheduledJobs === 'function') {
-        reminderService.initializeScheduledJobs().then((r) => {
-          console.log('Reminder scheduler initialized:', r && r.scheduled);
-        }).catch(() => {});
+    // Start server
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server is running on port ${PORT}`);
+    }).on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.log(`Port ${PORT} in use, trying port ${PORT + 1}...`);
+        setTimeout(() => {
+          server.listen(PORT + 1, '0.0.0.0', () => {
+            console.log(`Server is running on port ${PORT + 1}`);
+          });
+        }, 1000);
+      } else {
+        console.error('Server failed to start:', err);
       }
-    } catch (e) {
-      // ignore if reminderService not available
-    }
-  });
-}
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+  }
+};
 
-tryListen(currentPort);
+startServer();

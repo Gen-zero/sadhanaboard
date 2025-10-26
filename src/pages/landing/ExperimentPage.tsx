@@ -11,8 +11,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-// Mahakali animated background component — mount for experimentation
-import MahakaliAnimatedBackground from "@/components/MahakaliAnimatedBackground";
+// Lazy load Mahakali animated background component to avoid build issues
+const MahakaliAnimatedBackground = React.lazy(() => import("@/components/MahakaliAnimatedBackground"));
 import ThemeToggle from '@/components/ThemeToggle';
 import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 import MobileNav from '@/components/mobile/MobileNav';

@@ -3,10 +3,10 @@
  * Ensures admin_details table exists and demo admin account is created or repaired.
  * Usage: node backend/scripts/fix_admin_setup.js --force-reset
  */
-require('dotenv').config();
-const db = require('../config/db');
-const Admin = require('../models/Admin');
-const adminAuthService = require('../services/adminAuthService');
+require('dotenv').config({ path: __dirname + '/../../.env' });
+const db = require('../../config/db');
+const Admin = require('../../models/Admin');
+const adminAuthService = require('../../services/adminAuthService');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 

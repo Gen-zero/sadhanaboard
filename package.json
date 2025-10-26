@@ -5,13 +5,16 @@
   "type": "module",
   "packageManager": "npm@9.8.0",
   "engines": {
-    "node": "22.19.0"
+    "node": "22"
+  },
+  "overrides": {
+    "three-mesh-bvh": "^0.8.3"
   },
   "scripts": {
     "dev": "npm run dev:setup && vite",
     "dev:setup": "node scripts/ensure-theme-assets.js && node scripts/generate-theme-manifest.cjs && node scripts/copy-theme-icons.cjs && node scripts/move-assets.js && node scripts/copy-all-theme-assets.js",
     "build": "npm run dev:setup && tsc -b && vite build",
-    "build:analyze": "npm run build && vite-bundle-visualizer",
+    "build:analyze": "npm run build && npx vite-bundle-visualizer",
     "postinstall": "npm run dev:setup",
     "lint": "eslint .",
     "test": "jest",
@@ -66,11 +69,13 @@
     "animejs": "^4.1.3",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
+    "buffer": "^6.0.3",
     "caniuse-lite": "^1.0.30001741",
     "canvas": "^3.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "crypto-browserify": "^3.12.1",
     "date-fns": "^3.6.0",
     "docx": "^9.5.1",
     "docxtemplater": "^3.66.7",
@@ -91,6 +96,7 @@
     "pdfjs-dist": "^5.4.296",
     "pg": "^8.16.3",
     "postprocessing": "^6.37.8",
+    "process": "^0.11.10",
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-day-picker": "^8.10.1",
@@ -111,6 +117,7 @@
     "sharp": "^0.34.4",
     "socket.io-client": "^4.7.2",
     "sonner": "^1.5.0",
+    "stream-browserify": "^3.0.0",
     "svgo": "^4.0.0",
     "swagger-ui-express": "^5.0.1",
     "tailwind-merge": "^2.5.2",
@@ -119,6 +126,7 @@
     "uuid": "^13.0.0",
     "vaul": "^0.9.3",
     "vite-plugin-image-optimizer": "^2.0.2",
+    "vm-browserify": "^1.1.2",
     "winston": "^3.17.0",
     "zod": "^3.25.76"
   },
@@ -142,10 +150,12 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "postcss": "^8.4.47",
+    "rollup-plugin-visualizer": "^6.0.5",
     "tailwindcss": "^3.4.11",
     "ts-jest": "^29.4.4",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^7.1.12"
+    "vite": "^7.1.12",
+    "vite-bundle-visualizer": "^1.2.1"
   }
 }

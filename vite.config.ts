@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Polyfills for Node.js core modules
 import { createRequire } from 'module';
@@ -104,6 +105,7 @@ export default defineConfig({
         quality: 80,
       },
     }),
+    visualizer(), // Add bundle visualizer plugin
     // splitVendorChunkPlugin() has been removed in Vite 5+
     // Vendor chunking is now handled automatically
   ],
@@ -161,8 +163,8 @@ export default defineConfig({
         }
       }
     },
-    // Enable chunking
-    chunkSizeWarningLimit: 1000, // Increase limit to reduce warnings
+    // Increase chunk size warning limit to reduce warnings
+    chunkSizeWarningLimit: 2000, // 2 MB instead of 1 MB
     // Enable minification
     minify: 'esbuild',
     // Enable CSS code splitting

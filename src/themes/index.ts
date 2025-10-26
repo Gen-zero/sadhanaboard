@@ -1,3 +1,4 @@
+import type { ThemeDefinition } from './types';
 import defaultTheme from './default';
 import shivaTheme from './shiva';
 import mahakaliTheme from './mahakali';
@@ -17,11 +18,7 @@ import swamijiTheme from './swamiji';
 import durgaTheme from './durga';
 import cosmosTheme from './cosmos';
 
-import type { ThemeDefinition } from './types';
-
 export type { ThemeDefinition } from './types';
-
-// Lazy load themes to reduce initial bundle size
 const loadDefaultTheme = () => import('./default');
 const loadShivaTheme = () => import('./shiva');
 const loadMahakaliTheme = () => import('./mahakali');

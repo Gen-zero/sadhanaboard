@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
 const biService = {
-  async getKPISnapshot() {
+  async getKPISnapshot(retryCount = 1) {
     try {
-      // Real implementation: aggregate counts from actual database
+      // Try to get real data from database
       const resUsers = await db.query('SELECT COUNT(*)::int as total FROM users');
       const resActive = await db.query("SELECT COUNT(DISTINCT user_id)::int as active FROM sadhana_activity WHERE created_at > NOW() - INTERVAL '1 day'");
       const resCompleted = await db.query("SELECT COUNT(*)::int as completed FROM sadhana_progress WHERE completed = true");
@@ -59,7 +59,6 @@ const biService = {
   },
 
   async getCommunityHealthMetrics() {
-    // derive some basic community health metrics using communityService queries
     try {
       const communityStats = {};
       const posts = await db.query('SELECT COUNT(*)::int as total FROM community_posts');

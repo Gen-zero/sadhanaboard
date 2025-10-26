@@ -3,6 +3,14 @@ const db = require('../config/db');
 // Create admin logs table and other necessary tables
 async function setupAdminTables() {
   try {
+    // Check if direct database connection is available
+    const connectionTest = db.getConnectionTestResult ? db.getConnectionTestResult() : { success: false };
+    
+    if (!connectionTest.success) {
+      console.warn('Direct database connection unavailable, skipping admin table setup');
+      return;
+    }
+
     // Create admin_logs table
     await db.query(`
       CREATE TABLE IF NOT EXISTS admin_logs (
@@ -126,6 +134,14 @@ async function setupAdminTables() {
 // Additional admin-specific tables/enhancements for logs/security
 async function setupAdminLogsAndSecurity() {
   try {
+    // Check if direct database connection is available
+    const connectionTest = db.getConnectionTestResult ? db.getConnectionTestResult() : { success: false };
+    
+    if (!connectionTest.success) {
+      console.warn('Direct database connection unavailable, skipping admin logs and security setup');
+      return;
+    }
+
     // Add enrichment columns to admin_logs if missing
     await db.query(`ALTER TABLE admin_logs
       ADD COLUMN IF NOT EXISTS severity TEXT DEFAULT 'info',

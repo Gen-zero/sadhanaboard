@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION = "22.19.0"
+  NODE_VERSION = "22"
   # Add environment variables to help with crypto polyfills
   NODE_OPTIONS = "--openssl-legacy-provider"
 

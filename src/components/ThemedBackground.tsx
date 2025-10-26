@@ -3,10 +3,13 @@ import React from 'react';
 import { getThemeById } from '@/themes';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
-// Lazy load heavy theme components
-const MahakaliAnimatedBackground = lazy(() => 
-  import('@/components/MahakaliAnimatedBackground')
-);
+// Lazy load MahakaliAnimatedBackground only when needed
+let MahakaliAnimatedBackground: React.LazyExoticComponent<React.ComponentType<any>> | null = null;
+
+// Remove the lazy import that was causing issues
+// const MahakaliAnimatedBackground = lazy(() => 
+//   import('@/components/MahakaliAnimatedBackground')
+// );
 
 
 // Function to draw the Om symbol for the Default theme
@@ -2828,6 +2831,22 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
   const registered = getThemeById(theme);
   console.log('ThemedBackground: Looking for theme:', theme);
   console.log('ThemedBackground: Found registered theme:', registered);
+  
+  // Special handling for Mahakali theme to avoid circular dependencies
+  if (registered && registered.metadata.id === 'mahakali') {
+    // Dynamically import MahakaliAnimatedBackground only when needed
+    if (!MahakaliAnimatedBackground) {
+      MahakaliAnimatedBackground = lazy(() => import('@/components/MahakaliAnimatedBackground'));
+    }
+    
+    return (
+      <ErrorBoundary fallback={<canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[-1]"/>}>
+        <Suspense fallback={<canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[-1]"/>}>
+          <MahakaliAnimatedBackground className="fixed inset-0 z-0" />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
   
   if (registered && registered.BackgroundComponent) {
     const BackgroundComp = registered.BackgroundComponent;
