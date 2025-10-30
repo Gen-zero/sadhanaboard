@@ -1,44 +1,59 @@
-require('dotenv').config();
-const { supabase } = require('./config/supabaseDb');
+const { query } = require('./config/db');
 
-async function checkTables() {
-  console.log('Checking what tables exist in the database...');
-  
-  // Check for specific tables mentioned in the error
-  const tablesToCheck = ['books', 'sadhanas', 'sadhana_sessions', 'users', 'profiles', 'spiritual_books'];
-  
-  console.log('\nChecking specific tables:');
-  for (const tableName of tablesToCheck) {
-    try {
-      const { data, error } = await supabase
-        .from(tableName)
-        .select('count()', { count: 'exact' });
-        
-      if (error) {
-        console.log(`  ${tableName}: ❌ ${error.message}`);
-      } else {
-        console.log(`  ${tableName}: ✅ Exists (${data.length} rows returned)`);
-      }
-    } catch (err) {
-      console.log(`  ${tableName}: ❌ Error - ${err.message}`);
-    }
-  }
-  
-  // Also check if we can query the users table which we know exists
+async function checkTablesV2() {
   try {
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .limit(1);
-      
-    if (error) {
-      console.log('users table query failed:', error.message);
-    } else {
-      console.log('users table query successful');
+    console.log('Checking database tables (v2)...');
+    
+    // Get list of all tables
+    const tablesResult = await query(`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public'
+      ORDER BY table_name;
+    `);
+    
+    const tables = tablesResult.rows.map(row => row.table_name);
+    console.log('Found tables:', tables);
+    
+    // Check specific tables we care about
+    const importantTables = [
+      'users',
+      'profiles',
+      'spiritual_books',
+      'saadhanas',
+      'sadhana_entries',
+      'groups',
+      'group_members',
+      'community_posts'
+    ];
+    
+    const tableStatus = {};
+    for (const tableName of importantTables) {
+      const exists = tables.includes(tableName);
+      tableStatus[tableName] = exists;
+      console.log(`${tableName}: ${exists ? '✓' : '✗'}`);
     }
-  } catch (err) {
-    console.log('users table query error:', err.message);
+    
+    return {
+      allTables: tables,
+      importantTables: tableStatus
+    };
+  } catch (error) {
+    console.error('Error checking tables:', error.message);
+    throw error;
   }
 }
 
-checkTables();
+if (require.main === module) {
+  checkTablesV2()
+    .then(result => {
+      console.log('Table check completed:', result);
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error('Table check failed:', error.message);
+      process.exit(1);
+    });
+}
+
+module.exports = { checkTablesV2 };

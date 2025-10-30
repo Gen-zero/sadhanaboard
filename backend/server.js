@@ -39,8 +39,8 @@ if (_adminUser === 'admin' && _adminPass === 'password') {
 }
 
 // Initialize admin panel and admin logs/security schema on startup
-setupAdminTables().catch(console.error);
-setupAdminLogsAndSecurity().catch(console.error);
+// setupAdminTables().catch(console.error);
+// setupAdminLogsAndSecurity().catch(console.error);
 
 // ensure server-side EventEmitter for SSE fallback
 if (!global.logBus) {
@@ -265,6 +265,9 @@ app.use(metricsMiddleware());
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '..', 'dist')));
+
 // Ensure uploads/tmp and uploads/cms directories exist before multer writes
 try {
   fs.mkdirSync(path.join(__dirname, 'uploads', 'tmp'), { recursive: true });
@@ -343,47 +346,33 @@ app.use('/api/groups', groupsRoutes);
 // Health check endpoint
 app.get('/health', async (req, res) => {
   try {
-    // Check if we can connect to Supabase
-    const { supabase } = require('./config/db');
-    if (supabase) {
-      // Try a simple Supabase query to check connectivity
-      const { data, error } = await supabase
-        .from('users')
-        .select('id')
-        .limit(1);
-      
-      if (error) {
-        return res.status(500).json({ 
-          status: 'error',
-          timestamp: new Date().toISOString(),
-          error: `Supabase connection error: ${error.message}`,
-          environment: process.env.NODE_ENV || 'development'
-        });
-      }
-      
-      return res.json({ 
-        status: 'ok',
-        timestamp: new Date().toISOString(),
-        database: 'Supabase connected',
-        environment: process.env.NODE_ENV || 'development'
-      });
-    } else {
-      // Fallback health check
-      return res.json({ 
-        status: 'ok',
-        timestamp: new Date().toISOString(),
-        database: 'Supabase client not initialized',
-        environment: process.env.NODE_ENV || 'development'
-      });
-    }
+    // Check if we can connect to PostgreSQL
+    const { getConnectionTestResult } = require('./config/db');
+    const dbResult = await getConnectionTestResult();
+    
+    const healthCheck = {
+      uptime: process.uptime(),
+      message: 'OK',
+      timestamp: Date.now(),
+      database: dbResult
+    };
+
+    res.status(200).json(healthCheck);
   } catch (error) {
-    res.status(500).json({ 
-      status: 'error',
-      timestamp: new Date().toISOString(),
-      error: error.message,
-      environment: process.env.NODE_ENV || 'development'
-    });
+    console.error('Health check failed:', error);
+    const healthCheck = {
+      uptime: process.uptime(),
+      message: 'ERROR',
+      timestamp: Date.now(),
+      error: error.message
+    };
+    res.status(503).json(healthCheck);
   }
+});
+
+// Catch-all route to serve frontend app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 });
 
 // Error handling middleware
@@ -396,30 +385,41 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     // Initialize admin panel and admin logs/security schema on startup
-    // Only attempt if database connection is available
-    const connectionTest = require('./config/db').getConnectionTestResult ? 
-      require('./config/db').getConnectionTestResult() : { success: false };
+    // Only attempt if database connection is available (with timeout)
+    let connectionTest = { success: false };
+    try {
+      const db = require('./config/db');
+      if (typeof db.getConnectionTestResult === 'function') {
+        // Set a timeout for connection test to avoid hanging
+        const connectionPromise = db.getConnectionTestResult();
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => resolve({ success: false, error: 'Connection test timeout', method: 'postgres-pool' }), 5000);
+        });
+        connectionTest = await Promise.race([connectionPromise, timeoutPromise]);
+      }
+    } catch (err) {
+      console.log('Database connection test failed:', err.message);
+    }
     
     if (connectionTest.success) {
-      setupAdminTables().catch(console.error);
-      setupAdminLogsAndSecurity().catch(console.error);
+      console.log('✅ Database connection successful');
     } else {
-      console.log('Skipping admin table setup due to database connection issues');
+      console.log('⚠️  Database connection not available - server will use fallback data');
     }
 
-    // Start server
+    // Start server immediately without waiting for database
     server.listen(PORT, '0.0.0.0', () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`🚀 Server is running on port ${PORT}`);
     }).on('error', (err) => {
       if (err.code === 'EADDRINUSE') {
         console.log(`Port ${PORT} in use, trying port ${PORT + 1}...`);
         setTimeout(() => {
           server.listen(PORT + 1, '0.0.0.0', () => {
-            console.log(`Server is running on port ${PORT + 1}`);
+            console.log(`🚀 Server is running on port ${PORT + 1}`);
           });
         }, 1000);
       } else {
-        console.error('Server failed to start:', err);
+        console.error('❌ Server failed to start:', err);
       }
     });
   } catch (error) {

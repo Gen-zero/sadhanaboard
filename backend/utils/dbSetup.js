@@ -1,69 +1,43 @@
 const { Client } = require('pg');
+require('dotenv').config();
 
 async function setupDatabase() {
-  // First, try to connect with default 'postgres' password
-  const client1 = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    password: 'postgres',
-    port: 5432,
+  // Use environment variables for connection
+  const client = new Client({
+    user: process.env.DB_USER || 'postgres',
+    host: process.env.DB_HOST || 'localhost',
+    password: process.env.DB_PASSWORD,
+    port: parseInt(process.env.DB_PORT) || 5432,
   });
 
   try {
-    await client1.connect();
-    console.log('Connected to PostgreSQL with password "postgres"');
+    await client.connect();
+    console.log('Connected to PostgreSQL with environment variables');
     
     // Check if database exists
-    const res = await client1.query(
-      "SELECT 1 FROM pg_database WHERE datname = 'saadhanaboard'"
+    const res = await client.query(
+      "SELECT 1 FROM pg_database WHERE datname = $1",
+      [process.env.DB_NAME || 'saadhanaboard']
     );
     
     if (res.rowCount === 0) {
       // Database doesn't exist, create it
-      await client1.query('CREATE DATABASE saadhanaboard');
-      console.log('Database "saadhanaboard" created successfully');
+      await client.query(`CREATE DATABASE "${process.env.DB_NAME || 'saadhanaboard'}"`);
+      console.log(`Database "${process.env.DB_NAME || 'saadhanaboard'}" created successfully`);
     } else {
-      console.log('Database "saadhanaboard" already exists');
+      console.log(`Database "${process.env.DB_NAME || 'saadhanaboard'}" already exists`);
     }
     
-    await client1.end();
-    return;
+    await client.end();
+    return true;
   } catch (err) {
-    console.log('Failed to connect with password "postgres":', err.message);
+    console.log('Failed to connect to PostgreSQL:', err.message);
+    return false;
   }
-
-  // If that fails, try with 'root' password
-  const client2 = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    password: 'root',
-    port: 5432,
-  });
-
-  try {
-    await client2.connect();
-    console.log('Connected to PostgreSQL with password "root"');
-    
-    // Check if database exists
-    const res = await client2.query(
-      "SELECT 1 FROM pg_database WHERE datname = 'saadhanaboard'"
-    );
-    
-    if (res.rowCount === 0) {
-      // Database doesn't exist, create it
-      await client2.query('CREATE DATABASE saadhanaboard');
-      console.log('Database "saadhanaboard" created successfully');
-    } else {
-      console.log('Database "saadhanaboard" already exists');
-    }
-    
-    await client2.end();
-    return;
-  } catch (err) {
-    console.log('Failed to connect with password "root":', err.message);
-  }
-
-  console.log('Could not connect to PostgreSQL with either password. Please check your PostgreSQL installation and credentials.');
 }
 
-setupDatabase();
+if (require.main === module) {
+  setupDatabase();
+}
+
+module.exports = { setupDatabase };

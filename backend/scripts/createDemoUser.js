@@ -8,7 +8,7 @@ require('dotenv').config({ path: __dirname + '/../.env' });
 require('dotenv').config({ path: __dirname + '/../.env.production', override: true });
 
 const bcrypt = require('bcrypt');
-const { createClient } = require('@supabase/supabase-js');
+const { query } = require('../config/db');
 
 async function createDemoUser() {
   try {
@@ -22,29 +22,13 @@ async function createDemoUser() {
     console.log('- Email:', email);
     console.log('- Password:', password);
     
-    // Create Supabase client
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
-      {
-        auth: {
-          persistSession: false
-        }
-      }
-    );
-    
     // Check if user already exists
-    const { data: existingUsers, error: fetchError } = await supabase
-      .from('users')
-      .select('id')
-      .or(`email.eq.${email},display_name.eq.${username}`);
+    const existingUsersResult = await query(
+      'SELECT id FROM users WHERE email = $1 OR display_name = $2',
+      [email, username]
+    );
       
-    if (fetchError) {
-      console.error('Error checking existing users:', fetchError.message);
-      return;
-    }
-    
-    if (existingUsers.length > 0) {
+    if (existingUsersResult.rows.length > 0) {
       console.log('User already exists with email or username');
       return;
     }
@@ -54,39 +38,22 @@ async function createDemoUser() {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create user
-    const { data: user, error: insertError } = await supabase
-      .from('users')
-      .insert([
-        {
-          email: email,
-          password: hashedPassword,
-          display_name: username
-        }
-      ])
-      .select()
-      .single();
-      
-    if (insertError) {
-      console.error('Error creating user:', insertError.message);
-      return;
-    }
+    const userResult = await query(
+      `INSERT INTO users (email, password, display_name, created_at, updated_at) 
+       VALUES ($1, $2, $3, NOW(), NOW()) 
+       RETURNING id, email, display_name, created_at`,
+      [email, hashedPassword, username]
+    );
     
+    const user = userResult.rows[0];
     console.log('User created successfully:', user);
 
     // Create profile
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .insert([
-        {
-          id: user.id,
-          display_name: username
-        }
-      ]);
-      
-    if (profileError) {
-      console.error('Error creating profile:', profileError.message);
-      return;
-    }
+    const profileResult = await query(
+      `INSERT INTO profiles (id, display_name, created_at, updated_at) 
+       VALUES ($1, $2, NOW(), NOW())`,
+      [user.id, username]
+    );
     
     console.log('Profile created successfully for user:', user.display_name);
 

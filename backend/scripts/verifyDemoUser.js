@@ -7,62 +7,47 @@ require('dotenv').config({ path: __dirname + '/../.env' });
 // Also load production env if exists
 require('dotenv').config({ path: __dirname + '/../.env.production', override: true });
 
-const { createClient } = require('@supabase/supabase-js');
+const { query } = require('../config/db');
 
 async function verifyDemoUser() {
   try {
-    // Create Supabase client
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
-      {
-        auth: {
-          persistSession: false
-        }
-      }
-    );
-    
     // Check if user exists
-    const { data: users, error } = await supabase
-      .from('users')
-      .select('id, email, display_name, created_at')
-      .eq('display_name', 'Ritesh');
+    const usersResult = await query(
+      `SELECT id, email, display_name, created_at 
+       FROM users 
+       WHERE display_name = $1`,
+      ['Ritesh']
+    );
       
-    if (error) {
-      console.error('Error querying users:', error.message);
-      return;
-    }
-    
-    if (users.length === 0) {
+    if (usersResult.rows.length === 0) {
       console.log('No user found with username Ritesh');
       return;
     }
     
+    const user = usersResult.rows[0];
     console.log('Found user:');
-    console.log('- ID:', users[0].id);
-    console.log('- Email:', users[0].email);
-    console.log('- Display Name:', users[0].display_name);
-    console.log('- Created At:', users[0].created_at);
+    console.log('- ID:', user.id);
+    console.log('- Email:', user.email);
+    console.log('- Display Name:', user.display_name);
+    console.log('- Created At:', user.created_at);
     
     // Check if profile exists
-    const { data: profiles, error: profileError } = await supabase
-      .from('profiles')
-      .select('id, display_name')
-      .eq('id', users[0].id);
+    const profilesResult = await query(
+      `SELECT id, display_name 
+       FROM profiles 
+       WHERE id = $1`,
+      [user.id]
+    );
       
-    if (profileError) {
-      console.error('Error querying profiles:', profileError.message);
-      return;
-    }
-    
-    if (profiles.length === 0) {
+    if (profilesResult.rows.length === 0) {
       console.log('No profile found for user');
       return;
     }
     
+    const profile = profilesResult.rows[0];
     console.log('Profile found:');
-    console.log('- ID:', profiles[0].id);
-    console.log('- Display Name:', profiles[0].display_name);
+    console.log('- ID:', profile.id);
+    console.log('- Display Name:', profile.display_name);
     
     console.log('\n✅ Demo user verification successful!');
 

@@ -501,9 +501,9 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
         <GlowingSymbol position={[-1.3, 1.5, 0.1]} size={0.45} intensity={intensity} />
 
         {/* Sacred mantra texts floating around */}
-        <FloatingMantra text="शक्ति" position={[2.5, 1.8, 0.2]} intensity={intensity} />
-        <FloatingMantra text="क्रीं" position={[-2.2, -1.5, 0.2]} intensity={intensity} />
-        <FloatingMantra text="क्रीं" position={[2.0, -2.0, 0.2]} intensity={intensity} />
+        <FloatingMantra text="देवी" position={[2.5, 1.8, 0.2]} intensity={intensity} />
+        <FloatingMantra text="श्यामा" position={[-2.2, -1.5, 0.2]} intensity={intensity} />
+        <FloatingMantra text="अघोर" position={[2.0, -2.0, 0.2]} intensity={intensity} />
         <FloatingMantra text="क्लीं" position={[-2.0, 2.2, 0.2]} intensity={intensity} />
 
         {/* Particles: smoke, embers, ash (conditional) */}

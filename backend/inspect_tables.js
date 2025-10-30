@@ -1,38 +1,73 @@
-const { supabase } = require('./config/supabaseDb');
+const { query } = require('./config/db');
 
 async function inspectTables() {
-  const tables = [
-    'users', 
-    'profiles', 
-    'sadhanas', 
-    'sadhana_progress', 
-    'spiritual_books'
-  ];
-
-  console.log('Inspecting table structures in Supabase database...\n');
-  
-  for (const table of tables) {
-    try {
-      // Get table info from information_schema
-      const { data, error } = await supabase
-        .from('information_schema.columns')
-        .select('column_name, data_type, is_nullable')
-        .eq('table_name', table)
-        .order('ordinal_position');
-      
-      if (error) {
-        console.log(`${table}: ERROR - ${error.message}\n`);
-      } else {
-        console.log(`${table}:`);
-        data.forEach(col => {
-          console.log(`  ${col.column_name} (${col.data_type}) ${col.is_nullable === 'YES' ? 'NULL' : 'NOT NULL'}`);
-        });
-        console.log('');
+  try {
+    console.log('Inspecting database tables...');
+    
+    // Get detailed information about all tables
+    const tablesResult = await query(`
+      SELECT 
+        t.table_name,
+        t.table_type,
+        c.column_name,
+        c.data_type,
+        c.is_nullable,
+        c.column_default
+      FROM information_schema.tables t
+      LEFT JOIN information_schema.columns c 
+        ON t.table_name = c.table_name 
+        AND t.table_schema = c.table_schema
+      WHERE t.table_schema = 'public'
+      ORDER BY t.table_name, c.ordinal_position;
+    `);
+    
+    // Group columns by table
+    const tableInfo = {};
+    tablesResult.rows.forEach(row => {
+      const tableName = row.table_name;
+      if (!tableInfo[tableName]) {
+        tableInfo[tableName] = {
+          tableType: row.table_type,
+          columns: []
+        };
       }
-    } catch (err) {
-      console.log(`${table}: EXCEPTION - ${err.message}\n`);
-    }
+      
+      if (row.column_name) {
+        tableInfo[tableName].columns.push({
+          name: row.column_name,
+          type: row.data_type,
+          nullable: row.is_nullable === 'YES',
+          default: row.column_default
+        });
+      }
+    });
+    
+    // Display information
+    Object.keys(tableInfo).forEach(tableName => {
+      const info = tableInfo[tableName];
+      console.log(`\n${tableName} (${info.tableType.toLowerCase()})`);
+      info.columns.forEach(col => {
+        console.log(`  ${col.name} (${col.type})${col.nullable ? ' NULL' : ' NOT NULL'}${col.default ? ` DEFAULT ${col.default}` : ''}`);
+      });
+    });
+    
+    return tableInfo;
+  } catch (error) {
+    console.error('Error inspecting tables:', error.message);
+    throw error;
   }
 }
 
-inspectTables();
+if (require.main === module) {
+  inspectTables()
+    .then(result => {
+      console.log('\nTable inspection completed');
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error('Table inspection failed:', error.message);
+      process.exit(1);
+    });
+}
+
+module.exports = { inspectTables };

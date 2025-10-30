@@ -1,63 +1,85 @@
-# SaadhanaBoard Deployment Guide
+# Deployment Guide for SaadhanaBoard
 
-This guide provides step-by-step instructions for deploying the SaadhanaBoard application to Netlify with Supabase as the backend database, using your sadhanaboard.com domain from GoDaddy.
+This guide provides detailed instructions for deploying the SaadhanaBoard application to production environments.
 
 ## Prerequisites
 
-1. Supabase account
-2. Netlify account
-3. Domain name (sadhanaboard.com) purchased from GoDaddy
-4. Backend hosting service (e.g., Render, Railway, or VPS) for API at api.sadhanaboard.com
-5. Node.js and npm installed locally
+Before deploying, ensure you have:
 
-## Step 1: Set up Supabase
+1. A hosting provider for the backend (e.g., Render, Railway, AWS, DigitalOcean)
+2. A hosting provider for the frontend (e.g., Netlify, Vercel, AWS S3)
+3. A PostgreSQL database server
+4. Domain names for your frontend and backend (optional but recommended)
 
-1. Create a new project in Supabase
-2. Note down the following credentials:
-   - Project URL
-   - Anonymous Key
-   - Service Role Key
+## Architecture Overview
 
-### How to get Supabase credentials:
+The SaadhanaBoard application consists of two main components:
 
-1. Go to [supabase.com](https://supabase.com) and sign up or log in
-2. Click "New Project"
-3. Enter project details:
-   - Name: SaadhanaBoard
-   - Database password: Create a strong password
-   - Region: Choose the region closest to your users
-4. Click "Create new project"
-5. Once your project is created, navigate to the project dashboard
-6. Get your credentials from Settings > API:
-   - Project URL: The URL shown at the top of the API page
-   - Anonymous Key: The `anon` `public` key (safe for frontend use)
-   - Service Role Key: The `service_role` `secret` key (keep this secret!)
+1. **Frontend**: A React application that runs in the browser
+2. **Backend**: A Node.js/Express server that provides the API and handles business logic
+
+These components can be hosted separately or together, depending on your hosting provider and requirements.
+
+## Step 1: Prepare Your Environment
+
+### Database Setup
+
+1. Set up a PostgreSQL database server
+2. Create a database named `saadhanaboard`
+3. Note down the database credentials:
+   - Host
+   - Port
+   - Database name
+   - Username
+   - Password
+
+### Domain Configuration (Optional)
+
+If you plan to use custom domains:
+1. Register domain names for your frontend and backend
+2. Configure DNS records to point to your hosting providers
 
 ## Step 2: Configure Environment Variables
 
 ### Frontend Production (.env.production file)
 ```bash
-# Supabase Configuration
-# Get these from your Supabase project dashboard (Settings > API)
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-
 # API Configuration
-# This is your backend API URL at api.sadhanaboard.com
+# This should point to your backend API server
+# If hosting backend separately, use your backend domain
+# Example: https://api.sadhanaboard.com/api
 VITE_API_BASE_URL=https://api.sadhanaboard.com/api
 
-# Socket base URL
-# This is your backend WebSocket URL at api.sadhanaboard.com
+# Socket base URL for Production
+# This should point to your backend WebSocket server
+# Example: https://api.sadhanaboard.com
 VITE_SOCKET_BASE_URL=https://api.sadhanaboard.com
+
+# When true, the frontend will include credentials (cookies) on requests
+VITE_API_USE_CREDENTIALS=true
+
+# Development Configuration (should be false in production)
+VITE_DEV_MODE=false
+
+# WebSocket reconnection strategy
+VITE_WS_RECONNECT_ATTEMPTS=5
+VITE_WS_RECONNECT_DELAY=1000
+
+# Feature-specific debug flags (should be false in production)
+VITE_DEBUG_API=false
+VITE_DEBUG_AUTH=false
 ```
 
 ### Backend (.env.production file)
 ```bash
-# Supabase Configuration
-# Get these from your Supabase project dashboard (Settings > API)
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+# Database Configuration
+DB_USER=your_database_user
+DB_HOST=your_database_host
+DB_NAME=saadhanaboard
+DB_PASSWORD=your_database_password
+DB_PORT=5432
+
+# Alternative: Direct Database URL (comment out individual settings above if using this)
+# DATABASE_URL=postgresql://user:password@host:port/database
 
 # Server Configuration
 PORT=3004
@@ -75,125 +97,171 @@ JWT_SECRET=your_secure_jwt_secret
 ADMIN_USERNAME=admin
 ADMIN_EMAIL=admin@sadhanaboard.com
 ADMIN_PASSWORD=your_secure_admin_password
+
+# Polling Intervals (in milliseconds)
+DASHBOARD_POLL_MS=15000
+# How often to poll for BI reports
+BI_POLL_MS=20000
+# How often to poll for system metrics
+SYSTEM_METRICS_POLL_MS=5000
+
+# SSL Configuration (for production)
+# Set to true when using HTTPS with PostgreSQL
+PGSSL=true
 ```
 
-## Step 3: Migrate Database Schema
+## Step 3: Deploy the Backend
 
-There are two ways to migrate your database schema to Supabase:
+The backend can be deployed to various hosting providers. Here are instructions for some popular options:
 
-### Option 1: Automated Migration (if RPC functions are enabled)
-
-1. Update the environment variables in your local .env file with Supabase credentials
-2. Run the migration script:
-   ```bash
-   cd backend
-   npm run migrate:supabase
-   ```
-
-### Option 2: Manual Migration (recommended for most cases)
-
-1. Go to your Supabase dashboard: https://app.supabase.com/
-2. Select your project
-3. Go to SQL Editor in the left sidebar
-4. Copy the entire contents of `supabase/migration.sql` from this repository
-5. Paste the SQL commands into the editor
-6. Click "Run" to execute all commands in one go
-
-This will create all the necessary tables, indexes, and extensions for your SaadhanaBoard application in a single operation. The migration script includes:
-- All user management tables
-- All book/library related tables
-- All sadhana tracking tables
-- All CMS/content management tables
-- All community and social features tables
-- All analytics and system monitoring tables
-- All necessary indexes for performance
-- Required PostgreSQL extensions
-
-## Step 4: Deploy Backend to Your Hosting Provider
-
-You'll need to host your backend separately. Here's how to do it with Render:
+### Option 1: Render
 
 1. Create a new Web Service on Render
-2. Connect to your GitHub repository
-3. Set the build command to `npm install`
-4. Set the start command to `npm start`
-5. Add all environment variables from .env.production
-6. Set up a custom domain:
-   - Go to your Render service dashboard
-   - Click on "Settings" tab
-   - Scroll to "Custom Domains" section
-   - Add your domain: `api.sadhanaboard.com`
-   - Follow Render's instructions to configure DNS
+2. Connect your GitHub repository
+3. Set the build command to: `npm install`
+4. Set the start command to: `npm start`
+5. Add environment variables from your `.env.production` file
+6. Set up a PostgreSQL database add-on or use an external database
+7. Deploy the service
 
-## Step 5: Deploy Frontend to Netlify
+### Option 2: Railway
 
-1. Log in to Netlify
-2. Click "New site from Git"
-3. Connect to your GitHub repository
-4. Set the build settings:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-5. Add environment variables in Netlify dashboard:
-   - VITE_SUPABASE_URL (from Supabase Settings > API)
-   - VITE_SUPABASE_ANON_KEY (from Supabase Settings > API)
-   - VITE_API_BASE_URL: `https://api.sadhanaboard.com/api`
-   - VITE_SOCKET_BASE_URL: `https://api.sadhanaboard.com`
+1. Create a new project on Railway
+2. Connect your GitHub repository
+3. Railway will automatically detect it's a Node.js project
+4. Add environment variables from your `.env.production` file
+5. Set up a PostgreSQL database plugin or use an external database
+6. Deploy the service
+
+### Option 3: DigitalOcean App Platform
+
+1. Create a new app on DigitalOcean App Platform
+2. Connect your GitHub repository
+3. Select the backend directory
+4. Set the run command to: `npm start`
+5. Add environment variables from your `.env.production` file
+6. Add a PostgreSQL database component
+7. Deploy the app
+
+## Step 4: Deploy the Frontend
+
+The frontend can be deployed to various static hosting providers. Here are instructions for some popular options:
+
+### Option 1: Netlify
+
+1. Create a new site on Netlify
+2. Connect your GitHub repository
+3. Set the build command to: `npm run build`
+4. Set the publish directory to: `dist`
+5. Add environment variables from your `.env.production` file
 6. Deploy the site
 
-## Step 6: Configure Custom Domain in Netlify
+### Option 2: Vercel
 
-1. In Netlify, go to Site settings > Domain management
-2. Click "Add custom domain"
-3. Enter your domain: `sadhanaboard.com`
-4. Follow Netlify's instructions to configure DNS in GoDaddy:
-   - Log in to your GoDaddy account
-   - Go to Domain Settings for sadhanaboard.com
-   - Click "Manage DNS"
-   - Add the DNS records provided by Netlify:
-     - A record pointing to Netlify's IP addresses
-     - CNAME record for www (if needed)
-5. Enable SSL certificate (Netlify does this automatically)
+1. Create a new project on Vercel
+2. Connect your GitHub repository
+3. Set the build command to: `npm run build`
+4. Set the output directory to: `dist`
+5. Add environment variables from your `.env.production` file
+6. Deploy the project
 
-## Step 7: Configure Subdomain for API (api.sadhanaboard.com)
+## Step 5: Initialize the Database
 
-In your backend hosting provider (e.g., Render, Railway):
-1. Set up a custom domain for your backend service as `api.sadhanaboard.com`
-2. In GoDaddy DNS management:
-   - Add a CNAME record:
-     - Name: `api`
-     - Value: Your backend hosting provider's domain (provided by Render/Railway/etc.)
+After deploying the backend, you need to initialize the database schema:
+
+1. SSH into your backend server or use the hosting provider's console
+2. Run the database initialization script:
+   ```bash
+   cd backend
+   node utils/initDb.js
+   ```
+
+Alternatively, you can run this locally if your database is accessible from your local machine.
+
+## Step 6: Set up Admin Account
+
+Create an admin account for managing the application:
+
+1. SSH into your backend server or use the hosting provider's console
+2. Run the admin setup script:
+   ```bash
+   cd backend
+   npm run admin:setup
+   ```
+
+## Step 7: Configure SSL (Recommended)
+
+For production deployments, it's highly recommended to use HTTPS:
+
+1. Obtain SSL certificates for your domains (Let's Encrypt is a good free option)
+2. Configure your hosting providers to use the SSL certificates
+3. Update your environment variables to use HTTPS URLs
+4. Set `PGSSL=true` in your backend environment variables if using SSL with PostgreSQL
 
 ## Step 8: Test the Deployment
 
-1. Visit https://sadhanaboard.com
-2. Test user registration and login
-3. Test API endpoints at https://api.sadhanaboard.com/api
-4. Test WebSocket connections
-5. Verify database operations
+After deployment, test the following:
+
+1. Access the frontend at your domain
+2. Try to register a new user
+3. Try to log in with the new user
+4. Test database operations (create, read, update, delete)
+5. Verify that all features work as expected
+6. Test the admin panel with the admin credentials
+
+## Monitoring and Maintenance
+
+### Logs
+
+Set up log monitoring for both frontend and backend:
+
+- Frontend: Check browser console and network tab for errors
+- Backend: Monitor application logs through your hosting provider's interface
+
+### Backups
+
+Set up regular database backups:
+
+- Use your hosting provider's backup features
+- Or set up automated backup scripts
+
+### Updates
+
+To update the application:
+
+1. Pull the latest code from your repository
+2. Rebuild and redeploy both frontend and backend
+3. Run database migrations if needed
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **DNS Propagation**: It may take up to 48 hours for DNS changes to propagate
-2. **SSL Certificate**: Netlify automatically provisions SSL certificates, but it may take some time
-3. **CORS Errors**: Ensure CORS_ORIGIN is set correctly in the backend
-4. **Database Connection**: Verify all Supabase credentials are correct
-5. **Environment Variables**: Check that all required environment variables are set in both Netlify and your backend provider
+1. **Connection Errors**: 
+   - Verify all database credentials are correct
+   - Check that your database is accessible from your backend server
+   - Ensure your firewall settings allow connections
 
-### Monitoring
+2. **CORS Issues**: 
+   - Verify that your domain is added to the CORS_ORIGIN setting
+   - Check additional redirect URLs
+   - Ensure your frontend and backend URLs are correctly configured
 
-1. Set up logging in your backend provider
-2. Use Netlify analytics to monitor site performance
-3. Monitor Supabase database performance and usage
+3. **Auth Errors**: 
+   - Ensure JWT_SECRET is set and is the same in both environments
+   - Check that your site URLs are correctly configured
+   - Verify redirect URLs are properly set
 
-## Maintenance
+4. **Database Issues**: 
+   - Ensure the database schema is properly initialized
+   - Check that all required tables exist
+   - Verify that database permissions are correctly set
 
-1. Regularly update dependencies
-2. Monitor for security vulnerabilities
-3. Backup the Supabase database regularly
-4. Review and rotate credentials periodically
+### Getting Help
 
-## Support
+If you encounter issues that you can't resolve:
 
-For issues with deployment, contact the development team or refer to the documentation for Netlify, Supabase, and your specific backend hosting provider.
+1. Check the application logs for error messages
+2. Review this documentation
+3. File an issue on the GitHub repository
+4. Contact the development team for support

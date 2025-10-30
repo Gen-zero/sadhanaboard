@@ -232,11 +232,7 @@ saadhanaboard/
 
 ### 🖥️ Frontend (.env)
 Create a `.env` file in the root directory:
-```env
-# Supabase Configuration
-VITE_SUPABASE_URL=your_supabase_url_here
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-
+```
 # API Configuration
 VITE_API_BASE_URL=http://localhost:3004/api
 
@@ -276,7 +272,7 @@ DB_NAME=saadhanaboard
 DB_PASSWORD=your_password_here
 DB_PORT=5432
 
-# Alternative: Supabase Database URL
+# Alternative: Direct Database URL
 # DATABASE_URL=postgresql://user:password@host:port/database
 
 # JWT Configuration
@@ -331,133 +327,245 @@ PGSSL=false
 ### 🧪 Development Mode
 Start both frontend and backend servers:
 
-1. **Start Backend Server** 🔧
-   ```bash
-   npm run backend:dev
-   ```
-   Runs on http://localhost:3004
-
-2. **Start Frontend Development Server** 🌐
-   ```bash
-   npm run dev
-   ```
-   Runs on http://localhost:5173
-
-### 👑 Admin Setup
-After starting the backend, set up the admin account:
 ```bash
-npm run backend:setup
+# Terminal 1: Start frontend development server
+npm run dev
+
+# Terminal 2: Start backend development server
+npm run backend:dev
 ```
 
-## 🏗️ Building for Production
+The application will be available at:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3004/api
+- Backend WebSocket: http://localhost:3004
 
+### 🏭 Production Build
 ```bash
+# Build frontend
 npm run build
+
+# Start backend server
+npm start
 ```
 
-This will run all asset preparation scripts and build the application.
+## 🧪 Testing
 
-To preview the production build:
+Run tests with:
 ```bash
-npm run preview
+npm test
 ```
 
-## 📖 API Documentation
+## 📖 Documentation
 
-The backend API follows RESTful principles and includes endpoints for:
-
-- **Authentication**: 🔐 `/api/auth/*`
-- **Users**: 👤 `/api/users/*`
-- **Profiles**: 👥 `/api/profiles/*`
-- **Sadhanas**: 🙏 `/api/sadhanas/*`
-- **Books**: 📚 `/api/books/*`
-- **Groups**: 👥 `/api/groups/*`
-- **Settings**: ⚙️ `/api/settings/*`
-
-Detailed API documentation is available in the source code comments.
-
-## 👑 Admin Panel
-
-The application includes an admin panel for managing:
-
-- 👤 User accounts
-- 📝 Content moderation
-- ⚙️ System settings
-- 📊 Analytics and reports
-
-Access the admin panel at `/admin` after setting up admin credentials.
-
-### 📜 Admin Scripts
-```bash
-# Create demo admin account
-npm run admin:create-demo
-
-# Setup admin account
-npm run admin:setup
-
-# Create default admin
-npm run admin:create-default
-
-# Debug admin login
-npm run debug:admin
-
-# Fix admin setup
-npm run fix:admin
-```
-
-## 📜 Scripts
-
-### 🖥️ Frontend Scripts
-- `npm run dev` - ▶️ Start development server
-- `npm run build` - 🏗️ Build for production
-- `npm run preview` - 👁️ Preview production build
-- `npm run lint` - 🧹 Run ESLint
-- `npm run test` - 🧪 Run tests
-
-### 🎨 Theme Scripts
-- `npm run themes:ensure-assets` - 📁 Ensure theme assets exist
-- `npm run themes:generate` - 📄 Generate theme manifest
-- `npm run themes:copy-icons` - 🖼️ Copy theme icons
-- `npm run assets:move` - 🚚 Move and optimize assets
-- `npm run dev:setup` - 🚀 Run all setup scripts
-
-### 🔧 Backend Scripts
-- `npm run backend:dev` - ▶️ Start backend development server
-- `npm run backend:install` - 📦 Install backend dependencies
-
-## ☁️ Deployment
-
-### 🏗️ Production Build
-1. Build the frontend:
-   ```bash
-   npm run build
-   ```
-
-2. Start the production server:
-   ```bash
-   npm run preview
-   ```
-
-### 🖥️ Server Deployment
-- **Backend API**: 🔌 Runs on port 3004
-- **Frontend**: 🌐 Static files served by backend
-- **Database**: 🗄️ PostgreSQL connection required
-- **Environment**: 🌍 Production environment variables
-
-### 🏢 Hosting Options
-- **Self-Hosted**: 💻 VPS or dedicated server
-- **Cloud Platforms**: ☁️ AWS, Google Cloud, Azure
+- [API Documentation](backend/API_DOCUMENTATION.md)
+- [Theme System](THEME_SYSTEM_SUMMARY.md)
+- [Deployment Guide](DEPLOYMENT.md)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
-
-1. 🍴 Fork the repository
-2. 🌿 Create a feature branch
-3. 💾 Commit your changes
-4. 🚀 Push to the branch
-5. 📬 Open a pull request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-[License information would go here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Thanks to all contributors who have helped shape Saadhanaboard
+- Inspired by the rich traditions of Hindu and Buddhist spiritual practices
+- Built with modern web technologies for the best user experience
+
+# Sadhanaboard - A Spiritual Productivity Application
+
+Saadhanaboard is a comprehensive spiritual productivity application designed to help users track their spiritual practices, manage spiritual resources, and connect with a community of like-minded practitioners.
+
+## 🚀 Features
+
+- 📓 Sadhana Tracking: Track daily spiritual practices with customizable templates
+- 📚 Spiritual Library: Manage spiritual books, notes, and reading progress
+- 👥 Community: Connect with other practitioners and share experiences
+- 📊 Analytics: Visualize progress and insights into spiritual journey
+- 🎨 Themes: 17+ beautiful spiritual themes for personalized experience
+- 📱 Responsive: Works on all devices from mobile to desktop
+- 🔒 Secure: JWT-based authentication with role-based access control
+
+## 💻 Development Setup
+
+### 📋 Prerequisites
+- 🟢 Node.js (v18+)
+- 🗄️ PostgreSQL database
+- 📦 npm package manager
+
+### 🚀 Installation Steps
+
+1. **Clone Repository** 📥
+   ```bash
+   git clone <repository-url>
+   cd saadhanaboard
+   ```
+
+2. **Install Dependencies** 📦
+   ```bash
+   # Install frontend dependencies
+   npm install
+   
+   # Install backend dependencies
+   npm run backend:install
+   ```
+
+## 🌍 Environment Variables
+
+### 🖥️ Frontend (.env)
+Create a `.env` file in the root directory:
+```
+# API Configuration
+VITE_API_BASE_URL=http://localhost:3004/api
+
+# Socket base URL (use http(s) here; debug tooling or the app may convert to ws:// when needed)
+VITE_SOCKET_BASE_URL=http://localhost:3004
+
+# When true, the frontend will include credentials (cookies) on requests
+VITE_API_USE_CREDENTIALS=true
+
+# Admin Configuration
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=password
+
+# Development Configuration
+VITE_DEV_MODE=true
+
+# WebSocket reconnection strategy
+VITE_WS_RECONNECT_ATTEMPTS=5
+VITE_WS_RECONNECT_DELAY=1000
+
+# Feature-specific debug flags
+VITE_DEBUG_API=false
+VITE_DEBUG_AUTH=false
+
+# Notes:
+# - Do NOT commit real secrets to source control. Replace values with CI/secret-managed values for production.
+# - If your backend runs on a different port, update VITE_API_BASE_URL and VITE_SOCKET_BASE_URL accordingly.
+```
+
+### 🔧 Backend (.env)
+Create a `.env` file in the `backend/` directory:
+```env
+# Database Configuration
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=saadhanaboard
+DB_PASSWORD=your_password_here
+DB_PORT=5432
+
+# Alternative: Direct Database URL
+# DATABASE_URL=postgresql://user:password@host:port/database
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_here
+
+# Server Configuration
+PORT=3004
+BACKEND_URL=http://localhost:3004
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:5173
+
+# Admin Authentication Configuration
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=admin@saadhanaboard.com
+ADMIN_PASSWORD=your_secure_admin_password_here
+ADMIN_FORCE_UPDATE=0
+
+# Demo Admin Configuration (for testing)
+DEMO_ADMIN_EMAIL=kali@example.com
+
+# Admin JWT Configuration
+ADMIN_TOKEN_EXPIRES_IN=7d
+
+# Polling Intervals (in milliseconds)
+DASHBOARD_POLL_MS=15000
+BI_POLL_MS=20000
+SYSTEM_METRICS_POLL_MS=5000
+
+# SSL Configuration (for production)
+PGSSL=false
+
+# Notes:
+# - Do NOT commit real secrets to source control. Replace values with CI/secret-managed values for production.
+```
+
+## 🗄️ Database Setup
+
+1. **Create PostgreSQL Database** 🆕
+   ```sql
+   CREATE DATABASE saadhanaboard;
+   ```
+
+2. **Run Database Initialization** 🏗️
+   ```bash
+   cd backend
+   node utils/initDb.js
+   ```
+
+## ▶️ Running the Application
+
+### 🧪 Development Mode
+Start both frontend and backend servers:
+
+```bash
+# Terminal 1: Start frontend development server
+npm run dev
+
+# Terminal 2: Start backend development server
+npm run backend:dev
+```
+
+The application will be available at:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3004/api
+- Backend WebSocket: http://localhost:3004
+
+### 🏭 Production Build
+```bash
+# Build frontend
+npm run build
+
+# Start backend server
+npm start
+```
+
+## 🧪 Testing
+
+Run tests with:
+```bash
+npm test
+```
+
+## 📖 Documentation
+
+- [API Documentation](backend/API_DOCUMENTATION.md)
+- [Theme System](THEME_SYSTEM_SUMMARY.md)
+- [Deployment Guide](DEPLOYMENT.md)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Thanks to all contributors who have helped shape Saadhanaboard
+- Inspired by the rich traditions of Hindu and Buddhist spiritual practices
+- Built with modern web technologies for the best user experience

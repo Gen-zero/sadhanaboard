@@ -1,49 +1,75 @@
-require('dotenv').config();
-const { supabase } = require('./config/supabaseDb');
+const { query } = require('./config/db');
 
 async function checkTables() {
-  console.log('Checking what tables exist in the database...');
-  
   try {
-    // List all tables
-    const { data, error } = await supabase
-      .from('information_schema.tables')
-      .select('table_name')
-      .eq('table_schema', 'public');
+    console.log('Checking database tables...');
     
-    if (error) {
-      console.log('Error fetching tables:', error.message);
-      return;
-    }
+    // Check if users table exists
+    const usersResult = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'users'
+      );
+    `);
     
-    console.log('Tables in database:');
-    data.forEach(table => {
-      console.log(`  - ${table.table_name}`);
-    });
+    const usersTableExists = usersResult.rows[0].exists;
+    console.log('Users table exists:', usersTableExists);
     
-    // Check for specific tables mentioned in the error
-    const tablesToCheck = ['books', 'sadhanas', 'sadhana_sessions', 'users', 'profiles'];
+    // Check if profiles table exists
+    const profilesResult = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'profiles'
+      );
+    `);
     
-    console.log('\nChecking specific tables:');
-    for (const tableName of tablesToCheck) {
-      try {
-        const { data, error } = await supabase
-          .from(tableName)
-          .select('*')
-          .limit(1);
-          
-        if (error) {
-          console.log(`  ${tableName}: ❌ ${error.message}`);
-        } else {
-          console.log(`  ${tableName}: ✅ Exists (${data.length} rows returned)`);
-        }
-      } catch (err) {
-        console.log(`  ${tableName}: ❌ Error - ${err.message}`);
-      }
-    }
-  } catch (err) {
-    console.error('Error checking tables:', err.message);
+    const profilesTableExists = profilesResult.rows[0].exists;
+    console.log('Profiles table exists:', profilesTableExists);
+    
+    // Check if spiritual_books table exists
+    const booksResult = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'spiritual_books'
+      );
+    `);
+    
+    const booksTableExists = booksResult.rows[0].exists;
+    console.log('Spiritual books table exists:', booksTableExists);
+    
+    // Check if sadhanas table exists
+    const sadhanasResult = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'saadhanas'
+      );
+    `);
+    
+    const sadhanasTableExists = sadhanasResult.rows[0].exists;
+    console.log('Saadhanas table exists:', sadhanasTableExists);
+    
+    return {
+      users: usersTableExists,
+      profiles: profilesTableExists,
+      books: booksTableExists,
+      sadhanas: sadhanasTableExists
+    };
+  } catch (error) {
+    console.error('Error checking tables:', error.message);
+    throw error;
   }
 }
 
-checkTables();
+if (require.main === module) {
+  checkTables()
+    .then(result => {
+      console.log('Table check completed:', result);
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error('Table check failed:', error.message);
+      process.exit(1);
+    });
+}
+
+module.exports = { checkTables };
