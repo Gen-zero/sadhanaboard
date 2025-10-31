@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import * as React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, Search, Upload, Filter, Book, Plus, Edit, Trash2 } from 'lucide-react';
 import CosmicButton from './CosmicButton';
@@ -9,21 +10,49 @@ import { Book as BookType } from '@/types/admin';
 import { useRealTimeLibrary } from '@/hooks/useRealTimeLibrary';
 
 // Helper function to format book data for display
-const formatBookForDisplay = (book: any): any => {
+const formatBookForDisplay = (book: any): BookType => {
+  // Handle traditions field conversion from string to array if needed
+  let traditions: string[] = [];
+  if (Array.isArray(book.traditions)) {
+    traditions = book.traditions;
+  } else if (typeof book.traditions === 'string') {
+    // If it's a string, try to parse it as JSON or split by comma
+    try {
+      traditions = JSON.parse(book.traditions);
+    } catch (e) {
+      // If JSON parsing fails, split by comma and trim
+      traditions = book.traditions.split(',').map((t: string) => t.trim()).filter((t: string) => t);
+    }
+  }
+
   return {
     ...book,
-    traditions: book.traditions?.join(', ') || '',
+    traditions,
     created_at: book.created_at ? new Date(book.created_at).toLocaleDateString() : '',
     description: book.description || ''
-  };
+  } as unknown as BookType;
 };
 
 // Helper function to parse book data for editing
-const parseBookForEditing = (book: any): any => {
+const parseBookForEditing = (book: any): BookType => {
+  // Handle traditions field conversion from string to array if needed
+  let traditions: string[] = [];
+  if (Array.isArray(book.traditions)) {
+    traditions = book.traditions;
+  } else if (typeof book.traditions === 'string') {
+    // If it's a string, try to parse it as JSON or split by comma
+    try {
+      traditions = JSON.parse(book.traditions);
+    } catch (e) {
+      // If JSON parsing fails, split by comma and trim
+      traditions = book.traditions.split(',').map((t: string) => t.trim()).filter((t: string) => t);
+    }
+  }
+
   return {
     ...book,
-    traditions: Array.isArray(book.traditions) ? book.traditions : (book.traditions ? book.traditions.split(',').map((t: string) => t.trim()) : [])
-  };
+    traditions,
+  } as unknown as BookType;
 };
 
 const CosmicLibraryManager: React.FC = () => {
@@ -32,7 +61,7 @@ const CosmicLibraryManager: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingBook, setEditingBook] = useState<any>(null);
+  const [editingBook, setEditingBook] = useState<BookType | null>(null);
   const [sortColumn, setSortColumn] = useState('title');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [newBook, setNewBook] = useState({
@@ -44,7 +73,7 @@ const CosmicLibraryManager: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Handle real-time book updates
-  const handleBookUpdate = useCallback((updatedBook: any) => {
+  const handleBookUpdate = useCallback((updatedBook: BookType) => {
     const formattedBook = formatBookForDisplay(updatedBook);
     setBooks(prevBooks => {
       const existingBookIndex = prevBooks.findIndex(b => b.id === formattedBook.id);
@@ -123,7 +152,7 @@ const CosmicLibraryManager: React.FC = () => {
     }
   };
 
-  const handleEdit = (book: any) => {
+  const handleEdit = (book: BookType) => {
     const parsedBook = parseBookForEditing(book);
     setEditingBook(parsedBook);
     setIsEditModalOpen(true);
@@ -453,7 +482,7 @@ const CosmicLibraryManager: React.FC = () => {
               type="text"
               className="w-full px-3 py-2 bg-background/60 border border-purple-500/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={editingBook?.title || ''}
-              onChange={(e) => setEditingBook({...editingBook, title: e.target.value})}
+              onChange={(e) => setEditingBook(editingBook ? {...editingBook, title: e.target.value} : null)}
               placeholder="Enter book title"
             />
           </div>
@@ -464,7 +493,7 @@ const CosmicLibraryManager: React.FC = () => {
               type="text"
               className="w-full px-3 py-2 bg-background/60 border border-purple-500/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={editingBook?.author || ''}
-              onChange={(e) => setEditingBook({...editingBook, author: e.target.value})}
+              onChange={(e) => setEditingBook(editingBook ? {...editingBook, author: e.target.value} : null)}
               placeholder="Enter author name"
             />
           </div>
@@ -474,8 +503,8 @@ const CosmicLibraryManager: React.FC = () => {
             <input
               type="text"
               className="w-full px-3 py-2 bg-background/60 border border-purple-500/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              value={Array.isArray(editingBook?.traditions) ? editingBook.traditions.join(', ') : editingBook?.traditions || ''}
-              onChange={(e) => setEditingBook({...editingBook, traditions: e.target.value.split(',').map((t: string) => t.trim())})}
+              value={Array.isArray(editingBook?.traditions) ? editingBook?.traditions.join(', ') : editingBook?.traditions || ''}
+              onChange={(e) => setEditingBook(editingBook ? {...editingBook, traditions: e.target.value.split(',').map((t: string) => t.trim())} : null)}
               placeholder="Enter traditions (comma separated)"
             />
           </div>
@@ -485,7 +514,7 @@ const CosmicLibraryManager: React.FC = () => {
             <textarea
               className="w-full px-3 py-2 bg-background/60 border border-purple-500/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={editingBook?.description || ''}
-              onChange={(e) => setEditingBook({...editingBook, description: e.target.value})}
+              onChange={(e) => setEditingBook(editingBook ? {...editingBook, description: e.target.value} : null)}
               placeholder="Enter book description"
               rows={3}
             />

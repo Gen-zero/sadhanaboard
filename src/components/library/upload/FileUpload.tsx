@@ -27,13 +27,9 @@ const FileUpload = ({ onFileProcessed }: FileUploadProps) => {
   };
 
   const processPDFFile = async (file: File): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        // PDF files are stored directly without text extraction
-        resolve("");
-      } catch (error) {
-        reject(new Error("Failed to process PDF file."));
-      }
+    return new Promise((resolve, reject) => {
+      // PDF files are stored directly without text extraction
+      resolve("");
     });
   };
 

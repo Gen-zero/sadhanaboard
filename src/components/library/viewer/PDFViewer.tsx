@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Menu, Search, RotateCw } from 'lucide-react';
 import { useBookReading } from '@/hooks/useBookReading';
-// @ts-ignore - Vite worker import
+// @ts-expect-error - Vite worker import type definition mismatch
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
 
 // Set up the worker with local import instead of CDN

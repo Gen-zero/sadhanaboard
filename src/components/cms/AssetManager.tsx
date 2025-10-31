@@ -77,7 +77,18 @@ export default function AssetManager() {
             {loading ? <div>Loading...</div> : (
               <div className="grid grid-cols-4 gap-3">
                 {assets.map(a => (
-                  <div key={a.id} className="p-2 border rounded cursor-pointer" onClick={() => showVariants(a.id)}>
+                  <div 
+                    key={a.id} 
+                    className="p-2 border rounded cursor-pointer" 
+                    onClick={() => showVariants(a.id)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        showVariants(a.id);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
                     <div className="text-sm font-medium truncate">{a.title}</div>
                     <div className="text-xs text-muted-foreground">{a.type}</div>
                     <div className="mt-2 text-xs text-muted-foreground">{a.file_path}</div>

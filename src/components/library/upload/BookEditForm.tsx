@@ -4,17 +4,28 @@ import { Card, CardContent, CardHeader, CardDescription, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import BookFormFields from './BookFormFields';
 import { adminApi } from '@/services/adminApi';
+import { Book } from '@/types/admin';
 
 interface BookEditFormProps {
-  book: any;
+  book: Book;
   onClose: () => void;
   onBookUpdated?: () => void;
+}
+
+interface FormData {
+  title: string;
+  author: string;
+  traditions: string[];
+  content: string;
+  description: string;
+  year: string;
+  language: string;
 }
 
 const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<any>({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     author: '',
     traditions: [],
@@ -41,8 +52,8 @@ const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
     setKeepExistingFile(!!book.storage_url);
   }, [book]);
 
-  const handleFormFieldsChange = (field: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [field]: value }));
+  const handleFormFieldsChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileChange = (file: File | undefined) => {
@@ -53,12 +64,12 @@ const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
   const handleTraditionAdd = () => {
     const t = (newTradition || '').trim();
     if (!t) return;
-    setFormData((prev: any) => ({ ...prev, traditions: Array.from(new Set([...(prev.traditions || []), t])) }));
+    setFormData((prev) => ({ ...prev, traditions: Array.from(new Set([...(prev.traditions || []), t])) }));
     setNewTradition('');
   };
 
   const handleTraditionRemove = (t: string) => {
-    setFormData((prev: any) => ({ ...prev, traditions: (prev.traditions || []).filter((x: string) => x !== t) }));
+    setFormData((prev) => ({ ...prev, traditions: (prev.traditions || []).filter((x) => x !== t) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,7 +81,7 @@ const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
 
     setLoading(true);
     try {
-      const payload: any = {
+      const payload = {
         title: formData.title,
         author: formData.author,
         traditions: formData.traditions,
@@ -121,7 +132,7 @@ const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
               <Button type="button" variant="outline" onClick={handleTraditionAdd}>Add</Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
-              {(formData.traditions || []).map((t: string) => (
+              {(formData.traditions || []).map((t) => (
                 <div key={t} className="flex items-center gap-2 px-3 py-1 bg-secondary rounded-full text-sm">
                   <span>{t}</span>
                   <button type="button" onClick={() => handleTraditionRemove(t)} className="text-muted-foreground">✕</button>
