@@ -228,13 +228,33 @@ export const adminApi = {
       // connected
     });
     socket.on('dashboard:stats:init', (payload: DashboardSnapshot) => {
-      try { onInit && onInit(payload); } catch (e) { console.error(e); }
+      try { 
+        if (onInit) {
+          onInit(payload); 
+        }
+      } catch (e) { 
+        console.error(e); 
+      }
     });
     socket.on('dashboard:stats:update', (payload: DashboardSnapshot) => {
-      try { onUpdate && onUpdate(payload); } catch (e) { console.error(e); }
+      try { 
+        if (onUpdate) {
+          onUpdate(payload); 
+        }
+      } catch (e) { 
+        console.error(e); 
+      }
     });
-    socket.on('connect_error', (err: unknown) => { if (onError) onError && onError(err); });
-    socket.on('error', (err: unknown) => { if (onError) onError && onError(err); });
+    socket.on('connect_error', (err: unknown) => { 
+      if (onError) {
+        onError(err); 
+      }
+    });
+    socket.on('error', (err: unknown) => { 
+      if (onError) {
+        onError(err); 
+      }
+    });
     return socket;
   },
   
@@ -493,14 +513,44 @@ async exportBooksToGoogleSheets(payload: {
   const socket = io(SOCKET_BASE, { withCredentials: true, path: '/socket.io' });
       this._socket = socket as Socket;
       socket.on('connect', () => {
-        try { socket.emit('bi:subscribe', { rooms: ['bi-kpis','bi-executions','bi-insights'] }); } catch (e) {
+        try { 
+          socket.emit('bi:subscribe', { rooms: ['bi-kpis','bi-executions','bi-insights'] }); 
+        } catch (e) {
           console.error('Failed to subscribe to BI rooms:', e);
         }
       });
-      socket.on('bi:kpi-update', (payload: any) => { try { onKPIUpdate && onKPIUpdate(payload); } catch (e) { console.error(e); } });
-      socket.on('bi:execution-status', (payload: any) => { try { onExecutionStatus && onExecutionStatus(payload); } catch (e) { console.error(e); } });
-      socket.on('bi:insight-generated', (payload: any) => { try { onInsight && onInsight(payload); } catch (e) { console.error(e); } });
-      socket.on('error', (err: unknown) => { if (onError) onError(err); });
+      socket.on('bi:kpi-update', (payload: any) => { 
+        try { 
+          if (onKPIUpdate) {
+            onKPIUpdate(payload); 
+          }
+        } catch (e) { 
+          console.error(e); 
+        } 
+      });
+      socket.on('bi:execution-status', (payload: any) => { 
+        try { 
+          if (onExecutionStatus) {
+            onExecutionStatus(payload); 
+          }
+        } catch (e) { 
+          console.error(e); 
+        } 
+      });
+      socket.on('bi:insight-generated', (payload: any) => { 
+        try { 
+          if (onInsight) {
+            onInsight(payload); 
+          }
+        } catch (e) { 
+          console.error(e); 
+        } 
+      });
+      socket.on('error', (err: unknown) => { 
+        if (onError) {
+          onError(err); 
+        }
+      });
   return socket;
     } catch (e) {
       if (onError) onError(e);
@@ -554,11 +604,35 @@ async exportBooksToGoogleSheets(payload: {
       const socket = io(SOCKET_BASE, { withCredentials: true, path: '/socket.io' });
       this._socket = socket as Socket;
       socket.on('connect', () => {
-        try { socket.emit('system:subscribe', { rooms: ['system-metrics', 'system-alerts'] }); } catch (e) { console.error('Failed to subscribe to system rooms', e); }
+        try { 
+          socket.emit('system:subscribe', { rooms: ['system-metrics', 'system-alerts'] }); 
+        } catch (e) { 
+          console.error('Failed to subscribe to system rooms', e); 
+        }
       });
-      socket.on('system:metrics', (payload: any) => { try { onMetrics && onMetrics(payload); } catch (e) { console.error(e); } });
-      socket.on('system:alert', (payload: any) => { try { onAlert && onAlert(payload); } catch (e) { console.error(e); } });
-      socket.on('error', (err: unknown) => { if (onError) onError(err); });
+      socket.on('system:metrics', (payload: any) => { 
+        try { 
+          if (onMetrics) {
+            onMetrics(payload); 
+          }
+        } catch (e) { 
+          console.error(e); 
+        } 
+      });
+      socket.on('system:alert', (payload: any) => { 
+        try { 
+          if (onAlert) {
+            onAlert(payload); 
+          }
+        } catch (e) { 
+          console.error(e); 
+        } 
+      });
+      socket.on('error', (err: unknown) => { 
+        if (onError) {
+          onError(err); 
+        }
+      });
       return socket;
     } catch (e) {
       if (onError) onError(e);

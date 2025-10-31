@@ -182,6 +182,14 @@ const EnergyLevelPage = () => {
                         ? 'border-yellow-500 bg-yellow-500/10'
                         : 'border-border hover:border-yellow-500/50 hover:bg-yellow-500/5'
                     }`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleAnswerSelect(question.id, optionIndex);
+                      }
+                    }}
                   >
                     <div className="flex items-center">
                       <div className={`w-5 h-5 rounded-full border mr-3 flex items-center justify-center ${

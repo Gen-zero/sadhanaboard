@@ -250,12 +250,12 @@ const CareersPage = () => {
                 <Link to="/careers" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Careers</span>
                 </Link>
-                <a href="#" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/privacy" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Privacy</span>
-                </a>
-                <a href="#" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                </Link>
+                <Link to="/terms" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Terms</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="mt-4 sm:mt-6 text-center">

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AdminLog } from '@/types/admin-logs';
+import { Button } from '@/components/ui/button';
 
 export default function LogSearchInterface({ filters, results, onSearch, onSavePreset }:{
   filters:any,
@@ -10,7 +11,7 @@ export default function LogSearchInterface({ filters, results, onSearch, onSaveP
   return (
     <div>
       <div className="mb-2">
-        <button onClick={()=>onSearch(filters)} className="px-2 py-1 bg-blue-600 text-white">Run</button>
+        <Button onClick={()=>onSearch(filters)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">Run</Button>
       </div>
       <div className="max-h-80 overflow-auto border p-2">
         {results.map(r=> (

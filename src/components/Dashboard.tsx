@@ -1,53 +1,42 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlarmClock, CheckSquare, BookOpen, Lightbulb, Calendar, PieChart, RotateCw, TrendingUp, Target, Award } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/hooks/useToast';
 import { useDailySadhanaRefresh } from '@/hooks/useDailySadhanaRefresh';
-import { useIsMobile } from '@/hooks/use-mobile';
-import ProfileCard from './ProfileCard';
-import MobileDashboard from './mobile/MobileDashboard';
-
-interface Task {
-  id: number;
-  title: string;
-  description?: string;
-  completed: boolean;
-  category: 'daily' | 'goal';
-  dueDate?: string;
-  time?: string;
-  priority: 'low' | 'medium' | 'high';
-}
-
-// Inspirational quotes for daily intention
-const inspirationalQuotes = [
-  "I will approach each moment with mindfulness and compassion.",
-  "Today I choose peace over worry and faith over fear.",
-  "I am on a path of spiritual growth and awareness.",
-  "I embrace the divine guidance available to me today.",
-  "My actions today create ripples of positive energy in the universe.",
-  "I will practice gratitude for all experiences today.",
-  "I am a vessel for divine love and wisdom.",
-  "Today I seek harmony in all my interactions.",
-  "I am connected to the eternal source of all creation.",
-  "I honor my journey and trust the unfolding of my spiritual path."
-];
+import MobileDashboard from './MobileDashboard';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Task } from '@/types/task';
+import { RefreshCw, Target, Flame, Calendar, CheckCircle, BookOpen, TrendingUp, Zap, Star, Clock, Award } from 'lucide-react';
+import { inspirationalQuotes } from '@/data/inspirationalQuotes';
 
 const Dashboard = () => {
-  const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { manualRefresh } = useDailySadhanaRefresh();
+  const [isMobile, setIsMobile] = useState(false);
   
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
   // Use mobile dashboard for mobile devices
   if (isMobile) {
     return <MobileDashboard />;
   }
   
   // Desktop dashboard continues below
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { manualRefresh } = useDailySadhanaRefresh();
-
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);

@@ -375,6 +375,15 @@ const OnboardingPage = () => {
                       ? 'border-amber-500 bg-amber-500/10 scale-105'
                       : 'border-border hover:border-amber-500/50 hover:bg-amber-500/5'
                   }`}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setOtherDeity('');
+                      updateData('favoriteDeity', deity.value);
+                    }
+                  }}
                 >
                   <div className="text-2xl mb-2">{deity.emoji}</div>
                   <div className="text-sm font-medium text-center">{deity.label}</div>
@@ -691,6 +700,14 @@ const OnboardingPage = () => {
                     <div 
                       className="p-4 cursor-pointer flex justify-between items-center hover:bg-background/70 transition-colors"
                       onClick={() => toggleQuestion(question.id)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          toggleQuestion(question.id);
+                        }
+                      }}
                     >
                       <div className="font-medium">
                         {index + 1}. {question.question}
@@ -710,6 +727,14 @@ const OnboardingPage = () => {
                                   ? 'border-yellow-500 bg-yellow-500/10'
                                   : 'border-border hover:border-yellow-500/50 hover:bg-yellow-500/5'
                               }`}
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  updateEnergyLevelAnswer(question.id, optionIndex);
+                                }
+                              }}
                             >
                               <div className="flex items-center">
                                 <div className={`w-5 h-5 rounded-full border mr-3 flex items-center justify-center ${

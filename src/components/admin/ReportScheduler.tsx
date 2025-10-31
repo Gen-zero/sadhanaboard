@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import type { ScheduledReport, ReportTemplate } from '@/types/bi-reports';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const ReportScheduler: React.FC<{ schedules: ScheduledReport[]; templates: ReportTemplate[]; onCreate: (p:any)=>Promise<any>; onRefresh: ()=>void }> = ({ schedules, templates, onCreate, onRefresh }) => {
   const [templateId, setTemplateId] = useState<string | undefined>(templates?.[0]?.id);
@@ -23,21 +26,26 @@ const ReportScheduler: React.FC<{ schedules: ScheduledReport[]; templates: Repor
 
       <div className="mt-3 space-y-2 text-sm">
         <div>
-          <label className="block text-xs text-gray-600">Template</label>
-          <select value={templateId} onChange={e=>setTemplateId(e.target.value)} className="border rounded px-2 py-1 w-full">
-            {(templates || []).map(t => <option value={t.id} key={t.id}>{t.name}</option>)}
-          </select>
+          <label htmlFor="template-select" className="block text-xs text-gray-600">Template</label>
+          <Select value={templateId} onValueChange={setTemplateId}>
+            <SelectTrigger id="template-select">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {(templates || []).map(t => <SelectItem value={t.id} key={t.id}>{t.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
         <div>
-          <label className="block text-xs text-gray-600">Cron expression</label>
-          <input className="border rounded px-2 py-1 w-full" value={cron} onChange={e=>setCron(e.target.value)} />
+          <label htmlFor="cron-input" className="block text-xs text-gray-600">Cron expression</label>
+          <Input id="cron-input" value={cron} onChange={e=>setCron(e.target.value)} />
         </div>
         <div>
-          <label className="block text-xs text-gray-600">Recipient</label>
-          <input className="border rounded px-2 py-1 w-full" value={recipient} onChange={e=>setRecipient(e.target.value)} />
+          <label htmlFor="recipient-input" className="block text-xs text-gray-600">Recipient</label>
+          <Input id="recipient-input" value={recipient} onChange={e=>setRecipient(e.target.value)} />
         </div>
         <div className="flex justify-end">
-          <button className="btn btn-primary" onClick={handleCreate}>Create Schedule</button>
+          <Button onClick={handleCreate}>Create Schedule</Button>
         </div>
 
         <div className="mt-3">

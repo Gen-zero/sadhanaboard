@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import type { ReportTemplate } from '@/types/bi-reports';
 import { adminApi } from '@/services/adminApi';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 const ReportTemplateBuilder: React.FC<{ templates: ReportTemplate[]; onCreate: (p:any)=>Promise<any>; onRefresh: ()=>void }> = ({ templates, onCreate, onRefresh }) => {
   const [name, setName] = useState('Quick KPI Template');
@@ -19,8 +21,8 @@ const ReportTemplateBuilder: React.FC<{ templates: ReportTemplate[]; onCreate: (
       <div className="flex items-center justify-between">
         <div className="text-sm font-medium">Report Templates</div>
         <div className="flex items-center gap-2">
-          <input className="border px-2 py-1 rounded" value={name} onChange={e=>setName(e.target.value)} />
-          <button className="btn btn-primary" onClick={handleCreate}>Create</button>
+          <Input className="w-48" value={name} onChange={e=>setName(e.target.value)} />
+          <Button onClick={handleCreate}>Create</Button>
         </div>
       </div>
       <div className="mt-3 text-sm">

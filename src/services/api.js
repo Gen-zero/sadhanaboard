@@ -44,7 +44,11 @@ class ApiService {
 
       const text = await response.text().catch(() => '');
       let payload = null;
-      try { payload = text ? JSON.parse(text) : null; } catch (e) { payload = { raw: text }; }
+      try { 
+        payload = text ? JSON.parse(text) : null; 
+      } catch (e) { 
+        payload = { raw: text }; 
+      }
 
       if (!response.ok) {
         const message = (payload && (payload.error || payload.message)) || `HTTP error: ${response.status}`;
@@ -107,7 +111,7 @@ class ApiService {
       body: JSON.stringify({ email, password, displayName }),
     });
     
-    if (data.token) {
+    if (data && data.token) {
       this.setToken(data.token);
     }
     
@@ -120,7 +124,7 @@ class ApiService {
       body: JSON.stringify({ email, password }),
     });
     
-    if (data.token) {
+    if (data && data.token) {
       this.setToken(data.token);
     }
     

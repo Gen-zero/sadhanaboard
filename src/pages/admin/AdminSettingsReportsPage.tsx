@@ -135,10 +135,11 @@ const AdminSettingsReportsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Biometric Login</label>
+                    <label htmlFor="biometric-login" className="text-sm font-medium">Biometric Login</label>
                     <p className="text-xs text-muted-foreground">Enable fingerprint/face authentication</p>
                   </div>
                   <Switch 
+                    id="biometric-login"
                     checked={settings?.features?.biometric || false}
                     onCheckedChange={(checked) => updateSetting('features', 'biometric', checked)}
                   />
@@ -146,10 +147,11 @@ const AdminSettingsReportsPage = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Background Music</label>
+                    <label htmlFor="background-music" className="text-sm font-medium">Background Music</label>
                     <p className="text-xs text-muted-foreground">Allow ambient sounds during practices</p>
                   </div>
                   <Switch 
+                    id="background-music"
                     checked={settings?.features?.music || false}
                     onCheckedChange={(checked) => updateSetting('features', 'music', checked)}
                   />
@@ -157,10 +159,11 @@ const AdminSettingsReportsPage = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Push Notifications</label>
+                    <label htmlFor="push-notifications" className="text-sm font-medium">Push Notifications</label>
                     <p className="text-xs text-muted-foreground">Send reminders and updates</p>
                   </div>
                   <Switch 
+                    id="push-notifications"
                     checked={settings?.features?.notifications || false}
                     onCheckedChange={(checked) => updateSetting('features', 'notifications', checked)}
                   />
@@ -168,10 +171,11 @@ const AdminSettingsReportsPage = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Auto Save</label>
+                    <label htmlFor="auto-save" className="text-sm font-medium">Auto Save</label>
                     <p className="text-xs text-muted-foreground">Automatically save user progress</p>
                   </div>
                   <Switch 
+                    id="auto-save"
                     checked={settings?.features?.autoSave || false}
                     onCheckedChange={(checked) => updateSetting('features', 'autoSave', checked)}
                   />
@@ -188,8 +192,9 @@ const AdminSettingsReportsPage = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Meditation Timer (minutes)</label>
+                  <label htmlFor="meditation-timer" className="text-sm font-medium mb-2 block">Meditation Timer (minutes)</label>
                   <Input 
+                    id="meditation-timer"
                     type="number"
                     value={settings?.timers?.meditation ?? 20}
                     onChange={(e) => {
@@ -200,8 +205,9 @@ const AdminSettingsReportsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Mantra Rounds</label>
+                  <label htmlFor="mantra-rounds" className="text-sm font-medium mb-2 block">Mantra Rounds</label>
                   <Input 
+                    id="mantra-rounds"
                     type="number"
                     value={settings?.timers?.mantra ?? 108}
                     onChange={(e) => {
@@ -212,8 +218,9 @@ const AdminSettingsReportsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Reflection Time (minutes)</label>
+                  <label htmlFor="reflection-time" className="text-sm font-medium mb-2 block">Reflection Time (minutes)</label>
                   <Input 
+                    id="reflection-time"
                     type="number"
                     value={settings?.timers?.reflection ?? 10}
                     onChange={(e) => {
@@ -235,8 +242,9 @@ const AdminSettingsReportsPage = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Session Timeout (seconds)</label>
+                  <label htmlFor="session-timeout" className="text-sm font-medium mb-2 block">Session Timeout (seconds)</label>
                   <Input 
+                    id="session-timeout"
                     type="number"
                     value={settings?.security?.sessionTimeout ?? 3600}
                     onChange={(e) => {
@@ -247,8 +255,9 @@ const AdminSettingsReportsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Max Login Attempts</label>
+                  <label htmlFor="max-login-attempts" className="text-sm font-medium mb-2 block">Max Login Attempts</label>
                   <Input 
+                    id="max-login-attempts"
                     type="number"
                     value={settings?.security?.maxLoginAttempts ?? 5}
                     onChange={(e) => {
@@ -259,8 +268,9 @@ const AdminSettingsReportsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Min Password Length</label>
+                  <label htmlFor="min-password-length" className="text-sm font-medium mb-2 block">Min Password Length</label>
                   <Input 
+                    id="min-password-length"
                     type="number"
                     value={settings?.security?.passwordMinLength ?? 8}
                     onChange={(e) => {
@@ -283,10 +293,11 @@ const AdminSettingsReportsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Maintenance Mode</label>
+                    <label htmlFor="maintenance-mode" className="text-sm font-medium">Maintenance Mode</label>
                     <p className="text-xs text-muted-foreground">Disable app for maintenance</p>
                   </div>
                   <Switch 
+                    id="maintenance-mode"
                     checked={settings?.application?.maintenanceMode || false}
                     onCheckedChange={(checked) => updateSetting('application', 'maintenanceMode', checked)}
                   />
@@ -294,10 +305,11 @@ const AdminSettingsReportsPage = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">New User Registration</label>
+                    <label htmlFor="new-user-registration" className="text-sm font-medium">New User Registration</label>
                     <p className="text-xs text-muted-foreground">Allow new users to register</p>
                   </div>
                   <Switch 
+                    id="new-user-registration"
                     checked={settings?.application?.newUserRegistration || false}
                     onCheckedChange={(checked) => updateSetting('application', 'newUserRegistration', checked)}
                   />
@@ -305,10 +317,11 @@ const AdminSettingsReportsPage = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium">Email Verification</label>
+                    <label htmlFor="email-verification" className="text-sm font-medium">Email Verification</label>
                     <p className="text-xs text-muted-foreground">Require email verification for new users</p>
                   </div>
                   <Switch 
+                    id="email-verification"
                     checked={settings?.application?.emailVerification || false}
                     onCheckedChange={(checked) => updateSetting('application', 'emailVerification', checked)}
                   />

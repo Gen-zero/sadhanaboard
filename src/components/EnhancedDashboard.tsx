@@ -62,6 +62,7 @@ const EnhancedDashboard = () => {
   const [currentDay, setCurrentDay] = useState(15);
   const [streak, setStreak] = useState(7);
   const [level, setLevel] = useState(3);
+  const [showMobileDashboard, setShowMobileDashboard] = useState(false);
 
   // Loading states for different sections
   const isDashboardLoading = isLoading(LOADING_KEYS.DASHBOARD_LOAD);
@@ -69,8 +70,13 @@ const EnhancedDashboard = () => {
   const isStatsLoading = isLoading(LOADING_KEYS.STATS_LOAD);
   const isProfileLoading = isLoading(LOADING_KEYS.PROFILE_LOAD);
 
+  // Check if we should show mobile dashboard
+  useEffect(() => {
+    setShowMobileDashboard(isMobile);
+  }, [isMobile]);
+
   // Use mobile dashboard for mobile devices
-  if (isMobile) {
+  if (showMobileDashboard) {
     return <MobileDashboard />;
   }
 

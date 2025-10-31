@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { CommunityPost, CommunityComment, CommunityReport } from '@/types/community';
 import { adminApi } from '@/services/adminApi';
+import { Button } from '@/components/ui/button';
 
 export default function ContentModerationPanel() {
   const [tab, setTab] = useState<'posts'|'comments'|'reports'>('posts');
@@ -34,9 +35,9 @@ export default function ContentModerationPanel() {
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium">Content Moderation</h3>
         <div className="space-x-2">
-          <button className={`px-2 py-1 ${tab==='posts'?'bg-purple-600 text-white':'bg-gray-100'}`} onClick={() => setTab('posts')}>Posts</button>
-          <button className={`px-2 py-1 ${tab==='comments'?'bg-purple-600 text-white':'bg-gray-100'}`} onClick={() => setTab('comments')}>Comments</button>
-          <button className={`px-2 py-1 ${tab==='reports'?'bg-purple-600 text-white':'bg-gray-100'}`} onClick={() => setTab('reports')}>Reports</button>
+          <Button variant={tab==='posts'?'default':'secondary'} size="sm" onClick={() => setTab('posts')}>Posts</Button>
+          <Button variant={tab==='comments'?'default':'secondary'} size="sm" onClick={() => setTab('comments')}>Comments</Button>
+          <Button variant={tab==='reports'?'default':'secondary'} size="sm" onClick={() => setTab('reports')}>Reports</Button>
         </div>
       </div>
 
@@ -47,9 +48,9 @@ export default function ContentModerationPanel() {
               <div className="text-sm text-gray-700">{p.content}</div>
               <div className="mt-2 text-xs text-gray-500">{p.status} • {p.user_name}</div>
               <div className="mt-2">
-                <button onClick={() => adminApi.approvePost(p.id).then(loadPosts)} className="mr-2 px-2 py-1 bg-green-500 text-white rounded">Approve</button>
-                <button onClick={() => adminApi.rejectPost(p.id, 'violates-guidelines').then(loadPosts)} className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded">Reject</button>
-                <button onClick={() => adminApi.deletePost(p.id).then(loadPosts)} className="px-2 py-1 bg-red-600 text-white rounded">Delete</button>
+                <Button variant="default" size="sm" className="mr-2 bg-green-500 hover:bg-green-600" onClick={() => adminApi.approvePost(p.id).then(loadPosts)}>Approve</Button>
+                <Button variant="default" size="sm" className="mr-2 bg-yellow-500 hover:bg-yellow-600" onClick={() => adminApi.rejectPost(p.id, 'violates-guidelines').then(loadPosts)}>Reject</Button>
+                <Button variant="destructive" size="sm" onClick={() => adminApi.deletePost(p.id).then(loadPosts)}>Delete</Button>
               </div>
             </div>
           ))}
@@ -63,9 +64,9 @@ export default function ContentModerationPanel() {
               <div className="text-sm text-gray-700">{c.content}</div>
               <div className="mt-2 text-xs text-gray-500">{c.status} • {c.user_name}</div>
               <div className="mt-2">
-                <button onClick={() => adminApi.moderateComment(c.id, 'approve').then(loadComments)} className="mr-2 px-2 py-1 bg-green-500 text-white rounded">Approve</button>
-                <button onClick={() => adminApi.moderateComment(c.id, 'reject').then(loadComments)} className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded">Reject</button>
-                <button onClick={() => adminApi.moderateComment(c.id, 'delete').then(loadComments)} className="px-2 py-1 bg-red-600 text-white rounded">Delete</button>
+                <Button variant="default" size="sm" className="mr-2 bg-green-500 hover:bg-green-600" onClick={() => adminApi.moderateComment(c.id, 'approve').then(loadComments)}>Approve</Button>
+                <Button variant="default" size="sm" className="mr-2 bg-yellow-500 hover:bg-yellow-600" onClick={() => adminApi.moderateComment(c.id, 'reject').then(loadComments)}>Reject</Button>
+                <Button variant="destructive" size="sm" onClick={() => adminApi.moderateComment(c.id, 'delete').then(loadComments)}>Delete</Button>
               </div>
             </div>
           ))}
@@ -79,9 +80,9 @@ export default function ContentModerationPanel() {
               <div className="text-sm text-gray-700">{rp.reason || `${rp.reported_content_type}:${rp.reported_content_id}`}</div>
               <div className="mt-2 text-xs text-gray-500">{rp.status}</div>
               <div className="mt-2">
-                <button onClick={() => adminApi.resolveReport(rp.id, 'approve').then(loadReports)} className="mr-2 px-2 py-1 bg-green-500 text-white rounded">Resolve Approve</button>
-                <button onClick={() => adminApi.resolveReport(rp.id, 'remove').then(loadReports)} className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded">Resolve Remove</button>
-                <button onClick={() => adminApi.resolveReport(rp.id, 'ignore').then(loadReports)} className="px-2 py-1 bg-gray-400 text-white rounded">Ignore</button>
+                <Button variant="default" size="sm" className="mr-2 bg-green-500 hover:bg-green-600" onClick={() => adminApi.resolveReport(rp.id, 'approve').then(loadReports)}>Resolve Approve</Button>
+                <Button variant="default" size="sm" className="mr-2 bg-yellow-500 hover:bg-yellow-600" onClick={() => adminApi.resolveReport(rp.id, 'remove').then(loadReports)}>Resolve Remove</Button>
+                <Button variant="secondary" size="sm" onClick={() => adminApi.resolveReport(rp.id, 'ignore').then(loadReports)}>Ignore</Button>
               </div>
             </div>
           ))}

@@ -143,17 +143,18 @@ const AdminAssetsPage = () => {
         <CardContent>
           <div className="flex gap-4 items-end">
             <div className="flex-1">
-              <label className="text-sm font-medium mb-1 block">Search Assets</label>
+              <label htmlFor="search-assets" className="text-sm font-medium mb-1 block">Search Assets</label>
               <Input
+                id="search-assets"
                 placeholder="Search by title or type..."
                 value={filter.search}
                 onChange={(e) => setFilter(prev => ({ ...prev, search: e.target.value }))}
               />
             </div>
             <div className="w-48">
-              <label className="text-sm font-medium mb-1 block">Filter by Type</label>
+              <label htmlFor="filter-type" className="text-sm font-medium mb-1 block">Filter by Type</label>
               <Select value={filter.type} onValueChange={(value) => setFilter(prev => ({ ...prev, type: value }))}>
-                <SelectTrigger>
+                <SelectTrigger id="filter-type">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -178,17 +179,17 @@ const AdminAssetsPage = () => {
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium mb-1 block">File</label>
-                    <Input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+                    <label htmlFor="upload-file" className="text-sm font-medium mb-1 block">File</label>
+                    <Input id="upload-file" type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Title</label>
-                    <Input placeholder="Asset title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <label htmlFor="asset-title" className="text-sm font-medium mb-1 block">Title</label>
+                    <Input id="asset-title" placeholder="Asset title" value={title} onChange={(e) => setTitle(e.target.value)} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Type</label>
+                    <label htmlFor="asset-type" className="text-sm font-medium mb-1 block">Type</label>
                     <Select value={type} onValueChange={setType}>
-                      <SelectTrigger>
+                      <SelectTrigger id="asset-type">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -201,12 +202,12 @@ const AdminAssetsPage = () => {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Description</label>
-                    <Textarea placeholder="Asset description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <label htmlFor="asset-description" className="text-sm font-medium mb-1 block">Description</label>
+                    <Textarea id="asset-description" placeholder="Asset description" value={description} onChange={(e) => setDescription(e.target.value)} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Tags</label>
-                    <Input placeholder="Comma-separated tags" value={tags} onChange={(e) => setTags(e.target.value)} />
+                    <label htmlFor="asset-tags" className="text-sm font-medium mb-1 block">Tags</label>
+                    <Input id="asset-tags" placeholder="Comma-separated tags" value={tags} onChange={(e) => setTags(e.target.value)} />
                   </div>
                   <Button onClick={upload} disabled={!file || uploading} className="w-full">
                     {uploading ? 'Uploading...' : 'Upload Asset'}
@@ -271,9 +272,13 @@ const AdminAssetsPage = () => {
                           }}
                         />
                       ) : asset.mimeType.startsWith('audio/') ? (
-                        <audio src={asset.filePath} controls className="w-full" />
+                        <audio src={asset.filePath} controls className="w-full">
+                          <track kind="captions" srcLang="en" label="English captions" />
+                        </audio>
                       ) : asset.mimeType.startsWith('video/') ? (
-                        <video src={asset.filePath} controls className="w-full h-32" />
+                        <video src={asset.filePath} controls className="w-full h-32">
+                          <track kind="captions" srcLang="en" label="English captions" />
+                        </video>
                       ) : (
                         <div className="w-full h-32 bg-background/50 rounded-md flex items-center justify-center">
                           {getFileIcon(asset.mimeType)}
@@ -355,22 +360,25 @@ const AdminAssetsPage = () => {
           {selectedAsset && (
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-1 block">Title</label>
+                <label htmlFor="edit-asset-title" className="text-sm font-medium mb-1 block">Title</label>
                 <Input
+                  id="edit-asset-title"
                   value={selectedAsset.title}
                   onChange={(e) => setSelectedAsset({ ...selectedAsset, title: e.target.value })}
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Description</label>
+                <label htmlFor="edit-asset-description" className="text-sm font-medium mb-1 block">Description</label>
                 <Textarea
+                  id="edit-asset-description"
                   value={selectedAsset.description || ''}
                   onChange={(e) => setSelectedAsset({ ...selectedAsset, description: e.target.value })}
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1 block">Tags</label>
+                <label htmlFor="edit-asset-tags" className="text-sm font-medium mb-1 block">Tags</label>
                 <Input
+                  id="edit-asset-tags"
                   value={selectedAsset.tags?.join(', ') || ''}
                   onChange={(e) => setSelectedAsset({ ...selectedAsset, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) })}
                   placeholder="Comma-separated tags"

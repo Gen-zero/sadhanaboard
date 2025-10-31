@@ -340,7 +340,7 @@ const DashboardPage = () => {
                     {todaySadhana.map((sadhana) => (
                       <div 
                         key={sadhana.id} 
-                        className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg cursor-pointer transform hover:scale-[1.02] relative overflow-hidden ${
+                        className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] relative overflow-hidden ${
                           sadhana.completed 
                             ? "bg-green-500/10 border-green-500/30" 
                             : "bg-muted/20 border-muted hover:border-purple-500/30"
@@ -353,6 +353,14 @@ const DashboardPage = () => {
                         onMouseLeave={(e) => {
                           e.currentTarget.classList.remove('scale-[1.01]', 'shadow-lg');
                           e.currentTarget.classList.add('hover:shadow-lg');
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            navigate(`/saadhanas/${sadhana.id}`);
+                          }
                         }}
                       >
                         {/* Inner glow effect */}
@@ -502,6 +510,14 @@ const DashboardPage = () => {
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.classList.remove('bg-muted/30', 'scale-[1.02]', 'shadow-lg');
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          navigate("/profile");
+                        }
                       }}
                     >
                       {/* 3D effect container */}

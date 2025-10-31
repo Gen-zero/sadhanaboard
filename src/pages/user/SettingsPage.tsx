@@ -248,19 +248,19 @@ const SettingsPage = () => {
           className="hidden"
           id="import-settings"
         />
-        <label htmlFor="import-settings">
-          <Button
-            variant="outline"
-            size="sm"
-            className="items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium"
-            asChild
-          >
+        <Button
+          variant="outline"
+          size="sm"
+          className="items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium"
+          asChild
+        >
+          <label htmlFor="import-settings" className="cursor-pointer">
             <span>
               <Upload className="h-4 w-4" />
-              {t('import')}
+              <span>{t('import')}</span>
             </span>
-          </Button>
-        </label>
+          </label>
+        </Button>
       </div>
       <Button
         variant="outline"
@@ -467,19 +467,19 @@ const SettingsPage = () => {
                           className="hidden"
                           id="import-settings-desktop"
                         />
-                        <label htmlFor="import-settings-desktop">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-full cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
-                            asChild
-                          >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+                          asChild
+                        >
+                          <label htmlFor="import-settings-desktop" className="cursor-pointer">
                             <span>
                               <Upload className="h-4 w-4 mr-2" />
                               <span className="text-wrap">{t('import_settings')}</span>
                             </span>
-                          </Button>
-                        </label>
+                          </label>
+                        </Button>
                       </div>
                       <Button
                         variant="destructive"
@@ -548,18 +548,19 @@ const SettingsPage = () => {
               className="hidden"
               id="import-settings-mobile"
             />
-            <label htmlFor="import-settings-mobile">
-              <Button
-                variant="outline"
-                size="sm"
-                className="cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
-                asChild
-              >
+            <Button
+              variant="outline"
+              size="sm"
+              className="cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+              asChild
+            >
+              <label htmlFor="import-settings-mobile" className="cursor-pointer">
                 <span>
                   <Upload className="h-4 w-4" />
+                  <span className="sr-only">{t('import')}</span>
                 </span>
-              </Button>
-            </label>
+              </label>
+            </Button>
           </div>
           <Button
             variant="destructive"

@@ -97,6 +97,7 @@ const ManifestoPage = () => {
                 borderColor: 'rgba(255, 215, 0, 0.8)',
                 filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
               }}
+              aria-hidden="true"
             />
             <div 
               className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 rounded-tr-lg"
@@ -104,6 +105,7 @@ const ManifestoPage = () => {
                 borderColor: 'rgba(255, 215, 0, 0.8)',
                 filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
               }}
+              aria-hidden="true"
             />
             <div 
               className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 rounded-bl-lg"
@@ -111,6 +113,7 @@ const ManifestoPage = () => {
                 borderColor: 'rgba(255, 215, 0, 0.8)',
                 filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
               }}
+              aria-hidden="true"
             />
             <div 
               className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 rounded-br-lg"
@@ -118,6 +121,7 @@ const ManifestoPage = () => {
                 borderColor: 'rgba(255, 215, 0, 0.8)',
                 filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
               }}
+              aria-hidden="true"
             />
             
             {/* Header with enhanced golden styling */}
@@ -138,6 +142,7 @@ const ManifestoPage = () => {
                   background: 'linear-gradient(to right, transparent, rgba(255, 215, 0, 0.8), transparent)',
                   filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))'
                 }}
+                aria-hidden="true"
               />
             </div>
 
@@ -457,6 +462,7 @@ const ManifestoPage = () => {
                 `,
                 opacity: 0.4
               }}
+              aria-hidden="true"
             />
           </div>
         </div>
@@ -508,12 +514,12 @@ const ManifestoPage = () => {
                 <Link to="/careers" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Careers</span>
                 </Link>
-                <a href="#" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/privacy" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Privacy</span>
-                </a>
-                <a href="#" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                </Link>
+                <Link to="/terms" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Terms</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="mt-6 text-center">

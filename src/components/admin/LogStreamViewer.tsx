@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AdminLog } from '@/types/admin-logs';
+import { Button } from '@/components/ui/button';
 
 export default function LogStreamViewer({ logs, connected, onCreateRule, onViewRelated }:{
   logs: AdminLog[];
@@ -18,9 +19,9 @@ export default function LogStreamViewer({ logs, connected, onCreateRule, onViewR
             <div className="text-xs text-gray-600">{l.created_at} • {l.ip_address || 'unknown'}</div>
             <div className="font-medium">{l.action} <span className="text-sm text-gray-500">{l.severity}</span></div>
             <div className="text-sm">{JSON.stringify(l.details || l.metadata)}</div>
-            <div className="mt-1 text-xs">
-              {l.correlation_id && <button onClick={()=>onViewRelated?.(l.correlation_id!)} className="mr-2 text-blue-600">View related</button>}
-              <button onClick={()=>onCreateRule?.(l)} className="text-red-600">Create alert</button>
+            <div className="mt-1 text-xs space-x-2">
+              {l.correlation_id && <Button onClick={()=>onViewRelated?.(l.correlation_id!)} size="sm" variant="ghost" className="text-blue-600 hover:text-blue-700">View related</Button>}
+              <Button onClick={()=>onCreateRule?.(l)} size="sm" variant="ghost" className="text-red-600 hover:text-red-700">Create alert</Button>
             </div>
           </div>
         ))}

@@ -1226,22 +1226,20 @@ const ExperimentPage = () => {
                     <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                     <span className="relative z-10">Manifesto</span>
                   </Link>
-                  <a 
-                    href="#" 
+                  <button 
                     className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                   >
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                     <span className="relative z-10">Privacy</span>
-                  </a>
-                  <a 
-                    href="#" 
+                  </button>
+                  <button 
                     className="relative text-foreground hover:text-red-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                   >
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                     <span className="relative z-10">Terms</span>
-                  </a>
+                  </button>
                 </div>
               </div>
               

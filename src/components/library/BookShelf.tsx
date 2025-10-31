@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import BookRequestDialog from './BookRequestDialog';
 import { formatRelativeTime } from '@/lib/date/relativeTime';
 import { formatMinutes } from '@/lib/utils/format';
+import { Link } from "react-router-dom";
 
 interface BookShelfProps {
   books: SpiritualBook[];
@@ -53,7 +54,7 @@ const BookShelf = ({ books, onSelectBook, view, onClearFilters, hasActiveFilters
             </Button>
           )}
           <BookRequestDialog />
-          <a href="/store" className="px-4 py-2 border border-primary/30 rounded-md text-xs md:text-sm text-muted-foreground hover:bg-primary/10 transition-all">Browse Store</a>
+          <Link to="/store" className="px-4 py-2 border border-primary/30 rounded-md text-xs md:text-sm text-muted-foreground hover:bg-primary/10 transition-all">Browse Store</Link>
         </div>
       </div>
     );
