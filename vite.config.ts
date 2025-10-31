@@ -132,7 +132,7 @@ export default defineConfig({
       }
     },
     // Increase chunk size warning limit to reduce warnings
-    chunkSizeWarningLimit: 2000, // 2 MB instead of 1 MB
+    chunkSizeWarningLimit: 5000, // 5 MB instead of 2 MB
     // Enable minification
     minify: 'esbuild',
     // Enable CSS code splitting
