@@ -49,12 +49,12 @@ export function preprocessYantraImage(tex: THREE.Texture): THREE.Texture {
   // Set both if available for compatibility
   try {
     // three r152+ uses colorSpace
-    (tex as any).colorSpace = (THREE as any).SRGBColorSpace ?? undefined;
+    (tex as unknown as Record<string, unknown>).colorSpace = (THREE as unknown as Record<string, unknown>).SRGBColorSpace ?? undefined;
   } catch (e) {
     // ignore
   }
-  // Backward compatible: assign to any to avoid TS property mismatch across versions
-  (tex as any).encoding = (THREE as any).sRGBEncoding ?? (THREE as any).SRGBColorSpace ?? (tex as any).encoding;
+  // Backward compatible: assign to unknown to avoid TS property mismatch across versions
+  (tex as unknown as Record<string, unknown>).encoding = (THREE as unknown as Record<string, unknown>).sRGBEncoding ?? (THREE as unknown as Record<string, unknown>).SRGBColorSpace ?? (tex as unknown as Record<string, unknown>).encoding;
   tex.flipY = false;
   tex.generateMipmaps = true;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -67,7 +67,7 @@ export function preprocessYantraImage(tex: THREE.Texture): THREE.Texture {
     const max = renderer?.capabilities?.getMaxAnisotropy?.() ?? 8;
     tex.anisotropy = Math.min(16, max);
   } catch (e) {
-    tex.anisotropy = Math.min(16, (tex as any).anisotropy || 1);
+    tex.anisotropy = Math.min(16, Number((tex as unknown as Record<string, unknown>).anisotropy) || 1);
   }
   tex.needsUpdate = true;
   return tex;
@@ -76,10 +76,10 @@ export function preprocessYantraImage(tex: THREE.Texture): THREE.Texture {
 /** Validate that a texture loaded correctly */
 export function validateTextureLoading(tex?: THREE.Texture): boolean {
   if (!tex) return false;
-  const img: any = (tex as any).image;
+  const img: Record<string, unknown> = (tex as unknown as Record<string, unknown>).image as Record<string, unknown>;
   if (!img) return false;
-  const w = img.width ?? img.videoWidth ?? 0;
-  const h = img.height ?? img.videoHeight ?? 0;
+  const w = (img.width as number | undefined) ?? (img.videoWidth as number | undefined) ?? 0;
+  const h = (img.height as number | undefined) ?? (img.videoHeight as number | undefined) ?? 0;
   return isFinite(w) && isFinite(h) && w > 1 && h > 1;
 }
 
@@ -125,10 +125,9 @@ export async function loadCroppedTexture(url: string, size = 1024): Promise<THRE
 async function loadTextureAsync(url: string): Promise<THREE.Texture> {
   const loader = new THREE.TextureLoader();
   // three's loader has loadAsync in modern versions
-  // @ts-ignore
-  if (typeof (loader as any).loadAsync === 'function') {
-    // @ts-ignore
-    return (loader as any).loadAsync(url);
+  const loaderAny = loader as unknown as Record<string, unknown>;
+  if (typeof loaderAny.loadAsync === 'function') {
+    return (loaderAny.loadAsync as (url: string) => Promise<THREE.Texture>)(url);
   }
   // fallback to manual Promise
   return new Promise((resolve, reject) => {

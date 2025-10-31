@@ -4,7 +4,7 @@ export interface AdminLog {
   action: string | null;
   target_type?: string | null;
   target_id?: number | null;
-  details?: any;
+  details?: Record<string, unknown>;
   severity?: string;
   category?: string | null;
   ip_address?: string | null;
@@ -12,8 +12,8 @@ export interface AdminLog {
   session_id?: string | null;
   correlation_id?: string | null;
   risk_score?: number | null;
-  geo_location?: any;
-  metadata?: any;
+  geo_location?: Record<string, unknown>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
 }
 
@@ -40,8 +40,8 @@ export interface SecurityEvent {
 export interface AlertRule {
   id?: number;
   rule_name: string;
-  conditions: any;
-  notification_channels: any[];
+  conditions: Record<string, unknown>;
+  notification_channels: unknown[];
   enabled?: boolean;
   severity_threshold?: string;
 }

@@ -1,5 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  color: string;
+  alpha: number;
+  pulseDirection: number;
+}
+
 const DurgaBackground: React.FC<{ className?: string }> = ({ className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -20,7 +31,7 @@ const DurgaBackground: React.FC<{ className?: string }> = ({ className = '' }) =
     window.addEventListener('resize', resizeCanvas);
 
     // Particle system for the background
-    let particles: any[] = [];
+    let particles: Particle[] = [];
     const particleCount = 100;
 
     // Initialize particles

@@ -15,7 +15,7 @@ export interface Profile {
   varna: string;
   sampradaya: string;
   onboarding_completed: boolean;
-  settings: any;
+  settings: Record<string, unknown>;
   karma_balance: number;
   spiritual_points: number;
   level: number;

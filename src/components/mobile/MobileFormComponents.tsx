@@ -315,7 +315,7 @@ export const MobileForm: React.FC<MobileFormProps> = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    let initialViewportHeight = window.visualViewport?.height || window.innerHeight;
+    const initialViewportHeight = window.visualViewport?.height || window.innerHeight;
 
     const handleViewportChange = () => {
       const currentHeight = window.visualViewport?.height || window.innerHeight;

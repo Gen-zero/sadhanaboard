@@ -10,7 +10,7 @@ export interface MediaVariant {
   width?: number;
   height?: number;
   file_size?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface CmsAsset {
@@ -21,7 +21,7 @@ export interface CmsAsset {
   file_path?: string;
   file_size?: number;
   mime_type?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   tags?: string[];
   category_id?: number | null;
   status?: ContentStatus;
@@ -50,8 +50,8 @@ export interface CmsTemplate {
   type?: string;
   difficulty_level?: string;
   duration_minutes?: number;
-  instructions?: any[];
-  components?: any[];
+  instructions?: unknown[];
+  components?: unknown[];
   tags?: string[];
   status?: ContentStatus;
   version?: number;
@@ -62,7 +62,7 @@ export interface VersionHistory {
   content_type: string;
   content_id: number;
   version: number;
-  payload: any;
+  payload: Record<string, unknown>;
   created_by?: number;
   created_at?: string;
 }

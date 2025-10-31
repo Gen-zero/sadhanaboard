@@ -1,15 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth as useLocalAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
+import type { Profile } from '@/types/profile';
 
 interface AuthContextType {
-  user: any;
+  user: { id: number; email: string; display_name: string } | null;
   isLoading: boolean;
   isOnboardingComplete: boolean | null;
   checkOnboardingStatus: () => Promise<boolean>;
   refreshOnboardingStatus: () => Promise<boolean>;
-  login: (email: string, password: string) => Promise<{ error: any }>;
-  signup: (email: string, password: string, displayName: string) => Promise<{ error: any }>;
+  login: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signup: (email: string, password: string, displayName: string) => Promise<{ error: Error | null }>;
   logout: () => Promise<void>;
 }
 
@@ -33,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setIsOnboardingLoading(true);
-      const data = await api.getProfile();
+      const data: { profile: Profile } = await api.getProfile();
       const completed = data.profile?.onboarding_completed || false;
       setIsOnboardingComplete(completed);
       return completed;

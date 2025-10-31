@@ -7,10 +7,10 @@ export interface ChartConfig {
   id?: string;
   chart_type: string; // e.g. 'line'|'bar'|'pie'|'table'|'kpi'
   data_source: string; // e.g. 'users'|'sadhanas'|'activity' etc.
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   aggregations?: Array<{ field: string; op: 'count'|'sum'|'avg'|'max'|'min' }>;
   group_by?: string[];
-  styling?: Record<string, any>;
+  styling?: Record<string, unknown>;
 }
 
 export interface ReportTemplate {
@@ -18,7 +18,7 @@ export interface ReportTemplate {
   name: string;
   description?: string;
   template: {
-    layout: any;
+    layout: Record<string, unknown>;
     components: ChartConfig[];
   };
   template_type: TemplateType;
@@ -33,7 +33,7 @@ export interface ScheduledReport {
   template_id: string;
   name: string;
   cron_expression: string;
-  recipients: string[] | any[];
+  recipients: string[] | unknown[];
   output_format: ReportFormat;
   active: boolean;
   last_run?: string | null;
@@ -51,7 +51,7 @@ export interface ReportExecution {
   started_at?: string;
   finished_at?: string;
   status?: ExecutionStatus;
-  result_data?: any;
+  result_data?: Record<string, unknown>;
   result_url?: string | null;
   error?: string | null;
 }
@@ -60,7 +60,7 @@ export interface SpiritualInsight {
   id: string;
   insight_type: InsightType;
   user_id?: string | null;
-  content: any;
+  content: Record<string, unknown>;
   score?: number;
   generated_at?: string;
   expires_at?: string | null;

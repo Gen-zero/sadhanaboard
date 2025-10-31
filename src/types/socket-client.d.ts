@@ -1,12 +1,12 @@
 declare module 'socket.io-client' {
   export type Socket = {
     id?: string;
-    on: (event: string, cb: (...args: any[]) => void) => void;
-    off: (event: string, cb?: (...args: any[]) => void) => void;
-    emit: (event: string, ...args: any[]) => void;
+    on: (event: string, cb: (...args: unknown[]) => void) => void;
+    off: (event: string, cb?: (...args: unknown[]) => void) => void;
+    emit: (event: string, ...args: unknown[]) => void;
     disconnect: () => void;
     connected?: boolean;
   };
-  const io: any;
+  const io: (...args: unknown[]) => Socket;
   export default io;
 }

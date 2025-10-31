@@ -7,7 +7,7 @@ import { cmsApi } from '@/services/cmsApi';
 // dynamic dnd-kit fallback (if not installed, simple append-only list)
 let DndContext: any, SortableContext: any, arrayMove: any;
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const dnd = require('@dnd-kit/core');
   const sortable = require('@dnd-kit/sortable');
   DndContext = dnd.DndContext;

@@ -77,7 +77,7 @@ export const adminApi = {
     const params = new URLSearchParams({ q, limit: String(limit), offset: String(offset), status });
     return adminRequest<{ users: Array<{ id: number; email: string; display_name: string; is_admin: boolean; active: boolean }>, total: number, limit: number, offset: number }>(`/users?${params.toString()}`);
   },
-  async listUsersWithFilters(filters: { q?: string; limit?: number; offset?: number } & Partial<any> = {}) {
+  async listUsersWithFilters(filters: { q?: string; limit?: number; offset?: number } & Partial<{ experience_level: string; traditions: string | string[]; favorite_deity: string; onboarding_completed: boolean }> = {}) {
     const params = new URLSearchParams();
     if (filters.q) params.append('q', filters.q);
     if (filters.limit) params.append('limit', String(filters.limit));
@@ -86,9 +86,9 @@ export const adminApi = {
     if (filters.traditions) params.append('traditions', Array.isArray(filters.traditions) ? filters.traditions.join(',') : String(filters.traditions));
     if (filters.favorite_deity) params.append('favorite_deity', filters.favorite_deity);
     if (typeof filters.onboarding_completed !== 'undefined') params.append('onboarding_completed', String(filters.onboarding_completed));
-    const res = await adminRequest<{ users: any[]; total: number; limit: number; offset: number }>(`/users?${params.toString()}`);
+    const res = await adminRequest<{ users: Record<string, unknown>[]; total: number; limit: number; offset: number }>(`/users?${params.toString()}`);
     // normalize profile shape: backend may return flat fields or nested `profile` — ensure `profile` exists
-    const users = (res.users || []).map((u: any) => {
+    const users = (res.users || []).map((u: Record<string, unknown>) => {
       if (u.profile && typeof u.profile === 'object') return u;
       const profile = {
         experience_level: u.experience_level ?? null,
@@ -98,7 +98,7 @@ export const adminApi = {
       };
       // remove flat keys to avoid confusion
       const { experience_level, traditions, onboarding_completed, favorite_deity, ...rest } = u;
-      return { ...rest, profile } as any;
+      return { ...rest, profile };
     });
     return { ...res, users };
   },
@@ -113,7 +113,7 @@ export const adminApi = {
       ...(admin_id && { admin_id })
     });
     // normalize to { items, total, limit, offset }
-    const r = await adminRequest<any>(`/logs?${params.toString()}`);
+    const r = await adminRequest<Record<string, unknown>>(`/logs?${params.toString()}`);
     const items = r.items || r.logs || r.rows || r;
     const total = r.total ?? (Array.isArray(items) ? items.length : 0);
     return { items, total, limit: r.limit ?? limit, offset: r.offset ?? offset };
@@ -126,48 +126,48 @@ export const adminApi = {
     if (params.category) qs.append('category', params.category);
     qs.append('limit', String(params.limit ?? 50));
     qs.append('offset', String(params.offset ?? 0));
-    const r = await adminRequest<any>(`/logs?${qs.toString()}`);
+    const r = await adminRequest<Record<string, unknown>>(`/logs?${qs.toString()}`);
     const items = r.items || r.rows || r.logs || [];
     const total = r.total ?? (Array.isArray(items) ? items.length : 0);
     return { items, total, limit: r.limit ?? params.limit ?? 50, offset: r.offset ?? params.offset ?? 0 };
   },
   async getLogStatistics() {
-    return adminRequest<any>(`/logs/stats`);
+    return adminRequest<Record<string, unknown>>(`/logs/stats`);
   },
   async getSecurityEvents() {
-    const r = await adminRequest<any>(`/logs/security-events`);
+    const r = await adminRequest<Record<string, unknown>>(`/logs/security-events`);
     return { items: r.items || r || [] };
   },
   async getStatsReport() {
-    return adminRequest<any>(`/stats/report`);
+    return adminRequest<Record<string, unknown>>(`/stats/report`);
   },
-  async createAlertRule(payload: Partial<{ rule_name: string; conditions: any; notification_channels?: any[] }>) {
-    return adminRequest<any>(`/logs/alert-rules`, { method: 'POST', body: JSON.stringify(payload) });
+  async createAlertRule(payload: Partial<{ rule_name: string; conditions: Record<string, unknown>; notification_channels?: unknown[] }>) {
+    return adminRequest<Record<string, unknown>>(`/logs/alert-rules`, { method: 'POST', body: JSON.stringify(payload) });
   },
-  async updateAlertRule(id: number, payload: { rule_name: string; conditions: any; notification_channels?: any[] }) { return adminRequest<any>(`/logs/alert-rules/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }); },
-  async deleteAlertRule(id: number) { return adminRequest<any>(`/logs/alert-rules/${id}`, { method: 'DELETE' }); },
-  async testAlertRule(id: number) { return adminRequest<any>(`/logs/alert-rules/${id}/test`, { method: 'POST' }); },
+  async updateAlertRule(id: number, payload: { rule_name: string; conditions: Record<string, unknown>; notification_channels?: unknown[] }) { return adminRequest<Record<string, unknown>>(`/logs/alert-rules/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }); },
+  async deleteAlertRule(id: number) { return adminRequest<Record<string, unknown>>(`/logs/alert-rules/${id}`, { method: 'DELETE' }); },
+  async testAlertRule(id: number) { return adminRequest<Record<string, unknown>>(`/logs/alert-rules/${id}/test`, { method: 'POST' }); },
   async listAlertRules() {
-    const r = await adminRequest<any>(`/logs/alert-rules`);
+    const r = await adminRequest<Record<string, unknown>>(`/logs/alert-rules`);
     return { items: r.items || r || [] };
   },
-  async exportLogs(filters: any = {}, format = 'csv') { return adminRequest<any>(`/logs/export`, { method: 'POST', body: JSON.stringify({ filters, format }) }); },
+  async exportLogs(filters: Record<string, unknown> = {}, format = 'csv') { return adminRequest<Record<string, unknown>>(`/logs/export`, { method: 'POST', body: JSON.stringify({ filters, format }) }); },
   reportUsersCsvUrl() { return `${ADMIN_API_BASE}/reports/users.csv`; },
   reportSadhanasCsvUrl() { return `${ADMIN_API_BASE}/reports/sadhanas.csv`; },
   async resolveSecurityEvent(id: number) { return adminRequest<{ ok: boolean }>(`/logs/security-events/${id}/resolve`, { method: 'PATCH' }); },
   // Enhanced user management
   async getUserDetails(id: number) {
-    return adminRequest<{ user: any; sadhanas: any[]; profile: any; progress?: any; analytics?: any; unreadMessages?: number }>(`/users/${id}`);
+    return adminRequest<{ user: Record<string, unknown>; sadhanas: Record<string, unknown>[]; profile: Record<string, unknown>; progress?: Record<string, unknown>; analytics?: Record<string, unknown>; unreadMessages?: number }>(`/users/${id}`);
   },
   async getUserAnalytics(id: number) {
-    return adminRequest<{ analytics: any }>(`/users/${id}/analytics`);
+    return adminRequest<{ analytics: Record<string, unknown> }>(`/users/${id}/analytics`);
   },
   async getUserProgress(id: number) {
-    return adminRequest<{ progress: any }>(`/users/${id}/progress`);
+    return adminRequest<{ progress: Record<string, unknown> }>(`/users/${id}/progress`);
   },
   async getUserMessages(id: number, limit = 50, offset = 0) {
     const params = new URLSearchParams({ limit: String(limit), offset: String(offset) });
-    return adminRequest<{ messages: any[] }>(`/users/${id}/messages?${params.toString()}`);
+    return adminRequest<{ messages: Record<string, unknown>[] }>(`/users/${id}/messages?${params.toString()}`);
   },
   async sendUserMessage(id: number, content: string) {
     return adminRequest<{ message: string; id?: number }>(`/users/${id}/message`, { method: 'POST', body: JSON.stringify({ content }) });
@@ -180,14 +180,14 @@ export const adminApi = {
   },
   // Assets
   async listAssets() {
-    const r = await adminRequest<any>(`/assets`);
+    const r = await adminRequest<Record<string, unknown>>(`/assets`);
     // backend may return { assets, total, limit, offset } or an object wrapper. Normalize to { items, total, page, limit, totalPages }
     const assets = r.assets || r.items || r;
-    const total = r.total ?? (Array.isArray(assets) ? assets.length : 0);
-    const limit = r.limit ?? 20;
+    const total = Number(r.total) || 0;
+    const limit = Number(r.limit) || 20;
     // compute page from provided page or from offset
-    const page = r.page ?? (r.offset ? Math.floor(Number(r.offset) / Number(limit)) + 1 : 1);
-    const totalPages = r.totalPages ?? (limit ? Math.ceil(total / limit) : 1);
+    const page = Number(r.page) || (r.offset ? Math.floor(Number(r.offset) / limit) + 1 : 1);
+    const totalPages = Number(r.totalPages) || (limit ? Math.ceil(total / limit) : 1);
     return { items: assets, total, page, limit, totalPages };
   },
   async listUIElements(params: { q?: string; limit?: number; offset?: number } = {}) {
@@ -195,21 +195,21 @@ export const adminApi = {
     if (params.q) search.append('q', params.q);
     if (params.limit) search.append('limit', String(params.limit));
     if (params.offset) search.append('offset', String(params.offset));
-    const r = await adminRequest<any>(`/ui-elements?${search.toString()}`);
+    const r = await adminRequest<Record<string, unknown>>(`/ui-elements?${search.toString()}`);
     const items = r.ui_elements || r.items || r;
-    const pagination = r.pagination || { total_count: Array.isArray(items) ? items.length : 0, current_page: 1, per_page: r.limit || 20, total_pages: 1 };
-    return { items, total: pagination.total_count ?? pagination.total, page: pagination.current_page ?? 1, limit: pagination.per_page ?? r.limit ?? 20, totalPages: pagination.total_pages ?? 1 };
+    const pagination = r.pagination || { total_count: Array.isArray(items) ? items.length : 0, current_page: 1, per_page: Number(r.limit) || 20, total_pages: 1 };
+    return { items, total: Number((pagination as Record<string, unknown>).total_count) || Number((pagination as Record<string, unknown>).total) || 0, page: Number((pagination as Record<string, unknown>).current_page) || 1, limit: Number((pagination as Record<string, unknown>).per_page) || Number(r.limit) || 20, totalPages: Number((pagination as Record<string, unknown>).total_pages) || 1 };
   },
   async getUILocations() {
-    const r = await adminRequest<any>(`/ui-elements/locations`);
+    const r = await adminRequest<Record<string, unknown>>(`/ui-elements/locations`);
     return r.locations || r;
   },
   async previewUIElement(id: number) {
-    const r = await adminRequest<any>(`/ui-elements/${id}/preview`);
+    const r = await adminRequest<Record<string, unknown>>(`/ui-elements/${id}/preview`);
     return r.preview || r;
   },
   async getAssetById(id: number) {
-    const r = await adminRequest<any>(`/assets/${id}`);
+    const r = await adminRequest<Record<string, unknown>>(`/assets/${id}`);
     return r.asset || r;
   },
   // Real-time dashboard: socket connection management

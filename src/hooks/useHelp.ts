@@ -15,7 +15,7 @@ export const useHelpTopic = (topic: {
   const { registerHelpTopic, unregisterHelpTopic } = useHelp();
 
   // Register the topic when the component mounts
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   React.useEffect(() => {
     registerHelpTopic(topic);
     return () => {

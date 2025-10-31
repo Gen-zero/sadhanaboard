@@ -188,7 +188,7 @@ export interface BookProgress {
   id: number;
   user_id: number;
   book_id: number;
-  position?: string | null;
+  position?: Record<string, unknown>;
   page?: number | null;
   percent?: number | null;
   last_seen_at?: string | null;
@@ -201,7 +201,7 @@ export interface Bookmark {
   book_id: number;
   label?: string | null;
   page?: number | null;
-  position?: any;
+  position?: Record<string, unknown>;
   is_public?: boolean;
   created_at?: string;
   updated_at?: string;

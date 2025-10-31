@@ -184,7 +184,7 @@ function getThemeById(id: string): ThemeDefinition | undefined {
 function listThemes(options?: { category?: string; available?: boolean }): ThemeDefinition[] {
   let res = [...THEME_REGISTRY];
   if (options) {
-    if (options.category) res = res.filter(r => r.metadata.category === (options.category as any));
+    if (options.category) res = res.filter(r => r.metadata.category === (options.category as string));
     if (typeof options.available === 'boolean') res = res.filter(r => Boolean(r.available) === options.available);
   }
   return res;

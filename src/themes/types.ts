@@ -56,7 +56,7 @@ export interface ThemeDefinition {
   metadata: ThemeMetadata;
   colors: ThemeColors;
   assets?: ThemeAssets;
-  BackgroundComponent?: React.ComponentType<any>;
+  BackgroundComponent?: React.ComponentType<Record<string, unknown>>;
   available?: boolean;
   createdAt?: string | Date;
 }

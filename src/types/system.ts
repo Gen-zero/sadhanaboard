@@ -9,7 +9,7 @@ export interface SystemMetrics {
   cpu_usage_percent?: number;
   memory_usage_percent?: number;
   disk_usage_percent?: number | null;
-  load_average?: { one: number; five: number; fifteen: number } | any;
+  load_average?: { one: number; five: number; fifteen: number } | Record<string, unknown>;
   active_connections?: number | null;
   idle_connections?: number | null;
   total_connections?: number | null;
@@ -49,11 +49,11 @@ export interface ApiMetrics {
 }
 
 export interface DatabaseMetrics {
-  connection_pool_status?: any;
-  active_queries?: any[];
-  slow_queries?: any[];
-  table_sizes?: any[];
-  index_usage?: any[];
+  connection_pool_status?: Record<string, unknown>;
+  active_queries?: unknown[];
+  slow_queries?: unknown[];
+  table_sizes?: unknown[];
+  index_usage?: unknown[];
 }
 
 export interface SystemAlert {
@@ -61,7 +61,7 @@ export interface SystemAlert {
   alert_type: SystemAlertType;
   severity: AlertSeverity;
   message: string;
-  metric_data?: any;
+  metric_data?: Record<string, unknown>;
   resolved?: boolean;
   resolved_at?: string;
   resolved_by?: string;
@@ -75,8 +75,8 @@ export interface SystemAlertRule {
   id: string;
   name: string;
   alert_type: SystemAlertType;
-  conditions: any;
-  thresholds: any;
+  conditions: Record<string, unknown>;
+  thresholds: Record<string, unknown>;
   enabled: boolean;
   suppression_window: number;
   created_at?: string;
@@ -89,7 +89,7 @@ export interface DeploymentInfo {
   build_date?: string;
   deployed_at?: string;
   deployment_status?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SystemHealth {

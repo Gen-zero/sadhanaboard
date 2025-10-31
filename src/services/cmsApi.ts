@@ -4,7 +4,7 @@ import type { CmsAsset, CmsTheme, CmsTemplate } from '@/types/cms';
 const CMS_BASE = '/cms';
 
 export const cmsApi = {
-  async uploadAsset(file: File, meta: Record<string, any> = {}) {
+  async uploadAsset(file: File, meta: Record<string, unknown> = {}) {
     const form = new FormData();
     form.append('file', file);
     Object.keys(meta || {}).forEach(k => form.append(k, typeof meta[k] === 'object' ? JSON.stringify(meta[k]) : String(meta[k])));

@@ -1,8 +1,15 @@
 import React from 'react';
 import { getThemeById } from './themes';
 
+interface ThemeInfo {
+  id: string;
+  name: string;
+  deity: string;
+  description: string;
+}
+
 const TestTaraImport: React.FC = () => {
-  const [themeInfo, setThemeInfo] = React.useState<any>(null);
+  const [themeInfo, setThemeInfo] = React.useState<ThemeInfo | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
@@ -18,7 +25,7 @@ const TestTaraImport: React.FC = () => {
       } else {
         setError('Tara theme not found');
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(`Error loading Tara theme: ${err.message}`);
     }
   }, []);

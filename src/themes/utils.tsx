@@ -32,7 +32,7 @@ export function applyThemeColors(colors?: Record<string, string> | null) {
       root.style.setProperty(varName, value as string);
       canonicalMap[key] = value as string;
     } catch (e) {
-      // eslint-disable-next-line no-console
+       
       console.warn('applyThemeColors error for', key, e);
     }
   });
@@ -56,7 +56,7 @@ export function applyThemeColors(colors?: Record<string, string> | null) {
       try {
         root.style.setProperty(alias, val);
       } catch (e) {
-        // eslint-disable-next-line no-console
+         
         console.warn('applyThemeColors alias error for', alias, e);
       }
     }
@@ -111,11 +111,11 @@ export function renderThemeIcon(theme: ThemeDefinition, sizeClass?: string): JSX
   const icon = theme?.metadata?.icon || theme?.assets?.icon;
   const name = theme?.metadata?.name || theme?.metadata?.id || 'theme';
   const id = theme?.metadata?.id || 'unknown-id';
-  const isDev = Boolean((import.meta as any)?.env?.DEV);
+  const isDev = Boolean((import.meta as unknown as { env?: { DEV?: boolean } })?.env?.DEV);
 
   // Dev logging for easier debugging of icon resolution
   if (isDev) {
-    // eslint-disable-next-line no-console
+     
     console.debug('[renderThemeIcon] resolving icon', {
       themeId: id,
       themeName: name,
@@ -154,7 +154,7 @@ export function renderThemeIcon(theme: ThemeDefinition, sizeClass?: string): JSX
     const altText = `${name} icon`;
     // onError will replace the broken image element with a placeholder to avoid broken icons in the UI.
     const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      // eslint-disable-next-line no-console
+       
       console.warn(`[renderThemeIcon] image failed to load for theme "${name}" (id=${id}) at path: ${icon}`);
       try {
         const imgEl = e.currentTarget as HTMLImageElement;
@@ -177,7 +177,7 @@ export function renderThemeIcon(theme: ThemeDefinition, sizeClass?: string): JSX
           imgEl.parentNode.replaceChild(placeholder, imgEl);
         }
       } catch (err) {
-        // eslint-disable-next-line no-console
+         
         console.warn('[renderThemeIcon] error replacing broken image with placeholder', err);
       }
     };
@@ -188,7 +188,7 @@ export function renderThemeIcon(theme: ThemeDefinition, sizeClass?: string): JSX
     }
 
     return (
-      // eslint-disable-next-line jsx-a11y/alt-text
+       
       <img
         src={icon}
         className={imgClass}
@@ -211,26 +211,26 @@ export function renderThemeIcon(theme: ThemeDefinition, sizeClass?: string): JSX
 
     // Basic type guard: icon should be a function (function component or forwardRef)
     const isRenderableComponent = typeof IconCandidate === 'function'
-      || (typeof IconCandidate === 'object' && IconCandidate !== null && ('render' in (IconCandidate as any) || (IconCandidate as any).$$typeof));
+      || (typeof IconCandidate === 'object' && IconCandidate !== null && ('render' in (IconCandidate as Record<string, unknown>) || (IconCandidate as Record<string, unknown>).$$typeof));
 
     if (!isRenderableComponent) {
-      // eslint-disable-next-line no-console
+       
       console.warn(`[renderThemeIcon] icon for theme "${name}" (id=${id}) is not a renderable React component.`, icon);
       return buildPlaceholder(`Invalid icon for ${name}`);
     }
 
-    const Icon = IconCandidate as React.ComponentType<any>;
+    const Icon = IconCandidate as React.ComponentType<Record<string, unknown>>;
     // Render the icon component. Wrap in try/catch to avoid breaking parent UI.
     try {
       return <Icon className={sizeClass || 'h-4 w-4'} aria-hidden title={`${name} icon`} />;
     } catch (renderErr) {
-      // eslint-disable-next-line no-console
+       
       console.warn(`[renderThemeIcon] failed to render React icon for theme "${name}" (id=${id})`, renderErr);
       return buildPlaceholder(`Render error for ${name}`);
     }
   } catch (e) {
     // Final fallback
-    // eslint-disable-next-line no-console
+     
     console.warn('renderThemeIcon: unexpected error while rendering icon for', name, e);
     return buildPlaceholder(`Error rendering icon for ${name}`);
   }
