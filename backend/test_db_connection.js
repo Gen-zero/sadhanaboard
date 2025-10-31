@@ -1,5 +1,5 @@
 // Test database connection script
-require('dotenv').config({ path: __dirname + '/.env.production' });
+require('dotenv').config({ path: __dirname + '/.env' });
 const db = require('./config/db');
 
 async function testConnection() {

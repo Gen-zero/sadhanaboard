@@ -84,10 +84,8 @@ Invoke-WebRequest -Uri "https://bhasogcwwjsjzjkckzeh.supabase.co/health" -Timeou
 
 ## STEP 7: Update Backend Configuration
 
-Based on what works, update all three `.env` files:
+Based on what works, update the `.env` files:
 - `backend/.env`
-- `backend/.env.development`
-- `backend/.env.production`
 
 ### Option A (With Pooling - Recommended):
 ```

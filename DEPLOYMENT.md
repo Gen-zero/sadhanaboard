@@ -41,73 +41,107 @@ If you plan to use custom domains:
 
 ## Step 2: Configure Environment Variables
 
-### Frontend Production (.env.production file)
+### Frontend Environment Variables (.env file)
 ```bash
 # API Configuration
-# This should point to your backend API server
-# If hosting backend separately, use your backend domain
-# Example: https://api.sadhanaboard.com/api
-VITE_API_BASE_URL=https://api.sadhanaboard.com/api
+# In development, this points to your local backend API server
+# In production, this should point to your backend API server
+VITE_API_BASE_URL=http://localhost:3004/api
 
-# Socket base URL for Production
-# This should point to your backend WebSocket server
-# Example: https://api.sadhanaboard.com
-VITE_SOCKET_BASE_URL=https://api.sadhanaboard.com
+# Socket base URL
+# In development, this points to your local backend WebSocket server
+# In production, this should point to your backend WebSocket server
+VITE_SOCKET_BASE_URL=http://localhost:3004
 
 # When true, the frontend will include credentials (cookies) on requests
 VITE_API_USE_CREDENTIALS=true
 
-# Development Configuration (should be false in production)
-VITE_DEV_MODE=false
+# Development Configuration
+# Set to true for development, false for production
+VITE_DEV_MODE=true
 
 # WebSocket reconnection strategy
 VITE_WS_RECONNECT_ATTEMPTS=5
 VITE_WS_RECONNECT_DELAY=1000
 
-# Feature-specific debug flags (should be false in production)
-VITE_DEBUG_API=false
-VITE_DEBUG_AUTH=false
+# Feature-specific debug flags
+# Set to true for development debugging, false for production
+VITE_DEBUG_API=true
+VITE_DEBUG_AUTH=true
 ```
 
-### Backend (.env.production file)
+### Backend Environment Variables (.env file)
 ```bash
-# Database Configuration
-DB_USER=your_database_user
-DB_HOST=your_database_host
-DB_NAME=saadhanaboard
-DB_PASSWORD=your_database_password
-DB_PORT=5432
+# Supabase Configuration
+SUPABASE_URL=https://bhasogcwwjsjzjkckzeh.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-# Alternative: Direct Database URL (comment out individual settings above if using this)
-# DATABASE_URL=postgresql://user:password@host:port/database
+# Supabase Database URL
+DATABASE_URL=postgresql://user:password@host:port/database
 
 # Server Configuration
 PORT=3004
-BACKEND_URL=https://api.sadhanaboard.com
+BACKEND_URL=http://localhost:3004
 
 # CORS Configuration
-CORS_ORIGIN=https://sadhanaboard.com
+# This should match your frontend domain
+# For development: http://localhost:8080,http://localhost:5173
+# For production: https://sadhanaboard.com
+CORS_ORIGIN=http://localhost:8080,http://localhost:5173
 
 # JWT Configuration
+# This is used to sign and verify JWT tokens
 # Generate a secure random string
 # Example: openssl rand -base64 32
 JWT_SECRET=your_secure_jwt_secret
 
-# Admin Configuration
+# Admin Authentication Configuration
+# These are the credentials for the admin user
+# Make sure to use strong passwords in production
 ADMIN_USERNAME=admin
 ADMIN_EMAIL=admin@sadhanaboard.com
 ADMIN_PASSWORD=your_secure_admin_password
+ADMIN_FORCE_UPDATE=0
+
+# Admin JWT Configuration
+# How long admin tokens should be valid
+ADMIN_TOKEN_EXPIRES_IN=7d
+
+# Admin Session Configuration
+# How long admin sessions should last before timeout (in minutes)
+ADMIN_SESSION_TIMEOUT_MINUTES=60
 
 # Polling Intervals (in milliseconds)
+# How often to poll for dashboard updates
 DASHBOARD_POLL_MS=15000
 # How often to poll for BI reports
 BI_POLL_MS=20000
 # How often to poll for system metrics
 SYSTEM_METRICS_POLL_MS=5000
 
-# SSL Configuration (for production)
-# Set to true when using HTTPS with PostgreSQL
-PGSSL=true
+# SSL Configuration
+# Set to false when running locally, true when using HTTPS with PostgreSQL
+PGSSL=false
+
+# Admin Account Lock Settings
+# Security settings for admin account protection
+ADMIN_MAX_LOGIN_ATTEMPTS=5
+ADMIN_LOCK_MINUTES=30
+ADMIN_AUTO_UNLOCK=true
+
+# Admin Security Logging
+# Whether to log failed login attempts and account lock events
+ADMIN_LOG_FAILED_ATTEMPTS=true
+ADMIN_LOG_LOCK_EVENTS=true
+# Whether to send alerts when accounts are locked
+ADMIN_ALERT_ON_LOCK=false
+
+# Admin Account Management
+# Whether admins can unlock their own accounts
+ADMIN_ALLOW_SELF_UNLOCK=false
+# Whether to require 2FA for admin accounts
+ADMIN_REQUIRE_2FA=false
 ```
 
 ## Step 3: Deploy the Backend
@@ -120,7 +154,7 @@ The backend can be deployed to various hosting providers. Here are instructions 
 2. Connect your GitHub repository
 3. Set the build command to: `npm install`
 4. Set the start command to: `npm start`
-5. Add environment variables from your `.env.production` file
+5. Add environment variables from your `.env` file
 6. Set up a PostgreSQL database add-on or use an external database
 7. Deploy the service
 
@@ -129,7 +163,7 @@ The backend can be deployed to various hosting providers. Here are instructions 
 1. Create a new project on Railway
 2. Connect your GitHub repository
 3. Railway will automatically detect it's a Node.js project
-4. Add environment variables from your `.env.production` file
+4. Add environment variables from your `.env` file
 5. Set up a PostgreSQL database plugin or use an external database
 6. Deploy the service
 
@@ -139,7 +173,7 @@ The backend can be deployed to various hosting providers. Here are instructions 
 2. Connect your GitHub repository
 3. Select the backend directory
 4. Set the run command to: `npm start`
-5. Add environment variables from your `.env.production` file
+5. Add environment variables from your `.env` file
 6. Add a PostgreSQL database component
 7. Deploy the app
 
@@ -153,7 +187,7 @@ The frontend can be deployed to various static hosting providers. Here are instr
 2. Connect your GitHub repository
 3. Set the build command to: `npm run build`
 4. Set the publish directory to: `dist`
-5. Add environment variables from your `.env.production` file
+5. Add environment variables from your `.env` file
 6. Deploy the site
 
 ### Option 2: Vercel
@@ -162,7 +196,7 @@ The frontend can be deployed to various static hosting providers. Here are instr
 2. Connect your GitHub repository
 3. Set the build command to: `npm run build`
 4. Set the output directory to: `dist`
-5. Add environment variables from your `.env.production` file
+5. Add environment variables from your `.env` file
 6. Deploy the project
 
 ## Step 5: Initialize the Database

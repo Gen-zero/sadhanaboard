@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-require('dotenv').config({ path: __dirname + '/.env.development' });
+require('dotenv').config({ path: __dirname + '/.env' });
 
 // Test direct PostgreSQL connection
 const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:Subham%409835@bhasogcwwjsjzjkckzeh.supabase.co:5432/postgres?sslmode=require';

@@ -4,9 +4,6 @@
  */
 require('dotenv').config({ path: __dirname + '/../.env' });
 
-// Also load production env if exists
-require('dotenv').config({ path: __dirname + '/../.env.production', override: true });
-
 const bcrypt = require('bcrypt');
 const { query } = require('../config/db');
 

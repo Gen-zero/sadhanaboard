@@ -147,7 +147,7 @@ VITE_SUPABASE_URL=your_supabase_project_url  # From Step 2
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key  # From Step 2
 ```
 
-### Backend (.env.production)
+### Backend (.env)
 ```bash
 SUPABASE_URL=your_supabase_project_url  # From Step 2
 SUPABASE_ANON_KEY=your_supabase_anon_key  # From Step 2
