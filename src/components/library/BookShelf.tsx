@@ -233,6 +233,15 @@ const BookListItem = ({ book, onSelect, progress, isMobile = false }: BookCardPr
     <div 
       className="group flex justify-between items-center p-4 my-2 rounded-lg hover:bg-primary/15 hover:scale-[1.01] transition-all duration-300 border border-transparent hover:border-primary/30 cursor-pointer"
       onClick={() => onSelect(book.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect(book.id);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${book.title} by ${book.author}`}
     >
       <div className="flex items-center gap-4">
         <div className="h-12 w-12 bg-gradient-to-br from-primary/30 to-primary/30 rounded-lg flex items-center justify-center relative overflow-hidden">

@@ -74,7 +74,14 @@ const SpiritualDemoPage = () => {
     navigate('/store');
   };
 
-  const YantraCard = ({ yantra }: { yantra: any }) => (
+  interface Yantra {
+    id: string;
+    title: string;
+    description: string;
+    isUnlocked: boolean;
+  }
+
+  const YantraCard = ({ yantra }: { yantra: Yantra }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}

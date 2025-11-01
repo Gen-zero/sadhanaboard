@@ -290,32 +290,43 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
                 {/* Logo */}
                 <div className="relative group flex-shrink-0">
                   <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
-                    <img
-                      src="/lovable-uploads/sadhanaboard_logo.png"
-                      alt="Saadhana Board Logo"
-                      className="h-full w-full object-contain cursor-pointer transition-all duration-500 hover:scale-110 logo-enhanced"
+                    <button
                       onClick={() => {
                         navigate('/');
                       }}
-                    />
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          navigate('/');
+                        }
+                      }}
+                      aria-label="Navigate to home"
+                      className="h-full w-full object-contain cursor-pointer transition-all duration-500 hover:scale-110 logo-enhanced bg-transparent border-0 p-0"
+                    >
+                      <img
+                        src="/lovable-uploads/sadhanaboard_logo.png"
+                        alt="Saadhana Board Logo"
+                        className="h-full w-full object-contain"
+                      />
+                    </button>
                   </div>
                 </div>
                 
-                <h1 
-                  className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0"
+                <button
+                  className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0 border-0 bg-transparent p-0"
                   onClick={() => {
                     navigate('/');
                   }}
-                  tabIndex={0}
-                  role="button"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
                       navigate('/');
                     }
                   }}
+                  aria-label="SadhanaBoard - Navigate to home"
                 >
-                  SadhanaBoard
-                </h1>
+                  <h1>SadhanaBoard</h1>
+                </button>
               </div>
             </div>
             

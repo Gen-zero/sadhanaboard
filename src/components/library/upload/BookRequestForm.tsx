@@ -112,8 +112,9 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Book Title *</label>
+            <label htmlFor="book-title" className="text-sm font-medium">Book Title *</label>
             <Input
+              id="book-title"
               name="title"
               value={formData.title}
               onChange={handleInputChange}
@@ -122,8 +123,9 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Author *</label>
+            <label htmlFor="book-author" className="text-sm font-medium">Author *</label>
             <Input
+              id="book-author"
               name="author"
               value={formData.author}
               onChange={handleInputChange}
@@ -132,9 +134,10 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Traditions</label>
+            <label htmlFor="book-traditions" className="text-sm font-medium">Traditions</label>
             <div className="flex gap-2">
               <input
+                id="book-traditions"
                 value={newTradition}
                 onChange={(e) => setNewTradition(e.target.value)}
                 placeholder="Add tradition (e.g., Hindu, Buddhist, Taoist)"
@@ -153,6 +156,7 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
                     type="button"
                     onClick={() => handleTraditionRemove(tradition)}
                     className="ml-2 text-muted-foreground hover:text-foreground"
+                    aria-label={`Remove ${tradition} tradition`}
                   >
                     <span className="h-4 w-4">✕</span>
                   </button>
@@ -162,8 +166,9 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Book Description</label>
+            <label htmlFor="book-description" className="text-sm font-medium">Book Description</label>
             <Textarea
+              id="book-description"
               name="description"
               value={formData.description}
               onChange={handleInputChange}
@@ -173,8 +178,9 @@ const BookRequestForm = ({ onClose, onBookRequested }: BookRequestFormProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Reason for Request</label>
+            <label htmlFor="request-reason" className="text-sm font-medium">Reason for Request</label>
             <Textarea
+              id="request-reason"
               name="reason"
               value={formData.reason}
               onChange={handleInputChange}

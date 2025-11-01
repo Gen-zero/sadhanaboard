@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function AnalyticsExportPanel({}: {}) {
+export default function AnalyticsExportPanel() {
   const download = async (format: 'csv' | 'pdf') => {
     try {
       const res = await fetch(`/api/profile/analytics/export/${format === 'csv' ? 'csv' : 'pdf'}?type=detailed&start=2024-01-01&end=2024-12-31`, { credentials: 'include' });

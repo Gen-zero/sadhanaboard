@@ -131,7 +131,7 @@ export const useSettings = (): {
     loadSettings();
   }, []);
 
-  const updateSettings = (path: (string | number)[], value: any) => {
+  const updateSettings = (path: (string | number)[], value: unknown) => {
     // Prevent changing the theme to light mode
     if (path.length === 1 && path[0] === 'theme' && value !== 'dark') {
       console.log('Attempt to change theme to light mode blocked. Enforcing dark mode.');

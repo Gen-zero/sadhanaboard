@@ -92,22 +92,18 @@ export function useFormValidation<T extends Record<string, unknown>>(
         const testData = { ...values, [fieldName]: value };
         
         // Try to validate the specific field using the schema
-        try {
-          // For Zod schemas, attempt to get field schema if it's an object schema
-          if (schema instanceof z.ZodObject) {
-            const fieldSchema = (schema as z.ZodObject<z.ZodRawShape>).shape?.[fieldName as string];
-            if (fieldSchema) {
-              await fieldSchema.parseAsync(value);
-            } else {
-              // Fallback: validate the whole object and check this field
-              await schema.parseAsync(testData);
-            }
+        // For Zod schemas, attempt to get field schema if it's an object schema
+        if (schema instanceof z.ZodObject) {
+          const fieldSchema = (schema as z.ZodObject<z.ZodRawShape>).shape?.[fieldName as string];
+          if (fieldSchema) {
+            await fieldSchema.parseAsync(value);
           } else {
-            // For non-object schemas, validate the whole object
+            // Fallback: validate the whole object and check this field
             await schema.parseAsync(testData);
           }
-        } catch (validationError) {
-          throw validationError;
+        } else {
+          // For non-object schemas, validate the whole object
+          await schema.parseAsync(testData);
         }
 
         // Add delay before showing success state for better UX
@@ -150,15 +146,10 @@ export function useFormValidation<T extends Record<string, unknown>>(
       }
     };
 
-    // Immediate validation for blur events or when explicitly requested
     if (immediate || !finalConfig.realTimeValidation) {
       await runValidation();
     } else {
-      // Debounced validation for real-time validation
-      validationTimeouts.current[fieldName as string] = setTimeout(
-        runValidation,
-        finalConfig.debounceMs
-      );
+      validationTimeouts.current[fieldName as string] = setTimeout(runValidation, finalConfig.debounceMs);
     }
   }, [schema, values, finalConfig.debounceMs, finalConfig.realTimeValidation, finalConfig.successDelayMs]);
 

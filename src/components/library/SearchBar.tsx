@@ -144,6 +144,13 @@ const SearchBar = ({ value, onChange, placeholder = "Search...", onSelectSuggest
                 }`}
                 onClick={() => handleSelect(s)}
                 onMouseEnter={() => setSelectedIndex(index)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSelect(s);
+                  }
+                }}
+                tabIndex={-1}
               >
                 <div className="font-medium text-sm md:text-base">{s.title}</div>
                 {s.author && (

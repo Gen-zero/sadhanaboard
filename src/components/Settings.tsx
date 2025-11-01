@@ -429,9 +429,8 @@ const Settings = () => {
                     <Button
                       variant="outline"
                       className="w-full cursor-pointer border-purple-500/30 hover:bg-purple-500/10 transition-all duration-300"
-                      asChild
                     >
-                      <span>{t('import_settings')}</span>
+                      {t('import_settings')}
                     </Button>
                   </label>
                 </div>

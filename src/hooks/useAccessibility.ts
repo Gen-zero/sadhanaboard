@@ -146,7 +146,7 @@ export const useAccessibility = () => {
           }
         });
       }
-    }, [prefersReducedMotion]);
+    }, []);
   };
 
   /**

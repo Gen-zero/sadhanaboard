@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { getThemeById } from '../themes';
 
+interface ThemeInfo {
+  id: string;
+  name: string;
+  available: boolean;
+  hasBackground: boolean;
+  assets?: {
+    icon?: string;
+    backgroundImage?: string;
+  };
+}
+
 const ThemeDebugger: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<string>('default');
-  const [themeInfo, setThemeInfo] = useState<any>(null);
+  const [themeInfo, setThemeInfo] = useState<ThemeInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,8 +43,8 @@ const ThemeDebugger: React.FC = () => {
       } else {
         setError('Tara theme not found in registry');
       }
-    } catch (err: any) {
-      setError(`Error: ${err.message}`);
+    } catch (err: unknown) {
+      setError(`Error: ${(err as Error).message}`);
       console.error('Theme debug error:', err);
     }
   }, []);
@@ -44,8 +55,8 @@ const ThemeDebugger: React.FC = () => {
       document.body.classList.add('theme-tara');
       setCurrentTheme('tara');
       console.log('Applied theme-tara class manually');
-    } catch (err: any) {
-      setError(`Error applying theme: ${err.message}`);
+    } catch (err: unknown) {
+      setError(`Error applying theme: ${(err as Error).message}`);
     }
   };
 

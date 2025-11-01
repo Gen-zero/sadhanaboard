@@ -163,9 +163,9 @@ const Saadhanas = () => {
               </SheetHeader>
               <div className="mt-6 space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground mb-2 block">Priority</label>
+                  <label htmlFor="priority-filter-mobile" className="text-sm font-medium text-muted-foreground mb-2 block">Priority</label>
                   <Select value={filter} onValueChange={handleFilterChange}>
-                    <SelectTrigger className="glass-effect">
+                    <SelectTrigger id="priority-filter-mobile" className="glass-effect">
                       <SelectValue placeholder="Select priority" />
                     </SelectTrigger>
                     <SelectContent>
@@ -189,9 +189,9 @@ const Saadhanas = () => {
           <CollapsibleContent className="pt-4 border-t border-primary/20 mt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">Priority</label>
+                <label htmlFor="priority-filter-desktop" className="text-sm font-medium text-muted-foreground mb-2 block">Priority</label>
                 <Select value={filter} onValueChange={handleFilterChange}>
-                  <SelectTrigger className="glass-effect">
+                  <SelectTrigger id="priority-filter-desktop" className="glass-effect">
                     <SelectValue placeholder="Select priority" />
                   </SelectTrigger>
                   <SelectContent>

@@ -64,9 +64,10 @@ const SignupPage = () => {
       
       setSuccess(true);
   // success handled via UI state/toast
-    } catch (err: any) {
+    } catch (err: unknown) {
   // error shown to user via setError()
-      setError(err.response?.data?.error || "Failed to join waiting list. Please try again.");
+      const errorMessage = err instanceof Error ? err.message : "Failed to join waiting list. Please try again.";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

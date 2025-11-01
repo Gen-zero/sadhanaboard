@@ -34,7 +34,7 @@ const ThemePanel = () => {
     // Apply colors from registry if available
     const active = themeOptions.find((t) => t.metadata.id === currentTheme);
     if (active) {
-      themeUtils.applyThemeColors(active.colors as any);
+      themeUtils.applyThemeColors(active.colors as unknown as Record<string, string>);
     }
   }, [currentTheme, themeOptions]);
 
@@ -46,9 +46,9 @@ const ThemePanel = () => {
         updateSettings(['appearance', 'colorScheme'], themeId);
       }
       setCurrentTheme(themeId);
-    } else if (selectedTheme && selectedTheme.metadata?.isLandingPage && (selectedTheme.metadata as any).landingPagePath) {
+    } else if (selectedTheme && selectedTheme.metadata?.isLandingPage && selectedTheme.metadata.landingPagePath) {
       // Navigate to the landing page for this theme
-      navigate((selectedTheme.metadata as any).landingPagePath || selectedTheme.metadata.landingPagePath);
+      navigate(selectedTheme.metadata.landingPagePath);
     } else {
       // Apply the theme locally (component level)
       setCurrentTheme(themeId);
@@ -66,7 +66,7 @@ const ThemePanel = () => {
 
   const getMainButtonIcon = () => {
     const active = getCurrentTheme();
-    return themeUtils.renderThemeIcon(active as any, 'h-6 w-6');
+    return themeUtils.renderThemeIcon(active, 'h-6 w-6');
   };
 
   // Hide theme panel on landing page - moved to render phase
@@ -116,7 +116,7 @@ const ThemePanel = () => {
                   >
                     <div className="flex items-center w-full">
                       <div className={`p-2 rounded-lg ${isActive ? 'bg-white/20' : 'bg-purple-500/10 text-purple-400'}`}>
-                        {themeUtils.renderThemeIcon(theme as any, 'h-8 w-8')}
+                        {themeUtils.renderThemeIcon(theme, 'h-8 w-8')}
                       </div>
                       <div className="ml-3 text-left">
                         <div className={`font-medium ${isActive ? 'text-white' : 'text-foreground'}`}>

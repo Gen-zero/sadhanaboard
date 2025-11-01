@@ -1,19 +1,47 @@
 import { useEffect, useState, useCallback } from 'react';
 import { analyticsApi } from '@/services/analyticsApi';
 
+// Define types for the analytics data
+interface PracticeTrend {
+  date: string;
+  count: number;
+}
+
+interface CompletionRate {
+  category: string;
+  rate: number;
+}
+
+interface StreakData {
+  currentStreak: number;
+  longestStreak: number;
+  lastPracticeDate: string;
+}
+
+interface HeatmapData {
+  date: string;
+  count: number;
+}
+
+interface CategoryInsight {
+  category: string;
+  totalPractices: number;
+  completionRate: number;
+}
+
 /**
  * Comprehensive useUserAnalytics hook
  * Provides methods to fetch practice trends, completion rates, streaks, comparative analytics, heatmap and category insights.
  */
 export function useUserAnalytics(userId: string | number) {
-  const [practiceTrends, setPracticeTrends] = useState<any>(null);
-  const [completionRates, setCompletionRates] = useState<any>(null);
-  const [streaks, setStreaks] = useState<any>(null);
-  const [comparative, setComparative] = useState<any>(null);
-  const [heatmap, setHeatmap] = useState<any>(null);
-  const [categoryInsights, setCategoryInsights] = useState<any>(null);
+  const [practiceTrends, setPracticeTrends] = useState<PracticeTrend[] | null>(null);
+  const [completionRates, setCompletionRates] = useState<CompletionRate[] | null>(null);
+  const [streaks, setStreaks] = useState<StreakData | null>(null);
+  const [comparative, setComparative] = useState<unknown | null>(null);
+  const [heatmap, setHeatmap] = useState<HeatmapData[] | null>(null);
+  const [categoryInsights, setCategoryInsights] = useState<CategoryInsight[] | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<unknown | null>(null);
 
   const fetchPracticeTrends = useCallback(async (timeframe = '30d', granularity = 'daily') => {
     setLoading(true);

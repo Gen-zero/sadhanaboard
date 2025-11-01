@@ -4,7 +4,7 @@ const USE_CREDENTIALS = (import.meta.env.VITE_API_USE_CREDENTIALS === 'true');
 async function req(path: string, init: RequestInit = {}) {
   const res = await fetch(`${BASE_API}${path}`, {
     ...(USE_CREDENTIALS ? { credentials: 'include' } : {}),
-    headers: { 'Content-Type': 'application/json', ...(init.headers as any || {}) },
+    headers: { 'Content-Type': 'application/json', ...(init.headers || {}) },
     ...init,
   });
   if (!res.ok) throw new Error(await res.text().catch(() => `HTTP ${res.status}`));

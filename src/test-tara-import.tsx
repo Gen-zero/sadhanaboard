@@ -25,8 +25,9 @@ const TestTaraImport: React.FC = () => {
       } else {
         setError('Tara theme not found');
       }
-    } catch (err: any) {
-      setError(`Error loading Tara theme: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(`Error loading Tara theme: ${errorMessage}`);
     }
   }, []);
 

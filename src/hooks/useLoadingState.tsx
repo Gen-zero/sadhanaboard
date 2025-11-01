@@ -124,7 +124,7 @@ export const useLoading = (key: string) => {
 };
 
 // Hook for async operations with automatic loading state
-export const useAsyncOperation = <T extends any[], R = any>(
+export const useAsyncOperation = <T extends unknown[], R = unknown>(
   key: string,
   asyncFn: (...args: T) => Promise<R>
 ) => {

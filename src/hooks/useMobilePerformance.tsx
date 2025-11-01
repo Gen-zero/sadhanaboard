@@ -379,7 +379,14 @@ export const useBatteryOptimization = () => {
 
   useEffect(() => {
     if ('getBattery' in navigator) {
-      (navigator as any).getBattery().then((battery: any) => {
+      // Type assertion for navigator.getBattery API
+      const nav = navigator as Navigator & { getBattery?: () => Promise<any> };
+      nav.getBattery?.().then((battery: { 
+        level: number; 
+        charging: boolean;
+        addEventListener: (event: string, handler: () => void) => void;
+        removeEventListener: (event: string, handler: () => void) => void;
+      }) => {
         const updateBatteryInfo = () => {
           setBatteryLevel(battery.level);
           setIsCharging(battery.charging);

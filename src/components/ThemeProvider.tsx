@@ -145,7 +145,12 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
               // apply theme token colors
               try {
                 console.log('ThemeProvider: Applying theme colors:', themeDef.colors);
-                themeUtils.applyThemeColors(themeDef.colors as any);
+                // Convert ThemeColors to Record<string, string>
+                const colorsRecord: Record<string, string> = {};
+                Object.entries(themeDef.colors).forEach(([key, value]) => {
+                  colorsRecord[key] = value as string;
+                });
+                themeUtils.applyThemeColors(colorsRecord);
                 
                 // apply theme CSS if specified
                 themeUtils.applyThemeCSS(themeDef);
@@ -173,10 +178,12 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
     }
     
     // Apply explicit themeColors from settings if present (overrides)
-    const explicitColors = (memoizedSettings as any)?.appearance?.themeColors || (memoizedSettings as any)?.themeColors;
-    if (explicitColors) {
+    // Note: themeColors is not part of the standard SettingsType, but may be present in some custom implementations
+    const explicitColors = (memoizedSettings?.appearance as Record<string, unknown>)?.themeColors || 
+                          (memoizedSettings as Record<string, unknown>)?.themeColors;
+    if (explicitColors && typeof explicitColors === 'object' && explicitColors !== null) {
       try {
-        themeUtils.applyThemeColors(explicitColors as any);
+        themeUtils.applyThemeColors(explicitColors as Record<string, string>);
       } catch(e) {
         console.warn('applyThemeColors failed for explicit colors', e);
       }

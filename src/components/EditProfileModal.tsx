@@ -182,7 +182,7 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
               <Label>Profile Picture</Label>
               <div className="flex flex-wrap gap-4 mt-2">
                 {avatarOptions.map((avatar) => (
-                  <div 
+                  <button 
                     key={avatar.id}
                     className={`cursor-pointer p-1 rounded-full border-2 transition-all ${
                       formData.avatar_url === avatar.url 
@@ -190,6 +190,14 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
                         : 'border-transparent hover:border-purple-300'
                     }`}
                     onClick={() => handleChange('avatar_url', avatar.url)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleChange('avatar_url', avatar.url);
+                      }
+                    }}
+
+                    aria-label={`Select ${avatar.name} avatar`}
                   >
                     <img 
                       src={avatar.url} 
@@ -197,7 +205,7 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
                       className="w-16 h-16 rounded-full object-cover"
                     />
                     <p className="text-xs text-center mt-1 text-muted-foreground">{avatar.name}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

@@ -122,9 +122,9 @@ export const LoadingInput: React.FC<LoadingInputProps> = ({
         {statusIcon && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
             {statusIcon}
-          </div>
+          </button>
         )}
-      </div>
+      </button>
       <AnimatePresence>
         {statusMessage && (
           <motion.div
@@ -187,7 +187,7 @@ export const LoadingTextarea: React.FC<LoadingTextareaProps> = ({
               {charCount}/{maxLength}
             </span>
           )}
-        </div>
+        </button>
       )}
       <Textarea
         className={cn(
@@ -326,6 +326,13 @@ export const LoadingFileUpload: React.FC<LoadingFileUploadProps> = ({
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileInputRef.current?.click();
+          }
+        }}
+        aria-label="Upload files by clicking or dragging and dropping"
       >
         <input
           ref={fileInputRef}

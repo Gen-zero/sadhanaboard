@@ -3,22 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/services/api';
 
 export interface SpiritualBook {
-  id: string;
-  user_id: string;
+  id: number;
   title: string;
   author: string;
-  traditions: string[];
-  content: string;
-  description?: string;
-  year?: number;
-  language?: string;
-  page_count?: number;
+  description: string;
+  tradition: string;
+  category: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  estimated_hours: number;
+  pages?: number;
+  isbn?: string;
+  publisher?: string;
+  publication_year?: number;
+  language: string;
+  tags: string[];
   cover_url?: string;
   created_at: string;
   updated_at: string;
 }
 
-export const useSpiritualBooks = (filters?: Record<string, any>) => {
+export const useSpiritualBooks = (filters?: Record<string, unknown>) => {
   const query = useQuery({
     queryKey: ['spiritual-books', filters],
     queryFn: async (): Promise<{ books: SpiritualBook[]; total: number; limit: number; offset: number }> => {
@@ -26,8 +30,8 @@ export const useSpiritualBooks = (filters?: Record<string, any>) => {
       return {
         books: data.books || [],
         total: data.total || 0,
-        limit: data.limit || (filters && filters.limit) || 20,
-        offset: data.offset || (filters && filters.offset) || 0
+        limit: data.limit || (filters && filters.limit as number) || 20,
+        offset: data.offset || (filters && filters.offset as number) || 0
       };
     },
   });
@@ -35,8 +39,8 @@ export const useSpiritualBooks = (filters?: Record<string, any>) => {
   return {
     books: query.data ? query.data.books : [],
     total: query.data ? query.data.total : 0,
-    limit: query.data ? query.data.limit : (filters && filters.limit) || 20,
-    offset: query.data ? query.data.offset : (filters && filters.offset) || 0,
+    limit: query.data ? query.data.limit : (filters && filters.limit as number) || 20,
+    offset: query.data ? query.data.offset : (filters && filters.offset as number) || 0,
     isLoading: query.isLoading,
     error: query.error,
     refreshBooks: query.refetch

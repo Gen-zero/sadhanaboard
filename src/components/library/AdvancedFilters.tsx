@@ -248,10 +248,10 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
       {/* Traditional Filters - Clean Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Traditions</label>
+          <label htmlFor="traditions-filter" className="text-xs font-medium text-muted-foreground">Traditions</label>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-between text-left font-normal">
+              <Button id="traditions-filter" variant="outline" className="w-full justify-between text-left font-normal">
                 <span className="truncate">
                   {filters.traditions && filters.traditions.length > 0 ? `${filters.traditions.length} selected` : 'Select traditions'}
                 </span>
@@ -291,9 +291,9 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Language</label>
+          <label htmlFor="language-filter" className="text-xs font-medium text-muted-foreground">Language</label>
           <Select onValueChange={(v) => patch({ language: v === 'all' ? undefined : v })} value={filters.language || 'all'}>
-            <SelectTrigger>
+            <SelectTrigger id="language-filter">
               <SelectValue placeholder="All" />
             </SelectTrigger>
             <SelectContent>
@@ -306,9 +306,9 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">File Type</label>
+          <label htmlFor="filetype-filter" className="text-xs font-medium text-muted-foreground">File Type</label>
           <Select onValueChange={(v: any) => patch({ fileType: v || undefined })} value={(filters.fileType ?? 'all') as 'all' | 'pdf' | 'text'}>
-            <SelectTrigger>
+            <SelectTrigger id="filetype-filter">
               <SelectValue placeholder="All"/>
             </SelectTrigger>
             <SelectContent>
@@ -320,9 +320,9 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Sort By</label>
+          <label htmlFor="sortby-filter" className="text-xs font-medium text-muted-foreground">Sort By</label>
           <Select onValueChange={(v: any) => patch({ sortBy: v || undefined })} value={(filters.sortBy ?? 'created_at') as 'created_at' | 'title' | 'language' | 'year' | 'author'}>
-            <SelectTrigger>
+            <SelectTrigger id="sortby-filter">
               <SelectValue placeholder="Newest"/>
             </SelectTrigger>
             <SelectContent>
@@ -336,9 +336,9 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Order</label>
+          <label htmlFor="order-filter" className="text-xs font-medium text-muted-foreground">Order</label>
           <Select onValueChange={(v: any) => patch({ sortOrder: v || undefined })} value={(filters.sortOrder ?? 'desc') as 'asc' | 'desc'}>
-            <SelectTrigger>
+            <SelectTrigger id="order-filter">
               <SelectValue placeholder="Desc"/>
             </SelectTrigger>
             <SelectContent>
@@ -349,9 +349,10 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">Year Range</label>
+          <label htmlFor="year-filter" className="text-xs font-medium text-muted-foreground">Year Range</label>
           <div className="flex items-center gap-2">
             <Input
+              id="year-min"
               type="number"
               value={sliderValue[0] ?? ''}
               onChange={(e) => {
@@ -373,6 +374,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
             />
             <span className="text-muted-foreground">-</span>
             <Input
+              id="year-max"
               type="number"
               value={sliderValue[1] ?? ''}
               onChange={(e) => {

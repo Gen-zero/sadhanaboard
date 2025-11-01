@@ -95,9 +95,16 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
 
       {/* Mobile menu overlay with fade and blur effect */}
       {isOpen && showHamburger && (
-        <div 
+        <button 
           className={`fixed inset-0 z-40 bg-black/90 backdrop-blur-lg transition-opacity duration-300 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
           onClick={closeMenu}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              closeMenu();
+            }
+          }}
+          aria-label="Close mobile menu"
         />
       )}
 

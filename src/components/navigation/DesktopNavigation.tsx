@@ -98,6 +98,14 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
             <h1 
               className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80"
               onClick={handleNavigation}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleNavigation();
+                }
+              }}
+              tabIndex={0}
+              role="button"
             >
               SadhanaBoard
             </h1>
@@ -119,7 +127,6 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         <div className="flex flex-col items-center justify-center p-6 space-y-3 border-b border-primary/10 flex-shrink-0">
           <div className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer deity-icon-wrapper"
             onClick={handleNavigation}
-            role="button"
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {

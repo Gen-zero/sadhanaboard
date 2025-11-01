@@ -61,9 +61,9 @@ const UnlockedSadhanas: React.FC<UnlockedSadhanasProps> = ({ onSelectSadhana, se
             {unlockedSadhanas.map((sadhana) => {
               const isSelected = selectedSadhanaId === sadhana.id;
               return (
-                <div
+                <button
                   key={sadhana.id}
-                  className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer group ${
+                  className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer group w-full text-left ${
                     isSelected 
                       ? 'bg-purple-500/20 border border-purple-500/40' 
                       : 'bg-secondary/20 hover:bg-secondary/30'
@@ -75,8 +75,6 @@ const UnlockedSadhanas: React.FC<UnlockedSadhanasProps> = ({ onSelectSadhana, se
                       onSelectSadhana(sadhana);
                     }
                   }}
-                  tabIndex={0}
-                  role="button"
                 >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -111,7 +109,7 @@ const UnlockedSadhanas: React.FC<UnlockedSadhanasProps> = ({ onSelectSadhana, se
                 >
                   {isSelected ? 'Selected' : 'Use This'}
                 </Button>
-              </div>
+              </button>
             );
             })}
           </div>

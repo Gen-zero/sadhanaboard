@@ -69,9 +69,9 @@ export const useAuth = () => {
 
       setUser(data.user);
       return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Signup error:', error);
-      const message = error?.message || 'Registration failed';
+      const message = error instanceof Error ? error.message : 'Registration failed';
       toast({ title: 'Registration failed', description: message, variant: 'destructive' });
       return { error: message };
     } finally {
@@ -92,9 +92,9 @@ export const useAuth = () => {
 
       setUser(data.user);
       return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Signin error:', error);
-      const message = error?.message || 'Sign in failed';
+      const message = error instanceof Error ? error.message : 'Sign in failed';
       toast({ title: 'Sign in failed', description: message, variant: 'destructive' });
       return { error: message };
     } finally {
@@ -113,11 +113,12 @@ export const useAuth = () => {
         title: "Signed out",
         description: "You have been successfully signed out."
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Signout error:', error);
+      const message = error instanceof Error ? error.message : 'Failed to sign out. Please try again.';
       toast({
         title: "Error",
-        description: "Failed to sign out. Please try again.",
+        description: message,
         variant: "destructive"
       });
     } finally {

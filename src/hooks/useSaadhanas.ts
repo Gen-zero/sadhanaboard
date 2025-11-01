@@ -136,7 +136,7 @@ export const useSaadhanas = () => {
     const updatedSadhana = { ...sadhana, completed: !sadhana.completed };
     
     // If this is a sadhana task, update it in the tasks storage as well
-    if ('isSadhanaTask' in sadhana && (sadhana as any).isSadhanaTask) {
+    if ('isSadhanaTask' in sadhana && (sadhana as Record<string, unknown>).isSadhanaTask) {
       try {
         const tasksStored = localStorage.getItem(TASKS_STORAGE_KEY);
         if (tasksStored) {

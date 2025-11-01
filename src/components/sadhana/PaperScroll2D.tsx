@@ -13,6 +13,14 @@ const PaperScroll2D: React.FC<PaperScroll2DProps> = ({ content, onClick }) => {
     <div 
       className="relative w-full max-w-2xl mx-auto cursor-pointer hover-lift"
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+      tabIndex={0}
+      role="button"
     >
       {/* Paper background with parchment texture */}
       <div className="relative overflow-hidden rounded-lg shadow-xl">

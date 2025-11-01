@@ -100,7 +100,7 @@ export class SaadhanaBoardClient {
   constructor(options: ClientOptions);
   
   setToken(token: string): void;
-  request(endpoint: string, options?: any): Promise<any>;
+  request(endpoint: string, options?: RequestInit): Promise<unknown>;
   
   auth: AuthAPI;
   profile: ProfileAPI;
@@ -112,7 +112,7 @@ export class AuthAPI {
   
   register(userData: RegisterData): Promise<AuthResponse>;
   login(credentials: LoginData): Promise<AuthResponse>;
-  joinWaitlist(waitlistData: WaitlistData): Promise<any>;
+  joinWaitlist(waitlistData: WaitlistData): Promise<{ message: string }>;
   getCurrentUser(): Promise<{ user: UserData }>;
 }
 
@@ -121,11 +121,11 @@ export class ProfileAPI {
   
   get(): Promise<{ profile: ProfileData }>;
   update(profileData: Partial<ProfileData>): Promise<{ profile: ProfileData }>;
-  follow(userId: string): Promise<any>;
-  unfollow(userId: string): Promise<any>;
-  getFollowers(userId: string, options?: PaginationOptions): Promise<any>;
-  getFollowing(userId: string, options?: PaginationOptions): Promise<any>;
-  getFollowStats(userId: string): Promise<any>;
+  follow(userId: string): Promise<{ message: string }>;
+  unfollow(userId: string): Promise<{ message: string }>;
+  getFollowers(userId: string, options?: PaginationOptions): Promise<{ followers: UserData[]; totalCount: number }>;
+  getFollowing(userId: string, options?: PaginationOptions): Promise<{ following: UserData[]; totalCount: number }>;
+  getFollowStats(userId: string): Promise<{ followersCount: number; followingCount: number }>;
   isFollowing(userId: string): Promise<{ isFollowing: boolean }>;
 }
 
@@ -135,12 +135,12 @@ export class AnalyticsAPI {
   getPracticeTrends(options?: AnalyticsOptions): Promise<PracticeTrend[]>;
   getCompletionRates(options?: AnalyticsOptions): Promise<CompletionRate[]>;
   getStreaks(): Promise<StreakData>;
-  getComparative(options?: AnalyticsOptions): Promise<any>;
-  getDetailedReport(dateRange: DateRange): Promise<any>;
+  getComparative(options?: AnalyticsOptions): Promise<{ trends: PracticeTrend[]; completionRates: CompletionRate[] }>;
+  getDetailedReport(dateRange: DateRange): Promise<{ report: unknown; generatedAt: string }>;
   getHeatmap(options?: AnalyticsOptions): Promise<HeatmapData[]>;
   getCategoryInsights(): Promise<CategoryInsight[]>;
-  exportCSV(options?: any): Promise<Blob>;
-  exportPDF(options?: any): Promise<Blob>;
+  exportCSV(options?: Record<string, unknown>): Promise<Blob>;
+  exportPDF(options?: Record<string, unknown>): Promise<Blob>;
 }
 
 export default SaadhanaBoardClient;

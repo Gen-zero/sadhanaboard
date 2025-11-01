@@ -61,10 +61,10 @@ const LoginPage = () => {
       }
       
       navigate("/dashboard");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Login error:', err);
       // Show more specific error message if available
-      if (err && err.message) {
+      if (err instanceof Error && err.message) {
         setError(err.message);
       } else if (err && typeof err === 'string') {
         setError(err);

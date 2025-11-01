@@ -45,7 +45,12 @@ const SmoothScroll = () => {
         if (options && options.behavior === 'smooth') {
           smoothScrollTo(options.top || 0, 500);
         } else {
-          originalScrollTo.apply(this, arguments as any);
+          // Convert arguments to array and pass them properly
+          // Use rest parameters instead of arguments
+          const originalScrollTo = window.scrollTo;
+          window.scrollTo = function(...args: [ScrollToOptions?]) {
+            originalScrollTo.apply(this, args);
+          };
         }
       };
     }

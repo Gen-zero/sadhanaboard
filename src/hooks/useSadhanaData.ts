@@ -65,7 +65,7 @@ const createOrRefreshDailySadhanaTasks = (sadhanaData: SadhanaData, sadhanaId: n
     
     const existingTasks = JSON.parse(localStorage.getItem('saadhanaTasks') || '[]');
     
-    const filteredTasks = existingTasks.filter((task: any) => 
+    const filteredTasks = existingTasks.filter((task: Record<string, unknown>) => 
       !(task.sadhanaId === sadhanaId && task.dueDate === todayStr)
     );
     
@@ -94,7 +94,7 @@ const createOrRefreshDailySadhanaTasks = (sadhanaData: SadhanaData, sadhanaId: n
 const removeSadhanaTasksFromLocalStorage = (sadhanaId: number) => {
   try {
     const existingTasks = JSON.parse(localStorage.getItem('saadhanaTasks') || '[]');
-    const filteredTasks = existingTasks.filter((task: any) => task.sadhanaId !== sadhanaId);
+    const filteredTasks = existingTasks.filter((task: Record<string, unknown>) => task.sadhanaId !== sadhanaId);
     localStorage.setItem('saadhanaTasks', JSON.stringify(filteredTasks));
     
     localStorage.removeItem(`sadhana_last_refresh_${sadhanaId}`);

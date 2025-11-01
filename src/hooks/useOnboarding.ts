@@ -164,14 +164,15 @@ export const useOnboarding = () => {
       });
 
       return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Skip onboarding error:', error);
+      const message = error instanceof Error ? error.message : 'Failed to skip onboarding. Please try again.';
       toast({
         title: "Error",
-        description: "Failed to skip onboarding. Please try again.",
+        description: message,
         variant: "destructive"
       });
-      return { error };
+      return { error: message };
     } finally {
       setIsLoading(false);
     }

@@ -33,8 +33,8 @@ export const EnhancedTooltip: React.FC<EnhancedTooltipProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
   const { showTooltip, hideTooltip, activeTooltip, showTooltips } = useHelp();
 
   // Handle tooltip visibility based on context
@@ -148,13 +148,13 @@ export const EnhancedTooltip: React.FC<EnhancedTooltipProps> = ({
   return (
     <div className="relative inline-block">
       {/* Tooltip Trigger */}
-      <div
+      <button
         ref={triggerRef}
         onClick={handleTriggerClick}
         onMouseEnter={() => handleTriggerHover(true)}
         onMouseLeave={() => handleTriggerHover(false)}
         className={cn(
-          'inline-flex items-center justify-center',
+          'inline-flex items-center justify-center border-0 bg-transparent p-0 cursor-pointer',
           variant === 'discovery' && 'relative',
           className
         )}
@@ -168,7 +168,7 @@ export const EnhancedTooltip: React.FC<EnhancedTooltipProps> = ({
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
           />
         )}
-      </div>
+      </button>
 
       {/* Tooltip */}
       <AnimatePresence>

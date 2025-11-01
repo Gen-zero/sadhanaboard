@@ -221,7 +221,7 @@ export class RetryableApiClient {
 
         if (!response.ok) {
           const error = new Error(`HTTP ${response.status}: ${response.statusText}`);
-          (error as any).status = response.status;
+          (error as Error & { status?: number }).status = response.status;
           throw error;
         }
 
@@ -264,9 +264,9 @@ export class RetryableApiClient {
     return this.fetchWithRetry(endpoint, { method: 'GET' }, retryConfig);
   }
 
-  async post<T>(
+  async post<T, D = unknown>(
     endpoint: string, 
-    data?: any, 
+    data?: D, 
     retryConfig?: Partial<RetryConfig>
   ): Promise<T> {
     return this.fetchWithRetry(
@@ -279,9 +279,9 @@ export class RetryableApiClient {
     );
   }
 
-  async put<T>(
+  async put<T, D = unknown>(
     endpoint: string, 
-    data?: any, 
+    data?: D, 
     retryConfig?: Partial<RetryConfig>
   ): Promise<T> {
     return this.fetchWithRetry(

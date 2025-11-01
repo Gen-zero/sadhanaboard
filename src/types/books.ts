@@ -212,7 +212,7 @@ export interface Annotation {
   user_id: number;
   book_id: number;
   page?: number | null;
-  position?: any;
+  position?: unknown;
   content?: string | null;
   is_private?: boolean;
   created_at?: string;

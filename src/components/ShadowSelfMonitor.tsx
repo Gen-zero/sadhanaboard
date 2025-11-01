@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { CloudLightning, Star, ArrowUpCircle, Sparkles, BookHeart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { shadowPrompts, higherSelfPrompts } from './shadowPrompts';
 
 interface ShadowSelfMonitorProps {
   shadowTraits: string[];
@@ -25,24 +25,6 @@ const ShadowSelfMonitor: React.FC<ShadowSelfMonitorProps> = ({ shadowTraits, per
   // Daily prompt for shadow work
   const [dailyPrompt, setDailyPrompt] = useState("");
   
-  const shadowPrompts = [
-    "How did your shadow traits manifest today?",
-    "What triggered your shadow self today and how did you respond?",
-    "Which of your shadow patterns are you most aware of right now?",
-    "What part of yourself are you currently rejecting or hiding?",
-    "How has your shadow self protected you in the past?",
-    "What aspects of yourself do you judge most harshly?"
-  ];
-
-  const higherSelfPrompts = [
-    "What would your higher self advise you about your current challenge?",
-    "How can you embody more of your divine traits today?",
-    "What wisdom does your higher self have for your shadow aspects?",
-    "How would your perfect being respond to your current situation?",
-    "What is your higher self trying to communicate to you right now?",
-    "How can you act more aligned with your spiritual purpose today?"
-  ];
-  
   useEffect(() => {
     // Set random daily prompt on load
     const prompts = reflectionType === "shadow" ? shadowPrompts : higherSelfPrompts;
@@ -53,7 +35,7 @@ const ShadowSelfMonitor: React.FC<ShadowSelfMonitorProps> = ({ shadowTraits, per
     if (savedReflections) {
       setReflections(JSON.parse(savedReflections));
     }
-  }, [reflectionType, shadowPrompts, higherSelfPrompts]);
+  }, [reflectionType]);
 
   const handleNewReflection = () => {
     if (!newReflection.trim()) return;
