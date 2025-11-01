@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import * as React from "react";
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Menu, Search, RotateCw } from 'lucide-react';
 import { useBookReading } from '@/hooks/useBookReading';
-// @ts-expect-error - Vite worker import type definition mismatch
+// @ts-expect-error - pdfjs-dist worker import needs special handling in Vite
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
 
 // Set up the worker with local import instead of CDN
@@ -14,7 +15,9 @@ const worker = new PDFWorker();
 pdfjs.GlobalWorkerOptions.workerPort = worker;
 
 // Terminate worker on HMR dispose to prevent dev-time worker leaks
+// @ts-expect-error - import.meta.hot is not standard TypeScript but available in Vite
 if (import.meta.hot) {
+  // @ts-expect-error - import.meta.hot.dispose is not standard TypeScript but available in Vite
   import.meta.hot.dispose(() => {
     worker.terminate();
   });
@@ -158,21 +161,17 @@ const PDFViewer = ({ fileUrl, fileName, bookId }: PDFViewerProps) => {
       <div className="flex items-center justify-between p-3 bg-card border-b border-border flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Button
-            variant="ghost"
-            size="icon"
             onClick={() => setShowOutline(!showOutline)}
-            className="hover:bg-accent hover:text-accent-foreground"
+            className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground"
           >
             <Menu className="h-4 w-4" />
           </Button>
           
           <div className="flex items-center gap-1">
             <Button
-              variant="ghost"
-              size="icon"
               onClick={goToPrevPage}
               disabled={pageNumber <= 1}
-              className="hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+              className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -192,79 +191,72 @@ const PDFViewer = ({ fileUrl, fileName, bookId }: PDFViewerProps) => {
             </div>
             
             <Button
-              variant="ghost"
-              size="icon"
               onClick={goToNextPage}
               disabled={pageNumber >= numPages}
-              className="hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+              className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
-
+        
+        <div className="flex items-center gap-1">
+          <Button
+            onClick={zoomOut}
+            disabled={scale <= 0.25}
+            className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+          >
+            <ZoomOut className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            onClick={resetZoom}
+            className="h-8 px-2 text-sm hover:bg-accent hover:text-accent-foreground"
+          >
+            {Math.round(scale * 100)}%
+          </Button>
+          
+          <Button
+            onClick={zoomIn}
+            disabled={scale >= 3.0}
+            className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+          >
+            <ZoomIn className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            onClick={rotate}
+            className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground"
+          >
+            <RotateCw className="h-4 w-4" />
+          </Button>
+        </div>
+        
         <div className="flex items-center gap-2">
           <form onSubmit={handleSearch} className="flex items-center gap-1">
             <Input
               type="text"
-              placeholder="Search in PDF..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-40 h-8 bg-input border-border"
+              placeholder="Search..."
+              className="h-8 w-32 text-sm"
             />
-            <Button type="submit" variant="ghost" size="icon" className="h-8 w-8 hover:bg-accent">
-              <Search className="h-3 w-3" />
+            <Button
+              type="submit"
+              className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground"
+            >
+              <Search className="h-4 w-4" />
             </Button>
           </form>
           
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomOut}
-              disabled={scale <= 0.25}
-              className="hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            
-            <Button
-              variant="ghost"
-              onClick={resetZoom}
-              className="text-sm px-2 h-8 hover:bg-accent hover:text-accent-foreground min-w-[60px]"
-            >
-              {Math.round(scale * 100)}%
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomIn}
-              disabled={scale >= 3.0}
-              className="hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-          </div>
-          
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={rotate}
-            className="hover:bg-accent hover:text-accent-foreground"
-          >
-            <RotateCw className="h-4 w-4" />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="icon"
             onClick={downloadPDF}
-            className="hover:bg-accent hover:text-accent-foreground"
+            className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground"
           >
             <Download className="h-4 w-4" />
           </Button>
         </div>
+
       </div>
 
       {/* Main content area */}
@@ -302,8 +294,7 @@ const PDFViewer = ({ fileUrl, fileName, bookId }: PDFViewerProps) => {
                 <span className="text-sm text-muted-foreground">{error}</span>
                 <Button 
                   onClick={handleRetry}
-                  className="mt-4"
-                  variant="outline"
+                  className="mt-4 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md"
                 >
                   Retry
                 </Button>

@@ -1,18 +1,4 @@
 export { default as AboutPage } from './landing/AboutPage';
-export { default as AdminAssetsPage } from './admin/AdminAssetsPage';
-export { default as AdminBIDashboardPage } from './admin/AdminBIDashboardPage';
-export { default as AdminCommunityPage } from './admin/AdminCommunityPage';
-export { default as AdminContentPage } from './admin/AdminContentPage';
-export { default as AdminDashboardPage } from './admin/AdminDashboardPage';
-export { default as AdminLayout } from './admin/AdminLayout';
-export { default as AdminLibraryPage } from './admin/AdminLibraryPage';
-export { default as AdminLoginPage } from './admin/AdminLoginPage';
-export { default as AdminLogsPage } from './admin/AdminLogsPage';
-export { default as AdminSettingsReportsPage } from './admin/AdminSettingsReportsPage';
-export { default as AdminSystemPage } from './admin/AdminSystemPage';
-export { default as AdminTemplatesPage } from './admin/AdminTemplatesPage';
-export { default as AdminThemesPage } from './admin/AdminThemesPage';
-export { default as AdminUsersPage } from './admin/AdminUsersPage';
 export { default as AnalyticsPage } from './user/AnalyticsPage';
 export { default as CommunityFeedPage } from './user/CommunityFeedPage';
 export { default as DashboardPage } from './user/DashboardPage';
@@ -35,8 +21,6 @@ export { default as StorePage } from './user/StorePage';
 export { default as ThemePreviewPage } from './user/ThemePreviewPage';
 export { default as WaitlistPage } from './landing/WaitlistPage';
 export { default as WalkthroughPage } from './user/WalkthroughPage';
-export { default as AdminNotFound } from './admin/AdminNotFound';
-export { default as CosmicAdminPage } from './admin/CosmicAdminPage';
 export { default as HelpDemoPage } from './user/HelpDemoPage';
 export { default as EnergyLevelPage } from './user/EnergyLevelPage'; // Add this export
 export { default as CosmosThemePage } from './CosmosThemePage';

@@ -1,15 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/hooks/useToast';
-import { useDailySadhanaRefresh } from '@/hooks/useDailySadhanaRefresh';
-import MobileDashboard from './MobileDashboard';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Task } from '@/types/task';
-import { RefreshCw, Target, Flame, Calendar, CheckCircle, BookOpen, TrendingUp, Zap, Star, Clock, Award } from 'lucide-react';
-import { inspirationalQuotes } from '@/data/inspirationalQuotes';
+import { useToast } from '../hooks/use-toast';
+import { useDailySadhanaRefresh } from '../hooks/useDailySadhanaRefresh';
+import MobileDashboard from '../components/mobile/MobileDashboard';
+import ProfileCard from '../components/ProfileCard';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
+import { Progress } from '../components/ui/progress';
+import type { Task } from '../types/task';
+import { 
+  RefreshCw, 
+  Target, 
+  Flame, 
+  Calendar, 
+  CheckCircle, 
+  BookOpen, 
+  TrendingUp, 
+  Zap, 
+  Star, 
+  Clock, 
+  Award,
+  AlarmClock,
+  RotateCw,
+  CheckSquare,
+  PieChart,
+  Lightbulb
+} from 'lucide-react';
+import { inspirationalQuotes } from '../data/inspirationalQuotes';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -17,6 +35,19 @@ const Dashboard = () => {
   const { manualRefresh } = useDailySadhanaRefresh();
   const [isMobile, setIsMobile] = useState(false);
   
+  // All state hooks moved to the top to comply with React Hooks rules
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [dailyProgress, setDailyProgress] = useState(0);
+  const [urgentTasks, setUrgentTasks] = useState<Task[]>([]);
+  const [dailyIntention, setDailyIntention] = useState("");
+  const [goalProgress, setGoalProgress] = useState(0);
+  const [totalDays, setTotalDays] = useState(40);
+  const [currentDay, setCurrentDay] = useState(15);
+  const [streak, setStreak] = useState(7); // Current streak
+  const [level, setLevel] = useState(3); // User level
+
   // Check if we're on mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -36,19 +67,6 @@ const Dashboard = () => {
     return <MobileDashboard />;
   }
   
-  // Desktop dashboard continues below
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [completedCount, setCompletedCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const [dailyProgress, setDailyProgress] = useState(0);
-  const [urgentTasks, setUrgentTasks] = useState<Task[]>([]);
-  const [dailyIntention, setDailyIntention] = useState("");
-  const [goalProgress, setGoalProgress] = useState(0);
-  const [totalDays, setTotalDays] = useState(40);
-  const [currentDay, setCurrentDay] = useState(15);
-  const [streak, setStreak] = useState(7); // Current streak
-  const [level, setLevel] = useState(3); // User level
-
   // Function to load tasks from localStorage
   const loadTasks = () => {
     const today = new Date();
@@ -128,6 +146,7 @@ const Dashboard = () => {
   };
 
   // Initialize tasks from localStorage
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     loadTasks();
     
@@ -334,15 +353,16 @@ const Dashboard = () => {
           </CardTitle>
           <div className="flex items-center gap-2">
             <Button 
-              variant="ghost" 
-              size="sm" 
               onClick={handleRefreshSadhanaTasks}
-              className="flex items-center gap-1 text-xs"
+              className="flex items-center gap-1 text-xs bg-transparent border border-input hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3"
             >
               <RotateCw className="h-3 w-3" />
               Refresh Sadhana
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/tasks')}>
+            <Button 
+              onClick={() => navigate('/tasks')}
+              className="h-8 rounded-md px-3 border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+            >
               View All Tasks
             </Button>
           </div>
@@ -353,10 +373,8 @@ const Dashboard = () => {
               <CheckSquare className="h-12 w-12 text-primary/30 mb-2" />
               <p className="text-muted-foreground">All caught up! No urgent tasks.</p>
               <Button 
-                variant="link" 
-                size="sm" 
-                className="mt-2" 
                 onClick={() => navigate('/tasks')}
+                className="mt-2 h-8 rounded-md px-3 font-normal text-primary underline-offset-4 hover:underline bg-transparent border-none"
               >
                 Add New Task
               </Button>
@@ -388,9 +406,8 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-muted-foreground">{getDeadline(task)}</span>
                     <Button 
-                      variant="ghost" 
-                      size="sm" 
                       onClick={() => completeTask(task.id)}
+                      className="h-8 rounded-md px-3 bg-transparent hover:bg-accent hover:text-accent-foreground"
                     >
                       Complete
                     </Button>

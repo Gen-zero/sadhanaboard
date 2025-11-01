@@ -5,20 +5,6 @@ import { LoadingProvider } from "@/components/loading";
 import { ErrorBoundary } from "@/components/error";
 import {
   AboutPage,
-  AdminAssetsPage,
-  AdminBIDashboardPage,
-  AdminCommunityPage,
-  AdminContentPage,
-  AdminDashboardPage,
-  AdminLayout,
-  AdminLibraryPage,
-  AdminLoginPage,
-  AdminLogsPage,
-  AdminSettingsReportsPage,
-  AdminSystemPage,
-  AdminTemplatesPage,
-  AdminThemesPage,
-  AdminUsersPage,
   AnalyticsPage,
   CommunityFeedPage,
   DashboardPage,
@@ -41,8 +27,6 @@ import {
   ThemePreviewPage,
   WaitlistPage,
   WalkthroughPage,
-  AdminNotFound,
-  CosmicAdminPage,
   HelpDemoPage,
   EnergyLevelPage, // Add this import
   CosmosThemePage
@@ -59,7 +43,6 @@ import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
-import { adminRoutes } from "./routes/adminRoutes";
 import { HelpProvider } from "./contexts/HelpContext"; // Add this import
 import TestDurgaPage from './pages/TestDurgaPage';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -253,25 +236,6 @@ const AppRoutes = () => {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={<CareersPage />} />
       <Route path="/manifesto" element={<ManifestoPage />} />
-      
-      {/* Admin Panel - Using cosmic admin routes */}
-      <Route path="/admin/*" element={<AdminLayout />}>
-        <Route index element={<CosmicAdminPage />} />
-        <Route path="dashboard" element={<AdminDashboardPage />} />
-        <Route path="users" element={<AdminUsersPage />} />
-        <Route path="community" element={<AdminCommunityPage />} />
-        <Route path="library" element={<AdminLibraryPage />} />
-        <Route path="system" element={<AdminSystemPage />} />
-        <Route path="logs" element={<AdminLogsPage />} />
-        <Route path="content" element={<AdminContentPage />} />
-        <Route path="assets" element={<AdminAssetsPage />} />
-        <Route path="templates" element={<AdminTemplatesPage />} />
-        <Route path="themes" element={<AdminThemesPage />} />
-        <Route path="settings" element={<AdminSettingsReportsPage />} />
-        <Route path="bi-dashboard" element={<AdminBIDashboardPage />} />
-        <Route path="*" element={<AdminNotFound />} />
-      </Route>
-      <Route path="/admin/login" element={<AdminLoginPage />} />
       
       <Route path="/dashboard" element={<OnboardingRoute><DashboardPage /></OnboardingRoute>} />
       <Route path="/analytics" element={<OnboardingRoute><AnalyticsPage /></OnboardingRoute>} />

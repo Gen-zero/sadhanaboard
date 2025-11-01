@@ -8,22 +8,12 @@ const path = require('path');
 const fs = require('fs');
 
 const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
-const adminAssetsRoutes = require('./routes/adminAssets');
-const adminThemesRoutes = require('./routes/adminThemes');
-const adminTemplatesRoutes = require('./routes/adminTemplates');
-const adminSettingsReportsRoutes = require('./routes/adminSettingsReports');
 const profileRoutes = require('./routes/profile');
 const settingsRoutes = require('./routes/settings');
 const bookRoutes = require('./routes/books');
 const sadhanaRoutes = require('./routes/sadhanas');
-const adminCommunityRoutes = require('./routes/adminCommunity');
 const biReportsRoutes = require('./routes/biReports');
-const { adminAuthenticate } = require('./middleware/adminAuth');
-const { setupAdminTables, setupAdminLogsAndSecurity } = require('./utils/adminSetup');
 const metricsMiddleware = require('./middleware/metricsMiddleware');
-const adminSystemRoutes = require('./routes/adminSystem');
-const systemAlertService = require('./services/systemAlertService');
 
 // Validate critical env vars early
 if (!process.env.JWT_SECRET) {
@@ -31,25 +21,14 @@ if (!process.env.JWT_SECRET) {
   throw new Error('Missing JWT_SECRET');
 }
 
-// Warn if admin credentials are left as defaults to catch misconfiguration early
-const _adminUser = process.env.ADMIN_USERNAME || 'admin';
-const _adminPass = process.env.ADMIN_PASSWORD || 'password';
-if (_adminUser === 'admin' && _adminPass === 'password') {
-  console.warn('[WARN] Using default ADMIN credentials. Set ADMIN_USERNAME and ADMIN_PASSWORD in backend/.env');
-}
-
-// Initialize admin panel and admin logs/security schema on startup
-// setupAdminTables().catch(console.error);
-// setupAdminLogsAndSecurity().catch(console.error);
+const app = express();
+const PORT = process.env.PORT || 3004; // Changed from 3002 to 3004
 
 // ensure server-side EventEmitter for SSE fallback
 if (!global.logBus) {
   const { EventEmitter } = require('events');
   global.logBus = new EventEmitter();
 }
-
-const app = express();
-const PORT = process.env.PORT || 3004; // Changed from 3002 to 3004
 
 // Socket.IO integration
 const { Server: IOServer } = require('socket.io');
@@ -62,22 +41,14 @@ const io = new IOServer(server, {
   allowEIO3: true
 });
 
-// Set the io instance in systemAlertService
-systemAlertService.setIoInstance(io);
-
 // Use socket middleware for auth
 io.use((socket, next) => socketAuth(socket, next));
 
-// Shared updater for all admin sockets to reduce DB load
+// Shared updater for all sockets to reduce DB load
 io.on('connection', async (socket) => {
   try {
-    console.log(`Socket connected: admin=${socket.user && socket.user.username}`);
-    // join admins room
-    socket.join('admins');
-    // Emit initial stats to this socket only
-    const stats = await dashboardStatsService.getAllDashboardStats();
-    socket.emit('dashboard:stats:init', stats);
-
+    console.log(`Socket connected`);
+    
     // community:subscribe handlers
     socket.on('community:subscribe', (params) => {
       socket.join('community:stream');
@@ -96,34 +67,7 @@ io.on('connection', async (socket) => {
     });
     socket.on('bi:unsubscribe', () => { socket.leave('bi-kpis'); socket.leave('bi-executions'); socket.leave('bi-insights'); });
 
-    // System monitoring subscriptions
-    socket.on('system:subscribe', (params) => {
-      if (params && params.rooms) {
-        params.rooms.forEach(r => socket.join(r));
-      } else {
-        socket.join('system-metrics');
-        socket.join('system-alerts');
-      }
-    });
-    socket.on('system:unsubscribe', () => { 
-      socket.leave('system-metrics'); 
-      socket.leave('system-alerts'); 
-    });
-
-    // User management subscriptions
-    socket.on('users:subscribe', () => {
-      socket.join('users-stream');
-    });
-    
-    // Library management subscriptions
-    socket.on('library:subscribe', () => {
-      socket.join('library-stream');
-    });
-
     socket.on('disconnect', () => {
-      socket.leave('admins');
-      socket.leave('users-stream');
-      socket.leave('library-stream');
       console.log('Socket disconnected');
     });
   } catch (e) {
@@ -131,13 +75,13 @@ io.on('connection', async (socket) => {
   }
 });
 
-// Shared interval emits to 'admins' room. Controlled by DASHBOARD_POLL_MS env var to avoid per-socket timers.
+// Shared interval emits. Controlled by DASHBOARD_POLL_MS env var to avoid per-socket timers.
 const POLL_MS = Number(process.env.DASHBOARD_POLL_MS) || 15000;
 if (POLL_MS > 0) {
   setInterval(async () => {
     try {
       const updated = await dashboardStatsService.getAllDashboardStats();
-      io.to('admins').emit('dashboard:stats:update', updated);
+      io.emit('dashboard:stats:update', updated);
     } catch (e) {
       console.error('Failed to emit dashboard update:', e);
     }
@@ -151,11 +95,7 @@ if (BI_POLL_MS > 0) {
   __bi_poll_interval = setInterval(async () => {
     try {
       const snapshot = await biReportService.getKPISnapshot();
-      if (snapshot && global && global.__ADMIN_IO__) {
-        global.__ADMIN_IO__.to('bi-kpis').emit('bi:kpi-update', snapshot);
-      } else {
-        io.to('bi-kpis').emit('bi:kpi-update', snapshot);
-      }
+      io.to('bi-kpis').emit('bi:kpi-update', snapshot);
     } catch (e) {
       console.error('Failed to emit BI KPIs:', e);
     }
@@ -234,25 +174,10 @@ const corsOptions = {
   },
   credentials: true,
   optionsSuccessStatus: 200,
-  exposedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie', 'X-Admin-Debug-Origin', 'X-Admin-Debug-CORS-Allow'],
+  exposedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With', 'X-Requested-By'],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS']
 };
-
-app.use((req, res, next) => {
-  // Simple debug logging for admin endpoints
-  if (req.path && req.path.startsWith('/api/admin')) {
-    const origin = req.headers.origin || null;
-    console.log('[ADMIN_REQ]', req.method, req.path, 'from', origin || req.ip, 'headers=', JSON.stringify({ 'x-forwarded-for': req.headers['x-forwarded-for'] }));
-    // add debug headers for troubleshooting in dev
-    try {
-      res.setHeader('X-Admin-Debug-Origin', origin || 'none');
-      res.setHeader('X-Admin-Debug-CORS-Allow', allowedOrigins.join(','));
-    } catch (e) { /* ignore header set errors */ }
-  }
-  // Do not short-circuit OPTIONS here: let the `cors` middleware add the proper headers.
-  next();
-});
 
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -278,70 +203,26 @@ try {
 
 // Add this after the other requires at the top
 const { swaggerUi, specs } = require('./swagger');
-const adminBackupsRoutes = require('./routes/adminBackups');
-const adminSystemMonitoringRoutes = require('./routes/adminSystemMonitoring');
 const googleSheetsRoutes = require('./routes/googleSheets');
 const csvExportRoutes = require('./routes/csvExport');
 
 // Add this before the routes section
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Mount admin auth routes (login, register) - these should not require authentication
-app.use('/api/admin', require('./routes/adminAuth'));
-
-// Mount other admin routes that require authentication
-app.use('/api/admin', adminAuthenticate, adminBackupsRoutes);
-
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminAuthenticate, adminRoutes);
-app.use('/api/admin/assets', adminAssetsRoutes);
-app.use('/api/admin/themes', adminThemesRoutes);
-app.use('/api/admin/templates', adminTemplatesRoutes);
-const cmsRoutes = require('./routes/cms');
-app.use('/api/admin/cms', cmsRoutes);
-const adminSettingsRoutes = require('./routes/adminSettings');
-app.use('/api/admin/settings', adminSettingsRoutes);
-const adminLogsRoutes = require('./routes/adminLogs');
-app.use('/api/admin/logs', adminLogsRoutes);
-app.use('/api/admin/community', adminAuthenticate, adminCommunityRoutes);
-// Mount BI routes under admin
-app.use('/api/admin/bi-reports', adminAuthenticate, biReportsRoutes);
-// Mount system monitoring routes
-app.use('/api/admin/system', adminSystemRoutes);
-app.use('/api/admin', adminSystemMonitoringRoutes);
-app.use('/api/admin', adminSettingsReportsRoutes);
-// Mount Google Sheets routes
-app.use('/api/admin/google-sheets', googleSheetsRoutes);
-// Mount CSV export routes
-app.use('/api/admin/csv-export', csvExportRoutes);
-
-// expose io globally for services to emit log/alert events (used by alertService)
-global.__ADMIN_IO__ = io;
-
-// Socket.IO: log streaming and security alert channels
-io.on('connection', async (socket) => {
-  try {
-    // log subscription events handled by socketAuth middleware earlier
-    socket.on('logs:subscribe', (filters) => {
-      socket.join('logs-stream');
-      // optionally apply filters per-socket stored in socket.data
-      socket.data.logFilters = filters || {};
-    });
-    socket.on('logs:unsubscribe', () => {
-      socket.leave('logs-stream');
-    });
-    socket.on('logs:filter', (filters) => { socket.data.logFilters = filters; });
-    socket.on('disconnect', () => {});
-  } catch (e) { console.error('socket logs handler error', e); }
-});
-
 app.use('/api/profile', profileRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/sadhanas', sadhanaRoutes);
 const groupsRoutes = require('./routes/groups');
 app.use('/api/groups', groupsRoutes);
+// Mount BI routes
+app.use('/api/bi-reports', biReportsRoutes);
+// Mount Google Sheets routes
+app.use('/api/google-sheets', googleSheetsRoutes);
+// Mount CSV export routes
+app.use('/api/csv-export', csvExportRoutes);
 
 // Health check endpoint
 app.get('/health', async (req, res) => {
@@ -384,7 +265,7 @@ app.use(errorHandler);
 // Server startup with better error handling
 const startServer = async () => {
   try {
-    // Initialize admin panel and admin logs/security schema on startup
+    // Initialize and logs/security schema on startup
     // Only attempt if database connection is available (with timeout)
     let connectionTest = { success: false };
     try {

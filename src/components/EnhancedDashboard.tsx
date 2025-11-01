@@ -75,11 +75,6 @@ const EnhancedDashboard = () => {
     setShowMobileDashboard(isMobile);
   }, [isMobile]);
 
-  // Use mobile dashboard for mobile devices
-  if (showMobileDashboard) {
-    return <MobileDashboard />;
-  }
-
   // Function to load tasks from localStorage with loading state
   const loadTasks = withLoading(LOADING_KEYS.TASKS_LOAD, async () => {
     // Simulate API delay
@@ -223,6 +218,11 @@ const EnhancedDashboard = () => {
     };
   }, []);
 
+  // Use mobile dashboard for mobile devices
+  if (showMobileDashboard) {
+    return <MobileDashboard />;
+  }
+
   // Manual refresh function for sadhana tasks with loading
   const handleRefreshSadhanaTasks = withLoading(LOADING_KEYS.TASKS_LOAD, async () => {
     manualRefresh();
@@ -325,14 +325,14 @@ const EnhancedDashboard = () => {
 
   return (
     <div className="space-y-6 animate-fade-in relative z-10">
-      {/* Profile Card with loading state */}
+      {/* Profile Card - Loading State */}
       {isProfileLoading ? (
         <CardSkeleton />
       ) : (
         <ProfileCard />
       )}
       
-      {/* Enhanced Welcome Section with loading states */}
+      {/* Enhanced Welcome Section with Cosmic Effects */}
       <div className="relative overflow-hidden rounded-xl backdrop-blur-md bg-gradient-to-br from-purple-500/10 via-fuchsia-500/5 to-purple-500/10 border border-purple-500/20 p-6">
         <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500 rounded-full filter blur-[80px] opacity-20"></div>
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-500 rounded-full filter blur-[80px] opacity-20"></div>
@@ -345,50 +345,48 @@ const EnhancedDashboard = () => {
             Continue your spiritual journey with purpose and intention. Your cosmic path awaits.
           </p>
           
-          {/* Stats Row with loading states */}
+          {/* Stats Row - Loading States */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            {isStatsLoading ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Skeleton variant="circular" width={20} height={20} />
-                    <Skeleton width="60%" height="1rem" />
-                  </div>
-                  <Skeleton width="40%" height="2rem" />
-                </div>
-              ))
-            ) : (
-              <>
-                <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-purple-500" />
-                    <span className="text-sm font-medium">Current Streak</span>
-                  </div>
-                  <div className="text-2xl font-bold mt-1">{streak} days</div>
-                </div>
-                
-                <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
-                  <div className="flex items-center gap-2">
-                    <Award className="h-5 w-5 text-fuchsia-500" />
-                    <span className="text-sm font-medium">Spiritual Level</span>
-                  </div>
-                  <div className="text-2xl font-bold mt-1">Level {level}</div>
-                </div>
-                
-                <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
-                  <div className="flex items-center gap-2">
-                    <Target className="h-5 w-5 text-indigo-500" />
-                    <span className="text-sm font-medium">Goal Progress</span>
-                  </div>
-                  <div className="text-2xl font-bold mt-1">{Math.floor((currentDay / totalDays) * 100)}%</div>
-                </div>
-              </>
-            )}
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-purple-500" />
+                <span className="text-sm font-medium">Current Streak</span>
+              </div>
+              {isStatsLoading ? (
+                <div className="h-6 w-16 bg-purple-500/20 rounded animate-pulse mt-1"></div>
+              ) : (
+                <div className="text-2xl font-bold mt-1">{streak} days</div>
+              )}
+            </div>
+            
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+              <div className="flex items-center gap-2">
+                <Award className="h-5 w-5 text-fuchsia-500" />
+                <span className="text-sm font-medium">Spiritual Level</span>
+              </div>
+              {isStatsLoading ? (
+                <div className="h-6 w-16 bg-fuchsia-500/20 rounded animate-pulse mt-1"></div>
+              ) : (
+                <div className="text-2xl font-bold mt-1">Level {level}</div>
+              )}
+            </div>
+            
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+              <div className="flex items-center gap-2">
+                <Target className="h-5 w-5 text-indigo-500" />
+                <span className="text-sm font-medium">Goal Progress</span>
+              </div>
+              {isStatsLoading ? (
+                <div className="h-6 w-16 bg-indigo-500/20 rounded animate-pulse mt-1"></div>
+              ) : (
+                <div className="text-2xl font-bold mt-1">{Math.floor((currentDay / totalDays) * 100)}%</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Enhanced Task Section with loading states */}
+      {/* Enhanced Task Section - Loading States */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
           <CardTitle className="text-xl font-medium flex items-center gap-2">
@@ -396,34 +394,40 @@ const EnhancedDashboard = () => {
             <span>Tasks Requiring Attention</span>
           </CardTitle>
           <div className="flex items-center gap-2">
-            <LoadingButton 
-              loading={isTasksLoading}
-              loadingText="Refreshing..."
-              variant="ghost" 
-              size="sm" 
+            <Button 
+              variant="outline" 
+              size="sm"
               onClick={handleRefreshSadhanaTasks}
-              className="flex items-center gap-1 text-xs"
-              icon={<RotateCw className="h-3 w-3" />}
+              disabled={isTasksLoading}
+              className="flex items-center gap-1"
             >
+              <RotateCw className={`h-3 w-3 ${isTasksLoading ? 'animate-spin' : ''}`} />
               Refresh Sadhana
-            </LoadingButton>
-            <Button variant="outline" size="sm" onClick={() => navigate('/tasks')}>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate('/tasks')}
+            >
               View All Tasks
             </Button>
           </div>
         </CardHeader>
         <CardContent>
           {isTasksLoading ? (
-            <ListSkeleton items={3} />
+            <div className="flex flex-col items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
+              <p className="text-muted-foreground">Loading tasks...</p>
+            </div>
           ) : urgentTasks.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8">
               <CheckSquare className="h-12 w-12 text-primary/30 mb-2" />
               <p className="text-muted-foreground">All caught up! No urgent tasks.</p>
               <Button 
                 variant="link" 
-                size="sm" 
-                className="mt-2" 
+                size="sm"
                 onClick={() => navigate('/tasks')}
+                className="mt-2"
               >
                 Add New Task
               </Button>
@@ -454,15 +458,13 @@ const EnhancedDashboard = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-muted-foreground">{getDeadline(task)}</span>
-                    <LoadingButton
-                      loading={isLoading(LOADING_KEYS.SADHANA_COMPLETE)}
-                      loadingText="Completing..."
-                      variant="ghost" 
-                      size="sm" 
+                    <Button 
+                      variant="outline" 
+                      size="sm"
                       onClick={() => completeTask(task.id)}
                     >
                       Complete
-                    </LoadingButton>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -471,9 +473,9 @@ const EnhancedDashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Enhanced Progress and Focus Section with loading states */}
+      {/* Enhanced Progress and Focus Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Today's Progress Card */}
+        {/* Today's Progress Card - Loading States */}
         <Card>
           <CardHeader>
             <CardTitle className="text-xl font-medium flex items-center gap-2">
@@ -483,15 +485,8 @@ const EnhancedDashboard = () => {
           </CardHeader>
           <CardContent>
             {isTasksLoading ? (
-              <div className="flex flex-col items-center justify-center h-48 space-y-4">
-                <Skeleton variant="circular" width={128} height={128} />
-                <div className="w-full space-y-2">
-                  <Skeleton width="100%" height="0.5rem" />
-                  <div className="flex justify-between">
-                    <Skeleton width="30%" height="0.75rem" />
-                    <Skeleton width="20%" height="0.75rem" />
-                  </div>
-                </div>
+              <div className="flex items-center justify-center h-48">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-48">
@@ -533,6 +528,7 @@ const EnhancedDashboard = () => {
                   </span>
                 )}
                 
+                {/* Progress Bar */}
                 <div className="w-full mt-4">
                   <div className="flex justify-between text-xs mb-1">
                     <span>Progress</span>
@@ -545,7 +541,7 @@ const EnhancedDashboard = () => {
           </CardContent>
         </Card>
         
-        {/* Spiritual Focus Card */}
+        {/* Spiritual Focus Card - Loading States */}
         <Card>
           <CardHeader>
             <CardTitle className="text-xl font-medium flex items-center gap-2">
@@ -554,50 +550,47 @@ const EnhancedDashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="bg-secondary/30 p-4 rounded-lg">
-                <h3 className="font-medium flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  Today's Intention
-                </h3>
-                {dailyIntention ? (
+            {isStatsLoading ? (
+              <div className="space-y-4">
+                <div className="bg-secondary/30 p-4 rounded-lg animate-pulse">
+                  <div className="h-4 bg-secondary rounded w-1/3 mb-2"></div>
+                  <div className="h-3 bg-secondary rounded w-full"></div>
+                </div>
+                <div className="bg-secondary/30 p-4 rounded-lg animate-pulse">
+                  <div className="h-4 bg-secondary rounded w-1/3 mb-2"></div>
+                  <div className="h-3 bg-secondary rounded w-full mb-2"></div>
+                  <div className="h-2 bg-secondary rounded w-2/3"></div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="bg-secondary/30 p-4 rounded-lg">
+                  <h3 className="font-medium flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-primary" />
+                    Today's Intention
+                  </h3>
                   <p className="text-muted-foreground mt-1 italic">
                     "{dailyIntention}"
                   </p>
-                ) : (
-                  <Skeleton lines={2} className="mt-1" />
-                )}
-              </div>
-              <div className="bg-secondary/30 p-4 rounded-lg">
-                <h3 className="font-medium flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-primary" />
-                  Goal Progress
-                </h3>
-                {isStatsLoading ? (
-                  <div className="space-y-2 mt-1">
-                    <Skeleton width="80%" height="1rem" />
-                    <Skeleton width="100%" height="0.5rem" />
-                    <div className="flex justify-between">
-                      <Skeleton width="20%" height="0.75rem" />
-                      <Skeleton width="20%" height="0.75rem" />
+                </div>
+                <div className="bg-secondary/30 p-4 rounded-lg">
+                  <h3 className="font-medium flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-primary" />
+                    Goal Progress
+                  </h3>
+                  <p className="text-muted-foreground mt-1">
+                    {currentDay} days into your {totalDays}-day devotional practice
+                  </p>
+                  <div className="w-full mt-2 space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span>Day 1</span>
+                      <span>Day {totalDays}</span>
                     </div>
+                    <Progress value={goalProgress} className="h-2" />
                   </div>
-                ) : (
-                  <>
-                    <p className="text-muted-foreground mt-1">
-                      {currentDay} days into your {totalDays}-day devotional practice
-                    </p>
-                    <div className="w-full mt-2 space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span>Day 1</span>
-                        <span>Day {totalDays}</span>
-                      </div>
-                      <Progress value={goalProgress} className="h-2" />
-                    </div>
-                  </>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>

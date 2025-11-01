@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import * as React from "react";
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth as useLocalAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
 import type { Profile } from '@/types/profile';
 
 interface AuthContextType {
-  user: { id: number; email: string; display_name: string } | null;
+  user: { id: string | number; email: string; display_name: string } | null;
   isLoading: boolean;
   isOnboardingComplete: boolean | null;
   checkOnboardingStatus: () => Promise<boolean>;

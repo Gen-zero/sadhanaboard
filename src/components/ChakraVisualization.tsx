@@ -242,6 +242,15 @@ const ChakraVisualization = () => {
         <button 
           onClick={() => setIsPulsing(!isPulsing)}
           className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg text-sm transition-colors"
+          aria-checked={isPulsing}
+          role="switch"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setIsPulsing(!isPulsing);
+            }
+          }}
         >
           {isPulsing ? 'Pause Energy Flow' : 'Resume Energy Flow'}
         </button>

@@ -13,12 +13,6 @@ const ThemePanel = () => {
   const { settings, updateSettings } = useSettings();
   const [globalMode, setGlobalMode] = useState(false); // toggle between landing vs global theme
 
-  // Hide theme panel on landing page
-  const isLandingPage = location.pathname === '/landingpage';
-  if (isLandingPage) {
-    return null;
-  }
-
   const themeOptions = getLandingPageThemes();
   
   // Sync currentTheme with settings
@@ -74,6 +68,12 @@ const ThemePanel = () => {
     const active = getCurrentTheme();
     return themeUtils.renderThemeIcon(active as any, 'h-6 w-6');
   };
+
+  // Hide theme panel on landing page - moved to render phase
+  const isLandingPage = location.pathname === '/landingpage';
+  if (isLandingPage) {
+    return null;
+  }
 
   return (
     <div className="relative z-[60]">

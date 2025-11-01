@@ -281,7 +281,7 @@ const SpiritualLibraryManager = () => {
       {isEditOpen && editingBook && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
           <div className="bg-popover p-6 rounded shadow-lg max-h-[90vh] overflow-auto">
-            <BookEditForm book={editingBook} onClose={() => { setIsEditOpen(false); setEditingBook(null); loadBooks(); }} onBookUpdated={() => loadBooks()} />
+            <BookEditForm book={editingBook as any} onClose={() => { setIsEditOpen(false); setEditingBook(null); loadBooks(); }} onBookUpdated={() => loadBooks()} />
           </div>
         </div>
       )}
