@@ -24,7 +24,6 @@ import {
   SignupPage,
   SpiritualDemoPage,
   StorePage,
-  ThemePreviewPage,
   WaitlistPage,
   WalkthroughPage,
   HelpDemoPage,

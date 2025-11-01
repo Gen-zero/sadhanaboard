@@ -7,7 +7,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Menu, Search, RotateCw } from 'lucide-react';
 import { useBookReading } from '@/hooks/useBookReading';
-// @ts-expect-error - pdfjs-dist worker import needs special handling in Vite
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
 
 // Set up the worker with local import instead of CDN
@@ -15,9 +14,7 @@ const worker = new PDFWorker();
 pdfjs.GlobalWorkerOptions.workerPort = worker;
 
 // Terminate worker on HMR dispose to prevent dev-time worker leaks
-// @ts-expect-error - import.meta.hot is not standard TypeScript but available in Vite
 if (import.meta.hot) {
-  // @ts-expect-error - import.meta.hot.dispose is not standard TypeScript but available in Vite
   import.meta.hot.dispose(() => {
     worker.terminate();
   });

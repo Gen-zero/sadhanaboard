@@ -18,7 +18,6 @@ export { default as SharedSadhanaDetailPage } from './user/SharedSadhanaDetailPa
 export { default as SignupPage } from './landing/SignupPage';
 export { default as SpiritualDemoPage } from './user/SpiritualDemoPage';
 export { default as StorePage } from './user/StorePage';
-export { default as ThemePreviewPage } from './user/ThemePreviewPage';
 export { default as WaitlistPage } from './landing/WaitlistPage';
 export { default as WalkthroughPage } from './user/WalkthroughPage';
 export { default as HelpDemoPage } from './user/HelpDemoPage';
