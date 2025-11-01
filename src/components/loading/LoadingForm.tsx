@@ -122,9 +122,9 @@ export const LoadingInput: React.FC<LoadingInputProps> = ({
         {statusIcon && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
             {statusIcon}
-          </button>
+          </div>
         )}
-      </button>
+      </div>
       <AnimatePresence>
         {statusMessage && (
           <motion.div
@@ -187,7 +187,7 @@ export const LoadingTextarea: React.FC<LoadingTextareaProps> = ({
               {charCount}/{maxLength}
             </span>
           )}
-        </button>
+        </div>
       )}
       <Textarea
         className={cn(
@@ -304,7 +304,7 @@ export const LoadingFileUpload: React.FC<LoadingFileUploadProps> = ({
           {label}
         </Label>
       )}
-      <div
+      <button
         className={cn(
           'relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer',
           dragOver
@@ -380,7 +380,7 @@ export const LoadingFileUpload: React.FC<LoadingFileUploadProps> = ({
             />
           </div>
         )}
-      </div>
+      </button>
       
       <AnimatePresence>
         {(error || success) && (
@@ -410,7 +410,7 @@ export const LoadingFileUpload: React.FC<LoadingFileUploadProps> = ({
 interface LoadingFormProps {
   title?: string;
   description?: string;
-  onSubmit?: (data: any) => Promise<void>;
+  onSubmit?: (data: Record<string, unknown>) => Promise<void>;
   submitText?: string;
   loading?: boolean;
   children: React.ReactNode;

@@ -95,7 +95,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               {/* Sacred geometry overlay in header */}
               <div className="absolute inset-0 pointer-events-none sacred-geometry-overlay -z-20"></div>
             </div>
-            <h1 
+            <button
               className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80"
               onClick={handleNavigation}
               onKeyDown={(e) => {
@@ -104,11 +104,9 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                   handleNavigation();
                 }
               }}
-              tabIndex={0}
-              role="button"
             >
               SadhanaBoard
-            </h1>
+            </button>
           </div>
           
           {/* Collapse button for desktop */}
@@ -125,7 +123,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         
         {/* Theme deity display */}
         <div className="flex flex-col items-center justify-center p-6 space-y-3 border-b border-primary/10 flex-shrink-0">
-          <div className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer deity-icon-wrapper"
+          <button className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer deity-icon-wrapper"
             onClick={handleNavigation}
             tabIndex={0}
             onKeyDown={(e) => {
@@ -138,7 +136,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               {currentThemeData.icon}
               <div className="absolute -bottom-2 text-xs text-sidebar-foreground/40 om-symbol-divider">ॐ</div>
             </div>
-          </div>
+          </button>
           <>
             <div className="text-center">
               <h3 className="text-lg font-medium text-sidebar-foreground">{currentThemeData.name}</h3>

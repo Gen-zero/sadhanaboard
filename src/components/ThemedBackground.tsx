@@ -2267,7 +2267,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
             });
           }
           break;
-          
+        }
+        
         case 'ganesha':
           particleCount = 120;
           spiritualElementCount = 10;
@@ -2375,9 +2376,9 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
               }
             });
           }
-          }
           break;
-          
+        }
+        
         case 'lotus':
           particleCount = 100;
           spiritualElementCount = 10;
@@ -2475,7 +2476,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
             });
           }
           break;
-          
+        }
+        
         case 'om':
           particleCount = 100;
           spiritualElementCount = 10;
@@ -2692,7 +2694,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
             });
           }
           break;
-          
+        }
+        
         case 'surya':
           particleCount = 100;
           spiritualElementCount = 10;
@@ -2800,7 +2803,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
             });
           }
           break;
-          
+        }
+        
         case 'vishnu':
           particleCount = 100;
           spiritualElementCount = 10;
@@ -2876,7 +2880,7 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
               },
               draw: function() {
                 if (!ctx) return;
-                
+
                 switch (this.type) {
                   case 0: // Vishnu head
                     drawVishnuHead(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
@@ -2899,9 +2903,6 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
           }
           break;
         }
-      }
-    }
-  }
         case 'yoga':
           particleCount = 100;
           spiritualElementCount = 10;
@@ -3115,9 +3116,1342 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
           }
           break;
           
+        case 'lotus':
+          particleCount = 100;
+          spiritualElementCount = 10;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the lotus theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          break;
+          
         case 'mystery':
           particleCount = 80;
           spiritualElementCount = 8;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the mystery theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'sunset':
+          particleCount = 120;
+          spiritualElementCount = 12;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the sunset theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'night':
+          particleCount = 150;
+          spiritualElementCount = 15;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the night theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'rainbow':
+          particleCount = 200;
+          spiritualElementCount = 20;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the rainbow theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'aurora':
+          particleCount = 250;
+          spiritualElementCount = 25;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the aurora theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'galaxy':
+          particleCount = 300;
+          spiritualElementCount = 30;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the galaxy theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'cosmic':
+          particleCount = 350;
+          spiritualElementCount = 35;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the cosmic theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'lotus':
+          // Create lotus elements for the lotus theme
+          for (let i = 0; i < lotusElementCount; i++) {
+            lotusElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 3),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Lotus petal
+                    drawLotusPetal(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                  case 1: // Lotus center
+                    drawLotusCenter(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 2: // Lotus leaf
+                    drawLotusLeaf(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+
+        case 'infinity':
+          particleCount = 400;
+          spiritualElementCount = 40;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the infinity theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'chaos':
+          particleCount = 450;
+          spiritualElementCount = 45;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the chaos theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'zen':
+          particleCount = 500;
+          spiritualElementCount = 50;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the zen theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          break;
+          
+        case 'lotus':
+          // Create lotus elements for the lotus theme
+          for (let i = 0; i < lotusElementCount; i++) {
+            lotusElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Lotus petal
+                    drawLotusPetal(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                  case 1: // Lotus center
+                    drawLotusCenter(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 2: // Lotus leaf
+                    drawLotusLeaf(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                  case 3: // Lotus stem
+                    drawLotusStem(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                  case 4: // Lotus flower
+                    drawLotusFlower(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          break;
+          
+        case 'infinity':
+          particleCount = 400;
+          spiritualElementCount = 40;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the infinity theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'chaos':
+          particleCount = 450;
+          spiritualElementCount = 45;
+          
+          // Create gentle floating particles for zen atmosphere
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 3 + 1,
+              speedX: Math.random() * 0.4 - 0.2,
+              speedY: Math.random() * 0.4 - 0.2,
+              alpha: Math.random() * 0.3 + 0.1,
+              pulseDirection: Math.random() > 0.5 ? 1 : -1,
+              color: Math.random() > 0.6 ? 'rgba(34, 139, 34, 0.6)' : Math.random() > 0.5 ? 'rgba(0, 128, 128, 0.5)' : 'rgba(144, 238, 144, 0.4)',
+              update: function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                
+                this.alpha += 0.003 * this.pulseDirection;
+                if (this.alpha <= 0.1 || this.alpha >= 0.4) {
+                  this.pulseDirection *= -1;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            });
+          }
+          
+          // Create spiritual elements for the chaos theme
+          for (let i = 0; i < spiritualElementCount; i++) {
+            spiritualElements.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 20 + 10,
+              life: Math.random() * 600 + 400,
+              type: Math.floor(Math.random() * 5),
+              rotation: Math.random() * Math.PI * 2,
+              alpha: 1,
+              update: function() {
+                this.life -= 1;
+                
+                // Reset element when life ends
+                if (this.life <= 0) {
+                  this.x = Math.random() * canvas.width;
+                  this.y = Math.random() * canvas.height;
+                  this.life = Math.random() * 600 + 400;
+                }
+              },
+              draw: function() {
+                if (!ctx) return;
+                
+                switch (this.type) {
+                  case 0: // Ganesha head
+                    drawGaneshaHead(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 1: // Modak
+                    drawModak(ctx, this.x, this.y, this.size * 0.8, this.alpha);
+                    break;
+                  case 2: // Om symbol
+                    drawGaneshaOm(ctx, this.x, this.y, this.size, this.alpha);
+                    break;
+                  case 3: // Golden particle cluster
+                    for (let j = 0; j < 5; j++) {
+                      const angle = (j * Math.PI * 2) / 5;
+                      const distance = this.size * 0.5;
+                      drawGoldenParticle(
+                        ctx,
+                        this.x + Math.cos(angle) * distance,
+                        this.y + Math.sin(angle) * distance,
+                        this.size * 0.3,
+                        this.alpha * 0.7
+                      );
+                    }
+                    break;
+                  case 4: // Ganesha trident
+                    drawGaneshaTrident(ctx, this.x, this.y, this.size, this.rotation, this.alpha);
+                    break;
+                }
+              }
+            });
+          }
+          }
+          break;
+          
+        case 'zen':
+          particleCount = 500;
+          spiritualElementCount = 50;
           
           // Create gentle floating particles for zen atmosphere
           for (let i = 0; i < particleCount; i++) {
