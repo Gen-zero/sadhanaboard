@@ -111,7 +111,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
     }, 10000); // Change mantra every 10 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [hinduMantras.length]);
 
   // Don't render anything if settings are still loading
   if (isLoading) {

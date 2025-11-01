@@ -31,7 +31,7 @@ export const useScrollTexture = () => {
     return () => {
       if (texture) texture.dispose();
     };
-  }, []);
+  }, [texture]);
 
   // Create displacement map
   const displacement = createDisplacementMap();

@@ -36,7 +36,7 @@ const ThemePanel = () => {
     if (active) {
       themeUtils.applyThemeColors(active.colors as any);
     }
-  }, [currentTheme]);
+  }, [currentTheme, themeOptions]);
 
   const handleThemeChange = (themeId: string) => {
     const selectedTheme = themeOptions.find(theme => theme.metadata.id === themeId);

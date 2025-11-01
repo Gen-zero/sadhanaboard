@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth as useLocalAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
 import type { Profile } from '@/types/profile';
@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isOnboardingComplete, setIsOnboardingComplete] = useState<boolean | null>(null);
   const [isOnboardingLoading, setIsOnboardingLoading] = useState<boolean>(false);
 
-  const checkOnboardingStatus = async (): Promise<boolean> => {
+  const checkOnboardingStatus = useCallback(async (): Promise<boolean> => {
     if (!user?.id) return false;
 
     try {
@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } finally {
       setIsOnboardingLoading(false);
     }
-  };
+  }, [user?.id]);
 
   // Refresh onboarding status - useful after completing onboarding
   const refreshOnboardingStatus = async (): Promise<boolean> => {
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else if (!user) {
       setIsOnboardingComplete(null);
     }
-  }, [user, isLoading]);
+  }, [user, isLoading, checkOnboardingStatus]);
 
   const login = async (email: string, password: string) => {
     // Validate inputs

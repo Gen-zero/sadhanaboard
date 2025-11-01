@@ -30,7 +30,7 @@ export const useFocusManagement = () => {
     'select:not([disabled])',
     'textarea:not([disabled])',
     'a[href]',
-    '[tabindex]:not([tabindex=\"-1\"])'
+    '[tabindex]:not([tabindex="-1"])'
   ].join(', ');
 
   const trapFocus = (container: HTMLElement) => {
@@ -380,7 +380,7 @@ export const useTouchTargetSize = () => {
   const checkTouchTargets = () => {
     const minSize = 44; // WCAG AAA minimum
     const interactiveElements = document.querySelectorAll(
-      'button, a, input, select, textarea, [role=\"button\"], [role=\"link\"]'
+      'button, a, input, select, textarea, [role="button"], [role="link"]'
     );
 
     const violations: HTMLElement[] = [];

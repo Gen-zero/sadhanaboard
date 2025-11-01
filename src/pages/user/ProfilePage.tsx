@@ -199,7 +199,7 @@ const ProfilePage = () => {
   // Fetch profile data on component mount
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [fetchProfile]);
 
   // Get current theme to adapt colors
   const currentTheme = settings?.appearance?.colorScheme || 'default';
@@ -702,27 +702,7 @@ const ProfilePage = () => {
 
         {/* Additional Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Chakra Balance - Coming Soon */}
-          <motion.div variants={itemVariants}>
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-purple-300" />
-                  Chakra Balance
-                </CardTitle>
-                <CardDescription>Your energy center alignment</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6 flex flex-col items-center justify-center h-64">
-                <div className="text-center">
-                  <Sparkles className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-purple-200 mb-2">Coming Soon</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Experience the full chakra visualization and balancing features in our upcoming update.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+
 
           {/* Energy Level Section */}
           <motion.div variants={itemVariants}>

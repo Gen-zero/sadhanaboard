@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSadhanaData } from './useSadhanaData';
+import type { Task } from '@/types/task';
 import { format } from 'date-fns';
 
 // Custom hook to manage daily sadhana task refresh
@@ -25,7 +26,7 @@ export const useDailySadhanaRefresh = () => {
               const existingTasks = JSON.parse(localStorage.getItem('saadhanaTasks') || '[]');
               
               // Remove existing sadhana tasks for today
-              const filteredTasks = existingTasks.filter((task: any) => 
+              const filteredTasks = existingTasks.filter((task: Task) => 
                 !(task.sadhanaId === sadhanaState.sadhanaId && task.dueDate === todayStr)
               );
               
@@ -92,7 +93,7 @@ export const useDailySadhanaRefresh = () => {
         const existingTasks = JSON.parse(localStorage.getItem('saadhanaTasks') || '[]');
         
         // Remove existing sadhana tasks for today
-        const filteredTasks = existingTasks.filter((task: any) => 
+        const filteredTasks = existingTasks.filter((task: Task) => 
           !(task.sadhanaId === sadhanaState.sadhanaId && task.dueDate === todayStr)
         );
         

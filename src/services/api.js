@@ -293,76 +293,7 @@ class ApiService {
     });
   }
 
-  // Sadhana sharing / community methods
-  async shareSadhana(sadhanaId, privacyLevel = 'public') {
-    return await this.request(`/sadhanas/${sadhanaId}/share`, {
-      method: 'POST',
-      body: JSON.stringify({ privacyLevel }),
-    });
-  }
 
-  async unshareSadhana(sadhanaId) {
-    return await this.request(`/sadhanas/${sadhanaId}/share`, {
-      method: 'DELETE',
-    });
-  }
-
-  async updateSharePrivacy(sadhanaId, privacyLevel) {
-    return await this.request(`/sadhanas/${sadhanaId}/share/privacy`, {
-      method: 'PUT',
-      body: JSON.stringify({ privacyLevel }),
-    });
-  }
-
-  async getCommunityFeed(filters = {}, pagination = { limit: 20, offset: 0 }) {
-    const params = new URLSearchParams();
-    if (filters.sortBy) params.append('sortBy', filters.sortBy);
-    if (filters.searchQuery) params.append('searchQuery', filters.searchQuery);
-    params.append('limit', String(pagination.limit || 20));
-    params.append('offset', String(pagination.offset || 0));
-    const qs = params.toString() ? `?${params.toString()}` : '';
-    return await this.request(`/sadhanas/community/feed${qs}`);
-  }
-
-  async getSharedSadhanaDetails(sadhanaId) {
-    return await this.request(`/sadhanas/shared/${sadhanaId}`);
-  }
-
-  async likeSadhana(sadhanaId) {
-    return await this.request(`/sadhanas/${sadhanaId}/likes`, { method: 'POST' });
-  }
-
-  async unlikeSadhana(sadhanaId) {
-    return await this.request(`/sadhanas/${sadhanaId}/likes`, { method: 'DELETE' });
-  }
-
-  async getSadhanaComments(sadhanaId, pagination = { limit: 50, offset: 0 }) {
-    const params = new URLSearchParams();
-    params.append('limit', String(pagination.limit || 50));
-    params.append('offset', String(pagination.offset || 0));
-    const qs = params.toString() ? `?${params.toString()}` : '';
-    return await this.request(`/sadhanas/${sadhanaId}/comments${qs}`);
-  }
-
-  async createSadhanaComment(sadhanaId, content, parentCommentId = null) {
-    return await this.request(`/sadhanas/${sadhanaId}/comments`, {
-      method: 'POST',
-      body: JSON.stringify({ content, parentCommentId }),
-    });
-  }
-
-  async updateSadhanaComment(sadhanaId, commentId, content) {
-    return await this.request(`/sadhanas/${sadhanaId}/comments/${commentId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ content }),
-    });
-  }
-
-  async deleteSadhanaComment(sadhanaId, commentId) {
-    return await this.request(`/sadhanas/${sadhanaId}/comments/${commentId}`, {
-      method: 'DELETE',
-    });
-  }
 }
 
 const apiService = new ApiService();

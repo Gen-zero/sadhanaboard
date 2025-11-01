@@ -23,9 +23,9 @@ export const useUserProfile = (): UseUserProfileReturn => {
       setError(null);
       const response = await api.getProfile();
       setProfile(response.profile);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching profile:', err);
-      setError(err.message || 'Failed to fetch profile data');
+      setError((err as Error).message || 'Failed to fetch profile data');
       toast({
         title: 'Error',
         description: 'Failed to load profile data. Please try again.',
@@ -47,12 +47,12 @@ export const useUserProfile = (): UseUserProfileReturn => {
         description: 'Profile updated successfully.',
       });
       return true;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating profile:', err);
-      setError(err.message || 'Failed to update profile');
+      setError((err as Error).message || 'Failed to update profile');
       toast({
         title: 'Error',
-        description: err.message || 'Failed to update profile. Please try again.',
+        description: (err as Error).message || 'Failed to update profile. Please try again.',
         variant: 'destructive',
       });
       return false;

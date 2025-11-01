@@ -12,7 +12,7 @@ export async function fetchGutendexBooks(): Promise<SpiritualBook[]> {
     if (!response.ok) throw new Error('Failed to fetch Gutendex books');
     const data = await response.json();
     
-    return data.results.map((book: any) => ({
+    return data.results.map((book: { id: number; title: string; authors: { name: string }[]; formats: { [key: string]: string } }) => ({
       id: `gutendex-${book.id}`,
       title: book.title,
       author: book.authors[0]?.name || 'Unknown Author',
@@ -33,7 +33,7 @@ export async function fetchOpenLibrarySubject(subject: string): Promise<Spiritua
     if (!response.ok) throw new Error(`Failed to fetch Open Library books for ${subject}`);
     const data = await response.json();
     
-    return data.works.map((book: any) => {
+    return data.works.map((book: { key: string; title: string; authors: { name: string }[]; cover_id?: number; cover_i?: number; description?: string; first_publish_year?: number }) => {
       const coverId = book.cover_id || book.cover_i || null;
       const coverUrl = coverId 
         ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` 
@@ -63,7 +63,7 @@ export async function fetchOpenLibraryBooks(): Promise<SpiritualBook[]> {
     if (!response.ok) throw new Error('Failed to fetch Open Library books');
     const data = await response.json();
     
-    return data.works.map((book: any) => {
+    return data.works.map((book: { key: string; title: string; authors: { name: string }[]; cover_id?: number; cover_i?: number; description?: string; first_publish_year?: number }) => {
       const coverId = book.cover_id || book.cover_i || null;
       const coverUrl = coverId 
         ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` 
@@ -93,7 +93,7 @@ export async function fetchBhagavadGitaChapters(): Promise<SpiritualBook[]> {
     if (!response.ok) throw new Error('Failed to fetch Bhagavad Gita chapters');
     const data = await response.json();
     
-    return data.map((chapter: any) => ({
+    return data.map((chapter: { chapter_number: number; name: string; chapter_summary: string }) => ({
       id: `bhagavadgita-${chapter.chapter_number}`,
       title: `Chapter ${chapter.chapter_number}: ${chapter.name}`,
       author: 'Vyasa',

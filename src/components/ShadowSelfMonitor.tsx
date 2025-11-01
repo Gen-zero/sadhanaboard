@@ -53,7 +53,7 @@ const ShadowSelfMonitor: React.FC<ShadowSelfMonitorProps> = ({ shadowTraits, per
     if (savedReflections) {
       setReflections(JSON.parse(savedReflections));
     }
-  }, [reflectionType]);
+  }, [reflectionType, shadowPrompts, higherSelfPrompts]);
 
   const handleNewReflection = () => {
     if (!newReflection.trim()) return;

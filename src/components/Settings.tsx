@@ -72,7 +72,7 @@ const SpiritualCard = ({
 }: { 
   children: React.ReactNode; 
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }) => (
   <Card 
     className={`transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/20 spiritual-card backdrop-blur-sm bg-background/70 border-purple-500/20 ${className}`}

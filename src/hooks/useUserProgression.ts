@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import api from '@/services/api';
 
@@ -65,12 +65,8 @@ export const useUserProgression = () => {
   });
   
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    loadProgressionData();
-  }, [user]);
-
-  const loadProgressionData = async () => {
+  
+  const loadProgressionData = useCallback(async () => {
     if (!user?.id) return;
     
     try {
@@ -126,7 +122,11 @@ export const useUserProgression = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    loadProgressionData();
+  }, [user, loadProgressionData]);
 
   const calculateLevel = (experience: number): number => {
     // Each level requires 100 more experience than the previous

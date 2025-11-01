@@ -22,7 +22,7 @@ const AnalyticsPage = () => {
     fetchComparative();
     fetchHeatmap(new Date().getFullYear());
     fetchCategoryInsights();
-  }, []);
+  }, [fetchPracticeTrends, fetchCompletionRates, fetchStreaks, fetchComparative, fetchHeatmap, fetchCategoryInsights]);
 
   return (
     <Layout>

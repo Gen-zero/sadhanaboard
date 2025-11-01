@@ -4,8 +4,8 @@ import { z } from 'zod';
 // Enhanced validation states
 export type ValidationState = 'idle' | 'validating' | 'valid' | 'invalid' | 'error';
 
-export interface FieldValidation {
-  value: any;
+export interface FieldValidation<T = any> {
+  value: T;
   state: ValidationState;
   error?: string;
   touched: boolean;
@@ -40,7 +40,7 @@ const DEFAULT_CONFIG: FormValidationConfig = {
   successDelayMs: 1000
 };
 
-export function useFormValidation<T extends Record<string, any>>(
+export function useFormValidation<T extends Record<string, unknown>>(
   schema: z.ZodSchema<T>,
   initialValues: T,
   config: FormValidationConfig = {}
@@ -50,7 +50,7 @@ export function useFormValidation<T extends Record<string, any>>(
   // Form state
   const [values, setValues] = useState<T>(initialValues);
   const [fields, setFields] = useState<Record<keyof T, FieldValidation>>(() => {
-    const initialFields: Record<keyof T, FieldValidation> = {} as any;
+    const initialFields: Record<keyof T, FieldValidation> = {} as Record<keyof T, FieldValidation>;
     Object.keys(initialValues).forEach(key => {
       initialFields[key as keyof T] = {
         value: initialValues[key as keyof T],
@@ -70,7 +70,7 @@ export function useFormValidation<T extends Record<string, any>>(
   // Validate single field
   const validateField = useCallback(async (
     fieldName: keyof T, 
-    value: any, 
+    value: unknown, 
     immediate: boolean = false
   ): Promise<void> => {
     // Clear existing timeout for this field
@@ -95,7 +95,7 @@ export function useFormValidation<T extends Record<string, any>>(
         try {
           // For Zod schemas, attempt to get field schema if it's an object schema
           if (schema instanceof z.ZodObject) {
-            const fieldSchema = (schema as any).shape?.[fieldName as string];
+            const fieldSchema = (schema as z.ZodObject<z.ZodRawShape>).shape?.[fieldName as string];
             if (fieldSchema) {
               await fieldSchema.parseAsync(value);
             } else {
@@ -216,7 +216,7 @@ export function useFormValidation<T extends Record<string, any>>(
   }, [schema, values]);
 
   // Update field value
-  const updateField = useCallback((fieldName: keyof T, value: any) => {
+  const updateField = useCallback((fieldName: keyof T, value: unknown) => {
     setValues(prev => ({ ...prev, [fieldName]: value }));
     
     setFields(prev => ({

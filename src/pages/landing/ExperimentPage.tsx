@@ -143,7 +143,7 @@ const ExperimentPage = () => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   // Rotate through elements
   useEffect(() => {

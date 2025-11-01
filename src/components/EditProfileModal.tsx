@@ -148,10 +148,10 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
         
         onClose();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to update profile. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to update profile. Please try again.",
         variant: "destructive",
       });
     } finally {

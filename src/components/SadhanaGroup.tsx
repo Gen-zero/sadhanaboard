@@ -36,23 +36,15 @@ const SadhanaGroup = ({
 
   const content = (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {sadhanas.map(sadhana => {
-        // Convert Sadhana to SharedSadhana by adding the required isShared property
-        const sharedSadhana = {
-          ...sadhana,
-          isShared: false
-        };
-        
-        return (
-          <SadhanaCard
-            key={sadhana.id}
-            sadhana={sharedSadhana}
-            onToggleCompletion={handleToggleCompletion}
-            onDelete={onDelete}
-            onUpdate={onUpdate}
-          />
-        );
-      })}
+      {sadhanas.map(sadhana => (
+        <SadhanaCard
+          key={sadhana.id}
+          sadhana={sadhana}
+          onToggleCompletion={handleToggleCompletion}
+          onDelete={onDelete}
+          onUpdate={onUpdate}
+        />
+      ))}
     </div>
   );
 

@@ -144,7 +144,7 @@ export const usePerformanceMonitor = () => {
     const renderTime = performance.now() - startTime.current;
     
     // Get memory usage if available
-    const memoryUsage = (performance as any).memory?.usedJSHeapSize || 0;
+    const memoryUsage = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0;
     
     // Get navigation timing
     const navigationTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
@@ -240,7 +240,7 @@ export const useDebouncedValue = <T,>(value: T, delay: number): T => {
 export const useNetworkStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [connectionType, setConnectionType] = useState(
-    (navigator as any).connection?.effectiveType || 'unknown'
+    (navigator as Navigator & { connection?: { effectiveType: string } }).connection?.effectiveType || 'unknown'
   );
 
   useEffect(() => {
@@ -248,22 +248,22 @@ export const useNetworkStatus = () => {
     const handleOffline = () => setIsOnline(false);
     const handleConnectionChange = () => {
       setConnectionType(
-        (navigator as any).connection?.effectiveType || 'unknown'
+        (navigator as Navigator & { connection?: { effectiveType: string } }).connection?.effectiveType || 'unknown'
       );
     };
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
     
-    if ((navigator as any).connection) {
-      (navigator as any).connection.addEventListener('change', handleConnectionChange);
+    if ((navigator as Navigator & { connection?: EventTarget }).connection) {
+      (navigator as Navigator & { connection?: EventTarget }).connection.addEventListener('change', handleConnectionChange);
     }
 
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
-      if ((navigator as any).connection) {
-        (navigator as any).connection.removeEventListener('change', handleConnectionChange);
+      if ((navigator as Navigator & { connection?: EventTarget }).connection) {
+        (navigator as Navigator & { connection?: EventTarget }).connection.removeEventListener('change', handleConnectionChange);
       }
     };
   }, []);

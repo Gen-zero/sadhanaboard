@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { Profile } from '@/types/profile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -36,7 +37,7 @@ const SAMPRADAYAS = {
 
 const ProfileCard = () => {
   const { profile } = useProfileData();
-  const [profileData, setProfileData] = useState<any>(null);
+  const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
 
@@ -145,13 +146,11 @@ const ProfileCard = () => {
               </div>
             )}
 
-            {(profileData.sampradaya || profileData.isDikshit) && (
+            {profileData.sampradaya && (
               <div className="flex items-center gap-2">
                 <Award className="h-4 w-4 text-blue-500" />
                 <span className="text-sm">
-                  {profileData.sampradaya 
-                    ? `${profileData.isDikshit ? 'Dikshit' : 'Adikshit'} - ${SAMPRADAYAS[profileData.sampradaya as keyof typeof SAMPRADAYAS] || profileData.sampradaya}`
-                    : profileData.isDikshit ? 'Dikshit' : 'Adikshit'}
+                  {SAMPRADAYAS[profileData.sampradaya as keyof typeof SAMPRADAYAS] || profileData.sampradaya}
                 </span>
               </div>
             )}

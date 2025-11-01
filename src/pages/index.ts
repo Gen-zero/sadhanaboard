@@ -1,6 +1,6 @@
 export { default as AboutPage } from './landing/AboutPage';
 export { default as AnalyticsPage } from './user/AnalyticsPage';
-export { default as CommunityFeedPage } from './user/CommunityFeedPage';
+
 export { default as DashboardPage } from './user/DashboardPage';
 export { default as ExperimentPage } from './landing/ExperimentPage';
 export { default as HomePage } from './landing/HomePage';
@@ -14,7 +14,7 @@ export { default as ProfilePage } from './user/ProfilePage';
 export { default as SadhanaPage } from './user/SadhanaPage';
 export { default as SaadhanasPage } from './user/SaadhanasPage';
 export { default as SettingsPage } from './user/SettingsPage';
-export { default as SharedSadhanaDetailPage } from './user/SharedSadhanaDetailPage';
+
 export { default as SignupPage } from './landing/SignupPage';
 export { default as SpiritualDemoPage } from './user/SpiritualDemoPage';
 export { default as StorePage } from './user/StorePage';

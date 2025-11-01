@@ -6,7 +6,6 @@ import { ErrorBoundary } from "@/components/error";
 import {
   AboutPage,
   AnalyticsPage,
-  CommunityFeedPage,
   DashboardPage,
   ExperimentPage,
   HomePage,
@@ -20,7 +19,6 @@ import {
   SadhanaPage,
   SaadhanasPage,
   SettingsPage,
-  SharedSadhanaDetailPage,
   SignupPage,
   SpiritualDemoPage,
   StorePage,
@@ -240,8 +238,7 @@ const AppRoutes = () => {
       <Route path="/analytics" element={<OnboardingRoute><AnalyticsPage /></OnboardingRoute>} />
       <Route path="/sadhana" element={<OnboardingRoute><SadhanaPage /></OnboardingRoute>} />
       <Route path="/saadhanas" element={<OnboardingRoute><SaadhanasPage /></OnboardingRoute>} />
-      <Route path="/community" element={<OnboardingRoute><CommunityFeedPage /></OnboardingRoute>} />
-      <Route path="/community/:id" element={<OnboardingRoute><SharedSadhanaDetailPage /></OnboardingRoute>} />
+
       <Route path="/library" element={<OnboardingRoute><LibraryPage /></OnboardingRoute>} />
       <Route path="/settings" element={<OnboardingRoute><SettingsPage /></OnboardingRoute>} />
       <Route path="/profile" element={<OnboardingRoute><ProfilePage /></OnboardingRoute>} />

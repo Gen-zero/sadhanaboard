@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 
 export interface TouchGestureOptions {
   onSwipeLeft?: () => void;
@@ -43,12 +43,12 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
   };
 
   // Clear long press timer
-  const clearLongPressTimer = () => {
+  const clearLongPressTimer = useCallback(() => {
     if (longPressTimer) {
       clearTimeout(longPressTimer);
       setLongPressTimer(null);
     }
-  };
+  }, [longPressTimer]);
 
   useEffect(() => {
     const element = ref.current;
@@ -164,7 +164,7 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
       element.removeEventListener('touchend', handleTouchEnd);
       clearLongPressTimer();
     };
-  }, [touchStart, lastTap, longPressTimer, initialDistance, threshold, longPressDelay, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, onDoubleTap, onLongPress, onPinch]);
+  }, [touchStart, lastTap, longPressTimer, initialDistance, threshold, longPressDelay, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, onDoubleTap, onLongPress, onPinch, clearLongPressTimer]);
 
   return ref;
 };

@@ -69,6 +69,14 @@ const UnlockedSadhanas: React.FC<UnlockedSadhanasProps> = ({ onSelectSadhana, se
                       : 'bg-secondary/20 hover:bg-secondary/30'
                   }`}
                   onClick={() => onSelectSadhana(sadhana)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onSelectSadhana(sadhana);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
                 >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">

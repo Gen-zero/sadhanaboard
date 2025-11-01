@@ -15,6 +15,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
   
   // Memoize settings values to prevent unnecessary re-renders
   const memoizedSettings = useMemo(() => settings, [
+    settings,
     settings?.theme,
     settings?.appearance?.colorScheme,
     settings?.appearance?.fontSize,

@@ -46,7 +46,7 @@ const enhancedFormSchema = z.object({
     .max(100, 'Email must be less than 100 characters'),
   
   phone: z.string()
-    .regex(/^[\+]?[1-9][\d]{0,15}$/, 'Please enter a valid phone number')
+    .regex(/^[+]?[1-9]\d{0,15}$/, 'Please enter a valid phone number')
     .optional(),
   
   dateOfBirth: z.string()

@@ -216,7 +216,7 @@ const EnhancedDashboard = () => {
     return () => {
       window.removeEventListener('sadhana-tasks-refreshed', handleTasksRefreshed);
     };
-  }, []);
+  }, [loadTasks, loadStats, withLoading]);
 
   // Use mobile dashboard for mobile devices
   if (showMobileDashboard) {

@@ -83,7 +83,7 @@ export function withPerformanceMonitoring<P extends object>(
     // Use useEffect to end timing after component mounts
     useEffect(() => {
       monitor.end(id);
-    }, []);
+    }, [id, monitor]);
     
     return React.createElement(WrappedComponent, props);
   };

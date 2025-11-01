@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { ErrorDetails, ErrorType } from '../components/error/ErrorMessage';
 
 // Retry configuration options
@@ -33,7 +33,7 @@ interface RetryState {
 
 // Hook for handling retries
 export function useRetry(config: Partial<RetryConfig> = {}) {
-  const finalConfig = { ...DEFAULT_RETRY_CONFIG, ...config };
+  const finalConfig = useMemo(() => ({ ...DEFAULT_RETRY_CONFIG, ...config }), [config]);
   const [retryState, setRetryState] = useState<RetryState>({
     attempt: 0,
     isRetrying: false,
