@@ -145,12 +145,20 @@ export const adminUsersApi = {
   // Get all users with filters
   getAllUsers: async (searchTerm: string = '', filters: any = {}) => {
     try {
-      // This would need to be implemented in the backend
-      // For now, we'll return mock data
-      return {
-        users: [],
-        total: 0
-      };
+      const queryParams = new URLSearchParams({
+        search: searchTerm,
+        ...filters
+      });
+      
+      const response = await fetch(`${API_BASE_URL}/users?${queryParams}`, {
+        headers: getAuthHeaders()
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
     } catch (error) {
       handleApiError(error);
     }
@@ -236,7 +244,10 @@ export const adminAuthApi = {
       });
       
       console.log('Login response status:', response.status);
-      console.log('Login response headers:', [...response.headers.entries()]);
+      // Only log headers if they exist
+      if (response.headers && typeof response.headers.entries === 'function') {
+        console.log('Login response headers:', [...response.headers.entries()]);
+      }
       
       if (!response.ok) {
         const errorText = await response.text();

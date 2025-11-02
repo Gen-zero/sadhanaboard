@@ -33,6 +33,11 @@ describe('Admin API Service', () => {
   beforeEach(() => {
     (fetch as jest.Mock).mockClear();
     localStorage.clear();
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('adminBooksApi', () => {
@@ -78,6 +83,8 @@ describe('Admin API Service', () => {
 
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
+        status: 200,
+        headers: new Map(),
         json: () => Promise.resolve({ book: mockBook })
       });
 
@@ -95,6 +102,8 @@ describe('Admin API Service', () => {
     it('should delete a book', async () => {
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
+        status: 200,
+        headers: new Map(),
         json: () => Promise.resolve({ message: 'Book deleted successfully' })
       });
 
@@ -123,6 +132,8 @@ describe('Admin API Service', () => {
 
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
+        status: 200,
+        headers: new Map(),
         json: () => Promise.resolve(mockResponse)
       });
 
@@ -142,11 +153,6 @@ describe('Admin API Service', () => {
         { name: 'Security', value: 100, status: 'healthy', icon: 'Shield' }
       ];
 
-      (fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockMetrics)
-      });
-
       const result = await adminSystemApi.getSystemMetrics();
       expect(result).toEqual(mockMetrics);
     });
@@ -159,11 +165,6 @@ describe('Admin API Service', () => {
         { id: '4', timestamp: '2023-10-15 14:45:33', level: 'info', message: 'Memory usage normalized' },
         { id: '5', timestamp: '2023-10-15 14:50:12', level: 'error', message: 'Network latency spike' }
       ];
-
-      (fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockLogs)
-      });
 
       const result = await adminSystemApi.getSystemLogs();
       expect(result).toEqual(mockLogs);
@@ -188,8 +189,11 @@ describe('Admin API Service', () => {
         total: 1
       };
 
+      (fetch as jest.Mock).mockClear();
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
+        status: 200,
+        headers: new Map(),
         json: () => Promise.resolve(mockResponse)
       });
 
