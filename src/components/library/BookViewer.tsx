@@ -11,7 +11,7 @@ interface BookViewerProps {
 
 const BookViewer = ({ bookId, onClose }: BookViewerProps) => {
   const { books } = useSpiritualBooks();
-  const book = books.find(b => b.id === bookId);
+  const book = books.find(b => String(b.id) === bookId);
   const [fullscreen, setFullscreen] = useState(false);
   const viewerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -58,7 +58,7 @@ const BookViewer = ({ bookId, onClose }: BookViewerProps) => {
       />
       
       <div className="flex-1 overflow-hidden">
-        <UnifiedViewer book={book} bookId={bookId} />
+        <UnifiedViewer book={book} bookId={String(bookId)} />
       </div>
     </div>
   );

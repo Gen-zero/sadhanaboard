@@ -22,7 +22,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
   // Get all book IDs
   useEffect(() => {
     if (books.length > 0) {
-      const ids = books.map(book => book.id);
+      const ids = books.map(book => String(book.id));
       setBookIds(ids);
     }
   }, [books]);

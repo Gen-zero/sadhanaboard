@@ -604,7 +604,7 @@ const DashboardPage = () => {
             ) : analyticsError ? (
               <div className="text-center text-sm text-destructive py-6">Unable to load analytics</div>
             ) : (
-              <PracticeTrendsChart data={practiceTrends?.trends?.slice(-14) || []} />
+              <PracticeTrendsChart data={Array.isArray(practiceTrends) ? practiceTrends.slice(-14) : []} />
             )}
           </CardContent>
         </Card>

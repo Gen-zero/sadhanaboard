@@ -34,7 +34,7 @@ import { loadLastFilters, saveLastFilters } from '@/lib/filterStorage';
 const LibraryContainer = () => {
   const { toast } = useToast();
   const [filters, setFilters] = useState<BookFilters>({ limit: 40, offset: 0 });
-  const { books, isLoading, total = 0, limit = 40, offset = 0, refreshBooks } = useSpiritualBooks(filters);
+  const { books, isLoading, total = 0, limit = 40, offset = 0, refreshBooks } = useSpiritualBooks(filters as Record<string, unknown>);
   const bookIdsForProgress = books.map(book => book.id);
   const { progressMap } = useReadingProgress(bookIdsForProgress, { batchSize: 10, delayMs: 50 }); // Add batching options
   const { data: traditions = [], isLoading: traditionsLoading } = useBookTraditions();

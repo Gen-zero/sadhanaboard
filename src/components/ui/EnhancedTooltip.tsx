@@ -5,7 +5,7 @@ interface EnhancedTooltipProps {
   id: string;
   title?: string;
   content: string;
-  variant?: 'default' | 'help' | 'info' | 'warning';
+  variant?: 'default' | 'help' | 'info' | 'warning' | 'discovery';
   position?: 'top' | 'right' | 'bottom' | 'left';
   children: React.ReactNode;
 }

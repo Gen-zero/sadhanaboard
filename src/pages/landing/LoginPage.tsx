@@ -49,14 +49,8 @@ const LoginPage = () => {
       
       // Check if there was an error in the result
       if (result && result.error) {
-        // Show more specific error messages
-        if (result.error.message) {
-          setError(result.error.message);
-        } else if (typeof result.error === 'string') {
-          setError(result.error);
-        } else {
-          setError("Invalid email or password. Please try again.");
-        }
+        // result.error is already a string based on auth-context
+        setError(result.error);
         return;
       }
       

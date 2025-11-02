@@ -14,6 +14,9 @@ export const LOADING_KEYS = {
   STATS_LOAD: 'stats_load',
   FORM_SUBMIT: 'form_submit',
   
+  // Library states
+  LIBRARY_LOAD: 'library_load',
+  
   // Sadhana states
   SADHANA_LOAD: 'sadhana_load',
   SADHANA_SAVE: 'sadhana_save',
@@ -23,10 +26,13 @@ export const LOADING_KEYS = {
   // User states
   USER_PROFILE: 'user_profile',
   USER_SETTINGS: 'user_settings',
+  SETTINGS_SAVE: 'settings_save',
   
   // Data states
   DATA_LOAD: 'data_load',
   DATA_SAVE: 'data_save',
+  DATA_SYNC: 'data_sync',
+  EXPORT: 'export',
 } as const;
 
 type LoadingKey = keyof typeof LOADING_KEYS;

@@ -1,26 +1,9 @@
 
 import { useQuery } from '@tanstack/react-query';
 import api from '@/services/api';
+import type { SpiritualBook } from '@/types/books';
 
-export interface SpiritualBook {
-  id: number;
-  title: string;
-  author: string;
-  description: string;
-  tradition: string;
-  category: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  estimated_hours: number;
-  pages?: number;
-  isbn?: string;
-  publisher?: string;
-  publication_year?: number;
-  language: string;
-  tags: string[];
-  cover_url?: string;
-  created_at: string;
-  updated_at: string;
-}
+export type { SpiritualBook };
 
 export const useSpiritualBooks = (filters?: Record<string, unknown>) => {
   const query = useQuery({

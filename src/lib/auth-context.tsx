@@ -77,9 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     
     const result = await signIn(email, password);
-    // Convert error to string if it's an Error object
-    const error = result.error instanceof Error ? result.error.message : result.error;
-    return { error };
+    // result.error is already a string based on the hook implementation
+    return { error: result.error || null };
   };
 
   const signup = async (email: string, password: string, displayName: string) => {
@@ -89,9 +88,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     
     const result = await signUp(email, password, displayName);
-    // Convert error to string if it's an Error object
-    const error = result.error instanceof Error ? result.error.message : result.error;
-    return { error };
+    // result.error is already a string based on the hook implementation
+    return { error: result.error || null };
   };
 
   const logout = async () => {

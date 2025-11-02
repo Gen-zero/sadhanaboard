@@ -4,7 +4,7 @@ import type { BookProgress } from '@/types/books';
 
 export function useBookReading(bookId: number | null) {
   const [progress, setProgress] = useState<BookProgress | null>(null);
-  const pendingRef = useRef<{ position?: string; page?: number; percent?: number } | null>(null);
+  const pendingRef = useRef<{ position?: Record<string, unknown>; page?: number; percent?: number } | null>(null);
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export function useBookReading(bookId: number | null) {
     return () => { mounted = false; };
   }, [bookId]);
 
-  const scheduleSave = (payload: { position?: string; page?: number; percent?: number }) => {
+  const scheduleSave = (payload: { position?: Record<string, unknown>; page?: number; percent?: number }) => {
     pendingRef.current = { ...(pendingRef.current || {}), ...payload };
     if (timerRef.current) return;
     // save after 5 seconds of inactivity
@@ -39,7 +39,7 @@ export function useBookReading(bookId: number | null) {
     }, 5000) as unknown as number;
   };
 
-  const immediateSave = async (payload: { position?: string; page?: number; percent?: number }) => {
+  const immediateSave = async (payload: { position?: Record<string, unknown>; page?: number; percent?: number }) => {
     if (!bookId) return;
     try {
       const res = await bookApi.upsertProgress(bookId as number, payload);
