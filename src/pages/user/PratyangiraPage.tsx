@@ -13,8 +13,6 @@ const PratyangiraYantra = () => {
   // Load textures
   const textures = useTexture({
     map: '/icons/pratyangira-yantra-copper/textures/Object001_diffuse.jpeg',
-    normalMap: '/icons/pratyangira-yantra-copper/textures/Object001_normal.jpg',
-    roughnessMap: '/icons/pratyangira-yantra-copper/textures/Object001_specular.jpeg',
   });
 
   const meshRef = useRef<THREE.Mesh>(null);
@@ -30,7 +28,7 @@ const PratyangiraYantra = () => {
     <mesh ref={meshRef} scale={[0.5, 0.5, 0.5]}>
       <sphereGeometry args={[1, 64, 64]} />
       <meshStandardMaterial
-        {...textures}
+        map={textures.map}
         metalness={0.8}
         roughness={0.3}
       />
