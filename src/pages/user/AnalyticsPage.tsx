@@ -24,6 +24,39 @@ const AnalyticsPage = () => {
     fetchCategoryInsights();
   }, [fetchPracticeTrends, fetchCompletionRates, fetchStreaks, fetchComparative, fetchHeatmap, fetchCategoryInsights]);
 
+  // Extract data from the API responses
+  const trendsData = practiceTrends && Array.isArray((practiceTrends as any).trends) 
+    ? (practiceTrends as any).trends 
+    : [];
+    
+  const completionRatesData = completionRates && Array.isArray((completionRates as any).completionRates) 
+    ? (completionRates as any).completionRates 
+    : [];
+    
+  const heatmapData = heatmap && Array.isArray((heatmap as any).data) 
+    ? (heatmap as any).data 
+    : [];
+
+  // Extract insights from different sources
+  const insightsData: string[] = [];
+  
+  // From comparative analytics
+  if (comparative && Array.isArray((comparative as any).insights)) {
+    insightsData.push(...(comparative as any).insights);
+  }
+  
+  // From category insights recommendations
+  if (categoryInsights && Array.isArray((categoryInsights as any).recommendations)) {
+    insightsData.push(...(categoryInsights as any).recommendations);
+  }
+  
+  // From category insights details
+  if (categoryInsights && Array.isArray((categoryInsights as any).details)) {
+    (categoryInsights as any).details.forEach((detail: any) => {
+      insightsData.push(`Your ${detail.category} practice has a ${detail.completionRate}% completion rate and is ${detail.status}.`);
+    });
+  }
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -34,8 +67,8 @@ const AnalyticsPage = () => {
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
-                <PracticeTrendsChart data={practiceTrends?.trends || []} />
-                <CompletionRatesChart data={completionRates?.completionRates || []} />
+                <PracticeTrendsChart data={trendsData} />
+                <CompletionRatesChart data={completionRatesData} />
               </div>
               <div className="space-y-4">
                 <StreakChart data={streaks} />
@@ -48,13 +81,13 @@ const AnalyticsPage = () => {
               <Card>
                 <CardContent>
                   <h3 className="font-medium mb-2">Heatmap</h3>
-                  <PracticeHeatmapCalendar data={heatmap?.data || []} />
+                  <PracticeHeatmapCalendar data={heatmapData} />
                 </CardContent>
               </Card>
               <Card className="lg:col-span-2">
                 <CardContent>
                   <h3 className="font-medium mb-2">Insights</h3>
-                  <InsightsPanel insights={comparative?.insights || categoryInsights?.recommendations || []} />
+                  <InsightsPanel insights={insightsData} />
                 </CardContent>
               </Card>
             </div>

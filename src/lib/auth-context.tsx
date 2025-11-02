@@ -10,8 +10,8 @@ interface AuthContextType {
   isOnboardingComplete: boolean | null;
   checkOnboardingStatus: () => Promise<boolean>;
   refreshOnboardingStatus: () => Promise<boolean>;
-  login: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signup: (email: string, password: string, displayName: string) => Promise<{ error: Error | null }>;
+  login: (email: string, password: string) => Promise<{ error: string | null }>;
+  signup: (email: string, password: string, displayName: string) => Promise<{ error: string | null }>;
   logout: () => Promise<void>;
 }
 
@@ -26,7 +26,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, isLoading, signIn, signUp, signOut } = useLocalAuth();
+  const { user, isLoading, signIn, signUp, signOut, refreshUser } = useLocalAuth();
   const [isOnboardingComplete, setIsOnboardingComplete] = useState<boolean | null>(null);
   const [isOnboardingLoading, setIsOnboardingLoading] = useState<boolean>(false);
 
@@ -35,8 +35,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setIsOnboardingLoading(true);
-      const data: { profile: Profile } = await api.getProfile();
-      const completed = data.profile?.onboarding_completed || false;
+      const data = await api.getProfile();
+      // Type guard to check if data has profile property or is profile object directly
+      const profile = 'profile' in data ? data.profile : data;
+      const completed = profile?.onboarding_completed || false;
       setIsOnboardingComplete(completed);
       return completed;
     } catch (error) {
@@ -71,19 +73,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     // Validate inputs
     if (!email || !password) {
-      return { error: new Error('Email and password are required') };
+      return { error: 'Email and password are required' };
     }
     
-    return await signIn(email, password);
+    const result = await signIn(email, password);
+    // Convert error to string if it's an Error object
+    const error = result.error instanceof Error ? result.error.message : result.error;
+    return { error };
   };
 
   const signup = async (email: string, password: string, displayName: string) => {
     // Validate inputs
     if (!email || !password || !displayName) {
-      return { error: new Error('Email, password, and display name are required') };
+      return { error: 'Email, password, and display name are required' };
     }
     
-    return await signUp(email, password, displayName);
+    const result = await signUp(email, password, displayName);
+    // Convert error to string if it's an Error object
+    const error = result.error instanceof Error ? result.error.message : result.error;
+    return { error };
   };
 
   const logout = async () => {
