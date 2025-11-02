@@ -7,11 +7,13 @@ import { cmsApi } from '@/services/cmsApi';
 // dynamic dnd-kit fallback (if not installed, simple append-only list)
 let DndContext: any, SortableContext: any, arrayMove: any;
 try {
-   
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const dnd = require('@dnd-kit/core');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const sortable = require('@dnd-kit/sortable');
   DndContext = dnd.DndContext;
   SortableContext = sortable.SortableContext;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   arrayMove = require('@dnd-kit/sortable').arrayMove;
 } catch (e) {
   DndContext = null;

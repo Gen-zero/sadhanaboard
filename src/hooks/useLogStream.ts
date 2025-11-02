@@ -24,8 +24,8 @@ export function useLogStream(onLog: (l: AdminLog) => void, onEvent?: (e: Securit
           socketRef.current = sock;
 
           sock.on('connect', () => { if (mounted) setConnected(true); });
-          sock.on('logs:new', (payload: AdminLog) => { try { onLog && onLog(payload); } catch (e) { console.error(e); } });
-          sock.on('security:alert', (payload: any) => { try { onEvent && onEvent(payload); } catch (e) { /* ignore */ } });
+          sock.on('logs:new', (payload: AdminLog) => { try { onLog?.(payload); } catch (e) { console.error(e); } });
+          sock.on('security:alert', (payload: any) => { try { onEvent?.(payload); } catch (e) { /* ignore */ } });
 
           return; // socket established
         }
@@ -41,7 +41,7 @@ export function useLogStream(onLog: (l: AdminLog) => void, onEvent?: (e: Securit
         es.onmessage = (ev) => {
           try {
             const data = JSON.parse(ev.data || '{}');
-            if (data && data.type === 'logs:new' && data.payload) onLog && onLog(data.payload);
+            if (data && data.type === 'logs:new' && data.payload) onLog?.(data.payload);
           } catch (err) { console.error('SSE parse error', err); }
         };
         es.onerror = () => { if (mounted) setConnected(false); };

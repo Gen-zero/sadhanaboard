@@ -1,20 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X, AlertCircle, Loader2, Upload, Save, Send } from 'lucide-react';
-// @ts-ignore
 import { cn } from '@/lib/utils';
-// @ts-ignore
 import { useLoadingState, LOADING_KEYS } from '@/hooks/useLoadingState';
 import { LoadingButton, LoadingSpinner } from './LoadingComponents';
-// @ts-ignore
 import { Input } from '@/components/ui/input';
-// @ts-ignore
 import { Textarea } from '@/components/ui/textarea';
-// @ts-ignore
 import { Label } from '@/components/ui/label';
-// @ts-ignore
 import { Button } from '@/components/ui/button';
-// @ts-ignore
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Enhanced input with loading states
@@ -436,7 +429,6 @@ export const LoadingForm: React.FC<LoadingFormProps> = ({
 }) => {
   // @ts-ignore
   const { isLoading } = useLoadingState();
-  // @ts-ignore
   const formLoading = loading || isLoading(LOADING_KEYS.FORM_SUBMIT);
 
   return (

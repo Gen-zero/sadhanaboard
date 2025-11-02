@@ -126,9 +126,9 @@ const BookEditForm = ({ book, onClose, onBookUpdated }: BookEditFormProps) => {
           />
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Traditions</label>
+            <label htmlFor="traditions-input" className="text-sm font-medium">Traditions</label>
             <div className="flex gap-2">
-              <input value={newTradition} onChange={(e) => setNewTradition(e.target.value)} placeholder="Add tradition" className="flex-1 rounded border px-2 py-1" onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleTraditionAdd())} />
+              <input id="traditions-input" value={newTradition} onChange={(e) => setNewTradition(e.target.value)} placeholder="Add tradition" className="flex-1 rounded border px-2 py-1" onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleTraditionAdd())} />
               <Button type="button" variant="outline" onClick={handleTraditionAdd}>Add</Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">

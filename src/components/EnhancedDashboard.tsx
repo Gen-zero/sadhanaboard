@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlarmClock, CheckSquare, BookOpen, Lightbulb, Calendar, PieChart, RotateCw, TrendingUp, Target, Award } from 'lucide-react';
-// @ts-ignore
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// @ts-ignore
 import { Button } from '@/components/ui/button';
-// @ts-ignore
 import { useToast } from '@/hooks/use-toast';
-// @ts-ignore
 import { Progress } from '@/components/ui/progress';
-// @ts-ignore
 import { useDailySadhanaRefresh } from '@/hooks/useDailySadhanaRefresh';
-// @ts-ignore
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useLoadingState, LOADING_KEYS } from '@/hooks/useLoadingState';
 import { 
@@ -52,11 +46,8 @@ const inspirationalQuotes = [
 
 const EnhancedDashboard = () => {
   const navigate = useNavigate();
-  // @ts-ignore
   const { toast } = useToast();
-  // @ts-ignore
   const { manualRefresh } = useDailySadhanaRefresh();
-  // @ts-ignore
   const isMobile = useIsMobile();
   const { isLoading, setLoading, withLoading } = useLoadingState();
 
@@ -135,10 +126,8 @@ const EnhancedDashboard = () => {
         });
         
         urgent.sort((a, b) => {
-          const priorityOrder = { high: 0, medium: 1, low: 2 };
-          // @ts-ignore
+          const priorityOrder: Record<string, number> = { high: 0, medium: 1, low: 2 };
           const aPriority = priorityOrder[a.priority];
-          // @ts-ignore
           const bPriority = priorityOrder[b.priority];
           
           if (aPriority !== bPriority) {
@@ -238,7 +227,6 @@ const EnhancedDashboard = () => {
   const handleRefreshSadhanaTasks = withLoading(LOADING_KEYS.TASKS_LOAD, async () => {
     manualRefresh();
     await loadTasks();
-    // @ts-ignore
     toast({
       title: "Tasks Refreshed",
       description: "Your daily sadhana practices have been refreshed."
@@ -267,7 +255,6 @@ const EnhancedDashboard = () => {
         setDailyProgress(Math.floor((newCompletedCount / totalCount) * 100));
       }
       
-      // @ts-ignore
       toast({
         title: "Task Completed",
         description: "Great job! Your spiritual journey progresses."

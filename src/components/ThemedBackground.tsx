@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+// TODO: Wrap all case block declarations in braces (lines 1521, 1622, 1704, 2141, 2529)
 import { useEffect, useRef, useState, useMemo, lazy, Suspense } from 'react';
 import React from 'react';
 import { getThemeById } from '@/themes';

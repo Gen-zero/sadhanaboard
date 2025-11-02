@@ -51,16 +51,16 @@ export default function ThemeStudio() {
 
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="text-xs">Primary</label>
-            <input type="color" value={palette.primary} onChange={(e) => setPalette(p => ({ ...p, primary: e.target.value }))} />
+            <label htmlFor="theme-primary-color" className="text-xs">Primary</label>
+            <input id="theme-primary-color" type="color" value={palette.primary} onChange={(e) => setPalette(p => ({ ...p, primary: e.target.value }))} />
           </div>
           <div>
-            <label className="text-xs">Secondary</label>
-            <input type="color" value={palette.secondary} onChange={(e) => setPalette(p => ({ ...p, secondary: e.target.value }))} />
+            <label htmlFor="theme-secondary-color" className="text-xs">Secondary</label>
+            <input id="theme-secondary-color" type="color" value={palette.secondary} onChange={(e) => setPalette(p => ({ ...p, secondary: e.target.value }))} />
           </div>
           <div>
-            <label className="text-xs">Accent</label>
-            <input type="color" value={palette.accent} onChange={(e) => setPalette(p => ({ ...p, accent: e.target.value }))} />
+            <label htmlFor="theme-accent-color" className="text-xs">Accent</label>
+            <input id="theme-accent-color" type="color" value={palette.accent} onChange={(e) => setPalette(p => ({ ...p, accent: e.target.value }))} />
           </div>
         </div>
 

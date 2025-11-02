@@ -54,7 +54,7 @@ export default function BulkUploadDialog({ isOpen, onClose, onUploadComplete }: 
         });
         setResults(res.results || []);
         toast({ title: 'Bulk upload complete', description: `${res.summary?.successful ?? 0} succeeded, ${res.summary?.failed ?? 0} failed` });
-        onUploadComplete && onUploadComplete();
+        onUploadComplete?.();
       } catch (err: any) {
         toast({ title: 'Bulk upload failed', description: err.message || 'Upload failed', variant: 'destructive' });
       } finally {
@@ -76,7 +76,7 @@ export default function BulkUploadDialog({ isOpen, onClose, onUploadComplete }: 
         });
         setResults(res.results || []);
         toast({ title: 'URL import complete', description: `${res.summary?.successful ?? 0} succeeded, ${res.summary?.failed ?? 0} failed` });
-        onUploadComplete && onUploadComplete();
+        onUploadComplete?.();
       } catch (err: any) {
         toast({ title: 'URL import failed', description: err.message || 'Import failed', variant: 'destructive' });
       } finally {
@@ -108,7 +108,7 @@ export default function BulkUploadDialog({ isOpen, onClose, onUploadComplete }: 
   const res = await adminApi.bulkUploadBooks(matchedFiles, metas, (p) => setProgressMap(prev => ({ ...prev, __global: Math.round(p.percent) })));
         setResults(res.results || []);
         toast({ title: 'CSV import complete', description: `${res.summary?.successful ?? 0} succeeded, ${res.summary?.failed ?? 0} failed` });
-        onUploadComplete && onUploadComplete();
+        onUploadComplete?.();
       } catch (err: any) {
         toast({ title: 'CSV import failed', description: err.message || 'Import failed', variant: 'destructive' });
       } finally {

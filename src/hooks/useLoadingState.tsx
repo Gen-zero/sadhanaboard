@@ -63,6 +63,7 @@ export const useLoadingState = (): UseLoadingStateReturn => {
   }, [loadingStates]);
 
   const withLoading = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
     <T extends unknown>(key: string, fn: () => Promise<T>) => {
       return async (): Promise<T> => {
         setLoading(key, true);

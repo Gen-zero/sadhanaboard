@@ -177,8 +177,8 @@ const SpiritualLibraryManager = () => {
 
             <div className="flex gap-2 items-center">
               <div className="flex-1">
-                <label className="text-sm">Traditions</label>
-                <div className="flex flex-wrap gap-2 mt-2">
+                <label htmlFor="traditions-filter" className="text-sm">Traditions</label>
+                <div id="traditions-filter" className="flex flex-wrap gap-2 mt-2" role="group" aria-label="Filter by traditions">
                   {availableTraditions.map((t) => {
                     const selected = selectedTraditions.includes(t);
                     return (
@@ -195,8 +195,8 @@ const SpiritualLibraryManager = () => {
               </div>
 
               <div className="w-48">
-                <label className="text-sm">Language</label>
-                <select className="mt-2 w-full rounded border px-2 py-1" value={selectedLanguage || ''} onChange={(e) => setSelectedLanguage(e.target.value || undefined)}>
+                <label htmlFor="language-filter" className="text-sm">Language</label>
+                <select id="language-filter" className="mt-2 w-full rounded border px-2 py-1" value={selectedLanguage || ''} onChange={(e) => setSelectedLanguage(e.target.value || undefined)}>
                   <option value="">Any</option>
                   <option value="english">English</option>
                   <option value="sanskrit">Sanskrit</option>
@@ -205,8 +205,8 @@ const SpiritualLibraryManager = () => {
               </div>
 
               <div className="w-32">
-                <label className="text-sm">Year</label>
-                <input className="mt-2 w-full rounded border px-2 py-1" value={selectedYear || ''} onChange={(e) => setSelectedYear(e.target.value || undefined)} placeholder="YYYY" />
+                <label htmlFor="year-filter" className="text-sm">Year</label>
+                <input id="year-filter" className="mt-2 w-full rounded border px-2 py-1" value={selectedYear || ''} onChange={(e) => setSelectedYear(e.target.value || undefined)} placeholder="YYYY" />
               </div>
 
               <div className="flex items-end">

@@ -3,12 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import useCmsData from '@/hooks/useCmsData';
 import { cmsApi } from '@/services/cmsApi';
-// dynamic require for react-dropzone so code compiles even if package not installed yet
-// fallback provides a no-op dropzone so the UI still renders (install react-dropzone for full DnD)
+// dynamic require for react-dropzone - optional dependency for drag-and-drop functionality
+// fallback provides a no-op dropzone so the UI still renders
 let useDropzone: any;
 try {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   useDropzone = require('react-dropzone').useDropzone;
 } catch (e) {
   useDropzone = (opts: any) => ({ getRootProps: () => ({}), getInputProps: () => ({}), isDragActive: false });
