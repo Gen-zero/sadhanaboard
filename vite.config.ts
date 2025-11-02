@@ -48,6 +48,24 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    {
+      name: 'configure-worker',
+      config(config, env) {
+        if (env.command === 'build') {
+          return {
+            worker: {
+              format: 'es'
+            }
+          };
+        }
+      },
+      resolveId(id) {
+        // Don't process PDF worker files in special way that causes crypto issues
+        if (id.includes('pdf.worker')) {
+          return this.resolve(id);
+        }
+      }
+    },
     ViteImageOptimizer({
       /* pass your config */
       test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,

@@ -7,17 +7,23 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Menu, Search, RotateCw } from 'lucide-react';
 import { useBookReading } from '@/hooks/useBookReading';
-import PDFWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
 
-// Set up the worker with local import instead of CDN
-const worker = new PDFWorker();
-pdfjs.GlobalWorkerOptions.workerPort = worker;
-
-// Terminate worker on HMR dispose to prevent dev-time worker leaks
-if (import.meta.hot) {
-  import.meta.hot.dispose(() => {
-    worker.terminate();
-  });
+// Configure PDF.js worker with fallback for different environments
+try {
+  // Try to use the worker file directly
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+} catch (e) {
+  // Fallback if needed
+  try {
+    const PDFWorker = import('pdfjs-dist/build/pdf.worker.min.mjs?worker');
+    if (PDFWorker) {
+      const worker = new PDFWorker();
+      pdfjs.GlobalWorkerOptions.workerPort = worker;
+    }
+  } catch (workerError) {
+    // If both fail, log but continue - PDF.js has built-in fallback
+    console.warn('Failed to configure PDF worker:', workerError);
+  }
 }
 
 interface PDFViewerProps {
