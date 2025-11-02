@@ -11,7 +11,8 @@
     "three-mesh-bvh": "^0.8.3",
     "glob": "^10.4.5",
     "node-domexception": "npm:domexception@^4.0.0",
-    "inflight": "^1.0.6"
+    "inflight": "npm:lru-cache@^10.0.0",
+    "lru-cache": "^10.0.0"
   },
   "scripts": {
     "dev": "npm run dev:setup && vite",

@@ -175,7 +175,7 @@ const CareersPage = () => {
                 
                 <Button 
                   className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-base sm:text-lg py-4 sm:py-6 touch-target-large"
-                  onClick={() => window.location.href = 'https://gen0.xyz/join-us'}
+                  onClick={() => window.location.href = 'https://www.gen0.xyz/join-us'}
                 >
                   Apply Now
                   <ExternalLink className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
