@@ -538,7 +538,6 @@ const EnhancedDashboard = () => {
                     <span>Progress</span>
                     <span>{dailyProgress}%</span>
                   </div>
-                  {/* @ts-ignore */}
                   <Progress value={dailyProgress} className="h-2" />
                 </div>
               </div>
@@ -591,7 +590,6 @@ const EnhancedDashboard = () => {
                       <span>Day 1</span>
                       <span>Day {totalDays}</span>
                     </div>
-                    {/* @ts-ignore */}
                     <Progress value={goalProgress} className="h-2" />
                   </div>
                 </div>

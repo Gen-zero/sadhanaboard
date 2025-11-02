@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 import { useSettings } from '@/hooks/useSettings';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
-import ThemeToggle from '@/components/ThemeToggle';
 import MobileNav from '@/components/mobile/MobileNav';
 
 // Simple count-up hook for animated stats
@@ -398,7 +397,7 @@ const HomePage = () => {
       
       {/* Theme Toggle - Vertically centered with Sadhana Paper */}
       <div className="hidden md:block fixed right-8 z-[999998] top-1/2 transform -translate-y-1/2">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </div>
 
       <div className="min-h-screen bg-transparent">

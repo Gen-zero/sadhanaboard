@@ -115,7 +115,7 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
         }
       }
     };
-  }, [texture]);
+  }, []);
 
   // Yantra shader material with proper texture handling
   const yantraMaterial = useMemo(() => {

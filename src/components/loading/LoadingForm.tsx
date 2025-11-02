@@ -427,7 +427,6 @@ export const LoadingForm: React.FC<LoadingFormProps> = ({
   children,
   className
 }) => {
-  // @ts-ignore
   const { isLoading } = useLoadingState();
   const formLoading = loading || isLoading(LOADING_KEYS.FORM_SUBMIT);
 

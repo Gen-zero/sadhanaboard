@@ -229,13 +229,13 @@ export const adminApi = {
       // connected
     });
     socket.on('dashboard:stats:init', (payload: DashboardSnapshot) => {
-      try { onInit && onInit(payload); } catch (e) { console.error(e); }
+      try { onInit?.(payload); } catch (e) { console.error(e); }
     });
     socket.on('dashboard:stats:update', (payload: DashboardSnapshot) => {
-      try { onUpdate && onUpdate(payload); } catch (e) { console.error(e); }
+      try { onUpdate?.(payload); } catch (e) { console.error(e); }
     });
-    socket.on('connect_error', (err: unknown) => { if (onError) onError && onError(err); });
-    socket.on('error', (err: unknown) => { if (onError) onError && onError(err); });
+    socket.on('connect_error', (err: unknown) => { onError?.(err); });
+    socket.on('error', (err: unknown) => { onError?.(err); });
     return socket;
   },
   
@@ -548,13 +548,13 @@ export const adminApi = {
           console.error('Failed to subscribe to BI rooms:', e);
         }
       });
-      socket.on('bi:kpi-update', (payload: any) => { try { onKPIUpdate && onKPIUpdate(payload); } catch (e) { console.error(e); } });
-      socket.on('bi:execution-status', (payload: any) => { try { onExecutionStatus && onExecutionStatus(payload); } catch (e) { console.error(e); } });
-      socket.on('bi:insight-generated', (payload: any) => { try { onInsight && onInsight(payload); } catch (e) { console.error(e); } });
-      socket.on('error', (err: unknown) => { if (onError) onError(err); });
+      socket.on('bi:kpi-update', (payload: any) => { try { onKPIUpdate?.(payload); } catch (e) { console.error(e); } });
+      socket.on('bi:execution-status', (payload: any) => { try { onExecutionStatus?.(payload); } catch (e) { console.error(e); } });
+      socket.on('bi:insight-generated', (payload: any) => { try { onInsight?.(payload); } catch (e) { console.error(e); } });
+      socket.on('error', (err: unknown) => { onError?.(err); });
   return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },
@@ -607,12 +607,12 @@ export const adminApi = {
       socket.on('connect', () => {
         try { socket.emit('system:subscribe', { rooms: ['system-metrics', 'system-alerts'] }); } catch (e) { console.error('Failed to subscribe to system rooms', e); }
       });
-      socket.on('system:metrics', (payload: any) => { try { onMetrics && onMetrics(payload); } catch (e) { console.error(e); } });
-      socket.on('system:alert', (payload: any) => { try { onAlert && onAlert(payload); } catch (e) { console.error(e); } });
-      socket.on('error', (err: unknown) => { if (onError) onError(err); });
+      socket.on('system:metrics', (payload: any) => { try { onMetrics?.(payload); } catch (e) { console.error(e); } });
+      socket.on('system:alert', (payload: any) => { try { onAlert?.(payload); } catch (e) { console.error(e); } });
+      socket.on('error', (err: unknown) => { onError?.(err); });
       return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },
@@ -638,19 +638,19 @@ export const adminApi = {
       
       socket.on('users:update', (payload: any) => { 
         try { 
-          onUserUpdate && onUserUpdate(payload); 
+          onUserUpdate?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       
       socket.on('error', (err: unknown) => { 
-        if (onError) onError(err); 
+        onError?.(err);
       });
       
       return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },
@@ -676,19 +676,19 @@ export const adminApi = {
       
       socket.on('library:update', (payload: any) => { 
         try { 
-          onBookUpdate && onBookUpdate(payload); 
+          onBookUpdate?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       
       socket.on('error', (err: unknown) => { 
-        if (onError) onError(err); 
+        onError?.(err);
       });
       
       return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },

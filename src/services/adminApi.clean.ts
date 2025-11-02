@@ -229,31 +229,23 @@ export const adminApi = {
     });
     socket.on('dashboard:stats:init', (payload: DashboardSnapshot) => {
       try { 
-        if (onInit) {
-          onInit(payload); 
-        }
+        onInit?.(payload);
       } catch (e) { 
         console.error(e); 
       }
     });
     socket.on('dashboard:stats:update', (payload: DashboardSnapshot) => {
       try { 
-        if (onUpdate) {
-          onUpdate(payload); 
-        }
+        onUpdate?.(payload);
       } catch (e) { 
         console.error(e); 
       }
     });
     socket.on('connect_error', (err: unknown) => { 
-      if (onError) {
-        onError(err); 
-      }
+      onError?.(err);
     });
     socket.on('error', (err: unknown) => { 
-      if (onError) {
-        onError(err); 
-      }
+      onError?.(err);
     });
     return socket;
   },
@@ -521,39 +513,31 @@ async exportBooksToGoogleSheets(payload: {
       });
       socket.on('bi:kpi-update', (payload: any) => { 
         try { 
-          if (onKPIUpdate) {
-            onKPIUpdate(payload); 
-          }
+          onKPIUpdate?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       socket.on('bi:execution-status', (payload: any) => { 
         try { 
-          if (onExecutionStatus) {
-            onExecutionStatus(payload); 
-          }
+          onExecutionStatus?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       socket.on('bi:insight-generated', (payload: any) => { 
         try { 
-          if (onInsight) {
-            onInsight(payload); 
-          }
+          onInsight?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       socket.on('error', (err: unknown) => { 
-        if (onError) {
-          onError(err); 
-        }
+        onError?.(err);
       });
   return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },
@@ -612,30 +596,24 @@ async exportBooksToGoogleSheets(payload: {
       });
       socket.on('system:metrics', (payload: any) => { 
         try { 
-          if (onMetrics) {
-            onMetrics(payload); 
-          }
+          onMetrics?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       socket.on('system:alert', (payload: any) => { 
         try { 
-          if (onAlert) {
-            onAlert(payload); 
-          }
+          onAlert?.(payload);
         } catch (e) { 
           console.error(e); 
         } 
       });
       socket.on('error', (err: unknown) => { 
-        if (onError) {
-          onError(err); 
-        }
+        onError?.(err);
       });
       return socket;
     } catch (e) {
-      if (onError) onError(e);
+      onError?.(e);
       throw e;
     }
   },
