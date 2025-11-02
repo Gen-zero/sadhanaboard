@@ -8,23 +8,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Menu, Search, RotateCw } from 'lucide-react';
 import { useBookReading } from '@/hooks/useBookReading';
 
-// Configure PDF.js worker with fallback for different environments
-try {
-  // Try to use the worker file directly
-  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-} catch (e) {
-  // Fallback if needed
-  try {
-    const PDFWorker = import('pdfjs-dist/build/pdf.worker.min.mjs?worker');
-    if (PDFWorker) {
-      const worker = new PDFWorker();
-      pdfjs.GlobalWorkerOptions.workerPort = worker;
-    }
-  } catch (workerError) {
-    // If both fail, log but continue - PDF.js has built-in fallback
-    console.warn('Failed to configure PDF worker:', workerError);
-  }
-}
+// Configure PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface PDFViewerProps {
   fileUrl: string;
