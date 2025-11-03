@@ -9,16 +9,17 @@ const dbUrl = process.env.DATABASE_URL;
 
 if (!dbUrl) {
   console.error('ERROR: DATABASE_URL is not set in environment variables');
+  console.error('Please check your .env file and ensure DATABASE_URL is properly configured');
+  console.error('Refer to SUPABASE_DATABASE_CONFIGURATION.md for instructions');
   process.exit(1);
 }
 
-// Force IPv4 DNS resolution to avoid IPv6 connectivity issues
-const dns = require('dns');
-try {
-  dns.setDefaultResultOrder('ipv4first');
-} catch (e) {
-  console.warn('Note: Node.js DNS optimization not available, using fallback method');
-  // Fallback: modify connection URL to use IPv4 explicitly if possible
+// Check if DATABASE_URL is properly configured
+if (dbUrl.includes('YOUR_')) {
+  console.error('ERROR: DATABASE_URL contains placeholder values');
+  console.error('Please update your .env file with valid Supabase credentials');
+  console.error('Refer to SUPABASE_DATABASE_CONFIGURATION.md for instructions');
+  process.exit(1);
 }
 
 // Create a PostgreSQL connection pool using Supabase DATABASE_URL
@@ -29,12 +30,12 @@ const pool = new Pool({
   idleTimeoutMillis: 30000,
   max: 10,
   application_name: 'saadhanaboard_backend'
-  // Removed family: 6 to allow automatic IP selection
 });
 
 // Handle pool errors
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
+  console.error('This may indicate a network connectivity issue or invalid credentials');
 });
 
 console.log('Using Supabase PostgreSQL database');

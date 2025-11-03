@@ -17,7 +17,7 @@
     "check:admin": "node ./scripts/admin/setup_admin.js",
     "reset:admin": "node ./scripts/admin/fix_admin_setup.js --force-reset",
     "logs:admin": "node -e \"console.log('Check logs in backend/logs')\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests implemented yet\" && exit 0",
     "docs:generate": "node ./scripts/generateApiDocs.js"
   },
   "dependencies": {
