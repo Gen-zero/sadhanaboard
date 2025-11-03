@@ -34,29 +34,45 @@ const logger = require('./utils/logger');
 const app = express();
 const server = http.createServer(app);
 
+// Configuration
+const PORT = process.env.PORT || 3004;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
+
+// Determine CORS origins based on environment
+const corsOrigins = process.env.CORS_ORIGIN 
+  ? process.env.CORS_ORIGIN.split(',') 
+  : ['http://localhost:5173', 'http://localhost:8080'];
+
 // Socket.io configuration
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: corsOrigins,
     credentials: true
   },
   transports: ['websocket', 'polling']
 });
 
-// Configuration
-const PORT = process.env.PORT || 3004;
-const NODE_ENV = process.env.NODE_ENV || 'development';
-
 // Initialize middleware
 app.use(helmet({
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      connectSrc: ["'self'", ...corsOrigins, 'https://*.supabase.co', 'wss://*.supabase.co'],
+      frameSrc: ["'self'"],
+    },
+  },
   crossOriginEmbedderPolicy: false
 }));
 
 app.use(compression());
 
 app.use(cors({
-  origin: (process.env.CORS_ORIGIN || 'http://localhost:5173').split(','),
+  origin: corsOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -70,7 +86,8 @@ app.get('/health', (req, res) => {
     status: 'operational',
     timestamp: new Date().toISOString(),
     environment: NODE_ENV,
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    backendUrl: BACKEND_URL
   });
 });
 
@@ -114,6 +131,7 @@ app.get('/api/docs', (req, res) => {
   res.json({
     message: 'SaadhanaBoard API',
     version: '1.0.0',
+    backendUrl: BACKEND_URL,
     endpoints: {
       health: '/health',
       db_health: '/api/health/db',
@@ -175,13 +193,14 @@ const startServer = async () => {
     }
 
     server.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`, { environment: NODE_ENV });
+      logger.info(`Server running on port ${PORT}`, { environment: NODE_ENV, backendUrl: BACKEND_URL });
       console.log(`
 ╔════════════════════════════════════════╗
 ║   SaadhanaBoard Backend Server         ║
 ╠════════════════════════════════════════╣
 ║ Port:        ${PORT.toString().padEnd(30)}║
 ║ Environment: ${NODE_ENV.padEnd(30)}║
+║ Backend URL: ${BACKEND_URL.padEnd(30)}║
 ║ Status:      Running                   ║
 ╚════════════════════════════════════════╝
       `);
