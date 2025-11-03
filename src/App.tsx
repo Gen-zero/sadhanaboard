@@ -31,7 +31,7 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useDailySadhanaRefresh } from "./hooks/useDailySadhanaRefresh";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, lazy, Suspense } from "react";
 import ThemeProvider from "./components/ThemeProvider";
 import { useSettings } from "./hooks/useSettings";
 import ThemedBackground from "./components/ThemedBackground";
@@ -43,9 +43,9 @@ import { AuthProvider } from "@/lib/auth-context";
 import { HelpProvider } from "./contexts/HelpContext"; // Add this import
 import TestDurgaPage from './pages/TestDurgaPage';
 import { AnimatePresence, motion } from 'framer-motion';
-// Add new page imports
-import CareersPage from './pages/landing/CareersPage';
-import ManifestoPage from './pages/landing/ManifestoPage';
+// Add new page imports with lazy loading for code splitting
+const CareersPage = lazy(() => import('./pages/landing/CareersPage'));
+const ManifestoPage = lazy(() => import('./pages/landing/ManifestoPage'));
 
 // Configure React Query for better performance
 const queryClient = new QueryClient({
@@ -231,9 +231,25 @@ const AppRoutes = () => {
       <Route path="/pages" element={<HomePage />} />
       <Route path="/MahakaliLandingpage" element={<ExperimentPage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/careers" element={<CareersPage />} />
-      <Route path="/manifesto" element={<ManifestoPage />} />
-      
+      <Route path="/careers" element={
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          <CareersPage />
+        </Suspense>
+      } />
+      <Route path="/manifesto" element={
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          <ManifestoPage />
+        </Suspense>
+      } />
+
       <Route path="/dashboard" element={<OnboardingRoute><DashboardPage /></OnboardingRoute>} />
       <Route path="/analytics" element={<OnboardingRoute><AnalyticsPage /></OnboardingRoute>} />
       <Route path="/sadhana" element={<OnboardingRoute><SadhanaPage /></OnboardingRoute>} />

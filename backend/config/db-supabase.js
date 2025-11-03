@@ -20,7 +20,9 @@ async function query(text, params) {
     // For now, we'll use PostgreSQL direct connection via DATABASE_URL
     const { Pool } = require('pg');
     const pool = new Pool({
-      connectionString: process.env.DATABASE_URL
+      connectionString: process.env.DATABASE_URL,
+      // Force IPv6 connection since Supabase resolves to IPv6
+      family: 6
     });
     
     const client = await pool.connect();
@@ -49,7 +51,9 @@ async function getConnectionTestResult() {
     try {
       const { Pool } = require('pg');
       const pool = new Pool({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.DATABASE_URL,
+        // Force IPv6 connection since Supabase resolves to IPv6
+        family: 6
       });
       
       const client = await pool.connect();

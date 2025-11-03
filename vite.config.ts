@@ -146,15 +146,84 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       output: {
-        manualChunks: undefined // Disable manual chunking to reduce memory usage
+        manualChunks: (id) => {
+          // Vendor chunks - split large dependencies
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'react-vendor';
+            }
+            if (id.includes('three')) {
+              return 'three-vendor';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'radix-vendor';
+            }
+            if (id.includes('framer-motion')) {
+              return 'framer-vendor';
+            }
+            if (id.includes('socket.io')) {
+              return 'socket-vendor';
+            }
+            if (id.includes('recharts') || id.includes('victory')) {
+              return 'charts-vendor';
+            }
+            // Catch-all for other vendors
+            return 'vendor';
+          }
+          
+          // Component chunks
+          if (id.includes('/components/')) {
+            if (id.includes('deity')) {
+              return 'deity-components';
+            }
+            if (id.includes('profile')) {
+              return 'profile-components';
+            }
+            if (id.includes('sadhana')) {
+              return 'sadhana-components';
+            }
+            if (id.includes('library')) {
+              return 'library-components';
+            }
+            if (id.includes('ui/')) {
+              return 'ui-components';
+            }
+            return 'components';
+          }
+          
+          // Page chunks - split large landing pages
+          if (id.includes('/pages/')) {
+            if (id.includes('landing/')) {
+              return 'landing-pages';
+            }
+            if (id.includes('user/')) {
+              return 'user-pages';
+            }
+            return 'pages';
+          }
+          
+          // Hooks and utilities
+          if (id.includes('/hooks/')) {
+            return 'hooks';
+          }
+          if (id.includes('/utils/')) {
+            return 'utils';
+          }
+          if (id.includes('/lib/')) {
+            return 'lib';
+          }
+        }
       }
     },
-    // Increase chunk size warning limit to reduce warnings
-    chunkSizeWarningLimit: 5000, // 5 MB instead of 2 MB
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000, // 1 MB - warnings for chunks larger than 1 MB
     // Enable minification
     minify: 'esbuild',
     // Enable CSS code splitting
     cssCodeSplit: true,
+    // Optimize build settings
+    target: 'esnext',
+    sourcemap: false,
   },
   // Ensure environment variables are properly loaded
   envPrefix: 'VITE_',

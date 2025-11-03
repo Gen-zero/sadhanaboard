@@ -4,22 +4,32 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
-// Parse DATABASE_URL if it contains ssl parameters
+// Get DATABASE_URL from environment
 const dbUrl = process.env.DATABASE_URL;
-let sslConfig = false;
 
-if (dbUrl && dbUrl.includes('sslmode=require')) {
-  sslConfig = { rejectUnauthorized: false };
+if (!dbUrl) {
+  console.error('ERROR: DATABASE_URL is not set in environment variables');
+  process.exit(1);
+}
+
+// Force IPv4 DNS resolution to avoid IPv6 connectivity issues
+const dns = require('dns');
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) {
+  console.warn('Note: Node.js DNS optimization not available, using fallback method');
+  // Fallback: modify connection URL to use IPv4 explicitly if possible
 }
 
 // Create a PostgreSQL connection pool using Supabase DATABASE_URL
+// The connectionString includes ssl parameters, Pool handles it automatically
 const pool = new Pool({
-  connectionString: dbUrl ? dbUrl.replace('?sslmode=require', '') : undefined,
-  ssl: sslConfig,
+  connectionString: dbUrl,
   connectionTimeoutMillis: 30000,  // Increased timeout to 30 seconds
   idleTimeoutMillis: 30000,
   max: 10,
   application_name: 'saadhanaboard_backend'
+  // Removed family: 6 to allow automatic IP selection
 });
 
 // Handle pool errors
