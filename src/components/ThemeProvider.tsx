@@ -130,7 +130,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
               document.body.classList.remove(c);
             });
 
-          if (selected && selected !== 'default') {
+          if (selected) {
             // add a theme class for legacy CSS that expects it
             const themeClass = `theme-${selected}`;
             console.log('ThemeProvider: Adding theme class:', themeClass);
@@ -138,6 +138,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
 
             // apply CSS vars if the theme is in registry
             const themeDef = getThemeById(selected as string);
+            console.log('ThemeProvider: Theme definition from registry:', themeDef);
             if (!themeDef) {
               console.warn(`Unknown theme id '${selected}', falling back to default`);
             } else {
@@ -163,29 +164,6 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
           // Update the ref to the current theme
           previousThemeRef.current = selected;
         }, 10);
-      }
-    }
-    
-    // Apply language setting
-    if (memoizedSettings?.language) {
-      const languageMap: Record<string, string> = {
-        'english': 'en',
-        'hindi': 'hi'
-      };
-      
-      const languageCode = languageMap[memoizedSettings.language] || 'en';
-      i118n.changeLanguage(languageCode);
-    }
-    
-    // Apply explicit themeColors from settings if present (overrides)
-    // Note: themeColors is not part of the standard SettingsType, but may be present in some custom implementations
-    const explicitColors = (memoizedSettings?.appearance as Record<string, unknown>)?.themeColors || 
-                          (memoizedSettings as Record<string, unknown>)?.themeColors;
-    if (explicitColors && typeof explicitColors === 'object' && explicitColors !== null) {
-      try {
-        themeUtils.applyThemeColors(explicitColors as Record<string, string>);
-      } catch(e) {
-        console.warn('applyThemeColors failed for explicit colors', e);
       }
     }
   }, [memoizedSettings?.theme, memoizedSettings?.appearance, memoizedSettings?.language]);

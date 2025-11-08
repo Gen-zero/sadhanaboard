@@ -451,7 +451,7 @@ const ProfilePage = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-muted-foreground">Spiritual Points</span>
-                    <span className="font-bold text-purple-300">{profile?.spiritual_points || 0} SP</span>
+                    <span className="font-bold text-gold">{profile?.spiritual_points || 0} SP</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-muted-foreground">Karma Balance</span>

@@ -24,9 +24,16 @@ import {
   Award,
   Sparkles,
   Gift,
-  Check
+  Check,
+  Filter,
+  Search,
+  ArrowRight,
+  Crown,
+  Flame
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
 
 interface StoreItem {
   id: string;
@@ -57,6 +64,10 @@ const StorePage = () => {
   const [spPointsToBuy, setSpPointsToBuy] = useState(100);
   // New state for first-time visitor
   const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useState(true);
+  // New states for filtering and search
+  const [activeTab, setActiveTab] = useState<'all' | 'theme' | 'yantra' | 'merchandise' | 'workshop'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'general' | 'deity'>('all');
 
   // Define store items with enhanced properties
   const storeItems: StoreItem[] = [
@@ -404,12 +415,12 @@ const StorePage = () => {
             {icon}
             <h2 className="text-xl font-bold text-foreground">{title}</h2>
           </div>
-          <Card className="bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10 border-purple-500/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+          <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border-primary/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
             <CardContent className="p-8 text-center">
               {type === 'merchandise' ? (
-                <Shirt className="h-12 w-12 text-purple-500 mx-auto mb-4" />
+                <Shirt className="h-12 w-12 text-primary mx-auto mb-4" />
               ) : (
-                <Users className="h-12 w-12 text-purple-500 mx-auto mb-4" />
+                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
               )}
               <h3 className="text-xl font-bold mb-2">Coming Soon</h3>
               <p className="text-muted-foreground">
@@ -463,179 +474,286 @@ const StorePage = () => {
     { points: 1000, price: 29.99, popular: false }
   ];
 
+  // Filter items based on active tab, search query, and category
+  const getFilteredItems = () => {
+    let filtered = storeItems;
+
+    // Filter by tab
+    if (activeTab !== 'all') {
+      filtered = filtered.filter(item => item.type === activeTab);
+    }
+
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(item => 
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Filter by category (for themes)
+    if (categoryFilter !== 'all') {
+      filtered = filtered.filter(item => item.category === categoryFilter);
+    }
+
+    return filtered;
+  };
+
+  const filteredItems = getFilteredItems();
+
+  // Get counts for each category
+  const getCounts = () => {
+    return {
+      all: storeItems.length,
+      theme: storeItems.filter(i => i.type === 'theme').length,
+      yantra: storeItems.filter(i => i.type === 'yantra').length,
+      merchandise: storeItems.filter(i => i.type === 'merchandise').length,
+      workshop: storeItems.filter(i => i.type === 'workshop').length
+    };
+  };
+
+  const counts = getCounts();
+
   return (
     <Layout>
       <div className="space-y-6 animate-fade-in bg-transparent">
-        {/* Store Header with First-Time Visitor Welcome */}
-        <Card className="bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10 border-purple-500/20 relative overflow-hidden">
-          {/* Animated background */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(168,85,247,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
-          <CardHeader className="relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <ShoppingCart className="h-8 w-8 text-purple-500" />
-                <div>
-                  <CardTitle className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+        {/* Premium Hero Section */}
+        <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border-primary/20 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--primary-rgb),0.15)_0%,rgba(0,0,0,0)_70%)]" />
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5" />
+          
+          <CardHeader className="relative z-10 pb-8">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              {/* Left: Store Title & Description */}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-secondary">
+                    <ShoppingCart className="h-6 w-6 text-white" />
+                  </div>
+                  <CardTitle className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
                     Spiritual Store
                   </CardTitle>
-                  <p className="text-muted-foreground">
-                    Unlock premium themes, yantras, merchandise, and workshops
-                  </p>
+                </div>
+                <p className="text-muted-foreground text-lg mb-4">
+                  Transform your spiritual practice with premium themes, yantras, and exclusive content
+                </p>
+                
+                {/* Beta Badge */}
+                <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 px-4 py-2 rounded-full">
+                  <Gift className="h-4 w-4 text-accent" />
+                  <span className="text-sm font-semibold text-accent">Beta Special: All Items FREE</span>
                 </div>
               </div>
               
-              {/* User SP */}
-              <div className="flex items-center gap-2 bg-secondary/20 px-4 py-3 rounded-lg">
-                <Coins className="h-5 w-5 text-yellow-500" />
-                <div className="text-center">
-                  <p className="text-sm font-medium">Your Spiritual Points</p>
-                  <p className="text-xl font-bold text-yellow-500">{spiritualPoints}</p>
-                </div>
-                <Button 
-                  size="sm" 
-                  className="ml-2 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600"
-                  onClick={() => setIsPaymentModalOpen(true)}
-                >
-                  Buy More
-                </Button>
-              </div>
+              {/* Right: SP Balance Card */}
+              <Card className="lg:w-80 bg-gradient-to-br from-accent/10 to-accent/5 border-accent/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-accent/20">
+                        <Coins className="h-5 w-5 text-accent" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Your Balance</p>
+                        <p className="text-2xl font-bold text-gold">{spiritualPoints} SP</p>
+                      </div>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-white"
+                      onClick={() => setIsPaymentModalOpen(true)}
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      Buy SP
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>Level {userLevel} • {purchasedItems.length} items owned</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </CardHeader>
         </Card>
 
-        {/* Beta Period Notification - All Items Free */}
-        <Card className="bg-gradient-to-r from-amber-400/20 via-yellow-500/20 to-amber-400/20 border-amber-500/50 relative overflow-hidden border-2">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.2)_0%,rgba(0,0,0,0)_70%)]"></div>
-          <CardHeader className="relative z-10 py-3">
-            <CardTitle className="flex items-center justify-center gap-2 text-amber-300 text-lg">
-              <Gift className="h-5 w-5" />
-              Beta Special: All Store Items Are Free!
-              <Gift className="h-5 w-5" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="relative z-10 pt-0 pb-3 text-center">
-            <p className="text-amber-200 font-medium">
-              Enjoy full access to all premium themes, yantras, and content at no cost during our beta testing period.
-            </p>
-            <p className="text-amber-100 text-sm mt-1">
-              This is a limited-time offer. No purchase required.
-            </p>
+        {/* Search and Filter Section */}
+        <Card className="border-primary/20">
+          <CardContent className="p-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Search Bar */}
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search themes, yantras, and more..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              
+              {/* Category Tabs */}
+              <div className="flex gap-2 overflow-x-auto">
+                <Button
+                  variant={activeTab === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab('all')}
+                  className="whitespace-nowrap"
+                >
+                  All ({counts.all})
+                </Button>
+                <Button
+                  variant={activeTab === 'theme' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab('theme')}
+                  className="whitespace-nowrap"
+                >
+                  <Palette className="h-4 w-4 mr-1" />
+                  Themes ({counts.theme})
+                </Button>
+                <Button
+                  variant={activeTab === 'yantra' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab('yantra')}
+                  className="whitespace-nowrap"
+                >
+                  <Flower2 className="h-4 w-4 mr-1" />
+                  Yantras ({counts.yantra})
+                </Button>
+                <Button
+                  variant={activeTab === 'merchandise' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab('merchandise')}
+                  className="whitespace-nowrap"
+                >
+                  <Shirt className="h-4 w-4 mr-1" />
+                  Merch ({counts.merchandise})
+                </Button>
+                <Button
+                  variant={activeTab === 'workshop' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab('workshop')}
+                  className="whitespace-nowrap"
+                >
+                  <Users className="h-4 w-4 mr-1" />
+                  Workshops ({counts.workshop})
+                </Button>
+              </div>
+            </div>
+            
+            {/* Theme Category Filter (only show when themes tab is active) */}
+            {activeTab === 'theme' && (
+              <div className="flex gap-2 mt-4 pt-4 border-t border-border">
+                <Button
+                  variant={categoryFilter === 'all' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCategoryFilter('all')}
+                >
+                  All Themes
+                </Button>
+                <Button
+                  variant={categoryFilter === 'general' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCategoryFilter('general')}
+                >
+                  General
+                </Button>
+                <Button
+                  variant={categoryFilter === 'deity' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCategoryFilter('deity')}
+                >
+                  <Crown className="h-4 w-4 mr-1" />
+                  Deity Themes
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* First-Time Visitor Special Offer */}
-        {isFirstTimeVisitor && (
-          <Card className="bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 border-amber-500/30 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2 text-amber-300">
-                <Sparkles className="h-6 w-6" />
-                Welcome, Spiritual Seeker!
-              </CardTitle>
-              <p className="text-muted-foreground">
-                As a first-time visitor during our beta period, all items are completely FREE!
-              </p>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="flex flex-col sm:flex-row gap-4 items-center">
-                <div className="flex-1">
-                  <h3 className="font-bold text-lg mb-2">Beta Welcome Bonus</h3>
-                  <ul className="text-sm space-y-1">
-                    <li className="flex items-center gap-2">
-                      <Star className="h-4 w-4 text-amber-400" />
-                      All premium items are FREE during beta
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Zap className="h-4 w-4 text-amber-400" />
-                      Support us with optional SP purchases
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Gift className="h-4 w-4 text-amber-400" />
-                      Exclusive digital gifts for all users
-                    </li>
-                  </ul>
-                </div>
-                <Button 
-                  className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
-                  onClick={() => setIsPaymentModalOpen(true)}
-                >
-                  Support Our Development
-                </Button>
+        {/* Featured/Popular Items */}
+        {activeTab === 'all' && !searchQuery && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Flame className="h-5 w-5 text-primary" />
+                <h2 className="text-2xl font-bold text-foreground">Featured Items</h2>
               </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Prominent SP Purchase Section */}
-        <Card className="bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 border-amber-500/20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
-          <CardHeader className="relative z-10">
-            <CardTitle className="flex items-center gap-2 text-amber-300">
-              <Coins className="h-6 w-6" />
-              Buy Spiritual Points
-            </CardTitle>
-            <p className="text-muted-foreground">
-              Purchase SP with real money to support our development. During beta, all items are free without SP!
-            </p>
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {spPackages.map((pkg) => (
-                <Card 
-                  key={pkg.points} 
-                  className={`cursor-pointer transition-all duration-300 hover:scale-105 relative overflow-hidden ${
-                    pkg.popular 
-                      ? 'border-amber-500/50 bg-amber-500/10 shadow-lg shadow-amber-500/20' 
-                      : 'border-amber-500/20 bg-amber-500/5'
-                  }`}
-                  onClick={() => {
-                    setSpPointsToBuy(pkg.points);
-                    setIsPaymentModalOpen(true);
-                  }}
-                >
-                  {/* First-time visitor bonus indicator */}
-                  {isFirstTimeVisitor && (
-                    <div className="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg">
-                      +20%
-                    </div>
-                  )}
-                  
-                  {pkg.popular && (
-                    <div className="absolute -top-2 -right-2 bg-amber-500 text-amber-900 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
-                      <Award className="h-3 w-3" />
-                      BEST VALUE
-                    </div>
-                  )}
-                  <CardContent className="p-4 flex flex-col items-center">
-                    <Coins className="h-8 w-8 text-amber-400 mb-2" />
-                    <h3 className="text-xl font-bold text-amber-300">{pkg.points} SP</h3>
-                    <p className="text-lg font-semibold text-foreground">${pkg.price}</p>
-                    {isFirstTimeVisitor && (
-                      <p className="text-xs text-green-400 mt-1">
-                        {Math.floor(pkg.points * 1.2)} SP with bonus!
-                      </p>
-                    )}
-                    {pkg.popular && (
-                      <Badge className="mt-2 bg-amber-500 hover:bg-amber-600">
-                        Most Popular
-                      </Badge>
-                    )}
-                  </CardContent>
-                </Card>
+              <Badge variant="secondary" className="text-xs">Most Popular</Badge>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {storeItems.filter(item => item.isPopular || item.isNew).slice(0, 6).map((item) => (
+                <StoreItemCard 
+                  key={item.id} 
+                  item={item} 
+                  userLevel={userLevel}
+                  spiritualPoints={spiritualPoints}
+                  isPurchased={purchasedItems.includes(item.id)}
+                  onPurchase={handlePurchase}
+                  onBuyWithRealMoney={handleBuyWithRealMoney}
+                  isFirstTimeVisitor={isFirstTimeVisitor}
+                />
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        )}
+
+        {/* All Items Grid */}
+        <div>
+          {activeTab !== 'all' && (
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-2xl font-bold text-foreground">
+                {activeTab === 'theme' && 'Themes'}
+                {activeTab === 'yantra' && '3D Yantras'}
+                {activeTab === 'merchandise' && 'Merchandise'}
+                {activeTab === 'workshop' && 'Workshops & Courses'}
+              </h2>
+              <Badge variant="outline">{filteredItems.length} items</Badge>
+            </div>
+          )}
+          
+          {activeTab === 'all' && !searchQuery && (
+            <div className="flex items-center gap-2 mb-4 mt-8">
+              <h2 className="text-2xl font-bold text-foreground">All Items</h2>
+              <Badge variant="outline">{filteredItems.length} items</Badge>
+            </div>
+          )}
+
+          {filteredItems.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredItems.map((item) => (
+                <StoreItemCard 
+                  key={item.id} 
+                  item={item} 
+                  userLevel={userLevel}
+                  spiritualPoints={spiritualPoints}
+                  isPurchased={purchasedItems.includes(item.id)}
+                  onPurchase={handlePurchase}
+                  onBuyWithRealMoney={handleBuyWithRealMoney}
+                  isFirstTimeVisitor={isFirstTimeVisitor}
+                />
+              ))}
+            </div>
+          ) : (
+            <Card className="border-dashed border-2 border-muted">
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <Search className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No items found</h3>
+                <p className="text-muted-foreground text-sm">Try adjusting your search or filters</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
         {/* SP Purchase Modal */}
         {isPaymentModalOpen && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <Card className="w-full max-w-md relative overflow-hidden">
               {/* Animated background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"></div>
               <CardHeader className="relative z-10">
                 <CardTitle className="flex items-center gap-2">
-                  <Coins className="h-5 w-5 text-yellow-500" />
+                  <Coins className="h-5 w-5 text-accent" />
                   Buy Spiritual Points (Optional During Beta)
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -659,8 +777,8 @@ const StorePage = () => {
                     {isFirstTimeVisitor && (
                       <div className="p-3 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg">
                         <div className="flex items-center gap-2">
-                          <Sparkles className="h-4 w-4 text-green-400" />
-                          <span className="font-medium text-green-400">First-Time Visitor Discount!</span>
+                          <Sparkles className="h-4 w-4 text-accent" />
+                          <span className="font-medium text-accent">First-Time Visitor Discount!</span>
                         </div>
                         <p className="text-xs mt-1">Get 15% off your first purchase</p>
                         <div className="flex justify-between mt-2">
@@ -689,7 +807,7 @@ const StorePage = () => {
                         <span className="text-lg font-bold">100 SP</span>
                         <span className="text-sm">$4.99</span>
                         {isFirstTimeVisitor && (
-                          <span className="text-xs text-green-400">120 SP with bonus</span>
+                          <span className="text-xs text-accent">120 SP with bonus</span>
                         )}
                       </Button>
                       <Button 
@@ -697,13 +815,13 @@ const StorePage = () => {
                         onClick={() => setSpPointsToBuy(250)}
                         className="flex flex-col h-auto p-4 relative"
                       >
-                        <div className="absolute -top-2 -right-2 bg-amber-500 text-amber-900 text-xs font-bold px-2 py-1 rounded-full">
+                        <div className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs font-bold px-2 py-1 rounded-full">
                           BEST
                         </div>
                         <span className="text-lg font-bold">250 SP</span>
                         <span className="text-sm">$9.99</span>
                         {isFirstTimeVisitor && (
-                          <span className="text-xs text-green-400">300 SP with bonus</span>
+                          <span className="text-xs text-accent">300 SP with bonus</span>
                         )}
                       </Button>
                       <Button 
@@ -714,7 +832,7 @@ const StorePage = () => {
                         <span className="text-lg font-bold">500 SP</span>
                         <span className="text-sm">$17.99</span>
                         {isFirstTimeVisitor && (
-                          <span className="text-xs text-green-400">600 SP with bonus</span>
+                          <span className="text-xs text-accent">600 SP with bonus</span>
                         )}
                       </Button>
                       <Button 
@@ -725,7 +843,7 @@ const StorePage = () => {
                         <span className="text-lg font-bold">1000 SP</span>
                         <span className="text-sm">$29.99</span>
                         {isFirstTimeVisitor && (
-                          <span className="text-xs text-green-400">1200 SP with bonus</span>
+                          <span className="text-xs text-accent">1200 SP with bonus</span>
                         )}
                       </Button>
                     </div>
@@ -744,7 +862,7 @@ const StorePage = () => {
                     Cancel
                   </Button>
                   <Button 
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600"
+                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
                     onClick={selectedItem ? () => handlePurchase(selectedItem) : handleBuySPPackage}
                   >
                     <CreditCard className="h-4 w-4 mr-2" />
@@ -755,15 +873,6 @@ const StorePage = () => {
             </Card>
           </div>
         )}
-
-        {/* Store Sections */}
-        <div className="space-y-8">
-          {renderStoreSection('General Themes', <Palette className="h-5 w-5 text-purple-500" />, 'theme', 'general')}
-          {renderStoreSection('Deity Themes', <Flower2 className="h-5 w-5 text-purple-500" />, 'theme', 'deity')}
-          {renderStoreSection('3D Yantras', <Gem className="h-5 w-5 text-purple-500" />, 'yantra')}
-          {renderStoreSection('Spiritual Merchandise', <Shirt className="h-5 w-5 text-purple-500" />, 'merchandise')}
-          {renderStoreSection('Workshops & Courses', <Users className="h-5 w-5 text-purple-500" />, 'workshop')}
-        </div>
       </div>
     </Layout>
   );
@@ -783,129 +892,165 @@ const StoreItemCard = ({ item, userLevel, spiritualPoints, isPurchased, onPurcha
   const isLocked = item.isLocked && item.unlockLevel && userLevel < item.unlockLevel;
   const canAfford = spiritualPoints >= item.price;
   
+  // Get item type icon and color
+  const getTypeIcon = () => {
+    switch (item.type) {
+      case 'theme':
+        return <Palette className="h-5 w-5" />;
+      case 'yantra':
+        return <Flower2 className="h-5 w-5" />;
+      case 'merchandise':
+        return <Shirt className="h-5 w-5" />;
+      case 'workshop':
+        return <Users className="h-5 w-5" />;
+    }
+  };
+  
   return (
-    <Card className={`relative overflow-hidden border transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${
+    <Card className={`group relative overflow-hidden border-2 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${
       isPurchased 
-        ? 'border-green-500/50 bg-green-500/5' 
-        : 'border-purple-500/20 hover:border-purple-500/40'
+        ? 'border-accent/50 bg-gradient-to-br from-accent/5 to-accent/10' 
+        : 'border-primary/20 hover:border-primary/40 bg-gradient-to-br from-primary/5 to-transparent'
     } ${isLocked ? 'opacity-70' : ''}`}>
-      {/* Special badges for new/popular items */}
-      <div className="absolute top-2 right-2 flex gap-1 z-10">
-        {isPurchased && (
-          <Badge className="bg-green-500 text-white text-xs">
-            Purchased
-          </Badge>
-        )}
-        {/* Beta Period - All Items Free */}
-        <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-amber-900 text-xs font-bold">
-          Free During Beta
-        </Badge>
-        {item.isNew && (
-          <Badge className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs">
-            New
-          </Badge>
-        )}
-        {item.isPopular && (
-          <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs">
-            Popular
-          </Badge>
-        )}
-        {item.isLimitedTime && (
-          <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs">
-            Limited
-          </Badge>
-        )}
-        {item.isPremium && (
-          <Badge className="bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white text-xs">
-            Premium
-          </Badge>
-        )}
+      {/* Premium gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      {/* Top badges - reorganized for better visibility */}
+      <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
+        <div className="flex flex-col gap-1">
+          {isPurchased && (
+            <Badge className="bg-accent text-white text-xs flex items-center gap-1 shadow-lg">
+              <Check className="h-3 w-3" />
+              Owned
+            </Badge>
+          )}
+          {!isPurchased && (
+            <Badge className="bg-gradient-to-r from-accent to-accent/80 text-white text-xs font-bold shadow-lg">
+              FREE Beta
+            </Badge>
+          )}
+        </div>
+        
+        <div className="flex flex-col gap-1 items-end">
+          {item.isNew && (
+            <Badge className="bg-gradient-to-r from-primary to-secondary text-white text-xs shadow-lg">
+              New
+            </Badge>
+          )}
+          {item.isPopular && (
+            <Badge className="bg-gradient-to-r from-accent to-accent/80 text-white text-xs flex items-center gap-1 shadow-lg">
+              <Flame className="h-3 w-3" />
+              Popular
+            </Badge>
+          )}
+          {item.isPremium && (
+            <Badge className="bg-gradient-to-r from-primary to-secondary text-white text-xs flex items-center gap-1 shadow-lg">
+              <Crown className="h-3 w-3" />
+              Premium
+            </Badge>
+          )}
+        </div>
       </div>
       
+      {/* Lock overlay */}
       {isLocked && (
-        <div className="absolute inset-0 bg-black/30 flex items-center justify-center z-20">
-          <div className="bg-secondary/90 p-3 rounded-lg flex items-center gap-2">
-            <Lock className="h-4 w-4" />
-            <span className="text-sm">Level {item.unlockLevel}</span>
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-20 gap-2">
+          <div className="p-4 rounded-full bg-primary/20 border-2 border-primary/50">
+            <Lock className="h-8 w-8 text-primary" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-white">Level {item.unlockLevel} Required</p>
+            <p className="text-xs text-white/70">Continue your journey</p>
           </div>
         </div>
       )}
       
-      <CardContent className="p-5 relative z-10">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="font-bold text-base">{item.title}</h3>
+      {/* Item icon/image placeholder */}
+      <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20">
+        <div className="p-4 rounded-full bg-background/80 backdrop-blur-sm border border-primary/30">
+          <div className="text-primary">
+            {getTypeIcon()}
+          </div>
+        </div>
+      </div>
+      
+      <CardContent className="p-5 relative z-10 space-y-3">
+        {/* Title and rating */}
+        <div>
+          <h3 className="font-bold text-lg mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+            {item.title}
+          </h3>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star 
+                  key={i} 
+                  className={`h-3 w-3 ${
+                    i < Math.floor(item.rating) 
+                      ? 'text-accent fill-accent' 
+                      : 'text-muted-foreground/30'
+                  }`} 
+                />
+              ))}
+            </div>
+            <span className="text-xs font-medium text-muted-foreground">{item.rating}</span>
+          </div>
         </div>
         
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+        {/* Description */}
+        <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">
           {item.description}
         </p>
         
-        <div className="flex items-center gap-1 mb-4">
-          {[...Array(5)].map((_, i) => (
-            <Star 
-              key={i} 
-              className={`h-4 w-4 ${i < Math.floor(item.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-            />
-          ))}
-          <span className="text-sm text-muted-foreground ml-1">{item.rating}</span>
-        </div>
-        
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              <Coins className="h-5 w-5 text-yellow-500" />
-              <span className="font-bold">{item.price} SP</span>
+        {/* Price section */}
+        <div className="flex items-center justify-between pt-2 border-t border-border">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <Coins className="h-4 w-4 text-gold" />
+              <span className="font-bold text-lg text-gold">{item.price} SP</span>
             </div>
             {item.realPrice && (
-              <div className="text-sm text-muted-foreground line-through">
+              <span className="text-xs text-muted-foreground line-through ml-5">
                 ${item.realPrice}
-              </div>
+              </span>
             )}
           </div>
           
-          {/* First-time visitor discount indicator */}
           {isFirstTimeVisitor && !isPurchased && (
-            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs h-5">
+            <Badge variant="outline" className="border-accent text-accent text-xs">
               15% OFF
             </Badge>
           )}
         </div>
         
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant={isPurchased ? "outline" : "default"}
-            className={`flex-1 h-9 ${
-              isPurchased 
-                ? "bg-green-500/10 border-green-500/30 hover:bg-green-500/20" 
-                : "bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-amber-900 font-bold"
-            }`}
-            onClick={() => onPurchase(item)}
-            disabled={isPurchased || isLocked}
-          >
-            {isPurchased ? (
-              <>
-                <Check className="h-4 w-4 mr-1" />
-                Owned
-              </>
-            ) : isLocked ? (
-              "Locked"
-            ) : (
-              "Get Free"
-            )}
-          </Button>
-          {/* During beta, real price purchase is disabled */}
-          {item.realPrice && !isPurchased && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="h-9 border-amber-500/30 text-amber-500 hover:bg-amber-500/10"
-              disabled
-            >
-              Beta Free
-            </Button>
+        {/* Action buttons */}
+        <Button
+          size="lg"
+          className={`w-full h-11 font-semibold transition-all duration-300 ${
+            isPurchased 
+              ? "bg-accent/20 hover:bg-accent/30 text-accent border-2 border-accent/30" 
+              : "bg-gradient-to-r from-primary via-secondary to-primary bg-size-200 hover:bg-pos-100 text-white shadow-lg hover:shadow-xl"
+          }`}
+          onClick={() => onPurchase(item)}
+          disabled={isPurchased || isLocked}
+        >
+          {isPurchased ? (
+            <>
+              <Check className="h-5 w-5 mr-2" />
+              Unlocked
+            </>
+          ) : isLocked ? (
+            <>
+              <Lock className="h-4 w-4 mr-2" />
+              Locked
+            </>
+          ) : (
+            <>
+              <ArrowRight className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
+              Get for FREE
+            </>
           )}
-        </div>
+        </Button>
       </CardContent>
     </Card>
   );

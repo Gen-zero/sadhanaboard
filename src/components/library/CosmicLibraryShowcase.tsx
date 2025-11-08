@@ -267,7 +267,7 @@ const CosmicLibraryShowcase: React.FC = () => {
                   
                   <div className="flex items-center gap-1">
                     <Gem className="h-4 w-4 text-amber-500" />
-                    <span className="font-bold text-sm text-amber-100">{it.price} SP</span>
+                    <span className="font-bold text-sm text-gold">{it.price} SP</span>
                   </div>
                 </div>
 

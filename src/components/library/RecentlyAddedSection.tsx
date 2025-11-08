@@ -63,7 +63,7 @@ const RecentlyAddedSection = ({ onSelectBook }: RecentlyAddedSectionProps) => {
                 <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">
                   {book.title}
                 </h3>
-                <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                <Badge variant="secondary" className="bg-accent/20 text-accent">
                   NEW
                 </Badge>
               </div>

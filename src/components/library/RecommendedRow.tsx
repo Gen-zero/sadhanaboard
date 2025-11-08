@@ -224,7 +224,7 @@ const RecommendedRow = () => {
               <div className="flex justify-between items-start mb-3">
                 <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">{item.title}</h3>
                 {item.type === 'sadhana' && item.price === 0 && (
-                  <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                  <Badge variant="secondary" className="bg-accent/20 text-accent">
                     Free
                   </Badge>
                 )}
@@ -233,7 +233,7 @@ const RecommendedRow = () => {
               
               <div className="flex flex-wrap gap-2 mb-4">
                 {item.type === 'sadhana' && item.difficulty && (
-                  <Badge variant="outline" className="text-xs bg-blue-500/10 border-blue-500/30">
+                  <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">
                     {item.difficulty}
                   </Badge>
                 )}

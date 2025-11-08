@@ -98,7 +98,7 @@ const DashboardPage = () => {
       <div className="space-y-6 bg-transparent mobile-container">
         {/* Welcome Section with Enhanced Cosmic Effects */}
         <div 
-          className="backdrop-blur-sm bg-background/30 p-6 rounded-lg border border-purple-500/20 transition-all duration-300 hover:shadow-lg cosmic-glow relative overflow-hidden mobile-card-compact"
+          className="backdrop-blur-sm bg-background/30 p-6 rounded-lg border border-primary/20 transition-all duration-300 hover:shadow-lg cosmic-glow relative overflow-hidden mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
         >
@@ -107,7 +107,7 @@ const DashboardPage = () => {
             {[...Array(15)].map((_, i) => (
               <div 
                 key={i}
-                className="absolute rounded-full bg-purple-500/30 animate-pulse"
+                className="absolute rounded-full bg-primary/30 animate-pulse"
                 style={{
                   width: `${Math.random() * 8 + 2}px`,
                   height: `${Math.random() * 8 + 2}px`,
@@ -126,7 +126,7 @@ const DashboardPage = () => {
               <p className="text-muted-foreground mt-1 text-sm sm:text-base truncate">{today}</p>
             </div>
             <div className="flex items-center gap-2">
-              <Flame className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 animate-pulse flex-shrink-0" />
+              <Flame className="h-5 w-5 sm:h-6 sm:w-6 text-accent animate-pulse flex-shrink-0" />
               <span className="font-bold text-lg sm:text-xl cosmic-pulse">{userStats.streak} day streak</span>
             </div>
           </div>
@@ -139,23 +139,23 @@ const DashboardPage = () => {
 
         {/* SP Balance Card */}
         <Card 
-          className="border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-yellow-500/10 transition-all duration-300 hover:shadow-lg cursor-pointer relative overflow-hidden card-hover-effect mobile-card-compact"
+          className="border-secondary/30 bg-gradient-to-r from-secondary/10 to-accent/10 transition-all duration-300 hover:shadow-lg cursor-pointer relative overflow-hidden card-hover-effect mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
           onClick={handleBuySP}
         >
           {/* Animated background effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-yellow-500/5 animate-gradient-shift"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary/5 to-accent/5 animate-gradient-shift"></div>
           
           <CardHeader>
             <CardTitle className="flex items-center justify-between relative z-10 flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <Coins className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500 yantra-rotate flex-shrink-0" />
+                <Coins className="h-5 w-5 sm:h-6 sm:w-6 text-gold yantra-rotate flex-shrink-0" />
                 Spiritual Points
               </div>
               <Button 
                 size="sm" 
-                className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 shimmer-effect button-hover-effect"
+                className="bg-gradient-to-r from-secondary to-accent hover:from-secondary/90 hover:to-accent/90 shimmer-effect button-hover-effect"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleBuySP();
@@ -170,7 +170,7 @@ const DashboardPage = () => {
           <CardContent className="relative z-10">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-center sm:text-left">
-                <p className="text-3xl sm:text-4xl font-bold text-amber-300 cosmic-pulse">{progression.spiritualPoints}</p>
+                <p className="text-3xl sm:text-4xl font-bold text-gold cosmic-pulse">{progression.spiritualPoints}</p>
                 <p className="text-muted-foreground text-sm sm:text-base">Available to spend</p>
               </div>
               <div className="text-center sm:text-right">
@@ -184,7 +184,7 @@ const DashboardPage = () => {
         {/* Current Practice Section */}
         {sadhanaState.hasStarted && sadhanaData && (
           <Card 
-            className="border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-fuchsia-500/10 transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
+            className="border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
@@ -193,7 +193,7 @@ const DashboardPage = () => {
             
             <CardHeader className="relative z-10">
               <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500 yantra-rotate flex-shrink-0" />
+                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-gold yantra-rotate flex-shrink-0" />
                 Current Practice
               </CardTitle>
             </CardHeader>
@@ -322,7 +322,7 @@ const DashboardPage = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5"></div>
               <CardHeader className="flex flex-row items-center justify-between relative z-10 flex-wrap gap-2">
                 <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                  <Calendar className="h-5 w-5 text-gold flex-shrink-0" />
                   Today's Sadhana
                 </CardTitle>
                 <Button 
@@ -377,7 +377,7 @@ const DashboardPage = () => {
                           </div>
                           <div className="flex flex-wrap items-center gap-2 mt-2">
                             <span className="text-sm text-muted-foreground flex items-center gap-1">
-                              <Clock className="h-3 w-3 flex-shrink-0" />
+                              <Clock className="h-3 w-3 flex-shrink-0 text-gold" />
                               <span className="truncate">{sadhana.time || "Any time"}</span>
                             </span>
                             <Badge variant="secondary" className="text-xs">
@@ -392,12 +392,12 @@ const DashboardPage = () => {
                         </div>
                         <div className="flex items-center gap-2 relative z-10">
                           {!sadhana.completed ? (
-                            <Button size="sm" variant="outline" className="floating hover:scale-105 transition-transform button-hover-effect">
+                            <Button size="sm" variant="outline" className="floating hover:scale-105 transition-transform button-hover-effect bg-gold text-black hover:bg-yellow-500 font-bold">
                               Start
                             </Button>
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                              <Check className="h-4 w-4 text-green-500" />
+                            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                              <Check className="h-4 w-4 text-gold" />
                             </div>
                           )}
                         </div>
@@ -430,7 +430,7 @@ const DashboardPage = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5"></div>
               <CardHeader className="relative z-10">
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                  <TrendingUp className="h-5 w-5 text-gold flex-shrink-0" />
                   Weekly Progress
                 </CardTitle>
               </CardHeader>
@@ -493,7 +493,7 @@ const DashboardPage = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5"></div>
               <CardHeader className="relative z-10">
                 <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                  <Award className="h-5 w-5 text-gold flex-shrink-0" />
                   Recent Achievements
                 </CardTitle>
               </CardHeader>
@@ -524,8 +524,8 @@ const DashboardPage = () => {
                       <div className="absolute inset-0 float-3d"></div>
                       
                       {/* Enhanced icon container with glow and 3D effect */}
-                      <div className="p-2 rounded-full bg-purple-500/20 cosmic-glow transition-all duration-300 hover:scale-110 relative z-10 transform group-hover:rotate-12 flex-shrink-0">
-                        <IconComponent className="h-5 w-5 text-purple-500" />
+                      <div className="p-2 rounded-full bg-gold/20 cosmic-glow transition-all duration-300 hover:scale-110 relative z-10 transform group-hover:rotate-12 flex-shrink-0">
+                        <IconComponent className="h-5 w-5 text-gold" />
                       </div>
                       
                       {/* Achievement content with enhanced styling */}
@@ -551,7 +551,7 @@ const DashboardPage = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5"></div>
               <CardHeader className="relative z-10">
                 <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                  <Star className="h-5 w-5 text-gold flex-shrink-0" />
                   Quick Actions
                 </CardTitle>
               </CardHeader>
@@ -561,7 +561,7 @@ const DashboardPage = () => {
                   variant="outline"
                   onClick={() => navigate("/sadhana")}
                 >
-                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0" />
+                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
                   <span className="group-hover:text-purple-300 transition-colors truncate">Start New Sadhana</span>
                 </Button>
                 <Button 
@@ -569,7 +569,7 @@ const DashboardPage = () => {
                   variant="outline"
                   onClick={() => navigate("/library")}
                 >
-                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0" />
+                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
                   <span className="group-hover:text-purple-300 transition-colors truncate">Browse Library</span>
                 </Button>
                 <Button 
@@ -577,7 +577,7 @@ const DashboardPage = () => {
                   variant="outline"
                   onClick={() => navigate("/settings")}
                 >
-                  <Target className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0" />
+                  <Target className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
                   <span className="group-hover:text-purple-300 transition-colors truncate">Set Daily Goals</span>
                 </Button>
                 <Button 
@@ -585,7 +585,7 @@ const DashboardPage = () => {
                   variant="outline"
                   onClick={() => navigate("/store")}
                 >
-                  <ShoppingCart className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0" />
+                  <ShoppingCart className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
                   <span className="group-hover:text-purple-300 transition-colors truncate">Buy Spiritual Points</span>
                 </Button>
               </CardContent>

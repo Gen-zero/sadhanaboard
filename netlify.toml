@@ -39,3 +39,11 @@
   VITE_SUPABASE_ANON_KEY = "Your Supabase Anon Key"
   VITE_API_BASE_URL = "https://api.sadhanaboard.com/api"
   VITE_SOCKET_BASE_URL = "https://api.sadhanaboard.com"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

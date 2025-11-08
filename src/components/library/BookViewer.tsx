@@ -45,7 +45,7 @@ const BookViewer = ({ bookId, onClose }: BookViewerProps) => {
   return (
     <div 
       ref={viewerRef}
-      className={`relative flex flex-col w-full h-full rounded-xl border border-purple-500/20 overflow-hidden bg-gradient-to-b from-background to-secondary/10 ${
+      className={`relative flex flex-col w-full h-full rounded-xl border border-primary/20 overflow-hidden bg-gradient-to-b from-background to-secondary/10 ${
         fullscreen ? 'fixed inset-0 z-50 bg-background p-6' : 'min-h-[600px]'
       }`}
     >

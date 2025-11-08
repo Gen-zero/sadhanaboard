@@ -22,13 +22,13 @@ const EnhancedTooltip: React.FC<EnhancedTooltipProps> = ({
   const getVariantClasses = () => {
     switch (variant) {
       case 'help':
-        return 'bg-blue-500 text-white border-blue-600';
+        return 'bg-primary text-primary-foreground border-primary';
       case 'info':
-        return 'bg-purple-500 text-white border-purple-600';
+        return 'bg-secondary text-secondary-foreground border-secondary';
       case 'warning':
-        return 'bg-yellow-500 text-black border-yellow-600';
+        return 'bg-accent text-accent-foreground border-accent';
       default:
-        return 'bg-gray-800 text-white border-gray-700';
+        return 'bg-background text-foreground border-border';
     }
   };
 

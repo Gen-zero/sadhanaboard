@@ -18,9 +18,9 @@ interface AdvancedSettingsProps {
 
 const AdvancedSettings = ({ settings, updateSettings }: AdvancedSettingsProps) => {
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600">
+        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
           <SlidersHorizontal className="h-5 w-5" />
           <span>Advanced Settings</span>
         </CardTitle>
@@ -43,15 +43,15 @@ const AdvancedSettings = ({ settings, updateSettings }: AdvancedSettingsProps) =
           <div className="space-y-4">
             <div className="space-y-2">
               <Label className="flex items-center gap-2 text-foreground">
-                <Database className="h-4 w-4 text-purple-500" />
+                <Database className="h-4 w-4 text-primary" />
                 Cache Settings
               </Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10 flex items-center gap-2">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10 flex items-center gap-2">
                   <RefreshCw className="h-4 w-4" />
                   Clear Cache
                 </Button>
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10 flex items-center gap-2">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10 flex items-center gap-2">
                   <RefreshCw className="h-4 w-4" />
                   Rebuild Index
                 </Button>
@@ -59,30 +59,30 @@ const AdvancedSettings = ({ settings, updateSettings }: AdvancedSettingsProps) =
               <p className="text-xs text-muted-foreground">Last cache purge: Never</p>
             </div>
 
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
 
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-foreground">
-                <Cloud className="h-4 w-4 text-purple-500" />
+                <Cloud className="h-4 w-4 text-primary" />
                 Data Management
               </Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
                   Backup Data
                 </Button>
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
                   Restore Backup
                 </Button>
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
                   Sync Now
                 </Button>
-                <Button variant="outline" className="border-purple-500/30 hover:bg-purple-500/10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10">
                   Check Updates
                 </Button>
               </div>
             </div>
 
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
 
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-red-500">

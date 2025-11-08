@@ -23,18 +23,18 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({
   // Guard against undefined settings or settings still loading
   if (!settings || !settings.accessibility) {
     return (
-      <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+      <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
         <CardContent className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600">
+        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
           <Eye className="h-5 w-5" />
           <span>Accessibility Settings</span>
         </CardTitle>
@@ -43,10 +43,10 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground">
-                  <Volume2 className="h-4 w-4 text-purple-500" />
+                  <Volume2 className="h-4 w-4 text-primary" />
                   Screen Reader Support
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -62,13 +62,13 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground">
-                  <Type className="h-4 w-4 text-purple-500" />
+                  <Type className="h-4 w-4 text-primary" />
                   Larger Text
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -84,13 +84,13 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground">
-                  <Zap className="h-4 w-4 text-purple-500" />
+                  <Zap className="h-4 w-4 text-primary" />
                   Reduced Motion
                 </Label>
                 <p className="text-sm text-muted-foreground">

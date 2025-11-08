@@ -1,51 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Maa Tara – Blue (Dark)
+// Primary (Background): #0B1026 (Abyssal Blue)
+// Accent / Highlight: #4AC6FF (Neon Cyan Light)
+// Text (Primary): #E0F7FF
+// Text (Secondary): #A7D3FF
+
 const colors: ThemeColors = {
-  // Deep blue-black cremation-ground night - slightly lighter for better readability
-  background: '240 90% 5%', // Changed from 240 100% 3%
-  // Silver-white foreground for clarity - brighter for better contrast
-  foreground: '210 30% 95%', // Changed from 210 25% 99%
-
-  // Card and surface - enhanced with better contrast
-  card: '240 95% 8%', // Changed from 240 95% 6%
-  cardForeground: '210 30% 95%', // Changed from 210 25% 97%
-  popover: '240 90% 10%', // Changed from 240 90% 8%
-  popoverForeground: '210 30% 92%', // Changed from 210 25% 95%
-
-  // Primary - deep sapphire blue (Tara's complexion) - enhanced saturation
-  primary: '220 90% 55%', // Changed from 220 100% 50%
-  primaryForeground: '210 30% 95%', // Changed from 210 25% 99%
-
-  // Secondary - dark blue-grey - adjusted for better harmony
-  secondary: '230 40% 22%', // Changed from 230 45% 18%
-  secondaryForeground: '210 30% 90%', // Changed from 210 25% 94%
-
-  // Muted - blue-grey - improved for better text readability
-  muted: '230 35% 25%', // Keep
-  mutedForeground: '220 30% 70%', // Changed from 220 30% 75%
-
-  // Accent - crimson red for cremation ground fire - more vibrant
-  accent: '0 80% 60%', // Changed from 0 90% 55%
-  accentForeground: '210 30% 95%', // Changed from 210 25% 99%
-
-  // Destructive - deep crimson - more vibrant
-  destructive: '350 85% 50%', // Changed from 350 90% 45%
-  destructiveForeground: '210 30% 95%', // Changed from 210 25% 99%
-
-  // Border and input - enhanced visibility
-  border: '235 55% 20%', // Changed from 235 55% 22%
-  input: '240 65% 12%', // Changed from 240 65% 10%
-  ring: '220 90% 60%', // Changed from 220 100% 60%
-
-  // Sidebar variants - enhanced for better visual hierarchy
-  sidebarBackground: '240 35% 7%', // Changed from 240 35% 5%
-  sidebarForeground: '210 30% 92%', // Changed from 210 25% 95%
-  sidebarPrimary: '220 90% 50%', // Changed from 220 100% 45%
-  sidebarPrimaryForeground: '210 30% 95%', // Changed from 210 25% 99%
-  sidebarAccent: '0 80% 60%', // Changed from 0 90% 55%
-  sidebarAccentForeground: '210 30% 95%', // Changed from 210 25% 99%
-  sidebarBorder: '235 45% 20%', // Changed from 235 45% 18%
-  sidebarRing: '220 90% 60%' // Changed from 220 100% 60%
+  background: '228 74% 10%', // #0B1026
+  foreground: '195 100% 94%', // #E0F7FF
+  card: '228 70% 13%',
+  cardForeground: '195 100% 94%',
+  popover: '228 65% 15%',
+  popoverForeground: '195 100% 94%',
+  primary: '228 74% 10%', // #0B1026 Abyssal Blue
+  primaryForeground: '195 100% 94%',
+  secondary: '228 50% 18%',
+  secondaryForeground: '195 100% 94%',
+  muted: '228 40% 22%',
+  mutedForeground: '207 100% 82%', // #A7D3FF
+  accent: '196 100% 64%', // #4AC6FF Neon Cyan Light
+  accentForeground: '0 0% 0%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '195 100% 94%',
+  border: '228 50% 20%',
+  input: '228 60% 18%',
+  ring: '196 100% 64%', // Cyan ring
+  sidebarBackground: '228 74% 8%',
+  sidebarForeground: '195 100% 94%',
+  sidebarPrimary: '196 100% 64%', // Neon cyan
+  sidebarPrimaryForeground: '0 0% 0%',
+  sidebarAccent: '228 50% 15%',
+  sidebarAccentForeground: '195 100% 94%',
+  sidebarBorder: '228 50% 18%',
+  sidebarRing: '196 100% 64%'
 };
 
 export default colors;

@@ -1,20 +1,6 @@
 import React from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
-// import AdminLayout from '@/pages/AdminLayout';
-// import AdminDashboardPage from '@/pages/AdminDashboardPage';
-// import AdminUsersPage from '@/pages/AdminUsersPage';
-// import AdminLibraryPage from '@/pages/AdminLibraryPage';
-// import AdminSystemPage from '@/pages/AdminSystemPage';
-// import AdminCommunityPage from '@/pages/AdminCommunityPage';
-// import AdminContentPage from '@/pages/AdminContentPage';
-// import AdminLogsPage from '@/pages/AdminLogsPage';
-// import AdminSettingsReportsPage from '@/pages/AdminSettingsReportsPage';
-// import AdminAssetsPage from '@/pages/AdminAssetsPage';
-// import AdminTemplatesPage from '@/pages/AdminTemplatesPage';
-// import AdminThemesPage from '@/pages/AdminThemesPage';
-// import AdminBIDashboardPage from '@/pages/AdminBIDashboardPage';
-// import AdminLoginPage from '@/pages/AdminLoginPage';
-// import CosmicAdminPage from '@/pages/CosmicAdminPage';
+
 
 // Protected admin routes
 export const adminRoutes: RouteObject[] = [

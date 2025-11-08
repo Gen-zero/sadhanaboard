@@ -1,33 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Default – Golden Purple Mix Theme
+// Primary (Background): Light lavender with golden undertones
+// Accent / Highlight: #FFD700 (Bright Divine Gold)
+// Text (Primary): Rich purple-gold text
+// Text (Secondary): Lighter purple-gold
+
 const colors: ThemeColors = {
-  background: '210 30% 13%',
-  foreground: '60 100% 97%',
-  card: '210 29% 18%',
-  cardForeground: '60 100% 97%',
-  popover: '210 29% 20%',
-  popoverForeground: '60 100% 97%',
-  primary: '270 60% 50%', // True purple instead of red/crimson
-  primaryForeground: '60 100% 97%',
-  secondary: '270 30% 25%', // True purple instead of red/crimson
-  secondaryForeground: '60 100% 97%',
-  muted: '210 22% 25%',
-  mutedForeground: '208 11% 70%',
-  accent: '270 50% 40%', // True purple instead of red/crimson
-  accentForeground: '60 100% 97%',
+  background: '270 50% 95%',          // Light lavender background with golden undertones
+  foreground: '270 70% 25%',          // Rich purple-gold text
+  primary: '270 60% 60%',             // Purple-gold blend for primary elements
+  primaryForeground: '0 0% 100%',
+  secondary: '270 40% 70%',           // Lighter purple-gold for secondary elements
+  secondaryForeground: '0 0% 100%',
+  accent: '45 100% 50%',              // Golden accent
+  accentForeground: '0 0% 0%',
+  card: '270 30% 90%',                // Lavender card background
+  cardForeground: '270 70% 25%',
+  popover: '270 40% 92%',             // Popover with golden undertones
+  popoverForeground: '270 70% 25%',
+  border: '270 50% 80%',              // Border with purple-gold mix
+  input: '270 35% 93%',               // Input fields
+  muted: '270 25% 85%',               // Muted background
+  mutedForeground: '270 30% 60%',     // Muted purple-gold text
   destructive: '0 84.2% 58%',
-  destructiveForeground: '60 100% 97%',
-  border: '210 16% 25%',
-  input: '210 18% 23%',
-  ring: '270 60% 50%', // True purple to match primary
-  sidebarBackground: '210 30% 10%',
-  sidebarForeground: '60 100% 97%',
-  sidebarPrimary: '270 60% 50%', // True purple to match primary
-  sidebarPrimaryForeground: '60 100% 97%',
-  sidebarAccent: '270 15% 20%', // True purple
-  sidebarAccentForeground: '60 100% 97%',
-  sidebarBorder: '210 16% 24%',
-  sidebarRing: '270 60% 50%' // True purple to match primary
+  destructiveForeground: '0 0% 100%',
+  ring: '45 100% 50%',                // Golden focus ring
+  sidebarBackground: '270 40% 90%',    // Sidebar
+  sidebarForeground: '270 70% 30%',   // Sidebar text
+  sidebarPrimary: '45 100% 50%',      // Golden sidebar primary
+  sidebarPrimaryForeground: '0 0% 100%',
+  sidebarAccent: '270 50% 75%',       // Light purple-gold accent
+  sidebarAccentForeground: '0 0% 100%',
+  sidebarBorder: '270 40% 80%',       // Sidebar border
+  sidebarRing: '45 100% 50%'          // Golden sidebar ring
 };
 
 export default colors;

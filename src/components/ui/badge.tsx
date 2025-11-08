@@ -15,8 +15,8 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
-        cosmic: "border border-purple-500/30 bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 backdrop-blur-sm text-purple-200",
-        premium: "border border-gold-500/30 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 backdrop-blur-sm text-yellow-200 shadow-[0_0_10px_rgba(255,215,0,0.2)]"
+        cosmic: "border border-primary/30 bg-gradient-to-r from-primary/20 to-secondary/20 backdrop-blur-sm text-foreground",
+        premium: "border border-accent/30 bg-gradient-to-r from-accent/20 to-secondary/20 backdrop-blur-sm text-foreground shadow-[0_0_10px_rgba(var(--accent-rgb),0.2)]"
       },
     },
     defaultVariants: {

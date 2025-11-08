@@ -9,7 +9,7 @@ export const cosmosTheme: ThemeDefinition = {
     description: 'Cosmic admin panel design for regular users',
     category: 'color-scheme',
     // Removed the deity property to make it appear in general themes
-    icon: '/themes/cosmos/assets/cosmos-icon.png',
+    icon: '/themes/cosmos/assets/cosmos-icon.svg',
     gradient: 'from-purple-600 via-cyan-500 to-gold-500'
   },
   colors,

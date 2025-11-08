@@ -18,16 +18,16 @@ const BookRequestDialog = ({ onBookRequested }: BookRequestDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 hover:scale-105">
+        <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transition-all duration-300 hover:scale-105">
           <Mail className="h-4 w-4 mr-2" />
           Request Book
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-background to-secondary/10 border border-purple-500/20">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-background to-secondary/10 border border-primary/20">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl">
-            <div className="p-2 rounded-lg bg-purple-500/10">
-              <BookOpen className="h-6 w-6 text-purple-500" />
+            <div className="p-2 rounded-lg bg-primary/10">
+              <BookOpen className="h-6 w-6 text-primary" />
             </div>
             Request a Sacred Text
           </DialogTitle>

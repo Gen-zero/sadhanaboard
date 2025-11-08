@@ -2,10 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
 import SadhanaCard from '@/components/SadhanaCard';
+import { Sadhana } from '@/types/sadhana';
+
+// Define type for feed items - extends Sadhana with community-specific properties
+interface FeedItem extends Sadhana {
+  sadhana_id?: number;
+  ownerName?: string;
+  ownerAvatar?: string;
+  isShared?: boolean;
+  privacyLevel?: string;
+  sharedAt?: string;
+  shareCount?: number;
+  viewCount?: number;
+  likeCount?: number;
+  commentCount?: number;
+  userHasLiked?: boolean;
+}
 
 const CommunityFeedPage: React.FC = () => {
   const { user } = useAuth();
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);

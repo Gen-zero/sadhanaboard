@@ -234,7 +234,7 @@ const SettingsPage = () => {
       <Button
         variant="outline"
         size="sm"
-        className="hidden md:flex items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium"
+        className="hidden md:flex items-center gap-2 border-primary/30 hover:bg-primary/10 font-medium"
         onClick={handleExportSettings}
       >
         <Download className="h-4 w-4" />
@@ -251,7 +251,7 @@ const SettingsPage = () => {
         <Button
           variant="outline"
           size="sm"
-          className="items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium"
+          className="items-center gap-2 border-primary/30 hover:bg-primary/10 font-medium"
           asChild
         >
           <label htmlFor="import-settings" className="cursor-pointer">
@@ -265,7 +265,7 @@ const SettingsPage = () => {
       <Button
         variant="outline"
         size="sm"
-        className="hidden md:flex items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium"
+        className="hidden md:flex items-center gap-2 border-primary/30 hover:bg-primary/10 font-medium"
         onClick={handleResetSettings}
       >
         <RotateCcw className="h-4 w-4" />
@@ -274,7 +274,7 @@ const SettingsPage = () => {
       <Button
         variant="default"
         size="sm"
-        className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white focus:outline-none focus:ring-0 focus:border-0 border-none shadow-none font-medium"
+        className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white focus:outline-none focus:ring-0 focus:border-0 border-none shadow-none font-medium"
         onClick={handleSaveSettings}
         disabled={isSaving}
       >
@@ -316,7 +316,7 @@ const SettingsPage = () => {
               variant="outline" 
               size="sm"
               onClick={() => setIsMobileMenuOpen(true)}
-              className="flex items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+              className="flex items-center gap-2 border-primary/30 hover:bg-primary/10 font-medium touch-target-large"
             >
               <Menu className="h-5 w-5" />
               <span className="font-medium">{t('menu')}</span>
@@ -341,7 +341,7 @@ const SettingsPage = () => {
               <SheetHeader className="p-4 border-b">
                 <div className="flex items-center justify-between">
                   <SheetTitle className="flex items-center gap-2 text-lg font-semibold text-foreground settings-header">
-                    <SettingsIcon className="h-5 w-5 text-purple-500" />
+                    <SettingsIcon className="h-5 w-5 text-primary" />
                     <span className="text-wrap">{t('settings_menu')}</span>
                   </SheetTitle>
                   <Button
@@ -370,15 +370,15 @@ const SettingsPage = () => {
                               variant={activeSection === item.id ? 'secondary' : 'ghost'}
                               className={`w-full justify-start gap-3 rounded-lg font-medium touch-target-large ${
                                 activeSection === item.id 
-                                  ? 'bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 border border-purple-500/30' 
-                                  : 'hover:bg-purple-500/10'
+                                  ? 'bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30' 
+                                  : 'hover:bg-primary/10'
                               }`}
                               onClick={() => {
                                 setActiveSection(item.id);
                                 setIsMobileMenuOpen(false);
                               }}
                             >
-                              <IconComponent className="h-5 w-5 flex-shrink-0" />
+                              <IconComponent className="h-5 w-5 flex-shrink-0 text-primary" />
                               <span className="text-wrap truncate">{item.label}</span>
                             </Button>
                           );
@@ -401,11 +401,11 @@ const SettingsPage = () => {
                 transition={{ duration: 0.2 }}
                 className="hidden lg:block lg:w-64 flex-shrink-0"
               >
-                <Card className="h-full border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+                <Card className="h-full border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center justify-between gap-2 text-lg font-semibold text-foreground settings-header">
                       <div className="flex items-center gap-2">
-                        <SettingsIcon className="h-5 w-5 text-purple-500" />
+                        <SettingsIcon className="h-5 w-5 text-primary" />
                         <span className="text-wrap">{t('settings_menu')}</span>
                       </div>
                       <Button
@@ -434,12 +434,12 @@ const SettingsPage = () => {
                                   variant={activeSection === item.id ? 'secondary' : 'ghost'}
                                   className={`w-full justify-start gap-3 rounded-lg font-medium touch-target-large ${
                                     activeSection === item.id 
-                                      ? 'bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 border border-purple-500/30' 
-                                      : 'hover:bg-purple-500/10'
+                                      ? 'bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30' 
+                                      : 'hover:bg-primary/10'
                                   }`}
                                   onClick={() => setActiveSection(item.id)}
                                 >
-                                  <IconComponent className="h-5 w-5 flex-shrink-0" />
+                                  <IconComponent className="h-5 w-5 flex-shrink-0 text-primary" />
                                   <span className="text-wrap truncate">{item.label}</span>
                                 </Button>
                               );
@@ -453,7 +453,7 @@ const SettingsPage = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+                        className="w-full border-primary/30 hover:bg-primary/10 font-medium touch-target-large"
                         onClick={handleExportSettings}
                       >
                         <Download className="h-4 w-4 mr-2" />
@@ -470,7 +470,7 @@ const SettingsPage = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="w-full cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+                          className="w-full cursor-pointer border-primary/30 hover:bg-primary/10 font-medium touch-target-large"
                           asChild
                         >
                           <label htmlFor="import-settings-desktop" className="cursor-pointer">
@@ -504,7 +504,7 @@ const SettingsPage = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setIsDesktopSidebarOpen(true)}
-                className="border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large rounded-r-none border-r-0"
+                className="border-primary/30 hover:bg-primary/10 font-medium touch-target-large rounded-r-none border-r-0"
               >
                 <Menu className="h-5 w-5" />
               </Button>
@@ -513,12 +513,12 @@ const SettingsPage = () => {
 
           {/* Main Content */}
           <div className="flex-1 overflow-hidden">
-            <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm mobile-card-compact h-full flex flex-col">
+            <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm mobile-card-compact h-full flex flex-col">
               <CardHeader className="hidden lg:block pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg font-semibold text-foreground mobile-heading-scale settings-header">
                   {(() => {
                     const IconComponent = sectionIcons[activeSection as keyof typeof sectionIcons];
-                    return <IconComponent className="h-5 w-5 text-purple-500 flex-shrink-0" />;
+                    return <IconComponent className="h-5 w-5 text-primary flex-shrink-0" />;
                   })()}
                   <span className="capitalize text-wrap truncate">{t(activeSection)}</span>
                 </CardTitle>
@@ -535,7 +535,7 @@ const SettingsPage = () => {
           <Button
             variant="outline"
             size="sm"
-            className="border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+            className="border-primary/30 hover:bg-primary/10 font-medium touch-target-large"
             onClick={handleExportSettings}
           >
             <Download className="h-4 w-4" />
@@ -551,7 +551,7 @@ const SettingsPage = () => {
             <Button
               variant="outline"
               size="sm"
-              className="cursor-pointer border-purple-500/30 hover:bg-purple-500/10 font-medium touch-target-large"
+              className="cursor-pointer border-primary/30 hover:bg-primary/10 font-medium touch-target-large"
               asChild
             >
               <label htmlFor="import-settings-mobile" className="cursor-pointer">
@@ -565,7 +565,7 @@ const SettingsPage = () => {
           <Button
             variant="destructive"
             size="sm"
-            className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 font-medium touch-target-large"
+            className="bg-gradient-to-r from-destructive to-destructive/90 hover:from-destructive/90 hover:to-destructive/80 font-medium touch-target-large"
             onClick={handleResetSettings}
           >
             <RotateCcw className="h-4 w-4" />
@@ -573,7 +573,7 @@ const SettingsPage = () => {
           <Button
             variant="default"
             size="sm"
-            className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white font-medium touch-target-large"
+            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-medium touch-target-large"
             onClick={handleSaveSettings}
             disabled={isSaving}
           >

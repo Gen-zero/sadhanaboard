@@ -255,7 +255,7 @@ const SaadhanaBoard = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-accent" />
               Complete Sadhana
             </DialogTitle>
             <DialogDescription>
@@ -266,7 +266,7 @@ const SaadhanaBoard = () => {
             <Button variant="outline" onClick={() => setShowCompleteDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-green-500 hover:bg-green-600" onClick={confirmCompleteSadhana}>
+            <Button className="bg-accent hover:bg-accent/90" onClick={confirmCompleteSadhana}>
               Complete
             </Button>
           </DialogFooter>
@@ -278,7 +278,7 @@ const SaadhanaBoard = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-red-500" />
+              <AlertTriangle className="h-5 w-5 text-destructive" />
               Break Sadhana
             </DialogTitle>
             <DialogDescription>
@@ -289,7 +289,7 @@ const SaadhanaBoard = () => {
             <Button variant="outline" onClick={() => setShowBreakDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-red-500 hover:bg-red-600" onClick={confirmBreakSadhana}>
+            <Button className="bg-destructive hover:bg-destructive/90" onClick={confirmBreakSadhana}>
               Break
             </Button>
           </DialogFooter>
@@ -301,7 +301,7 @@ const SaadhanaBoard = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <RotateCcw className="h-5 w-5 text-blue-500" />
+              <RotateCcw className="h-5 w-5 text-primary" />
               Start New Sadhana
             </DialogTitle>
             <DialogDescription>
@@ -312,7 +312,7 @@ const SaadhanaBoard = () => {
             <Button variant="outline" onClick={() => setShowResetDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600" onClick={confirmResetSadhana}>
+            <Button className="bg-primary hover:bg-primary/90" onClick={confirmResetSadhana}>
               Start New
             </Button>
           </DialogFooter>

@@ -1,25 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Serenity – Light Blue
+// Primary (Background): #E0F7FA (Aqua Sky Blue)
+// Accent / Highlight: #00ACC1 (Teal Calm)
+// Text (Primary): #002B36
+// Text (Secondary): #4B636E
+
 const colors: ThemeColors = {
-  background: '210 35% 8%',
-  foreground: '60 100% 98%',
-  card: '210 29% 13%',
-  cardForeground: '60 100% 97%',
-  popover: '210 29% 16%',
-  popoverForeground: '60 100% 97%',
-  primary: '195 70% 60%', // Changed from 195 80% 55%
-  primaryForeground: '0 0% 100%',
-  secondary: '195 40% 35%', // Changed from 195 40% 30%
-  secondaryForeground: '60 100% 97%',
-  muted: '210 12% 17%',
-  mutedForeground: '210 11% 60%',
-  accent: '170 55% 55%', // Changed from 170 60% 50%
-  accentForeground: '0 0% 0%',
-  destructive: '0 62.8% 35.6%',
-  destructiveForeground: '60 100% 97%',
-  border: '210 16% 18%',
-  input: '210 18% 15%',
-  ring: '195 70% 60%' // Changed to match new primary
+  background: '187 78% 93%', // #E0F7FA
+  foreground: '240 100% 15%', // Deep blue text (changed from 192 100% 11%)
+  card: '187 70% 95%',        // Card background
+  cardForeground: '240 100% 15%', // Deep blue text (changed from 193 100% 11%)
+  popover: '187 65% 96%',     // Popover
+  popoverForeground: '240 100% 15%', // Deep blue text (changed from 193 100% 11%)
+  primary: '187 78% 93%', // #E0F7FA Aqua Sky Blue
+  primaryForeground: '240 100% 15%', // Deep blue text (changed from 193 100% 11%)
+  secondary: '187 50% 88%',
+  secondaryForeground: '240 100% 15%', // Deep blue text (changed from 193 100% 11%)
+  muted: '187 30% 90%',       // Muted background
+  mutedForeground: '240 100% 25%', // Darker deep blue (changed from 195 19% 36%)
+  accent: '187 100% 38%', // #00ACC1 Teal Calm
+  accentForeground: '0 0% 100%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '0 0% 100%',
+  border: '187 40% 85%',      // Border
+  input: '187 50% 88%',       // Input
+  ring: '187 100% 38%', // Teal ring
+  sidebarBackground: '240 100% 15%',  // Deep blue sidebar
+  sidebarForeground: '210 100% 96%', // Light blue-white text
+  sidebarPrimary: '240 100% 50%', // Deep blue primary
+  sidebarPrimaryForeground: '0 0% 100%', // White text
+  sidebarAccent: '240 90% 70%', // Lighter blue accent
+  sidebarAccentForeground: '0 0% 100%', // White text
+  sidebarBorder: '235 50% 25%',       // Blue border
+  sidebarRing: '240 100% 50%' // Deep blue ring
 };
 
 export default colors;

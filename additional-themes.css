@@ -1,0 +1,66 @@
+
+/* Ganesha Theme - Yellow */
+.theme-ganesha {
+  --background: 48 100% 88%;       /* Soft Temple Yellow */
+  --foreground: 40 100% 12%;       /* Deep yellow text */
+  --primary: 48 100% 75%;          /* Rich yellow */
+  --secondary: 48 80% 65%;         /* Medium yellow */
+  --accent: 20 100% 45%;           /* Saffron Orange */
+  --card: 48 90% 90%;
+  --popover: 48 85% 92%;
+  --border: 48 60% 80%;
+  --input: 48 70% 85%;
+  --muted: 48 50% 82%;
+  --muted-foreground: 36 100% 25%;
+  --ring: 20 100% 50%;
+  --sidebar-background: 48 100% 85%;
+  --sidebar-foreground: 40 100% 15%;
+  --sidebar-primary: 20 100% 50%;
+  --sidebar-accent: 48 80% 75%;
+  --sidebar-border: 48 60% 75%;
+  --sidebar-ring: 20 100% 55%;
+}
+
+/* Cosmos Theme - Dark Black */
+.theme-cosmos {
+  --background: 0 0% 1%;           /* Cosmic Void Black */
+  --foreground: 0 0% 95%;          /* Light text */
+  --primary: 0 0% 5%;              /* Dark background */
+  --secondary: 0 0% 10%;           /* Slightly lighter black */
+  --accent: 260 100% 72%;          /* Nebula Violet */
+  --card: 0 0% 3%;
+  --popover: 0 0% 5%;
+  --border: 0 0% 12%;
+  --input: 0 0% 8%;
+  --muted: 0 0% 7%;
+  --muted-foreground: 250 100% 84%;
+  --ring: 260 100% 75%;
+  --sidebar-background: 0 0% 2%;
+  --sidebar-foreground: 0 0% 90%;
+  --sidebar-primary: 260 100% 75%;
+  --sidebar-accent: 0 0% 15%;
+  --sidebar-border: 0 0% 10%;
+  --sidebar-ring: 260 100% 80%;
+}
+
+/* Neon Theme - Mixed Glow */
+.theme-neon {
+  --background: 277 100% 5%;       /* Dark Cosmic Purple */
+  --foreground: 0 0% 95%;          /* Light text */
+  --primary: 160 100% 50%;         /* Neon Green */
+  --secondary: 320 100% 50%;       /* Neon Pink */
+  --accent: 260 100% 66%;          /* Neon Purple */
+  --card: 277 90% 8%;
+  --popover: 277 85% 10%;
+  --border: 277 70% 15%;
+  --input: 277 80% 12%;
+  --muted: 277 60% 10%;
+  --muted-foreground: 0 0% 84%;
+  --ring: 160 100% 60%;
+  --sidebar-background: 277 100% 4%;
+  --sidebar-foreground: 0 0% 90%;
+  --sidebar-primary: 160 100% 60%;
+  --sidebar-accent: 320 100% 60%;
+  --sidebar-border: 277 70% 12%;
+  --sidebar-ring: 260 100% 70%;
+}

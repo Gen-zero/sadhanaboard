@@ -4,6 +4,7 @@ import type { AdminLog, SecurityEvent } from '@/types/admin-logs';
 const SOCKET_URL = (import.meta.env.VITE_SOCKET_BASE_URL as string) || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3004');
 
 export function useLogStream(onLog: (l: AdminLog) => void, onEvent?: (e: SecurityEvent) => void) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const socketRef = useRef<any>(null);
   const esRef = useRef<EventSource | null>(null);
   const [connected, setConnected] = useState(false);
@@ -17,15 +18,16 @@ export function useLogStream(onLog: (l: AdminLog) => void, onEvent?: (e: Securit
       if (typeof window === 'undefined') return;
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mod: any = await import('socket.io-client');
         const factory = mod && (mod.default || mod) ? (mod.default || mod) : null;
         if (factory) {
-          const sock: any = factory(SOCKET_URL, { withCredentials: true, path: '/socket.io' });
+          const sock = factory(SOCKET_URL, { withCredentials: true, path: '/socket.io' });
           socketRef.current = sock;
 
           sock.on('connect', () => { if (mounted) setConnected(true); });
           sock.on('logs:new', (payload: AdminLog) => { try { onLog?.(payload); } catch (e) { console.error(e); } });
-          sock.on('security:alert', (payload: any) => { try { onEvent?.(payload); } catch (e) { /* ignore */ } });
+          sock.on('security:alert', (payload: SecurityEvent) => { try { onEvent?.(payload); } catch (e) { /* ignore */ } });
 
           return; // socket established
         }
@@ -36,7 +38,7 @@ export function useLogStream(onLog: (l: AdminLog) => void, onEvent?: (e: Securit
 
       // SSE fallback
       try {
-        const es = new EventSource(`${(import.meta.env.VITE_ADMIN_API_BASE as string) || '/api/admin'}/logs/stream`, { withCredentials: true } as any);
+        const es = new EventSource(`${(import.meta.env.VITE_ADMIN_API_BASE as string) || '/api/admin'}/logs/stream`, { withCredentials: true } as EventSourceInit);
         esRef.current = es;
         es.onmessage = (ev) => {
           try {

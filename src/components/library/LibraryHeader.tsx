@@ -22,7 +22,7 @@ const LibraryHeader = ({
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center flex-wrap gap-4 pb-4 border-b border-purple-500/20">
       <div className="flex items-center gap-3">
         <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20">
-          <BookOpen className="h-6 w-6 text-purple-500" />
+          <BookOpen className="h-6 w-6 text-primary" />
         </div>
         <div>
           <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
@@ -38,7 +38,7 @@ const LibraryHeader = ({
         <Button
           variant="outline"
           size={isMobile ? "default" : "sm"}
-          className="flex items-center gap-2 bg-background/70 border-purple-500/30 hover:bg-purple-500/10"
+          className="flex items-center gap-2 bg-background/70 border border-primary/30 hover:bg-primary/10"
           onClick={toggleView}
           disabled={isLoading}
         >
@@ -60,7 +60,7 @@ const LibraryHeader = ({
         <Button
           variant="outline"
           size={isMobile ? "default" : "sm"}
-          className="flex items-center gap-2 bg-background/70 border-purple-500/30 hover:bg-purple-500/10"
+          className="flex items-center gap-2 bg-background/70 border border-primary/30 hover:bg-primary/10"
           onClick={() => navigate('/store')}
         >
           <ShoppingCart className="h-4 w-4" />

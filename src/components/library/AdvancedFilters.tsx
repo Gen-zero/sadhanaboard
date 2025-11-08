@@ -174,7 +174,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
               key={preset.id}
               variant={filters.preset === preset.id ? "default" : "outline"}
               size="sm"
-              className={`h-8 text-xs ${filters.preset === preset.id ? 'bg-gradient-to-r from-purple-500 to-fuchsia-500' : ''}`}
+              className={`h-8 text-xs ${filters.preset === preset.id ? 'bg-gradient-to-r from-primary to-secondary' : ''}`}
               onClick={() => handlePresetSelect(preset.id)}
             >
               {getPresetIcon(preset.icon)}

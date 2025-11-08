@@ -17,7 +17,10 @@ const vishnuTheme: ThemeDefinition = {
     gradient: 'from-blue-900 via-blue-700 to-teal-800'
   },
   colors,
-  assets: { icon: vishnuIconPath },
+  assets: { 
+    icon: vishnuIconPath,
+    css: '/themes/vishnu/vishnu.css' // Add the CSS file path
+  },
   BackgroundComponent: VishnuBackground,
   available: true,
   createdAt: new Date().toISOString()

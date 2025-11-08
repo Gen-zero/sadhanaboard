@@ -189,10 +189,10 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
   };
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-foreground mobile-heading-scale settings-header">
-          <UserIcon className="h-5 w-5 text-purple-500 flex-shrink-0" />
+          <UserIcon className="h-5 w-5 text-primary flex-shrink-0" />
           <span className="text-wrap">{t('profile_settings')}</span>
         </CardTitle>
         <CardDescription className="text-sm mobile-text-scale text-wrap text-muted-foreground settings-subheader">{t('manage_your_profile_information')}</CardDescription>
@@ -203,16 +203,16 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
           <TabsList className="grid w-full grid-cols-2 mb-6 bg-background/50">
             <TabsTrigger 
               value="profile" 
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/20 data-[state=active]:to-fuchsia-500/20 font-medium touch-target-large"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20 font-medium touch-target-large"
             >
-              <UserCircle className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
+              <UserCircle className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
               <span className="text-wrap">{t('profile')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="statistics" 
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/20 data-[state=active]:to-fuchsia-500/20 font-medium touch-target-large"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20 font-medium touch-target-large"
             >
-              <BarChart3 className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
+              <BarChart3 className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
               <span className="text-wrap">{t('statistics')}</span>
             </TabsTrigger>
           </TabsList>
@@ -220,9 +220,9 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
           <TabsContent value="profile" className="space-y-6 mt-0">
             <div className="flex flex-col sm:flex-row items-start gap-6">
               <div className="relative flex-shrink-0">
-                <Avatar className="h-24 w-24 ring-4 ring-purple-500/20">
+                <Avatar className="h-24 w-24 ring-4 ring-primary/20">
                   <AvatarImage src={avatarPreview || profile.avatar} />
-                  <AvatarFallback className="bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 text-primary text-3xl">
+                  <AvatarFallback className="bg-gradient-to-br from-primary/20 to-secondary/20 text-primary text-3xl">
                     <UserIcon className="h-12 w-12" />
                   </AvatarFallback>
                 </Avatar>
@@ -230,10 +230,10 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute bottom-0 right-0 h-8 w-8 rounded-full border-purple-500/30 bg-background hover:bg-purple-500/10"
+                    className="absolute bottom-0 right-0 h-8 w-8 rounded-full border-primary/30 bg-background hover:bg-primary/10"
                     onClick={triggerFileInput}
                   >
-                    <Camera className="h-4 w-4 text-purple-500" />
+                    <Camera className="h-4 w-4 text-primary" />
                   </Button>
                 )}
                 <input
@@ -249,7 +249,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                   <div className="space-y-4">
                     <div>
                       <Label htmlFor="display_name" className="flex items-center gap-2 text-foreground font-medium">
-                        <UserIcon className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                        <UserIcon className="h-4 w-4 text-primary flex-shrink-0" />
                         {t('name')}
                       </Label>
                       <Input
@@ -261,22 +261,22 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                     </div>
                     <div>
                       <Label htmlFor="email" className="flex items-center gap-2 text-foreground font-medium">
-                        <UserIcon className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                        <UserIcon className="h-4 w-4 text-primary flex-shrink-0" />
                         {t('email')}
                       </Label>
                       <Input
                         id="email"
                         value={profile.email}
                         disabled
-                        className="border-purple-500/30 bg-background/50"
+                        className="border-primary/30 bg-background/50"
                       />
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                      <Button onClick={handleSaveProfile} className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 font-medium">
+                      <Button onClick={handleSaveProfile} className="flex items-center gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 font-medium">
                         <Check className="h-4 w-4" />
                         {t('save_changes')}
                       </Button>
-                      <Button variant="outline" onClick={() => setIsEditing(false)} className="border-purple-500/30 hover:bg-purple-500/10 font-medium">
+                      <Button variant="outline" onClick={() => setIsEditing(false)} className="border-primary/30 hover:bg-primary/10 font-medium">
                         {t('cancel')}
                       </Button>
                     </div>
@@ -287,11 +287,11 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                       {profile.name}
                     </CardTitle>
                     <CardDescription className="mt-2 flex items-center gap-1.5 text-base">
-                      <Calendar className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                      <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
                       <span className="truncate">{t('joined')} {getJoinedDate()}</span>
                     </CardDescription>
                     <p className="mt-2 text-muted-foreground truncate">{profile.email}</p>
-                    <Button variant="outline" className="mt-4 flex items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 font-medium" onClick={() => setIsEditing(true)}>
+                    <Button variant="outline" className="mt-4 flex items-center gap-2 border-primary/30 hover:bg-primary/10 font-medium" onClick={() => setIsEditing(true)}>
                       <Edit3 className="h-4 w-4" />
                       {t('edit_profile')}
                     </Button>
@@ -302,12 +302,12 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
             
             {isEditing && (
               <div className="space-y-6 mt-6">
-                <Separator className="bg-purple-500/20" />
+                <Separator className="bg-primary/20" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <Label htmlFor="bio" className="flex items-center gap-2 text-foreground font-medium">
-                        <BookOpen className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                        <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
                         {t('bio')}
                       </Label>
                       <EnhancedTooltip id="bio-tooltip" content={t('bio_tooltip')}>
@@ -319,7 +319,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                       value={editedProfile.bio}
                       onChange={(e) => setEditedProfile({...editedProfile, bio: e.target.value})}
                       placeholder={t('tell_us_about_your_spiritual_journey')}
-                      className="min-h-[120px] border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50"
+                      className="min-h-[120px] border-primary/30 focus:border-primary focus:ring-primary bg-background/50"
                     />
                   </div>
                   <div className="space-y-6">
@@ -344,7 +344,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                     <div>
                       <div className="flex items-center gap-2 mb-2">
                         <Label htmlFor="experience_level" className="flex items-center gap-2 text-foreground font-medium">
-                          <Star className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                          <Star className="h-4 w-4 text-primary flex-shrink-0" />
                           {t('experience_level')}
                         </Label>
                         <EnhancedTooltip id="experience-level-tooltip" content={t('experience_level_tooltip')}>
@@ -355,7 +355,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                         value={editedProfile.experience_level} 
                         onValueChange={(value) => setEditedProfile({...editedProfile, experience_level: value})}
                       >
-                        <SelectTrigger className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50 w-full">
+                        <SelectTrigger className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50 w-full">
                           <SelectValue placeholder={t('select_your_experience_level')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -369,7 +369,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
                     <div>
                       <div className="flex items-center gap-2 mb-2">
                         <Label htmlFor="favorite_deity" className="flex items-center gap-2 text-foreground font-medium">
-                          <Award className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                          <Award className="h-4 w-4 text-primary flex-shrink-0" />
                           {t('favorite_deity')}
                         </Label>
                         <EnhancedTooltip id="favorite-deity-tooltip" content={t('favorite_deity_tooltip')}>
@@ -391,7 +391,7 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
             
             {!isEditing && (
               <div className="space-y-6 mt-6">
-                <Separator className="bg-purple-500/20" />
+                <Separator className="bg-primary/20" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
@@ -442,31 +442,31 @@ const ProfileSettings = ({ settings, updateSettings }: ProfileSettingsProps) => 
           
           <TabsContent value="statistics" className="space-y-6 mt-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 border border-purple-500/20">
-                <div className="text-2xl font-bold text-purple-500">{stats?.completedSadhanas || 0}</div>
+              <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
+                <div className="text-2xl font-bold text-primary">{stats?.completedSadhanas || 0}</div>
                 <div className="text-sm text-muted-foreground">{t('sadhanas_completed')}</div>
               </div>
-              <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 border border-purple-500/20">
-                <div className="text-2xl font-bold text-purple-500">{stats?.totalPracticeDays || 0}</div>
+              <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
+                <div className="text-2xl font-bold text-primary">{stats?.totalPracticeDays || 0}</div>
                 <div className="text-sm text-muted-foreground">{t('practice_days')}</div>
               </div>
-              <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 border border-purple-500/20">
-                <div className="text-2xl font-bold text-purple-500">{stats?.successRate || 0}%</div>
+              <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
+                <div className="text-2xl font-bold text-primary">{stats?.successRate || 0}%</div>
                 <div className="text-sm text-muted-foreground">{t('success_rate')}</div>
               </div>
             </div>
             
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
             
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2 text-foreground">
-                <BarChartHorizontal className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                <BarChartHorizontal className="h-5 w-5 text-primary flex-shrink-0" />
                 {t('recent_activity')}
               </h3>
               {history && history.length > 0 ? (
                 <div className="space-y-3">
                   {history.slice(0, 5).map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border border-purple-500/20">
+                    <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border border-primary/20">
                       <div className="min-w-0">
                         <div className="font-medium truncate">{item.title}</div>
                         <div className="text-sm text-muted-foreground truncate">

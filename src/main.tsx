@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './styles/index.css';
+import './styles/theme-utilities.css';
 import './lib/i18n.ts'; // Import i18n configuration
 
 // Add polyfills for crypto functions that may be needed during build

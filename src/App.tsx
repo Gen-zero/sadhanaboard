@@ -42,7 +42,7 @@ import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
 import { HelpProvider } from "./contexts/HelpContext"; // Add this import
 import TestDurgaPage from './pages/TestDurgaPage';
-import { AnimatePresence, motion } from 'framer-motion';
+import DemoBanner from "./components/DemoBanner";
 // Add new page imports with lazy loading for code splitting
 const CareersPage = lazy(() => import('./pages/landing/CareersPage'));
 const ManifestoPage = lazy(() => import('./pages/landing/ManifestoPage'));
@@ -102,7 +102,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -133,7 +133,7 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -152,7 +152,7 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
   if (isOnboardingComplete === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -188,26 +188,17 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
     return <div className="transition-none">{children}</div>;
   }
   
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -20, scale: 1.05 }}
-        transition={{ 
-          duration: 0.5, 
-          ease: "easeInOut",
-          opacity: { duration: 0.3 },
-          y: { duration: 0.5 },
-          scale: { duration: 0.4 }
-        }}
-        className={`transition-all duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  );
+  // Show loading spinner while transitioning
+  if (!loaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+  
+  // Render children directly without animations
+  return <div>{children}</div>;
 };
 
 const AppRoutes = () => {
@@ -227,9 +218,6 @@ const AppRoutes = () => {
       <Route path="/pratyangira" element={<ProtectedRoute><PratyangiraPage /></ProtectedRoute>} />
 
       <Route path="/" element={<HomePage />} />
-      <Route path="/landingpage" element={<HomePage />} />
-      <Route path="/pages" element={<HomePage />} />
-      <Route path="/MahakaliLandingpage" element={<ExperimentPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={
         <Suspense fallback={
@@ -249,7 +237,7 @@ const AppRoutes = () => {
           <ManifestoPage />
         </Suspense>
       } />
-
+      <Route path="/experiment" element={<ExperimentPage />} />
       <Route path="/dashboard" element={<OnboardingRoute><DashboardPage /></OnboardingRoute>} />
       <Route path="/analytics" element={<OnboardingRoute><AnalyticsPage /></OnboardingRoute>} />
       <Route path="/sadhana" element={<OnboardingRoute><SadhanaPage /></OnboardingRoute>} />
@@ -277,21 +265,21 @@ const App = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
   
   // Determine the theme for background animation
   // Force default theme on all landing pages
-  const landingPagePaths = ['/landingpage', '/', '/pages', '/MahakaliLandingpage', '/about'];
+  const landingPagePaths = ['/', '/about', '/careers', '/manifesto', '/experiment'];
   const isLandingPage = landingPagePaths.includes(window.location.pathname);
-  type BackgroundTheme = 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'cosmos' | 'durga';
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mahakali', 'mystery', 'neon', 'lakshmi', 'tara', 'swamiji', 'cosmos', 'durga', 'vishnu', 'krishna'] as const;
   const backgroundTheme = isLandingPage 
     ? 'default' 
     : settings?.appearance?.colorScheme && 
-      ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mahakali', 'mystery', 'neon', 'lakshmi', 'tara', 'swamiji', 'cosmos', 'durga'].includes(settings.appearance.colorScheme) 
-      ? settings.appearance.colorScheme as BackgroundTheme
+      validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
+      ? settings.appearance.colorScheme as typeof validThemes[number]
       : 'default';
   
   return (
@@ -309,6 +297,7 @@ const App = () => {
                   <ThemedBackground theme={backgroundTheme} />
                   
                   <div className="relative z-10">
+                    <DemoBanner />
                     <FocusVisible />
                     <SmoothScroll />
                     <Toaster />

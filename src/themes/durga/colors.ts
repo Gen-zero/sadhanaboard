@@ -1,25 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Maa Durga – Orange
+// Primary (Background): #2C0800 (Fiery Deep Maroon)
+// Accent / Highlight: #FF6D00 (Durga Flame Orange)
+// Text (Primary): #FFF1E6
+// Text (Secondary): #FFB380
+
 const colors: ThemeColors = {
-  background: '0 100% 10%', // Dark red background
-  foreground: '0 0% 95%', // Light text
-  card: '0 100% 15%', // Card background
-  cardForeground: '0 0% 92%', // Card text
-  popover: '0 100% 18%', // Popover background
-  popoverForeground: '0 0% 92%', // Popover text
-  primary: '0 95% 50%', // Primary red
-  primaryForeground: '0 0% 100%', // Primary text
-  secondary: '25 95% 40%', // Secondary orange
-  secondaryForeground: '0 0% 95%', // Secondary text
-  muted: '0 50% 20%', // Muted elements
-  mutedForeground: '0 20% 70%', // Muted text
-  accent: '30 95% 60%', // Accent orange-red
-  accentForeground: '0 0% 0%', // Accent text
-  destructive: '0 62.8% 35.6%', // Destructive actions
-  destructiveForeground: '0 0% 95%', // Destructive text
-  border: '0 50% 25%', // Border color
-  input: '0 60% 22%', // Input elements
-  ring: '0 95% 50%' // Focus ring
+  background: '17 100% 9%', // #2C0800
+  foreground: '30 100% 95%', // #FFF1E6
+  card: '17 90% 12%',
+  cardForeground: '30 100% 95%',
+  popover: '17 85% 14%',
+  popoverForeground: '30 100% 95%',
+  primary: '17 100% 9%', // #2C0800 Fiery Deep Maroon
+  primaryForeground: '30 100% 95%',
+  secondary: '17 70% 15%',
+  secondaryForeground: '30 100% 95%',
+  muted: '17 50% 20%',
+  mutedForeground: '27 100% 75%', // #FFB380
+  accent: '26 100% 50%', // #FF6D00 Durga Flame Orange
+  accentForeground: '0 0% 0%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '30 100% 95%',
+  border: '17 60% 18%',
+  input: '17 70% 16%',
+  ring: '26 100% 50%', // Orange ring
+  sidebarBackground: '17 100% 7%',
+  sidebarForeground: '30 100% 95%',
+  sidebarPrimary: '26 100% 50%', // Flame orange
+  sidebarPrimaryForeground: '0 0% 0%',
+  sidebarAccent: '17 70% 12%',
+  sidebarAccentForeground: '30 100% 95%',
+  sidebarBorder: '17 60% 15%',
+  sidebarRing: '26 100% 50%'
 };
 
 export default colors;

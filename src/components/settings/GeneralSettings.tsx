@@ -62,17 +62,17 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
     return (
       <Card>
         <CardContent className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-foreground mobile-heading-scale settings-header">
-          <SettingsIcon className="h-5 w-5 text-purple-500" />
+          <SettingsIcon className="h-5 w-5 text-primary" />
           <span className="text-wrap">{t('general_settings')}</span>
         </CardTitle>
         <CardDescription className="text-sm mobile-text-scale text-wrap text-muted-foreground settings-subheader">{t('manage_your_general_preferences')}</CardDescription>
@@ -83,7 +83,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Label htmlFor="display-name" className="flex items-center gap-2 text-foreground font-medium mobile-text-scale">
-                <User className="h-4 w-4 text-purple-500" />
+                <User className="h-4 w-4 text-primary" />
                 <span className="text-wrap">{t('display_name')}</span>
               </Label>
               <EnhancedTooltip id="display-name-tooltip" content={t('display_name_tooltip')}>
@@ -95,17 +95,17 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               value={displayName}
               onChange={handleDisplayNameChange}
               placeholder={t('enter_your_display_name')}
-              className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50 mobile-input form-text-input"
+              className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50 mobile-input form-text-input"
             />
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Email */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Label htmlFor="email" className="flex items-center gap-2 text-foreground font-medium mobile-text-scale">
-                <Mail className="h-4 w-4 text-purple-500" />
+                <Mail className="h-4 w-4 text-primary" />
                 <span className="text-wrap">{t('email')}</span>
               </Label>
               <EnhancedTooltip id="email-tooltip" content={t('email_tooltip')}>
@@ -118,17 +118,17 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               value={email}
               onChange={handleEmailChange}
               placeholder={t('enter_your_email')}
-              className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50 mobile-input form-text-input"
+              className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50 mobile-input form-text-input"
             />
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Language - Limited to English and Hindi */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Label htmlFor="language" className="flex items-center gap-2 text-foreground font-medium mobile-text-scale">
-                <Languages className="h-4 w-4 text-purple-500" />
+                <Languages className="h-4 w-4 text-primary" />
                 <span className="text-wrap">{t('language')}</span>
               </Label>
               <EnhancedTooltip id="language-tooltip" content={t('language_tooltip')}>
@@ -139,7 +139,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               value={settings.language || 'english'} 
               onValueChange={(value) => updateSettings(['language'], value)}
             >
-              <SelectTrigger className="w-full border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50 mobile-input form-select">
+              <SelectTrigger className="w-full border-primary/30 focus:border-primary focus:ring-primary bg-background/50 mobile-input form-select">
                 <SelectValue placeholder={t('select_language')} />
               </SelectTrigger>
               <SelectContent>
@@ -153,13 +153,13 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
             </Select>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Start Page */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Label htmlFor="start-page" className="flex items-center gap-2 text-foreground font-medium mobile-text-scale">
-                <LayoutDashboard className="h-4 w-4 text-purple-500" />
+                <LayoutDashboard className="h-4 w-4 text-primary" />
                 <span className="text-wrap">{t('start_page')}</span>
               </Label>
               <EnhancedTooltip id="start-page-tooltip" content={t('start_page_tooltip')}>
@@ -170,7 +170,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               value={settings.startPage || 'dashboard'} 
               onValueChange={(value) => updateSettings(['startPage'], value)}
             >
-              <SelectTrigger className="w-full border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50 mobile-input form-select">
+              <SelectTrigger className="w-full border-primary/30 focus:border-primary focus:ring-primary bg-background/50 mobile-input form-select">
                 <SelectValue placeholder={t('select_start_page')} />
               </SelectTrigger>
               <SelectContent>

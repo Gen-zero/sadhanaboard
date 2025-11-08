@@ -9,11 +9,11 @@ export const ganeshaTheme: ThemeDefinition = {
   metadata: {
     id: 'ganesha',
     name: 'Ganesha Theme',
-    description: 'Divine purple and gold tones',
+    description: 'Divine yellow and gold tones',
     deity: 'Ganesha',
     category: 'color-scheme',
     isLandingPage: false,
-    gradient: 'from-purple-600 to-amber-500'
+    gradient: 'from-yellow-600 to-amber-500'
   },
   colors,
   assets: { icon: iconPath },

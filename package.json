@@ -28,7 +28,8 @@
     "perf:monitor": "node scripts/performance-monitor.js",
     "backend:dev": "cd backend && npm run dev",
     "backend:install": "cd backend && npm install",
-    "optimize-images": "node scripts/optimize-images.mjs"
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "deploy:production": "node scripts/deploy-production.cjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

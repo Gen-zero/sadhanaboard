@@ -37,13 +37,13 @@ const FilterChips: React.FC<FilterChipsProps> = ({ filters, onRemoveFilter, onCl
       {chips.map((c, idx) => (
         <div 
           key={`${c.key}-${idx}`} 
-          className="px-3 py-2 md:px-2 md:py-1 bg-gradient-to-r from-purple-500/10 to-fuchsia-500/10 text-xs md:text-sm rounded-full border border-purple-300/20 flex items-center gap-2 min-h-[36px] md:min-h-auto transition-all duration-200 hover:from-purple-500/20 hover:to-fuchsia-500/20"
+          className="px-3 py-2 md:px-2 md:py-1 bg-gradient-to-r from-primary/10 to-secondary/10 text-xs md:text-sm rounded-full border border-primary/20 flex items-center gap-2 min-h-[36px] md:min-h-auto transition-all duration-200 hover:from-primary/20 hover:to-secondary/20"
         >
-          <span className="bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent font-medium">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-medium">
             {c.label}
           </span>
           <button 
-            className="text-base md:text-xs text-muted-foreground p-1 hover:bg-purple-500/20 rounded-full transition-colors h-5 w-5 flex items-center justify-center hover:scale-110"
+            className="text-base md:text-xs text-muted-foreground p-1 hover:bg-primary/20 rounded-full transition-colors h-5 w-5 flex items-center justify-center hover:scale-110"
             onClick={() => onRemoveFilter(c.key, c.payload)}
             aria-label={`Remove ${c.label}`}
           >
@@ -69,7 +69,7 @@ const FilterChips: React.FC<FilterChipsProps> = ({ filters, onRemoveFilter, onCl
             filters.traditions.forEach((t: string) => onRemoveFilter('tradition', t));
           }
         })}
-        className="text-xs border border-purple-300/20 hover:bg-purple-500/10"
+        className="text-xs border border-primary/20 hover:bg-primary/10"
       >
         <X className="h-3 w-3 mr-1" />
         Clear All

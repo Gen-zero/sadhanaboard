@@ -41,11 +41,11 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
       } ${sadhana.isPremium ? 'border-yellow-500/30' : 'border-purple-500/20'} bg-gradient-to-b from-background/70 to-secondary/10`}>
         {sadhana.isPremium && (
           <div className="absolute top-2 right-2 z-10">
-            <Crown className="h-5 w-5 text-yellow-500" />
+            <Crown className="h-5 w-5 text-primary" />
           </div>
         )}
       
-        <CardHeader className="relative bg-gradient-to-r from-purple-500/5 via-fuchsia-500/5 to-purple-500/5">
+        <CardHeader className="relative bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <CardTitle className={`text-lg ${isLocked ? 'text-muted-foreground' : ''}`}>
@@ -74,7 +74,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
               {sadhana.difficulty}
             </Badge>
             {sadhana.deity && (
-              <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30">
+              <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">
                 {sadhana.deity}
               </Badge>
             )}
@@ -107,12 +107,12 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
               </h4>
               <div className="flex flex-wrap gap-1">
                 {sadhana.practices.slice(0, 3).map((practice, index) => (
-                  <Badge key={index} variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30">
+                  <Badge key={index} variant="outline" className="text-xs bg-primary/10 border-primary/30">
                     {practice}
                   </Badge>
                 ))}
                 {sadhana.practices.length > 3 && (
-                  <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30">
+                  <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">
                     +{sadhana.practices.length - 3} more
                   </Badge>
                 )}
@@ -120,12 +120,12 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
             </div>
 
             {/* Price and Action */}
-            <div className="flex items-center justify-between pt-2 border-t border-purple-500/10">
+            <div className="flex items-center justify-between pt-2 border-t border-primary/10">
               <div className="flex flex-col">
                 {sadhana.price === 0 ? (
-                  <span className="text-lg font-bold text-green-600">Free</span>
+                  <span className="text-lg font-bold text-primary">Free</span>
                 ) : (
-                  <span className="text-lg font-bold text-purple-600">
+                  <span className="text-lg font-bold text-gold">
                     {sadhana.price} SP
                   </span>
                 )}
@@ -142,7 +142,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
                   size="sm"
                   onClick={() => onPreview(sadhana)}
                   disabled={isLocked}
-                  className="border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20"
+                  className="border-primary/30 bg-primary/10 hover:bg-primary/20"
                 >
                   Preview
                 </Button>
@@ -161,7 +161,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
                         className={`${
                           sadhana.price === 0
                             ? 'bg-green-600 hover:bg-green-700'
-                            : 'bg-purple-600 hover:bg-purple-700'
+                            : 'bg-primary hover:bg-primary/90'
                         } transition-all duration-300`}
                       >
                         {sadhana.price === 0 ? 'Add Free' : 'Purchase'}
@@ -179,7 +179,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
                     className={`${
                       sadhana.price === 0
                         ? 'bg-green-600 hover:bg-green-700'
-                        : 'bg-purple-600 hover:bg-purple-700'
+                        : 'bg-primary hover:bg-primary/90'
                     } transition-all duration-300`}
                   >
                     {sadhana.price === 0 ? 'Add Free' : 'Purchase'}

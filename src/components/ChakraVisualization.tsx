@@ -161,8 +161,8 @@ const ChakraVisualization = () => {
         
         {/* Bija Mantras Information Panel */}
         <div className="flex flex-col justify-center">
-          <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-500/20 h-full">
-            <h3 className="text-xl font-semibold mb-4 text-purple-300">Bija Mantras & Chakra Wisdom</h3>
+          <div className="bg-card/50 p-6 rounded-lg border border-border h-full">
+            <h3 className="text-xl font-semibold mb-4 text-primary">Bija Mantras & Chakra Wisdom</h3>
             <p className="text-muted-foreground mb-4">
               Each chakra is associated with a specific Bija (seed) mantra that resonates with its energy frequency. 
               Chanting these mantras helps activate and balance the corresponding chakra.
@@ -199,7 +199,7 @@ const ChakraVisualization = () => {
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-purple-900/30 rounded-lg">
+            <div className="mt-6 p-4 bg-card/30 rounded-lg">
               <h4 className="font-semibold mb-2">How to Practice:</h4>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Sit comfortably with spine straight</li>
@@ -214,7 +214,7 @@ const ChakraVisualization = () => {
       
       {/* Chakra details panel */}
       {activeChakra && (
-        <div className="mt-6 p-4 bg-secondary/30 rounded-lg border border-purple-500/20 transition-all duration-300">
+        <div className="mt-6 p-4 bg-secondary/30 rounded-lg border border-border transition-all duration-300">
           <div className="text-center">
             <h3 className="text-lg font-semibold">
               {chakras.find(c => c.id === activeChakra)?.name} Chakra ({chakras.find(c => c.id === activeChakra)?.sanskritName})
@@ -229,7 +229,7 @@ const ChakraVisualization = () => {
               <span className="bg-accent/10 px-2 py-1 rounded">
                 {chakras.find(c => c.id === activeChakra)?.location}
               </span>
-              <span className="bg-purple-500/10 px-2 py-1 rounded text-purple-300">
+              <span className="bg-primary/10 px-2 py-1 rounded text-primary">
                 Bija: {chakras.find(c => c.id === activeChakra)?.bijaMantra}
               </span>
             </div>
@@ -241,7 +241,7 @@ const ChakraVisualization = () => {
       <div className="mt-4 flex justify-center">
         <button 
           onClick={() => setIsPulsing(!isPulsing)}
-          className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg text-sm transition-colors"
+          className="px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg text-sm transition-colors"
           aria-checked={isPulsing}
           role="switch"
           tabIndex={0}

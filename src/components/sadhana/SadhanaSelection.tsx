@@ -32,7 +32,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
             Begin Your Sadhana Journey
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -43,10 +43,10 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
         {/* Main Content */}
         <div className="space-y-6">
           {/* Custom Sadhana Creation Card */}
-          <Card className="border-fuchsia-500/30 bg-gradient-to-r from-fuchsia-500/10 via-purple-500/10 to-fuchsia-500/10">
+          <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10">
             <CardHeader>
               <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-                <Heart className="h-6 w-6 text-fuchsia-500" />
+                <Heart className="h-6 w-6 text-primary" />
                 Create Your Sacred Practice
               </CardTitle>
             </CardHeader>
@@ -58,7 +58,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
               {/* Features */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex flex-col items-center text-center space-y-2">
-                  <Sparkles className="h-8 w-8 text-fuchsia-500" />
+                  <Sparkles className="h-8 w-8 text-primary" />
                   <h4 className="font-semibold">Personalization</h4>
                   <p className="text-sm text-muted-foreground">
                     Choose your spiritual purpose & goals
@@ -66,7 +66,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-2">
-                  <Heart className="h-8 w-8 text-fuchsia-500" />
+                  <Heart className="h-8 w-8 text-primary" />
                   <h4 className="font-semibold">Divine Focus</h4>
                   <p className="text-sm text-muted-foreground">
                     Select your spiritual focus or deity
@@ -74,7 +74,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-2">
-                  <Wand2 className="h-8 w-8 text-fuchsia-500" />
+                  <Wand2 className="h-8 w-8 text-primary" />
                   <h4 className="font-semibold">Creative Freedom</h4>
                   <p className="text-sm text-muted-foreground">
                     Add multiple practices and offerings

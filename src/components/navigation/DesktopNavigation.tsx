@@ -95,8 +95,8 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               {/* Sacred geometry overlay in header */}
               <div className="absolute inset-0 pointer-events-none sacred-geometry-overlay -z-20"></div>
             </div>
-            <button
-              className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80"
+            <div
+              className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80"
               onClick={handleNavigation}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -104,9 +104,12 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                   handleNavigation();
                 }
               }}
+              tabIndex={0}
+              role="button"
+              aria-label="SadhanaBoard - Navigate to home"
             >
               SadhanaBoard
-            </button>
+            </div>
           </div>
           
           {/* Collapse button for desktop */}

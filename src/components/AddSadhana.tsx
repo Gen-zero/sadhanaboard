@@ -97,35 +97,35 @@ const AddSadhana = ({ onAddSadhana, triggerButton }: AddSadhanaProps) => {
         <div className="space-y-4 py-4">
           {/* Selected Store Sadhana Indicator */}
           {selectedStoreSadhana && (
-            <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+            <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{selectedStoreSadhana.genre.icon}</span>
                   <div>
                     <p className="font-medium text-sm">Using template:</p>
-                    <p className="text-purple-600 font-semibold">{selectedStoreSadhana.title}</p>
+                    <p className="text-primary font-semibold">{selectedStoreSadhana.title}</p>
                   </div>
                 </div>
                 <Button 
                   variant="outline" 
                   size="sm" 
                   onClick={handleClearSelection}
-                  className="bg-background/70 border-purple-500/30 hover:bg-purple-500/10"
+                  className="bg-background/70 border-primary/30 hover:bg-primary/10"
                 >
                   Clear
                 </Button>
               </div>
               {selectedStoreSadhana.practices.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-purple-500/20">
-                  <p className="text-xs font-medium text-purple-700 dark:text-purple-300 mb-2">Suggested Practices:</p>
+                <div className="mt-3 pt-3 border-t border-primary/20">
+                  <p className="text-xs font-medium text-primary mb-2">Suggested Practices:</p>
                   <div className="flex flex-wrap gap-1">
                     {selectedStoreSadhana.practices.slice(0, 3).map((practice, index) => (
-                      <span key={index} className="text-xs bg-purple-500/20 text-purple-700 dark:text-purple-300 px-2 py-1 rounded">
+                      <span key={index} className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
                         {practice}
                       </span>
                     ))}
                     {selectedStoreSadhana.practices.length > 3 && (
-                      <span className="text-xs bg-purple-500/20 text-purple-700 dark:text-purple-300 px-2 py-1 rounded">
+                      <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
                         +{selectedStoreSadhana.practices.length - 3} more
                       </span>
                     )}
@@ -151,8 +151,8 @@ const AddSadhana = ({ onAddSadhana, triggerButton }: AddSadhanaProps) => {
         </div>
         
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={() => setOpen(false)} className="bg-background/70 border-purple-500/30 hover:bg-purple-500/10">Cancel</Button>
-          <Button onClick={handleAdd} className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/30">Add Sadhana</Button>
+          <Button variant="outline" onClick={() => setOpen(false)} className="bg-background/70 border-primary/30 hover:bg-primary/10">Cancel</Button>
+          <Button onClick={handleAdd} className="bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl">Add Sadhana</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

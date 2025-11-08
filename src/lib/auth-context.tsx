@@ -43,6 +43,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return completed;
     } catch (error) {
       console.error('Error checking onboarding status:', error);
+      // For demo mode, assume onboarding is complete
+      // Check if this is a demo login by looking at localStorage
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const parts = token.split('.');
+          if (parts.length === 3) {
+            const payload = JSON.parse(atob(parts[1]));
+            if (payload.mode === 'demo') {
+              setIsOnboardingComplete(true);
+              return true;
+            }
+          }
+        } catch (parseError) {
+          // If we can't parse the token, continue with error handling
+        }
+      }
       // Don't assume onboarding is complete on error - let the user try again
       setIsOnboardingComplete(false);
       return false;

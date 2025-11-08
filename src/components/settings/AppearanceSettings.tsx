@@ -56,17 +56,17 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
     return (
       <Card>
         <CardContent className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-foreground mobile-heading-scale settings-header">
-          <Palette className="h-5 w-5 text-purple-500" />
+          <Palette className="h-5 w-5 text-primary" />
           <span className="text-wrap">{t('visual_preferences')}</span>
         </CardTitle>
         <CardDescription className="text-sm mobile-text-scale text-wrap text-muted-foreground settings-subheader">{t('customize_how_the_app_looks_and_feels')}</CardDescription>
@@ -76,14 +76,14 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
           <TabsList className="grid w-full grid-cols-2 mb-6 bg-background/50">
             <TabsTrigger 
               value="theme" 
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/20 data-[state=active]:to-fuchsia-500/20 font-medium touch-target-large"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20 font-medium touch-target-large"
             >
               <PaletteIcon className="h-4 w-4 mr-2" />
               <span className="text-wrap">{t('themes')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="display" 
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/20 data-[state=active]:to-fuchsia-500/20 font-medium touch-target-large"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20 font-medium touch-target-large"
             >
               <MonitorSmartphone className="h-4 w-4 mr-2" />
               <span className="text-wrap">{t('display')}</span>
@@ -96,7 +96,7 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Label className="text-lg font-semibold flex items-center gap-2 text-foreground mobile-heading-scale">
-                    <Sparkles className="h-5 w-5 text-purple-500" />
+                    <Sparkles className="h-5 w-5 text-primary" />
                     <span className="text-wrap">{t('color_scheme')}</span>
                   </Label>
                   <EnhancedTooltip 
@@ -146,8 +146,8 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                             htmlFor={`scheme-${id}`}
                             className={`flex flex-col items-center justify-between rounded-xl border-2 bg-popover p-4 hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer touch-target-large ${
                               isSelected 
-                                ? 'border-purple-500 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 shadow-lg shadow-purple-500/20' 
-                                : 'border-muted hover:border-purple-300 bg-background/50'
+                                ? 'border-primary bg-gradient-to-br from-primary/10 to-secondary/10 shadow-lg shadow-primary/20' 
+                                : 'border-muted hover:border-primary/50 bg-background/50'
                             } ${
                               !isHealthy ? 'opacity-50' : ''
                             }`}
@@ -157,7 +157,7 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                                 {themeUtils.renderThemeIcon(theme as any, 'w-8 h-8 rounded-full')}
                               </div>
                               {isSelected && (
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500 flex items-center justify-center">
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
                                   <Check className="h-3 w-3 text-white" />
                                 </div>
                               )}
@@ -220,8 +220,8 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                             htmlFor={`scheme-${id}`}
                             className={`flex flex-col items-center justify-between rounded-xl border-2 bg-popover p-4 hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer touch-target-large ${
                               isSelected 
-                                ? 'border-purple-500 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 shadow-lg shadow-purple-500/20' 
-                                : 'border-muted hover:border-purple-300 bg-background/50'
+                                ? 'border-primary bg-gradient-to-br from-primary/10 to-secondary/10 shadow-lg shadow-primary/20' 
+                                : 'border-muted hover:border-primary/50 bg-background/50'
                             } ${
                               !isHealthy ? 'opacity-50' : ''
                             }`}
@@ -231,7 +231,7 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                                 {themeUtils.renderThemeIcon(theme as any, 'w-8 h-8 rounded-full')}
                               </div>
                               {isSelected && (
-                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500 flex items-center justify-center">
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
                                   <Check className="h-3 w-3 text-white" />
                                 </div>
                               )}
@@ -263,7 +263,7 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Label className="text-lg font-semibold flex items-center gap-2 text-foreground mobile-heading-scale">
-                    <Type className="h-5 w-5 text-purple-500" />
+                    <Type className="h-5 w-5 text-primary" />
                     <span className="text-wrap">{t('font_size')}</span>
                   </Label>
                   <EnhancedTooltip 
@@ -290,17 +290,17 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                 </p>
               </div>
 
-              <Separator className="my-6 bg-purple-500/20" />
+              <Separator className="my-6 bg-primary/20" />
             </div>
 
             {/* Appearance Toggles */}
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <Label className="font-medium flex items-center gap-2 text-foreground mobile-text-scale">
-                        <Zap className="h-4 w-4 text-purple-500" />
+                        <Zap className="h-4 w-4 text-primary" />
                         <span className="text-wrap">{t('animations')}</span>
                       </Label>
                       <EnhancedTooltip 
@@ -322,11 +322,11 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <Label className="font-medium flex items-center gap-2 text-foreground mobile-text-scale">
-                        <Contrast className="h-4 w-4 text-purple-500" />
+                        <Contrast className="h-4 w-4 text-primary" />
                         <span className="text-wrap">{t('high_contrast_mode')}</span>
                       </Label>
                       <EnhancedTooltip 

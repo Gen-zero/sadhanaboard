@@ -42,11 +42,11 @@ const GenreSlider: React.FC<GenreSliderProps> = ({
   if (sadhanas.length === 0) return null;
 
   return (
-    <Card className={`mb-6 ${!isGenreUnlocked ? 'opacity-60' : ''} border border-purple-500/20 bg-gradient-to-b from-background/70 to-secondary/10`}>
-      <CardHeader className="pb-4 bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10">
+    <Card className={`mb-6 ${!isGenreUnlocked ? 'opacity-60' : ''} border border-primary/20 bg-gradient-to-b from-background/70 to-secondary/10`}>
+      <CardHeader className="pb-4 bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="text-2xl p-2 rounded-lg bg-purple-500/10">{genre.icon}</div>
+            <div className="text-2xl p-2 rounded-lg bg-primary/10">{genre.icon}</div>
             <div>
               <CardTitle className="flex items-center gap-2">
                 {genre.name}
@@ -64,7 +64,7 @@ const GenreSlider: React.FC<GenreSliderProps> = ({
               variant="outline"
               size="icon"
               onClick={() => scroll('left')}
-              className="h-8 w-8 border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20"
+              className="h-8 w-8 border-primary/30 bg-primary/10 hover:bg-primary/20"
               disabled={!isGenreUnlocked}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -73,7 +73,7 @@ const GenreSlider: React.FC<GenreSliderProps> = ({
               variant="outline"
               size="icon"
               onClick={() => scroll('right')}
-              className="h-8 w-8 border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20"
+              className="h-8 w-8 border-primary/30 bg-primary/10 hover:bg-primary/20"
               disabled={!isGenreUnlocked}
             >
               <ChevronRight className="h-4 w-4" />

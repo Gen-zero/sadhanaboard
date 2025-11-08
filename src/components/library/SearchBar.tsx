@@ -118,7 +118,7 @@ const SearchBar = ({ value, onChange, placeholder = "Search...", onSelectSuggest
         aria-autocomplete="list"
         aria-expanded={open}
         aria-activedescendant={selectedIndex >= 0 ? `suggestion-${selectedIndex}` : undefined}
-        className="pl-10 pr-4 py-2.5 md:py-3 bg-background/80 backdrop-blur-sm border border-purple-500/20 focus:border-purple-500/50 rounded-lg w-full h-11 md:h-10 transition-transform duration-200 focus:ring-2 focus:ring-purple-500/30"
+        className="pl-10 pr-4 py-2.5 md:py-3 bg-background/80 backdrop-blur-sm border border-primary/20 focus:border-primary/50 rounded-lg w-full h-11 md:h-10 transition-transform duration-200 focus:ring-2 focus:ring-primary/30"
       />
 
       {open && (suggestions.length > 0 || loading) && (
@@ -160,7 +160,7 @@ const SearchBar = ({ value, onChange, placeholder = "Search...", onSelectSuggest
                 )}
                 {s.tradition && (
                   <div className="mt-1">
-                    <Badge variant="outline" className="text-xs bg-purple-500/15 border-purple-500/30">
+                    <Badge variant="outline" className="text-xs bg-primary/15 border-primary/30">
                       {s.tradition}
                     </Badge>
                   </div>

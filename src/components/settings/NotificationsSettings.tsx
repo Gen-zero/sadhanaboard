@@ -25,9 +25,9 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
   if (!settings || !settings.notifications || !settings.reminders) {
     return (
       <div className="space-y-6">
-        <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+        <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
           <CardContent className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </CardContent>
         </Card>
       </div>
@@ -36,9 +36,9 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
 
   return (
     <div className="space-y-6">
-      <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+      <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600">
+          <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
             <Bell className="h-5 w-5" />
             <span>Notification Settings</span>
           </CardTitle>
@@ -46,10 +46,10 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="text-base font-medium flex items-center gap-2 text-foreground">
-                  <Bell className="h-4 w-4 text-purple-500" />
+                  <Bell className="h-4 w-4 text-primary" />
                   Enable Notifications
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -64,12 +64,12 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               />
             </div>
 
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
 
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="text-base font-medium flex items-center gap-2 text-foreground">
-                  <Sunrise className="h-4 w-4 text-purple-500" />
+                  <Sunrise className="h-4 w-4 text-primary" />
                   Daily Ritual Reminders
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -85,12 +85,12 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               />
             </div>
 
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
 
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="text-base font-medium flex items-center gap-2 text-foreground">
-                  <Target className="h-4 w-4 text-purple-500" />
+                  <Target className="h-4 w-4 text-primary" />
                   Goal Progress Updates
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -106,12 +106,12 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               />
             </div>
 
-            <Separator className="bg-purple-500/20" />
+            <Separator className="bg-primary/20" />
 
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
               <div className="space-y-1">
                 <Label className="text-base font-medium flex items-center gap-2 text-foreground">
-                  <Sparkles className="h-4 w-4 text-purple-500" />
+                  <Sparkles className="h-4 w-4 text-primary" />
                   Motivational Messages
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -133,18 +133,18 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
         </CardContent>
       </Card>
 
-      <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+      <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
         <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600">
+          <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
             <Bell className="h-5 w-5" />
             <span>Reminder Times</span>
           </CardTitle>
           <CardDescription>Set times for your practice reminders</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-purple-500/20">
+          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-primary/20">
             <Label htmlFor="morning-reminder" className="flex items-center gap-2 text-foreground">
-              <Sunrise className="h-4 w-4 text-purple-500" />
+              <Sunrise className="h-4 w-4 text-primary" />
               Morning Reminder
             </Label>
             <Input
@@ -153,12 +153,12 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               value={settings.reminders?.morning || '06:00'}
               onChange={(e) => updateSettings(['reminders', 'morning'], e.target.value)}
               disabled={!settings.notifications?.enabled}
-              className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50"
+              className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50"
             />
           </div>
-          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-purple-500/20">
+          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-primary/20">
             <Label htmlFor="midday-reminder" className="flex items-center gap-2 text-foreground">
-              <Sun className="h-4 w-4 text-purple-500" />
+              <Sun className="h-4 w-4 text-primary" />
               Midday Reminder
             </Label>
             <Input
@@ -167,12 +167,12 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               value={settings.reminders?.midday || '12:00'}
               onChange={(e) => updateSettings(['reminders', 'midday'], e.target.value)}
               disabled={!settings.notifications?.enabled}
-              className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50"
+              className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50"
             />
           </div>
-          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-purple-500/20">
+          <div className="space-y-2 p-4 rounded-lg bg-background/50 border border-primary/20">
             <Label htmlFor="evening-reminder" className="flex items-center gap-2 text-foreground">
-              <Sunset className="h-4 w-4 text-purple-500" />
+              <Sunset className="h-4 w-4 text-primary" />
               Evening Reminder
             </Label>
             <Input
@@ -181,7 +181,7 @@ const NotificationsSettings: React.FC<NotificationsSettingsProps> = ({
               value={settings.reminders?.evening || '18:00'}
               onChange={(e) => updateSettings(['reminders', 'evening'], e.target.value)}
               disabled={!settings.notifications?.enabled}
-              className="border-purple-500/30 focus:border-purple-500 focus:ring-purple-500 bg-background/50"
+              className="border-primary/30 focus:border-primary focus:ring-primary bg-background/50"
             />
           </div>
         </CardContent>

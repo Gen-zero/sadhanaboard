@@ -26,16 +26,16 @@ const MeditationSettings: React.FC<MeditationSettingsProps> = ({
     return (
       <Card>
         <CardContent className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600">
+        <CardTitle className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
           <Clock className="h-5 w-5" />
           <span>Meditation Settings</span>
         </CardTitle>
@@ -43,10 +43,10 @@ const MeditationSettings: React.FC<MeditationSettingsProps> = ({
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-6">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
             <div className="space-y-1">
               <Label className="flex items-center gap-2 font-medium text-foreground">
-                <Music className="h-4 w-4 text-purple-500" />
+                <Music className="h-4 w-4 text-primary" />
                 Background Sounds
               </Label>
               <p className="text-sm text-muted-foreground">
@@ -61,11 +61,11 @@ const MeditationSettings: React.FC<MeditationSettingsProps> = ({
             />
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
-          <div className="space-y-4 p-4 rounded-lg bg-background/50 border border-purple-500/20">
+          <div className="space-y-4 p-4 rounded-lg bg-background/50 border border-primary/20">
             <Label className="flex items-center gap-2 font-medium text-foreground">
-              <Timer className="h-4 w-4 text-purple-500" />
+              <Timer className="h-4 w-4 text-primary" />
               Default Timer Duration
             </Label>
             <div className="flex items-center space-x-4">
@@ -89,12 +89,12 @@ const MeditationSettings: React.FC<MeditationSettingsProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300">
             <div className="space-y-1">
               <Label className="flex items-center gap-2 font-medium text-foreground">
-                <Bell className="h-4 w-4 text-purple-500" />
+                <Bell className="h-4 w-4 text-primary" />
                 Interval Bell
               </Label>
               <p className="text-sm text-muted-foreground">
@@ -109,11 +109,11 @@ const MeditationSettings: React.FC<MeditationSettingsProps> = ({
             />
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
-          <div className="space-y-4 p-4 rounded-lg bg-background/50 border border-purple-500/20">
+          <div className="space-y-4 p-4 rounded-lg bg-background/50 border border-primary/20">
             <Label className="flex items-center gap-2 font-medium text-foreground">
-              <Volume2 className="h-4 w-4 text-purple-500" />
+              <Volume2 className="h-4 w-4 text-primary" />
               Sound Volume
             </Label>
             <div className="flex items-center space-x-4">

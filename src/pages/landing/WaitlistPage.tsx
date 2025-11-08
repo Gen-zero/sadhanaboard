@@ -71,7 +71,7 @@ const WaitlistPage = () => {
         {/* Fixed Back Button */}
         <div className="fixed top-4 left-4 z-50">
           <Button 
-            onClick={() => navigate('/landingpage')}
+            onClick={() => navigate('/')}
             variant="ghost"
             className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
           >
@@ -96,7 +96,7 @@ const WaitlistPage = () => {
             
             <div className="space-y-4">
               <Button 
-                onClick={() => navigate('/landingpage')}
+                onClick={() => navigate('/')}
                 className="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 max-w-sm mx-auto touch-target-large"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -119,7 +119,7 @@ const WaitlistPage = () => {
       <div className="fixed top-4 left-4 z-50">
         <Button 
           variant="ghost" 
-          onClick={() => navigate('/landingpage')}
+          onClick={() => navigate('/')}
           className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />

@@ -70,7 +70,7 @@ const ThemePanel = () => {
   };
 
   // Hide theme panel on landing page - moved to render phase
-  const isLandingPage = location.pathname === '/landingpage';
+  const isLandingPage = location.pathname === '/';
   if (isLandingPage) {
     return null;
   }

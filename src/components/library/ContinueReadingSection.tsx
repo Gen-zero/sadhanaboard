@@ -56,17 +56,17 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
   if (isLoading) {
     return (
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+        <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
           Continue Reading
         </h2>
         <div className="flex space-x-4 overflow-x-auto pb-4">
           {[...Array(4)].map((_, index) => (
-            <Card key={index} className="min-w-[280px] animate-pulse border border-purple-500/20 bg-gradient-to-b from-purple-600/10 via-purple-500/5 to-purple-400/10">
+            <Card key={index} className="min-w-[280px] animate-pulse border border-primary/20 bg-gradient-to-b from-primary/10 via-primary/5 to-secondary/10">
               <CardContent className="p-4">
-                <div className="h-4 bg-purple-500/20 rounded w-3/4 mb-3"></div>
-                <div className="h-3 bg-purple-500/10 rounded w-full mb-2"></div>
-                <div className="h-3 bg-purple-500/10 rounded w-5/6 mb-4"></div>
-                <div className="h-8 bg-purple-500/20 rounded"></div>
+                <div className="h-4 bg-primary/20 rounded w-3/4 mb-3"></div>
+                <div className="h-3 bg-primary/10 rounded w-full mb-2"></div>
+                <div className="h-3 bg-primary/10 rounded w-5/6 mb-4"></div>
+                <div className="h-8 bg-primary/20 rounded"></div>
               </CardContent>
             </Card>
           ))}
@@ -82,7 +82,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
 
   return (
     <div className="mb-8">
-      <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600 flex items-center">
+      <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary flex items-center">
         <TrendingUp className="h-6 w-6 mr-2" />
         Continue Reading
       </h2>
@@ -94,11 +94,11 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
           return (
             <Card 
               key={book.id} 
-              className="min-w-[280px] flex-shrink-0 border border-purple-500/20 bg-gradient-to-b from-purple-600/10 via-purple-500/5 to-purple-400/10 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1 rounded-xl"
+              className="min-w-[280px] flex-shrink-0 border border-primary/20 bg-gradient-to-b from-primary/10 via-primary/5 to-secondary/10 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 rounded-xl"
             >
               <CardContent className="p-5">
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+                  <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">
                     {book.title}
                   </h3>
                 </div>
@@ -126,9 +126,9 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
                     )}
                   </div>
                   {percent > 0 && (
-                    <div className="h-2 w-full rounded-full bg-purple-500/20 overflow-hidden">
+                    <div className="h-2 w-full rounded-full bg-primary/20 overflow-hidden">
                       <div 
-                        className="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500"
+                        className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
                         style={{ width: `${percent}%` }}
                       />
                     </div>
@@ -137,7 +137,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
                 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {book.traditions && book.traditions.slice(0, 2).map((tradition) => (
-                    <Badge key={tradition} variant="outline" className="text-xs bg-purple-500/15 border-purple-500/30">
+                    <Badge key={tradition} variant="outline" className="text-xs bg-primary/15 border-primary/30">
                       {tradition}
                     </Badge>
                   ))}
@@ -145,7 +145,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
                 
                 <Button 
                   size="sm" 
-                  className="w-full bg-gradient-to-r from-purple-500/30 to-fuchsia-500/30 border border-purple-500/30 hover:from-purple-500/40 hover:to-fuchsia-500/40 transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-primary/30 to-secondary/30 border border-primary/30 hover:from-primary/40 hover:to-secondary/40 transition-all duration-300"
                   onClick={() => onSelectBook(book.id)}
                 >
                   <BookOpen className="h-4 w-4 mr-2" />

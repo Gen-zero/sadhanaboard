@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth-context";
-import { LogIn, User, Key, Loader2, ArrowLeft } from "lucide-react";
+import { LogIn, User, Key, Loader2, ArrowLeft, Zap } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
+import { DEMO_CREDENTIALS } from "@/lib/demo-auth";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -70,13 +71,35 @@ const LoginPage = () => {
     }
   };
 
+  const handleDemoLogin = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const result = await login(DEMO_CREDENTIALS.email, DEMO_CREDENTIALS.password);
+      
+      if (result && result.error) {
+        setError(result.error);
+        return;
+      }
+      
+      navigate("/dashboard");
+    } catch (err: unknown) {
+      console.error('Demo login error:', err);
+      const message = err instanceof Error ? err.message : 'Demo login failed';
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={`min-h-screen flex flex-col ${isShivaTheme ? '' : 'cosmic-nebula-bg'}`}>
       {/* Fixed Back Button - Top Left Corner */}
       <div className="fixed top-4 left-4 z-50">
         <Button 
           variant="ghost" 
-          onClick={() => navigate('/landingpage')}
+          onClick={() => navigate('/')}
           className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -179,6 +202,28 @@ const LoginPage = () => {
             </form>
           </Form>
 
+          <div className="mt-6 space-y-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-muted"></div>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or try demo</span>
+              </div>
+            </div>
+            
+            <Button 
+              type="button" 
+              variant="outline" 
+              className="w-full touch-target-large border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-500/5"
+              onClick={handleDemoLogin}
+              disabled={isLoading}
+            >
+              <Zap className="mr-2 h-4 w-4" />
+              Try Demo
+            </Button>
+          </div>
+
           <div className="mt-4 text-center text-sm text-muted-foreground">
             <p>
               Don't have an account?{" "}
@@ -186,6 +231,14 @@ const LoginPage = () => {
                 Join waitlist
               </Link>
             </p>
+          </div>
+          
+          {/* Demo credentials info */}
+          <div className="mt-6 p-3 bg-purple-500/10 border border-purple-500/20 rounded-md text-xs text-muted-foreground">
+            <p className="font-semibold text-purple-500 mb-2">Demo Access</p>
+            <p>Email: <code className="bg-background/50 px-1 py-0.5 rounded text-foreground text-xs">{DEMO_CREDENTIALS.email}</code></p>
+            <p>Password: <code className="bg-background/50 px-1 py-0.5 rounded text-foreground text-xs">{DEMO_CREDENTIALS.password}</code></p>
+            <p className="mt-2 italic">Backend connection not required for demo mode</p>
           </div>
         </div>
 

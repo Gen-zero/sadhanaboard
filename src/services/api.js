@@ -1,6 +1,44 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 const USE_CREDENTIALS = (import.meta.env.VITE_API_USE_CREDENTIALS === 'true');
 
+// Demo authentication helpers
+const isDemoLogin = (email, password) => {
+  return (
+    email.toLowerCase() === 'demo@sadhanaboard.com' &&
+    password === 'demo123456'
+  );
+};
+
+const generateDemoToken = () => {
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const payload = btoa(
+    JSON.stringify({
+      sub: 'demo-user-001',
+      email: 'demo@sadhanaboard.com',
+      display_name: 'Demo User',
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+      iss: 'sadhanaboard-demo',
+      mode: 'demo',
+    })
+  );
+  const signature = btoa('demo-signature-not-validated');
+  return `${header}.${payload}.${signature}`;
+};
+
+const isDemoMode = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return false;
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    const payload = JSON.parse(atob(parts[1]));
+    return payload.mode === 'demo';
+  } catch (error) {
+    return false;
+  }
+};
+
 class ApiError extends Error {
   constructor(message, { status = 500, code = 'api_error', details = null } = {}) {
     super(message);
@@ -119,6 +157,21 @@ class ApiService {
   }
 
   async login(email, password) {
+    // Check if this is a demo login
+    if (isDemoLogin(email, password)) {
+      const demoToken = generateDemoToken();
+      this.setToken(demoToken);
+      return {
+        user: {
+          id: 'demo-user-001',
+          email: 'demo@sadhanaboard.com',
+          display_name: 'Demo User',
+        },
+        token: demoToken,
+        isDemo: true,
+      };
+    }
+    
     const data = await this.request('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -132,6 +185,28 @@ class ApiService {
   }
 
   async getCurrentUser() {
+    // Check if we're in demo mode
+    if (isDemoMode()) {
+      const token = this.token;
+      if (token) {
+        try {
+          const parts = token.split('.');
+          const payload = JSON.parse(atob(parts[1]));
+          return {
+            user: {
+              id: payload.sub,
+              email: payload.email,
+              display_name: payload.display_name,
+            },
+            token,
+            isDemo: true,
+          };
+        } catch (error) {
+          console.error('Error parsing demo token:', error);
+        }
+      }
+    }
+    
     return await this.request('/auth/me');
   }
 
@@ -141,6 +216,20 @@ class ApiService {
 
   // Profile methods
   async getProfile() {
+    // Return demo profile if in demo mode
+    if (isDemoMode()) {
+      return {
+        profile: {
+          id: 'demo-profile-001',
+          user_id: 'demo-user-001',
+          onboarding_completed: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        isDemo: true,
+      };
+    }
+    
     return await this.request('/profile');
   }
 
@@ -293,6 +382,15 @@ class ApiService {
     });
   }
 
+  // Community feed method
+  async getCommunityFeed(params = {}) {
+    const { limit = 20, offset = 0 } = params;
+    const queryParams = new URLSearchParams();
+    queryParams.append('limit', String(limit));
+    queryParams.append('offset', String(offset));
+    
+    return await this.request(`/sadhanas/community/feed?${queryParams.toString()}`);
+  }
 
 }
 

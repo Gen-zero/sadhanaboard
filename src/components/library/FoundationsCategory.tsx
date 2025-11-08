@@ -158,7 +158,7 @@ const FoundationsCategory = ({ onSadhanaSelect }: FoundationsCategoryProps) => {
                 </div>
                 
                 <div className="flex flex-wrap gap-1 mt-2">
-                  <Badge variant="outline" className="text-xs bg-blue-500/10 border-blue-500/30">
+                  <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">
                     {sadhana.difficulty}
                   </Badge>
                   <Badge variant="outline" className="text-xs bg-primary/10 border-primary/30">

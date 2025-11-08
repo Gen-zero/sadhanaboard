@@ -136,7 +136,7 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
             Back
           </Button>
           <div>
-            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
               Create Your Sacred Sadhana
             </h2>
             <p className="text-muted-foreground">Fill in your spiritual intentions and divine commitments</p>

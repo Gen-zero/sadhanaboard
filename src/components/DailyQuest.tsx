@@ -132,21 +132,21 @@ const DailyQuest = () => {
   }
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-fuchsia-500/10">
+    <Card className="border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Star className="h-5 w-5 text-yellow-500" />
+            <Star className="h-5 w-5 text-gold" />
             Daily Quest
           </CardTitle>
-          <Badge variant="secondary" className="bg-yellow-500/20 text-yellow-300">
+          <Badge variant="secondary" className="ml-1 bg-gold text-black font-bold">
             +{currentQuest.points} SP
           </Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-start gap-3">
-          <div className={`mt-1 flex-shrink-0 ${isCompleted ? 'text-green-500' : 'text-muted-foreground'}`}>
+          <div className={`mt-1 flex-shrink-0 ${isCompleted ? 'text-gold' : 'text-muted-foreground'}`}>
             {isCompleted ? (
               <CheckCircle className="h-6 w-6" />
             ) : (
@@ -170,7 +170,8 @@ const DailyQuest = () => {
         
         <div className="pt-2">
           <Button 
-            className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600"
+            variant="default"
+            className="w-full bg-gold text-black hover:bg-yellow-500 font-bold"
             onClick={handleCompleteQuest}
             disabled={isCompleted}
           >
@@ -189,7 +190,7 @@ const DailyQuest = () => {
         </div>
         
         <div className="pt-2 text-center text-sm text-muted-foreground">
-          <p>Total Spiritual Points: <span className="font-semibold text-yellow-500">{pointsState.totalPoints}</span></p>
+          <p>Total Spiritual Points: <span className="font-semibold text-gold">{pointsState.totalPoints}</span></p>
         </div>
       </CardContent>
     </Card>

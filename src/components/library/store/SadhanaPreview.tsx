@@ -40,12 +40,12 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-background to-secondary/10 border border-purple-500/20">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-background to-secondary/10 border border-primary/20">
         <DialogHeader>
           <div className="flex items-start gap-4">
-            <div className="text-4xl p-3 rounded-lg bg-purple-500/10">{sadhana.genre.icon}</div>
+            <div className="text-4xl p-3 rounded-lg bg-primary/10">{sadhana.genre.icon}</div>
             <div className="flex-1">
-              <DialogTitle className="text-2xl mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+              <DialogTitle className="text-2xl mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
                 {sadhana.title}
               </DialogTitle>
               <DialogDescription className="text-base">
@@ -56,16 +56,16 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
                 <Badge variant="secondary" className={getDifficultyColor(sadhana.difficulty)}>
                   {sadhana.difficulty}
                 </Badge>
-                <Badge variant="outline" className="bg-purple-500/10 border-purple-500/30">
+                <Badge variant="outline" className="bg-primary/10 border-primary/30">
                   {sadhana.genre.name}
                 </Badge>
                 {sadhana.deity && (
-                  <Badge variant="outline" className="bg-purple-500/10 border-purple-500/30">
+                  <Badge variant="outline" className="bg-primary/10 border-primary/30">
                     {sadhana.deity}
                   </Badge>
                 )}
                 {sadhana.tradition && (
-                  <Badge variant="outline" className="bg-purple-500/10 border-purple-500/30">
+                  <Badge variant="outline" className="bg-primary/10 border-primary/30">
                     {sadhana.tradition}
                   </Badge>
                 )}
@@ -77,29 +77,29 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
         <div className="space-y-6">
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="flex items-center gap-2 p-3 bg-purple-500/5 rounded-lg border border-purple-500/10">
-              <Clock className="h-5 w-5 text-purple-500" />
+            <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <Clock className="h-5 w-5 text-primary" />
               <div>
                 <p className="text-sm font-medium">{sadhana.duration} Days</p>
                 <p className="text-xs text-muted-foreground">Duration</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 p-3 bg-purple-500/5 rounded-lg border border-purple-500/10">
-              <Users className="h-5 w-5 text-purple-500" />
+            <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <Users className="h-5 w-5 text-primary" />
               <div>
                 <p className="text-sm font-medium">{sadhana.completedBy}</p>
                 <p className="text-xs text-muted-foreground">Completed</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 p-3 bg-purple-500/5 rounded-lg border border-purple-500/10">
-              <Star className="h-5 w-5 text-yellow-400 fill-current" />
+            <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <Star className="h-5 w-5 text-primary fill-current" />
               <div>
                 <p className="text-sm font-medium">{sadhana.rating}/5</p>
                 <p className="text-xs text-muted-foreground">Rating</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 p-3 bg-purple-500/5 rounded-lg border border-purple-500/10">
-              <Target className="h-5 w-5 text-purple-500" />
+            <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <Target className="h-5 w-5 text-primary" />
               <div>
                 <p className="text-sm font-medium">Level {sadhana.unlockLevel}</p>
                 <p className="text-xs text-muted-foreground">Required</p>
@@ -107,53 +107,53 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Practices */}
           <div>
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-purple-500" />
+              <Calendar className="h-5 w-5 text-primary" />
               Daily Practices
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {sadhana.practices.map((practice, index) => (
-                <div key={index} className="flex items-center gap-2 p-3 bg-purple-500/5 rounded-lg border border-purple-500/10">
-                  <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                <div key={index} className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg border border-primary/10">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
                   <span className="text-sm">{practice}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Benefits */}
           <div>
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Heart className="h-5 w-5 text-purple-500" />
+              <Heart className="h-5 w-5 text-primary" />
               Spiritual Benefits
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {sadhana.benefits.map((benefit, index) => (
                 <div key={index} className="flex items-center gap-2 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
                   <span className="text-sm">{benefit}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           {/* Tags */}
           <div>
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Book className="h-5 w-5 text-purple-500" />
+              <Book className="h-5 w-5 text-primary" />
               Tags
             </h3>
             <div className="flex flex-wrap gap-2">
               {sadhana.tags.map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs bg-purple-500/10 border border-purple-500/30">
+                <Badge key={index} variant="secondary" className="text-xs bg-primary/10 border border-primary/30">
                   #{tag}
                 </Badge>
               ))}
@@ -161,12 +161,12 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
           </div>
 
           {/* Purchase Section */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10 rounded-lg border border-purple-500/20">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 rounded-lg border border-primary/20">
             <div className="flex flex-col">
               {sadhana.price === 0 ? (
-                <span className="text-2xl font-bold text-green-600">Free</span>
+                <span className="text-2xl font-bold text-primary">Free</span>
               ) : (
-                <span className="text-2xl font-bold text-purple-600">
+                <span className="text-2xl font-bold text-gold">
                   {sadhana.price} Spiritual Points
                 </span>
               )}
@@ -177,7 +177,7 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
               )}
               {!canAfford && sadhana.price > 0 && !isLocked && (
                 <span className="text-sm text-red-500">
-                  Insufficient Spiritual Points (You have {spiritualPoints})
+                  Insufficient Spiritual Points (You have <span className="text-gold">{spiritualPoints}</span>)
                 </span>
               )}
             </div>
@@ -195,7 +195,7 @@ const SadhanaPreview: React.FC<SadhanaPreviewProps> = ({
                   className={`${
                     sadhana.price === 0
                       ? 'bg-green-600 hover:bg-green-700'
-                      : 'bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600'
+                      : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90'
                   } transition-all duration-300 hover:scale-105`}
                 >
                   {sadhana.price === 0 ? 'Add to Library' : 'Purchase'}

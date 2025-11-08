@@ -29,7 +29,7 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
     return (
       <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
         <CardContent className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
       </Card>
     );
@@ -44,10 +44,10 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
   };
 
   return (
-    <Card className="border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 backdrop-blur-sm">
+    <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-foreground mobile-heading-scale settings-header">
-          <ShieldCheck className="h-5 w-5 text-purple-500" />
+          <ShieldCheck className="h-5 w-5 text-primary" />
           <span className="text-wrap">Privacy & Data</span>
         </CardTitle>
         <CardDescription className="text-sm mobile-text-scale text-wrap text-muted-foreground settings-subheader">Control how your data is stored and used</CardDescription>
@@ -55,10 +55,10 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground mobile-text-scale">
-                  <Lock className="h-4 w-4 text-purple-500" />
+                  <Lock className="h-4 w-4 text-primary" />
                   <span className="text-wrap">Store Data Locally</span>
                 </Label>
                 <p className="text-sm text-muted-foreground mobile-text-scale text-wrap">
@@ -74,13 +74,13 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground mobile-text-scale">
-                  <BarChart className="h-4 w-4 text-purple-500" />
+                  <BarChart className="h-4 w-4 text-primary" />
                   <span className="text-wrap">Anonymous Analytics</span>
                 </Label>
                 <p className="text-sm text-muted-foreground mobile-text-scale text-wrap">
@@ -96,13 +96,13 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
             </div>
           </div>
 
-          <Separator className="bg-purple-500/20" />
+          <Separator className="bg-primary/20" />
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-purple-500/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20 hover:bg-background/70 transition-all duration-300 touch-target-large">
               <div className="space-y-1">
                 <Label className="font-medium flex items-center gap-2 text-foreground mobile-text-scale">
-                  <Fingerprint className="h-4 w-4 text-purple-500" />
+                  <Fingerprint className="h-4 w-4 text-primary" />
                   <span className="text-wrap">Biometric Authentication</span>
                 </Label>
                 <p className="text-sm text-muted-foreground mobile-text-scale text-wrap">
@@ -118,9 +118,9 @@ const PrivacySettings: React.FC<PrivacySettingsProps> = ({
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 p-4 rounded-lg border border-purple-500/20 space-y-3 mt-4">
+          <div className="bg-gradient-to-br from-primary/10 to-secondary/10 p-4 rounded-lg border border-primary/20 space-y-3 mt-4">
             <p className="text-sm text-foreground mobile-text-scale text-wrap">Your spiritual journey data is stored securely.</p>
-            <Button variant="outline" className="w-full flex items-center gap-2 border-purple-500/30 hover:bg-purple-500/10 touch-target-large" onClick={handleExportData}>
+            <Button variant="outline" className="w-full flex items-center gap-2 border-primary/30 hover:bg-primary/10 touch-target-large" onClick={handleExportData}>
               <Download className="h-4 w-4" />
               <span className="text-wrap">Export Your Data</span>
             </Button>

@@ -1,52 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Cosmos – White Theme
+// Primary (Background): #FFFFFF (Pure White)
+// Accent / Highlight: #9E6FFF (Nebula Violet)
+// Text (Primary): #000000
+// Text (Secondary): #444444
+
 const colors: ThemeColors = {
-  // Cosmic dark background with deep purple tones
-  background: '240 20% 8%', // Deep cosmic purple
-  foreground: '60 100% 98%', // Bright white for text
-  
-  // Card styling with cosmic transparency
-  card: '240 15% 12%',
-  cardForeground: '60 100% 98%',
-  
-  // Popover styling
-  popover: '240 20% 10%',
-  popoverForeground: '60 100% 98%',
-  
-  // Primary cosmic purple gradient
-  primary: '270 70% 55%', // Vibrant cosmic purple
-  primaryForeground: '60 100% 98%',
-  
-  // Secondary with cyan accents
-  secondary: '190 80% 50%', // Cosmic cyan
-  secondaryForeground: '60 100% 98%',
-  
-  // Muted colors for less important elements
-  muted: '240 10% 25%',
-  mutedForeground: '240 5% 65%',
-  
-  // Accent colors with gold highlights
-  accent: '50 100% 50%', // Cosmic gold
-  accentForeground: '60 100% 10%',
-  
-  // Destructive actions
-  destructive: '0 84% 60%',
-  destructiveForeground: '60 100% 98%',
-  
-  // Borders and inputs
-  border: '240 15% 20%',
-  input: '240 15% 18%',
-  ring: '270 70% 55%', // Match primary
-  
-  // Sidebar styling (for consistency)
-  sidebarBackground: '240 20% 8%',
-  sidebarForeground: '60 100% 98%',
-  sidebarPrimary: '270 70% 55%',
-  sidebarPrimaryForeground: '60 100% 98%',
-  sidebarAccent: '190 80% 50%',
-  sidebarAccentForeground: '60 100% 98%',
-  sidebarBorder: '240 15% 20%',
-  sidebarRing: '270 70% 55%'
+  background: '0 0% 100%', // Pure white background
+  foreground: '0 0% 0%',   // Black text
+  card: '0 0% 95%',        // Light gray cards
+  cardForeground: '0 0% 0%',
+  popover: '0 0% 90%',     // Popover
+  popoverForeground: '0 0% 0%',
+  primary: '0 0% 100%',    // White primary
+  primaryForeground: '0 0% 0%',
+  secondary: '0 0% 90%',   // Light gray secondary
+  secondaryForeground: '0 0% 0%',
+  muted: '0 0% 85%',       // Muted background
+  mutedForeground: '0 0% 40%', // Dark gray muted text
+  accent: '260 100% 72%',  // #9E6FFF Nebula Violet
+  accentForeground: '0 0% 100%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '0 0% 100%',
+  border: '0 0% 85%',      // Light gray border
+  input: '0 0% 95%',       // Input fields
+  ring: '260 100% 72%',    // Violet ring
+  sidebarBackground: '0 0% 98%',  // Light sidebar
+  sidebarForeground: '0 0% 0%',
+  sidebarPrimary: '260 100% 72%', // Nebula violet
+  sidebarPrimaryForeground: '0 0% 100%',
+  sidebarAccent: '0 0% 90%',
+  sidebarAccentForeground: '0 0% 0%',
+  sidebarBorder: '0 0% 85%',       // Sidebar border
+  sidebarRing: '260 100% 72%'
 };
 
 export default colors;

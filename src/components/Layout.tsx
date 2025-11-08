@@ -117,7 +117,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -312,8 +312,8 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
                   </div>
                 </div>
                 
-                <button
-                  className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0 border-0 bg-transparent p-0"
+                <div
+                  className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0 border-0 bg-transparent p-0"
                   onClick={() => {
                     navigate('/');
                   }}
@@ -323,10 +323,12 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
                       navigate('/');
                     }
                   }}
+                  tabIndex={0}
+                  role="button"
                   aria-label="SadhanaBoard - Navigate to home"
                 >
                   <h1>SadhanaBoard</h1>
-                </button>
+                </div>
               </div>
             </div>
             

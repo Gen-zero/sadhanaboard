@@ -1,25 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Maa Kali – Black (Dark)
+// Primary (Background): #0B0B0B (Absolute Black)
+// Accent / Highlight: #2BBFFF (Electric Blue Flames)
+// Text (Primary): #FFFFFF
+// Text (Secondary): #9AB2FF
+
 const colors: ThemeColors = {
-  background: '0 0% 5%',          // Changed from 0 0% 1%
-  foreground: '0 0% 95%',        // Changed from 0 0% 99%
-  card: '0 0% 8%',                // Changed from 0 0% 3%
-  cardForeground: '0 0% 92%',     // Changed from 0 0% 97%
-  popover: '0 0% 10%',             // Changed from 0 0% 5%
-  popoverForeground: '0 0% 90%',  // Changed from 0 0% 95%
-  primary: '0 90% 50%',          // Changed from 0 100% 55%
-  primaryForeground: '0 0% 100%', // Pure white on primary
-  secondary: '0 0% 10%',           // Changed from 0 0% 7%
-  secondaryForeground: '0 0% 90%', // Changed from 0 0% 93%
-  muted: '0 15% 15%',             // Changed from 0 15% 10%
-  mutedForeground: '0 25% 70%',   // Changed from 0 25% 75%
-  accent: '0 85% 45%',           // Changed from 0 100% 45%
-  accentForeground: '0 0% 100%',  // Pure white on accent
-  destructive: '0 90% 45%',      // Changed from 0 100% 50%
-  destructiveForeground: '0 0% 100%', // White destructive text
-  border: '0 25% 15%',            // Changed from 0 30% 12%
-  input: '0 25% 12%',             // Changed from 0 25% 8%
-  ring: '0 90% 50%'              // Changed from 0 100% 55%
+  background: '0 0% 4%', // #0B0B0B
+  foreground: '0 0% 100%', // #FFFFFF
+  card: '0 0% 7%',
+  cardForeground: '0 0% 100%',
+  popover: '0 0% 9%',
+  popoverForeground: '0 0% 100%',
+  primary: '0 0% 4%', // #0B0B0B Absolute Black
+  primaryForeground: '0 0% 100%',
+  secondary: '0 0% 12%',
+  secondaryForeground: '0 0% 100%',
+  muted: '0 0% 15%',
+  mutedForeground: '223 100% 80%', // #9AB2FF
+  accent: '197 100% 58%', // #2BBFFF Electric Blue Flames
+  accentForeground: '0 0% 0%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '0 0% 100%',
+  border: '0 0% 18%',
+  input: '0 0% 15%',
+  ring: '197 100% 58%', // Blue flames ring
+  sidebarBackground: '0 0% 3%',
+  sidebarForeground: '0 0% 100%',
+  sidebarPrimary: '197 100% 58%', // Electric blue
+  sidebarPrimaryForeground: '0 0% 0%',
+  sidebarAccent: '0 0% 10%',
+  sidebarAccentForeground: '0 0% 100%',
+  sidebarBorder: '0 0% 15%',
+  sidebarRing: '197 100% 58%'
 };
 
 export default colors;

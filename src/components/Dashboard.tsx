@@ -303,9 +303,9 @@ const Dashboard = () => {
       <ProfileCard />
       
       {/* Enhanced Welcome Section with Cosmic Effects */}
-      <div className="relative overflow-hidden rounded-xl backdrop-blur-md bg-gradient-to-br from-purple-500/10 via-fuchsia-500/5 to-purple-500/10 border border-purple-500/20 p-6">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500 rounded-full filter blur-[80px] opacity-20"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-500 rounded-full filter blur-[80px] opacity-20"></div>
+      <div className="relative overflow-hidden rounded-xl backdrop-blur-md bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10 border border-primary/20 p-6">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary rounded-full filter blur-[80px] opacity-20"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary rounded-full filter blur-[80px] opacity-20"></div>
         
         <div className="relative z-10 flex flex-col gap-2">
           <h1 className="text-4xl font-bold tracking-tight">
@@ -317,25 +317,25 @@ const Dashboard = () => {
           
           {/* Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-primary/20">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-purple-500" />
+                <TrendingUp className="h-5 w-5 text-primary" />
                 <span className="text-sm font-medium">Current Streak</span>
               </div>
               <div className="text-2xl font-bold mt-1">{streak} days</div>
             </div>
             
-            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-primary/20">
               <div className="flex items-center gap-2">
-                <Award className="h-5 w-5 text-fuchsia-500" />
+                <Award className="h-5 w-5 text-secondary" />
                 <span className="text-sm font-medium">Spiritual Level</span>
               </div>
               <div className="text-2xl font-bold mt-1">Level {level}</div>
             </div>
             
-            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-purple-500/20">
+            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border border-primary/20">
               <div className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-indigo-500" />
+                <Target className="h-5 w-5 text-accent" />
                 <span className="text-sm font-medium">Goal Progress</span>
               </div>
               <div className="text-2xl font-bold mt-1">{Math.floor((currentDay / totalDays) * 100)}%</div>
@@ -389,8 +389,8 @@ const Dashboard = () => {
                   <div className="flex items-start gap-3">
                     <div className="mt-0.5">
                       <CheckSquare className={`h-5 w-5 ${
-                        task.priority === 'high' ? 'text-red-500' : 
-                        task.priority === 'medium' ? 'text-yellow-500' : 
+                        task.priority === 'high' ? 'text-destructive' : 
+                        task.priority === 'medium' ? 'text-accent' : 
                         'text-primary/70'
                       }`} />
                     </div>

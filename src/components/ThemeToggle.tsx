@@ -6,7 +6,7 @@ const ThemeToggle = () => {
   const location = useLocation();
   
   // Determine which theme we're currently on
-  const isMahakaliTheme = location.pathname === '/MahakaliLandingpage' || location.pathname === '/mahakalilandingpage';
+  const isMahakaliTheme = location.pathname === '/experiment';
   
   return (
     <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-[999998]">
@@ -19,7 +19,7 @@ const ThemeToggle = () => {
             boxShadow: '0 0 15px rgba(255, 215, 0, 0.5)',
           }}
         >
-          <Link to="/landingpage" title="Switch to Divine Theme">
+          <Link to="/" title="Switch to Divine Theme">
             <Sparkles className="h-6 w-6" />
           </Link>
         </Button>
@@ -32,7 +32,7 @@ const ThemeToggle = () => {
             boxShadow: '0 0 15px rgba(220, 38, 38, 0.5)',
           }}
         >
-          <Link to="/MahakaliLandingpage" title="Switch to Mahakali Theme">
+          <Link to="/experiment" title="Switch to Mahakali Theme">
             <Flame className="h-6 w-6" />
           </Link>
         </Button>

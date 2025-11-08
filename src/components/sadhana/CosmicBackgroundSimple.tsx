@@ -60,8 +60,8 @@ const CosmicBackgroundSimple = () => {
         };
       case 'vishnu':
         return {
-          '--theme-primary': '#1d4ed8', // blue-700
-          '--theme-secondary': '#4f46e5' // indigo-600
+          '--theme-primary': '#041C3E', // Deep Vishnu Blue
+          '--theme-secondary': '#00B7FF' // Oceanic Blue Glow
         };
       case 'durga':
         return {

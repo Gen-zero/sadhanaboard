@@ -1,27 +1,39 @@
 import { ThemeColors } from '../types';
 
+// Shiva – Purple
+// Primary (Background): #28003D (Divine Indigo Purple)
+// Accent / Highlight: #84FFFF (Glacial Blue Aura)
+// Text (Primary): #F2E6FF
+// Text (Secondary): #BCAAE6
+
 const colors: ThemeColors = {
-  // base dark background kept similar to default
-  background: '210 35% 8%',
-  foreground: '60 100% 98%',
-  card: '210 29% 13%',
-  cardForeground: '60 100% 97%',
-  popover: '210 29% 16%',
-  popoverForeground: '60 100% 97%',
-  // Shiva palette - using true purple to maintain original design consistency
-  primary: '270 60% 50%', // True purple
-  primaryForeground: '0 0% 100%',
-  secondary: '270 30% 25%', // True purple
-  secondaryForeground: '0 0% 100%',
-  muted: '210 12% 17%',
-  mutedForeground: '210 11% 60%',
-  accent: '270 50% 40%', // True purple
-  accentForeground: '0 0% 100%',
-  destructive: '0 62.8% 35.6%',
-  destructiveForeground: '60 100% 97%',
-  border: '210 16% 18%',
-  input: '210 18% 15%',
-  ring: '270 60% 50%' // True purple to match primary
+  background: '277 100% 12%', // #28003D
+  foreground: '270 100% 95%', // #F2E6FF
+  card: '277 90% 15%',
+  cardForeground: '270 100% 95%',
+  popover: '277 85% 17%',
+  popoverForeground: '270 100% 95%',
+  primary: '277 100% 12%', // #28003D Divine Indigo Purple
+  primaryForeground: '270 100% 95%',
+  secondary: '277 70% 18%',
+  secondaryForeground: '270 100% 95%',
+  muted: '277 50% 22%',
+  mutedForeground: '268 60% 77%', // #BCAAE6
+  accent: '180 100% 76%', // #84FFFF Glacial Blue Aura
+  accentForeground: '0 0% 0%',
+  destructive: '0 84.2% 58%',
+  destructiveForeground: '270 100% 95%',
+  border: '277 60% 20%',
+  input: '277 70% 18%',
+  ring: '180 100% 76%', // Glacial blue ring
+  sidebarBackground: '277 100% 10%',
+  sidebarForeground: '270 100% 95%',
+  sidebarPrimary: '180 100% 76%', // Glacial blue
+  sidebarPrimaryForeground: '0 0% 0%',
+  sidebarAccent: '277 70% 15%',
+  sidebarAccentForeground: '270 100% 95%',
+  sidebarBorder: '277 60% 18%',
+  sidebarRing: '180 100% 76%'
 };
 
 export default colors;
