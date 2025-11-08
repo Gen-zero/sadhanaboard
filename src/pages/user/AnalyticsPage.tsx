@@ -11,43 +11,6 @@ import PracticeHeatmapCalendar from '@/components/analytics/PracticeHeatmapCalen
 import InsightsPanel from '@/components/analytics/InsightsPanel';
 import AnalyticsExportPanel from '@/components/analytics/AnalyticsExportPanel';
 
-// Define types for the data structures
-interface PracticeTrend {
-  date: string;
-  minutes: number;
-  // Add other properties as needed
-}
-
-interface CompletionRate {
-  date: string;
-  rate: number;
-  // Add other properties as needed
-}
-
-interface HeatmapData {
-  date: string;
-  count: number;
-  // Add other properties as needed
-}
-
-interface ComparativeData {
-  insights: string[];
-  // Add other properties as needed
-}
-
-interface CategoryInsightDetail {
-  category: string;
-  completionRate: number;
-  status: string;
-  // Add other properties as needed
-}
-
-interface CategoryInsights {
-  recommendations?: string[];
-  details?: CategoryInsightDetail[];
-  // Add other properties as needed
-}
-
 const AnalyticsPage = () => {
   const { user } = useAuth();
   const { practiceTrends, completionRates, streaks, comparative, heatmap, categoryInsights, fetchPracticeTrends, fetchCompletionRates, fetchStreaks, fetchComparative, fetchHeatmap, fetchCategoryInsights } = useUserAnalytics(user?.id || '');
@@ -62,34 +25,38 @@ const AnalyticsPage = () => {
   }, [fetchPracticeTrends, fetchCompletionRates, fetchStreaks, fetchComparative, fetchHeatmap, fetchCategoryInsights]);
 
   // Extract data from the API responses
-  const trendsData = practiceTrends && Array.isArray(practiceTrends.trends) 
-    ? practiceTrends.trends 
+  const trendsData = practiceTrends && Array.isArray(practiceTrends) 
+    ? practiceTrends 
     : [];
     
-  const completionRatesData = completionRates && Array.isArray(completionRates.completionRates) 
-    ? completionRates.completionRates 
+  const completionRatesData = completionRates && Array.isArray(completionRates) 
+    ? completionRates 
     : [];
     
-  const heatmapData = heatmap && Array.isArray(heatmap.data) 
-    ? heatmap.data 
+  const heatmapData = heatmap && Array.isArray(heatmap) 
+    ? heatmap 
     : [];
 
   // Extract insights from different sources
   const insightsData: string[] = [];
   
   // From comparative analytics
-  if (comparative && Array.isArray(comparative.insights)) {
-    insightsData.push(...comparative.insights);
+  if (comparative && typeof comparative === 'object' && 'insights' in comparative && Array.isArray((comparative as any).insights)) {
+    insightsData.push(...(comparative as any).insights);
   }
   
-  // From category insights recommendations
-  if (categoryInsights && Array.isArray(categoryInsights.recommendations)) {
-    insightsData.push(...categoryInsights.recommendations);
+  // From category insights
+  if (categoryInsights && Array.isArray(categoryInsights)) {
+    categoryInsights.forEach(insight => {
+      if (insight && typeof insight === 'object' && 'category' in insight && 'completionRate' in insight) {
+        insightsData.push(`Your ${insight.category} practice has a ${insight.completionRate}% completion rate.`);
+      }
+    });
   }
   
   // From category insights details
-  if (categoryInsights && Array.isArray(categoryInsights.details)) {
-    categoryInsights.details.forEach((detail) => {
+  if (categoryInsights && Array.isArray((categoryInsights as any).details)) {
+    (categoryInsights as any).details.forEach((detail: any) => {
       insightsData.push(`Your ${detail.category} practice has a ${detail.completionRate}% completion rate and is ${detail.status}.`);
     });
   }
