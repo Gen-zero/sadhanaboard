@@ -23,6 +23,13 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve cached content when offline
 self.addEventListener('fetch', (event) => {
+  // Skip caching for API requests and other non-static resources
+  if (event.request.url.includes('/api/') || 
+      event.request.url.includes('/socket.io/') ||
+      event.request.method !== 'GET') {
+    return;
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
