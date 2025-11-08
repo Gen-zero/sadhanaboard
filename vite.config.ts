@@ -54,9 +54,6 @@ export default defineConfig(({ mode }) => {
       react({
         // Fix for useLayoutEffect error in production build
         jsxImportSource: '@emotion/react',
-        babel: {
-          plugins: ['@emotion/babel-plugin'],
-        },
       }),
       {
         name: 'configure-worker',
