@@ -303,7 +303,10 @@ const App = () => {
                     <Toaster />
                     <Sonner />
                     <CustomCursor />
-                    <BrowserRouter>
+                    <BrowserRouter future={{
+                      v7_startTransition: true,
+                      v7_relativeSplatPath: true
+                    }}>
                       {/* Only render ThemeProvider when settings are loaded */}
                       <PageTransition>
                         {settings ? (
