@@ -86,7 +86,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [disabled, isRefreshing, canRefresh, pullDistance, threshold]);
+  }, [disabled, isRefreshing, canRefresh, pullDistance, threshold, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // Calculate refresh indicator progress
   const progress = Math.min(pullDistance / threshold, 1);

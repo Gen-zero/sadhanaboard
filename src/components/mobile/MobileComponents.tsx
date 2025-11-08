@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIntersectionObserver } from '@/hooks/useMobilePerformance';
 
 // MobileComponents - A placeholder for mobile-specific components
 const MobileComponents: React.FC = () => {

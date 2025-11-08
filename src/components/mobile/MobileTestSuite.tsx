@@ -237,7 +237,7 @@ const MobileTestSuite: React.FC = () => {
   useEffect(() => {
     // Auto-run tests on component mount
     runAllTests();
-  }, []);
+  }, [runAllTests]);
 
   return (
     <PullToRefresh onRefresh={handlePullRefresh}>
