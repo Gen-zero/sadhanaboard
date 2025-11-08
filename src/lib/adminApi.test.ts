@@ -174,19 +174,13 @@ describe('Admin API Service', () => {
   describe('adminAuthApi', () => {
     it('should login successfully', async () => {
       const mockResponse = {
-        users: [
-          {
-            id: '1',
-            email: 'test@example.com',
-            name: 'Test User',
-            role: 'admin',
-            status: 'active',
-            lastActive: '2023-01-01',
-            joinDate: '2023-01-01',
-            practices: 5
-          }
-        ],
-        total: 1
+        token: 'test-token',
+        user: {
+          id: '1',
+          email: 'test@example.com',
+          name: 'Test User',
+          role: 'admin'
+        }
       };
 
       (fetch as jest.Mock).mockClear();

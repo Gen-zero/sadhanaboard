@@ -3,11 +3,6 @@ import { Book, User, SystemMetric, SystemLog } from "@/types/admin";
 // Base API configuration - Use relative path to work with Vite proxy
 const API_BASE_URL = '/api';
 
-// Define type for filters
-interface ApiFilters {
-  [key: string]: string | number | boolean | undefined;
-}
-
 // Helper function to get auth headers
 const getAuthHeaders = () => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
@@ -18,7 +13,7 @@ const getAuthHeaders = () => {
 };
 
 // Error handling helper
-const handleApiError = (error: unknown) => {
+const handleApiError = (error: any) => {
   console.error('API Error:', error);
   throw error;
 };
@@ -26,7 +21,7 @@ const handleApiError = (error: unknown) => {
 // Books API
 export const adminBooksApi = {
   // Get all books with filters
-  getAllBooks: async (searchTerm: string = '', filters: ApiFilters = {}) => {
+  getAllBooks: async (searchTerm: string = '', filters: any = {}) => {
     try {
       const queryParams = new URLSearchParams({
         search: searchTerm,
@@ -148,7 +143,7 @@ export const adminBooksApi = {
 // Users API
 export const adminUsersApi = {
   // Get all users with filters
-  getAllUsers: async (searchTerm: string = '', filters: ApiFilters = {}) => {
+  getAllUsers: async (searchTerm: string = '', filters: any = {}) => {
     try {
       const queryParams = new URLSearchParams({
         search: searchTerm,
@@ -220,14 +215,76 @@ export const adminSystemApi = {
       // This would need to be implemented in the backend
       // For now, we'll return mock data
       const logs: SystemLog[] = [
-        { id: '1', timestamp: new Date().toISOString(), level: 'info', message: 'System started' },
-        { id: '2', timestamp: new Date().toISOString(), level: 'warning', message: 'High memory usage' },
-        { id: '3', timestamp: new Date().toISOString(), level: 'error', message: 'Database connection failed' }
+        { id: '1', timestamp: '2023-10-15 14:30:22', level: 'info', message: 'System started successfully' },
+        { id: '2', timestamp: '2023-10-15 14:35:17', level: 'info', message: 'Database connection established' },
+        { id: '3', timestamp: '2023-10-15 14:42:05', level: 'warning', message: 'High memory usage detected' },
+        { id: '4', timestamp: '2023-10-15 14:45:33', level: 'info', message: 'Memory usage normalized' },
+        { id: '5', timestamp: '2023-10-15 14:50:12', level: 'error', message: 'Network latency spike' }
       ];
       
       return logs;
     } catch (error) {
       handleApiError(error);
     }
+  }
+};
+
+// Auth API
+export const adminAuthApi = {
+  // Login
+  login: async (username: string, password: string) => {
+    try {
+      console.log('Attempting login with:', { username, password });
+      const response = await fetch(`${API_BASE_URL}/admin/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ usernameOrEmail: username, password })
+      });
+      
+      console.log('Login response status:', response.status);
+      // Only log headers if they exist
+      if (response.headers && typeof response.headers.entries === 'function') {
+        console.log('Login response headers:', [...response.headers.entries()]);
+      }
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Login failed with status:', response.status, 'Response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      }
+      
+      const data = await response.json();
+      console.log('Login response data:', data);
+      
+      if (data.token && typeof window !== 'undefined') {
+        localStorage.setItem('adminToken', data.token);
+        console.log('Token stored in localStorage');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Login error:', error);
+      handleApiError(error);
+    }
+  },
+
+  // Logout
+  logout: async () => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminToken');
+      }
+      return { success: true };
+    } catch (error) {
+      handleApiError(error);
+    }
+  },
+
+  // Check if user is authenticated
+  isAuthenticated: () => {
+    if (typeof window === 'undefined') return false;
+    return !!localStorage.getItem('adminToken');
   }
 };
