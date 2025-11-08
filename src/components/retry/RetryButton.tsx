@@ -9,7 +9,7 @@ interface RetryButtonProps {
   className?: string;
 }
 
-export const RetryButton: React.FC<RetryButtonProps> = ({
+const RetryButton: React.FC<RetryButtonProps> = ({
   onRetry,
   isRetrying,
   attemptCount,
@@ -42,3 +42,5 @@ export const RetryButton: React.FC<RetryButtonProps> = ({
     </button>
   );
 };
+
+export default RetryButton;

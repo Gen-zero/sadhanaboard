@@ -19,8 +19,10 @@ export {
   useRetry, 
   RetryableApiClient, 
   CircuitBreaker, 
-  RetryButton,
   getErrorType,
   DEFAULT_RETRY_CONFIG
 } from '../../hooks/useRetry';
 export type { RetryConfig, RetryState } from '../../hooks/useRetry';
+
+// Components
+export { default as RetryButton } from '../../components/retry/RetryButton';

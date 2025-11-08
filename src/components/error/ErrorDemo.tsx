@@ -21,7 +21,8 @@ import ErrorMessage, {
   MaintenanceError,
   ErrorDetails 
 } from './ErrorMessage';
-import { useRetry, RetryButton } from '../../hooks/useRetry';
+import { useRetry } from '../../hooks/useRetry';
+import RetryButton from '../../components/retry/RetryButton';
 
 // Component that throws errors for testing
 const ErrorThrowingComponent: React.FC<{ errorType: string }> = ({ errorType }) => {
