@@ -270,7 +270,7 @@ const App = () => {
   // Force default theme on all landing pages
   const landingPagePaths = ['/', '/about', '/careers', '/manifesto', '/experiment'];
   const isLandingPage = landingPagePaths.includes(window.location.pathname);
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi'] as const;
   const backgroundTheme = isLandingPage 
     ? 'default' 
     : settings?.appearance?.colorScheme && 
