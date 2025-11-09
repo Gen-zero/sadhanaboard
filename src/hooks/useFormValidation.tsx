@@ -4,7 +4,7 @@ import { z } from 'zod';
 // Enhanced validation states
 export type ValidationState = 'idle' | 'validating' | 'valid' | 'invalid' | 'error';
 
-export interface FieldValidation<T = unknown> {
+export interface FieldValidation<T = any> {
   value: T;
   state: ValidationState;
   error?: string;
@@ -340,7 +340,7 @@ export function useFormValidation<T extends Record<string, unknown>>(
     const field = fields[fieldName];
     return {
       value: values[fieldName],
-      onChange: (value: unknown) => updateField(fieldName, value),
+      onChange: (value: any) => updateField(fieldName, value),
       onFocus: () => handleFocus(fieldName),
       onBlur: () => handleBlur(fieldName),
       error: field?.error,
@@ -413,7 +413,7 @@ export function useFieldValidation<T>(
   config: Partial<FormValidationConfig> = {}
 ) {
   const finalConfig = { ...DEFAULT_CONFIG, ...config };
-  const [field, setField] = useState<FieldValidation<T>>({
+  const [field, setField] = useState<FieldValidation>({
     value: initialValue,
     state: 'idle',
     touched: false,

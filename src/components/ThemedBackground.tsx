@@ -1343,14 +1343,14 @@ interface ThemedBackgroundProps {
 const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
-  // Load thakur1.png image for earth theme
+  // Load Bhagwan_Krishna.png image for earth theme
   const thakurImageRef = useRef<HTMLImageElement>(null);
   const thakurImageLoadedRef = useRef(false);
   
   useEffect(() => {
     if (theme === 'earth') {
       const img = new Image();
-      img.src = '/icons/thakur1.png';
+      img.src = '/themes/earth/assets/Bhagwan_Krishna.png';
       img.crossOrigin = 'Anonymous';
       img.onload = () => {
         thakurImageLoadedRef.current = true;
@@ -1590,7 +1590,7 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
           particleCount = 120;
           spiritualElementCount = 12; // Increased for more gold mantras
           
-          // Load thakur1.png image for earth theme
+          // Load Bhagwan_Krishna.png image for earth theme
           // Image loading is handled at the component level to ensure proper scope
           for (let i = 0; i < particleCount; i++) {
             particles.push({
@@ -2800,7 +2800,7 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
         element.draw();
       });
       
-      // Draw thakur1.png image in the right bottom corner for earth theme
+      // Draw Bhagwan_Krishna.png image in the right bottom corner for earth theme
       if (theme === 'earth' && thakurImageLoadedRef.current && thakurImageRef.current) {
         const canvas = canvasRef.current;
         if (canvas) {

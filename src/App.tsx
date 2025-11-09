@@ -9,7 +9,6 @@ import {
   DashboardPage,
   ExperimentPage,
   HomePage,
-  LanguageTestPage,
   LibraryPage,
   LoginPage,
   NotFound,
@@ -41,7 +40,6 @@ import CustomCursor from "./components/CustomCursor";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
 import { HelpProvider } from "./contexts/HelpContext"; // Add this import
-import TestDurgaPage from './pages/TestDurgaPage';
 import DemoBanner from "./components/DemoBanner";
 // Add new page imports with lazy loading for code splitting
 const CareersPage = lazy(() => import('./pages/landing/CareersPage'));
@@ -214,7 +212,6 @@ const AppRoutes = () => {
       <Route path="/walkthrough" element={<ProtectedRoute><WalkthroughPage /></ProtectedRoute>} />
       <Route path="/your-atma-yantra" element={<ProtectedRoute><SpiritualDemoPage /></ProtectedRoute>} />
       <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
-      <Route path="/language-test" element={<ProtectedRoute><LanguageTestPage /></ProtectedRoute>} />
       <Route path="/pratyangira" element={<ProtectedRoute><PratyangiraPage /></ProtectedRoute>} />
 
       <Route path="/" element={<HomePage />} />
@@ -247,7 +244,6 @@ const AppRoutes = () => {
       <Route path="/settings" element={<OnboardingRoute><SettingsPage /></OnboardingRoute>} />
       <Route path="/profile" element={<OnboardingRoute><ProfilePage /></OnboardingRoute>} />
       <Route path="/energy-level" element={<OnboardingRoute><EnergyLevelPage /></OnboardingRoute>} />
-      <Route path="/test-durga" element={<OnboardingRoute><TestDurgaPage /></OnboardingRoute>} />
       <Route path="/help" element={<OnboardingRoute><HelpDemoPage /></OnboardingRoute>} />
       <Route path="/psychological-levers" element={<OnboardingRoute><EnergyLevelPage /></OnboardingRoute>} />
       <Route path="/cosmos-theme" element={<OnboardingRoute><CosmosThemePage /></OnboardingRoute>} />
@@ -274,7 +270,7 @@ const App = () => {
   // Force default theme on all landing pages
   const landingPagePaths = ['/', '/about', '/careers', '/manifesto', '/experiment'];
   const isLandingPage = landingPagePaths.includes(window.location.pathname);
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
   const backgroundTheme = isLandingPage 
     ? 'default' 
     : settings?.appearance?.colorScheme && 

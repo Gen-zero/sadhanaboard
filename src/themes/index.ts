@@ -165,6 +165,24 @@ console.log('[DEBUG] Raw theme registry:', RAW_THEME_REGISTRY.map(t => ({
   available: t.available
 })));
 
+// Check for duplicates
+const themeIds = RAW_THEME_REGISTRY.map(t => t.metadata.id);
+const duplicateIds = themeIds.filter((id, index) => themeIds.indexOf(id) !== index);
+if (duplicateIds.length > 0) {
+  console.warn('[DEBUG] Duplicate theme IDs found:', duplicateIds);
+} else {
+  console.log('[DEBUG] No duplicate theme IDs found');
+}
+
+// Check for unused themes (themes not in validThemes list in App.tsx)
+const validThemesInApp = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'];
+const unusedThemes = RAW_THEME_REGISTRY.filter(t => !validThemesInApp.includes(t.metadata.id));
+if (unusedThemes.length > 0) {
+  console.warn('[DEBUG] Unused themes found:', unusedThemes.map(t => t.metadata.id));
+} else {
+  console.log('[DEBUG] All themes are used in App.tsx');
+}
+
 const THEME_REGISTRY: ReadonlyArray<ThemeDefinition> = Object.freeze(
   buildThemeRegistry(RAW_THEME_REGISTRY)
 );
@@ -221,6 +239,16 @@ function debugThemes(): void {
   });
 }
 
+// Run debug on load
+if (typeof window !== 'undefined' && (window as any).location?.hostname === 'localhost') {
+  setTimeout(debugThemes, 1000);
+}
+
+// Also export a function to manually trigger debug
+export function triggerDebug() {
+  debugThemes();
+}
+
 export {
   THEME_REGISTRY,
   getThemeById,
@@ -231,6 +259,7 @@ export {
   validateTheme,
   getThemeHealth,
   debugThemes
+  // triggerDebug is already exported above
 };
 
 export default {
@@ -242,7 +271,8 @@ export default {
   getColorSchemeThemes,
   validateTheme,
   getThemeHealth,
-  debugThemes
+  debugThemes,
+  triggerDebug // Add it to the default export
 };
 
 // Re-export utilities for convenience

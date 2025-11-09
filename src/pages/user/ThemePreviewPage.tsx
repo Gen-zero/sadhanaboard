@@ -2,17 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { adminApi } from '@/services/adminApi';
 
-// Define types for the API response
-interface ThemePreviewResponse {
-  css?: string;
-  theme?: {
-    name?: string;
-    // Add other theme properties as needed
-  };
-  // Add other properties as needed
-  [key: string]: unknown;
-}
-
 const ThemePreviewPage = () => {
   const [params] = useSearchParams();
   const themeId = params.get('themeId');
@@ -27,9 +16,7 @@ const ThemePreviewPage = () => {
         setCss(r.css || '');
         // try to surface name if available
         // adminApi.previewTheme may also return theme
-        if (r && typeof r === 'object' && 'theme' in r && r.theme && typeof r.theme === 'object' && 'name' in r.theme && typeof r.theme.name === 'string') {
-          setThemeName(r.theme.name);
-        }
+        if ((r as any).theme && (r as any).theme.name) setThemeName((r as any).theme.name);
       } catch (err) {
         setCss('/* preview fetch failed */');
       }

@@ -4,7 +4,7 @@ export { default as AnalyticsPage } from './user/AnalyticsPage';
 export { default as DashboardPage } from './user/DashboardPage';
 export { default as ExperimentPage } from './landing/ExperimentPage';
 export { default as HomePage } from './landing/HomePage';
-export { default as LanguageTestPage } from './user/LanguageTestPage';
+// Removed LanguageTestPage import as the file doesn't exist
 export { default as LibraryPage } from './user/LibraryPage';
 export { default as LoginPage } from './landing/LoginPage';
 export { default as NotFound } from './landing/NotFound';
