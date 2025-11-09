@@ -114,7 +114,8 @@ export const EnhancedFormField: React.FC<EnhancedFormFieldProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [internalFocused, setInternalFocused] = useState(false);
-  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   
   const focused = isFocused || internalFocused;
   
@@ -148,7 +149,11 @@ export const EnhancedFormField: React.FC<EnhancedFormFieldProps> = ({
   // Clear value
   const handleClear = () => {
     onChange('');
-    inputRef.current?.focus();
+    if (type === 'textarea') {
+      textareaRef.current?.focus();
+    } else {
+      inputRef.current?.focus();
+    }
   };
   
   // Size classes
@@ -236,8 +241,6 @@ export const EnhancedFormField: React.FC<EnhancedFormFieldProps> = ({
     showCharCount && charCountId
   ].filter(Boolean).join(' ');
   
-  const InputComponent = type === 'textarea' ? 'textarea' : 'input';
-  
   return (
     <div className={cn('space-y-1', className)}>
       {/* Label */}
@@ -251,35 +254,58 @@ export const EnhancedFormField: React.FC<EnhancedFormFieldProps> = ({
         {icon && (
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
             {React.cloneElement(icon as React.ReactElement, {
-              className: cn(sizeClasses[size].icon, (icon as any)?.props?.className)
+              className: cn(sizeClasses[size].icon, (icon as React.ReactElement)?.props?.className)
             })}
           </div>
         )}
         
         {/* Input/Textarea */}
-        <InputComponent
-          ref={inputRef as any}
-          id={id}
-          name={name}
-          type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-          value={value}
-          onChange={handleInputChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          placeholder={placeholder}
-          required={required}
-          disabled={disabled}
-          readOnly={readOnly}
-          autoComplete={autoComplete}
-          maxLength={maxLength}
-          minLength={minLength}
-          pattern={pattern}
-          rows={type === 'textarea' ? rows : undefined}
-          className={inputBaseClasses}
-          aria-describedby={describedBy || undefined}
-          aria-label={ariaLabel}
-          aria-invalid={ariaInvalid ?? (shouldShowError ? true : false)}
-        />
+        {type === 'textarea' ? (
+          <textarea
+            ref={textareaRef}
+            id={id}
+            name={name}
+            value={value}
+            onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            readOnly={readOnly}
+            autoComplete={autoComplete}
+            maxLength={maxLength}
+            minLength={minLength}
+            rows={rows}
+            className={inputBaseClasses}
+            aria-describedby={describedBy || undefined}
+            aria-label={ariaLabel}
+            aria-invalid={ariaInvalid ?? (shouldShowError ? true : false)}
+          />
+        ) : (
+          <input
+            ref={inputRef}
+            id={id}
+            name={name}
+            type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+            value={value}
+            onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            readOnly={readOnly}
+            autoComplete={autoComplete}
+            maxLength={maxLength}
+            minLength={minLength}
+            pattern={pattern}
+            className={inputBaseClasses}
+            aria-describedby={describedBy || undefined}
+            aria-label={ariaLabel}
+            aria-invalid={ariaInvalid ?? (shouldShowError ? true : false)}
+          />
+        )}
         
         {/* Right Icons */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -328,7 +354,7 @@ export const EnhancedFormField: React.FC<EnhancedFormFieldProps> = ({
           {rightIcon && (
             <div className="text-muted-foreground">
               {React.cloneElement(rightIcon as React.ReactElement, {
-                className: cn(sizeClasses[size].icon, (rightIcon as any)?.props?.className)
+                className: cn(sizeClasses[size].icon, (rightIcon as React.ReactElement)?.props?.className)
               })}
             </div>
           )}

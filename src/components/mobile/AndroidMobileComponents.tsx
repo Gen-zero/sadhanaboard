@@ -17,6 +17,29 @@ import {
 } from 'lucide-react';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
+// Define types for all exported components
+interface AndroidMobileComponents {
+  AndroidButton: typeof AndroidButton;
+  AndroidCard: typeof AndroidCard;
+  AndroidAppBar: typeof AndroidAppBar;
+  AndroidBottomNav: typeof AndroidBottomNav;
+  AndroidListItem: typeof AndroidListItem;
+  AndroidSwitch: typeof AndroidSwitch;
+  AndroidCheckbox: typeof AndroidCheckbox;
+  AndroidRadio: typeof AndroidRadio;
+  AndroidChip: typeof AndroidChip;
+  useSnackbar: typeof useSnackbar;
+  Snackbar: typeof Snackbar;
+  useToast: typeof useToast;
+  Toast: typeof Toast;
+  AndroidDialog: typeof AndroidDialog;
+  AndroidBottomSheet: typeof AndroidBottomSheet;
+  FloatingActionButton: typeof FloatingActionButton;
+  AndroidTab: typeof AndroidTab;
+  AndroidExpansionPanel: typeof AndroidExpansionPanel;
+  AndroidLinearProgress: typeof AndroidLinearProgress;
+}
+
 // Android-like Button Component
 interface AndroidButtonProps {
   variant?: 'filled' | 'outlined' | 'text';
@@ -29,7 +52,7 @@ interface AndroidButtonProps {
   className?: string;
 }
 
-export const AndroidButton: React.FC<AndroidButtonProps> = ({
+export const AndroidButton = ({
   variant = 'filled',
   color = 'primary',
   size = 'medium',
@@ -38,7 +61,7 @@ export const AndroidButton: React.FC<AndroidButtonProps> = ({
   children,
   onClick,
   className = ''
-}) => {
+}: AndroidButtonProps) => {
   const baseClasses = 'btn-android touch-ripple transition-all duration-200 active:scale-95';
   const variantClasses = `btn-android-${variant}`;
   
@@ -77,11 +100,11 @@ interface AndroidCardProps {
   className?: string;
 }
 
-export const AndroidCard: React.FC<AndroidCardProps> = ({
+export const AndroidCard = ({
   elevation = 1,
   children,
   className = ''
-}) => {
+}: AndroidCardProps) => {
   return (
     <div className={`android-card material-elevation-${elevation} ${className}`}>
       {children}
@@ -98,29 +121,29 @@ interface AndroidAppBarProps {
   className?: string;
 }
 
-export const AndroidAppBar: React.FC<AndroidAppBarProps> = ({
+export const AndroidAppBar = ({
   title,
   onMenuClick,
   onSearchClick,
   onMoreClick,
   className = ''
-}) => {
+}: AndroidAppBarProps) => {
   return (
     <div className={`app-bar ${className}`}>
       {onMenuClick && (
-        <button className="app-bar-action" onClick={onMenuClick}>
+        <button className="app-bar-action" onClick={onMenuClick} aria-label="Menu">
           <Menu size={24} />
         </button>
       )}
       <div className="app-bar-title">{title}</div>
       <div className="flex">
         {onSearchClick && (
-          <button className="app-bar-action" onClick={onSearchClick}>
+          <button className="app-bar-action" onClick={onSearchClick} aria-label="Search">
             <Search size={24} />
           </button>
         )}
         {onMoreClick && (
-          <button className="app-bar-action" onClick={onMoreClick}>
+          <button className="app-bar-action" onClick={onMoreClick} aria-label="More options">
             <MoreVertical size={24} />
           </button>
         )}
@@ -144,12 +167,12 @@ interface AndroidBottomNavProps {
   className?: string;
 }
 
-export const AndroidBottomNav: React.FC<AndroidBottomNavProps> = ({
+export const AndroidBottomNav = ({
   items,
   activeItem,
   onItemClick,
   className = ''
-}) => {
+}: AndroidBottomNavProps) => {
   return (
     <div className={`bottom-nav ${className}`}>
       {items.map((item) => (
@@ -157,6 +180,7 @@ export const AndroidBottomNav: React.FC<AndroidBottomNavProps> = ({
           key={item.id}
           className={`bottom-nav-item ${activeItem === item.id ? 'active' : ''}`}
           onClick={() => onItemClick(item.id)}
+          aria-label={item.label}
         >
           <div className="bottom-nav-item-icon">
             {activeItem === item.id && item.activeIcon ? item.activeIcon : item.icon}
@@ -178,18 +202,26 @@ interface AndroidListItemProps {
   className?: string;
 }
 
-export const AndroidListItem: React.FC<AndroidListItemProps> = ({
+export const AndroidListItem = ({
   title,
   subtitle,
   icon,
   trailing,
   onClick,
   className = ''
-}) => {
+}: AndroidListItemProps) => {
   return (
     <div 
       className={`android-list-item touch-ripple ${className} ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       {icon && <div className="android-list-item-icon">{icon}</div>}
       <div className="android-list-item-content">
@@ -207,16 +239,18 @@ interface AndroidSwitchProps {
   onChange: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
+  ariaLabel?: string;
 }
 
-export const AndroidSwitch: React.FC<AndroidSwitchProps> = ({
+export const AndroidSwitch = ({
   checked,
   onChange,
   disabled = false,
-  className = ''
-}) => {
+  className = '',
+  ariaLabel = 'Toggle switch'
+}: AndroidSwitchProps) => {
   return (
-    <label className={`android-switch ${className} ${disabled ? 'opacity-50' : ''}`}>
+    <label className={`android-switch ${className} ${disabled ? 'opacity-50' : ''}`} aria-label={ariaLabel}>
       <input
         type="checkbox"
         checked={checked}
@@ -235,17 +269,19 @@ interface AndroidCheckboxProps {
   label?: string;
   disabled?: boolean;
   className?: string;
+  ariaLabel?: string;
 }
 
-export const AndroidCheckbox: React.FC<AndroidCheckboxProps> = ({
+export const AndroidCheckbox = ({
   checked,
   onChange,
   label,
   disabled = false,
-  className = ''
-}) => {
+  className = '',
+  ariaLabel
+}: AndroidCheckboxProps) => {
   return (
-    <label className={`android-checkbox ${className} ${disabled ? 'opacity-50' : ''}`}>
+    <label className={`android-checkbox ${className} ${disabled ? 'opacity-50' : ''}`} aria-label={ariaLabel}>
       <input
         type="checkbox"
         checked={checked}
@@ -266,17 +302,19 @@ interface AndroidRadioProps {
   label?: string;
   disabled?: boolean;
   className?: string;
+  ariaLabel?: string;
 }
 
-export const AndroidRadio: React.FC<AndroidRadioProps> = ({
+export const AndroidRadio = ({
   checked,
   onChange,
   label,
   disabled = false,
-  className = ''
-}) => {
+  className = '',
+  ariaLabel
+}: AndroidRadioProps) => {
   return (
-    <label className={`android-radio ${className} ${disabled ? 'opacity-50' : ''}`}>
+    <label className={`android-radio ${className} ${disabled ? 'opacity-50' : ''}`} aria-label={ariaLabel}>
       <input
         type="radio"
         checked={checked}
@@ -298,16 +336,24 @@ interface AndroidChipProps {
   className?: string;
 }
 
-export const AndroidChip: React.FC<AndroidChipProps> = ({
+export const AndroidChip = ({
   label,
   selected = false,
   onClick,
   className = ''
-}) => {
+}: AndroidChipProps) => {
   return (
     <div 
       className={`android-chip ${selected ? 'selected' : ''} ${className} ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       {label}
     </div>
@@ -337,10 +383,13 @@ export const useSnackbar = () => {
   return { snackbar, showSnackbar, hideSnackbar };
 };
 
-export const Snackbar: React.FC<{ 
+export const Snackbar = ({ 
+  snackbar, 
+  onClose 
+}: { 
   snackbar: SnackbarProps | null, 
   onClose: () => void 
-}> = ({ snackbar, onClose }) => {
+}) => {
   useEffect(() => {
     if (snackbar) {
       const timer = setTimeout(() => {
@@ -393,7 +442,7 @@ export const useToast = () => {
   return { toast, showToast };
 };
 
-export const Toast: React.FC<{ toast: ToastProps | null }> = ({ toast }) => {
+export const Toast = ({ toast }: { toast: ToastProps | null }) => {
   useEffect(() => {
     if (toast) {
       const timer = setTimeout(() => {
@@ -429,7 +478,7 @@ interface AndroidDialogProps {
   description?: string;
 }
 
-export const AndroidDialog: React.FC<AndroidDialogProps> = ({
+export const AndroidDialog = ({
   open,
   onClose,
   title,
@@ -437,7 +486,7 @@ export const AndroidDialog: React.FC<AndroidDialogProps> = ({
   actions,
   className = '',
   description
-}) => {
+}: AndroidDialogProps) => {
   return (
     <DialogPrimitive.Root open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogPrimitive.Portal>
@@ -473,12 +522,12 @@ interface AndroidBottomSheetProps {
   className?: string;
 }
 
-export const AndroidBottomSheet: React.FC<AndroidBottomSheetProps> = ({
+export const AndroidBottomSheet = ({
   open,
   onClose,
   children,
   className = ''
-}) => {
+}: AndroidBottomSheetProps) => {
   return (
     <AnimatePresence>
       {open && (
@@ -516,11 +565,11 @@ interface FloatingActionButtonProps {
   className?: string;
 }
 
-export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
+export const FloatingActionButton = ({
   icon,
   onClick,
   className = ''
-}) => {
+}: FloatingActionButtonProps) => {
   return (
     <button 
       className={`fab ${className} touch-ripple`}
@@ -539,16 +588,24 @@ interface AndroidTabProps {
   className?: string;
 }
 
-export const AndroidTab: React.FC<AndroidTabProps> = ({
+export const AndroidTab = ({
   label,
   active = false,
   onClick,
   className = ''
-}) => {
+}: AndroidTabProps) => {
   return (
     <div 
       className={`android-tab ${active ? 'active' : ''} ${className} ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       {label}
     </div>
@@ -564,19 +621,27 @@ interface AndroidExpansionPanelProps {
   className?: string;
 }
 
-export const AndroidExpansionPanel: React.FC<AndroidExpansionPanelProps> = ({
+export const AndroidExpansionPanel = ({
   title,
   children,
   expanded = false,
   onToggle,
   className = ''
-}) => {
+}: AndroidExpansionPanelProps) => {
   return (
-    <div className={`android-expansion-panel ${expanded ? 'expanded' : ''} ${className}`}>
-      <div 
-        className="android-expansion-panel-header"
-        onClick={onToggle}
-      >
+    <div 
+      className={`android-expansion-panel ${expanded ? 'expanded' : ''} ${className}`}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onToggle?.();
+        }
+      }}
+      onClick={onToggle}
+    >
+      <div className="android-expansion-panel-header">
         <div>{title}</div>
         <ChevronRight 
           size={20} 
@@ -599,11 +664,11 @@ interface AndroidLinearProgressProps {
   className?: string;
 }
 
-export const AndroidLinearProgress: React.FC<AndroidLinearProgressProps> = ({
+export const AndroidLinearProgress = ({
   indeterminate = false,
   value = 0,
   className = ''
-}) => {
+}: AndroidLinearProgressProps) => {
   return (
     <div className={`h-1 w-full bg-muted rounded ${className}`}>
       {indeterminate ? (
@@ -618,7 +683,7 @@ export const AndroidLinearProgress: React.FC<AndroidLinearProgressProps> = ({
   );
 };
 
-export default {
+const AndroidMobileComponents = {
   AndroidButton,
   AndroidCard,
   AndroidAppBar,
@@ -628,14 +693,18 @@ export default {
   AndroidCheckbox,
   AndroidRadio,
   AndroidChip,
-  useSnackbar,
-  Snackbar,
-  useToast,
-  Toast,
+  // useSnackbar,
+  // Snackbar,
+  // useToast,
+  // Toast,
   AndroidDialog,
   AndroidBottomSheet,
   FloatingActionButton,
   AndroidTab,
   AndroidExpansionPanel,
   AndroidLinearProgress
-};
+} as const;
+
+type AndroidMobileComponentsType = typeof AndroidMobileComponents;
+
+export default AndroidMobileComponents;

@@ -7,13 +7,13 @@ import { FILTER_PRESETS } from '@/lib/filterPresets';
 
 interface FilterChipsProps {
   filters: BookFilters;
-  onRemoveFilter: (key: string, value?: any) => void;
+  onRemoveFilter: (key: string, value?: string | number | { sortBy: string; sortOrder?: string } | undefined) => void;
   onClearAll?: () => void;
 }
 
 const FilterChips: React.FC<FilterChipsProps> = ({ filters, onRemoveFilter, onClearAll }) => {
   const isMobile = useIsMobile();
-  const chips = [] as { key: string; label: string; payload?: any }[];
+  const chips = [] as { key: string; label: string; payload?: string | number | { sortBy: string; sortOrder?: string } | undefined }[];
   
   if (filters.preset) {
     const preset = FILTER_PRESETS.find(p => p.id === filters.preset);

@@ -11,7 +11,9 @@ import {
   ExternalLink,
   Copy,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Home,
+  Bug
 } from 'lucide-react';
 
 // Error severity levels
@@ -41,7 +43,7 @@ export interface ErrorDetails {
   helpUrl?: string;
   technicalDetails?: string;
   suggestions?: string[];
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 interface ErrorMessageProps {
@@ -123,13 +125,31 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
             <button
               onClick={onRetry}
               className="ml-auto text-xs underline hover:no-underline"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onRetry();
+                }
+              }}
+              tabIndex={0}
             >
               Retry
             </button>
           )}
           {onDismiss && (
-            <button onClick={onDismiss} className="ml-2">
+            <button 
+              onClick={onDismiss} 
+              className="ml-2"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onDismiss();
+                }
+              }}
+              tabIndex={0}
+            >
               <X className="h-4 w-4" />
+              <span className="sr-only">Dismiss</span>
             </button>
           )}
         </div>
@@ -138,7 +158,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
   }
 
   return (
-    <div className={`error-message ${getSeverityStyles()} ${className}`}>
+    <div className={`error-message ${getSeverityStyles()} ${className}`} role="alert" aria-live="polite">
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 pt-0.5">
           {getIcon()}
@@ -155,6 +175,13 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
                 <button
                   onClick={onRetry}
                   className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md bg-white/50 hover:bg-white/80 transition-colors"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onRetry();
+                    }
+                  }}
+                  tabIndex={0}
                 >
                   <RotateCcw className="h-3 w-3" />
                   Retry
@@ -165,8 +192,16 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
                 <button
                   onClick={onDismiss}
                   className="text-current/60 hover:text-current transition-colors"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onDismiss();
+                    }
+                  }}
+                  tabIndex={0}
                 >
                   <X className="h-4 w-4" />
+                  <span className="sr-only">Dismiss</span>
                 </button>
               )}
             </div>
@@ -200,6 +235,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
                 <HelpCircle className="h-3 w-3" />
                 Get Help
                 <ExternalLink className="h-3 w-3" />
+                <span className="sr-only">Opens in new window</span>
               </a>
             )}
 
@@ -207,6 +243,13 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
               <button
                 onClick={() => setShowDetails(!showDetails)}
                 className="inline-flex items-center gap-1 underline hover:no-underline"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowDetails(!showDetails);
+                  }
+                }}
+                tabIndex={0}
               >
                 Technical Details
                 {showDetails ? (
@@ -220,6 +263,13 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
             <button
               onClick={copyErrorDetails}
               className="inline-flex items-center gap-1 underline hover:no-underline"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  copyErrorDetails();
+                }
+              }}
+              tabIndex={0}
             >
               <Copy className="h-3 w-3" />
               {copied ? 'Copied!' : 'Copy Details'}

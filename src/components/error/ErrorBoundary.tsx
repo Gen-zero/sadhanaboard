@@ -190,6 +190,13 @@ Additional context:
                   <button
                     onClick={this.handleRetry}
                     className="error-boundary__button error-boundary__button--primary"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.handleRetry();
+                      }
+                    }}
+                    tabIndex={0}
                   >
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Try Again ({maxRetries - retryCount} attempts left)
@@ -199,6 +206,13 @@ Additional context:
                 <button
                   onClick={this.handleGoHome}
                   className="error-boundary__button error-boundary__button--secondary"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      this.handleGoHome();
+                    }
+                  }}
+                  tabIndex={0}
                 >
                   <Home className="h-4 w-4 mr-2" />
                   Go to Dashboard
@@ -207,6 +221,13 @@ Additional context:
                 <button
                   onClick={this.handleReportBug}
                   className="error-boundary__button error-boundary__button--outline"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      this.handleReportBug();
+                    }
+                  }}
+                  tabIndex={0}
                 >
                   <Bug className="h-4 w-4 mr-2" />
                   Report Issue

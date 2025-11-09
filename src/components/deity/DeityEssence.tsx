@@ -19,7 +19,17 @@ interface DeityEssenceProps {
       date: string;
     }>;
   };
-  onDeityDataChange: (data: any) => void;
+  onDeityDataChange: (data: {
+    name: string;
+    essence: string;
+    avatar: string;
+    sadhanaHistory: Array<{
+      id: number;
+      practice: string;
+      insights: string;
+      date: string;
+    }>;
+  }) => void;
   onSaveChanges: () => void;
 }
 
