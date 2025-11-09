@@ -24,7 +24,7 @@ const colors: ThemeColors = {
   destructive: '0 84.2% 58%',
   destructiveForeground: '0 0% 100%',
   border: '44 50% 88%',
-  input: '44 60% 90%',
+  input: '45 100% 75%', // Golden input background
   ring: '43 75% 49%', // Gold ring
   sidebarBackground: '44 100% 92%',
   sidebarForeground: '40 100% 12%',

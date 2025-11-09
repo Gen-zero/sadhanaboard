@@ -2,250 +2,253 @@
 .theme-lakshmi {
   /* Golden text styling for the entire theme */
   color: hsl(45, 85%, 85%); /* Warm golden text */
-  
-  /* Enhanced golden fonts and text effects */
-  h1, h2, h3, h4, h5, h6 {
-    color: hsl(45, 100%, 88%) !important;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-    font-weight: 700;
-  }
-  
-  /* Premium golden text for body content */
-  p, span, div, label {
-    color: hsl(42, 80%, 82%) !important;
-  }
-  
-  /* Special golden glow for important text */
-  .text-foreground, 
-  [data-slot="content"],
-  .card-title,
-  .dialog-title {
-    color: hsl(45, 95%, 90%) !important;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-  }
-  
-  /* Mystical golden emphasis */
-  strong, b, .font-bold, .font-semibold {
-    color: hsl(43, 100%, 92%) !important;
-    text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-    font-weight: 800;
-  }
-  
-  /* Golden links with hover effects */
-  a, .link {
-    color: hsl(45, 90%, 75%) !important;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-    transition: all 0.3s ease;
-  }
-  
-  a:hover, .link:hover {
-    color: hsl(43, 100%, 85%) !important;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-    border-bottom-color: rgba(255, 215, 0, 0.8);
-  }
-  
-  /* Mystical input text styling */
-  input, textarea, select {
-    color: hsl(45, 85%, 85%) !important;
-    background: rgba(41, 25, 12, 0.8) !important;
-    border: 1px solid rgba(255, 215, 0, 0.3) !important;
-  }
-  
-  input::placeholder, textarea::placeholder {
-    color: hsl(42, 60%, 60%) !important;
-  }
-  
-  /* Premium golden navigation */
-  nav, .navigation {
-    color: hsl(45, 90%, 88%) !important;
-  }
-  
-  nav a, .navigation a {
-    color: hsl(42, 85%, 80%) !important;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-  }
-  
-  nav a:hover, .navigation a:hover {
-    color: hsl(45, 100%, 90%) !important;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-  }
-  
-  /* Golden sidebar text */
-  .sidebar, [data-ui="sidebar"] {
-    color: hsl(45, 88%, 85%) !important;
-  }
-  
-  /* Mystical muted text */
-  .text-muted-foreground,
-  .muted,
-  .secondary-text {
-    color: hsl(42, 70%, 70%) !important;
-  }
-  
-  /* Golden code and monospace */
-  code, pre, .font-mono {
-    color: hsl(43, 90%, 85%) !important;
-    background: rgba(25, 17, 8, 0.6) !important;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-  }
-
-  /* Enhanced button styles with golden glow */
-  button {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  button:hover {
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
-    transform: translateY(-2px);
-  }
-
-  button:active {
-    transform: translateY(-1px);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-  }
-
-  /* Premium golden glow for primary buttons */
-  .btn-primary, button[data-variant="default"] {
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 
-      0 4px 15px rgba(255, 215, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .btn-primary:hover, button[data-variant="default"]:hover {
-    background: linear-gradient(135deg, #FFDC00 0%, #FFB000 50%, #FF9500 100%);
-    box-shadow: 
-      0 6px 25px rgba(255, 215, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
-
-  /* Golden cards with mystical borders */
-  .card, [data-ui="card"] {
-    background: radial-gradient(ellipse at top, rgba(65, 42, 20, 0.8) 0%, rgba(41, 25, 12, 0.9) 100%);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 215, 0, 0.1),
-      inset 0 1px 0 rgba(255, 215, 0, 0.1);
-    backdrop-filter: blur(10px);
-    position: relative;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, 
-      transparent 0%, 
-      rgba(255, 215, 0, 0.03) 25%, 
-      transparent 50%, 
-      rgba(255, 165, 0, 0.03) 75%, 
-      transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .card:hover {
-    border-color: rgba(255, 215, 0, 0.4);
-    box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 215, 0, 0.2),
-      inset 0 1px 0 rgba(255, 215, 0, 0.2),
-      0 0 50px rgba(255, 215, 0, 0.1);
-    transform: translateY(-4px);
-  }
-
-  /* Golden input fields */
-  input, textarea, select {
-    background: rgba(25, 17, 8, 0.8);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    color: hsl(45, 95%, 90%);
-    transition: all 0.3s ease;
-  }
-
-  input:focus, textarea:focus, select:focus {
-    border-color: rgba(255, 215, 0, 0.6);
-    box-shadow: 
-      0 0 0 3px rgba(255, 215, 0, 0.1),
-      0 0 20px rgba(255, 215, 0, 0.2);
-    background: rgba(35, 22, 10, 0.9);
-  }
-
-  /* Premium scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(25, 17, 8, 0.3);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
-    border-radius: 4px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #FFDC00 0%, #FFB000 100%);
-  }
 }
 
-/* Lakshmi Premium Theme Styles */
-.theme-lakshmi {
-  /* Golden text styling for the entire theme */
-  color: hsl(45, 85%, 85%); /* Warm golden text */
-  
-  /* Enhanced golden fonts and text effects */
-  h1, h2, h3, h4, h5, h6 {
-    color: hsl(45, 100%, 88%) !important;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-    font-weight: 700;
-  }
-  
-  /* Premium golden text for body content */
-  p, span, div, label {
-    color: hsl(42, 80%, 82%) !important;
-  }
-  
-  /* Special golden glow for important text */
-  .text-foreground, 
-  [data-slot="content"],
-  .card-title,
-  .dialog-title {
-    color: hsl(45, 95%, 90%) !important;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-  }
-  
-  /* Mystical golden emphasis */
-  strong, b, .font-bold, .font-semibold {
-    color: hsl(43, 100%, 92%) !important;
-    text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-    font-weight: 800;
-  }
-  
-  /* Golden links with hover effects */
-  a, .link {
-    color: hsl(45, 90%, 75%) !important;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-    transition: all 0.3s ease;
-  }
-  
-  a:hover, .link:hover {
-    color: hsl(43, 100%, 85%) !important;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-    border-bottom-color: rgba(255, 215, 0, 0.8);
-  }
+.theme-lakshmi h1, 
+.theme-lakshmi h2, 
+.theme-lakshmi h3, 
+.theme-lakshmi h4, 
+.theme-lakshmi h5, 
+.theme-lakshmi h6 {
+  color: hsl(45, 100%, 88%) !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  font-weight: 700;
+}
+
+.theme-lakshmi p, 
+.theme-lakshmi span, 
+.theme-lakshmi div, 
+.theme-lakshmi label {
+  color: hsl(42, 80%, 82%) !important;
+}
+
+.theme-lakshmi .text-foreground, 
+.theme-lakshmi [data-slot="content"],
+.theme-lakshmi .card-title,
+.theme-lakshmi .dialog-title {
+  color: hsl(45, 95%, 90%) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.theme-lakshmi strong, 
+.theme-lakshmi b, 
+.theme-lakshmi .font-bold, 
+.theme-lakshmi .font-semibold {
+  color: hsl(43, 100%, 92%) !important;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+  font-weight: 800;
+}
+
+.theme-lakshmi a, 
+.theme-lakshmi .link {
+  color: hsl(45, 90%, 75%) !important;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-lakshmi a:hover, 
+.theme-lakshmi .link:hover {
+  color: hsl(43, 100%, 85%) !important;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  border-bottom-color: rgba(255, 215, 0, 0.8);
+}
+
+/* Mystical input text styling */
+.theme-lakshmi input, 
+.theme-lakshmi textarea, 
+.theme-lakshmi select {
+  color: hsl(45, 85%, 85%) !important;
+  background: rgba(41, 25, 12, 0.8) !important;
+  border: 1px solid rgba(255, 215, 0, 0.3) !important;
+}
+
+.theme-lakshmi input::placeholder, 
+.theme-lakshmi textarea::placeholder {
+  color: hsl(42, 60%, 60%) !important;
+}
+
+/* Premium golden navigation */
+.theme-lakshmi nav, 
+.theme-lakshmi .navigation {
+  color: hsl(45, 90%, 88%) !important;
+}
+
+.theme-lakshmi nav a, 
+.theme-lakshmi .navigation a {
+  color: hsl(42, 85%, 80%) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.theme-lakshmi nav a:hover, 
+.theme-lakshmi .navigation a:hover {
+  color: hsl(45, 100%, 90%) !important;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+/* Golden sidebar text */
+.theme-lakshmi .sidebar, 
+.theme-lakshmi [data-ui="sidebar"] {
+  color: hsl(45, 88%, 85%) !important;
+}
+
+/* Lakshmi sidebar logo - smaller size */
+.theme-lakshmi .sidebar-logo, 
+.theme-lakshmi [data-ui="sidebar"] img[alt*="lakshmi" i] {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Mystical muted text */
+.theme-lakshmi .text-muted-foreground,
+.theme-lakshmi .muted,
+.theme-lakshmi .secondary-text {
+  color: hsl(42, 70%, 70%) !important;
+}
+
+/* Golden code and monospace */
+.theme-lakshmi code, 
+.theme-lakshmi pre, 
+.theme-lakshmi .font-mono {
+  color: hsl(43, 90%, 85%) !important;
+  background: rgba(25, 17, 8, 0.6) !important;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+/* Enhanced button styles with golden glow */
+.theme-lakshmi button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-lakshmi button:hover {
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.theme-lakshmi button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+/* Premium golden glow for primary buttons */
+.theme-lakshmi .btn-primary, 
+.theme-lakshmi button[data-variant="default"] {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.theme-lakshmi .btn-primary:hover, 
+.theme-lakshmi button[data-variant="default"]:hover {
+  background: linear-gradient(135deg, #FFDC00 0%, #FFB000 50%, #FF9500 100%);
+  box-shadow: 
+    0 6px 25px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Golden cards with mystical borders */
+.theme-lakshmi .card, 
+.theme-lakshmi [data-ui="card"] {
+  background: radial-gradient(ellipse at top, rgba(65, 42, 20, 0.8) 0%, rgba(41, 25, 12, 0.9) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 215, 0, 0.1),
+    inset 0 1px 0 rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.theme-lakshmi .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    rgba(255, 215, 0, 0.03) 25%, 
+    transparent 50%, 
+    rgba(255, 165, 0, 0.03) 75%, 
+    transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.theme-lakshmi .card:hover {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 215, 0, 0.2),
+    0 0 50px rgba(255, 215, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Golden input fields */
+.theme-lakshmi input, 
+.theme-lakshmi textarea, 
+.theme-lakshmi select {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: #3E2C00 !important;
+  transition: all 0.3s ease;
+}
+
+.theme-lakshmi input:focus, 
+.theme-lakshmi textarea:focus, 
+.theme-lakshmi select:focus {
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 
+    0 0 0 3px rgba(255, 215, 0, 0.1),
+    0 0 20px rgba(255, 215, 0, 0.2);
+  background: linear-gradient(135deg, #FFDC00 0%, #FFB000 100%) !important;
+}
+
+/* Premium scrollbar */
+.theme-lakshmi ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.theme-lakshmi ::-webkit-scrollbar-track {
+  background: rgba(25, 17, 8, 0.3);
+  border-radius: 4px;
+}
+
+.theme-lakshmi ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.theme-lakshmi ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FFDC00 0%, #FFB000 100%);
+}
+
+/* Brighter Lakshmi yantra background */
+.theme-lakshmi .lakshmi-yantra-bg, 
+.theme-lakshmi [style*="lakshmi-yantra.svg"] {
+  opacity: 0.8 !important;
+  filter: brightness(1.3) contrast(1.1) saturate(1.2);
+}
+
+/* Enhanced yantra effects */
+.theme-lakshmi .lakshmi-yantra-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
   
   /* Mystical input text styling */
   input, textarea, select {
@@ -763,8 +766,6 @@
   .theme-lakshmi .animate-golden-glow {
     animation: golden-glow 3s ease-in-out infinite;
   }
-}
-
 
   /* Mystical navigation */
   nav, .navigation {

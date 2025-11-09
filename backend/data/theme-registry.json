@@ -201,10 +201,10 @@
       "id": "cosmos",
       "metadata": {
         "id": "cosmos",
-        "name": "Cosmos Theme",
-        "description": "Cosmic admin panel design for regular users",
+        "name": "Cosmic Nebula Theme",
+        "description": "Interstellar cosmic theme with deep space blacks, nebula purples, and stellar accents. Features animated cosmic dust particles and dynamic constellation effects.",
         "category": "color-scheme",
-        "gradient": "from-purple-600 via-cyan-500 to-gold-500"
+        "gradient": "from-indigo-900 via-purple-800 to-violet-900"
       }
     }
   ]

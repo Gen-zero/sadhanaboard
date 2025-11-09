@@ -403,6 +403,107 @@
   --sidebar-ring: 202 96% 55%;        /* Light sky blue ring */
 }
 
+/* Cosmos Theme - Interstellar Nebula */
+.theme-cosmos {
+  /* Deep space background with subtle cosmic undertones */
+  --background: 240 20% 6%;        /* #0A0A1A - Deep space black */
+  
+  /* Primary text color */
+  --foreground: 240 30% 90%;      /* #E6E6FA - Cosmic lavender text */
+  
+  /* Primary color for buttons, links, and key UI elements */
+  --primary: 240 30% 20%;         /* #2A2A4A - Cosmic slate blue */
+  
+  /* Secondary color for less important UI elements */
+  --secondary: 240 25% 25%;       /* #353555 - Stellar gray-blue */
+  
+  /* Accent color for highlights and special elements */
+  --accent: 240 40% 60%;          /* #6A5ACD - Cosmic slate blue (Nebula) */
+  
+  /* Background color for cards */
+  --card: 240 15% 12%;            /* #1A1A2A - Dark cosmic card background */
+  
+  /* Text color for content inside cards */
+  --card-foreground: 240 30% 90%; /* #E6E6FA - Cosmic lavender text on cards */
+  
+  /* Background color for popovers/tooltips */
+  --popover: 240 20% 15%;         /* #222235 - Popover with deep space feel */
+  
+  /* Text color for content inside popovers */
+  --popover-foreground: 240 30% 90%; /* #E6E6FA - Cosmic lavender text on popovers */
+  
+  /* Border color for most UI elements */
+  --border: 240 30% 30%;          /* #454565 - Cosmic border with shimmer */
+  
+  /* Background color for input fields */
+  --input: 240 20% 15%;           /* #222235 - Input fields with space feel */
+  
+  /* Background color for muted/disabled elements */
+  --muted: 240 20% 18%;           /* #252538 - Muted cosmic background */
+  
+  /* Text color for muted/disabled elements */
+  --muted-foreground: 240 20% 70%; /* #B0B0C0 - Stellar gray text */
+  
+  /* Focus ring color for interactive elements */
+  --ring: 240 40% 60%;            /* #6A5ACD - Cosmic slate blue ring */
+  
+  /* Deep space sidebar variants */
+  
+  /* Background color for the sidebar */
+  --sidebar-background: 240 25% 8%;  /* #121225 - Deep space sidebar */
+  
+  /* Text color for sidebar content */
+  --sidebar-foreground: 0 0% 90%;    /* Very light text for sidebar */
+  
+  /* Primary color for sidebar elements (buttons, links) */
+  --sidebar-primary: 240 40% 60%;    /* #6A5ACD - Cosmic slate blue for sidebar */
+  
+  /* Text color for elements on top of sidebar primary color */
+  --sidebar-primary-foreground: 0 0% 100%; /* Pure white text */
+  
+  /* Accent color for sidebar highlights */
+  --sidebar-accent: 270 50% 70%;     /* #9966CC - Cosmic purple accent */
+  
+  /* Text color for elements on top of sidebar accent color */
+  --sidebar-accent-foreground: 0 0% 100%; /* Pure white text */
+  
+  /* Border color for sidebar elements */
+  --sidebar-border: 240 30% 20%;     /* #2A2A4A - Sidebar border */
+  
+  /* Focus ring color for sidebar interactive elements */
+  --sidebar-ring: 270 50% 70%;      /* #9966CC - Cosmic purple ring */
+  
+  /* Destructive actions with cosmic warning */
+  --destructive: 0 80% 60%;         /* #F55 - Cosmic red */
+  --destructive-foreground: 0 0% 100%; /* White text on destructive elements */
+}
+
+/* Ganesha Theme - Orange and Violet Blend */
+.theme-ganesha {
+  --background: 30 70% 85%;       /* Soft Orange with violet undertones */
+  --foreground: 270 100% 25%;       /* Indigo text */
+  --primary: 30 70% 85%;          /* Soft Orange primary */
+  --secondary: 270 40% 70%;         /* Violet secondary */
+  --accent: 270 60% 50%;           /* Violet accent */
+  --card: 30 60% 90%;              /* Card background with orange-violet blend */
+  --popover: 30 55% 93%;           /* Popover with warm violet tones */
+  --border: 270 40% 75%;            /* Violet border */
+  --input: 270 50% 88%;             /* Violet input fields */
+  --muted: 270 30% 80%;             /* Muted violet background */
+  --muted-foreground: 270 50% 40%; /* Slate blue muted text */
+  --ring: 270 60% 50%;             /* Violet ring */
+
+  /* Sidebar variants */
+  --sidebar-background: 270 50% 80%;    /* Violet sidebar */
+  --sidebar-foreground: 30 100% 95%;    /* Light orange text */
+  --sidebar-primary: 270 60% 50%;       /* Violet */
+  --sidebar-primary-foreground: 0 0% 100%; /* White Text */
+  --sidebar-accent: 30 70% 70%;         /* Orange accent */
+  --sidebar-accent-foreground: 270 100% 25%; /* Indigo Text */
+  --sidebar-border: 270 40% 70%;         /* Violet sidebar border */
+  --sidebar-ring: 270 60% 50%;          /* Violet Ring */
+}
+
 /* Tara Mahavidya Theme */
 .theme-tara {
   --background: 240 100% 3%;       /* Deep blue-black */
@@ -576,32 +677,6 @@
   --neon-purple-glow: 0 0 15px hsla(var(--accent), 0.7);
   --neon-shadow: 0 0 20px hsla(var(--primary), 0.5);
   --neon-gradient: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%);
-}
-
-/* Cosmos Theme - Deep Space */
-.theme-cosmos {
-  --background: 0 0% 100%;         /* Pure white background */
-  --foreground: 0 0% 0%;           /* Black text */
-  --primary: 0 0% 100%;            /* White primary */
-  --secondary: 0 0% 90%;           /* Light gray secondary */
-  --accent: 260 100% 72%;          /* #9E6FFF Nebula Violet */
-  --card: 0 0% 95%;                /* Light gray cards */
-  --popover: 0 0% 90%;             /* Popover */
-  --border: 0 0% 85%;              /* Light gray border */
-  --input: 0 0% 95%;               /* Input fields */
-  --muted: 0 0% 85%;               /* Muted background */
-  --muted-foreground: 0 0% 40%;    /* Dark gray muted text */
-  --ring: 260 100% 72%;            /* Violet ring */
-
-  /* Sidebar variants */
-  --sidebar-background: 0 0% 98%;  /* Light sidebar */
-  --sidebar-foreground: 0 0% 0%;   /* Sidebar text */
-  --sidebar-primary: 260 100% 72%; /* Nebula violet */
-  --sidebar-primary-foreground: 0 0% 100%; /* White text */
-  --sidebar-accent: 0 0% 90%;      /* Light gray accent */
-  --sidebar-accent-foreground: 0 0% 0%; /* Dark text */
-  --sidebar-border: 0 0% 85%;      /* Sidebar border */
-  --sidebar-ring: 260 100% 72%;    /* Violet ring */
 }
 
 /* Earth Theme - Natural Tones */

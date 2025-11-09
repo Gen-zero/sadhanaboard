@@ -1,6 +1,7 @@
-/* Cosmic Theme Styles for Regular Users */
+/* Cosmic Nebula Theme - Interstellar Experience */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap');
 
-/* Cosmic background with stars */
+/* Cosmic background with animated stars and nebula effects */
 .cosmos-background {
   position: fixed;
   top: 0;
@@ -8,39 +9,58 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-image: radial-gradient(2px 2px at 40px 60px, hsla(270, 70%, 55%, 0.3), transparent),
-                    radial-gradient(2px 2px at 20px 50px, hsla(190, 80%, 50%, 0.2), transparent),
-                    radial-gradient(2px 2px at 30px 100px, hsla(50, 100%, 50%, 0.3), transparent),
-                    radial-gradient(2px 2px at 40px 60px, hsla(270, 70%, 55%, 0.2), transparent),
-                    radial-gradient(2px 2px at 110px 80px, hsla(190, 80%, 50%, 0.3), transparent),
-                    radial-gradient(2px 2px at 80px 100px, hsla(50, 100%, 50%, 0.3), transparent);
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  opacity: 0.1;
-  pointer-events: none;
+  background: 
+    /* Deep space base */
+    radial-gradient(ellipse at center, #0a0a1a 0%, #080815 50%, #050510 100%),
+    /* Distant galaxies */
+    radial-gradient(circle at 20% 80%, rgba(106, 90, 205, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 80% 20%, rgba(153, 102, 204, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 40% 40%, rgba(75, 0, 130, 0.1) 0%, transparent 30%);
+  overflow: hidden;
+  animation: cosmicPulse 8s ease-in-out infinite alternate;
 }
 
-/* Cosmic card styling */
+/* Nebula glow effect */
+.cosmos-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 30% 70%, rgba(106, 90, 205, 0.15) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 30%, rgba(153, 102, 204, 0.15) 0%, transparent 40%);
+  animation: nebulaShift 15s ease-in-out infinite alternate;
+  opacity: 0.3;
+}
+
+/* Cosmic card styling with constellation effects */
 .cosmos-card {
-  background: rgba(10, 8, 20, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(138, 43, 226, 0.2);
-  border-radius: 12px;
+  background: linear-gradient(145deg, 
+    rgba(26, 26, 42, 0.8), 
+    rgba(18, 18, 37, 0.9));
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(106, 90, 205, 0.3);
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 8px 32px rgba(106, 90, 205, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .cosmos-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 1px;
   background: linear-gradient(135deg, 
-    rgba(138, 43, 226, 0.3), 
-    rgba(255, 215, 0, 0.2), 
-    rgba(0, 191, 255, 0.2));
+    rgba(106, 90, 205, 0.4), 
+    rgba(153, 102, 204, 0.3), 
+    rgba(75, 0, 130, 0.2));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -50,21 +70,24 @@
 }
 
 .cosmos-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(138, 43, 226, 0.2);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(106, 90, 205, 0.3),
+    0 0 30px rgba(153, 102, 204, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .cosmos-card-glow {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 16px;
   background: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(138, 43, 226, 0.1) 0%,
+    rgba(106, 90, 205, 0.2) 0%,
     transparent 70%
   );
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
@@ -72,18 +95,24 @@
   opacity: 1;
 }
 
-/* Cosmic button styling */
+/* Cosmic button styling with stellar effects */
 .cosmos-button {
-  background: rgba(138, 43, 226, 0.2);
-  border: 1px solid rgba(138, 43, 226, 0.3);
-  color: #fff;
-  border-radius: 8px;
-  padding: 8px 16px;
+  background: linear-gradient(145deg, 
+    rgba(42, 42, 74, 0.8), 
+    rgba(26, 26, 42, 0.9));
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  color: #e6e6fa;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-family: 'Orbitron', sans-serif;
   font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  text-transform: uppercase;
 }
 
 .cosmos-button::before {
@@ -92,16 +121,22 @@
   inset: 0;
   background: linear-gradient(90deg, 
     transparent, 
-    rgba(255, 215, 0, 0.3), 
+    rgba(153, 102, 204, 0.4), 
     transparent);
   transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  transition: transform 0.8s ease;
 }
 
 .cosmos-button:hover {
-  background: rgba(138, 43, 226, 0.3);
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
-  transform: translateY(-2px);
+  background: linear-gradient(145deg, 
+    rgba(53, 53, 93, 0.9), 
+    rgba(42, 42, 74, 1));
+  box-shadow: 
+    0 0 25px rgba(106, 90, 205, 0.5),
+    0 5px 15px rgba(153, 102, 204, 0.3),
+    inset 0 0 15px rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  border-color: rgba(153, 102, 204, 0.6);
 }
 
 .cosmos-button:hover::before {
@@ -109,198 +144,281 @@
 }
 
 .cosmos-button:active {
-  transform: translateY(0);
+  transform: translateY(1px);
+  box-shadow: 
+    0 0 15px rgba(106, 90, 205, 0.3),
+    inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Cosmic metrics styling */
+.cosmos-button-primary {
+  background: linear-gradient(145deg, 
+    rgba(106, 90, 205, 0.8), 
+    rgba(85, 70, 175, 0.9));
+  border: 1px solid rgba(153, 102, 204, 0.5);
+  color: white;
+  font-weight: 600;
+}
+
+.cosmos-button-primary:hover {
+  background: linear-gradient(145deg, 
+    rgba(120, 100, 220, 0.9), 
+    rgba(106, 90, 205, 1));
+  box-shadow: 
+    0 0 30px rgba(106, 90, 205, 0.6),
+    0 8px 20px rgba(153, 102, 204, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  border-color: rgba(170, 130, 230, 0.7);
+}
+
+/* Cosmic metrics styling with stellar typography */
 .cosmos-metric-value {
   font-family: 'Orbitron', sans-serif;
-  font-weight: 600;
-  background: linear-gradient(90deg, #8a2be2, #00bfff, #ffd700);
+  font-weight: 700;
+  font-size: 2rem;
+  background: linear-gradient(90deg, 
+    #b19cd9, 
+    #9370db, 
+    #8a2be2, 
+    #9370db,
+    #b19cd9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  text-shadow: 
+    0 0 15px rgba(138, 43, 226, 0.4),
+    0 0 30px rgba(153, 102, 204, 0.3);
+  letter-spacing: 1px;
+  animation: cosmicGlow 3s ease-in-out infinite alternate;
 }
 
-/* Cosmic progress styling */
+.cosmos-metric-label {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  color: #b0b0c0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+/* Cosmic progress styling with nebula effects */
 .cosmos-progress-bar {
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(138, 43, 226, 0.1);
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(26, 26, 42, 0.6);
   overflow: hidden;
   position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cosmos-progress-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, 
+    rgba(106, 90, 205, 0.2), 
+    rgba(153, 102, 204, 0.2));
+  border-radius: 6px;
 }
 
 .cosmos-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8a2be2, #00bfff);
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, 
+    #6a5acd, 
+    #9966cc,
+    #8a2be2);
+  border-radius: 6px;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Cosmic table styling */
+.cosmos-progress-fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0), 
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0));
+  animation: progressShine 2s linear infinite;
+}
+
+/* Cosmic table styling with constellation lines */
 .cosmos-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(26, 26, 42, 0.4);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .cosmos-table th {
-  padding: 12px 16px;
+  padding: 16px 20px;
   text-align: left;
-  font-weight: 600;
-  color: hsl(240, 5%, 65%);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  color: #b19cd9;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(106, 90, 205, 0.3);
+  background: rgba(18, 18, 37, 0.6);
 }
 
 .cosmos-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(138, 43, 226, 0.1);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(106, 90, 205, 0.15);
+  color: #e6e6fa;
+  font-family: 'Exo 2', sans-serif;
+}
+
+.cosmos-table tr:last-child td {
+  border-bottom: none;
 }
 
 .cosmos-table tr:hover {
-  background: rgba(138, 43, 226, 0.05);
+  background: rgba(106, 90, 205, 0.1);
+  transition: background 0.3s ease;
 }
 
-/* Cosmic input styling */
+/* Cosmic input styling with stellar glow */
 .cosmos-input {
-  background: rgba(10, 8, 20, 0.6);
-  border: 1px solid rgba(138, 43, 226, 0.2);
-  border-radius: 8px;
-  padding: 10px 14px;
-  color: white;
+  background: rgba(18, 18, 37, 0.7);
+  border: 1px solid rgba(106, 90, 205, 0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #e6e6fa;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .cosmos-input:focus {
   outline: none;
-  border-color: #8a2be2;
-  box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+  border-color: #9966cc;
+  box-shadow: 
+    inset 0 2px 12px rgba(0, 0, 0, 0.4),
+    0 0 0 3px rgba(153, 102, 204, 0.2);
 }
 
 .cosmos-input::placeholder {
-  color: hsl(240, 5%, 50%);
+  color: #b0b0c0;
+  font-style: italic;
 }
 
-/* Cosmic navigation styling */
+/* Cosmic navigation styling with constellation effect */
 .cosmos-nav {
-  background: rgba(10, 8, 20, 0.7);
-  backdrop-filter: blur(12px) saturate(180%);
-  border-right: 1px solid rgba(138, 43, 226, 0.2);
-  padding: 20px 0;
+  background: linear-gradient(180deg, 
+    rgba(18, 18, 37, 0.95), 
+    rgba(12, 12, 25, 0.98));
+  backdrop-filter: blur(15px) saturate(180%);
+  border-right: 1px solid rgba(106, 90, 205, 0.25);
+  padding: 25px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 
+    5px 0 25px rgba(106, 90, 205, 0.1),
+    inset 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 .cosmos-nav-item {
   width: 100%;
+  padding: 16px 24px;
+  margin: 8px 0;
+  color: #b0b0c0;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  text-decoration: none;
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  margin: 4px 0;
-  border-radius: 8px;
-  cursor: pointer;
+  gap: 12px;
+  border-radius: 0 30px 30px 0;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.7);
 }
 
 .cosmos-nav-item:hover {
-  background: rgba(138, 43, 226, 0.15);
-  color: #fff;
+  color: #e6e6fa;
+  background: linear-gradient(90deg, 
+    rgba(106, 90, 205, 0.2), 
+    transparent);
   transform: translateX(5px);
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
 }
 
 .cosmos-nav-item.active {
-  background: rgba(138, 43, 226, 0.25);
-  color: #fff;
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
-}
-
-/* Cosmic modal styling */
-.cosmos-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.cosmos-modal {
-  background: rgba(10, 8, 20, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(138, 43, 226, 0.3);
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-}
-
-.cosmos-modal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  padding: 1px;
-  background: linear-gradient(135deg, 
-    rgba(138, 43, 226, 0.5), 
-    rgba(255, 215, 0, 0.3), 
-    rgba(0, 191, 255, 0.3));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Cosmic toast styling */
-.cosmos-toast {
-  background: rgba(10, 8, 20, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(138, 43, 226, 0.3);
-  border-radius: 8px;
-  padding: 12px 16px;
   color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: toast-appear 0.3s ease-out;
+  background: linear-gradient(90deg, 
+    rgba(106, 90, 205, 0.3), 
+    rgba(153, 102, 204, 0.2));
+  border-left: 3px solid #9966cc;
+  box-shadow: 
+    0 0 20px rgba(106, 90, 205, 0.3),
+    inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-@keyframes toast-appear {
+/* Cosmic animations */
+@keyframes cosmicPulse {
   0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
+    background-position: 0% 50%;
   }
   100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    background-position: 100% 50%;
   }
 }
 
-.cosmos-toast::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  padding: 1px;
-  background: linear-gradient(135deg, 
-    rgba(138, 43, 226, 0.5), 
-    rgba(255, 215, 0, 0.3), 
-    rgba(0, 191, 255, 0.3));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  z-index: -1;
+@keyframes nebulaShift {
+  0% {
+    background-position: 0% 0%, 100% 100%;
+  }
+  100% {
+    background-position: 100% 100%, 0% 0%;
+  }
+}
+
+@keyframes cosmicGlow {
+  0% {
+    text-shadow: 
+      0 0 15px rgba(138, 43, 226, 0.4),
+      0 0 30px rgba(153, 102, 204, 0.3);
+  }
+  100% {
+    text-shadow: 
+      0 0 25px rgba(138, 43, 226, 0.6),
+      0 0 40px rgba(153, 102, 204, 0.4),
+      0 0 60px rgba(138, 43, 226, 0.2);
+  }
+}
+
+@keyframes progressShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Cosmic responsive adjustments */
+@media (max-width: 768px) {
+  .cosmos-card {
+    border-radius: 12px;
+  }
+  
+  .cosmos-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .cosmos-metric-value {
+    font-size: 1.5rem;
+  }
+  
+  .cosmos-table th,
+  .cosmos-table td {
+    padding: 12px 16px;
+  }
 }

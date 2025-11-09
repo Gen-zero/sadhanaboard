@@ -1,39 +1,54 @@
 import { ThemeColors } from '../types';
 
-// Cosmos – White Theme
-// Primary (Background): #FFFFFF (Pure White)
-// Accent / Highlight: #9E6FFF (Nebula Violet)
-// Text (Primary): #000000
-// Text (Secondary): #444444
+// Cosmos – Interstellar Nebula Theme
+// Primary (Background): #0A0A1A (Deep Space Black)
+// Accent / Highlight: #6A5ACD (Cosmic Slate Blue) with gradient effects
+// Text (Primary): #E6E6FA (Cosmic Lavender)
+// Text (Secondary): #B0B0C0 (Stellar Gray)
 
 const colors: ThemeColors = {
-  background: '0 0% 100%', // Pure white background
-  foreground: '0 0% 0%',   // Black text
-  card: '0 0% 95%',        // Light gray cards
-  cardForeground: '0 0% 0%',
-  popover: '0 0% 90%',     // Popover
-  popoverForeground: '0 0% 0%',
-  primary: '0 0% 100%',    // White primary
-  primaryForeground: '0 0% 0%',
-  secondary: '0 0% 90%',   // Light gray secondary
-  secondaryForeground: '0 0% 0%',
-  muted: '0 0% 85%',       // Muted background
-  mutedForeground: '0 0% 40%', // Dark gray muted text
-  accent: '260 100% 72%',  // #9E6FFF Nebula Violet
-  accentForeground: '0 0% 100%',
-  destructive: '0 84.2% 58%',
-  destructiveForeground: '0 0% 100%',
-  border: '0 0% 85%',      // Light gray border
-  input: '0 0% 95%',       // Input fields
-  ring: '260 100% 72%',    // Violet ring
-  sidebarBackground: '0 0% 98%',  // Light sidebar
-  sidebarForeground: '0 0% 0%',
-  sidebarPrimary: '260 100% 72%', // Nebula violet
-  sidebarPrimaryForeground: '0 0% 100%',
-  sidebarAccent: '0 0% 90%',
-  sidebarAccentForeground: '0 0% 0%',
-  sidebarBorder: '0 0% 85%',       // Sidebar border
-  sidebarRing: '260 100% 72%'
+  // Deep space background with subtle cosmic undertones
+  background: '240 20% 6%',        // #0A0A1A - Deep space black
+  foreground: '240 30% 90%',      // #E6E6FA - Cosmic lavender text
+  card: '240 15% 12%',            // #1A1A2A - Dark cosmic card background
+  cardForeground: '240 30% 90%',  // #E6E6FA - Cosmic lavender text on cards
+  popover: '240 20% 15%',         // #222235 - Popover with deep space feel
+  popoverForeground: '240 30% 90%', // #E6E6FA - Cosmic lavender text on popovers
+  
+  // Cosmic primary colors with gradient potential
+  primary: '240 30% 20%',         // #2A2A4A - Cosmic slate blue
+  primaryForeground: '0 0% 95%',  // Nearly white text for contrast
+  
+  // Secondary elements with stellar feel
+  secondary: '240 25% 25%',       // #353555 - Stellar gray-blue
+  secondaryForeground: '0 0% 90%', // Very light text
+  
+  // Muted colors for subtle elements
+  muted: '240 20% 18%',           // #252538 - Muted cosmic background
+  mutedForeground: '240 20% 70%', // #B0B0C0 - Stellar gray text
+  
+  // Accent colors with cosmic glow
+  accent: '240 40% 60%',          // #6A5ACD - Cosmic slate blue (Nebula)
+  accentForeground: '0 0% 100%',  // Pure white for accent elements
+  
+  // Destructive actions with cosmic warning
+  destructive: '0 80% 60%',       // #F55 - Cosmic red
+  destructiveForeground: '0 0% 100%', // White text on destructive elements
+  
+  // Borders and inputs with subtle cosmic shimmer
+  border: '240 30% 30%',          // #454565 - Cosmic border with shimmer
+  input: '240 20% 15%',           // #222235 - Input fields with space feel
+  ring: '240 40% 60%',            // #6A5ACD - Cosmic slate blue ring
+  
+  // Sidebar with deep space navigation
+  sidebarBackground: '240 25% 8%',  // #121225 - Deep space sidebar
+  sidebarForeground: '0 0% 90%',    // Very light text for sidebar
+  sidebarPrimary: '240 40% 60%',    // #6A5ACD - Cosmic slate blue for sidebar
+  sidebarPrimaryForeground: '0 0% 100%', // Pure white text
+  sidebarAccent: '270 50% 70%',     // #9966CC - Cosmic purple accent
+  sidebarAccentForeground: '0 0% 100%', // Pure white text
+  sidebarBorder: '240 30% 20%',     // #2A2A4A - Sidebar border
+  sidebarRing: '270 50% 70%'        // #9966CC - Cosmic purple ring
 };
 
 export default colors;
