@@ -17,7 +17,5 @@ export {
 // Mobile Testing
 export { default as MobileTestSuite } from './MobileTestSuite';
 
-// Mobile Hooks and Utilities
-export * from '../../hooks/useTouchGestures';
-export * from '../../hooks/useMobilePerformance';
-export * from '../../hooks/useMobileAccessibility';
+// Note: Hooks are not exported from this index to avoid circular dependencies
+// Import hooks directly from '@/hooks/useTouchGestures', etc.
