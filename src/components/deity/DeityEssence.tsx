@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -7,29 +6,29 @@ import { Button } from '@/components/ui/button';
 import { Check, Sparkles, Plus } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
-interface DeityEssenceProps {
-  deityData: {
-    name: string;
-    essence: string;
-    avatar: string;
-    sadhanaHistory: Array<{
-      id: number;
-      practice: string;
-      insights: string;
-      date: string;
-    }>;
+interface DeityData {
+  name: string;
+  essence: string;
+  avatar: string;
+  shadowSelf: {
+    traits: string[];
+    challenges: string;
   };
-  onDeityDataChange: (data: {
-    name: string;
-    essence: string;
-    avatar: string;
-    sadhanaHistory: Array<{
-      id: number;
-      practice: string;
-      insights: string;
-      date: string;
-    }>;
-  }) => void;
+  perfectBeing: {
+    traits: string[];
+    aspirations: string;
+  };
+  sadhanaHistory: Array<{
+    id: number;
+    practice: string;
+    insights: string;
+    date: string;
+  }>;
+}
+
+interface DeityEssenceProps {
+  deityData: DeityData;
+  onDeityDataChange: (data: DeityData) => void;
   onSaveChanges: () => void;
 }
 
