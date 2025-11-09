@@ -88,7 +88,7 @@
   padding-right: env(safe-area-inset-right);
 }
 
-/* Touch-friendly interactions */
+/* Native Android-like touch interactions */
 .touch-manipulation {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
@@ -98,6 +98,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   cursor: pointer;
+  outline: none;
 }
 
 .touch-manipulation:active {
@@ -105,13 +106,14 @@
   transition: transform 0.1s ease;
 }
 
-/* Enhanced touch interactions */
+/* Enhanced touch ripple effect (Material Design style) */
 .touch-ripple {
   position: relative;
   overflow: hidden;
+  border-radius: inherit;
 }
 
-.touch-ripple:after {
+.touch-ripple::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -122,9 +124,10 @@
   background: rgba(255, 255, 255, 0.2);
   transform: translate(-50%, -50%);
   transition: width 0.3s ease, height 0.3s ease;
+  pointer-events: none;
 }
 
-.touch-ripple:active:after {
+.touch-ripple:active::after {
   width: 200px;
   height: 200px;
 }
@@ -159,6 +162,7 @@
   height: 100%;
   background: rgba(255, 255, 255, 0.1);
   transition: width 1s linear;
+  border-radius: inherit;
 }
 
 .long-press.pressed::before {
@@ -198,7 +202,7 @@
   padding: 8px;
 }
 
-/* Mobile-specific animations */
+/* Native Android-like animations */
 @keyframes mobile-fade-in {
   from {
     opacity: 0;
@@ -228,6 +232,17 @@
   }
 }
 
+@keyframes android-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
 .mobile-fade-in {
   animation: mobile-fade-in 0.3s ease-out;
 }
@@ -251,13 +266,16 @@
   background: transparent;
 }
 
-/* Mobile-optimized cards */
+/* Native Android-like cards */
 .mobile-card {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
 .mobile-card-interactive {
@@ -267,6 +285,510 @@
 .mobile-card-interactive:active {
   transform: scale(0.98);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Native Android elevation system */
+.elevation-1 {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.elevation-2 {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.elevation-3 {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.elevation-4 {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14), 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.elevation-5 {
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16), 0 16px 48px rgba(0, 0, 0, 0.16);
+}
+
+/* Native Android-like floating action button */
+.fab {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: all 0.2s ease;
+}
+
+.fab:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Native Android-like bottom navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  z-index: 50;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  padding: 8px 0;
+  min-width: 60px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bottom-nav-item:active {
+  transform: scale(0.95);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.bottom-nav-item.active {
+  color: hsl(var(--primary));
+}
+
+.bottom-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+}
+
+/* Native Android-like app bar */
+.app-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 50;
+}
+
+.app-bar-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+  margin: 0 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Native Android-like snackbar */
+.snackbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(30, 30, 30, 0.95);
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.snackbar.show {
+  transform: translateY(0);
+}
+
+.snackbar-action {
+  color: #4285f4;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-left: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Native Android-like dialog */
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dialog.show {
+  opacity: 1;
+}
+
+.dialog-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  transition: transform 0.2s ease;
+}
+
+.dialog.show .dialog-content {
+  transform: scale(1);
+}
+
+.dialog-header {
+  padding: 24px 24px 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.dialog-body {
+  padding: 0 24px 24px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px 24px;
+  gap: 8px;
+}
+
+/* Native Android-like switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .switch-slider {
+  background-color: #4285f4;
+}
+
+input:checked + .switch-slider:before {
+  transform: translateX(26px);
+}
+
+/* Native Android-like progress bar */
+.progress-linear {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-linear-bar {
+  height: 100%;
+  background: #4285f4;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.progress-circular {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #4285f4;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Native Android-like text fields */
+.text-field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.text-field input,
+.text-field textarea {
+  width: 100%;
+  padding: 16px 16px 16px 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.text-field input:focus,
+.text-field textarea:focus {
+  border-bottom: 2px solid #4285f4;
+}
+
+.text-field label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.text-field input:focus + label,
+.text-field textarea:focus + label,
+.text-field input:not(:placeholder-shown) + label,
+.text-field textarea:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 0.75rem;
+  color: #4285f4;
+}
+
+/* Native Android-like buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.0892857143em;
+  min-height: 36px;
+  min-width: 64px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button-contained {
+  background: #4285f4;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-contained:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button-outlined {
+  background: transparent;
+  color: #4285f4;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.button-text {
+  background: transparent;
+  color: #4285f4;
+}
+
+/* Native Android-like chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.87);
+  margin: 4px;
+  transition: all 0.2s ease;
+}
+
+.chip:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.chip-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Native Android-like lists */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  transition: background 0.2s ease;
+}
+
+.list-item:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.list-item-icon {
+  margin-right: 32px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.list-item-text {
+  flex: 1;
+}
+
+.list-item-meta {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.875rem;
+}
+
+/* Native Android-like tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.54);
+  position: relative;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.tab.active {
+  color: #4285f4;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4285f4;
+}
+
+/* Native Android-like expansion panels */
+.expansion-panel {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.expansion-panel-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.expansion-panel-header:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.expansion-panel-icon {
+  margin-right: 16px;
+  transition: transform 0.2s ease;
+}
+
+.expansion-panel-header.active .expansion-panel-icon {
+  transform: rotate(180deg);
+}
+
+.expansion-panel-content {
+  padding: 0 16px 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+}
+
+.expansion-panel-content.expanded {
+  max-height: 1000px;
+  padding: 0 16px 16px;
 }
 
 /* Mobile typography optimizations */
@@ -396,12 +918,6 @@
 .my-responsive { margin-top: clamp(0.5rem, 3vw, 1rem); margin-bottom: clamp(0.5rem, 3vw, 1rem); }
 .p-responsive { padding: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
 .m-responsive { margin: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
-
-/* Responsive padding and margin utilities */
-.px-responsive { padding-left: clamp(0.5rem, 4vw, 1.5rem); padding-right: clamp(0.5rem, 4vw, 1.5rem); }
-.py-responsive { padding-top: clamp(0.5rem, 3vw, 1rem); padding-bottom: clamp(0.5rem, 3vw, 1rem); }
-.mx-responsive { margin-left: clamp(0.5rem, 4vw, 1.5rem); margin-right: clamp(0.5rem, 4vw, 1.5rem); }
-.my-responsive { margin-top: clamp(0.5rem, 3vw, 1rem); margin-bottom: clamp(0.5rem, 3vw, 1rem); }
 
 /* Mobile grid optimizations */
 .mobile-grid-1 {
@@ -634,7 +1150,6 @@
 .mobile-nav-item:focus-visible {
   outline: none;
   outline-offset: 0;
-  border-radius: 0;
 }
 
 /* Screen reader only content */

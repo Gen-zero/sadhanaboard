@@ -9,8 +9,10 @@ export interface TouchGestureOptions {
   onDoubleTap?: () => void;
   onLongPress?: () => void;
   onPinch?: (scale: number) => void;
+  onSwipe?: (direction: 'left' | 'right' | 'up' | 'down', velocity: number) => void;
   threshold?: number;
   longPressDelay?: number;
+  velocityThreshold?: number;
 }
 
 export const useTouchGestures = (options: TouchGestureOptions) => {
@@ -24,6 +26,7 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
   const {
     threshold = 50,
     longPressDelay = 500,
+    velocityThreshold = 0.5,
     onSwipeLeft,
     onSwipeRight,
     onSwipeUp,
@@ -31,7 +34,8 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
     onTap,
     onDoubleTap,
     onLongPress,
-    onPinch
+    onPinch,
+    onSwipe
   } = options;
 
   // Calculate distance between two touch points
@@ -96,6 +100,19 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
         setCurrentScale(scale);
         onPinch(scale);
       }
+
+      // Add haptic feedback for Android-like interactions
+      if (e.touches.length === 1 && touchStart) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStart.x;
+        const deltaY = touch.clientY - touchStart.y;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Provide haptic feedback for significant movements
+        if (distance > 10 && 'vibrate' in navigator) {
+          navigator.vibrate(5);
+        }
+      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -117,6 +134,11 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
         const now = Date.now();
         const timeSinceLastTap = now - lastTap;
 
+        // Add haptic feedback for taps
+        if ('vibrate' in navigator) {
+          navigator.vibrate(15);
+        }
+
         if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
           // Double tap
           if (onDoubleTap) {
@@ -136,19 +158,60 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
       // Check for swipe gestures
       if (distance > threshold) {
         const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+        const velocity = distance / deltaTime; // pixels per millisecond
         
-        if (Math.abs(angle) < 45) {
-          // Right swipe
-          if (onSwipeRight) onSwipeRight();
-        } else if (Math.abs(angle) > 135) {
-          // Left swipe
-          if (onSwipeLeft) onSwipeLeft();
-        } else if (angle > 45 && angle < 135) {
-          // Down swipe
-          if (onSwipeDown) onSwipeDown();
-        } else if (angle < -45 && angle > -135) {
-          // Up swipe
-          if (onSwipeUp) onSwipeUp();
+        // Call the generic swipe handler if provided
+        if (onSwipe) {
+          if (Math.abs(angle) < 45) {
+            onSwipe('right', velocity);
+          } else if (Math.abs(angle) > 135) {
+            onSwipe('left', velocity);
+          } else if (angle > 45 && angle < 135) {
+            onSwipe('down', velocity);
+          } else if (angle < -45 && angle > -135) {
+            onSwipe('up', velocity);
+          }
+        }
+        
+        // Call specific swipe handlers based on velocity threshold
+        if (velocity > velocityThreshold) {
+          if (Math.abs(angle) < 45) {
+            // Right swipe
+            if (onSwipeRight) {
+              onSwipeRight();
+              // Add haptic feedback for swipe
+              if ('vibrate' in navigator) {
+                navigator.vibrate([10, 5, 10]);
+              }
+            }
+          } else if (Math.abs(angle) > 135) {
+            // Left swipe
+            if (onSwipeLeft) {
+              onSwipeLeft();
+              // Add haptic feedback for swipe
+              if ('vibrate' in navigator) {
+                navigator.vibrate([10, 5, 10]);
+              }
+            }
+          } else if (angle > 45 && angle < 135) {
+            // Down swipe
+            if (onSwipeDown) {
+              onSwipeDown();
+              // Add haptic feedback for swipe
+              if ('vibrate' in navigator) {
+                navigator.vibrate([10, 5, 10]);
+              }
+            }
+          } else if (angle < -45 && angle > -135) {
+            // Up swipe
+            if (onSwipeUp) {
+              onSwipeUp();
+              // Add haptic feedback for swipe
+              if ('vibrate' in navigator) {
+                navigator.vibrate([10, 5, 10]);
+              }
+            }
+          }
         }
       }
     };
@@ -164,7 +227,7 @@ export const useTouchGestures = (options: TouchGestureOptions) => {
       element.removeEventListener('touchend', handleTouchEnd);
       clearLongPressTimer();
     };
-  }, [touchStart, lastTap, longPressTimer, initialDistance, threshold, longPressDelay, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, onDoubleTap, onLongPress, onPinch, clearLongPressTimer]);
+  }, [touchStart, lastTap, longPressTimer, initialDistance, threshold, longPressDelay, velocityThreshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, onDoubleTap, onLongPress, onPinch, onSwipe, clearLongPressTimer]);
 
   return ref;
 };

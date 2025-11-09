@@ -1,6 +1,58 @@
 import React, { useState, useEffect, useRef, memo, lazy, Suspense } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+// Android-specific performance utilities
+export const useAndroidVibration = () => {
+  const vibrate = (pattern: number | number[]) => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(pattern);
+    }
+  };
+  
+  return { vibrate };
+};
+
+export const useAndroidBattery = () => {
+  const [batteryInfo, setBatteryInfo] = useState({
+    level: 100,
+    charging: true
+  });
+  
+  useEffect(() => {
+    if ('getBattery' in navigator) {
+      const nav = navigator as Navigator & { getBattery?: () => Promise<any> };
+      nav.getBattery?.().then((battery: { 
+        level: number; 
+        charging: boolean;
+        addEventListener: (event: string, handler: () => void) => void;
+        removeEventListener: (event: string, handler: () => void) => void;
+      }) => {
+        setBatteryInfo({
+          level: Math.round(battery.level * 100),
+          charging: battery.charging
+        });
+        
+        const updateBatteryInfo = () => {
+          setBatteryInfo({
+            level: Math.round(battery.level * 100),
+            charging: battery.charging
+          });
+        };
+        
+        battery.addEventListener('chargingchange', updateBatteryInfo);
+        battery.addEventListener('levelchange', updateBatteryInfo);
+        
+        return () => {
+          battery.removeEventListener('chargingchange', updateBatteryInfo);
+          battery.removeEventListener('levelchange', updateBatteryInfo);
+        };
+      });
+    }
+  }, []);
+  
+  return batteryInfo;
+};
+
 // Intersection Observer hook for lazy loading
 export const useIntersectionObserver = (options?: IntersectionObserverInit) => {
   const [isIntersecting, setIsIntersecting] = useState(false);

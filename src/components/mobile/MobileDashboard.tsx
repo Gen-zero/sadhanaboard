@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlarmClock, CheckSquare, BookOpen, Lightbulb, Calendar, PieChart, RotateCw, TrendingUp, Target, Award, Plus, ArrowRight } from 'lucide-react';
+import { AlarmClock, CheckSquare, BookOpen, Lightbulb, Calendar, PieChart, RotateCw, TrendingUp, Target, Award, Plus, ArrowRight, Home, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -11,6 +11,15 @@ import { useTouchGestures, TouchGestureArea } from '@/hooks/useTouchGestures';
 import { useIsMobile } from '@/hooks/use-mobile';
 import PullToRefresh from './PullToRefresh';
 import ProfileCard from '../ProfileCard';
+import { 
+  AndroidButton,
+  AndroidCard,
+  AndroidAppBar,
+  AndroidBottomNav,
+  AndroidListItem,
+  FloatingActionButton,
+  AndroidLinearProgress
+} from './AndroidMobileComponents';
 
 interface Task {
   id: number;
@@ -243,7 +252,14 @@ const MobileDashboard = () => {
 
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-      <div className="space-y-6 pb-20 pt-4"> {/* Extra padding for bottom nav and top spacing */}
+      <div className="space-y-6 pb-24 pt-16"> {/* Extra padding for bottom nav and top spacing */}
+        {/* Android App Bar */}
+        <AndroidAppBar 
+          title="SadhanaBoard" 
+          onMenuClick={() => navigate('/settings')}
+          onSearchClick={() => console.log('Search clicked')}
+        />
+        
         {/* Mobile Profile Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -545,6 +561,41 @@ const MobileDashboard = () => {
             <span className="text-xs">Library</span>
           </Button>
         </motion.div>
+        
+        {/* Android Bottom Navigation */}
+        <AndroidBottomNav
+          items={[
+            { id: 'home', label: 'Home', icon: <Home size={24} /> },
+            { id: 'sadhana', label: 'Sadhana', icon: <CheckSquare size={24} /> },
+            { id: 'library', label: 'Library', icon: <BookOpen size={24} /> },
+            { id: 'profile', label: 'Profile', icon: <User size={24} /> }
+          ]}
+          activeItem="home"
+          onItemClick={(id) => {
+            switch (id) {
+              case 'home':
+                navigate('/dashboard');
+                break;
+              case 'sadhana':
+                navigate('/sadhana');
+                break;
+              case 'library':
+                navigate('/library');
+                break;
+              case 'profile':
+                navigate('/profile');
+                break;
+              default:
+                break;
+            }
+          }}
+        />
+        
+        {/* Android Floating Action Button */}
+        <FloatingActionButton 
+          icon={<Plus size={24} />}
+          onClick={() => navigate('/sadhana/new')}
+        />
       </div>
     </PullToRefresh>
   );

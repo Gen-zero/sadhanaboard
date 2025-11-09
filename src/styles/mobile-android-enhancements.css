@@ -1,0 +1,844 @@
+/* Android-like Mobile UI Enhancements */
+
+/* Material Design Elevation System */
+.material-elevation-1 {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.material-elevation-2 {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+}
+
+.material-elevation-3 {
+  box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.material-elevation-4 {
+  box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.material-elevation-5 {
+  box-shadow: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Android-like Touch Ripple Effect */
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-ripple::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.3s, height 0.3s, opacity 0.3s;
+}
+
+.touch-ripple:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 1;
+  transition: 0s;
+}
+
+/* Android-like Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+/* Android-like Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+  z-index: 100;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 4px 0;
+  text-align: center;
+}
+
+.bottom-nav-item.active {
+  color: var(--primary);
+}
+
+.bottom-nav-item-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.bottom-nav-item-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.bottom-nav-item-label {
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  line-height: 1.2;
+}
+
+/* Very specific selectors to ensure centering - using !important to override any conflicting styles */
+.bottom-nav-item-icon,
+div.bottom-nav-item-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.bottom-nav-item-icon svg,
+div.bottom-nav-item-icon svg {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  padding: 0 !important;
+}
+
+.bottom-nav-item-label,
+div.bottom-nav-item-label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  line-height: 1.2 !important;
+}
+
+/* Ensure all child elements are centered */
+.bottom-nav-item-icon *,
+div.bottom-nav-item-icon * {
+  display: block !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+/* Android-like Card Design */
+.android-card {
+  background-color: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+}
+
+.android-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Android-like List Items */
+.android-list-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.2s ease;
+}
+
+.android-list-item:last-child {
+  border-bottom: none;
+}
+
+.android-list-item:hover {
+  background-color: var(--accent);
+}
+
+.android-list-item-icon {
+  margin-right: 16px;
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+.android-list-item-content {
+  flex: 1;
+}
+
+.android-list-item-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.android-list-item-subtitle {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+/* Android-like App Bar */
+.app-bar {
+  position: sticky;
+  top: 0;
+  height: 56px;
+  background-color: var(--background);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-bar-title {
+  font-size: 20px;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+}
+
+.app-bar-action {
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.app-bar-action:hover {
+  background-color: var(--accent);
+}
+
+/* Android-like Progress Indicators */
+.android-progress-linear {
+  height: 4px;
+  background-color: var(--primary);
+  border-radius: 2px;
+  animation: progress-indeterminate 2s infinite linear;
+  transform-origin: top left;
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: scaleX(0);
+    transform-origin: top left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: top left;
+  }
+  50.01% {
+    transform-origin: top right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: top right;
+  }
+}
+
+/* Android-like Snackbar */
+.snackbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card);
+  color: var(--card-foreground);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  border-top: 1px solid var(--border);
+}
+
+.snackbar.show {
+  transform: translateY(0);
+}
+
+.snackbar-action {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 16px;
+}
+
+/* Android-like Dialog */
+.android-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.android-dialog.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.android-dialog-content {
+  background-color: var(--card);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.2s ease;
+}
+
+.android-dialog.show .android-dialog-content {
+  transform: scale(1);
+}
+
+.android-dialog-header {
+  padding: 24px 24px 16px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.android-dialog-description {
+  padding: 0 24px;
+  color: var(--muted-foreground);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.android-dialog-body {
+  padding: 0 24px 24px;
+}
+
+.android-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px 24px;
+  gap: 8px;
+}
+
+/* Android-like Button Variants */
+.btn-android-filled {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.btn-android-filled:hover {
+  background-color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.btn-android-outlined {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  transition: all 0.2s ease;
+}
+
+.btn-android-outlined:hover {
+  background-color: var(--primary/10);
+}
+
+.btn-android-text {
+  background-color: transparent;
+  color: var(--primary);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-android-text:hover {
+  background-color: var(--primary/10);
+}
+
+/* Android-like Input Fields */
+.android-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  background-color: transparent;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.android-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary);
+}
+
+.android-input-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* Android-like Switch */
+.android-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+}
+
+.android-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.android-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--muted);
+  transition: .4s;
+  border-radius: 32px;
+}
+
+.android-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.android-switch input:checked + .android-switch-slider {
+  background-color: var(--primary);
+}
+
+.android-switch input:checked + .android-switch-slider:before {
+  transform: translateX(20px);
+}
+
+/* Android-like Toast */
+.android-toast {
+  position: fixed;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.android-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Android-like Bottom Sheet */
+.android-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  max-height: 80vh;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 -4px 8px 3px rgba(0, 0, 0, 0.15), 0 -1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.android-bottom-sheet.show {
+  transform: translateY(0);
+}
+
+.android-bottom-sheet-header {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.android-bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background-color: var(--muted);
+  border-radius: 2px;
+  margin: 0 auto 8px;
+}
+
+.android-bottom-sheet-content {
+  padding: 16px;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+}
+
+/* Android-like Tab Layout */
+.android-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.android-tab {
+  flex: 1;
+  text-align: center;
+  padding: 16px 0;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.android-tab.active {
+  color: var(--primary);
+}
+
+.android-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--primary);
+}
+
+/* Android-like Chip */
+.android-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.android-chip:hover {
+  background-color: var(--secondary/80);
+}
+
+.android-chip.selected {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Android-like Divider */
+.android-divider {
+  height: 1px;
+  background-color: var(--border);
+  margin: 8px 0;
+}
+
+/* Android-like Icon Button */
+.android-icon-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--foreground);
+}
+
+.android-icon-button:hover {
+  background-color: var(--accent);
+}
+
+.android-icon-button:active {
+  background-color: var(--accent/80);
+}
+
+/* Android-like Badge */
+.android-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Android-like Expansion Panel */
+.android-expansion-panel {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.android-expansion-panel-header {
+  padding: 16px;
+  background-color: var(--card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s ease;
+}
+
+.android-expansion-panel-header:hover {
+  background-color: var(--accent);
+}
+
+.android-expansion-panel-content {
+  padding: 16px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+}
+
+.android-expansion-panel-icon {
+  transition: transform 0.3s ease;
+}
+
+.android-expansion-panel.expanded .android-expansion-panel-icon {
+  transform: rotate(180deg);
+}
+
+/* Android-like Slider */
+.android-slider {
+  width: 100%;
+  height: 4px;
+  background-color: var(--muted);
+  border-radius: 2px;
+  position: relative;
+  outline: none;
+}
+
+.android-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.android-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Android-like Checkbox */
+.android-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.android-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.android-checkbox-checkmark {
+  height: 24px;
+  width: 24px;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.android-checkbox:hover .android-checkbox-checkmark {
+  border-color: var(--primary);
+}
+
+.android-checkbox-input:checked ~ .android-checkbox-checkmark {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.android-checkbox-checkmark::after {
+  content: "";
+  display: none;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.android-checkbox-input:checked ~ .android-checkbox-checkmark::after {
+  display: block;
+}
+
+/* Android-like Radio Button */
+.android-radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.android-radio-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.android-radio-checkmark {
+  height: 24px;
+  width: 24px;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.android-radio:hover .android-radio-checkmark {
+  border-color: var(--primary);
+}
+
+.android-radio-input:checked ~ .android-radio-checkmark {
+  border-color: var(--primary);
+}
+
+.android-radio-checkmark::after {
+  content: "";
+  display: none;
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary);
+  border-radius: 50%;
+}
+
+.android-radio-input:checked ~ .android-radio-checkmark::after {
+  display: block;
+}

@@ -35,11 +35,12 @@ export const MobileInput = React.forwardRef<HTMLInputElement, MobileInputProps>(
         <Input
           ref={ref}
           className={cn(
-            "mobile-input h-12 text-base", // 16px font size prevents zoom on iOS
+            "mobile-input h-14 text-base rounded-xl", // 16px font size prevents zoom on iOS, larger touch target
             "transition-all duration-200",
-            isFocused && "ring-2 ring-primary/20 border-primary",
-            error && "border-destructive focus:border-destructive focus:ring-destructive/20",
-            showClearButton && value && "pr-10",
+            "focus:ring-4 focus:ring-primary/30 focus:border-primary",
+            isFocused && "ring-2 ring-primary/20 border-primary shadow-sm",
+            error && "border-destructive focus:border-destructive focus:ring-destructive/30",
+            showClearButton && value && "pr-12",
             className
           )}
           value={value}
@@ -58,7 +59,7 @@ export const MobileInput = React.forwardRef<HTMLInputElement, MobileInputProps>(
             type="button"
             variant="ghost"
             size="sm"
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-muted/50"
+            className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 p-0 hover:bg-muted/50 rounded-full"
             onClick={() => {
               onClear?.();
               if ('vibrate' in navigator) {
@@ -66,7 +67,7 @@ export const MobileInput = React.forwardRef<HTMLInputElement, MobileInputProps>(
               }
             }}
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
             <span className="sr-only">Clear input</span>
           </Button>
         )}
@@ -116,10 +117,11 @@ export const MobileTextarea: React.FC<MobileTextareaProps> = ({
       <div className="relative">
         <Textarea
           className={cn(
-            "mobile-input min-h-[100px] text-base resize-none", // 16px font size prevents zoom
+            "mobile-input min-h-[120px] text-base resize-none rounded-xl", // 16px font size prevents zoom, larger touch target
             "transition-all duration-200",
-            isFocused && "ring-2 ring-primary/20 border-primary",
-            error && "border-destructive focus:border-destructive focus:ring-destructive/20",
+            "focus:ring-4 focus:ring-primary/30 focus:border-primary",
+            isFocused && "ring-2 ring-primary/20 border-primary shadow-sm",
+            error && "border-destructive focus:border-destructive focus:ring-destructive/30",
             className
           )}
           value={value}
@@ -183,13 +185,13 @@ export const MobilePasswordInput: React.FC<MobilePasswordInputProps> = ({
           type="button"
           variant="ghost"
           size="sm"
-          className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-muted/50 mt-4"
+          className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 p-0 hover:bg-muted/50 rounded-full mt-4"
           onClick={togglePassword}
         >
           {showPassword ? (
-            <EyeOff className="h-4 w-4" />
+            <EyeOff className="h-5 w-5" />
           ) : (
-            <Eye className="h-4 w-4" />
+            <Eye className="h-5 w-5" />
           )}
           <span className="sr-only">
             {showPassword ? 'Hide password' : 'Show password'}
@@ -232,13 +234,13 @@ export const MobileSearchInput: React.FC<MobileSearchInputProps> = ({
 
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground pointer-events-none" />
       <MobileInput
         type="search"
         placeholder={placeholder}
         value={searchValue}
         onChange={(e) => handleSearch(e.target.value)}
-        className={cn("pl-10", className)}
+        className={cn("pl-12 h-14 rounded-xl", className)}
         showClearButton={!!searchValue}
         onClear={clearSearch}
         {...props}
@@ -277,9 +279,10 @@ export const MobileButton: React.FC<MobileButtonProps> = ({
   return (
     <Button
       className={cn(
-        "mobile-button touch-target-large transition-all duration-200",
-        "active:scale-95 active:bg-primary/90",
+        "mobile-button touch-target-large h-14 rounded-xl font-medium text-base transition-all duration-200",
+        "active:scale-95 active:bg-primary/90 shadow-sm",
         "disabled:opacity-50 disabled:pointer-events-none",
+        "focus:ring-4 focus:ring-primary/30",
         loading && "opacity-70 pointer-events-none",
         className
       )}

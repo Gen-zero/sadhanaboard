@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Import Android mobile enhancements */
+@import './styles/mobile-android-enhancements.css';
+
+/* Import mobile touch enhancements */
+@import './styles/mobile-touch-enhancements.css';
