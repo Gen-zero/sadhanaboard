@@ -101,11 +101,32 @@
     --accent: 45 100% 50%;      /* Yellow accent */
   }
 
-  /* Serenity theme - calm and peaceful */
+  /* Serenity theme - professional and visually distinct */
   .color-scheme-serenity {
-    --primary: 195 80% 55%;     /* Soft blue */
-    --secondary: 195 40% 30%;
-    --accent: 170 60% 50%;      /* Teal accent */
+    --primary: 202 96% 46%;     /* Professional sky blue (#0EA5E9) */
+    --secondary: 210 40% 90%;   /* Subtle blue-gray for secondary elements */
+    --accent: 199 89% 48%;      /* Vibrant teal for accents (#06B6D4) */
+    --background: 210 100% 97%; /* Professional light blue background (#F0F9FF) */
+    --foreground: 222 47% 11%;  /* Deep navy blue text (#0F172A) */
+    --card: 210 80% 98%;        /* Lighter card background */
+    --card-foreground: 222 47% 11%; /* Deep navy blue text on cards */
+    --border: 210 40% 85%;      /* Soft blue-gray border */
+    --input: 210 35% 90%;       /* Input fields with subtle blue tint */
+    --muted: 210 30% 93%;       /* Muted background with gentle blue undertone */
+    --muted-foreground: 215 20% 40%; /* Cool gray for muted text */
+    --primary-foreground: 210 20% 98%; /* Soft off-white with slight blue tint */
+    --secondary-foreground: 222 47% 11%; /* Deep navy blue text on secondary elements */
+    --accent-foreground: 210 20% 98%; /* Soft off-white with slight blue tint */
+    --destructive: 0 84.2% 60%; /* Softer red for destructive actions */
+    --destructive-foreground: 210 20% 98%; /* Soft off-white with slight blue tint */
+    --sidebar-background: 210 100% 15%; /* Deep professional blue */
+    --sidebar-foreground: 0 0% 95%; /* Nearly white text for better contrast */
+    --sidebar-primary: 202 96% 55%; /* Lighter sky blue for sidebar primary */
+    --sidebar-primary-foreground: 0 0% 95%; /* Nearly white text for better contrast */
+    --sidebar-accent: 199 89% 55%; /* Lighter teal accent */
+    --sidebar-accent-foreground: 0 0% 95%; /* Nearly white text for better contrast */
+    --sidebar-border: 210 40% 25%; /* Darker blue border for sidebar */
+    --sidebar-ring: 202 96% 55%; /* Light sky blue ring for sidebar */
   }
 
   /* Ganesha theme - divine remover of obstacles */
@@ -171,7 +192,21 @@
   *[class*="border-"] {
     transition: border-color 0.3s ease;
   }
-}
+};
+
+/* Theme-aware background color classes with transparency */
+.bg-background { background-color: hsl(var(--background)) !important; }
+.bg-card { background-color: hsla(var(--card), 0.7) !important; }
+.bg-popover { background-color: hsla(var(--popover), 0.8) !important; }
+.bg-muted { background-color: hsla(var(--muted), 0.4) !important; }
+.bg-sidebar { background-color: hsla(var(--sidebar-background), 0.9) !important; }
+.bg-input { background-color: hsla(var(--input), 0.6) !important; }
+.bg-border { background-color: hsla(var(--border), 0.5) !important; }
+
+/* Theme-aware border color classes with transparency */
+.border { border-color: hsla(var(--border), 0.5) !important; }
+.border-input { border-color: hsla(var(--input), 0.6) !important; }
+.border-sidebar { border-color: hsla(var(--sidebar-border), 0.4) !important; }
 
 /* Theme-aware text color classes */
 .text-primary { color: hsl(var(--primary)) !important; }
@@ -181,6 +216,13 @@
 .text-destructive { color: hsl(var(--destructive)) !important; }
 .text-card-foreground { color: hsl(var(--card-foreground)) !important; }
 .text-popover-foreground { color: hsl(var(--popover-foreground)) !important; }
+.text-primary-foreground { color: hsl(var(--primary-foreground)) !important; }
+.text-secondary-foreground { color: hsl(var(--secondary-foreground)) !important; }
+.text-accent-foreground { color: hsl(var(--accent-foreground)) !important; }
+.text-destructive-foreground { color: hsl(var(--destructive-foreground)) !important; }
+.text-sidebar-foreground { color: hsl(var(--sidebar-foreground)) !important; }
+.text-sidebar-primary-foreground { color: hsl(var(--sidebar-primary-foreground)) !important; }
+.text-sidebar-accent-foreground { color: hsl(var(--sidebar-accent-foreground)) !important; }
 
 /* Gold color for spiritual points - consistent across all themes */
 .text-gold { color: #FFD700 !important; }
@@ -188,8 +230,26 @@
 .bg-gold { background-color: #FFD700 !important; }
 
 /* Theme-specific styles */
+/* Default Theme - Golden Purple Mix */
 .theme-default {
-  /* Default theme styles are already defined in :root and .dark */
+  --background: 270 50% 95%;          /* Light lavender background with golden undertones */
+  --foreground: 270 70% 25%;          /* Rich purple-gold text */
+  --primary: 270 60% 60%;             /* Purple-gold blend for primary elements */
+  --secondary: 270 40% 70%;           /* Lighter purple-gold for secondary elements */
+  --accent: 45 100% 50%;              /* Golden accent */
+  --card: 270 30% 90%;                /* Lavender card background */
+  --popover: 270 40% 92%;             /* Popover with golden undertones */
+  --border: 270 50% 80%;              /* Border with purple-gold mix */
+  --input: 270 35% 93%;               /* Input fields */
+  --muted: 270 25% 85%;               /* Muted background */
+  --muted-foreground: 270 30% 60%;    /* Muted purple-gold text */
+  --ring: 45 100% 50%;                /* Golden focus ring */
+  --sidebar-background: 270 40% 90%;  /* Sidebar */
+  --sidebar-foreground: 270 70% 30%;  /* Sidebar text */
+  --sidebar-primary: 45 100% 50%;     /* Golden sidebar primary */
+  --sidebar-accent: 270 50% 75%;      /* Light purple-gold accent */
+  --sidebar-border: 270 40% 80%;      /* Sidebar border */
+  --sidebar-ring: 45 100% 50%;        /* Golden sidebar ring */
 }
 
 /* Shiva Theme - Purple to maintain original design consistency */
@@ -275,72 +335,72 @@
 /* Serenity Theme - Light Blue with Deep Blue Sidebar */
 .theme-serenity {
   /* Main background color for the entire application */
-  --background: 187 78% 93%;       /* Aqua Sky Blue */
+  --background: 210 100% 97%;       /* Professional light blue background */
   
   /* Primary text color */
-  --foreground: 192 100% 11%;      /* Dark blue text */
+  --foreground: 222 47% 11%;      /* Deep navy blue text */
   
   /* Primary color for buttons, links, and key UI elements */
-  --primary: 187 78% 93%;          /* Aqua Sky Blue */
+  --primary: 202 96% 46%;          /* Professional sky blue */
   
   /* Secondary color for less important UI elements */
-  --secondary: 187 50% 88%;        /* Light blue secondary */
+  --secondary: 210 40% 90%;        /* Subtle blue-gray */
   
   /* Accent color for highlights and special elements */
-  --accent: 187 100% 38%;          /* Teal Calm */
+  --accent: 199 89% 48%;          /* Vibrant teal */
   
-  /* Background color for cards - made more transparent */
-  --card: 187 75% 77%;             /* Lighter and more transparent card background */
+  /* Background color for cards */
+  --card: 210 80% 98%;
   
   /* Text color for content inside cards */
-  --card-foreground: 193 100% 11%;
+  --card-foreground: 222 47% 11%; /* Deep navy blue text */
   
   /* Background color for popovers/tooltips */
-  --popover: 187 65% 96%;
+  --popover: 210 90% 99%;
   
   /* Text color for content inside popovers */
-  --popover-foreground: 193 100% 11%;
+  --popover-foreground: 222 47% 11%; /* Deep navy blue text */
   
   /* Border color for most UI elements */
-  --border: 187 40% 0%;
+  --border: 210 40% 85%;
   
   /* Background color for input fields */
-  --input: 187 50% 88%;
+  --input: 210 35% 90%;
   
   /* Background color for muted/disabled elements */
-  --muted: 187 30% 90%;
+  --muted: 210 30% 93%;
   
   /* Text color for muted/disabled elements */
-  --muted-foreground: 195 19% 36%;
+  --muted-foreground: 215 20% 40%; /* Cool gray */
   
   /* Focus ring color for interactive elements */
-  --ring: 187 100% 38%;
+  --ring: 202 96% 46%;
   
   /* Deep blue sidebar variants */
   
   /* Background color for the sidebar */
-  --sidebar-background: 240 100% 15%;  /* Deep blue background */
+  --sidebar-background: 210 100% 15%;  /* Deep professional blue */
   
   /* Text color for sidebar content */
-  --sidebar-foreground: 210 100% 96%;  /* Light blue-white text */
+  --sidebar-foreground: 0 0% 95%;  /* Nearly white text for better contrast */
   
   /* Primary color for sidebar elements (buttons, links) */
-  --sidebar-primary: 240 100% 50%;     /* Deep blue primary */
+  --sidebar-primary: 202 96% 55%;     /* Lighter sky blue */
   
   /* Text color for elements on top of sidebar primary color */
-  --sidebar-primary-foreground: 0 0% 100%; /* White text */
+  --sidebar-primary-foreground: 0 0% 95%; /* Nearly white text */
   
   /* Accent color for sidebar highlights */
-  --sidebar-accent: 240 90% 70%;       /* Lighter blue accent */
+  --sidebar-accent: 199 89% 55%;       /* Lighter teal accent */
   
   /* Text color for elements on top of sidebar accent color */
-  --sidebar-accent-foreground: 0 0% 100%;  /* White text */
+  --sidebar-accent-foreground: 0 0% 95%;  /* Nearly white text */
   
   /* Border color for sidebar elements */
-  --sidebar-border: 235 50% 25%;       /* Blue border */
+  --sidebar-border: 210 40% 25%;       /* Darker blue border */
   
   /* Focus ring color for sidebar interactive elements */
-  --sidebar-ring: 240 100% 50%;        /* Deep blue ring */
+  --sidebar-ring: 202 96% 55%;        /* Light sky blue ring */
 }
 
 /* Tara Mahavidya Theme */
@@ -449,121 +509,177 @@
 
 /* Swamiji Theme - Golden */
 .theme-swamiji {
-  --background: 30 100% 15%;       /* Deep saffron */
-  --foreground: 45 100% 95%;       /* Warm golden white */
-  --primary: 45 100% 50%;          /* Golden primary */
-  --secondary: 30 100% 30%;        /* Saffron secondary */
-  --accent: 45 100% 60%;           /* Bright gold accent */
-  --card: 30 100% 20%;
-  --popover: 30 100% 25%;
-  --border: 30 50% 30%;
-  --input: 30 50% 25%;
-  --muted: 30 30% 25%;
-  --muted-foreground: 45 30% 70%;
-  --ring: 45 100% 50%;             /* Match primary */
-  
-  /* Sidebar variants */
-  --sidebar-background: 30 100% 12%;
-  --sidebar-foreground: 45 100% 92%;
-  --sidebar-primary: 45 100% 50%;
-  --sidebar-accent: 45 100% 60%;
-  --sidebar-border: 30 50% 25%;
-  --sidebar-ring: 45 100% 50%;
+  --background: 45 100% 5%;        /* Deep golden background */
+  --foreground: 45 100% 95%;       /* Light golden foreground */
+  --primary: 45 100% 60%;          /* Vibrant gold */
+  --secondary: 40 80% 30%;         /* Bronze secondary */
+  --accent: 35 90% 45%;            /* Rich amber accent */
+  --card: 42 90% 10%;
+  --popover: 43 85% 12%;
+  --border: 40 70% 20%;
+  --input: 41 80% 15%;
+  --muted: 39 60% 25%;
+  --muted-foreground: 44 50% 70%;
+  --ring: 45 100% 60%;
+
+  /* Enhanced swamiji-specific effects */
+  --swamiji-golden-glow: 0 0 25px hsla(var(--primary), 0.6);
+  --swamiji-divine-shadow: 0 6px 25px hsla(var(--primary), 0.5);
+  --swamiji-sun-gradient: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 50%, hsl(var(--background)) 100%);
+  --swamiji-enlightenment-glow: 0 0 20px hsla(var(--primary), 0.7);
 }
 
-/* Radha Rani Theme - Divine Feminine Love */
-.theme-radha {
-  --background: 340 65% 95%;       /* Soft rose mist */
-  --foreground: 340 90% 15%;       /* Deep rose brown */
-  --primary: 330 80% 65%;          /* Divine pink (Radha's aura) */
-  --secondary: 350 50% 85%;        /* Soft pink secondary */
-  --accent: 38 90% 60%;            /* Golden rose (Divine love) */
-  --card: 340 55% 97%;
-  --popover: 340 50% 98%;
-  --border: 340 40% 88%;
-  --input: 340 45% 90%;
-  --muted: 340 35% 92%;
-  --muted-foreground: 340 60% 40%;
-  --ring: 330 80% 65%;             /* Match primary */
-  
-  /* Sidebar variants */
-  --sidebar-background: 340 70% 92%;
-  --sidebar-foreground: 340 90% 15%;
-  --sidebar-primary: 330 80% 65%;
-  --sidebar-accent: 340 50% 88%;
-  --sidebar-border: 340 40% 85%;
-  --sidebar-ring: 330 80% 65%;
-
-  /* Radha-specific divine effects */
-  --radha-pink-glow: 0 0 30px hsla(var(--primary), 0.6);
-  --radha-divine-shadow: 0 8px 30px hsla(var(--primary), 0.4);
-  --radha-love-gradient: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 50%, hsl(var(--primary)) 100%);
-  --radha-lotus-glow: 0 0 25px hsla(var(--accent), 0.7);
-  --radha-peacock-shimmer: 0 0 20px hsla(var(--primary), 0.5);
-  --radha-vrindavan-mist: 0 0 15px hsla(var(--background), 0.8);
-}
 /* Ganesha Theme - Yellow */
 .theme-ganesha {
   --background: 48 100% 88%;       /* Soft Temple Yellow */
-  --foreground: 40 100% 12%;       /* Deep yellow text */
-  --primary: 48 100% 75%;          /* Rich yellow */
-  --secondary: 48 80% 65%;         /* Medium yellow */
+  --foreground: 40 100% 12%;       /* Dark Brown Text */
+  --primary: 48 100% 88%;          /* Soft Temple Yellow */
+  --secondary: 48 70% 75%;         /* Medium Yellow */
   --accent: 20 100% 45%;           /* Saffron Orange */
-  --card: 48 90% 90%;
-  --popover: 48 85% 92%;
-  --border: 48 60% 80%;
-  --input: 48 70% 85%;
-  --muted: 48 50% 82%;
-  --muted-foreground: 36 100% 25%;
-  --ring: 20 100% 50%;
-  --sidebar-background: 48 100% 85%;
-  --sidebar-foreground: 40 100% 15%;
-  --sidebar-primary: 20 100% 50%;
-  --sidebar-accent: 48 80% 75%;
-  --sidebar-border: 48 60% 75%;
-  --sidebar-ring: 20 100% 55%;
+  --card: 48 90% 92%;              /* Light Yellow Card */
+  --popover: 48 85% 95%;           /* Lighter Yellow Popover */
+  --border: 48 50% 80%;            /* Yellow Border */
+  --input: 48 60% 85%;             /* Yellow Input */
+  --muted: 48 40% 85%;             /* Muted Yellow */
+  --muted-foreground: 36 100% 25%; /* Dark Brown Muted Text */
+  --ring: 20 100% 45%;             /* Saffron Ring */
+
+  /* Sidebar variants */
+  --sidebar-background: 48 100% 85%;    /* Sidebar Yellow */
+  --sidebar-foreground: 40 100% 12%;    /* Sidebar Text */
+  --sidebar-primary: 20 100% 45%;       /* Saffron */
+  --sidebar-primary-foreground: 0 0% 100%; /* White Text */
+  --sidebar-accent: 48 60% 80%;         /* Light Yellow Accent */
+  --sidebar-accent-foreground: 40 100% 12%; /* Dark Text */
+  --sidebar-border: 48 50% 75%;         /* Sidebar Border */
+  --sidebar-ring: 20 100% 45%;          /* Saffron Ring */
 }
 
-/* Cosmos Theme - Dark Black */
-.theme-cosmos {
-  --background: 0 0% 1%;           /* Cosmic Void Black */
-  --foreground: 0 0% 95%;          /* Light text */
-  --primary: 0 0% 5%;              /* Dark background */
-  --secondary: 0 0% 10%;           /* Slightly lighter black */
-  --accent: 260 100% 72%;          /* Nebula Violet */
-  --card: 0 0% 3%;
-  --popover: 0 0% 5%;
-  --border: 0 0% 12%;
-  --input: 0 0% 8%;
-  --muted: 0 0% 7%;
-  --muted-foreground: 250 100% 84%;
-  --ring: 260 100% 75%;
-  --sidebar-background: 0 0% 2%;
-  --sidebar-foreground: 0 0% 90%;
-  --sidebar-primary: 260 100% 75%;
-  --sidebar-accent: 0 0% 15%;
-  --sidebar-border: 0 0% 10%;
-  --sidebar-ring: 260 100% 80%;
-}
-
-/* Neon Theme - Mixed Glow */
+/* Neon Theme - Cyberpunk Vibes */
 .theme-neon {
-  --background: 277 100% 5%;       /* Dark Cosmic Purple */
-  --foreground: 0 0% 95%;          /* Light text */
-  --primary: 160 100% 50%;         /* Neon Green */
-  --secondary: 320 100% 50%;       /* Neon Pink */
-  --accent: 260 100% 66%;          /* Neon Purple */
-  --card: 277 90% 8%;
-  --popover: 277 85% 10%;
-  --border: 277 70% 15%;
-  --input: 277 80% 12%;
-  --muted: 277 60% 10%;
-  --muted-foreground: 0 0% 84%;
-  --ring: 160 100% 60%;
-  --sidebar-background: 277 100% 4%;
-  --sidebar-foreground: 0 0% 90%;
-  --sidebar-primary: 160 100% 60%;
-  --sidebar-accent: 320 100% 60%;
-  --sidebar-border: 277 70% 12%;
-  --sidebar-ring: 260 100% 70%;
+  --background: 240 5% 10%;        /* Dark Blue-Black */
+  --foreground: 0 0% 95%;          /* Light Gray */
+  --primary: 150 100% 50%;         /* Electric Green */
+  --secondary: 300 100% 60%;       /* Hot Pink */
+  --accent: 270 100% 65%;          /* Electric Purple */
+  --card: 240 10% 15%;             /* Dark Card */
+  --popover: 240 15% 20%;          /* Darker Popover */
+  --border: 240 20% 25%;           /* Neon Border */
+  --input: 240 15% 18%;            /* Dark Input */
+  --muted: 240 10% 30%;            /* Muted Background */
+  --muted-foreground: 0 0% 70%;    /* Muted Text */
+  --ring: 150 100% 50%;            /* Electric Green Ring */
+
+  /* Neon-specific effects */
+  --neon-glow: 0 0 15px hsla(var(--primary), 0.7);
+  --neon-pink-glow: 0 0 15px hsla(var(--secondary), 0.7);
+  --neon-purple-glow: 0 0 15px hsla(var(--accent), 0.7);
+  --neon-shadow: 0 0 20px hsla(var(--primary), 0.5);
+  --neon-gradient: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%);
+}
+
+/* Cosmos Theme - Deep Space */
+.theme-cosmos {
+  --background: 0 0% 100%;         /* Pure white background */
+  --foreground: 0 0% 0%;           /* Black text */
+  --primary: 0 0% 100%;            /* White primary */
+  --secondary: 0 0% 90%;           /* Light gray secondary */
+  --accent: 260 100% 72%;          /* #9E6FFF Nebula Violet */
+  --card: 0 0% 95%;                /* Light gray cards */
+  --popover: 0 0% 90%;             /* Popover */
+  --border: 0 0% 85%;              /* Light gray border */
+  --input: 0 0% 95%;               /* Input fields */
+  --muted: 0 0% 85%;               /* Muted background */
+  --muted-foreground: 0 0% 40%;    /* Dark gray muted text */
+  --ring: 260 100% 72%;            /* Violet ring */
+
+  /* Sidebar variants */
+  --sidebar-background: 0 0% 98%;  /* Light sidebar */
+  --sidebar-foreground: 0 0% 0%;   /* Sidebar text */
+  --sidebar-primary: 260 100% 72%; /* Nebula violet */
+  --sidebar-primary-foreground: 0 0% 100%; /* White text */
+  --sidebar-accent: 0 0% 90%;      /* Light gray accent */
+  --sidebar-accent-foreground: 0 0% 0%; /* Dark text */
+  --sidebar-border: 0 0% 85%;      /* Sidebar border */
+  --sidebar-ring: 260 100% 72%;    /* Violet ring */
+}
+
+/* Earth Theme - Natural Tones */
+.theme-earth {
+  --background: 30 25% 92%;        /* Warm cream background */
+  --foreground: 30 20% 15%;        /* Rich brown text */
+  --primary: 30 30% 45%;           /* Earth brown */
+  --secondary: 45 25% 65%;         /* Sandy beige */
+  --accent: 120 30% 35%;           /* Forest green */
+  --card: 30 20% 88%;              /* Cream card */
+  --popover: 30 25% 85%;           /* Light cream popover */
+  --border: 30 20% 75%;            /* Warm border */
+  --input: 30 22% 90%;             /* Cream input */
+  --muted: 30 15% 80%;             /* Muted cream */
+  --muted-foreground: 30 20% 50%;  /* Muted brown text */
+  --ring: 120 30% 35%;             /* Forest green ring */
+
+  /* Earth-specific effects */
+  --earth-shadow: 0 4px 15px hsla(30, 20%, 15%, 0.2);
+  --earth-warm-glow: 0 0 15px hsla(45, 30%, 70%, 0.3);
+}
+
+/* Water Theme - Oceanic Blues */
+.theme-water {
+  --background: 200 30% 94%;       /* Light aqua background */
+  --foreground: 200 50% 15%;       /* Deep blue text */
+  --primary: 200 80% 45%;          /* Ocean blue */
+  --secondary: 190 40% 70%;        /* Light teal */
+  --accent: 170 60% 40%;           /* Sea green */
+  --card: 200 25% 90%;             /* Light blue card */
+  --popover: 200 30% 87%;          /* Lighter blue popover */
+  --border: 200 25% 80%;           /* Aqua border */
+  --input: 200 28% 92%;            /* Light aqua input */
+  --muted: 200 20% 82%;            /* Muted aqua */
+  --muted-foreground: 200 30% 55%; /* Muted blue text */
+  --ring: 200 80% 45%;             /* Ocean blue ring */
+
+  /* Water-specific effects */
+  --water-shadow: 0 4px 15px hsla(200, 50%, 15%, 0.2);
+  --water-ripple-glow: 0 0 15px hsla(200, 80%, 45%, 0.3);
+}
+
+/* Fire Theme - Warm Reds and Oranges */
+.theme-fire {
+  --background: 20 80% 92%;        /* Light orange background */
+  --foreground: 20 80% 15%;        /* Deep red text */
+  --primary: 20 100% 50%;          /* Fire red */
+  --secondary: 30 90% 60%;         /* Bright orange */
+  --accent: 40 100% 55%;           /* Golden yellow */
+  --card: 20 70% 88%;              /* Light orange card */
+  --popover: 20 75% 85%;           /* Lighter orange popover */
+  --border: 20 60% 75%;            /* Warm border */
+  --input: 20 72% 90%;             /* Light orange input */
+  --muted: 20 50% 80%;             /* Muted orange */
+  --muted-foreground: 20 60% 50%;  /* Muted red text */
+  --ring: 20 100% 50%;             /* Fire red ring */
+
+  /* Fire-specific effects */
+  --fire-shadow: 0 4px 15px hsla(20, 80%, 15%, 0.2);
+  --fire-glow: 0 0 15px hsla(20, 100%, 50%, 0.4);
+}
+
+/* Durga Theme - Divine Warrior */
+.theme-durga {
+  --background: 0 0% 95%;          /* Light background */
+  --foreground: 0 0% 10%;          /* Dark text */
+  --primary: 0 100% 50%;           /* Warrior red */
+  --secondary: 30 100% 55%;        /* Courage orange */
+  --accent: 280 70% 55%;           /* Divine purple */
+  --card: 0 0% 90%;                /* Light card */
+  --popover: 0 0% 87%;             /* Lighter popover */
+  --border: 0 0% 80%;              /* Border */
+  --input: 0 0% 92%;               /* Input */
+  --muted: 0 0% 82%;               /* Muted */
+  --muted-foreground: 0 0% 55%;    /* Muted text */
+  --ring: 0 100% 50%;              /* Warrior red ring */
+
+  /* Durga-specific effects */
+  --durga-shadow: 0 4px 15px hsla(0, 0%, 10%, 0.2);
+  --durga-glow: 0 0 15px hsla(0, 100%, 50%, 0.4);
 }

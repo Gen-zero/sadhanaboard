@@ -5,11 +5,11 @@ export const serenityTheme: ThemeDefinition = {
   metadata: {
     id: 'serenity',
     name: 'Serenity Theme',
-    description: 'Calm and peaceful soft blue tones',
+    description: 'Professional light blue theme with enhanced contrast and visual hierarchy for improved readability',
     category: 'color-scheme',
     isLandingPage: false,
     icon: '/themes/serenity/assets/default icon.png',
-    gradient: 'from-blue-300 to-teal-300'
+    gradient: 'from-sky-200 to-blue-300' // Updated gradient to match the new color scheme
   },
   colors,
   available: true,

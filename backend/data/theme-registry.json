@@ -101,10 +101,10 @@
       "metadata": {
         "id": "serenity",
         "name": "Serenity Theme",
-        "description": "Calm and peaceful soft blue tones",
+        "description": "Professional light blue theme with enhanced contrast and visual hierarchy for improved readability",
         "category": "color-scheme",
-        "isLandingPage": false,
-        "gradient": "from-blue-300 to-teal-300"
+        "isLandingPage": "false",
+        "gradient": "from-sky-200 to-blue-300"
       }
     },
     {
