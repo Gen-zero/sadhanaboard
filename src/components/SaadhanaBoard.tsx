@@ -12,6 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Eye, Pencil, RotateCcw, CheckCircle, XCircle, Calendar, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
+import { useSettings } from '@/hooks/useSettings';
 
 const SaadhanaBoard = () => {
   const { 
@@ -35,7 +36,11 @@ const SaadhanaBoard = () => {
   
   const { isEditing, view3D, setIsEditing, setView3D } = useSadhanaView();
   const { showManifestationForm, setShowManifestationForm } = useManifestationForm();
+  const { settings } = useSettings();
   
+  // Check if default theme is active
+  const isDefaultTheme = settings?.appearance?.colorScheme === 'default';
+
   // State for confirmation dialogs
   const [showCompleteDialog, setShowCompleteDialog] = useState(false);
   const [showBreakDialog, setShowBreakDialog] = useState(false);
@@ -145,18 +150,18 @@ const SaadhanaBoard = () => {
             {sadhanaState.hasStarted && sadhanaData && (
               <div className="space-y-4">
                 {/* Sadhana Header with Progress */}
-                <div className="backdrop-blur-sm bg-background/70 p-6 rounded-lg border border-primary/20">
+                <div className={`p-6 rounded-lg ${isDefaultTheme ? 'backdrop-blur-lg bg-transparent border border-white' : 'backdrop-blur-sm bg-background/70 border border-primary/20'}`}>
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary mb-2">
+                      <h2 className={`text-2xl font-bold mb-2 ${isDefaultTheme ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
                         Your Sacred Sadhana
                       </h2>
                       <div className="flex items-center gap-4 text-sm mb-2">
-                        <span className="flex items-center gap-1">
+                        <span className={`flex items-center gap-1 ${isDefaultTheme ? 'text-amber-100' : ''}`}>
                           <Calendar className="h-4 w-4" />
                           {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
                         </span>
-                        <span className={getStatusColor()}>
+                        <span className={isDefaultTheme ? `${getStatusColor().replace('text-', 'text-amber-')}` : getStatusColor()}>
                           {getStatusMessage()}
                         </span>
                       </div>
@@ -165,7 +170,7 @@ const SaadhanaBoard = () => {
                       {sadhanaState.status === 'active' && (
                         <div className="space-y-2">
                           <Progress value={progress} className="h-2" />
-                          <p className="text-xs text-muted-foreground">
+                          <p className={`text-xs ${isDefaultTheme ? 'text-amber-200' : 'text-muted-foreground'}`}>
                             {Math.round(progress)}% complete
                           </p>
                         </div>
@@ -179,7 +184,7 @@ const SaadhanaBoard = () => {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex items-center gap-1 bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary-foreground"
+                            className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-white/10 border border-white hover:bg-white/20 text-amber-100' : 'bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary-foreground'}`}
                             onClick={handleEditToggle}
                           >
                             {isEditing ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
@@ -190,7 +195,7 @@ const SaadhanaBoard = () => {
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex items-center gap-1 bg-green-500/10 border-green-500/30 hover:bg-green-500/20 text-green-700 dark:text-green-300"
+                              className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-green-500/20 border border-white hover:bg-green-500/30 text-green-200' : 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20 text-green-700 dark:text-green-300'}`}
                               onClick={handleCompleteSadhana}
                             >
                               <CheckCircle className="h-4 w-4" />
@@ -201,7 +206,7 @@ const SaadhanaBoard = () => {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex items-center gap-1 bg-destructive/10 border-destructive/30 hover:bg-destructive/20 text-destructive-foreground"
+                            className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-red-500/20 border border-white hover:bg-red-500/30 text-red-200' : 'bg-destructive/10 border-destructive/30 hover:bg-destructive/20 text-destructive-foreground'}`}
                             onClick={handleBreakSadhana}
                           >
                             <XCircle className="h-4 w-4" />
@@ -214,7 +219,7 @@ const SaadhanaBoard = () => {
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="flex items-center gap-1 bg-secondary/10 border-secondary/30 hover:bg-secondary/20 text-secondary-foreground"
+                          className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-white/10 border border-white hover:bg-white/20 text-amber-100' : 'bg-secondary/10 border-secondary/30 hover:bg-secondary/20 text-secondary-foreground'}`}
                           onClick={handleResetSadhana}
                         >
                           <RotateCcw className="h-4 w-4" />

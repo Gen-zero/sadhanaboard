@@ -51,6 +51,8 @@ const SadhanaContent = ({
   
   // Check if Shiva theme is active
   const isShivaTheme = settings?.appearance?.colorScheme === 'shiva';
+  // Check if default theme is active
+  const isDefaultTheme = settings?.appearance?.colorScheme === 'default';
 
   // Render different components based on state
   if (isSelecting) {
@@ -100,16 +102,16 @@ const SadhanaContent = ({
         ))}
       </div>
       
-      <div className={`rounded-xl p-6 relative overflow-hidden ${isShivaTheme ? 'bg-background/50' : 'bg-gradient-to-br from-amber-50/30 via-yellow-50/30 to-amber-100/30'} border border-amber-200/50 shadow-lg`}>
+      <div className={`rounded-xl p-6 relative overflow-hidden ${isDefaultTheme ? 'backdrop-blur-lg bg-transparent border border-white' : isShivaTheme ? 'bg-background/50' : 'bg-gradient-to-br from-amber-50/30 via-yellow-50/30 to-amber-100/30'} ${isDefaultTheme ? 'border border-white' : 'border border-amber-200/50 shadow-lg'}`}>
         {/* Decorative corner elements */}
-        <div className="absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 border-amber-400/50 rounded-tl-lg"></div>
-        <div className="absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 border-amber-400/50 rounded-tr-lg"></div>
-        <div className="absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 border-amber-400/50 rounded-bl-lg"></div>
-        <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-amber-400/50 rounded-br-lg"></div>
+        <div className={`absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-tl-lg`}></div>
+        <div className={`absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-tr-lg`}></div>
+        <div className={`absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-bl-lg`}></div>
+        <div className={`absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-br-lg`}></div>
         
         {/* Sacred thread border */}
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+        <div className={`absolute top-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
+        <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
         
         {isEditing ? (
           <SadhanaDetails 

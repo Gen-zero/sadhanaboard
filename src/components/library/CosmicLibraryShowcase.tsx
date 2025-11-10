@@ -149,7 +149,7 @@ const CosmicLibraryShowcase: React.FC = () => {
   };
 
   return (
-    <section aria-labelledby="cosmic-library-title" className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-transparent to-transparent">
+    <section aria-labelledby="cosmic-library-title" className="relative overflow-hidden rounded-2xl p-6 backdrop-blur-lg bg-transparent border border-white">
       {/* decorative background - subtle and muted to match page */}
       <div className="absolute inset-0 z-0 pointer-events-none -rotate-1 bg-gradient-to-br from-amber-50/10 via-yellow-50/6 to-amber-50/10 dark:from-black/20 dark:via-amber-900/10 dark:to-black/30" />
       <div className="absolute -top-8 -right-8 opacity-40 z-0">
@@ -204,9 +204,18 @@ const CosmicLibraryShowcase: React.FC = () => {
                 onMouseLeave={() => setHovered(null)}
                 className={cn(
                   'relative rounded-xl p-5 border transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1',
-                  'border-amber-500/20 hover:border-amber-500/40 bg-gradient-to-br from-background/40 to-secondary/20 backdrop-blur-sm'
+                  'backdrop-blur-lg bg-transparent border border-white hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300'
                 )}
               >
+                {/* Enhanced hover effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Floating particles */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-4 right-4 w-2 h-2 bg-amber-400/20 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-6 left-6 w-1 h-1 bg-yellow-400/30 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                </div>
+                
                 {/* Special badges */}
                 <div className="absolute top-3 right-3 flex gap-1 z-10">
                   {it.popular && (
@@ -232,23 +241,23 @@ const CosmicLibraryShowcase: React.FC = () => {
                       {it.icon}
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">{it.title}</h3>
+                      <h3 className="font-bold text-lg group-hover:text-amber-300 transition-colors duration-300">{it.title}</h3>
                       <p className="text-xs text-amber-100">{it.subtitle} • {it.duration}</p>
                     </div>
                   </div>
                 </header>
 
-                <p className="text-sm text-amber-100 mb-4 line-clamp-2">{it.description}</p>
+                <p className="text-sm text-amber-100 mb-4 line-clamp-2 group-hover:text-amber-200 transition-colors duration-300">{it.description}</p>
 
                 <ul className="grid grid-cols-1 gap-1 mb-4">
                   {it.features.slice(0, 2).map((f, i) => (
                     <li key={i} className="flex items-center gap-2 text-xs">
                       <Check className="h-3 w-3 text-amber-500" />
-                      <span className="text-amber-100">{f}</span>
+                      <span className="text-amber-100 group-hover:text-amber-200 transition-colors duration-300">{f}</span>
                     </li>
                   ))}
                   {it.features.length > 2 && (
-                    <li className="text-xs text-amber-100">+{it.features.length - 2} more features</li>
+                    <li className="text-xs text-amber-100 group-hover:text-amber-200 transition-colors duration-300">+{it.features.length - 2} more features</li>
                   )}
                 </ul>
 
@@ -261,24 +270,34 @@ const CosmicLibraryShowcase: React.FC = () => {
                           className={`h-3 w-3 ${i < Math.floor(it.rating || 0) ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`} 
                         />
                       ))}
-                      <span className="text-xs text-amber-100 ml-1">{it.rating}</span>
+                      <span className="text-xs text-amber-100 ml-1 group-hover:text-amber-200 transition-colors duration-300">{it.rating}</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-1">
                     <Gem className="h-4 w-4 text-amber-500" />
-                    <span className="font-bold text-sm text-gold">{it.price} SP</span>
+                    <span className="font-bold text-sm text-gold group-hover:text-amber-300 transition-colors duration-300">{it.price} SP</span>
                   </div>
                 </div>
 
                 <footer className="flex items-center justify-between">
                   <Badge className={cn('px-2 py-1 rounded-sm border', difficultyColors[it.difficulty])}>{it.difficulty}</Badge>
                   <Button asChild size="sm" className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600">
-                    <Link to={it.category === 'texts' ? '/library' : it.category === 'sadhanas' ? '/sadhanas' : '/journeys'}>
+                    <Link to="/login">
                       Explore
                     </Link>
                   </Button>
                 </footer>
+                
+                {/* Enhanced hover effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Floating particles */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-4 right-4 w-3 h-3 bg-amber-400/30 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-8 left-8 w-2 h-2 bg-yellow-400/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute top-1/2 left-4 w-1 h-1 bg-amber-400/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+                </div>
               </motion.article>
             ))}
           </motion.div>
@@ -286,7 +305,7 @@ const CosmicLibraryShowcase: React.FC = () => {
 
         <div className="mt-8 flex justify-center">
           <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-lg" asChild>
-            <Link to="/library">
+            <Link to="/login">
               <ShoppingCart className="h-5 w-5 mr-2" />
               Explore Full Library
             </Link>

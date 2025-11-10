@@ -793,7 +793,7 @@ const HomePage = () => {
                 return (
                   <Card 
                     key={index} 
-                    className="backdrop-blur-lg bg-background/30 border-amber-500/20 hover:border-amber-400/50 hover:bg-background/40 transition-all duration-500 h-full transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl overflow-hidden group touch-target-large"
+                    className="backdrop-blur-lg bg-transparent border border-white hover:border-amber-400/50 hover:bg-background/40 transition-all duration-500 h-full transform hover:-translate-y-2 hover:shadow-2xl rounded-2xl overflow-hidden group touch-target-large"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <CardHeader>
@@ -917,7 +917,7 @@ const HomePage = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="h-full"
                 >
-                  <Card className="backdrop-blur-lg bg-background/40 border-2 border-amber-500/30 hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300">
+                  <Card className="backdrop-blur-lg bg-transparent border border-white hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300">
                     {/* Enhanced hover effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
