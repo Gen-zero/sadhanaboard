@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const ManifestoPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-900">
       {/* Navigation */}
       <div className="sticky top-0 left-0 right-0 z-50 px-4 pt-4">
         <nav className="relative overflow-hidden rounded-2xl transition-all duration-500 hover:shadow-2xl group"

@@ -153,7 +153,7 @@ const SaadhanaBoard = () => {
                 <div className={`p-6 rounded-lg ${isDefaultTheme ? 'backdrop-blur-lg bg-transparent border border-white' : 'backdrop-blur-sm bg-background/70 border border-primary/20'}`}>
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <h2 className={`text-2xl font-bold mb-2 ${isDefaultTheme ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
+                      <h2 className={`text-2xl font-bold mb-2 ${isDefaultTheme ? 'text-amber-200' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
                         Your Sacred Sadhana
                       </h2>
                       <div className="flex items-center gap-4 text-sm mb-2">

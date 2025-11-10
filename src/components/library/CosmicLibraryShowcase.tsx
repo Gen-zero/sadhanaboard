@@ -158,10 +158,10 @@ const CosmicLibraryShowcase: React.FC = () => {
 
       <div className="relative z-10">
         <div className="mb-6 text-center">
-          <p className="font-handwritten text-sm text-amber-700/90 rotate-[-2deg]">Explore Our Collection</p>
-          <h2 id="cosmic-library-title" className="font-handwritten text-4xl md:text-5xl leading-tight font-bold -rotate-1">The Cosmic Library</h2>
-          <div className="mt-2 w-24 h-2 bg-gradient-to-r from-amber-400 to-yellow-400 rounded rotate-[-2deg] blur-sm mx-auto" />
-          <p className="mt-3 text-sm text-amber-100 max-w-2xl mx-auto">Sacred practices, timeless texts and guided journeys — curated for practice and reflection.</p>
+          <p className="font-handwritten text-sm text-white rotate-[-2deg]">Explore Our Collection</p>
+          <h2 id="cosmic-library-title" className="font-handwritten text-4xl md:text-5xl leading-tight font-bold -rotate-1 text-white">The Cosmic Library</h2>
+          <div className="mt-2 w-24 h-2 bg-gradient-to-r from-white to-white rounded rotate-[-2deg] blur-sm mx-auto" />
+          <p className="mt-3 text-sm text-white max-w-2xl mx-auto">Sacred practices, timeless texts and guided journeys — curated for practice and reflection.</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3 items-center mb-6">
@@ -173,8 +173,8 @@ const CosmicLibraryShowcase: React.FC = () => {
               className={cn(
                 'px-4 py-2 rounded-md border-2 transition-all duration-300 font-handwritten text-sm flex items-center gap-2',
                 active === c 
-                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-amber-700 shadow-lg hover:shadow-xl' 
-                  : 'bg-background/50 text-foreground border-amber-500/30 hover:bg-amber-500/10'
+                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-white shadow-lg hover:shadow-xl' 
+                  : 'bg-background/50 text-white border-white hover:bg-white/10'
               )}
             >
               {categoryIcons[c]}
@@ -203,8 +203,8 @@ const CosmicLibraryShowcase: React.FC = () => {
                 onMouseEnter={() => setHovered(it.id)}
                 onMouseLeave={() => setHovered(null)}
                 className={cn(
-                  'relative rounded-xl p-5 border transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1',
-                  'backdrop-blur-lg bg-transparent border border-white hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300'
+                  'relative rounded-xl p-5 border border-white transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1',
+                  'backdrop-blur-lg bg-transparent hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300'
                 )}
               >
                 {/* Enhanced hover effect */}
@@ -241,13 +241,13 @@ const CosmicLibraryShowcase: React.FC = () => {
                       {it.icon}
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg group-hover:text-amber-300 transition-colors duration-300">{it.title}</h3>
-                      <p className="text-xs text-amber-100">{it.subtitle} • {it.duration}</p>
+                      <h3 className="font-bold text-lg text-white group-hover:text-amber-300 transition-colors duration-300">{it.title}</h3>
+                      <p className="text-xs text-white">{it.subtitle} • {it.duration}</p>
                     </div>
                   </div>
                 </header>
 
-                <p className="text-sm text-amber-100 mb-4 line-clamp-2 group-hover:text-amber-200 transition-colors duration-300">{it.description}</p>
+                <p className="text-sm text-white mb-4 line-clamp-2 group-hover:text-amber-200 transition-colors duration-300">{it.description}</p>
 
                 <ul className="grid grid-cols-1 gap-1 mb-4">
                   {it.features.slice(0, 2).map((f, i) => (
@@ -257,7 +257,7 @@ const CosmicLibraryShowcase: React.FC = () => {
                     </li>
                   ))}
                   {it.features.length > 2 && (
-                    <li className="text-xs text-amber-100 group-hover:text-amber-200 transition-colors duration-300">+{it.features.length - 2} more features</li>
+                    <li className="text-xs text-white group-hover:text-amber-200 transition-colors duration-300">+{it.features.length - 2} more features</li>
                   )}
                 </ul>
 

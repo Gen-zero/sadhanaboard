@@ -100,7 +100,7 @@ const LoginPage = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/')}
-          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
+          className="flex items-center text-white hover:text-white bg-transparent backdrop-blur-sm border border-amber-400/50 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span className="hidden sm:inline">Back to Homepage</span>
@@ -132,20 +132,20 @@ const LoginPage = () => {
               <div className="w-full h-full rounded-full bg-background/20" />
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">Saadhana Board</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Saadhana Board</h1>
+          <p className="text-sm text-white mt-1">
             Access your spiritual journey
           </p>
         </div>
 
-        <div className="bg-background/80 backdrop-blur-sm border border-purple-500/20 rounded-lg p-6 shadow-xl">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <LogIn className="h-5 w-5 text-purple-500" />
+        <div className="bg-transparent backdrop-blur-sm border border-amber-400/50 rounded-lg p-6 shadow-xl">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-white">
+            <LogIn className="h-5 w-5 text-white" />
             Welcome Back
           </h2>
 
           {error && (
-            <div className="mb-4 p-3 bg-destructive/20 text-destructive text-sm rounded-md">
+            <div className="mb-4 p-3 bg-destructive/20 text-white text-sm rounded-md">
               {error}
             </div>
           )}
@@ -157,11 +157,11 @@ const LoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Enter your email" className="pl-10 input-placeholder-center touch-target-large" {...field} />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
+                        <Input placeholder="Enter your email" className="pl-10 input-placeholder-center touch-target-large text-white placeholder-white/70" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -174,11 +174,11 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-white">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input type="password" placeholder="Enter your password" className="pl-10 input-placeholder-center touch-target-large" {...field} />
+                        <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
+                        <Input type="password" placeholder="Enter your password" className="pl-10 input-placeholder-center touch-target-large text-white placeholder-white/70" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -202,17 +202,17 @@ const LoginPage = () => {
             </form>
           </Form>
 
-          <div className="mt-4 text-center text-sm text-muted-foreground">
+          <div className="mt-4 text-center text-sm text-white">
             <p>
               Don't have an account?{" "}
-              <Link to="/waitlist" className="text-purple-500 hover:text-purple-700 hover:underline">
+              <Link to="/waitlist" className="text-white hover:text-white hover:underline">
                 Join waitlist
               </Link>
             </p>
           </div>
         </div>
 
-        <div className="text-center text-xs text-muted-foreground mt-4">
+        <div className="text-center text-xs text-white mt-4">
           <p>Create an account to begin your spiritual journey</p>
         </div>
         </div>

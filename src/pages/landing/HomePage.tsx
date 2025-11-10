@@ -35,14 +35,6 @@ const HomePage = () => {
   const { settings, updateSettings } = useSettings();
   const navigate = useNavigate();
   
-  // Ensure default theme is applied to landing page
-  useEffect(() => {
-    // If no theme is set or it's not the default theme, set it to default
-    if (!settings?.appearance?.colorScheme || settings.appearance.colorScheme !== 'default') {
-      updateSettings(['appearance', 'colorScheme'], 'default');
-    }
-  }, [settings, updateSettings]);
-
   // Ambient audio toggle
   const [audioOn, setAudioOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -259,9 +251,9 @@ const HomePage = () => {
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Button 
               asChild 
-              variant="ghost" 
+              variant="outline" 
               size="sm"
-              className="relative text-foreground/90 hover:text-foreground hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-amber-400/50 transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm transform hover:scale-105"
+              className="relative border-white text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 group/btn overflow-hidden px-3 sm:px-4 py-2 text-sm transform hover:scale-105"
             >
               <Link to="/login">
                 {/* Shimmer effect */}
@@ -477,8 +469,8 @@ const HomePage = () => {
                       <Button 
                         size="lg" 
                         variant="outline" 
-                        className="border-amber-500/40 text-base sm:text-lg md:text-xl px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-7 hover:bg-amber-500/10 backdrop-blur-sm transition-all duration-300 touch-target-large"
-                        style={{ boxShadow: '0 0 15px rgba(255, 215, 0, 0.1)' }}
+                        className="border-white text-white text-base sm:text-lg md:text-xl px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-7 hover:bg-white/10 backdrop-blur-sm transition-all duration-300 touch-target-large"
+                        style={{ boxShadow: '0 0 15px rgba(255, 255, 255, 0.1)' }}
                         asChild
                       >
                         <Link to="/about">
@@ -986,7 +978,7 @@ const HomePage = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-amber-500/40 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-amber-500/10 backdrop-blur-sm touch-target-large"
+                className="border-white text-white text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover:bg-white/10 backdrop-blur-sm touch-target-large"
                 asChild
               >
                 <Link to="/about">

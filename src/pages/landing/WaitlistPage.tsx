@@ -73,7 +73,7 @@ const WaitlistPage = () => {
           <Button 
             onClick={() => navigate('/')}
             variant="ghost"
-            className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
+            className="flex items-center text-white hover:text-white bg-transparent backdrop-blur-sm border border-amber-400/50 touch-target-large"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Back to Homepage</span>
@@ -85,11 +85,11 @@ const WaitlistPage = () => {
         <div className="flex-1 flex items-center justify-center p-4">
           <div className="w-full max-w-lg animate-fade-in text-center">
             <div className="flex flex-col items-center mb-6">
-              <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 text-green-500 mb-4" />
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
+              <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 text-white mb-4" />
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                 You're on the list!
               </h1>
-              <p className="text-base text-muted-foreground mt-3 max-w-md">
+              <p className="text-base text-white mt-3 max-w-md">
                 Thank you for your interest in SadhanaBoard. We'll be in touch soon with details about early access.
               </p>
             </div>
@@ -120,7 +120,7 @@ const WaitlistPage = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/')}
-          className="flex items-center text-muted-foreground hover:text-foreground bg-background/80 backdrop-blur-sm border border-purple-500/20 touch-target-large"
+          className="flex items-center text-white hover:text-white bg-transparent backdrop-blur-sm border border-amber-400/50 touch-target-large"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span className="hidden sm:inline">Back to Homepage</span>
@@ -152,28 +152,28 @@ const WaitlistPage = () => {
                 <div className="w-full h-full rounded-full bg-background/20" />
               </div>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-400 to-purple-600">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
               Join the Waitlist
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-white mt-1">
               Be among the first to experience spiritual transformation
             </p>
           </div>
 
-          <div className="bg-background/80 backdrop-blur-sm border border-purple-500/20 rounded-lg p-6 shadow-xl">
-            <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <UserPlus className="h-5 w-5 text-purple-500" />
+          <div className="bg-transparent backdrop-blur-sm border border-amber-400/50 rounded-lg p-6 shadow-xl">
+            <h2 className="text-lg font-semibold mb-3 flex items-center gap-2 text-white">
+              <UserPlus className="h-5 w-5 text-white" />
               Request Early Access
             </h2>
 
-            <div className="mb-4 p-3 bg-purple-500/10 text-purple-300 text-xs rounded-md border border-purple-500/20">
+            <div className="mb-4 p-3 bg-white/10 text-white text-xs rounded-md border border-white/20">
               <p>
                 🙏 SadhanaBoard is currently in private beta. Join our waitlist to get early access to the most comprehensive spiritual practice platform.
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-destructive/20 text-destructive text-sm rounded-md">
+              <div className="mb-4 p-3 bg-destructive/20 text-white text-sm rounded-md">
                 {error}
               </div>
             )}
@@ -185,13 +185,13 @@ const WaitlistPage = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm">Full Name</FormLabel>
+                      <FormLabel className="text-sm text-white">Full Name</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
                           <Input
                             placeholder="Enter your full name"
-                            className="pl-10 h-9 input-placeholder-center touch-target-large"
+                            className="pl-10 h-9 input-placeholder-center touch-target-large text-white placeholder-white/70"
                             {...field}
                           />
                         </div>
@@ -206,7 +206,7 @@ const WaitlistPage = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm">Email Address</FormLabel>
+                      <FormLabel className="text-sm text-white">Email Address</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -227,7 +227,7 @@ const WaitlistPage = () => {
                   name="reason"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm">Why are you interested? (Optional)</FormLabel>
+                      <FormLabel className="text-sm text-white">Why are you interested? (Optional)</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Tell us about your spiritual journey..."

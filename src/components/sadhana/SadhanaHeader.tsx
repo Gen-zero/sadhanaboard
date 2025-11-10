@@ -42,7 +42,7 @@ const SadhanaHeader = ({
       <div className="relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className={`text-3xl font-bold tracking-tight flex items-center gap-2 ${isDefaultTheme ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
+            <h1 className={`text-3xl font-bold tracking-tight flex items-center gap-2 ${isDefaultTheme ? 'text-amber-200' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
               <MoonStar className={`h-7 w-7 animate-pulse ${isDefaultTheme ? 'text-amber-300' : 'text-primary'}`} />
               <span>Saadhana Board</span>
             </h1>

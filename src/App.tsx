@@ -267,16 +267,12 @@ const App = () => {
   }
   
   // Determine the theme for background animation
-  // Force default theme on all landing pages
-  const landingPagePaths = ['/', '/about', '/careers', '/manifesto', '/experiment'];
-  const isLandingPage = landingPagePaths.includes(window.location.pathname);
+  // Remove the forced default theme on landing pages to allow them to maintain original color schemes
   const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi'] as const;
-  const backgroundTheme = isLandingPage 
-    ? 'default' 
-    : settings?.appearance?.colorScheme && 
-      validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
-      ? settings.appearance.colorScheme as typeof validThemes[number]
-      : 'default';
+  const backgroundTheme = settings?.appearance?.colorScheme && 
+    validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
+    ? settings.appearance.colorScheme as typeof validThemes[number]
+    : 'default';
   
   return (
     <ErrorBoundary 
