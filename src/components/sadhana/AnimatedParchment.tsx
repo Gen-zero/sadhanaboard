@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Play, Pause, RotateCcw, Flame } from 'lucide-react';
 
 interface AnimatedParchmentProps {
   content: string;
   onComplete?: () => void;
   isCompleted?: boolean;
-  showControls?: boolean; // New prop to show/hide controls
 }
 
 const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({ 
   content, 
   onComplete,
-  isCompleted = false,
-  showControls = false // Default to false for backward compatibility
+  isCompleted = false
 }) => {
   const [isBurning, setIsBurning] = useState(false);
   const [burnProgress, setBurnProgress] = useState(0);
@@ -86,41 +82,6 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
     };
   }, []);
 
-  // Manual control functions
-  const triggerUnroll = () => {
-    setIsUnrolled(true);
-  };
-
-  const triggerBurn = () => {
-    if (!isBurning) {
-      startBurningAnimation();
-    }
-  };
-
-  const resetAnimation = () => {
-    // Clear any existing intervals/timeouts
-    if (burnIntervalRef.current) {
-      clearInterval(burnIntervalRef.current);
-      burnIntervalRef.current = null;
-    }
-    
-    if (unrollTimeoutRef.current) {
-      clearTimeout(unrollTimeoutRef.current);
-    }
-    
-    // Reset all states
-    setIsBurning(false);
-    setBurnProgress(0);
-    setShowParchment(true);
-    setShowSpark(false);
-    setIsUnrolled(false);
-    
-    // Re-trigger unroll after a short delay
-    unrollTimeoutRef.current = setTimeout(() => {
-      setIsUnrolled(true);
-    }, 100);
-  };
-
   if (!showParchment && !showSpark) {
     return null;
   }
@@ -139,35 +100,6 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
 
   return (
     <div className="relative w-full max-w-2xl mx-auto">
-      {/* Control buttons - only shown when showControls is true */}
-      {showControls && (
-        <div className="flex justify-center gap-2 mb-4">
-          <Button 
-            onClick={triggerUnroll}
-            disabled={isUnrolled}
-            className="bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30"
-          >
-            <Play className="h-4 w-4 mr-2" />
-            Unroll
-          </Button>
-          <Button 
-            onClick={triggerBurn}
-            disabled={isBurning}
-            className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/30"
-          >
-            <Flame className="h-4 w-4 mr-2" />
-            Burn
-          </Button>
-          <Button 
-            onClick={resetAnimation}
-            className="bg-gray-500/20 hover:bg-gray-500/30 border border-gray-500/30"
-          >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Reset
-          </Button>
-        </div>
-      )}
-
       {/* Burning effect overlay */}
       {isBurning && (
         <div 
@@ -220,104 +152,170 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         </div>
       )}
 
-      {/* Parchment content */}
+      {/* Paper Container - Transparent Golden Metallic styling like landing page */}
       <div 
-        className={`relative overflow-hidden rounded-lg shadow-xl transition-all duration-1000 ${
+        className={`relative p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 ${
           isUnrolled ? 'parchment-unroll' : ''
-        } ${
-          isBurning ? 'opacity-100' : 'opacity-100'
         }`}
         style={{
+          background: 'linear-gradient(145deg, rgba(255, 223, 0, 0.05) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 207, 0, 0.04) 70%, rgba(255, 199, 0, 0.06) 100%)',
+          borderColor: 'rgba(255, 215, 0, 0.3)',
+          fontFamily: 'Georgia, serif',
+          boxShadow: `
+            0 8px 32px rgba(255, 215, 0, 0.12),
+            0 0 0 1px rgba(255, 215, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(255, 215, 0, 0.08)
+          `,
+          backdropFilter: 'blur(14px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(14px) saturate(140%)',
           transform: isBurning ? `scale(${1 - burnProgress / 200})` : 'scale(1)',
           filter: isBurning ? `blur(${burnProgress / 50}px)` : 'none'
         }}
       >
-        {/* Parchment background with texture */}
+        {/* Metallic overlay gradient */}
         <div 
-          className="bg-[url('/textures/parchment.jpg')] bg-cover bg-center p-8 sm:p-10 relative"
-          style={{ 
-            minHeight: '400px',
-            boxShadow: 'inset 0 0 30px rgba(255, 255, 255, 0.4)' // Changed shadow color to white
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{
+            background: `
+              linear-gradient(135deg, 
+                rgba(255, 255, 200, 0.08) 0%, 
+                transparent 25%, 
+                rgba(255, 223, 0, 0.05) 50%, 
+                transparent 75%, 
+                rgba(255, 255, 180, 0.03) 100%
+              )
+            `,
+            opacity: 0.5
           }}
-        >
-          {/* Gold ornamental border */}
-          <div className="absolute inset-0 border-[12px] border-[rgba(255,215,0,0.4)] rounded-lg pointer-events-none"></div>
-          
-          {/* Glowing mandala patterns in background */}
-          <div className="absolute inset-0 opacity-25 pointer-events-none">
-            {/* Center mandala */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="gold" strokeWidth="0.5" />
-                <circle cx="50" cy="50" r="35" fill="none" stroke="gold" strokeWidth="0.5" />
-                <circle cx="50" cy="50" r="25" fill="none" stroke="gold" strokeWidth="0.5" />
-                <circle cx="50" cy="50" r="15" fill="none" stroke="gold" strokeWidth="0.5" />
-                <polygon points="50,5 65,35 95,35 72,55 80,90 50,70 20,90 28,55 5,35 35,35" fill="none" stroke="gold" strokeWidth="0.5" />
-              </svg>
-            </div>
-            
-            {/* Corner mandalas */}
-            <div className="absolute top-4 left-4 w-16 h-16">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="gold" strokeWidth="1" />
-                <path d="M50 10 L50 90 M10 50 L90 50" stroke="gold" strokeWidth="1" />
-                <circle cx="50" cy="50" r="20" fill="none" stroke="gold" strokeWidth="1" />
-              </svg>
-            </div>
-            
-            <div className="absolute bottom-4 right-4 w-16 h-16">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="gold" strokeWidth="1" />
-                <circle cx="50" cy="50" r="25" fill="none" stroke="gold" strokeWidth="1" />
-                <path d="M25,25 L75,75 M25,75 L75,25" stroke="gold" strokeWidth="1" />
-              </svg>
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10 font-serif space-y-4 text-white"> {/* Changed text color to white */}
-            {contentLines.map((section, index) => {
-              // Check if this is a section header (ends with a colon)
-              if (section.trim().endsWith(':')) {
-                return (
-                  <h3 key={index} className="text-xl font-semibold mt-6 mb-2 text-white opacity-100 first:mt-0 animate-ink-appear"> {/* Changed text color to white */}
-                    {section}
-                  </h3>
-                );
-              }
-              // Otherwise it's regular content
-              return (
-                <p key={index} className="leading-relaxed animate-ink-appear opacity-100" style={{ animationDelay: `${index * 0.2}s`, color: 'white' }}> {/* Changed text color to white */}
-                  {section}
-                </p>
-              );
-            })}
-          </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute top-4 left-4 w-16 h-16 opacity-30 pointer-events-none">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="40" fill="none" stroke="#36454F" strokeWidth="2" />
-              <path d="M50 10 L50 90 M10 50 L90 50" stroke="#36454F" strokeWidth="2" />
-              <circle cx="50" cy="50" r="20" fill="none" stroke="#36454F" strokeWidth="2" />
-            </svg>
-          </div>
-          
-          <div className="absolute bottom-4 right-4 w-16 h-16 opacity-30 pointer-events-none">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="#36454F" strokeWidth="2" />
-              <circle cx="50" cy="50" r="25" fill="none" stroke="#36454F" strokeWidth="2" />
-              <path d="M25,25 L75,75 M25,75 L75,25" stroke="#36454F" strokeWidth="2" />
-            </svg>
-          </div>
+        />
+        
+        {/* Enhanced ornate corners with golden metallic effect */}
+        <div 
+          className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
+          style={{
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+          }}
+        />
+        <div 
+          className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
+          style={{
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+          }}
+        />
+        <div 
+          className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
+          style={{
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+          }}
+        />
+        <div 
+          className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
+          style={{
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+          }}
+        />
+        
+        {/* Header with enhanced golden styling */}
+        <div className="text-center mb-4 relative z-10">
+          <h3 
+            className="text-2xl font-bold mb-2" 
+            style={{ 
+              fontFamily: 'Georgia, serif',
+              color: 'rgba(255, 223, 0, 0.95)',
+              textShadow: '0 0 8px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)'
+            }}
+          >
+            🕉️ Sacred Sadhana
+          </h3>
+          <div 
+            className="w-20 h-0.5 mx-auto"
+            style={{
+              background: 'linear-gradient(to right, transparent, rgba(255, 215, 0, 0.8), transparent)',
+              filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))'
+            }}
+          />
         </div>
+
+        {/* Content with enhanced golden metallic text */}
+        <div className="space-y-3 relative z-10" style={{ fontFamily: 'Georgia, serif' }}>
+          {contentLines.map((section, index) => {
+            // Check if this is a section header (ends with a colon)
+            if (section.trim().endsWith(':')) {
+              return (
+                <div key={index}>
+                  <div 
+                    className="font-semibold mb-1 text-base"
+                    style={{
+                      color: 'rgba(255, 223, 0, 0.95)',
+                      textShadow: '0 0 4px rgba(255, 215, 0, 0.4)'
+                    }}
+                  >
+                    {section}
+                  </div>
+                </div>
+              );
+            }
+            // Otherwise it's regular content
+            return (
+              <div key={index} className="text-sm leading-relaxed pl-2"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.85)',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                }}
+              >
+                {section}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Enhanced metallic texture overlay */}
+        <div 
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(circle at 20% 30%, rgba(255, 223, 0, 0.05) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.04) 0%, transparent 40%),
+              radial-gradient(circle at 40% 80%, rgba(255, 207, 0, 0.03) 0%, transparent 30%)
+            `,
+            opacity: 0.4
+          }}
+        />
       </div>
       
-      {/* Shadow effect */}
-      <div className="absolute -bottom-4 left-4 right-4 h-8 bg-white/40 blur-xl rounded-full z-0"></div> {/* Changed shadow color to white */}
-      
-      {/* Soft glow effect */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/50 via-orange-500/50 to-red-500/50 rounded-lg blur-xl opacity-100 -z-10 transition-opacity duration-1000 parchment-glow"></div>
+      {/* Enhanced floating spiritual elements with golden glow */}
+      <div 
+        className="absolute -top-3 -right-3 text-2xl animate-pulse"
+        style={{
+          filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+          opacity: 0.8
+        }}
+      >
+        🌸
+      </div>
+      <div 
+        className="absolute -bottom-3 -left-3 text-xl animate-pulse"
+        style={{
+          filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+          opacity: 0.8
+        }}
+      >
+        🪔
+      </div>
+      <div 
+        className="absolute top-1/2 -left-6 text-lg animate-bounce"
+        style={{
+          filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.5))',
+          opacity: 0.7
+        }}
+      >
+        ✨
+      </div>
     </div>
   );
 };

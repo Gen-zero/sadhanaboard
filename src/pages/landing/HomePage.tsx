@@ -80,16 +80,16 @@ const HomePage = () => {
       details: "Gain insights into your practice patterns, streaks, and achievements through beautiful visualizations and progress reports."
     },
     {
-      title: "Community",
-      description: "Connect with fellow practitioners and share your journey",
-      icon: Users,
-      details: "Join a supportive community of like-minded spiritual seekers, share experiences, and learn from others on similar paths."
+      title: "Sadhana To-Do List",
+      description: "Organize and track your daily spiritual practices",
+      icon: Target,
+      details: "Create personalized to-do lists for your spiritual practices, set reminders, and track your completion to maintain consistency."
     },
     {
-      title: "Divine Calendar",
-      description: "Never miss important festivals and observances",
+      title: "Yantras",
+      description: "Sacred geometric tools for meditation and manifestation",
       icon: Calendar,
-      details: "Stay connected with the spiritual calendar, receive reminders for important festivals, and plan your practices accordingly."
+      details: "Explore powerful yantras for focus, healing, and spiritual awakening. Use them in meditation, visualization, and ritual practices."
     },
     {
       title: "Sacred Library",
@@ -812,7 +812,37 @@ const HomePage = () => {
             </div>
           </section>
 
-          {/* Theme Changing Section removed per request */}
+          {/* Theme Icons Showcase Section */}
+          <section className="py-20 container mx-auto px-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-purple-900/5 to-fuchsia-900/5 rounded-3xl"></div>
+            <div className="relative z-10 text-center mb-16">
+              <h2 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-yellow-400">Divine Themes</h2>
+              <p className="text-2xl text-amber-100 max-w-3xl mx-auto">
+                Experience the divine through our sacred themes inspired by Hindu deities
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-12">
+              {[
+                { name: "Shiva", icon: "/themes/shiva/assets/Bhagwan_Shiva_icon.png" },
+                { name: "Krishna", icon: "/themes/krishna/assets/Bhagwan_Krishna.png" },
+                { name: "Vishnu", icon: "/themes/vishnu/assets/Bhagwan_Vishnu.png" },
+                { name: "Maa Durga", icon: "/themes/durga/assets/Maa_Durga_icon.png" },
+                { name: "Bhairava", icon: "/themes/bhairava/assets/Bhairava.png" }
+              ].map((theme, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-amber-500/20 to-yellow-500/20 flex items-center justify-center mb-4 overflow-hidden border-2 border-amber-500/30 hover:border-amber-400/50 transition-all duration-300 group">
+                    <img 
+                      src={theme.icon} 
+                      alt={theme.name} 
+                      className="w-16 h-16 sm:w-20 sm:h-20 object-contain group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h3 className="text-xl font-semibold text-amber-100">{theme.name}</h3>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Cosmic Library Showcase Section */}
           <section className="py-16 container mx-auto px-4">
@@ -852,31 +882,31 @@ const HomePage = () => {
               {[
                 {
                   title: "Spiritual Growth",
-                  description: "We believe in fostering genuine spiritual development through consistent practice",
-                  detailedDescription: "True spiritual growth emerges from dedicated daily practice, mindful reflection, and the cultivation of inner wisdom. Our platform supports your journey with personalized tracking, insightful analytics, and guided practices that adapt to your evolving needs.",
+                  description: "Fostering genuine spiritual development through consistent practice",
+                  detailedDescription: "True spiritual growth emerges from dedicated daily practice and mindful reflection. Our platform supports your journey with personalized tracking and guided practices.",
                   icon: "⛰️",
-                  knowledge: "Ancient wisdom traditions teach that spiritual development is a gradual process requiring patience, discipline, and consistent effort. Modern neuroscience confirms that regular spiritual practices rewire the brain for greater compassion, resilience, and awareness."
+                  knowledge: "Ancient wisdom traditions teach that spiritual development requires patience and discipline. Modern neuroscience confirms regular practices rewire the brain for greater compassion."
                 },
                 {
                   title: "Community Connection",
                   description: "Building bridges between practitioners to share wisdom and support",
-                  detailedDescription: "Spiritual growth flourishes in community. We connect you with like-minded practitioners, experienced guides, and wisdom keepers worldwide. Share experiences, seek guidance, and celebrate milestones together in our supportive ecosystem.",
+                  detailedDescription: "Spiritual growth flourishes in community. Connect with like-minded practitioners worldwide, share experiences, and celebrate milestones together.",
                   icon: "👥",
-                  knowledge: "The Sanskrit concept of 'Satsang' emphasizes the transformative power of spiritual community. Research shows that group practice amplifies individual benefits, creating a collective energy field that supports deeper states of consciousness and personal transformation."
+                  knowledge: "The Sanskrit concept of 'Satsang' emphasizes the transformative power of spiritual community. Research shows group practice amplifies individual benefits."
                 },
                 {
                   title: "Divine Inspiration",
                   description: "Drawing strength and guidance from the divine energies that surround us",
-                  detailedDescription: "We honor the sacred connection between the human and divine. Through carefully curated practices, sacred texts, and devotional tools, we create space for divine inspiration to flow into your daily life, offering guidance, strength, and profound inner peace.",
+                  detailedDescription: "We honor the sacred connection between the human and divine. Through curated practices and sacred texts, create space for divine inspiration in your daily life.",
                   icon: "✨",
-                  knowledge: "Bhakti traditions recognize that divine grace flows through devotion, surrender, and remembrance. Quantum physics suggests that consciousness and energy are fundamentally interconnected, supporting the ancient understanding that we are never separate from the divine source."
+                  knowledge: "Bhakti traditions recognize that divine grace flows through devotion. Quantum physics suggests consciousness and energy are fundamentally interconnected."
                 },
                 {
                   title: "Authentic Practice",
                   description: "Encouraging sincere and dedicated spiritual practices rooted in tradition",
-                  detailedDescription: "Authenticity means honoring both ancient wisdom and modern understanding. Our practices are rooted in time-tested traditions while embracing contemporary insights about psychology, neuroscience, and human development to create genuinely transformative experiences.",
+                  detailedDescription: "Authenticity means honoring both ancient wisdom and modern understanding. Our practices are rooted in traditions while embracing contemporary insights.",
                   icon: "❤️",
-                  knowledge: "The Yoga Sutras define authentic practice (Abhyasa) as sustained effort over time. Modern research confirms that practices combining traditional wisdom with evidence-based methods produce the most profound and lasting transformation in practitioners."
+                  knowledge: "The Yoga Sutras define authentic practice as sustained effort over time. Modern research confirms practices combining tradition with evidence produce profound transformation."
                 }
               ].map((value, index) => (
                 <motion.div

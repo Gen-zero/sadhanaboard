@@ -462,3 +462,54 @@
 .animate-border-pulse {
   animation: border-pulse 3s ease-in-out infinite;
 }
+
+/* Enhanced mystical animations for the Sadhana paper */
+
+/* Golden shimmer effect for parchment */
+@keyframes golden-shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.golden-shimmer {
+  background: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 0.2) 50%, rgba(255, 215, 0, 0) 100%);
+  background-size: 1000px 100%;
+  animation: golden-shimmer 3s infinite linear;
+}
+
+/* Divine sparkles animation */
+@keyframes divine-sparkle {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+.divine-sparkle {
+  animation: divine-sparkle 1.5s ease-out infinite;
+}
+
+/* Sacred flame pulse */
+@keyframes sacred-flame {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5),
+                0 0 15px rgba(255, 140, 0, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8),
+                0 0 25px rgba(255, 140, 0, 0.5);
+  }
+}
+
+.sacred-flame {
+  animation: sacred-flame 2s ease-in-out infinite;
+}
+
+/* Mystical mandala rotation */
+@keyframes mystic-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.mystic-rotate {
+  animation: mystic-rotate 120s linear infinite;
+}
