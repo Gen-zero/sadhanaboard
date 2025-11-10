@@ -48,16 +48,25 @@ const WaitlistPage = () => {
     setError(null);
     
     try {
-      const response = await apiService.post('/auth/waitlist', {
-        name: values.name,
-        email: values.email,
-        reason: values.reason || null
+      const response = await fetch('https://formspree.io/f/xanayyjp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          reason: values.reason || ''
+        })
       });
       
-      setSuccess(true);
-  // success handled via UI state/toast
+      if (response.ok) {
+        setSuccess(true);
+      } else {
+        throw new Error('Failed to submit form');
+      }
     } catch (err: unknown) {
-  // error shown to user via setError()
       const errorMessage = err instanceof Error ? err.message : "Failed to join waiting list. Please try again.";
       setError(errorMessage);
     } finally {
