@@ -65,6 +65,74 @@
   ],
   "rewrites": [
     {
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/:path*.js",
+      "destination": "/:path*.js"
+    },
+    {
+      "source": "/:path*.css",
+      "destination": "/:path*.css"
+    },
+    {
+      "source": "/:path*.png",
+      "destination": "/:path*.png"
+    },
+    {
+      "source": "/:path*.jpg",
+      "destination": "/:path*.jpg"
+    },
+    {
+      "source": "/:path*.jpeg",
+      "destination": "/:path*.jpeg"
+    },
+    {
+      "source": "/:path*.gif",
+      "destination": "/:path*.gif"
+    },
+    {
+      "source": "/:path*.svg",
+      "destination": "/:path*.svg"
+    },
+    {
+      "source": "/:path*.ico",
+      "destination": "/:path*.ico"
+    },
+    {
+      "source": "/:path*.webp",
+      "destination": "/:path*.webp"
+    },
+    {
+      "source": "/:path*.json",
+      "destination": "/:path*.json"
+    },
+    {
+      "source": "/:path*.txt",
+      "destination": "/:path*.txt"
+    },
+    {
+      "source": "/:path*.map",
+      "destination": "/:path*.map"
+    },
+    {
+      "source": "/:path*.woff",
+      "destination": "/:path*.woff"
+    },
+    {
+      "source": "/:path*.woff2",
+      "destination": "/:path*.woff2"
+    },
+    {
+      "source": "/:path*.ttf",
+      "destination": "/:path*.ttf"
+    },
+    {
+      "source": "/:path*.eot",
+      "destination": "/:path*.eot"
+    },
+    {
       "source": "/:path*",
       "destination": "/index.html"
     }
