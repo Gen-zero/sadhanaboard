@@ -1337,9 +1337,8 @@ const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width:
 };
 
 interface ThemedBackgroundProps {
-  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos';
+  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna';
 }
-
 const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
@@ -2728,6 +2727,66 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
           gradient.addColorStop(0.5, 'rgba(255, 69, 0, 0.2)'); // Red-orange
           gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Black
           break;
+        case 'vishnu':
+          // Vishnu nebula with deep blue and teal tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(30, 58, 138, 0.25)'); // Deep blue
+          gradient.addColorStop(0.5, 'rgba(14, 165, 233, 0.15)'); // Sky blue
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
+        case 'krishna':
+          // Krishna nebula with deep green and emerald tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(6, 78, 59, 0.25)'); // Deep green
+          gradient.addColorStop(0.5, 'rgba(16, 185, 129, 0.15)'); // Emerald green
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
+        case 'swamiji':
+          // Swamiji nebula with deep orange and red tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(124, 45, 18, 0.25)'); // Deep orange
+          gradient.addColorStop(0.5, 'rgba(249, 115, 22, 0.15)'); // Orange
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
+        case 'cosmos':
+          // Cosmos nebula with deep purple and violet tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(76, 29, 149, 0.25)'); // Deep purple
+          gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.15)'); // Violet
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
+        case 'lakshmi':
+          // Lakshmi nebula with golden and amber tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(245, 158, 11, 0.25)'); // Amber
+          gradient.addColorStop(0.5, 'rgba(251, 191, 36, 0.15)'); // Yellow
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
+        case 'mahakali':
+          // Mahakali nebula with deep red and black tones
+          gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+          );
+          gradient.addColorStop(0, 'rgba(153, 27, 27, 0.3)'); // Deep red
+          gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.2)'); // Black
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent
+          break;
       }
       
       ctx.fillStyle = gradient;
@@ -2776,6 +2835,24 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
           break;
         case 'durga':
           bgColor = 'rgba(40, 0, 0, 0.1)'; // Dark red for Durga
+          break;
+        case 'vishnu':
+          bgColor = 'rgba(5, 10, 40, 0.15)'; // Deep blue for Vishnu
+          break;
+        case 'krishna':
+          bgColor = 'rgba(5, 40, 10, 0.15)'; // Deep green for Krishna
+          break;
+        case 'swamiji':
+          bgColor = 'rgba(40, 10, 5, 0.15)'; // Deep orange for Swamiji
+          break;
+        case 'cosmos':
+          bgColor = 'rgba(20, 5, 40, 0.15)'; // Deep purple for Cosmos
+          break;
+        case 'lakshmi':
+          bgColor = 'rgba(40, 30, 5, 0.15)'; // Golden for Lakshmi
+          break;
+        case 'mahakali':
+          bgColor = 'rgba(5, 0, 0, 0.2)'; // Deep red for Mahakali
           break;
       }
       
