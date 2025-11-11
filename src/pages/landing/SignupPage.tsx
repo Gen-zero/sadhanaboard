@@ -111,14 +111,11 @@ const SignupPage = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
-                          placeholder="Enter your name"
-                          className="pl-10 input-placeholder-center"
+                          placeholder="Enter your blessed name"
+                          className=""
                           {...field}
                         />
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,14 +129,11 @@ const SignupPage = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
-                          placeholder="Enter your email"
-                          className="pl-10 input-placeholder-center"
+                          placeholder="Enter your sacred email"
+                          className=""
                           {...field}
                         />
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,15 +147,12 @@ const SignupPage = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           type="password"
-                          placeholder="Create password"
-                          className="pl-10 input-placeholder-center"
+                          placeholder="Create your divine passphrase"
+                          className=""
                           {...field}
                         />
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -175,15 +166,12 @@ const SignupPage = () => {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           type="password"
-                          placeholder="Confirm password"
-                          className="pl-10 input-placeholder-center"
+                          placeholder="Confirm your divine passphrase"
+                          className=""
                           {...field}
                         />
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -71,7 +71,7 @@ const hinduMantras = [
   "ॐ तत्सत्वितुर्वरेण्यं",
   "ॐ शांतिः शांतिः शांतिः",
   "ॐ नमो नारायणाय",
-  "ॐ नमः शिवाय शंभवे च विष्णवे देवाय च ध्रुवाय च",
+  "ॐ नमः शिवाय शंभवे च विष्णुवे देवाय च ध्रुवाय च",
   "ॐ ह्रीं दुर्गायै नमः",
   "ॐ ऐं सरस्वत्यै नमः",
   "ॐ ह्रीं श्रीं क्लीं त्रिभुवन महालक्ष्म्यै अस्मि",
@@ -252,8 +252,6 @@ const AppRoutes = () => {
   );
 };
 
-
-
 const App = () => {
   const { settings, isLoading } = useSettings();
   
@@ -268,7 +266,7 @@ const App = () => {
   
   // Determine the theme for background animation
   // Remove the forced default theme on landing pages to allow them to maintain original color schemes
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
   const backgroundTheme = settings?.appearance?.colorScheme && 
     validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
     ? settings.appearance.colorScheme as typeof validThemes[number]

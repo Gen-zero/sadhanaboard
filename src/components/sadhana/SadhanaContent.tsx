@@ -1,16 +1,13 @@
 import React from 'react';
+import SadhanaSelection from './SadhanaSelection';
+import SadhanaSetupForm from './SadhanaSetupForm';
+import SadhanaWelcome from './SadhanaWelcome';
 import SadhanaDetails from './SadhanaDetails';
 import SadhanaViewer from './SadhanaViewer';
-import { useState, useEffect } from 'react';
-import PaperScroll2D from './PaperScroll2D';
-import AnimatedParchment from './AnimatedParchment';
-import SadhanaWelcome from './SadhanaWelcome';
-import SadhanaSetupForm from './SadhanaSetupForm';
-import SadhanaSelection from './SadhanaSelection';
-import { SadhanaData } from '@/hooks/useSadhanaData';
-import { StoreSadhana } from '@/types/store';
 import { useSettings } from '@/hooks/useSettings';
-import { Dispatch, SetStateAction } from 'react';
+import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
+import type { SadhanaData } from '@/hooks/useSadhanaData';
+import type { StoreSadhana } from '@/types/store';
 
 interface SadhanaContentProps {
   isEditing: boolean;
@@ -20,14 +17,14 @@ interface SadhanaContentProps {
   isSelecting: boolean;
   sadhanaData: SadhanaData | null;
   paperContent: string;
-  setView3D: Dispatch<SetStateAction<boolean>>;
+  setView3D: (value: boolean) => void;
   onStartSadhana: () => void;
   onCancelSadhana: () => void;
   onCreateSadhana: (data: SadhanaData) => void;
   onUpdateSadhana: (data: SadhanaData) => void;
-  onSelectStoreSadhana: (sadhana: StoreSadhana) => void;
+  onSelectStoreSadhana: (storeSadhana: StoreSadhana) => void;
   onCreateCustomSadhana: () => void;
-  status?: 'active' | 'completed' | 'broken'; // Add status prop
+  status?: 'active' | 'completed' | 'broken';
 }
 
 const SadhanaContent = ({
@@ -45,14 +42,13 @@ const SadhanaContent = ({
   onUpdateSadhana,
   onSelectStoreSadhana,
   onCreateCustomSadhana,
-  status = 'active' // Default to active
+  status = 'active'
 }: SadhanaContentProps) => {
   const { settings } = useSettings();
+  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
   
   // Check if Shiva theme is active
   const isShivaTheme = settings?.appearance?.colorScheme === 'shiva';
-  // Check if default theme is active
-  const isDefaultTheme = settings?.appearance?.colorScheme === 'default';
 
   // Render different components based on state
   if (isSelecting) {
@@ -85,56 +81,51 @@ const SadhanaContent = ({
       {/* Mystical background elements */}
       <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none -z-10">
         {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-amber-400/20"
+            className="absolute rounded-full"
             style={{
+              backgroundColor: isDefaultTheme ? 'rgba(255, 255, 255, 0.1)' : 'hsl(var(--primary) / 0.1)',
               width: `${Math.random() * 8 + 2}px`,
               height: `${Math.random() * 8 + 2}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              animation: `float ${Math.random() * 15 + 10}s infinite ease-in-out`,
+              animation: `float ${Math.random() * 15 + 10}s infinite ease-in-out, pulse ${Math.random() * 8 + 4}s infinite`,
               animationDelay: `${Math.random() * 5}s`,
-              opacity: Math.random() * 0.4 + 0.1
+              opacity: Math.random() * 0.3 + 0.1
             }}
           ></div>
         ))}
       </div>
       
-      <div className={`rounded-xl p-6 relative overflow-hidden ${isDefaultTheme ? 'backdrop-blur-lg bg-transparent border border-white' : isShivaTheme ? 'bg-background/50' : 'bg-gradient-to-br from-amber-50/30 via-yellow-50/30 to-amber-100/30'} ${isDefaultTheme ? 'border border-white' : 'border border-amber-200/50 shadow-lg'}`}>
-        {/* Decorative corner elements */}
-        <div className={`absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-tl-lg`}></div>
-        <div className={`absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-tr-lg`}></div>
-        <div className={`absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-bl-lg`}></div>
-        <div className={`absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 ${isDefaultTheme ? 'border-white' : 'border-amber-400/50'} rounded-br-lg`}></div>
-        
-        {/* Sacred thread border */}
-        <div className={`absolute top-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
-        <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
-        
-        {isEditing ? (
-          <SadhanaDetails 
-            sadhanaData={sadhanaData}
-            onUpdateSadhana={onUpdateSadhana}
-            setView3D={setView3D}
-            view3D={view3D}
-          />
-        ) : view3D ? (
-          <SadhanaViewer 
-            sadhanaData={sadhanaData}
-            setView3D={setView3D}
-          />
-        ) : (
-          <div className="relative">
-            {/* Removed the Sparkles icon that was above the parchment */}
-            <AnimatedParchment 
-              content={paperContent} 
-              isCompleted={status === 'completed'}
-            />
-          </div>
-        )}
-      </div>
+      {/* Decorative corner elements */}
+      <div className={`absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 ${isDefaultTheme ? defaultThemeClasses.border : 'border-amber-400/50'} rounded-tl-lg`}></div>
+      <div className={`absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 ${isDefaultTheme ? defaultThemeClasses.border : 'border-amber-400/50'} rounded-tr-lg`}></div>
+      <div className={`absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 ${isDefaultTheme ? defaultThemeClasses.border : 'border-amber-400/50'} rounded-bl-lg`}></div>
+      <div className={`absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 ${isDefaultTheme ? defaultThemeClasses.border : 'border-amber-400/50'} rounded-br-lg`}></div>
+      
+      {/* Sacred thread border */}
+      <div className={`absolute top-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
+      <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDefaultTheme ? 'bg-gradient-to-r from-transparent via-white to-transparent' : 'bg-gradient-to-r from-transparent via-amber-500 to-transparent'}`}></div>
+      
+      {isEditing ? (
+        <SadhanaDetails 
+          sadhanaData={sadhanaData}
+          onUpdateSadhana={onUpdateSadhana}
+          setView3D={setView3D}
+          view3D={view3D}
+        />
+      ) : view3D ? (
+        <SadhanaViewer 
+          sadhanaData={sadhanaData}
+          setView3D={setView3D}
+        />
+      ) : (
+        <div className="relative">
+          {/* Content will be rendered by the parent component */}
+        </div>
+      )}
     </div>
   );
 };

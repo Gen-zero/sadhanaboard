@@ -17,7 +17,6 @@ import krishnaTheme from './krishna';
 import swamijiTheme from './swamiji';
 import durgaTheme from './durga';
 import cosmosTheme from './cosmos';
-import androidTheme from './android';
 
 export type { ThemeDefinition } from './types';
 const loadDefaultTheme = () => import('./default');
@@ -38,7 +37,6 @@ const loadKrishnaTheme = () => import('./krishna');
 const loadSwamijiTheme = () => import('./swamiji');
 const loadDurgaTheme = () => import('./durga');
 const loadCosmosTheme = () => import('./cosmos');
-const loadAndroidTheme = () => import('./android');
 
 // Validate theme definition
 function validateTheme(def: ThemeDefinition): boolean {
@@ -157,7 +155,6 @@ const RAW_THEME_REGISTRY: ThemeDefinition[] = [
   swamijiTheme,
   durgaTheme,
   cosmosTheme,
-  androidTheme,
 ];
 
 // Debug logging

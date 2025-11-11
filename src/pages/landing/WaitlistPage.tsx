@@ -48,11 +48,11 @@ const WaitlistPage = () => {
     setError(null);
     
     try {
-      const response = await fetch('https://formspree.io/f/xanayyjp', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzKiVDqwODZw6uOojzOSrENeGZ4F0YKn036wJPilNOzmI2mpi4r_U5ADJT25qv_MZU/exec', {
         method: 'POST',
+        mode: 'no-cors', // This prevents CORS errors
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         },
         body: JSON.stringify({
           name: values.name,
@@ -61,12 +61,10 @@ const WaitlistPage = () => {
         })
       });
       
-      if (response.ok) {
-        setSuccess(true);
-      } else {
-        throw new Error('Failed to submit form');
-      }
+      // With no-cors mode, we can't check response.ok, so we assume success
+      setSuccess(true);
     } catch (err: unknown) {
+      console.error('Form submission error:', err);
       const errorMessage = err instanceof Error ? err.message : "Failed to join waiting list. Please try again.";
       setError(errorMessage);
     } finally {
@@ -196,14 +194,11 @@ const WaitlistPage = () => {
                     <FormItem>
                       <FormLabel className="text-sm text-white">Full Name</FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
-                          <Input
-                            placeholder="Enter your full name"
-                            className="pl-10 h-9 input-placeholder-center touch-target-large text-white placeholder-white/70"
-                            {...field}
-                          />
-                        </div>
+                        <Input
+                          placeholder="Enter your blessed name"
+                          className="h-9 touch-target-large text-white placeholder-white/70"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -217,14 +212,11 @@ const WaitlistPage = () => {
                     <FormItem>
                       <FormLabel className="text-sm text-white">Email Address</FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            placeholder="Enter your email address"
-                            className="pl-10 h-9 input-placeholder-center touch-target-large"
-                            {...field}
-                          />
-                        </div>
+                        <Input
+                          placeholder="Enter your sacred email"
+                          className="h-9 touch-target-large"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -239,7 +231,7 @@ const WaitlistPage = () => {
                       <FormLabel className="text-sm text-white">Why are you interested? (Optional)</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell us about your spiritual journey..."
+                          placeholder="Share your sacred journey with us..."
                           className="resize-none text-sm touch-target-large"
                           rows={3}
                           {...field}

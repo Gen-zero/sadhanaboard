@@ -159,10 +159,7 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
-                        <Input placeholder="Enter your email" className="pl-10 input-placeholder-center touch-target-large text-white placeholder-white/70" {...field} />
-                      </div>
+                      <Input placeholder="Enter your sacred email" className="touch-target-large text-white placeholder-white/70" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -176,10 +173,7 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel className="text-white">Password</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
-                        <Input type="password" placeholder="Enter your password" className="pl-10 input-placeholder-center touch-target-large text-white placeholder-white/70" {...field} />
-                      </div>
+                      <Input type="password" placeholder="Enter your divine passphrase" className="touch-target-large text-white placeholder-white/70" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

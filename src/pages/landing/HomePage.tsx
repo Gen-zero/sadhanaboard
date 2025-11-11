@@ -217,11 +217,25 @@ const HomePage = () => {
                 <ResponsiveImage
                   src="/lovable-uploads/sadhanaboard_logo.png"
                   alt="SadhanaBoard Logo"
-                  className="h-8 w-8 sm:h-12 sm:w-12 rounded-full cursor-pointer scale-110 shadow-lg shadow-purple-500/30 transition-transform duration-300 group-hover/logo:scale-125"
+                  className="h-8 w-8 sm:h-12 sm:w-12 rounded-full cursor-pointer scale-110 shadow-lg shadow-purple-500/30 transition-transform duration-300 group-hover/logo:scale-125 relative z-10"
                   quality="high"
                   lazy={false}
                   style={{
-                    filter: 'drop-shadow(0 0 12px rgba(255, 215, 0, 0.5))'
+                    filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))'
+                  }}
+                />
+                {/* Enhanced glowing aura around the logo */}
+                <div className="absolute inset-0 rounded-full animate-pulse z-0"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 165, 0, 0.2) 60%, transparent 70%)',
+                    animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                  }}
+                />
+                {/* Secondary glow ring */}
+                <div className="absolute inset-[-4px] rounded-full z-[-1]"
+                  style={{
+                    background: 'conic-gradient(from 0deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.2), rgba(255, 215, 0, 0.3))',
+                    filter: 'blur(8px)'
                   }}
                 />
                 {/* Constant glowing ring around logo with animation */}

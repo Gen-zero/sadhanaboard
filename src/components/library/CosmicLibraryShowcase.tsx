@@ -1,132 +1,201 @@
-import React, { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import '@/styles/animations.css';
-import '@/styles/cosmic.css';
-import { BookOpen, Flame, Sparkles, Heart, Target, Compass, Map, Mountain, Check, Star, ShoppingCart, Gem, BookText, Users } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { 
+  Flame, 
+  BookText, 
+  Compass,
+  Sparkles,
+  Heart,
+  Leaf,
+  Mountain,
+  Star,
+  Crown,
+  Zap,
+  Shield,
+  Sword,
+  Moon,
+  Sun,
+  Waves,
+  TreePine,
+  Gem
+} from 'lucide-react';
+import { useSettings } from '@/hooks/useSettings';
+import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
+import type { StoreSadhana } from '@/types/store';
 
-type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 type Category = 'sadhanas' | 'texts' | 'journeys';
+type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
-type Item = {
+interface DataItem {
   id: number;
   title: string;
-  subtitle?: string;
   description: string;
   category: Category;
-  icon: React.ReactNode;
   difficulty: Difficulty;
-  duration: string;
-  color: string; // gradient classes
-  features: string[];
-  popular?: boolean;
-  isNew?: boolean;
-  isLimited?: boolean;
-  rating?: number;
-  price?: number; // in spiritual points
-};
+  duration: number;
+  deity?: string;
+  benefits: string[];
+  practices: string[];
+  genre: {
+    name: string;
+    icon: React.ReactNode;
+  };
+}
 
-const DATA = (): Item[] => [
-  // Sacred Practices
+const DATA = (): DataItem[] => [
+  // Sadhanas
   {
     id: 1,
-    title: '21-Day Mindful Awakening',
-    subtitle: 'Meditation Program',
-    description: 'A gentle guided program to build a daily meditation habit and deepen awareness.',
+    title: "Dawn Awakening Sadhana",
+    description: "Begin each day with purpose through this transformative morning practice that connects you with the rising sun's energy.",
     category: 'sadhanas',
-    icon: <Flame size={28} />, difficulty: 'Beginner', duration: '21 days', color: 'from-amber-400 to-amber-600',
-    features: ['Daily guided sessions', 'Breathwork', 'Reflection prompts'], popular: true, rating: 4.8, price: 50
+    difficulty: 'Beginner',
+    duration: 21,
+    deity: "Surya (Sun God)",
+    benefits: ["Increased energy", "Mental clarity", "Spiritual awakening"],
+    practices: ["Sun salutations", "Breath of fire", "Gratitude meditation"],
+    genre: {
+      name: "Solar",
+      icon: <Sun className="h-5 w-5 text-amber-500" />
+    }
   },
   {
     id: 2,
-    title: 'Om Namah Shivaya Mantra',
-    subtitle: 'Mantra Sadhana',
-    description: 'A focused mantra practice aimed at inner transformation and grounding.',
+    title: "Lunar Intuitive Sadhana",
+    description: "Harness the moon's mystical energy to deepen your intuition and connect with your inner wisdom during the night hours.",
     category: 'sadhanas',
-    icon: <Sparkles size={28} />, difficulty: 'Intermediate', duration: '14 days', color: 'from-amber-500 to-yellow-500',
-    features: ['Chant tracks', 'Meaning & technique', 'Progress tracker'], isNew: true, rating: 4.9, price: 75
+    difficulty: 'Intermediate',
+    duration: 40,
+    deity: "Chandra (Moon God)",
+    benefits: ["Enhanced intuition", "Emotional balance", "Dream work"],
+    practices: ["Moon gazing", "Intuitive journaling", "Lunar cycle tracking"],
+    genre: {
+      name: "Lunar",
+      icon: <Moon className="h-5 w-5 text-indigo-400" />
+    }
   },
   {
     id: 3,
-    title: 'Heart Rhythm Yoga',
-    subtitle: 'Movement & Breath',
-    description: 'A gentle flow that synchronizes breath with movement for emotional balance.',
+    title: "Divine Feminine Awakening",
+    description: "Awaken the sacred feminine energy within through practices dedicated to the goddess in her many forms.",
     category: 'sadhanas',
-    icon: <Heart size={28} />, difficulty: 'Beginner', duration: '60 min', color: 'from-amber-400 to-yellow-400',
-    features: ['Sequenced flows', 'Audio guidance', 'Accessible for all'], rating: 4.7, price: 40
+    difficulty: 'Advanced',
+    duration: 108,
+    deity: "Devi (Divine Mother)",
+    benefits: ["Sacred feminine empowerment", "Creative awakening", "Inner strength"],
+    practices: ["Goddess mantras", "Sacred dance", "Tantric breathing"],
+    genre: {
+      name: "Divine Feminine",
+      icon: <Crown className="h-5 w-5 text-pink-500" />
+    }
   },
-  // Holy Texts
   {
     id: 4,
-    title: 'Bhagavad Gita (Selected)',
-    subtitle: 'Holy Text',
-    description: 'Selected verses and commentary to support practical spiritual living.',
-    category: 'texts',
-    icon: <BookOpen size={28} />, difficulty: 'Advanced', duration: 'Variable', color: 'from-amber-400 to-yellow-400',
-    features: ['Curated verses', 'Modern commentary', 'Audio recitation'], popular: true, rating: 4.9, price: 100
+    title: "Warrior's Path Sadhana",
+    description: "Cultivate inner strength and courage through disciplined practices that forge your spiritual warrior spirit.",
+    category: 'sadhanas',
+    difficulty: 'Intermediate',
+    duration: 40,
+    deity: "Durga",
+    benefits: ["Inner strength", "Courage", "Discipline"],
+    practices: ["Strength training", "Warrior affirmations", "Fire ceremonies"],
+    genre: {
+      name: "Warrior",
+      icon: <Sword className="h-5 w-5 text-red-500" />
+    }
   },
   {
     id: 5,
-    title: 'Upanishads (Intro)',
-    subtitle: 'Holy Text',
-    description: 'Foundational teachings exploring the nature of Self and reality.',
-    category: 'texts',
-    icon: <Map size={28} />, difficulty: 'Advanced', duration: 'Varies', color: 'from-amber-500 to-yellow-500',
-    features: ['Key passages', 'Summaries', 'Guided reflections'], isNew: true, rating: 4.8, price: 80
+    title: "Heart Opening Sadhana",
+    description: "Open your heart to unconditional love through practices that dissolve barriers and foster deep compassion.",
+    category: 'sadhanas',
+    difficulty: 'Beginner',
+    duration: 21,
+    deity: "Ananda (Bliss)",
+    benefits: ["Unconditional love", "Compassion", "Heart healing"],
+    practices: ["Loving-kindness meditation", "Heart-opening yoga", "Devotional singing"],
+    genre: {
+      name: "Heart-Centered",
+      icon: <Heart className="h-5 w-5 text-rose-500" />
+    }
   },
+  
+  // Holy Texts
   {
     id: 6,
-    title: 'Yoga Sutras — Essentials',
-    subtitle: 'Holy Text',
-    description: 'Pithy aphorisms and practical notes to support daily practice.',
+    title: "Bhagavad Gita Study Path",
+    description: "A comprehensive 40-day journey through the sacred teachings of the Bhagavad Gita with daily reflections.",
     category: 'texts',
-    icon: <ScrollIconPlaceholder />, difficulty: 'Intermediate', duration: 'Variable', color: 'from-amber-400 to-amber-600',
-    features: ['Concise explanations', 'Practice tips', 'Audio highlights'], rating: 4.6, price: 60
+    difficulty: 'Intermediate',
+    duration: 40,
+    deity: "Krishna",
+    benefits: ["Spiritual wisdom", "Life guidance", "Philosophical understanding"],
+    practices: ["Daily chapter study", "Reflection journaling", "Discussion groups"],
+    genre: {
+      name: "Wisdom",
+      icon: <Gem className="h-5 w-5 text-yellow-500" />
+    }
   },
-  // Guided Journeys
   {
     id: 7,
-    title: '7-Day Chakra Journey',
-    subtitle: 'Guided Journey',
-    description: 'A deep somatic and meditative exploration of the chakra system across a week.',
-    category: 'journeys',
-    icon: <Compass size={28} />, difficulty: 'Intermediate', duration: '7 days', color: 'from-amber-500 to-yellow-500',
-    features: ['Daily practices', 'Journaling prompts', 'Energy visualizations'], popular: true, rating: 4.9, price: 120
+    title: "Divine Comedy Pilgrimage",
+    description: "Navigate the spiritual journey from darkness to light through Dante's masterpiece with guided meditations.",
+    category: 'texts',
+    difficulty: 'Advanced',
+    duration: 90,
+    deity: "Divine Love",
+    benefits: ["Spiritual transformation", "Literary appreciation", "Mystical insight"],
+    practices: ["Canticle reading", "Visualization exercises", "Contemplative prayer"],
+    genre: {
+      name: "Mystical Literature",
+      icon: <Star className="h-5 w-5 text-purple-500" />
+    }
   },
+  
+  // Guided Journeys
   {
     id: 8,
-    title: 'Pilgrimage — Inner Map',
-    subtitle: 'Guided Journey',
-    description: 'A multi-week guided journey combining study, practice and reflection.',
+    title: "Himalayan Spiritual Trek",
+    description: "Embark on a virtual pilgrimage through the sacred peaks of the Himalayas with guided meditations and teachings.",
     category: 'journeys',
-    icon: <Mountain size={28} />, difficulty: 'Advanced', duration: '21 days', color: 'from-amber-600 to-amber-800',
-    features: ['Multi-week structure', 'Live sessions', 'Community support'], isLimited: true, rating: 5.0, price: 200
+    difficulty: 'Intermediate',
+    duration: 21,
+    deity: "Shiva",
+    benefits: ["Mountain energy", "Spiritual elevation", "Inner peace"],
+    practices: ["Mountain meditation", "Breath work", "Sacred geography study"],
+    genre: {
+      name: "Pilgrimage",
+      icon: <Mountain className="h-5 w-5 text-blue-400" />
+    }
   },
   {
     id: 9,
-    title: 'Compass: Daily Micro-Journeys',
-    subtitle: 'Guided Journey',
-    description: 'Short 10–15 minute guided sessions for busy days.',
+    title: "Amazon Rainforest Connection",
+    description: "Connect with the ancient wisdom of the rainforest through shamanic practices and plant spirit medicine.",
     category: 'journeys',
-    icon: <Target size={28} />, difficulty: 'Beginner', duration: '10–15 min', color: 'from-amber-400 to-yellow-400',
-    features: ['Quick practices', 'On-demand', 'Energy resets'], rating: 4.5, price: 30
+    difficulty: 'Advanced',
+    duration: 40,
+    deity: "Pachamama (Mother Earth)",
+    benefits: ["Earth connection", "Plant spirit communication", "Ecological awareness"],
+    practices: ["Forest bathing", "Plant meditation", "Drum journeying"],
+    genre: {
+      name: "Earth-Based",
+      icon: <TreePine className="h-5 w-5 text-green-600" />
+    }
   }
 ];
-
-function ScrollIconPlaceholder() {
-  // Small inline placeholder for Scroll icon (lucase has Scroll but avoid extra import; keep accessible)
-  return <Star size={28} />;
-}
-
-const rotations = ['-1', '1', '-2', '2', '-3', '3'];
 
 const CosmicLibraryShowcase: React.FC = () => {
   const [active, setActive] = useState<Category>('sadhanas');
   const [hovered, setHovered] = useState<number | null>(null);
   const items = useMemo(() => DATA(), []);
+  const { settings } = useSettings();
+  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
+  
+  // Check if default theme is active (kept for backward compatibility)
+  const isDefaultThemeCheck = settings?.appearance?.colorScheme === 'default';
 
   const filtered = items.filter(i => i.category === active);
 
@@ -149,176 +218,117 @@ const CosmicLibraryShowcase: React.FC = () => {
   };
 
   return (
-    <section aria-labelledby="cosmic-library-title" className="relative overflow-hidden rounded-2xl p-6 backdrop-blur-lg bg-transparent border border-white">
-      {/* decorative background - subtle and muted to match page */}
-      <div className="absolute inset-0 z-0 pointer-events-none -rotate-1 bg-gradient-to-br from-amber-50/10 via-yellow-50/6 to-amber-50/10 dark:from-black/20 dark:via-amber-900/10 dark:to-black/30" />
-      <div className="absolute -top-8 -right-8 opacity-40 z-0">
-        <div className="w-44 h-44 rounded-full bg-gradient-to-tr from-amber-300/12 to-yellow-300/10 blur-3xl dark:from-amber-700/20 dark:to-yellow-700/6" />
-      </div>
-
+    <section aria-labelledby="cosmic-library-title" className={`relative overflow-hidden rounded-2xl p-6 backdrop-blur-lg ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'bg-background/70 border border-primary/20'}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 pointer-events-none"></div>
+      
       <div className="relative z-10">
-        <div className="mb-6 text-center">
-          <p className="font-handwritten text-sm text-white rotate-[-2deg]">Explore Our Collection</p>
-          <h2 id="cosmic-library-title" className="font-handwritten text-4xl md:text-5xl leading-tight font-bold -rotate-1 text-white">The Cosmic Library</h2>
-          <div className="mt-2 w-24 h-2 bg-gradient-to-r from-white to-white rounded rotate-[-2deg] blur-sm mx-auto" />
-          <p className="mt-3 text-sm text-white max-w-2xl mx-auto">Sacred practices, timeless texts and guided journeys — curated for practice and reflection.</p>
+        <div className="text-center mb-8">
+          <h2 id="cosmic-library-title" className={`text-3xl font-bold mb-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
+            Cosmic Library
+          </h2>
+          <p className={`text-lg ${isDefaultTheme ? defaultThemeClasses.secondaryText : 'text-muted-foreground'}`}>
+            Explore curated spiritual practices, sacred texts, and transformative journeys
+          </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 items-center mb-6">
-          {(Object.keys(categoryLabels) as Category[]).map((c) => (
-            <button
-              key={c}
-              onClick={() => setActive(c)}
-              aria-pressed={active === c}
-              className={cn(
-                'px-4 py-2 rounded-md border-2 transition-all duration-300 font-handwritten text-sm flex items-center gap-2',
-                active === c 
-                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-white shadow-lg hover:shadow-xl' 
-                  : 'bg-background/50 text-white border-white hover:bg-white/10'
-              )}
+        <div className="flex justify-center mb-8">
+          <div className={`inline-flex p-1 rounded-lg ${isDefaultTheme ? 'bg-white/10' : 'bg-secondary/30'}`}>
+            {(['sadhanas', 'texts', 'journeys'] as Category[]).map((category) => (
+              <button
+                key={category}
+                onClick={() => setActive(category)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                  active === category 
+                    ? `${isDefaultTheme ? 'bg-white/20 text-[hsl(var(--accent))]' : 'bg-primary text-primary-foreground'} shadow-sm` 
+                    : `${isDefaultTheme ? 'text-[hsl(var(--accent))] hover:text-white' : 'text-muted-foreground hover:text-foreground'} hover:bg-secondary/20`
+                }`}
+              >
+                {categoryIcons[category]}
+                {categoryLabels[category]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((item) => (
+            <Card 
+              key={item.id}
+              className={`group relative overflow-hidden transition-all duration-300 hover:scale-[1.02] ${
+                isDefaultTheme 
+                  ? `${defaultThemeClasses.borderedContainer} hover:shadow-lg hover:shadow-[hsl(var(--accent))]/20` 
+                  : 'border-primary/20 hover:shadow-lg hover:shadow-primary/20'
+              }`}
+              onMouseEnter={() => setHovered(item.id)}
+              onMouseLeave={() => setHovered(null)}
             >
-              {categoryIcons[c]}
-              {categoryLabels[c]}
-            </button>
+              <div className={`absolute inset-0 bg-gradient-to-br ${isDefaultTheme ? 'from-[hsl(var(--accent))]/10 to-[hsl(var(--accent))]/5' : 'from-primary/5 to-secondary/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
+              
+              <CardContent className="p-6 relative z-10">
+                <div className="flex justify-between items-start mb-4">
+                  <div className={`p-2 rounded-lg ${isDefaultTheme ? 'bg-[hsl(var(--accent))]/20' : 'bg-primary/10'} text-primary`}>
+                    {item.genre.icon}
+                  </div>
+                  <Badge 
+                    variant="secondary" 
+                    className={difficultyColors[item.difficulty]}
+                  >
+                    {item.difficulty}
+                  </Badge>
+                </div>
+
+                <h3 className={`font-bold text-lg mb-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-foreground'}`}>
+                  {item.title}
+                </h3>
+                
+                <p className={`text-sm mb-4 line-clamp-2 ${isDefaultTheme ? defaultThemeClasses.secondaryText : 'text-muted-foreground'}`}>
+                  {item.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Badge 
+                    variant="outline" 
+                    className={`${isDefaultTheme ? 'border-white/30 text-[hsl(var(--accent))]' : 'border-primary/30 text-primary'}`}
+                  >
+                    {item.duration} days
+                  </Badge>
+                  {item.deity && (
+                    <Badge 
+                      variant="outline" 
+                      className={`${isDefaultTheme ? 'border-white/30 text-[hsl(var(--accent))]' : 'border-secondary/30 text-secondary-foreground'}`}
+                    >
+                      {item.deity}
+                    </Badge>
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <h4 className={`text-xs font-semibold mb-2 uppercase tracking-wider ${isDefaultTheme ? defaultThemeClasses.accentText : 'text-primary'}`}>
+                    Key Benefits
+                  </h4>
+                  <div className="flex flex-wrap gap-1">
+                    {item.benefits.slice(0, 3).map((benefit, index) => (
+                      <span 
+                        key={index} 
+                        className={`text-xs px-2 py-1 rounded-full ${isDefaultTheme ? 'bg-white/10 text-[hsl(var(--accent))]' : 'bg-secondary/30 text-secondary-foreground'}`}
+                      >
+                        {benefit}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <Button 
+                  size="sm" 
+                  className={`w-full group ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-primary hover:bg-primary/90 text-primary-foreground'}`}
+                >
+                  <Sparkles className="mr-2 h-4 w-4 group-hover:animate-pulse" />
+                  Explore {item.category === 'sadhanas' ? 'Practice' : item.category === 'texts' ? 'Text' : 'Journey'}
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
-
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45 }}
-          >
-            {filtered.map((it, idx) => (
-              <motion.article
-                key={it.id}
-                layout
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                transition={{ duration: 0.35, delay: idx * 0.03 }}
-                onMouseEnter={() => setHovered(it.id)}
-                onMouseLeave={() => setHovered(null)}
-                className={cn(
-                  'relative rounded-xl p-5 border border-white transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1',
-                  'backdrop-blur-lg bg-transparent hover:border-amber-400/50 transition-all duration-500 h-full transform hover:-translate-y-3 hover:shadow-2xl rounded-3xl overflow-hidden group relative shadow-xl hover:shadow-amber-500/20 transition-shadow duration-300'
-                )}
-              >
-                {/* Enhanced hover effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                {/* Floating particles */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute top-4 right-4 w-2 h-2 bg-amber-400/20 rounded-full animate-ping"></div>
-                  <div className="absolute bottom-6 left-6 w-1 h-1 bg-yellow-400/30 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                </div>
-                
-                {/* Special badges */}
-                <div className="absolute top-3 right-3 flex gap-1 z-10">
-                  {it.popular && (
-                    <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs">
-                      Popular
-                    </Badge>
-                  )}
-                  {it.isNew && (
-                    <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs">
-                      New
-                    </Badge>
-                  )}
-                  {it.isLimited && (
-                    <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs">
-                      Limited
-                    </Badge>
-                  )}
-                </div>
-                
-                <header className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={cn('w-12 h-12 rounded-lg flex items-center justify-center', it.color)} style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), transparent)' }}>
-                      {it.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-white group-hover:text-amber-300 transition-colors duration-300">{it.title}</h3>
-                      <p className="text-xs text-white">{it.subtitle} • {it.duration}</p>
-                    </div>
-                  </div>
-                </header>
-
-                <p className="text-sm text-white mb-4 line-clamp-2 group-hover:text-amber-200 transition-colors duration-300">{it.description}</p>
-
-                <ul className="grid grid-cols-1 gap-1 mb-4">
-                  {it.features.slice(0, 2).map((f, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs">
-                      <Check className="h-3 w-3 text-amber-500" />
-                      <span className="text-amber-100 group-hover:text-amber-200 transition-colors duration-300">{f}</span>
-                    </li>
-                  ))}
-                  {it.features.length > 2 && (
-                    <li className="text-xs text-white group-hover:text-amber-200 transition-colors duration-300">+{it.features.length - 2} more features</li>
-                  )}
-                </ul>
-
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`h-3 w-3 ${i < Math.floor(it.rating || 0) ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                      <span className="text-xs text-amber-100 ml-1 group-hover:text-amber-200 transition-colors duration-300">{it.rating}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-1">
-                    <Gem className="h-4 w-4 text-amber-500" />
-                    <span className="font-bold text-sm text-gold group-hover:text-amber-300 transition-colors duration-300">{it.price} SP</span>
-                  </div>
-                </div>
-
-                <footer className="flex items-center justify-between">
-                  <Badge className={cn('px-2 py-1 rounded-sm border', difficultyColors[it.difficulty])}>{it.difficulty}</Badge>
-                  <Button asChild size="sm" className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600">
-                    <Link to="/login">
-                      Explore
-                    </Link>
-                  </Button>
-                </footer>
-                
-                {/* Enhanced hover effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                {/* Floating particles */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute top-4 right-4 w-3 h-3 bg-amber-400/30 rounded-full animate-ping"></div>
-                  <div className="absolute bottom-8 left-8 w-2 h-2 bg-yellow-400/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                  <div className="absolute top-1/2 left-4 w-1 h-1 bg-amber-400/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="mt-8 flex justify-center">
-          <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-lg" asChild>
-            <Link to="/login">
-              <ShoppingCart className="h-5 w-5 mr-2" />
-              Explore Full Library
-            </Link>
-          </Button>
-        </div>
-      </div>
-
-      {/* floating decorative symbols */}
-      <div className="pointer-events-none absolute left-4 bottom-6 opacity-80">
-        <div className="animate-float-petal text-2xl">✨</div>
-      </div>
-      <div className="pointer-events-none absolute right-8 bottom-10 opacity-60">
-        <div className="animate-float-petal text-3xl">ॐ</div>
       </div>
     </section>
   );

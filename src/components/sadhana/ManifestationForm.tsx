@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Sparkles, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
 
 interface ManifestationFormProps {
   onClose: () => void;
@@ -14,6 +15,7 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
   const [manifestationIntent, setManifestationIntent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
 
   const handleSubmitManifestation = () => {
     if (!manifestationIntent.trim()) {
@@ -40,20 +42,20 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
 
   return (
     <div className="relative">
-      <Card className="border border-primary/20 bg-background/70 backdrop-blur-sm">
+      <Card className={`border ${isDefaultTheme ? defaultThemeClasses.border : 'border-primary/20'} ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'bg-background/70'}`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <Sparkles className="h-5 w-5 text-primary" />
+          <CardTitle className={`flex items-center gap-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-foreground'}`}>
+            <Sparkles className={`h-5 w-5 ${isDefaultTheme ? defaultThemeClasses.accentText : 'text-primary'}`} />
             <span>Manifest Your Intention</span>
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : 'text-muted-foreground'}>
             Write your intention clearly to begin manifesting it
           </CardDescription>
         </CardHeader>
         
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="manifestation" className="text-foreground flex items-center gap-1">
+            <Label htmlFor="manifestation" className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-foreground'}`}>
               <span>Your Intention</span>
             </Label>
             <Textarea 
@@ -61,8 +63,7 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
               value={manifestationIntent}
               onChange={(e) => setManifestationIntent(e.target.value)}
               placeholder="Write your intention clearly..."
-              className="min-h-[150px] bg-background/50 border border-primary/30 placeholder:text-muted-foreground/50 
-              text-foreground focus-visible:ring-primary/50 resize-none"
+              className={`min-h-[150px] ${isDefaultTheme ? 'bg-transparent border-white/30 placeholder:text-amber-200/50 text-amber-100 focus-visible:ring-amber-500/50' : 'bg-background/50 border-primary/30 placeholder:text-muted-foreground/50 text-foreground focus-visible:ring-primary/50'} resize-none`}
               disabled={isSubmitting}
             />
           </div>
@@ -72,13 +73,14 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
               variant="outline" 
               onClick={onClose}
               disabled={isSubmitting}
+              className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
             >
               Cancel
             </Button>
             <Button 
               onClick={handleSubmitManifestation}
               disabled={isSubmitting}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              className={isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-primary hover:bg-primary/90 text-primary-foreground'}
             >
               {isSubmitting ? (
                 <span>Sending...</span>

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
 import { SadhanaData } from '@/hooks/useSadhanaData';
+import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
 
 interface SadhanaSetupFormProps {
   onCreateSadhana: (data: SadhanaData) => void;
@@ -22,6 +23,7 @@ interface SadhanaSetupFormProps {
 
 const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) => {
   const { settings } = useSettings();
+  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
   const today = new Date().toISOString().split('T')[0];
   
   const [formData, setFormData] = useState({
@@ -128,178 +130,192 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
   };
 
   return (
-    <div className={`rounded-lg p-6 ${isShivaTheme ? 'bg-background/50' : 'cosmic-nebula-bg'}`}>
+    <div className={`rounded-lg p-6 ${isShivaTheme ? 'bg-background/50' : isDefaultTheme ? defaultThemeClasses.borderedContainer : 'cosmic-nebula-bg'}`}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
-          <Button variant="ghost" size="sm" onClick={onCancel}>
+          <Button variant="ghost" size="sm" onClick={onCancel} className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div>
-            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+            <h2 className={`text-2xl font-bold ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
               Create Your Sacred Sadhana
             </h2>
-            <p className="text-muted-foreground">Fill in your spiritual intentions and divine commitments</p>
+            <p className={isDefaultTheme ? defaultThemeClasses.secondaryText : 'text-muted-foreground'}>Fill in your spiritual intentions and divine commitments</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-6">
-            <Card>
+            <Card className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
               <CardHeader>
-                <CardTitle>Purpose & Goal</CardTitle>
-                <CardDescription>Why you're on this spiritual journey</CardDescription>
+                <CardTitle className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Purpose & Goal</CardTitle>
+                <CardDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>Why you're on this spiritual journey</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="purpose">Purpose *</Label>
+                  <Label htmlFor="purpose" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Purpose *</Label>
                   <Textarea 
                     id="purpose" 
                     value={formData.purpose}
                     onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
                     placeholder="What is the purpose of your spiritual practice?"
-                    className="min-h-[100px]"
+                    className={`min-h-[100px] ${isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 placeholder:text-amber-200/50 focus-visible:ring-amber-500/50' : ''}`}
                   />
                   {errors.purpose && <p className="text-sm text-destructive">{errors.purpose}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="goal">Goal *</Label>
+                  <Label htmlFor="goal" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Goal *</Label>
                   <Textarea 
                     id="goal" 
                     value={formData.goal}
                     onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
                     placeholder="What is your specific spiritual goal?"
-                    className="min-h-[100px]"
+                    className={`min-h-[100px] ${isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 placeholder:text-amber-200/50 focus-visible:ring-amber-500/50' : ''}`}
                   />
                   {errors.goal && <p className="text-sm text-destructive">{errors.goal}</p>}
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-primary" />
+                <CardTitle className={`flex items-center gap-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : ''}`}>
+                  <Calendar className={`h-5 w-5 ${isDefaultTheme ? defaultThemeClasses.accentText : 'text-primary'}`} />
                   <span>Duration & Timeline</span>
                 </CardTitle>
-                <CardDescription>Set your sadhana practice period</CardDescription>
+                <CardDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>Set your sadhana practice period</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate">Start Date *</Label>
+                    <Label htmlFor="startDate" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Start Date *</Label>
                     <Input 
                       id="startDate" 
                       type="date"
                       value={formData.startDate}
                       onChange={(e) => handleStartDateChange(e.target.value)}
                       min={today}
+                      className={isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 focus-visible:ring-amber-500/50' : ''}
                     />
                     {errors.startDate && <p className="text-sm text-destructive">{errors.startDate}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="duration">Duration</Label>
-                    <Select value={formData.durationDays.toString()} onValueChange={(value) => handleDurationChange(parseInt(value))}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="7">7 days (1 week)</SelectItem>
-                        <SelectItem value="14">14 days (2 weeks)</SelectItem>
-                        <SelectItem value="21">21 days (3 weeks)</SelectItem>
-                        <SelectItem value="30">30 days (1 month)</SelectItem>
-                        <SelectItem value="40">40 days</SelectItem>
-                        <SelectItem value="60">60 days (2 months)</SelectItem>
-                        <SelectItem value="90">90 days (3 months)</SelectItem>
-                        <SelectItem value="108">108 days (Traditional)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {errors.duration && <p className="text-sm text-destructive">{errors.duration}</p>}
+                    <Label htmlFor="endDate" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>End Date</Label>
+                    <Input 
+                      id="endDate" 
+                      type="date"
+                      value={formData.endDate}
+                      readOnly
+                      className={isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100' : ''}
+                    />
                   </div>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  <p>End Date: {format(new Date(formData.endDate), 'MMMM dd, yyyy')}</p>
+                <div className="space-y-2">
+                  <Label htmlFor="duration" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Duration (Days) *</Label>
+                  <Select 
+                    value={formData.durationDays.toString()} 
+                    onValueChange={(value) => handleDurationChange(Number(value))}
+                  >
+                    <SelectTrigger className={isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 focus:ring-amber-500/50' : ''}>
+                      <SelectValue placeholder="Select duration" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="21">21 Days</SelectItem>
+                      <SelectItem value="40">40 Days</SelectItem>
+                      <SelectItem value="108">108 Days</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           <div className="space-y-6">
-            <Card>
+            <Card className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Heart className="h-5 w-5 text-primary" />
-                  <span>Divine Connection</span>
+                <CardTitle className={`flex items-center gap-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : ''}`}>
+                  <Heart className={`h-5 w-5 ${isDefaultTheme ? defaultThemeClasses.accentText : 'text-primary'}`} />
+                  <span>Divine Focus & Offerings</span>
                 </CardTitle>
-                <CardDescription>Your chosen deity or spiritual focus</CardDescription>
+                <CardDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>Connect with your spiritual focus and offerings</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="deity">Deity or Spiritual Focus *</Label>
+                  <Label htmlFor="deity" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Deity or Spiritual Focus *</Label>
                   <Input 
                     id="deity" 
                     value={formData.deity}
                     onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
-                    placeholder="Who or what is your spiritual focus?"
+                    placeholder="Which deity or spiritual focus guides your practice?"
+                    className={isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 placeholder:text-amber-200/50 focus-visible:ring-amber-500/50' : ''}
                   />
                   {errors.deity && <p className="text-sm text-destructive">{errors.deity}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Your Message *</Label>
+                  <Label htmlFor="message" className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Sacred Message *</Label>
                   <Textarea 
                     id="message" 
                     value={formData.message}
                     onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                    placeholder="What message would you like to share with your deity?"
-                    className="min-h-[100px]"
+                    placeholder="Write a sacred message to your spiritual focus..."
+                    className={`min-h-[120px] ${isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 placeholder:text-amber-200/50 focus-visible:ring-amber-500/50' : ''}`}
                   />
                   {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Offerings & Practices</CardTitle>
-                <CardDescription>What you'll be doing or offering for your spiritual practice</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>Offerings *</Label>
                   {formData.offerings.map((offering, index) => (
                     <div key={index} className="flex gap-2">
                       <Input 
-                        value={offering} 
+                        value={offering}
                         onChange={(e) => handleOfferingChange(index, e.target.value)}
-                        placeholder={`Offering or practice ${index + 1}`}
+                        placeholder={`Offering ${index + 1}`}
+                        className={isDefaultTheme ? 'bg-transparent border-white/30 text-amber-100 placeholder:text-amber-200/50 focus-visible:ring-amber-500/50' : ''}
                       />
                       {formData.offerings.length > 1 && (
                         <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="shrink-0"
+                          type="button" 
+                          variant="outline" 
+                          size="sm" 
                           onClick={() => handleRemoveOffering(index)}
+                          className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
                         >
-                          ×
+                          Remove
                         </Button>
                       )}
                     </div>
                   ))}
-                  {errors.offerings && <p className="text-sm text-destructive">{errors.offerings}</p>}
-                  
-                  <Button variant="outline" className="w-full mt-2" onClick={handleAddOffering}>
-                    + Add New Offering
-                  </Button>
-                  
                   <Button 
-                    className="w-full mt-6 bg-primary hover:bg-primary/90"
-                    onClick={handleSubmit}
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handleAddOffering}
+                    className={`mt-2 ${isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}`}
                   >
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Begin Sacred Sadhana
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Add Offering
                   </Button>
+                  {errors.offerings && <p className="text-sm text-destructive">{errors.offerings}</p>}
                 </div>
               </CardContent>
             </Card>
+
+            <div className="flex justify-end gap-3">
+              <Button 
+                variant="outline" 
+                onClick={onCancel}
+                className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleSubmit}
+                className={isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-primary hover:bg-primary/90 text-primary-foreground'}
+              >
+                Create Sadhana
+              </Button>
+            </div>
           </div>
         </div>
       </div>

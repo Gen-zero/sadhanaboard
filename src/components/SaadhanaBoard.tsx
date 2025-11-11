@@ -10,11 +10,25 @@ import { useSadhanaView } from '@/hooks/useSadhanaView';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { Eye, Pencil, RotateCcw, CheckCircle, XCircle, Calendar, AlertTriangle } from 'lucide-react';
+import { 
+  Eye, 
+  Pencil, 
+  RotateCcw, 
+  CheckCircle, 
+  XCircle, 
+  Calendar, 
+  AlertTriangle, 
+  LayoutDashboard, 
+  MoonStar 
+} from 'lucide-react';
 import { format } from 'date-fns';
 import { useSettings } from '@/hooks/useSettings';
+import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
+import { useNavigate } from 'react-router-dom';
+import type { StoreSadhana } from '@/types/store';
 
 const SaadhanaBoard = () => {
+  const navigate = useNavigate();
   const { 
     sadhanaState, 
     sadhanaData, 
@@ -37,9 +51,10 @@ const SaadhanaBoard = () => {
   const { isEditing, view3D, setIsEditing, setView3D } = useSadhanaView();
   const { showManifestationForm, setShowManifestationForm } = useManifestationForm();
   const { settings } = useSettings();
+  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
   
-  // Check if default theme is active
-  const isDefaultTheme = settings?.appearance?.colorScheme === 'default';
+  // Check if default theme is active (kept for backward compatibility)
+  const isDefaultThemeCheck = settings?.appearance?.colorScheme === 'default';
 
   // State for confirmation dialogs
   const [showCompleteDialog, setShowCompleteDialog] = useState(false);
@@ -150,18 +165,18 @@ const SaadhanaBoard = () => {
             {sadhanaState.hasStarted && sadhanaData && (
               <div className="space-y-4">
                 {/* Sadhana Header with Progress */}
-                <div className={`p-6 rounded-lg ${isDefaultTheme ? 'backdrop-blur-lg bg-transparent border border-white' : 'backdrop-blur-sm bg-background/70 border border-primary/20'}`}>
+                <div className={`p-6 rounded-lg ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'backdrop-blur-sm bg-background/70 border border-primary/20'}`}>
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <h2 className={`text-2xl font-bold mb-2 ${isDefaultTheme ? 'text-amber-200' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
+                      <h2 className={`text-2xl font-bold mb-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary'}`}>
                         Your Sacred Sadhana
                       </h2>
                       <div className="flex items-center gap-4 text-sm mb-2">
-                        <span className={`flex items-center gap-1 ${isDefaultTheme ? 'text-amber-100' : ''}`}>
+                        <span className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.secondaryText : ''}`}>
                           <Calendar className="h-4 w-4" />
                           {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
                         </span>
-                        <span className={isDefaultTheme ? `${getStatusColor().replace('text-', 'text-amber-')}` : getStatusColor()}>
+                        <span className={isDefaultTheme ? 'text-[hsl(var(--accent))]' : getStatusColor()}>
                           {getStatusMessage()}
                         </span>
                       </div>
@@ -170,7 +185,7 @@ const SaadhanaBoard = () => {
                       {sadhanaState.status === 'active' && (
                         <div className="space-y-2">
                           <Progress value={progress} className="h-2" />
-                          <p className={`text-xs ${isDefaultTheme ? 'text-amber-200' : 'text-muted-foreground'}`}>
+                          <p className={`text-xs ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-muted-foreground'}`}>
                             {Math.round(progress)}% complete
                           </p>
                         </div>
@@ -184,7 +199,7 @@ const SaadhanaBoard = () => {
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-white/10 border border-white hover:bg-white/20 text-amber-100' : 'bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary-foreground'}`}
+                            className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary-foreground'}`}
                             onClick={handleEditToggle}
                           >
                             {isEditing ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
@@ -195,149 +210,196 @@ const SaadhanaBoard = () => {
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-green-500/20 border border-white hover:bg-green-500/30 text-green-200' : 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20 text-green-700 dark:text-green-300'}`}
+                              className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20 text-green-600'}`}
                               onClick={handleCompleteSadhana}
                             >
                               <CheckCircle className="h-4 w-4" />
                               Complete Sadhana
                             </Button>
                           )}
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-red-500/20 border border-white hover:bg-red-500/30 text-red-200' : 'bg-destructive/10 border-destructive/30 hover:bg-destructive/20 text-destructive-foreground'}`}
-                            onClick={handleBreakSadhana}
-                          >
-                            <XCircle className="h-4 w-4" />
-                            Break Sadhana
-                          </Button>
                         </>
                       )}
                       
-                      {(sadhanaState.status === 'completed' || sadhanaState.status === 'broken') && (
+                      {sadhanaState.status === 'completed' && (
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className={`flex items-center gap-1 ${isDefaultTheme ? 'bg-white/10 border border-white hover:bg-white/20 text-amber-100' : 'bg-secondary/10 border-secondary/30 hover:bg-secondary/20 text-secondary-foreground'}`}
+                          className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20 text-blue-600'}`}
+                          onClick={() => navigate('/dashboard')}
+                        >
+                          <LayoutDashboard className="h-4 w-4" />
+                          View Progress
+                        </Button>
+                      )}
+                      
+                      {sadhanaState.status === 'broken' && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className={`flex items-center gap-1 ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20 text-red-600'}`}
                           onClick={handleResetSadhana}
                         >
                           <RotateCcw className="h-4 w-4" />
-                          Start New Sadhana
+                          Start New
                         </Button>
                       )}
                     </div>
                   </div>
                 </div>
+
+                {/* Sadhana Content */}
+                <SadhanaContent 
+                  isEditing={isEditing} 
+                  view3D={view3D}
+                  hasStarted={sadhanaState.hasStarted}
+                  isCreating={false}
+                  isSelecting={false}
+                  sadhanaData={sadhanaData}
+                  paperContent={paperContent}
+                  setView3D={setView3D}
+                  onStartSadhana={startSadhanaCreation}
+                  onCancelSadhana={cancelSadhanaCreation}
+                  onCreateSadhana={createSadhana}
+                  onUpdateSadhana={updateSadhana}
+                  onSelectStoreSadhana={selectStoreSadhana}
+                  onCreateCustomSadhana={createCustomSadhana}
+                  status={sadhanaState.status}
+                />
+
+                {/* Action Footer */}
+                {sadhanaState.status === 'active' && !isEditing && (
+                  <SadhanaFooter 
+                    onBreakSadhana={handleBreakSadhana}
+                    isDefaultTheme={isDefaultTheme}
+                    defaultThemeClasses={defaultThemeClasses}
+                  />
+                )}
               </div>
             )}
-            
-            <SadhanaContent 
-              isEditing={isEditing}
-              view3D={view3D}
-              hasStarted={sadhanaState.hasStarted}
-              isCreating={sadhanaState.isCreating}
-              isSelecting={sadhanaState.isSelecting}
-              sadhanaData={sadhanaData}
-              paperContent={paperContent}
-              setView3D={setView3D}
-              onStartSadhana={startSadhanaCreation}
-              onCancelSadhana={cancelSadhanaCreation}
-              onCreateSadhana={createSadhana}
-              onUpdateSadhana={updateSadhana}
-              onSelectStoreSadhana={selectStoreSadhana}
-              onCreateCustomSadhana={createCustomSadhana}
-              status={sadhanaState.status} // Pass the status prop
-            />
+
+            {!sadhanaState.hasStarted && (
+              <div className={`p-8 rounded-xl text-center ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'backdrop-blur-sm bg-background/70 border border-primary/20'}`}>
+                <div className="max-w-md mx-auto">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-gradient-to-r from-primary/20 to-secondary/20">
+                    <MoonStar className={`h-8 w-8 ${isDefaultTheme ? defaultThemeClasses.accentText : 'text-primary'}`} />
+                  </div>
+                  <h3 className={`text-xl font-semibold mb-2 ${isDefaultTheme ? defaultThemeClasses.primaryText : 'text-foreground'}`}>
+                    Begin Your Sacred Journey
+                  </h3>
+                  <p className={`mb-6 ${isDefaultTheme ? defaultThemeClasses.secondaryText : 'text-muted-foreground'}`}>
+                    Start a new Sadhana practice to manifest your intentions and track your spiritual growth.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button 
+                      onClick={startSadhanaCreation}
+                      className={`px-6 ${isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground'}`}
+                    >
+                      Create Custom Sadhana
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => navigate('/store')}
+                      className={`px-6 ${isDefaultTheme ? defaultThemeClasses.secondaryButton : 'border border-primary/30 hover:bg-primary/10 text-primary'}`}
+                    >
+                      Browse Sadhana Library
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      
-      <SadhanaFooter />
-      
-      {/* Complete Sadhana Confirmation Dialog */}
+
+      {/* Complete Confirmation Dialog */}
       <Dialog open={showCompleteDialog} onOpenChange={setShowCompleteDialog}>
-        <DialogContent>
+        <DialogContent className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-accent" />
+            <DialogTitle className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>
               Complete Sadhana
             </DialogTitle>
-            <DialogDescription>
-              Are you sure you want to mark this sadhana as complete? You have successfully finished your spiritual practice!
+            <DialogDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>
+              Are you sure you want to mark this Sadhana as completed? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCompleteDialog(false)}>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowCompleteDialog(false)}
+              className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
+            >
               Cancel
             </Button>
-            <Button className="bg-accent hover:bg-accent/90" onClick={confirmCompleteSadhana}>
-              Complete
+            <Button 
+              onClick={confirmCompleteSadhana}
+              className={isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-green-500 hover:bg-green-600 text-white'}
+            >
+              Complete Sadhana
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Break Sadhana Confirmation Dialog */}
+      {/* Break Confirmation Dialog */}
       <Dialog open={showBreakDialog} onOpenChange={setShowBreakDialog}>
-        <DialogContent>
+        <DialogContent className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              Break Sadhana
+            <DialogTitle className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-red-500" />
+                End Sadhana Early
+              </div>
             </DialogTitle>
-            <DialogDescription>
-              Are you sure you want to break this sadhana? This will end your current practice early. You can start a new sadhana afterwards.
+            <DialogDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>
+              Are you sure you want to end this Sadhana early? This will mark it as broken and you'll need to start a new one.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowBreakDialog(false)}>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowBreakDialog(false)}
+              className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
+            >
               Cancel
             </Button>
-            <Button className="bg-destructive hover:bg-destructive/90" onClick={confirmBreakSadhana}>
-              Break
+            <Button 
+              onClick={confirmBreakSadhana}
+              className={isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-red-500 hover:bg-red-600 text-white'}
+            >
+              End Sadhana
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Reset Sadhana Confirmation Dialog */}
+      {/* Reset Confirmation Dialog */}
       <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
-        <DialogContent>
+        <DialogContent className={isDefaultTheme ? defaultThemeClasses.borderedContainer : ''}>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <RotateCcw className="h-5 w-5 text-primary" />
+            <DialogTitle className={isDefaultTheme ? defaultThemeClasses.primaryText : ''}>
               Start New Sadhana
             </DialogTitle>
-            <DialogDescription>
-              Are you sure you want to start a new sadhana? This will clear your current practice.
+            <DialogDescription className={isDefaultTheme ? defaultThemeClasses.secondaryText : ''}>
+              Are you sure you want to start a new Sadhana? This will reset your current progress.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowResetDialog(false)}
+              className={isDefaultTheme ? defaultThemeClasses.secondaryButton : ''}
+            >
               Cancel
             </Button>
-            <Button className="bg-primary hover:bg-primary/90" onClick={confirmResetSadhana}>
+            <Button 
+              onClick={confirmResetSadhana}
+              className={isDefaultTheme ? defaultThemeClasses.primaryButton : 'bg-blue-500 hover:bg-blue-600 text-white'}
+            >
               Start New
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
-      {/* Custom styles for cosmic animations */}
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0); }
-          25% { transform: translate(10px, 10px); }
-          50% { transform: translate(0, 20px); }
-          75% { transform: translate(-10px, 10px); }
-        }
-        
-        @keyframes pulse {
-          0%, 100% { opacity: 0.1; transform: scale(1); }
-          50% { opacity: 0.3; transform: scale(1.2); }
-        }
-      `}</style>
     </div>
   );
 };
