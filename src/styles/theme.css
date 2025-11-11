@@ -870,9 +870,9 @@
 }
 
 .theme-default .golden-text-glow {
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Using fixed gold color with alpha */
+  text-shadow: 0 0 10px hsla(var(--gold-medium), 0.5);
 }
 
 .theme-default .golden-border-glow {
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); /* Using fixed gold color with alpha */
+  box-shadow: 0 0 10px hsla(var(--gold-medium), 0.3);
 }

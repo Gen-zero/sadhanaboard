@@ -10,25 +10,13 @@ import { useSadhanaView } from '@/hooks/useSadhanaView';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { 
-  Eye, 
-  Pencil, 
-  RotateCcw, 
-  CheckCircle, 
-  XCircle, 
-  Calendar, 
-  AlertTriangle, 
-  LayoutDashboard, 
-  MoonStar 
-} from 'lucide-react';
+import { Eye, Pencil, RotateCcw, CheckCircle, XCircle, Calendar, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { useSettings } from '@/hooks/useSettings';
 import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
-import { useNavigate } from 'react-router-dom';
 import type { StoreSadhana } from '@/types/store';
 
 const SaadhanaBoard = () => {
-  const navigate = useNavigate();
   const { 
     sadhanaState, 
     sadhanaData, 
@@ -176,7 +164,7 @@ const SaadhanaBoard = () => {
                           <Calendar className="h-4 w-4" />
                           {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
                         </span>
-                        <span className={isDefaultTheme ? 'text-[hsl(var(--accent))]' : getStatusColor()}>
+                        <span className={isDefaultTheme ? `text-[hsl(var(--accent))]` : getStatusColor()}>
                           {getStatusMessage()}
                         </span>
                       </div>
@@ -251,19 +239,8 @@ const SaadhanaBoard = () => {
                 <SadhanaContent 
                   isEditing={isEditing} 
                   view3D={view3D}
-                  hasStarted={sadhanaState.hasStarted}
-                  isCreating={false}
-                  isSelecting={false}
-                  sadhanaData={sadhanaData}
                   paperContent={paperContent}
-                  setView3D={setView3D}
-                  onStartSadhana={startSadhanaCreation}
-                  onCancelSadhana={cancelSadhanaCreation}
-                  onCreateSadhana={createSadhana}
                   onUpdateSadhana={updateSadhana}
-                  onSelectStoreSadhana={selectStoreSadhana}
-                  onCreateCustomSadhana={createCustomSadhana}
-                  status={sadhanaState.status}
                 />
 
                 {/* Action Footer */}

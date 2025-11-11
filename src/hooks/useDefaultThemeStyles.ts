@@ -62,7 +62,7 @@ export function useDefaultThemeStyles() {
       border: 'border-white',
       
       // Glow effects
-      glowEffect: 'shadow-[0_0_15px_rgba(255,215,0,0.3)]', // Using fixed gold color with alpha
+      glowEffect: 'shadow-[0_0_15px_hsla(var(--accent),0.3)]',
       
       // Golden text variants for more nuanced styling
       goldLight: 'text-[hsl(var(--accent))]', // Light gold (same as accent)
