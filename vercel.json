@@ -11,7 +11,7 @@
       ]
     },
     {
-      "source": "/:path*.js",
+      "source": "/(.*)\\.js$",
       "headers": [
         {
           "key": "Content-Type",
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "source": "/:path*.css",
+      "source": "/(.*)\\.css$",
       "headers": [
         {
           "key": "Content-Type",
@@ -40,101 +40,41 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/assets/:path*",
-      "destination": "/assets/:path*"
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
     {
-      "source": "/:path*.js",
-      "destination": "/:path*.js"
+      "src": "/(.*)\\.js$",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
     },
     {
-      "source": "/:path*.css",
-      "destination": "/:path*.css"
+      "src": "/(.*)\\.css$",
+      "headers": {
+        "Content-Type": "text/css"
+      }
     },
     {
-      "source": "/:path*.png",
-      "destination": "/:path*.png"
+      "src": "/manifest.json",
+      "headers": {
+        "Content-Type": "application/manifest+json",
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
     {
-      "source": "/:path*.jpg",
-      "destination": "/:path*.jpg"
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|json|txt|map|woff|woff2|ttf|eot))$",
+      "continue": true
     },
     {
-      "source": "/:path*.jpeg",
-      "destination": "/:path*.jpeg"
-    },
-    {
-      "source": "/:path*.gif",
-      "destination": "/:path*.gif"
-    },
-    {
-      "source": "/:path*.svg",
-      "destination": "/:path*.svg"
-    },
-    {
-      "source": "/:path*.ico",
-      "destination": "/:path*.ico"
-    },
-    {
-      "source": "/:path*.webp",
-      "destination": "/:path*.webp"
-    },
-    {
-      "source": "/:path*.json",
-      "destination": "/:path*.json"
-    },
-    {
-      "source": "/:path*.txt",
-      "destination": "/:path*.txt"
-    },
-    {
-      "source": "/:path*.map",
-      "destination": "/:path*.map"
-    },
-    {
-      "source": "/:path*.woff",
-      "destination": "/:path*.woff"
-    },
-    {
-      "source": "/:path*.woff2",
-      "destination": "/:path*.woff2"
-    },
-    {
-      "source": "/:path*.ttf",
-      "destination": "/:path*.ttf"
-    },
-    {
-      "source": "/:path*.eot",
-      "destination": "/:path*.eot"
-    },
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
