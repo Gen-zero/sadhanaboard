@@ -11,6 +11,24 @@
       ]
     },
     {
+      "source": "/:path*.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    },
+    {
+      "source": "/:path*.css",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css"
+        }
+      ]
+    },
+    {
       "source": "/manifest.json",
       "headers": [
         {
@@ -47,7 +65,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(?!assets/)(?!.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|json|txt|map|woff|woff2|ttf|eot|mp4|webm|ogg|mp3|wav|flac|aac|woff|woff2)$)(.*)",
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
