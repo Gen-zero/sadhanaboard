@@ -26,6 +26,13 @@
   status = 200
   force = true
 
+# Handle static assets properly - exclude common file extensions
+[[redirects]]
+  from = "/*.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|webp|avif|mp4|webm|ogg|mp3|wav|flac|aac|pdf|txt|zip|rar|7z|tar|gz)"
+  to = "/:splat"
+  status = 200
+
+# Fallback to index.html for SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
