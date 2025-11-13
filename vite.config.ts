@@ -153,6 +153,17 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       rollupOptions: {
         output: {
+          // Keep the main application bundle names stable so cached HTML never
+          // references a removed hashed asset after a fresh deployment.
+          entryFileNames: (chunk) =>
+            chunk.name === "index" ? "app/index.js" : "assets/[name]-[hash].js",
+          chunkFileNames: "assets/[name]-[hash].js",
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name?.endsWith(".css") && assetInfo.name.startsWith("index")) {
+              return "app/index.css";
+            }
+            return "assets/[name]-[hash][extname]";
+          },
           // Allow Vite to manage code-splitting heuristics automatically to avoid
           // circular dependencies between manually defined chunks that can cause
           // runtime initialization errors in production bundles.
