@@ -5,7 +5,8 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "nodeVersion": "22.x"
       }
     }
   ],
@@ -40,8 +41,5 @@
     }
   ],
   "buildCommand": "npm run vercel-build",
-  "outputDirectory": "dist",
-  "engines": {
-    "node": "22.x"
-  }
+  "outputDirectory": "dist"
 }
