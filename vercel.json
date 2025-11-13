@@ -19,14 +19,14 @@
     {
       "src": "/(.*)\\.js$",
       "headers": {
-        "content-type": "text/javascript; charset=utf-8"
+        "content-type": "application/javascript"
       },
       "continue": true
     },
     {
       "src": "/(.*)\\.css$",
       "headers": {
-        "content-type": "text/css; charset=utf-8"
+        "content-type": "text/css"
       },
       "continue": true
     },
