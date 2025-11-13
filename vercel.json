@@ -31,6 +31,16 @@
       "continue": true
     },
     {
+      "src": "/assets/index-D82wIXYJ.css",
+      "dest": "/assets/index-Cb-XSSXK.css",
+      "statusCode": 301
+    },
+    {
+      "src": "/index-SrtPg-iy.js",
+      "dest": "/assets/index-oYaPtp-r.js",
+      "statusCode": 301
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
