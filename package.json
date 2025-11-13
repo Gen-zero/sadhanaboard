@@ -17,7 +17,7 @@
     "dev": "npm run dev:setup && vite",
     "dev:setup": "node scripts/ensure-theme-assets.js && node scripts/generate-theme-manifest.cjs && node scripts/copy-theme-icons.cjs && node scripts/move-assets.js && node scripts/copy-all-theme-assets.js",
     "build": "npm run dev:setup && tsc -b && vite build",
-    "vercel-build": "npm run build",
+    "vercel-build": "node scripts/ensure-theme-assets.js && node scripts/generate-theme-manifest.cjs && node scripts/copy-theme-icons.cjs && node scripts/move-assets.js && node scripts/copy-all-theme-assets.js && tsc -b && vite build",
     "build:analyze": "npm run build && npx vite-bundle-visualizer",
     "postinstall": "npm run dev:setup",
     "lint": "eslint .",
