@@ -78,6 +78,5 @@
     }
   ],
   "buildCommand": "npm run vercel-build",
-  "outputDirectory": "dist",
-  "nodeVersion": "22.x"
+  "outputDirectory": "dist"
 }
