@@ -31,14 +31,46 @@
       "continue": true
     },
     {
-      "src": "/assets/index-D82wIXYJ.css",
-      "dest": "/assets/index-Cb-XSSXK.css",
-      "statusCode": 301
+      "src": "/(.*)\\.png$",
+      "headers": {
+        "content-type": "image/png"
+      },
+      "continue": true
     },
     {
-      "src": "/index-SrtPg-iy.js",
-      "dest": "/assets/index-oYaPtp-r.js",
-      "statusCode": 301
+      "src": "/(.*)\\.jpg$",
+      "headers": {
+        "content-type": "image/jpeg"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)\\.jpeg$",
+      "headers": {
+        "content-type": "image/jpeg"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)\\.webp$",
+      "headers": {
+        "content-type": "image/webp"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)\\.svg$",
+      "headers": {
+        "content-type": "image/svg+xml"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)\\.ico$",
+      "headers": {
+        "content-type": "image/x-icon"
+      },
+      "continue": true
     },
     {
       "src": "/(.*)",
