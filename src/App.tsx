@@ -8,6 +8,7 @@ import {
   AnalyticsPage,
   DashboardPage,
   ExperimentPage,
+  HomePage,
   LibraryPage,
   LoginPage,
   NotFound,
@@ -213,7 +214,7 @@ const AppRoutes = () => {
       <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
       <Route path="/pratyangira" element={<ProtectedRoute><PratyangiraPage /></ProtectedRoute>} />
 
-      <Route path="/" element={<Navigate to="/sadhana" replace />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={
         <Suspense fallback={
