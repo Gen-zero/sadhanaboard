@@ -1,4 +1,4 @@
-﻿﻿﻿import React from 'react';
+﻿import React from 'react';
 import SadhanaDetails from './SadhanaDetails';
 import SadhanaViewer from './SadhanaViewer';
 import { useState, useEffect } from 'react';
