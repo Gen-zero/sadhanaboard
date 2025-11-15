@@ -23,7 +23,6 @@ const BottomNavigationBar: React.FC = () => {
   const { user } = useAuth();
 
   const navItems: BottomNavigationItem[] = [
-    { name: t('home'), icon: Home, path: '/dashboard' },
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
     { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },

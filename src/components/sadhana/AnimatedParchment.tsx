@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 interface AnimatedParchmentProps {
   content: string;
@@ -19,6 +20,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
   const burnIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const unrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const contentLines = content.trim().split('\n').filter(line => line.trim() !== '');
+  const { colors } = useThemeColors();
 
   // Handle completion state change
   useEffect(() => {

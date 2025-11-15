@@ -39,7 +39,6 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 
   // Navigation items
   const navItems = [
-    { name: t('dashboard'), icon: Home, path: '/dashboard' },
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
     { name: t('library'), icon: BookHeart, path: '/library' },
     { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },

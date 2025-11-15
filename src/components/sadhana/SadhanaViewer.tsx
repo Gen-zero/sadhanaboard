@@ -6,7 +6,6 @@ import ViewerFooter from './ViewerFooter';
 import CosmicBackground from './CosmicBackground';
 import { SadhanaData } from '@/hooks/useSadhanaData';
 import { Dispatch, SetStateAction } from 'react';
-import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
 
 interface SadhanaViewerProps {
   sadhanaData: SadhanaData | null;
@@ -14,7 +13,6 @@ interface SadhanaViewerProps {
 }
 
 const SadhanaViewer = ({ sadhanaData, setView3D }: SadhanaViewerProps) => {
-  const { isDefaultTheme, defaultThemeClasses } = useDefaultThemeStyles();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
   
@@ -77,7 +75,7 @@ ${data.offerings.map((o, i) => `${i+1}. ${o}`).join('\n')}
   };
 
   return (
-    <div className={`rounded-lg overflow-hidden shadow-2xl relative h-[600px] ${isDefaultTheme ? 'bg-gradient-to-br from-amber-950 via-amber-900 to-amber-950' : 'bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950'}`}>
+    <div className="w-full bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 rounded-lg overflow-hidden shadow-2xl relative h-[600px]">
       <CosmicBackground />
       
       <ViewerControls 

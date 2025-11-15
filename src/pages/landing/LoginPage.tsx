@@ -55,7 +55,7 @@ const LoginPage = () => {
         return;
       }
       
-      navigate("/dashboard");
+      navigate("/sadhana");
     } catch (err: unknown) {
       console.error('Login error:', err);
       // Show more specific error message if available
@@ -83,7 +83,7 @@ const LoginPage = () => {
         return;
       }
       
-      navigate("/dashboard");
+      navigate("/sadhana");
     } catch (err: unknown) {
       console.error('Demo login error:', err);
       const message = err instanceof Error ? err.message : 'Demo login failed';

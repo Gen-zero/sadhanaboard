@@ -38,7 +38,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
 
   // Navigation items with enhanced icons and features
   const navItems = [
-    { name: t('dashboard'), icon: Home, path: '/dashboard', badge: false },
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana', badge: true },
     { name: t('library'), icon: BookHeart, path: '/library', badge: false },
     { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas', badge: true },
