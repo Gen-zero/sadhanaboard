@@ -216,21 +216,25 @@
   text-align: center;
 }
 
-/* Android-like bottom navigation */
+/* Enhanced Android Footer for SadhanaBoard - Spiritual Theme */
 .android-bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
   height: 56px;
-  background-color: var(--android-surface);
+  background: linear-gradient(135deg, rgba(75, 0, 130, 0.85), rgba(42, 10, 90, 0.95));
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(12px);
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 0 var(--android-spacing-2);
   z-index: 100;
-  box-shadow: var(--android-elevation-2);
-  border-top: 1px solid var(--android-on-surface);
 }
 
 .android-bottom-nav-item {
@@ -240,58 +244,95 @@
   justify-content: center;
   flex: 1;
   height: 100%;
-  color: var(--android-on-surface);
+  color: #D8BFD8;
   text-decoration: none;
-  transition: all var(--android-motion-duration-medium) var(--android-motion-easing-standard);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: var(--android-spacing-1) 0;
+  text-align: center;
+  position: relative;
 }
 
 .android-bottom-nav-item.active {
-  color: var(--android-primary);
+  color: #FFD700;
+}
+
+.android-bottom-nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 24px;
+  height: 3px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
 .android-bottom-nav-item-icon {
   width: 24px;
   height: 24px;
-  margin-bottom: var(--android-spacing-1);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.android-bottom-nav-item:hover .android-bottom-nav-item-icon {
+  transform: translateY(-2px);
 }
 
 .android-bottom-nav-item-label {
   font-family: var(--android-font-family);
-  font-size: var(--android-font-size-caption);
+  font-size: 11px;
   font-weight: var(--android-font-weight-medium);
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  line-height: 1.2;
 }
 
 /* Android-like floating action button */
 .android-fab {
   position: fixed;
-  bottom: var(--android-spacing-4);
-  right: var(--android-spacing-4);
+  bottom: 80px;
+  right: 20px;
   width: 56px;
   height: 56px;
   border-radius: var(--android-corner-full);
-  background-color: var(--android-primary);
-  color: var(--android-on-primary);
-  box-shadow: var(--android-elevation-3);
+  background: linear-gradient(135deg, #9370DB, #4B0082);
+  color: #FFD700;
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(255, 215, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
-  transition: all var(--android-motion-duration-medium) var(--android-motion-easing-standard);
-  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 215, 0, 0.5);
   outline: none;
 }
 
 .android-fab:hover {
-  background-color: var(--android-primary-dark);
-  box-shadow: var(--android-elevation-4);
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .android-fab:active {
   transform: scale(0.95);
-  box-shadow: var(--android-elevation-2);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 0 10px rgba(255, 215, 0, 0.2);
 }
 
 /* Android-like list item */

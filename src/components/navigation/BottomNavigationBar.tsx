@@ -37,12 +37,12 @@ const BottomNavigationBar: React.FC = () => {
 
   return (
     <motion.nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-primary/20 pb-safe"
+      className="fixed bottom-3 left-3 right-3 z-50 bg-gradient-to-br from-purple-900/85 to-indigo-900/95 backdrop-blur-lg border border-amber-400/30 rounded-2xl shadow-2xl pb-safe"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="grid grid-cols-5 gap-1 p-2">
+      <div className="flex justify-around items-center p-2">
         {navItems.map((item) => {
           const active = isActive(item.path);
           const Icon = item.icon;
@@ -51,20 +51,23 @@ const BottomNavigationBar: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 touch-target-xl ${
+              className={`flex flex-col items-center justify-center py-3 px-1 rounded-xl transition-all duration-300 touch-target-xl relative ${
                 active 
-                  ? 'bg-primary/20 text-primary scale-105 shadow-lg' 
-                  : 'text-muted-foreground hover:bg-primary/10 hover:text-foreground'
+                  ? 'text-amber-400 scale-105' 
+                  : 'text-purple-300 hover:text-amber-200'
               }`}
               aria-current={active ? 'page' : undefined}
             >
+              {active && (
+                <div className="absolute -top-1 w-6 h-1 bg-gradient-to-r from-amber-400 to-amber-300 rounded-full shadow-lg shadow-amber-400/50" />
+              )}
               <motion.div
                 whileTap={{ scale: 0.9 }}
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <Icon className={`w-6 h-6 transition-all duration-300 ${active ? 'scale-110' : ''}`} />
-                <span className="text-xs mt-1 font-medium truncate w-full text-center">{item.name}</span>
+                <span className="text-[11px] mt-1 font-medium truncate w-full text-center tracking-wide">{item.name}</span>
               </motion.div>
             </Link>
           );

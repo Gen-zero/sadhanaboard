@@ -132,7 +132,7 @@ const SwipeGestureDemo: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4 space-y-6 pb-24">
       <h1 className="text-2xl font-bold text-center">Swipe Gesture Demo</h1>
       
       {/* Swipe Direction Indicator */}

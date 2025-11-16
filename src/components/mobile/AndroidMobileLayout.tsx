@@ -100,7 +100,7 @@ const AndroidMobileLayout: React.FC<AndroidMobileLayoutProps> = ({
       />
       
       {/* Main Content Area with bottom padding for navigation */}
-      <main className="flex-1 overflow-y-auto pb-20 pt-16">
+      <main className="flex-1 overflow-y-auto pb-24 pt-16">
         {children}
       </main>
       

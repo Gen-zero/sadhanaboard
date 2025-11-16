@@ -368,7 +368,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
         id="main-content"
         tabIndex={-1}
         className={`flex-1 transition-all duration-300 ${
-          isMobile ? 'pt-mobile-header px-4 pb-20' : 'p-4 sm:p-6'
+          isMobile ? 'pt-mobile-header px-4 pb-24' : 'p-4 sm:p-6'
         } ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
       >
         <div className="max-w-screen-2xl mx-auto w-full">

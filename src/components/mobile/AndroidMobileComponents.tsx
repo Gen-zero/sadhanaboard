@@ -182,7 +182,7 @@ export const AndroidBottomNav = ({
           onClick={() => onItemClick(item.id)}
           aria-label={item.label}
         >
-          <div className="bottom-nav-item-icon">
+          <div className="bottom-nav-item-icon flex items-center justify-center">
             {activeItem === item.id && item.activeIcon ? item.activeIcon : item.icon}
           </div>
           <div className="bottom-nav-item-label">{item.label}</div>

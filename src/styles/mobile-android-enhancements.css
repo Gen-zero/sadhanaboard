@@ -51,48 +51,62 @@
 /* Android-like Floating Action Button */
 .fab {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
+  bottom: 80px;
+  right: 20px;
   width: 56px;
   height: 56px;
   border-radius: 28px;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #9370DB, #4B0082);
+  color: #FFD700;
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(255, 215, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
-  transition: all 0.2s ease;
-  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 215, 0, 0.5);
   outline: none;
 }
 
 .fab:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .fab:active {
   transform: scale(0.95);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 0 10px rgba(255, 215, 0, 0.2);
 }
 
-/* Android-like Bottom Navigation */
+/* Enhanced Android Footer for SadhanaBoard - Spiritual Theme */
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
   height: 56px;
-  background-color: var(--background);
-  border-top: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(75, 0, 130, 0.85), rgba(42, 10, 90, 0.95));
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(12px);
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 0 8px;
   z-index: 100;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bottom-nav-item {
@@ -102,25 +116,41 @@
   justify-content: center;
   flex: 1;
   height: 100%;
-  color: var(--muted-foreground);
+  color: #D8BFD8;
   text-decoration: none;
-  transition: all 0.2s ease;
-  padding: 4px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 6px 0;
   text-align: center;
+  position: relative;
 }
 
 .bottom-nav-item.active {
-  color: var(--primary);
+  color: #FFD700;
+}
+
+.bottom-nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 24px;
+  height: 3px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
 .bottom-nav-item-icon {
   width: 24px;
   height: 24px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.bottom-nav-item:hover .bottom-nav-item-icon {
+  transform: translateY(-2px);
 }
 
 .bottom-nav-item-icon svg {
@@ -132,8 +162,10 @@
 }
 
 .bottom-nav-item-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,46 +174,9 @@
   line-height: 1.2;
 }
 
-/* Very specific selectors to ensure centering - using !important to override any conflicting styles */
-.bottom-nav-item-icon,
-div.bottom-nav-item-icon {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  width: 24px !important;
-  height: 24px !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-}
 
-.bottom-nav-item-icon svg,
-div.bottom-nav-item-icon svg {
-  width: 24px !important;
-  height: 24px !important;
-  display: block !important;
-  margin: 0 auto !important;
-  text-align: center !important;
-  padding: 0 !important;
-}
 
-.bottom-nav-item-label,
-div.bottom-nav-item-label {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  width: 100% !important;
-  line-height: 1.2 !important;
-}
 
-/* Ensure all child elements are centered */
-.bottom-nav-item-icon *,
-div.bottom-nav-item-icon * {
-  display: block !important;
-  margin: 0 auto !important;
-  text-align: center !important;
-}
 
 /* Android-like Card Design */
 .android-card {

@@ -266,7 +266,7 @@ const App = () => {
   
   // Determine the theme for background animation
   // Remove the forced default theme on landing pages to allow them to maintain original color schemes
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'] as const;
   const backgroundTheme = settings?.appearance?.colorScheme && 
     validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
     ? settings.appearance.colorScheme as typeof validThemes[number]
