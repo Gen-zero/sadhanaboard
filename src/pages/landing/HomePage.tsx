@@ -1084,7 +1084,7 @@ const HomePage = () => {
                   <div className="flex flex-wrap justify-center md:justify-end gap-3 sm:gap-4 text-sm">
                     <Link 
                       to="/about" 
-                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                      className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -1092,7 +1092,7 @@ const HomePage = () => {
                     </Link>
                     <Link 
                       to="/careers" 
-                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                      className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -1100,21 +1100,21 @@ const HomePage = () => {
                     </Link>
                     <Link 
                       to="/manifesto" 
-                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                      className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                       <span className="relative z-10">Manifesto</span>
                     </Link>
                     <button 
-                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                      className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                       <span className="relative z-10">Privacy</span>
                     </button>
                     <button 
-                      className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
+                      className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10"
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover/link:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -1125,7 +1125,7 @@ const HomePage = () => {
                 
                 <div className="mt-6 text-center">
                   <div 
-                    className="inline-block px-4 py-2 rounded-full text-xs text-muted-foreground/80 max-w-full overflow-hidden whitespace-normal"
+                    className="inline-block px-4 py-2 rounded-full text-xs text-white/80 max-w-full overflow-hidden whitespace-normal"
                     style={{
                       background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(138, 43, 226, 0.08))',
                       border: '1px solid rgba(255, 215, 0, 0.15)'

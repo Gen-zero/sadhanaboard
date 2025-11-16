@@ -245,7 +245,7 @@
   --muted-foreground: 270 30% 60%;    /* Muted purple-gold text */
   --ring: 45 100% 50%;                /* Golden focus ring */
   --sidebar-background: 270 40% 90%;  /* Sidebar */
-  --sidebar-foreground: 270 70% 30%;  /* Sidebar text */
+  --sidebar-foreground: 0 0% 100%;  /* Sidebar text */
   --sidebar-primary: 45 100% 50%;     /* Golden sidebar primary */
   --sidebar-accent: 270 50% 75%;      /* Light purple-gold accent */
   --sidebar-border: 270 40% 80%;      /* Sidebar border */

@@ -48,7 +48,7 @@ const CareersPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       {/* Navigation */}
       <div className="sticky top-0 left-0 right-0 z-50 px-2 sm:px-4 pt-2 sm:pt-4">
         <nav className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 hover:shadow-2xl group"
@@ -244,22 +244,22 @@ const CareersPage = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm">
-                <Link to="/about" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/about" className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">About</span>
                 </Link>
-                <Link to="/careers" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/careers" className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Careers</span>
                 </Link>
-                <Link to="/privacy" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/privacy" className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Privacy</span>
                 </Link>
-                <Link to="/terms" className="relative text-foreground hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
+                <Link to="/terms" className="relative text-white hover:text-amber-300 transition-all duration-300 group/link overflow-hidden px-2 py-1 z-10">
                   <span className="relative z-10">Terms</span>
                 </Link>
               </div>
             </div>
             <div className="mt-4 sm:mt-6 text-center">
-              <div className="inline-block px-3 sm:px-4 py-2 rounded-full text-[10px] sm:text-xs text-muted-foreground/80"
+              <div className="inline-block px-3 sm:px-4 py-2 rounded-full text-[10px] sm:text-xs text-white/80"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(138, 43, 226, 0.08))',
                   border: '1px solid rgba(255, 215, 0, 0.15)'

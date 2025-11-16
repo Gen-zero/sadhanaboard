@@ -122,7 +122,7 @@
 }
 
 /* Override sidebar text color to ensure it's white */
-body.theme-default .sidebar,
-body.theme-default [data-ui="sidebar"] {
+.theme-default .sidebar,
+.theme-default [data-ui="sidebar"] {
   color: hsl(0, 0%, 100%) !important;
 }
