@@ -194,13 +194,13 @@ export const AndroidBottomNav = ({
               : `hsl(${colors.foreground}/0.7)`
           }}
         >
-          <div className="bottom-nav-item-icon flex items-center justify-center">
+          <div className="bottom-nav-item-icon flex items-center justify-center mx-auto">
             {activeItem === item.id && item.activeIcon ? item.activeIcon : item.icon}
           </div>
-          <div className="bottom-nav-item-label">{item.label}</div>
+          <div className="bottom-nav-item-label flex items-center justify-center mx-auto text-center w-full">{item.label}</div>
           {activeItem === item.id && (
             <div 
-              className="absolute -top-1 w-6 h-1 rounded-full shadow-lg"
+              className="absolute -top-1 w-6 h-1 rounded-full shadow-lg mx-auto left-1/2 transform -translate-x-1/2"
               style={{
                 background: `linear-gradient(90deg, hsl(${colors.accent}), hsl(${colors.accent}/0.8))`,
                 boxShadow: `0 0 8px hsl(${colors.accent}/0.5)`

@@ -228,15 +228,6 @@ const AndroidMobileNav = ({
                     )}
                   </div>
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={closeMenu}
-                  className={`rounded-full ${glowColor} hover:scale-110 transition-transform`}
-                  aria-label="Close menu"
-                >
-                  <X className={`h-7 w-7 ${isMahakaliTheme ? 'text-red-400' : 'text-amber-400'} hover:animate-spin`} style={{ animationDuration: '0.3s' }} />
-                </Button>
               </div>
             </div>
 

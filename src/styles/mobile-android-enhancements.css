@@ -116,6 +116,7 @@
   padding: 6px 0;
   text-align: center;
   position: relative;
+  min-width: 0;
 }
 
 .bottom-nav-item-icon {
@@ -151,6 +152,7 @@
   text-align: center;
   width: 100%;
   line-height: 1.2;
+  margin-top: 2px;
 }
 
 

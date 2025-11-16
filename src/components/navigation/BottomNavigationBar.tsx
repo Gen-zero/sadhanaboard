@@ -67,7 +67,7 @@ const BottomNavigationBar: React.FC = () => {
             >
               {active && (
                 <div 
-                  className="absolute -top-1 w-6 h-1 rounded-full shadow-lg"
+                  className="absolute -top-1 w-6 h-1 rounded-full shadow-lg mx-auto left-1/2 transform -translate-x-1/2"
                   style={{
                     background: `linear-gradient(90deg, hsl(${colors.accent}), hsl(${colors.accent}/0.8))`,
                     boxShadow: `0 0 8px hsl(${colors.accent}/0.5)`
@@ -78,6 +78,7 @@ const BottomNavigationBar: React.FC = () => {
                 whileTap={{ scale: 0.9 }}
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="flex flex-col items-center justify-center"
               >
                 <Icon className={`w-6 h-6 transition-all duration-300 ${active ? 'scale-110' : ''}`} />
                 <span className="text-[11px] mt-1 font-medium truncate w-full text-center tracking-wide">{item.name}</span>
