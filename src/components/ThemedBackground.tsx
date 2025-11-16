@@ -1337,7 +1337,7 @@ const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width:
 };
 
 interface ThemedBackgroundProps {
-  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna';
+  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna' | 'android';
 }
 
 const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {

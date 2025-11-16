@@ -178,7 +178,7 @@ if (duplicateIds.length > 0) {
 }
 
 // Check for unused themes (themes not in validThemes list in App.tsx)
-const validThemesInApp = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'];
+const validThemesInApp = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'];
 const unusedThemes = RAW_THEME_REGISTRY.filter(t => !validThemesInApp.includes(t.metadata.id));
 if (unusedThemes.length > 0) {
   console.warn('[DEBUG] Unused themes found:', unusedThemes.map(t => t.metadata.id));
