@@ -16,6 +16,7 @@ import {
   MoreVertical
 } from 'lucide-react';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 // Define types for all exported components
 interface AndroidMobileComponents {
@@ -173,19 +174,39 @@ export const AndroidBottomNav = ({
   onItemClick,
   className = ''
 }: AndroidBottomNavProps) => {
+  const { colors } = useThemeColors();
+  
   return (
-    <div className={`bottom-nav ${className}`}>
+    <div className={`bottom-nav ${className}`} 
+      style={{
+        background: `linear-gradient(135deg, hsl(${colors.primary}/0.85), hsl(${colors.secondary}/0.95))`,
+        border: `1px solid hsl(${colors.accent}/0.3)`
+      }}>
       {items.map((item) => (
         <button
           key={item.id}
           className={`bottom-nav-item ${activeItem === item.id ? 'active' : ''}`}
           onClick={() => onItemClick(item.id)}
           aria-label={item.label}
+          style={{
+            color: activeItem === item.id 
+              ? `hsl(${colors.accent})` 
+              : `hsl(${colors.foreground}/0.7)`
+          }}
         >
           <div className="bottom-nav-item-icon flex items-center justify-center">
             {activeItem === item.id && item.activeIcon ? item.activeIcon : item.icon}
           </div>
           <div className="bottom-nav-item-label">{item.label}</div>
+          {activeItem === item.id && (
+            <div 
+              className="absolute -top-1 w-6 h-1 rounded-full shadow-lg"
+              style={{
+                background: `linear-gradient(90deg, hsl(${colors.accent}), hsl(${colors.accent}/0.8))`,
+                boxShadow: `0 0 8px hsl(${colors.accent}/0.5)`
+              }}
+            />
+          )}
         </button>
       ))}
     </div>
@@ -570,10 +591,17 @@ export const FloatingActionButton = ({
   onClick,
   className = ''
 }: FloatingActionButtonProps) => {
+  const { colors } = useThemeColors();
+  
   return (
     <button 
       className={`fab ${className} touch-ripple`}
       onClick={onClick}
+      style={{
+        background: `linear-gradient(135deg, hsl(${colors.primary}), hsl(${colors.secondary}))`,
+        color: `hsl(${colors.accent})`,
+        border: `2px solid hsl(${colors.accent}/0.5)`
+      }}
     >
       {icon}
     </button>

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 interface BottomNavigationItem {
   name: string;
@@ -21,6 +22,7 @@ const BottomNavigationBar: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { user } = useAuth();
+  const { colors } = useThemeColors();
 
   const navItems: BottomNavigationItem[] = [
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
@@ -37,7 +39,11 @@ const BottomNavigationBar: React.FC = () => {
 
   return (
     <motion.nav 
-      className="fixed bottom-3 left-3 right-3 z-50 bg-gradient-to-br from-purple-900/85 to-indigo-900/95 backdrop-blur-lg border border-amber-400/30 rounded-2xl shadow-2xl pb-safe"
+      className="fixed bottom-3 left-3 right-3 z-50 backdrop-blur-lg rounded-2xl shadow-2xl pb-safe"
+      style={{
+        background: `linear-gradient(135deg, hsl(${colors.primary}/0.85), hsl(${colors.secondary}/0.95))`,
+        border: `1px solid hsl(${colors.accent}/0.3)`
+      }}
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -51,15 +57,22 @@ const BottomNavigationBar: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center justify-center py-3 px-1 rounded-xl transition-all duration-300 touch-target-xl relative ${
-                active 
-                  ? 'text-amber-400 scale-105' 
-                  : 'text-purple-300 hover:text-amber-200'
-              }`}
+              className={`flex flex-col items-center justify-center py-3 px-1 rounded-xl transition-all duration-300 touch-target-xl relative ${active ? 'scale-105' : ''}`}
+              style={{
+                color: active 
+                  ? `hsl(${colors.accent})` 
+                  : `hsl(${colors.foreground}/0.7)`
+              }}
               aria-current={active ? 'page' : undefined}
             >
               {active && (
-                <div className="absolute -top-1 w-6 h-1 bg-gradient-to-r from-amber-400 to-amber-300 rounded-full shadow-lg shadow-amber-400/50" />
+                <div 
+                  className="absolute -top-1 w-6 h-1 rounded-full shadow-lg"
+                  style={{
+                    background: `linear-gradient(90deg, hsl(${colors.accent}), hsl(${colors.accent}/0.8))`,
+                    boxShadow: `0 0 8px hsl(${colors.accent}/0.5)`
+                  }}
+                />
               )}
               <motion.div
                 whileTap={{ scale: 0.9 }}
