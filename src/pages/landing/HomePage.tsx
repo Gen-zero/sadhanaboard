@@ -42,6 +42,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-transparent text-white font-sans selection:bg-amber-500/30">
       {/* Ambient Audio */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src="/audio/ambient-temple.mp3" />
 
       {/* Sticky Navigation Bar - Glassy Spiritual Theme */}
