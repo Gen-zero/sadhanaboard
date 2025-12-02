@@ -2,13 +2,15 @@
   background-color: hsl(var(--background));
   background-image: radial-gradient(hsla(var(--primary), 0.15) 0.5px, transparent 0.5px);
   background-size: 20px 20px;
-  z-index: 1; /* Ensure pattern is above base background */
+  z-index: 1;
+  /* Ensure pattern is above base background */
 }
 
 .dark .bg-pattern {
   background-color: hsl(var(--background));
   background-image: radial-gradient(hsla(var(--accent), 0.15) 0.5px, transparent 0.5px);
-  z-index: 1; /* Ensure pattern is above base background */
+  z-index: 1;
+  /* Ensure pattern is above base background */
 }
 
 .task-item-transition {
@@ -22,33 +24,35 @@
 /* Ethereal glow effects using theme variables */
 .ethereal-glow {
   box-shadow: 0 0 15px 2px hsla(var(--primary), 0.3);
-  z-index: 10; /* Ensure glow is visible above background */
+  z-index: 10;
+  /* Ensure glow is visible above background */
 }
 
 .ethereal-glow-primary {
   box-shadow: 0 0 25px 5px hsla(var(--primary), 0.3);
-  z-index: 10; /* Ensure glow is visible above background */
+  z-index: 10;
+  /* Ensure glow is visible above background */
 }
 
 .ethereal-glow-accent {
   box-shadow: 0 0 25px 5px hsla(var(--accent), 0.3);
-  z-index: 10; /* Ensure glow is visible above background */
+  z-index: 10;
+  /* Ensure glow is visible above background */
 }
 
 /* Animated text gradient */
 .animated-text-gradient {
-  background: linear-gradient(
-    90deg,
-    hsl(var(--primary)) 0%,
-    hsl(var(--accent)) 50%,
-    hsl(var(--primary)) 100%
-  );
+  background: linear-gradient(90deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 50%,
+      hsl(var(--primary)) 100%);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   animation: gradient-shift 8s ease infinite;
-  z-index: 10; /* Ensure text is visible above background */
+  z-index: 10;
+  /* Ensure text is visible above background */
 }
 
 /* Color-based utility classes */
@@ -60,13 +64,15 @@
   background: hsla(var(--background), 0.7);
   backdrop-filter: blur(8px);
   border: 1px solid hsla(var(--border), 0.3);
-  z-index: 10; /* Ensure glass effect is visible above background */
+  z-index: 10;
+  /* Ensure glass effect is visible above background */
 }
 
 /* Cosmic highlight effects */
 .cosmic-highlight {
   position: relative;
-  z-index: 10; /* Ensure highlight is visible above background */
+  z-index: 10;
+  /* Ensure highlight is visible above background */
 }
 
 .cosmic-highlight::after {
@@ -77,10 +83,9 @@
   right: -5px;
   bottom: -5px;
   border-radius: inherit;
-  background: linear-gradient(45deg, 
-    hsla(var(--primary), 0.6), 
-    hsla(var(--accent), 0.6)
-  );
+  background: linear-gradient(45deg,
+      hsla(var(--primary), 0.6),
+      hsla(var(--accent), 0.6));
   z-index: -1;
   filter: blur(10px);
   opacity: 0;
@@ -93,19 +98,25 @@
 
 /* Cosmic button styling */
 .cosmic-button {
-  @apply bg-primary/10 border-primary/30 hover:bg-primary/20 text-foreground transition-all duration-300;
-  z-index: 10; /* Ensure button is visible above background */
+  background-color: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+  transition: all 0.3s;
+  z-index: 10;
+  /* Ensure button is visible above background */
 }
 
 .cosmic-button:hover {
-  @apply shadow-lg shadow-primary/25;
+  background-color: hsl(var(--primary) / 0.2);
+  box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.25), 0 4px 6px -4px hsl(var(--primary) / 0.25);
 }
 
 /* Hide scrollbars for horizontal scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  z-index: 10; /* Ensure scrollable content is visible */
+  z-index: 10;
+  /* Ensure scrollable content is visible */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -113,23 +124,70 @@
 }
 
 /* Responsive font sizing with clamp() */
-.responsive-text-xs { font-size: clamp(0.75rem, 2vw, 0.875rem); }
-.responsive-text-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
-.responsive-text-base { font-size: clamp(1rem, 3vw, 1.125rem); }
-.responsive-text-lg { font-size: clamp(1.125rem, 3.5vw, 1.25rem); }
-.responsive-text-xl { font-size: clamp(1.25rem, 4vw, 1.5rem); }
-.responsive-text-2xl { font-size: clamp(1.5rem, 5vw, 1.875rem); }
-.responsive-text-3xl { font-size: clamp(1.875rem, 6vw, 2.25rem); }
-.responsive-text-4xl { font-size: clamp(2.25rem, 7vw, 3rem); }
-.responsive-text-5xl { font-size: clamp(3rem, 8vw, 4rem); }
+.responsive-text-xs {
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+}
+
+.responsive-text-sm {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.responsive-text-base {
+  font-size: clamp(1rem, 3vw, 1.125rem);
+}
+
+.responsive-text-lg {
+  font-size: clamp(1.125rem, 3.5vw, 1.25rem);
+}
+
+.responsive-text-xl {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+}
+
+.responsive-text-2xl {
+  font-size: clamp(1.5rem, 5vw, 1.875rem);
+}
+
+.responsive-text-3xl {
+  font-size: clamp(1.875rem, 6vw, 2.25rem);
+}
+
+.responsive-text-4xl {
+  font-size: clamp(2.25rem, 7vw, 3rem);
+}
+
+.responsive-text-5xl {
+  font-size: clamp(3rem, 8vw, 4rem);
+}
 
 /* Responsive spacing utilities */
-.px-responsive { padding-left: clamp(0.5rem, 4vw, 1.5rem); padding-right: clamp(0.5rem, 4vw, 1.5rem); }
-.py-responsive { padding-top: clamp(0.5rem, 3vw, 1rem); padding-bottom: clamp(0.5rem, 3vw, 1rem); }
-.mx-responsive { margin-left: clamp(0.5rem, 4vw, 1.5rem); margin-right: clamp(0.5rem, 4vw, 1.5rem); }
-.my-responsive { margin-top: clamp(0.5rem, 3vw, 1rem); margin-bottom: clamp(0.5rem, 3vw, 1rem); }
-.p-responsive { padding: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
-.m-responsive { margin: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem); }
+.px-responsive {
+  padding-left: clamp(0.5rem, 4vw, 1.5rem);
+  padding-right: clamp(0.5rem, 4vw, 1.5rem);
+}
+
+.py-responsive {
+  padding-top: clamp(0.5rem, 3vw, 1rem);
+  padding-bottom: clamp(0.5rem, 3vw, 1rem);
+}
+
+.mx-responsive {
+  margin-left: clamp(0.5rem, 4vw, 1.5rem);
+  margin-right: clamp(0.5rem, 4vw, 1.5rem);
+}
+
+.my-responsive {
+  margin-top: clamp(0.5rem, 3vw, 1rem);
+  margin-bottom: clamp(0.5rem, 3vw, 1rem);
+}
+
+.p-responsive {
+  padding: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem);
+}
+
+.m-responsive {
+  margin: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem);
+}
 
 /* Centered placeholder text for input fields */
 .input-placeholder-center::placeholder {
