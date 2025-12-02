@@ -8,9 +8,9 @@ const SolutionSection = () => {
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.04] mix-blend-overlay pointer-events-none" />
 
             {/* Yantra Wireframe Background */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.08] pointer-events-none animate-[spin_60s_linear_infinite]"
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.08] pointer-events-none animate-[spin_120s_linear_infinite]"
                 style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23FFD778' stroke-width='1'%3E%3Ccircle cx='100' cy='100' r='90'/%3E%3Ccircle cx='100' cy='100' r='70'/%3E%3Cpath d='M100 10 L180 170 L20 170 Z'/%3E%3Cpath d='M100 190 L180 30 L20 30 Z'/%3E%3Crect x='50' y='50' width='100' height='100'/%3E%3Crect x='50' y='50' width='100' height='100' transform='rotate(45 100 100)'/%3E%3Ccircle cx='100' cy='100' r='20'/%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundImage: `url("/mandala-pattern.png")`,
                     backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center'
