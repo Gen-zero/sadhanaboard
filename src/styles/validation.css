@@ -11,7 +11,13 @@
 }
 
 .input-validation--idle {
-  @apply border-input focus:border-primary focus:ring-primary/20;
+  border-color: hsl(var(--input));
+}
+
+.input-validation--idle:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+  outline: none;
 }
 
 .input-validation--validating {
@@ -354,10 +360,13 @@
 
 /* Enhanced Validation Animations */
 @keyframes validationPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgb(59 130 246);
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
   }
+
   50% {
     border-color: rgb(37 99 235);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
@@ -365,9 +374,26 @@
 }
 
 @keyframes validationShake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-  20%, 40%, 60%, 80% { transform: translateX(2px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
 }
 
 @keyframes messageSlideIn {
@@ -375,6 +401,7 @@
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -386,6 +413,7 @@
     opacity: 0;
     transform: translateY(-4px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -397,6 +425,7 @@
     opacity: 0;
     transform: translateX(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -408,10 +437,12 @@
     opacity: 0;
     transform: scale(0.3);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.1);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -419,29 +450,50 @@
 }
 
 @keyframes iconShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  75% { transform: translateX(1px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-1px);
+  }
+
+  75% {
+    transform: translateX(1px);
+  }
 }
 
 @keyframes iconSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes sectionPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     background-color: rgba(219, 234, 254, 0.5);
   }
+
   50% {
     background-color: rgba(219, 234, 254, 0.8);
   }
 }
 
 @keyframes charCountPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
@@ -482,20 +534,20 @@
   .validation-message {
     @apply text-xs;
   }
-  
+
   .success-indicator,
   .error-indicator {
     @apply text-xs;
   }
-  
+
   .validation-icon {
     @apply right-2;
   }
-  
+
   .form-section-validation {
     @apply p-3;
   }
-  
+
   .validation-summary {
     @apply p-3;
   }
@@ -506,19 +558,19 @@
   .input-validation--valid {
     @apply border-2 border-green-600;
   }
-  
+
   .input-validation--invalid {
     @apply border-2 border-red-600;
   }
-  
+
   .input-validation--validating {
     @apply border-2 border-blue-600;
   }
-  
+
   .success-indicator {
     @apply font-semibold;
   }
-  
+
   .error-indicator {
     @apply font-semibold;
   }
@@ -526,6 +578,7 @@
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   .input-validation,
   .validation-message,
   .success-indicator,
@@ -538,7 +591,7 @@
     animation: none;
     transition: none;
   }
-  
+
   .validation-icon--validating {
     animation: none;
   }
@@ -549,39 +602,39 @@
   .input-validation--valid {
     @apply bg-green-950/30 border-green-400;
   }
-  
+
   .input-validation--invalid {
     @apply bg-red-950/30 border-red-400;
   }
-  
+
   .input-validation--validating {
     @apply bg-blue-950/30 border-blue-400;
   }
-  
+
   .validation-progress {
     @apply bg-gray-700;
   }
-  
+
   .form-section-validation--valid {
     @apply border-green-800 bg-green-950/50;
   }
-  
+
   .form-section-validation--invalid {
     @apply border-red-800 bg-red-950/50;
   }
-  
+
   .form-section-validation--validating {
     @apply border-blue-800 bg-blue-950/50;
   }
-  
+
   .validation-summary--success {
     @apply border-green-800 bg-green-950 text-green-200;
   }
-  
+
   .validation-summary--error {
     @apply border-red-800 bg-red-950 text-red-200;
   }
-  
+
   .validation-summary--warning {
     @apply border-yellow-800 bg-yellow-950 text-yellow-200;
   }
