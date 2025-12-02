@@ -23,3 +23,4 @@ export { default as WalkthroughPage } from './user/WalkthroughPage';
 export { default as HelpDemoPage } from './user/HelpDemoPage';
 export { default as EnergyLevelPage } from './user/EnergyLevelPage'; // Add this export
 export { default as CosmosThemePage } from './CosmosThemePage';
+export { default as ThemesShowcasePage } from './ThemesShowcasePage';

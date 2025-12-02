@@ -1337,10 +1337,13 @@ const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width:
 };
 
 interface ThemedBackgroundProps {
+  className?: string;
   theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna' | 'android';
 }
 
-const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
+const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className }) => {
+  const defaultClasses = "fixed inset-0 pointer-events-none z-[-1]";
+  const finalClasses = className || defaultClasses;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   // Load Bhagwan_Krishna.png image for earth theme
@@ -2841,9 +2844,9 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
     const BackgroundComp = registered.BackgroundComponent;
     console.log('ThemedBackground: Using registered BackgroundComponent for theme:', theme, BackgroundComp);
     return (
-      <ErrorBoundary fallback={<canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[-1]"/>}>
-        <React.Suspense fallback={<canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[-1]"/>}>
-          <BackgroundComp className="fixed inset-0 z-0" />
+      <ErrorBoundary fallback={<canvas ref={canvasRef} className={finalClasses}/>}>
+        <React.Suspense fallback={<canvas ref={canvasRef} className={finalClasses}/>}>
+          <BackgroundComp className={finalClasses} />
         </React.Suspense>
       </ErrorBoundary>
     );
@@ -2854,7 +2857,7 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme }) => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed inset-0 pointer-events-none z-[-1]"
+      className={finalClasses}
     />
   );
 };

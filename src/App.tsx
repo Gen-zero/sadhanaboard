@@ -27,6 +27,7 @@ import {
   EnergyLevelPage, // Add this import
   CosmosThemePage
 } from "./pages"; // Imports fixed
+import { ThemesShowcasePage } from "./pages";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useDailySadhanaRefresh } from "./hooks/useDailySadhanaRefresh";
@@ -96,7 +97,7 @@ const hinduMantras = [
 // Protected route component that checks for authentication
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { user, isLoading } = useAuth();
-  
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -104,11 +105,11 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
       </div>
     );
   }
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return children;
 };
 
@@ -116,18 +117,18 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
   const { user, isLoading, isOnboardingComplete, checkOnboardingStatus } = useAuth();
   const [loadingTimeout, setLoadingTimeout] = useState(false);
-  
+
   // Set a timeout to prevent indefinite loading
   useEffect(() => {
     if (isLoading || isOnboardingComplete === null) {
       const timer = setTimeout(() => {
         setLoadingTimeout(true);
       }, 5000); // 5 second timeout
-      
+
       return () => clearTimeout(timer);
     }
   }, [isLoading, isOnboardingComplete]);
-  
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -135,17 +136,17 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
       </div>
     );
   }
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
+
   // Handle timeout case
   if (loadingTimeout && isOnboardingComplete === null) {
     // Assume onboarding is complete to prevent blocking the app
     return children;
   }
-  
+
   // Handle the case when onboarding status is still loading/unknown
   if (isOnboardingComplete === null) {
     return (
@@ -154,11 +155,11 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
       </div>
     );
   }
-  
+
   if (isOnboardingComplete === false) {
     return <Navigate to="/onboarding" replace />;
   }
-  
+
   return children;
 };
 
@@ -166,26 +167,26 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const [loaded, setLoaded] = useState(false);
-  
+
   // Get the current theme from settings or default to 'default'
   const { settings } = useSettings();
   const currentTheme = settings?.appearance?.colorScheme || 'default';
   const isTaraTheme = currentTheme === 'tara';
-  
+
   useEffect(() => {
     setLoaded(false);
     const timer = setTimeout(() => {
       setLoaded(true);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, [location]);
-  
+
   // For Tara theme, disable transitions completely to maintain consistent scale and position
   if (isTaraTheme) {
     return <div className="transition-none">{children}</div>;
   }
-  
+
   // Show loading spinner while transitioning
   if (!loaded) {
     return (
@@ -194,7 +195,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   }
-  
+
   // Render children directly without animations
   return <div>{children}</div>;
 };
@@ -202,7 +203,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => {
   // Initialize daily sadhana refresh globally
   useDailySadhanaRefresh();
-  
+
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
@@ -247,6 +248,7 @@ const AppRoutes = () => {
       <Route path="/help" element={<OnboardingRoute><HelpDemoPage /></OnboardingRoute>} />
       <Route path="/psychological-levers" element={<OnboardingRoute><EnergyLevelPage /></OnboardingRoute>} />
       <Route path="/cosmos-theme" element={<OnboardingRoute><CosmosThemePage /></OnboardingRoute>} />
+      <Route path="/themes" element={<ThemesShowcasePage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -254,7 +256,7 @@ const AppRoutes = () => {
 
 const App = () => {
   const { settings, isLoading } = useSettings();
-  
+
   // Show a loading spinner while settings are loading
   if (isLoading) {
     return (
@@ -263,18 +265,18 @@ const App = () => {
       </div>
     );
   }
-  
+
   // Determine the theme for background animation
   // Remove the forced default theme on landing pages to allow them to maintain original color schemes
   const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'] as const;
-  const backgroundTheme = settings?.appearance?.colorScheme && 
+  const backgroundTheme = settings?.appearance?.colorScheme &&
     validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
     ? settings.appearance.colorScheme as typeof validThemes[number]
     : 'default';
-  
+
   return (
-    <ErrorBoundary 
-      context="main-app" 
+    <ErrorBoundary
+      context="main-app"
       retryable={true}
       showErrorDetails={process.env.NODE_ENV === 'development'}
     >
@@ -285,7 +287,8 @@ const App = () => {
               <HelpProvider> {/* Add HelpProvider here */}
                 <div className="relative">
                   <ThemedBackground theme={backgroundTheme} />
-                  
+
+
                   <div className="relative z-10">
                     <DemoBanner />
                     <FocusVisible />

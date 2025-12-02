@@ -206,6 +206,17 @@
         "category": "color-scheme",
         "gradient": "from-indigo-900 via-purple-800 to-violet-900"
       }
+    },
+    {
+      "id": "android",
+      "metadata": {
+        "id": "android",
+        "name": "Android",
+        "description": "Material Design inspired theme for mobile devices",
+        "category": "color-scheme",
+        "deity": "None",
+        "isLandingPage": false
+      }
     }
   ]
 }
