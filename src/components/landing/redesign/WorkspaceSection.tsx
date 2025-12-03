@@ -1,7 +1,9 @@
 import React from 'react';
 import { Palette, Sparkles } from "lucide-react";
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const WorkspaceSection = () => {
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     const themes = [
         {
             name: "Shiva",
@@ -36,11 +38,11 @@ const WorkspaceSection = () => {
             <div className="absolute inset-0 bg-[#07050A]/80 pointer-events-none" />
 
             <div className="max-w-[1300px] mx-auto relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-center mb-16">
+                    <h2 className={`text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         Your Interface, Your Deity
                     </h2>
-                    <p className="text-xl text-white/60 font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <p className={`text-xl text-white/60 font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         Personalize your sacred space.
                     </p>
                 </div>

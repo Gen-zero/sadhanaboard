@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Scroll, Video, Book, Hourglass, Flower } from 'lucide-react';
 import { useScrollAnimation } from '@/context/ScrollAnimationContext';
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 
 const ProblemSection = () => {
@@ -12,6 +13,8 @@ const ProblemSection = () => {
         animationStage,
         setAnimationStage
     } = useScrollAnimation();
+
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
 
     // Animation State Refs - Moved to top level
     const stateRef = useRef({
@@ -256,23 +259,23 @@ const ProblemSection = () => {
             className="py-24 px-6 relative"
         >
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-                <div className="space-y-8">
-                    <h2 className="text-sm uppercase tracking-[0.2em] text-amber-200/60 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>Why Discipline Breaks</h2>
-                    <h3 className="font-serif text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <div ref={contentRef as React.RefObject<HTMLDivElement>} className="space-y-8">
+                    <h2 className={`text-sm uppercase tracking-[0.2em] text-amber-200/60 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>Why Discipline Breaks</h2>
+                    <h3 className={`font-serif text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         When your spiritual tools are scattered, your practice becomes fragile.
                     </h3>
-                    <p className="text-white/60 leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                    <p className={`text-white/60 leading-relaxed font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
                         Most seekers rely on disconnected PDFs, journals, YouTube videos, and basic habit apps.
                     </p>
                     <ul className="space-y-4 pt-4">
                         {['Nothing speaks to each other.', 'Nothing guides your depth.', 'Nothing helps you build consistency.'].map((item, i) => (
-                            <li key={i} className="flex items-center gap-3 text-white/80 animate-slide-in-left" style={{ animationDelay: `${0.4 + i * 0.1}s` }}>
+                            <li key={i} className={`flex items-center gap-3 text-white/80 animate-slide-in-left ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: `${0.4 + i * 0.1}s` }}>
                                 <div className="w-1.5 h-1.5 bg-red-400/80 rounded-full shadow-[0_0_8px_rgba(248,113,113,0.6)]"></div>
                                 <div className="font-light">{item}</div>
                             </li>
                         ))}
                     </ul>
-                    <p className="text-lg italic font-serif text-white/40 pt-4 border-l-2 border-white/10 pl-6 animate-fade-in" style={{ animationDelay: '0.7s' }}>
+                    <p className={`text-lg italic font-serif text-white/40 pt-4 border-l-2 border-white/10 pl-6 animate-fade-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.7s' }}>
                         "A fragmented environment makes a fragmented practice."
                     </p>
                 </div>

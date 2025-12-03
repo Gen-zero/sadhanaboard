@@ -1,7 +1,9 @@
 import React from 'react';
 import { BarChart3, ListTodo, Library, TrendingUp, Users } from "lucide-react";
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const FeaturesSection = () => {
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.15 });
     const features = [
         {
             icon: BarChart3,
@@ -46,11 +48,11 @@ const FeaturesSection = () => {
             />
 
             <div className="max-w-[1300px] mx-auto relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-serif leading-tight text-white/90 mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-center mb-16">
+                    <h2 className={`text-3xl md:text-4xl font-serif leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         Everything You Need for Serious Practice
                     </h2>
-                    <p className="text-xl text-white/60 font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <p className={`text-xl text-white/60 font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         All in one clean, powerful interface.
                     </p>
                 </div>
@@ -59,8 +61,8 @@ const FeaturesSection = () => {
                     {features.map((feature, index) => (
                         <div
                             key={index}
-                            className="relative p-8 rounded-[14px] card-glass hover:border-[#FFD54A]/30 transition-all duration-500 group hover:-translate-y-1 hover:shadow-[0_14px_32px_rgba(245,158,11,0.1)] overflow-hidden animate-scale-in"
-                            style={{ animationDelay: `${0.3 + index * 0.1}s` }}
+                            className={`relative p-8 rounded-[14px] card-glass hover:border-[#FFD54A]/30 transition-all duration-500 group hover:-translate-y-1 hover:shadow-[0_14px_32px_rgba(245,158,11,0.1)] overflow-hidden animate-scale-in ${isVisible ? 'visible' : ''}`}
+                            style={{ transitionDelay: `${0.3 + index * 0.1}s` }}
                         >
                             {/* Hover Micro Animation Background */}
                             <div className="absolute inset-0 bg-gradient-to-br from-[#FFD54A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

@@ -1,17 +1,19 @@
 import React from 'react';
 import { Shield, Lock, Award } from "lucide-react";
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const TrustSection = () => {
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     return (
         <section className="py-20 px-4 relative overflow-hidden">
-            <div className="max-w-[1300px] mx-auto relative z-10">
+            <div ref={contentRef as React.RefObject<HTMLDivElement>} className="max-w-[1300px] mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     {[
                         { icon: Shield, title: "Private by Design", desc: "Your spiritual data is sacred. We don't sell it." },
                         { icon: Lock, title: "Encrypted Journal", desc: "Your reflections are for your eyes only." },
                         { icon: Award, title: "Verified Lineage", desc: "Sadhanas sourced from authentic traditions." }
                     ].map((item, index) => (
-                        <div key={index} className="p-6 rounded-xl hover:bg-white/5 transition-colors group animate-fade-in-up" style={{ animationDelay: `${0.1 + index * 0.15}s` }}>
+                        <div key={index} className={`p-6 rounded-xl hover:bg-white/5 transition-colors group animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: `${0.1 + index * 0.15}s` }}>
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#FFD54A]/5 flex items-center justify-center group-hover:bg-[#FFD54A]/10 transition-colors">
                                 <item.icon className="w-6 h-6 text-[#FFD54A]/60 group-hover:text-[#FFD54A] transition-colors" />
                             </div>

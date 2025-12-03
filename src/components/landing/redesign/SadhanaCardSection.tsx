@@ -1,7 +1,9 @@
 import React from 'react';
 import { ArrowRight, CheckSquare, BookOpen, Flame, ScrollText } from "lucide-react";
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const SadhanaCardSection = () => {
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     const steps = [
         {
             step: "Step 1",
@@ -29,11 +31,11 @@ const SadhanaCardSection = () => {
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.03] mix-blend-overlay pointer-events-none" />
 
             <div className="max-w-[1300px] mx-auto relative z-10">
-                <div className="text-center mb-20">
-                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-center mb-20">
+                    <h2 className={`text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         The Sadhana Card
                     </h2>
-                    <p className="text-xl text-white/60 font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <p className={`text-xl text-white/60 font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         Your entire practice, intelligently organized.
                     </p>
                 </div>

@@ -1,9 +1,11 @@
 import React from 'react';
 import { CheckCircle2 } from "lucide-react";
 import { useScrollAnimation } from '@/context/ScrollAnimationContext';
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const SolutionSection = () => {
     const { solutionSectionRef, mockupRef, animationStage } = useScrollAnimation();
+    const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     const [borderProgress, setBorderProgress] = React.useState(0);
     const requestRef = React.useRef<number>();
     const startTimeRef = React.useRef<number>();
@@ -97,16 +99,16 @@ const SolutionSection = () => {
                 </div>
 
                 {/* Right Column: Copy */}
-                <div className="text-left space-y-8">
-                    <h3 className="text-3xl md:text-[34px] font-serif leading-tight text-white/90 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-left space-y-8">
+                    <h3 className={`text-3xl md:text-[34px] font-serif leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         A Unified System for <br /> Your Spiritual Path
                     </h3>
 
-                    <p className="text-lg text-white/60 leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <p className={`text-lg text-white/60 leading-relaxed font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         SadhanaBoard brings clarity, structure, and continuity into one sacred workspace.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                    <div className={`flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70 animate-fade-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
                         <span>Intention</span>
                         <span className="text-white/20">•</span>
                         <span>Rituals</span>
@@ -116,7 +118,7 @@ const SolutionSection = () => {
                         <span>Progress</span>
                     </div>
 
-                    <p className="font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6 animate-slide-in-right" style={{ animationDelay: '0.4s' }}>
+                    <p className={`font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6 animate-slide-in-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
                         All aligned inside a single, integrated system—<br />
                         quiet, elegant, and built for real discipline.
                     </p>
