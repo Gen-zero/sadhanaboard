@@ -50,24 +50,29 @@ const SolutionSection = () => {
                 </div>
 
                 {/* Right Column: Copy */}
-                <div className="text-left">
-                    <h3 className="text-3xl md:text-[34px] font-serif font-bold text-gold-glow mb-6 leading-tight">
-                        The OS Built for <br /> Spiritual Practice
+                <div className="text-left space-y-8">
+                    <h3 className="text-3xl md:text-[34px] font-serif font-bold text-gold-glow leading-tight">
+                        A Unified System for <br /> Your Spiritual Path
                     </h3>
 
-                    <p className="text-lg text-white/88 mb-8 leading-relaxed font-sans">
-                        Structure is devotion. Discipline is liberation. <br />
-                        SadhanaBoard brings your entire spiritual workflow into one clean, disciplined system.
+                    <p className="text-lg text-white/60 leading-relaxed font-sans">
+                        SadhanaBoard brings clarity, structure, and continuity into one sacred workspace.
                     </p>
 
-                    <div className="flex flex-wrap gap-4">
-                        <button className="px-8 py-3 rounded-full bg-[#F59E0B] text-white font-semibold shadow-[0_10px_30px_rgba(245,158,11,0.25)] hover:scale-105 hover:shadow-[0_10px_40px_rgba(245,158,11,0.4)] transition-all duration-300">
-                            Start Your Journey
-                        </button>
-                        <button className="px-8 py-3 rounded-full bg-[#6F5D80]/20 border border-white/10 text-white/90 backdrop-blur-sm hover:bg-[#6F5D80]/40 transition-colors duration-300">
-                            Explore Features
-                        </button>
+                    <div className="flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70">
+                        <span>Intention</span>
+                        <span className="text-white/20">•</span>
+                        <span>Rituals</span>
+                        <span className="text-white/20">•</span>
+                        <span>Learning</span>
+                        <span className="text-white/20">•</span>
+                        <span>Progress</span>
                     </div>
+
+                    <p className="font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6">
+                        All aligned inside a single, integrated system—<br />
+                        quiet, elegant, and built for real discipline.
+                    </p>
                 </div>
             </div>
         </section>
