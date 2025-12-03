@@ -95,7 +95,7 @@ const ProblemSection = () => {
                 <div className="relative h-[450px] w-full flex items-center justify-center">
 
                     {/* The Container for the Orbiting Icons (Overflow Hidden to clip them) */}
-                    <div className="absolute inset-0 border border-white/5 bg-white/[0.01] backdrop-blur-[2px] rounded-sm overflow-hidden">
+                    <div className="absolute inset-0 border border-white/[0.08] bg-black/40 backdrop-blur-sm rounded-sm overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                         {/* Sacred Geometry Background Rings (Broken Mandala) */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
                             <div className="w-[300px] h-[300px] border border-white rounded-full animate-spin-slow-reverse border-dashed"></div>
