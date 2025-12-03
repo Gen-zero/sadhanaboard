@@ -1,9 +1,24 @@
 import React from 'react';
 import { Sparkles } from "lucide-react";
+import ThemedBackground from "@/components/ThemedBackground";
+import { useSettings } from "@/hooks/useSettings";
 
 const FinalCTA = () => {
+    const { settings } = useSettings();
+    const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'] as const;
+    const backgroundTheme = settings?.appearance?.colorScheme &&
+        validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
+        ? settings.appearance.colorScheme as typeof validThemes[number]
+        : 'default';
+
     return (
         <section className="py-32 px-4 relative overflow-hidden bg-cosmic">
+            {/* Shared hero background */}
+            <ThemedBackground
+                theme={backgroundTheme}
+                className="absolute left-0 right-0 top-[-20px] h-[100vh] w-full pointer-events-none z-0"
+            />
+
             {/* Background Glow */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-[800px] h-[800px] bg-[#FFD54A] opacity-[0.03] blur-[150px] rounded-full" />

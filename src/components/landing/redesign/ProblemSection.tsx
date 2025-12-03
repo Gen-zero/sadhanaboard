@@ -1,51 +1,238 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Scroll, Video, Book, Hourglass, Flower } from 'lucide-react';
+import { useScrollAnimation } from '@/context/ScrollAnimationContext';
 
 
 const ProblemSection = () => {
-    // Refs for optimized animation (bypassing state re-renders)
-    const frictionSectionRef = useRef<HTMLElement>(null);
-    const soulNodeRef = useRef<HTMLDivElement>(null);
+    const {
+        problemSectionRef,
+        solutionSectionRef,
+        mockupRef,
+        dotRef,
+        animationStage,
+        setAnimationStage
+    } = useScrollAnimation();
 
-    // Optimized Physics-based Animation Loop for Section 2
+    // Animation State Refs - Moved to top level
+    const stateRef = useRef({
+        isTriggered: false,
+        startTime: 0,
+        startPos: { x: 0, y: 0 },
+        targetPos: { x: 0, y: 0 },
+        duration: 1500, // 1.5 seconds for the transition
+        currentX: 0,
+        currentY: 0
+    });
+
+    // Optimized Physics-based Animation Loop for Section 2 & 3
     useEffect(() => {
-        let targetY = 0;
-        let currentY = 0;
         let animationFrameId: number;
 
+        // Easing function: easeInOutCubic
+        const easeInOutCubic = (t: number): number => {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
+
         const handleScroll = () => {
-            if (!frictionSectionRef.current) return;
+            if (!problemSectionRef.current || !solutionSectionRef.current || !mockupRef.current) return;
 
-            const rect = frictionSectionRef.current.getBoundingClientRect();
+            const problemRect = problemSectionRef.current.getBoundingClientRect();
+            const mockupRect = mockupRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
+            const windowWidth = window.innerWidth;
+            const problemBottom = problemRect.bottom;
 
-            // Calculate the center point of the section relative to the viewport
-            const sectionCenter = rect.top + (rect.height / 2);
-            const screenCenter = windowHeight / 2;
+            // Trigger Condition: Scrolled past the problem section
+            if (problemBottom <= windowHeight * 0.8) {
+                if (!stateRef.current.isTriggered) {
+                    // TRIGGER FORWARD ANIMATION
+                    stateRef.current.isTriggered = true;
+                    stateRef.current.startTime = performance.now();
+                    stateRef.current.duration = 2500; // Increased duration for 3 steps
 
-            // Calculate distance from center (positive means section has moved up)
-            const distFromCenter = screenCenter - sectionCenter;
+                    // Capture Start Position (current position relative to initial center)
+                    stateRef.current.startPos = {
+                        x: stateRef.current.currentX,
+                        y: stateRef.current.currentY
+                    };
 
-            // If the user has scrolled past the center, set the target
-            if (distFromCenter > 0) {
-                const maxDrop = 800;
-                // Target is where we WANT the dot to be
-                targetY = Math.min(distFromCenter * 1.2, maxDrop);
+                    // Calculate Waypoints
+                    const problemCenterY = problemRect.top + (problemRect.height / 2);
+                    const currentDotViewportY = problemCenterY + stateRef.current.currentY;
+                    const currentDotViewportX = (windowWidth / 2) + stateRef.current.currentX;
+                    const borderOffsetY = (problemRect.height / 2) - 40; // 40px padding from bottom
+
+                    const mockupCenterX = mockupRect.left + (mockupRect.width / 2);
+                    const mockupCenterY = mockupRect.top + (mockupRect.height / 2);
+
+                    // Mobile Check (< 1024px)
+                    const isMobile = windowWidth < 1024;
+
+                    // Calculate Deltas
+                    // If mobile, NO horizontal shift (-150px removed), just align to center
+                    const shiftX = isMobile ? 0 : -150;
+                    const deltaX = (mockupCenterX - currentDotViewportX) + shiftX;
+                    const deltaY = mockupCenterY - currentDotViewportY;
+
+                    // Waypoint 1: BorderPos (Drop vertically to bottom of section)
+                    const borderPos = {
+                        x: stateRef.current.currentX,
+                        y: borderOffsetY
+                    };
+
+                    // Waypoint 2: CornerPos (Slide horizontally to Mockup X - 150 at Border Y)
+                    const cornerPos = {
+                        x: stateRef.current.currentX + deltaX,
+                        y: borderOffsetY
+                    };
+
+                    // Waypoint 3: EndPos (Drop vertically to Mockup Y)
+                    const endPos = {
+                        x: stateRef.current.currentX + deltaX,
+                        y: stateRef.current.currentY + deltaY
+                    };
+
+                    // Store waypoints
+                    (stateRef.current as any).borderPos = borderPos;
+                    (stateRef.current as any).cornerPos = cornerPos;
+                    (stateRef.current as any).endPos = endPos;
+                    (stateRef.current as any).reverse = false;
+
+                    setAnimationStage('transition');
+
+                    // Start Animation Loop if not running
+                    if (!animationFrameId) animationFrameId = requestAnimationFrame(animate);
+
+                }
             } else {
-                targetY = 0;
+                // RETURN ANIMATION (Reverse)
+                if (stateRef.current.isTriggered) {
+                    stateRef.current.isTriggered = false;
+                    stateRef.current.startTime = performance.now();
+                    stateRef.current.duration = 1500; // Faster return
+
+                    // Set reverse flag
+                    (stateRef.current as any).reverse = true;
+
+                    // Capture current position as start for reverse
+                    stateRef.current.startPos = {
+                        x: stateRef.current.currentX,
+                        y: stateRef.current.currentY
+                    };
+
+                    // Target is 0,0 (relative to initial center)
+                    (stateRef.current as any).endPos = { x: 0, y: 0 };
+
+                    setAnimationStage('transition');
+                }
+
+                // Normal Scroll Physics for Stage 1 (when not triggered and fully returned)
+                if (!stateRef.current.isTriggered && !(stateRef.current as any).reverse) {
+                    const problemCenterY = problemRect.top + (problemRect.height / 2);
+                    const screenCenterY = windowHeight / 2;
+                    const distFromProblemCenter = screenCenterY - problemCenterY;
+
+                    setAnimationStage('problem');
+                    if (distFromProblemCenter > 0) {
+                        const maxDrop = 800;
+                        stateRef.current.targetPos.y = Math.min(distFromProblemCenter * 1.2, maxDrop);
+                    } else {
+                        stateRef.current.targetPos.y = 0;
+                    }
+                    stateRef.current.targetPos.x = 0;
+                }
             }
         };
 
-        const animate = () => {
-            // Linear Interpolation (Lerp) for smoothness
-            // Formula: current = current + (target - current) * easeFactor
-            // 0.08 is the "heaviness" factor. Lower = smoother/slower, Higher = snappier.
-            currentY = currentY + (targetY - currentY) * 0.08;
+        const animate = (timestamp: number) => {
+            const isReverse = (stateRef.current as any).reverse;
 
-            // Only apply transform if the value is significant (performance optimization)
-            if (Math.abs(targetY - currentY) > 0.1 || currentY > 0.1) {
-                if (soulNodeRef.current) {
-                    soulNodeRef.current.style.transform = `translateY(${currentY}px)`;
+            if (stateRef.current.isTriggered || isReverse) {
+                // Time-based Animation (Stage 2 & 3)
+                const elapsed = timestamp - stateRef.current.startTime;
+                const totalDuration = stateRef.current.duration;
+                const progress = Math.min(elapsed / totalDuration, 1);
+
+                if (isReverse) {
+                    // Reverse Animation: Simple ease back to 0,0
+                    const ease = easeInOutCubic(progress);
+                    const start = stateRef.current.startPos;
+                    const end = (stateRef.current as any).endPos; // 0,0
+
+                    stateRef.current.currentX = start.x + (end.x - start.x) * ease;
+                    stateRef.current.currentY = start.y + (end.y - start.y) * ease;
+
+                    if (progress >= 1) {
+                        (stateRef.current as any).reverse = false;
+                        setAnimationStage('problem');
+                    }
+                } else {
+                    // Forward Animation (3 Phases)
+                    // Split animation into 3 phases: 
+                    // 1. Drop to Border (0% - 20%)
+                    // 2. Slide Horizontal (20% - 60%)
+                    // 3. Drop to Target (60% - 100%)
+
+                    const borderPos = (stateRef.current as any).borderPos;
+                    const cornerPos = (stateRef.current as any).cornerPos;
+                    const endPos = (stateRef.current as any).endPos;
+                    const startPos = stateRef.current.startPos;
+
+                    if (progress < 0.2) {
+                        // Phase 1: Drop to Border
+                        const phaseProgress = easeInOutCubic(progress / 0.2);
+                        stateRef.current.currentX = startPos.x + (borderPos.x - startPos.x) * phaseProgress;
+                        stateRef.current.currentY = startPos.y + (borderPos.y - startPos.y) * phaseProgress;
+
+                    } else if (progress < 0.6) {
+                        // Phase 2: Slide Horizontal
+                        const phaseProgress = easeInOutCubic((progress - 0.2) / 0.4);
+                        stateRef.current.currentX = borderPos.x + (cornerPos.x - borderPos.x) * phaseProgress;
+                        stateRef.current.currentY = borderPos.y + (cornerPos.y - borderPos.y) * phaseProgress;
+
+                    } else {
+                        // Phase 3: Drop to Target
+                        const phaseProgress = easeInOutCubic((progress - 0.6) / 0.4);
+                        stateRef.current.currentX = cornerPos.x + (endPos.x - cornerPos.x) * phaseProgress;
+                        stateRef.current.currentY = cornerPos.y + (endPos.y - cornerPos.y) * phaseProgress;
+                    }
+
+                    // Update Stage based on progress
+                    if (progress > 0.95 && animationStage !== 'complete') {
+                        setAnimationStage('complete');
+                    } else if (progress > 0.6 && animationStage !== 'solution' && animationStage !== 'complete') {
+                        setAnimationStage('solution');
+                    }
+                }
+
+            } else {
+                // Scroll-based Physics (Stage 1)
+                stateRef.current.currentX += (stateRef.current.targetPos.x - stateRef.current.currentX) * 0.1;
+                stateRef.current.currentY += (stateRef.current.targetPos.y - stateRef.current.currentY) * 0.1;
+            }
+
+            // Apply Transform
+            if (dotRef.current) {
+                dotRef.current.style.transform = `translate(${stateRef.current.currentX}px, ${stateRef.current.currentY}px)`;
+
+                // Color Styles
+                if (animationStage === 'problem') {
+                    dotRef.current.style.backgroundColor = 'rgba(245, 158, 11, 0.6)';
+                    dotRef.current.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.4)';
+                    dotRef.current.style.zIndex = '50';
+                } else if (animationStage === 'transition') {
+                    dotRef.current.style.backgroundColor = 'rgba(6, 182, 212, 0.8)';
+                    dotRef.current.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.6)';
+                    dotRef.current.style.zIndex = '50';
+                } else if (animationStage === 'solution') {
+                    // Transition to Gold
+                    dotRef.current.style.backgroundColor = '#FFD700'; // Shiny Gold
+                    dotRef.current.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8)';
+                    dotRef.current.style.zIndex = '5';
+                } else if (animationStage === 'complete') {
+                    dotRef.current.style.backgroundColor = '#FFD700';
+                    dotRef.current.style.boxShadow = '0 0 60px rgba(255, 215, 0, 1)';
+                    dotRef.current.style.zIndex = '5';
                 }
             }
 
@@ -53,17 +240,19 @@ const ProblemSection = () => {
         };
 
         window.addEventListener('scroll', handleScroll);
-        animate(); // Start the loop
+        window.addEventListener('resize', handleScroll);
+        animationFrameId = requestAnimationFrame(animate);
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [animationStage, setAnimationStage, problemSectionRef, solutionSectionRef, mockupRef, dotRef]);
 
     return (
         <section
-            ref={frictionSectionRef}
+            ref={problemSectionRef}
             className="py-24 px-6 border-y border-white/5 relative"
             style={{
                 background: 'radial-gradient(circle at 50% -50%, #4b0753, #0e0e18)'
@@ -82,7 +271,7 @@ const ProblemSection = () => {
                         {['Nothing speaks to each other.', 'Nothing guides your depth.', 'Nothing helps you build consistency.'].map((item, i) => (
                             <li key={i} className="flex items-center gap-3 text-white/80">
                                 <div className="w-1.5 h-1.5 bg-red-400/80 rounded-full shadow-[0_0_8px_rgba(248,113,113,0.6)]"></div>
-                                {item}
+                                <div className="font-light">{item}</div>
                             </li>
                         ))}
                     </ul>
@@ -163,8 +352,8 @@ const ProblemSection = () => {
 
                     {/* Center Soul Node - OUTSIDE the hidden overflow container so it can move */}
                     <div
-                        ref={soulNodeRef}
-                        className="relative z-50 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-[0_0_50px_rgba(255,255,255,0.6)] animate-[pulse-glow_4s_ease-in-out_infinite] will-change-transform"
+                        ref={dotRef}
+                        className="relative z-50 w-12 h-12 rounded-full bg-amber-500/60 flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.4)] animate-[pulse-glow_4s_ease-in-out_infinite] will-change-transform transition-colors duration-1000"
                     >
                         <div className="w-12 h-12 absolute bg-white/20 rounded-full animate-ping opacity-20"></div>
                     </div>

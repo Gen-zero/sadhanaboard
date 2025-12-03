@@ -47,10 +47,10 @@ const FeaturesSection = () => {
 
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-gold-glow mb-4">
+                    <h2 className="text-3xl md:text-4xl font-serif leading-tight text-white/90 mb-4">
                         Everything You Need for Serious Practice
                     </h2>
-                    <p className="text-xl text-white/60 font-sans">
+                    <p className="text-xl text-white/60 font-light">
                         All in one clean, powerful interface.
                     </p>
                 </div>
@@ -69,10 +69,10 @@ const FeaturesSection = () => {
                             </div>
 
                             <div className="relative z-10">
-                                <h3 className="text-lg font-semibold text-white mb-3 font-sans">
+                                <h3 className="text-lg text-white mb-3">
                                     {feature.title}
                                 </h3>
-                                <p className="text-white/70 text-[13px] leading-relaxed font-sans">
+                                <p className="text-white/70 text-[13px] leading-relaxed">
                                     {feature.description}
                                 </p>
                             </div>

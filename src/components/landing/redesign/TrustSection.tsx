@@ -15,7 +15,7 @@ const TrustSection = () => {
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#FFD54A]/5 flex items-center justify-center group-hover:bg-[#FFD54A]/10 transition-colors">
                                 <item.icon className="w-6 h-6 text-[#FFD54A]/60 group-hover:text-[#FFD54A] transition-colors" />
                             </div>
-                            <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
+                            <h3 className="text-lg text-white mb-2">{item.title}</h3>
                             <p className="text-white/50 text-sm">{item.desc}</p>
                         </div>
                     ))}

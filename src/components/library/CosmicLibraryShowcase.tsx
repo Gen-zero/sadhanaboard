@@ -18,7 +18,6 @@ import {
   Moon,
   Sun,
   Waves,
-  TreePine,
   Gem
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
@@ -48,14 +47,14 @@ const DATA = (): DataItem[] => [
   // Sadhanas
   {
     id: 1,
-    title: "Dawn Awakening Sadhana",
-    description: "Begin each day with purpose through this transformative morning practice that connects you with the rising sun's energy.",
+    title: "Surya Arghya Sadhana",
+    description: "Offer dawn arghya to Surya with Gayatri japa and Surya Namaskar, aligning prana with the rising light (as taught in sandhya vandanam).",
     category: 'sadhanas',
     difficulty: 'Beginner',
     duration: 21,
-    deity: "Surya (Sun God)",
-    benefits: ["Increased energy", "Mental clarity", "Spiritual awakening"],
-    practices: ["Sun salutations", "Breath of fire", "Gratitude meditation"],
+    deity: "Surya",
+    benefits: ["Ojas and vitality", "Clarity of buddhi", "Steady daily rhythm"],
+    practices: ["Surya Namaskar", "Gayatri japa (108)", "Arghya at sunrise"],
     genre: {
       name: "Solar",
       icon: <Sun className="h-5 w-5 text-amber-500" />
@@ -63,14 +62,14 @@ const DATA = (): DataItem[] => [
   },
   {
     id: 2,
-    title: "Lunar Intuitive Sadhana",
-    description: "Harness the moon's mystical energy to deepen your intuition and connect with your inner wisdom during the night hours.",
+    title: "Chandra Manas Dhyana",
+    description: "Cooling night practice drawing on soma; steady the mind with Chandra bija japa, trataka on moonlight, and nadi shuddhi.",
     category: 'sadhanas',
     difficulty: 'Intermediate',
-    duration: 40,
-    deity: "Chandra (Moon God)",
-    benefits: ["Enhanced intuition", "Emotional balance", "Dream work"],
-    practices: ["Moon gazing", "Intuitive journaling", "Lunar cycle tracking"],
+    duration: 30,
+    deity: "Chandra",
+    benefits: ["Emotional equanimity", "Restful sleep", "Refined intuition"],
+    practices: ["Chandra bija japa (Shaam)", "Trataka on the moon", "Anulom-vilom (11 cycles)"],
     genre: {
       name: "Lunar",
       icon: <Moon className="h-5 w-5 text-indigo-400" />
@@ -78,46 +77,46 @@ const DATA = (): DataItem[] => [
   },
   {
     id: 3,
-    title: "Divine Feminine Awakening",
-    description: "Awaken the sacred feminine energy within through practices dedicated to the goddess in her many forms.",
+    title: "Sri Devi Upasana",
+    description: "Tripura Sundari-centered worship with Lalita Sahasranama parayana, kumkum archana, and quiet meditation on Sri Chakra.",
     category: 'sadhanas',
     difficulty: 'Advanced',
     duration: 108,
-    deity: "Devi (Divine Mother)",
-    benefits: ["Sacred feminine empowerment", "Creative awakening", "Inner strength"],
-    practices: ["Goddess mantras", "Sacred dance", "Tantric breathing"],
+    deity: "Mahadevi (Tripura Sundari)",
+    benefits: ["Deep bhakti", "Inner radiance (tejas)", "Steady shakti flow"],
+    practices: ["Lalita Sahasranama", "Kumkum archana", "Sri Chakra dhyana"],
     genre: {
-      name: "Divine Feminine",
+      name: "Sri Vidya",
       icon: <Crown className="h-5 w-5 text-pink-500" />
     }
   },
   {
     id: 4,
-    title: "Warrior's Path Sadhana",
-    description: "Cultivate inner strength and courage through disciplined practices that forge your spiritual warrior spirit.",
+    title: "Navarna Durga Sadhana",
+    description: "Invoke Maa Durga through the Navarna mantra with kavacha recitation and agni upasana to build shakti and protection.",
     category: 'sadhanas',
     difficulty: 'Intermediate',
     duration: 40,
     deity: "Durga",
-    benefits: ["Inner strength", "Courage", "Discipline"],
-    practices: ["Strength training", "Warrior affirmations", "Fire ceremonies"],
+    benefits: ["Inner courage", "Energetic protection", "Disciplined tapas"],
+    practices: ["Om Aim Hreem Kleem Chamundaye Viche japa", "Durga Kavacham", "Weekly homa offering"],
     genre: {
-      name: "Warrior",
+      name: "Shakti",
       icon: <Sword className="h-5 w-5 text-red-500" />
     }
   },
   {
     id: 5,
-    title: "Heart Opening Sadhana",
-    description: "Open your heart to unconditional love through practices that dissolve barriers and foster deep compassion.",
+    title: "Anahata Bhakti Sadhana",
+    description: "Soft devotional current rooted in Ram-bhakti and Hanuman seva; daily kirtan, stotra chanting, and seva journaling.",
     category: 'sadhanas',
     difficulty: 'Beginner',
     duration: 21,
-    deity: "Ananda (Bliss)",
-    benefits: ["Unconditional love", "Compassion", "Heart healing"],
-    practices: ["Loving-kindness meditation", "Heart-opening yoga", "Devotional singing"],
+    deity: "Sri Rama & Hanuman",
+    benefits: ["Loving devotion", "Humility", "Serviceful living"],
+    practices: ["Hanuman Chalisa", "Rama nama japa", "Evening kirtan & seva notes"],
     genre: {
-      name: "Heart-Centered",
+      name: "Bhakti",
       icon: <Heart className="h-5 w-5 text-rose-500" />
     }
   },
@@ -125,14 +124,14 @@ const DATA = (): DataItem[] => [
   // Holy Texts
   {
     id: 6,
-    title: "Bhagavad Gita Study Path",
-    description: "A comprehensive 40-day journey through the sacred teachings of the Bhagavad Gita with daily reflections.",
+    title: "Bhagavad Gita Adhyayana",
+    description: "Structured 18-chapter parayana with daily shloka chanting, brief bhashya notes (Shankara), and nishkama karma contemplation.",
     category: 'texts',
     difficulty: 'Intermediate',
     duration: 40,
     deity: "Krishna",
-    benefits: ["Spiritual wisdom", "Life guidance", "Philosophical understanding"],
-    practices: ["Daily chapter study", "Reflection journaling", "Discussion groups"],
+    benefits: ["Dharma clarity", "Steady viveka", "Devotional insight"],
+    practices: ["Daily shloka chanting", "Svadhyaya journal", "Gita dhyana shloka"],
     genre: {
       name: "Wisdom",
       icon: <Gem className="h-5 w-5 text-yellow-500" />
@@ -140,16 +139,16 @@ const DATA = (): DataItem[] => [
   },
   {
     id: 7,
-    title: "Divine Comedy Pilgrimage",
-    description: "Navigate the spiritual journey from darkness to light through Dante's masterpiece with guided meditations.",
+    title: "Yoga Sutra Svadhyaya",
+    description: "Patanjali's sutras chanted in Sanskrit with focus on abhyasa–vairagya, Ishvara pranidhana, and eight-limbed integration.",
     category: 'texts',
     difficulty: 'Advanced',
-    duration: 90,
-    deity: "Divine Love",
-    benefits: ["Spiritual transformation", "Literary appreciation", "Mystical insight"],
-    practices: ["Canticle reading", "Visualization exercises", "Contemplative prayer"],
+    duration: 56,
+    deity: "Maharishi Patanjali",
+    benefits: ["Steady mind (sthira chitta)", "Clear discernment", "Rooted sadhana map"],
+    practices: ["Sutra chanting", "Abhyasa-vairagya notes", "Pranayama & dharana log"],
     genre: {
-      name: "Mystical Literature",
+      name: "Raja Yoga",
       icon: <Star className="h-5 w-5 text-purple-500" />
     }
   },
@@ -157,14 +156,14 @@ const DATA = (): DataItem[] => [
   // Guided Journeys
   {
     id: 8,
-    title: "Himalayan Spiritual Trek",
-    description: "Embark on a virtual pilgrimage through the sacred peaks of the Himalayas with guided meditations and teachings.",
+    title: "Kedar-Badri Yatra (Virtual)",
+    description: "Guided visualization of the Himalayas with stotras to Kedarnath and Badrinath; pair breath with mantras at each sacred stop.",
     category: 'journeys',
     difficulty: 'Intermediate',
     duration: 21,
     deity: "Shiva",
-    benefits: ["Mountain energy", "Spiritual elevation", "Inner peace"],
-    practices: ["Mountain meditation", "Breath work", "Sacred geography study"],
+    benefits: ["Pilgrimage bhava", "Reverence for sacred geography", "Inner stillness"],
+    practices: ["Shiva Panchakshari japa", "Himalayan visualization", "Tirtha stotra listening"],
     genre: {
       name: "Pilgrimage",
       icon: <Mountain className="h-5 w-5 text-blue-400" />
@@ -172,17 +171,17 @@ const DATA = (): DataItem[] => [
   },
   {
     id: 9,
-    title: "Amazon Rainforest Connection",
-    description: "Connect with the ancient wisdom of the rainforest through shamanic practices and plant spirit medicine.",
+    title: "Kashi Panchakroshi Parikrama",
+    description: "Walk (virtually) the 25-kos route around Kashi with Ganga stuti, Vishwanath manasa darshan, and nightly deepa dana sankalpa.",
     category: 'journeys',
     difficulty: 'Advanced',
     duration: 40,
-    deity: "Pachamama (Mother Earth)",
-    benefits: ["Earth connection", "Plant spirit communication", "Ecological awareness"],
-    practices: ["Forest bathing", "Plant meditation", "Drum journeying"],
+    deity: "Shiva (Vishwanath)",
+    benefits: ["Tirtha samskara", "Bhakti refinement", "Sense of sanctity"],
+    practices: ["Ganga aarti chanting", "Manasa parikrama mapping", "Nightly dipa dana note"],
     genre: {
-      name: "Earth-Based",
-      icon: <TreePine className="h-5 w-5 text-green-600" />
+      name: "Tirtha",
+      icon: <Waves className="h-5 w-5 text-green-600" />
     }
   }
 ];

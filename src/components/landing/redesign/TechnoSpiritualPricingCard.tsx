@@ -14,6 +14,8 @@ interface TechnoSpiritualPricingCardProps {
     features: string[];
     buttonText?: string;
     isPopular?: boolean;
+    buttonTextColor?: string;
+    chipColor?: string;
     theme?: {
         bg: string;
         panel: string;
@@ -32,6 +34,8 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
     features,
     buttonText = "INITIATE_SADHANA",
     isPopular = false,
+    buttonTextColor = '#FFB344',
+    chipColor,
     theme = {
         bg: '#FFB344',       // Saffron Base
         panel: '#FFCC80',    // Light Orange Panel
@@ -81,7 +85,7 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
 
                     <div className="relative z-10">
                         <div className="inline-flex items-center justify-center p-3 mb-4 rounded-full border-2 shadow-inner bg-[#FFCC80]" style={{ borderColor: theme.accent }}>
-                            <Cpu size={24} color={theme.accent} strokeWidth={2} />
+                            <Cpu size={24} color={chipColor ?? theme.accent} strokeWidth={2} />
                         </div>
 
                         <h2 className="text-xs font-mono font-bold tracking-[0.3em] uppercase mb-1" style={{ color: theme.accent }}>
@@ -129,7 +133,7 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
                         style={{
                             backgroundColor: theme.accent,
                             borderColor: theme.accent,
-                            color: '#FFB344'
+                            color: buttonTextColor
                         }}
                     >
                         <span className="relative z-10 tracking-widest">{buttonText}</span>

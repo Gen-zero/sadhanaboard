@@ -30,10 +30,10 @@ const SadhanaCardSection = () => {
 
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="text-center mb-20">
-                    <h2 className="text-3xl md:text-[42px] font-serif font-bold text-gold-glow mb-4">
+                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4">
                         The Sadhana Card
                     </h2>
-                    <p className="text-xl text-white/60 font-sans">
+                    <p className="text-xl text-white/60 font-light">
                         Your entire practice, intelligently organized.
                     </p>
                 </div>
@@ -66,10 +66,10 @@ const SadhanaCardSection = () => {
 
                                 {/* Text Content (Right Half) */}
                                 <div className="w-full md:w-1/2 p-6 flex flex-col justify-center text-left">
-                                    <h3 className="text-lg font-bold text-white mb-2 font-sans">
+                                    <h3 className="text-lg text-white mb-2">
                                         {item.title}
                                     </h3>
-                                    <p className="text-white/75 text-sm leading-relaxed font-sans mb-4">
+                                    <p className="text-white/75 text-sm leading-relaxed mb-4">
                                         {item.description}
                                     </p>
                                     {/* Progress Bar Visual Cue */}

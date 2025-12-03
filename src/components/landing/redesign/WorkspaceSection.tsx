@@ -37,10 +37,10 @@ const WorkspaceSection = () => {
 
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-[42px] font-serif font-bold text-gold-glow mb-4">
+                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4">
                         Your Interface, Your Deity
                     </h2>
-                    <p className="text-xl text-white/60 font-sans">
+                    <p className="text-xl text-white/60 font-light">
                         Personalize your sacred space.
                     </p>
                 </div>
@@ -59,10 +59,10 @@ const WorkspaceSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
 
                             <div className="absolute bottom-0 left-0 right-0 p-6">
-                                <h3 className="text-xl font-serif font-bold text-white mb-1">
+                                <h3 className="text-xl font-serif text-white mb-1">
                                     {theme.name}
                                 </h3>
-                                <p className="text-white/60 text-[13px] font-sans mb-4">
+                                <p className="text-white/60 text-[13px] mb-4">
                                     {theme.description}
                                 </p>
 

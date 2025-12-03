@@ -194,16 +194,19 @@ const HomePage = () => {
         <HeroSection />
         <div className="relative z-20 bg-background">
           <ProblemSection />
-          <SolutionSection />
-          <SadhanaCardSection />
-          <FeaturesSection />
-          <WorkspaceSection />
-          <ExploreSection />
-
-          <TrustSection />
+          <div className="text-white/80 text-base">
+            <SolutionSection />
+            <SadhanaCardSection />
+            <FeaturesSection />
+            <WorkspaceSection />
+            <ExploreSection />
+            <TrustSection />
+          </div>
           <PricingSection />
           <FinalCTA />
-          <Footer />
+          <div className="text-white/80 text-base">
+            <Footer />
+          </div>
         </div>
       </main>
     </div>

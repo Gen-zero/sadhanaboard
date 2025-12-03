@@ -24,14 +24,14 @@ import {
   WaitlistPage,
   WalkthroughPage,
   HelpDemoPage,
-  EnergyLevelPage, // Add this import
+  EnergyLevelPage,
   CosmosThemePage
-} from "./pages"; // Imports fixed
+} from "./pages";
 import { ThemesShowcasePage } from "./pages";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useDailySadhanaRefresh } from "./hooks/useDailySadhanaRefresh";
-import { useEffect, useState, useRef, useMemo, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import ThemeProvider from "./components/ThemeProvider";
 import { useSettings } from "./hooks/useSettings";
 import ThemedBackground from "./components/ThemedBackground";
@@ -40,8 +40,10 @@ import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
-import { HelpProvider } from "./contexts/HelpContext"; // Add this import
+import { HelpProvider } from "./contexts/HelpContext";
+import { ScrollAnimationProvider } from "@/context/ScrollAnimationContext";
 import DemoBanner from "./components/DemoBanner";
+
 // Add new page imports with lazy loading for code splitting
 const CareersPage = lazy(() => import('./pages/landing/CareersPage'));
 const ManifestoPage = lazy(() => import('./pages/landing/ManifestoPage'));
@@ -115,7 +117,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
 // Onboarding route component that checks for onboarding completion
 const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
-  const { user, isLoading, isOnboardingComplete, checkOnboardingStatus } = useAuth();
+  const { user, isLoading, isOnboardingComplete } = useAuth();
   const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   // Set a timeout to prevent indefinite loading
@@ -284,40 +286,40 @@ const App = () => {
         <LoadingProvider>
           <TooltipProvider>
             <AuthProvider>
-              <HelpProvider> {/* Add HelpProvider here */}
-                <div className="relative">
-                  <ThemedBackground theme={backgroundTheme} />
-
-
-                  <div className="relative z-10">
-                    <DemoBanner />
-                    <FocusVisible />
-                    <SmoothScroll />
-                    <Toaster />
-                    <Sonner />
-                    <CustomCursor />
-                    <BrowserRouter future={{
-                      v7_startTransition: true,
-                      v7_relativeSplatPath: true
-                    }}>
-                      {/* Only render ThemeProvider when settings are loaded */}
-                      <PageTransition>
-                        {settings ? (
-                          <ThemeProvider settings={settings}>
+              <HelpProvider>
+                <ScrollAnimationProvider>
+                  <div className="relative">
+                    <ThemedBackground theme={backgroundTheme} />
+                    <div className="relative z-10">
+                      <DemoBanner />
+                      <FocusVisible />
+                      <SmoothScroll />
+                      <Toaster />
+                      <Sonner />
+                      <CustomCursor />
+                      <BrowserRouter future={{
+                        v7_startTransition: true,
+                        v7_relativeSplatPath: true
+                      }}>
+                        {/* Only render ThemeProvider when settings are loaded */}
+                        <PageTransition>
+                          {settings ? (
+                            <ThemeProvider settings={settings}>
+                              <ErrorBoundary context="app-routes" isolate={true}>
+                                <AppRoutes />
+                              </ErrorBoundary>
+                            </ThemeProvider>
+                          ) : (
                             <ErrorBoundary context="app-routes" isolate={true}>
                               <AppRoutes />
                             </ErrorBoundary>
-                          </ThemeProvider>
-                        ) : (
-                          <ErrorBoundary context="app-routes" isolate={true}>
-                            <AppRoutes />
-                          </ErrorBoundary>
-                        )}
-                      </PageTransition>
-                    </BrowserRouter>
+                          )}
+                        </PageTransition>
+                      </BrowserRouter>
+                    </div>
                   </div>
-                </div>
-              </HelpProvider> {/* Close HelpProvider here */}
+                </ScrollAnimationProvider>
+              </HelpProvider>
             </AuthProvider>
           </TooltipProvider>
         </LoadingProvider>

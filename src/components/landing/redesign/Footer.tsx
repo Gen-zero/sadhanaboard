@@ -4,14 +4,17 @@ import { Link } from "react-router-dom";
 const Footer = () => {
     return (
         <footer className="py-12 px-4 border-t border-white/5 bg-black/90 relative overflow-hidden">
-            {/* Soft Yantra Background (Decorative) */}
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none flex items-center justify-center">
-                <svg width="800" height="800" viewBox="0 0 100 100" className="animate-spin-slow">
-                    <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="0.5" fill="none" className="text-purple-500" />
-                    <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="0.5" fill="none" className="text-purple-500" />
-                    <polygon points="50,10 90,80 10,80" stroke="currentColor" strokeWidth="0.5" fill="none" className="text-purple-500" />
-                    <polygon points="50,90 90,20 10,20" stroke="currentColor" strokeWidth="0.5" fill="none" className="text-purple-500" />
-                </svg>
+            {/* Mandala background to mirror Solution section */}
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                <div
+                    className="w-[800px] h-[800px] opacity-[0.08] animate-spin-slow"
+                    style={{
+                        backgroundImage: `url("/mandala-pattern.png")`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center'
+                    }}
+                />
             </div>
 
             <div className="max-w-6xl mx-auto relative z-10">
