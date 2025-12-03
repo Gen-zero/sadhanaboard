@@ -98,15 +98,15 @@ const SolutionSection = () => {
 
                 {/* Right Column: Copy */}
                 <div className="text-left space-y-8">
-                    <h3 className="text-3xl md:text-[34px] font-serif leading-tight text-white/90">
+                    <h3 className="text-3xl md:text-[34px] font-serif leading-tight text-white/90 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                         A Unified System for <br /> Your Spiritual Path
                     </h3>
 
-                    <p className="text-lg text-white/60 leading-relaxed font-light">
+                    <p className="text-lg text-white/60 leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         SadhanaBoard brings clarity, structure, and continuity into one sacred workspace.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70">
+                    <div className="flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                         <span>Intention</span>
                         <span className="text-white/20">•</span>
                         <span>Rituals</span>
@@ -116,7 +116,7 @@ const SolutionSection = () => {
                         <span>Progress</span>
                     </div>
 
-                    <p className="font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6">
+                    <p className="font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6 animate-slide-in-right" style={{ animationDelay: '0.4s' }}>
                         All aligned inside a single, integrated system—<br />
                         quiet, elegant, and built for real discipline.
                     </p>

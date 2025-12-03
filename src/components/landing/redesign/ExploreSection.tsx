@@ -10,10 +10,10 @@ const ExploreSection = () => {
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12">
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-serif leading-tight text-white/90 mb-4">
+                        <h2 className="text-3xl md:text-4xl font-serif leading-tight text-white/90 mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                             Explore the Library
                         </h2>
-                        <p className="text-xl text-white/60 font-light max-w-xl">
+                        <p className="text-xl text-white/60 font-light max-w-xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                             Ancient wisdom, structured for modern life.
                         </p>
                     </div>

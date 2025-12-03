@@ -30,10 +30,10 @@ const SadhanaCardSection = () => {
 
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="text-center mb-20">
-                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4">
+                    <h2 className="text-3xl md:text-[42px] font-serif leading-tight text-white/90 mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                         The Sadhana Card
                     </h2>
-                    <p className="text-xl text-white/60 font-light">
+                    <p className="text-xl text-white/60 font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         Your entire practice, intelligently organized.
                     </p>
                 </div>

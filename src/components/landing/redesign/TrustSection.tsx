@@ -11,7 +11,7 @@ const TrustSection = () => {
                         { icon: Lock, title: "Encrypted Journal", desc: "Your reflections are for your eyes only." },
                         { icon: Award, title: "Verified Lineage", desc: "Sadhanas sourced from authentic traditions." }
                     ].map((item, index) => (
-                        <div key={index} className="p-6 rounded-xl hover:bg-white/5 transition-colors group">
+                        <div key={index} className="p-6 rounded-xl hover:bg-white/5 transition-colors group animate-fade-in-up" style={{ animationDelay: `${0.1 + index * 0.15}s` }}>
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#FFD54A]/5 flex items-center justify-center group-hover:bg-[#FFD54A]/10 transition-colors">
                                 <item.icon className="w-6 h-6 text-[#FFD54A]/60 group-hover:text-[#FFD54A] transition-colors" />
                             </div>
