@@ -1,60 +1,48 @@
 import React from 'react';
-import { FileText, CalendarOff, UserX } from "lucide-react";
+
 
 const ProblemSection = () => {
-    const problems = [
-        {
-            icon: FileText,
-            title: "Fragmented Tools",
-            description: "PDFs here. Journals there. YouTube somewhere else. Nothing in one place."
-        },
-        {
-            icon: CalendarOff,
-            title: "Meaningless Streaks",
-            description: "Habit apps track \"days shown up.\" They don't track vow integrity."
-        },
-        {
-            icon: UserX,
-            title: "No Real Accountability",
-            description: "You practice alone — without guidance, feedback, or structure."
-        }
-    ];
-
     return (
-        <section className="py-24 px-4 relative overflow-hidden bg-cosmic">
-            {/* Hero Wallpaper Overlay - Faint */}
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.03] mix-blend-overlay pointer-events-none" />
-
-            <div className="max-w-[1300px] mx-auto relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-gold-glow mb-4 tracking-wide">
-                        Why Most Seekers Break Discipline
-                    </h2>
-                    <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#FFD54A]/50 to-transparent mx-auto" />
+        <section
+            className="py-24 px-6 border-y border-white/5"
+            style={{
+                background: 'radial-gradient(circle at 50% -50%, #4b0753, #0e0e18)'
+            }}
+        >
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+                <div className="space-y-8">
+                    <h2 className="text-sm uppercase tracking-[0.2em] text-amber-200/60">Why Discipline Breaks</h2>
+                    <h3 className="font-serif text-3xl md:text-4xl leading-tight text-white/90">
+                        When your spiritual tools are scattered, your practice becomes fragile.
+                    </h3>
+                    <p className="text-white/60 leading-relaxed font-light">
+                        Most seekers rely on disconnected PDFs, journals, YouTube videos, and basic habit apps.
+                    </p>
+                    <ul className="space-y-4 pt-4">
+                        {['Nothing speaks to each other.', 'Nothing guides your depth.', 'Nothing helps you build consistency.'].map((item, i) => (
+                            <li key={i} className="flex items-center gap-3 text-white/80">
+                                <div className="w-1.5 h-1.5 bg-red-400/80 rounded-full shadow-[0_0_8px_rgba(248,113,113,0.6)]"></div>
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="text-lg italic font-serif text-white/40 pt-4 border-l-2 border-white/10 pl-6">
+                        "A fragmented environment makes a fragmented practice."
+                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {problems.map((item, index) => (
-                        <div
-                            key={index}
-                            className="group p-8 rounded-[14px] card-glass hover:border-[#FFD54A]/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(253,186,59,0.15)] relative overflow-hidden"
-                            style={{ animationDelay: `${index * 0.12}s` }}
-                        >
-                            {/* Floating Particle Effect */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(253,186,59,0.08),transparent_70%)]" />
-
-                            <div className="w-8 h-8 mb-6 relative">
-                                <div className="absolute inset-0 bg-[#FFD54A]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <item.icon className="w-full h-full text-[#FFD54A] relative z-10" strokeWidth={1.5} />
-                            </div>
-                            <h4 className="text-xl font-semibold text-white/95 mb-3 font-sans tracking-tight">
-                                {item.title}
-                            </h4>
-                            <p className="text-white/70 text-[15px] leading-relaxed font-sans">
-                                {item.description}
-                            </p>
-                        </div>
-                    ))}
+                {/* Abstract Visualization of Chaos vs Order */}
+                <div className="relative h-[400px] border border-white/10 bg-[#0a0c10]/50 backdrop-blur-sm rounded-sm p-8 flex items-center justify-center overflow-hidden">
+                    {/* Decorative chaotic elements */}
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute top-10 left-10 w-20 h-24 border border-white/30 rotate-12"></div>
+                        <div className="absolute bottom-20 right-20 w-32 h-32 border border-white/20 -rotate-6 rounded-full"></div>
+                        <div className="absolute top-1/2 left-1/3 w-16 h-16 border border-white/40 rotate-45"></div>
+                    </div>
+                    <div className="z-10 text-center space-y-2">
+                        <div className="w-px h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent mx-auto"></div>
+                        <span className="block text-xs uppercase tracking-widest text-white/30">Fragmentation</span>
+                    </div>
                 </div>
             </div>
         </section>
