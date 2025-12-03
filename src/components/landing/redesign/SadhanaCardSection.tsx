@@ -24,7 +24,7 @@ const SadhanaCardSection = () => {
     ];
 
     return (
-        <section className="py-24 px-4 relative overflow-hidden bg-cosmic">
+        <section className="py-24 px-4 relative overflow-hidden">
             {/* Hero Wallpaper Overlay */}
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.03] mix-blend-overlay pointer-events-none" />
 

@@ -3,7 +3,7 @@ import { Shield, Lock, Award } from "lucide-react";
 
 const TrustSection = () => {
     return (
-        <section className="py-20 px-4 relative overflow-hidden bg-cosmic border-t border-white/5">
+        <section className="py-20 px-4 relative overflow-hidden">
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     {[

@@ -50,7 +50,7 @@ const SolutionSection = () => {
     return (
         <section
             ref={solutionSectionRef}
-            className="py-32 px-4 relative overflow-hidden bg-cosmic"
+            className="py-32 px-4 relative overflow-hidden"
         >
             {/* Hero Wallpaper Peek-through */}
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-[0.04] mix-blend-overlay pointer-events-none" />

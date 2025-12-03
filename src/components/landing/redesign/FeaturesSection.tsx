@@ -36,7 +36,7 @@ const FeaturesSection = () => {
     ];
 
     return (
-        <section className="py-24 px-4 relative overflow-hidden bg-cosmic">
+        <section className="py-24 px-4 relative overflow-hidden">
             {/* Tiled Yantra Pattern Background - Faint */}
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
                 style={{

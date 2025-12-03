@@ -31,7 +31,7 @@ const WorkspaceSection = () => {
     ];
 
     return (
-        <section className="py-24 px-4 relative overflow-hidden bg-cosmic">
+        <section className="py-24 px-4 relative overflow-hidden">
             {/* Hero Wallpaper Overlay */}
             <div className="absolute inset-0 bg-[#07050A]/80 pointer-events-none" />
 

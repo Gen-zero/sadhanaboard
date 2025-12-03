@@ -3,7 +3,7 @@ import CosmicLibraryShowcase from '@/components/library/CosmicLibraryShowcase';
 
 const ExploreSection = () => {
     return (
-        <section className="py-24 px-4 relative overflow-hidden bg-cosmic">
+        <section className="py-24 px-4 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4A0A57] opacity-20 blur-[120px] rounded-full pointer-events-none" />
 

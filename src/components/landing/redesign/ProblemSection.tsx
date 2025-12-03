@@ -253,10 +253,7 @@ const ProblemSection = () => {
     return (
         <section
             ref={problemSectionRef}
-            className="py-24 px-6 border-y border-white/5 relative"
-            style={{
-                background: 'radial-gradient(circle at 50% -50%, #4b0753, #0e0e18)'
-            }}
+            className="py-24 px-6 relative"
         >
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-8">
