@@ -157,6 +157,10 @@
         transform: scale(1);
     }
 
+    .perspective-1000 {
+        perspective: 1000px;
+    }
+
     .text-gold-glow {
         @apply text-[#FFD54A] drop-shadow-[0_0_10px_#FFD54A4D];
     }

@@ -12,11 +12,11 @@ const FinalCTA = () => {
         : 'default';
 
     return (
-        <section className="min-h-screen px-4 relative overflow-hidden bg-cosmic flex items-center justify-center">
+        <section className="min-h-screen px-4 relative overflow-hidden flex items-center justify-center">
             {/* Shared hero background */}
             <ThemedBackground
                 theme={backgroundTheme}
-                className="absolute left-0 right-0 top-[-20px] h-[100vh] w-full pointer-events-none z-0"
+                className="absolute inset-0 w-full h-full pointer-events-none z-0"
             />
 
             {/* Background Glow */}

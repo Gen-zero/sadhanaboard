@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Palette, Sparkles, Flame, Moon, Sun } from "lucide-react";
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const WorkspaceSection = () => {
     const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
+    const [currentSlide, setCurrentSlide] = useState(0);
+    
     const themes = [
         {
             name: "Shiva",
@@ -37,10 +39,116 @@ const WorkspaceSection = () => {
         }
     ];
 
+    // Auto-slide effect
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % themes.length);
+        }, 3500); // Change slide every 3.5 seconds
+
+        return () => clearInterval(interval);
+    }, [themes.length]);
+
     return (
         <section className="py-24 px-6 relative">
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-                {/* Left Column: Text Content */}
+                {/* Left Column: Auto-sliding Deity Cards */}
+                <div className="relative h-[500px] w-full">
+                    {/* Card Container */}
+                    <div className="relative h-full w-full perspective-1000">
+                        {themes.map((theme, index) => {
+                            // Calculate position relative to current slide
+                            let position = index - currentSlide;
+                            if (position < 0) position += themes.length;
+                            
+                            // Determine z-index and styling based on position
+                            const isActive = position === 0;
+                            const isNext = position === 1;
+                            const isPrev = position === themes.length - 1;
+                            
+                            let transform = '';
+                            let opacity = 0;
+                            let zIndex = 0;
+                            
+                            if (isActive) {
+                                transform = 'translateX(0) scale(1) rotateY(0deg)';
+                                opacity = 1;
+                                zIndex = 30;
+                            } else if (isNext) {
+                                transform = 'translateX(85%) scale(0.85) rotateY(-25deg)';
+                                opacity = 0.5;
+                                zIndex = 20;
+                            } else if (isPrev) {
+                                transform = 'translateX(-85%) scale(0.85) rotateY(25deg)';
+                                opacity = 0.5;
+                                zIndex = 20;
+                            } else {
+                                transform = 'translateX(100%) scale(0.7)';
+                                opacity = 0;
+                                zIndex = 10;
+                            }
+
+                            return (
+                                <div
+                                    key={index}
+                                    className="absolute inset-0 transition-all duration-700 ease-out"
+                                    style={{
+                                        transform,
+                                        opacity,
+                                        zIndex,
+                                        transformStyle: 'preserve-3d'
+                                    }}
+                                >
+                                    {/* Deity Card */}
+                                    <div className="h-full w-full rounded-2xl overflow-hidden card-glass border-2 border-white/10 shadow-2xl">
+                                        {/* Background Gradient */}
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-60`} />
+                                        
+                                        {/* Pattern Overlay */}
+                                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518176258769-f227c798150e?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay" />
+                                        
+                                        {/* Content */}
+                                        <div className="relative h-full flex flex-col justify-between p-8">
+                                            {/* Top: Icon */}
+                                            <div className="flex justify-center pt-8">
+                                                <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                                                    <theme.icon className="w-12 h-12 text-white" strokeWidth={1.5} />
+                                                </div>
+                                            </div>
+                                            
+                                            {/* Bottom: Text */}
+                                            <div className="text-center">
+                                                <h3 className="text-4xl font-serif font-bold text-white mb-3">
+                                                    {theme.name}
+                                                </h3>
+                                                <p className="text-white/80 text-lg font-light mb-6">
+                                                    {theme.description}
+                                                </p>
+                                                
+                                                {/* Active Indicator */}
+                                                {isActive && (
+                                                    <div className="flex justify-center gap-2">
+                                                        {themes.map((_, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className={`h-1.5 rounded-full transition-all duration-300 ${
+                                                                    i === currentSlide
+                                                                        ? 'w-8 bg-white'
+                                                                        : 'w-1.5 bg-white/30'
+                                                                }`}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Right Column: Text Content */}
                 <div ref={contentRef as React.RefObject<HTMLDivElement>} className="space-y-8">
                     <h2 className={`text-sm uppercase tracking-[0.2em] text-amber-200/60 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         <Palette className="inline w-4 h-4 mr-2" />
@@ -63,72 +171,6 @@ const WorkspaceSection = () => {
                     <p className={`text-lg italic font-serif text-white/40 pt-4 border-l-2 border-white/10 pl-6 animate-fade-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.7s' }}>
                         "Your environment shapes your practice. Make it sacred."
                     </p>
-                </div>
-
-                {/* Right Column: Theme Visualization */}
-                <div className="relative h-[450px] w-full flex items-center justify-center">
-                    {/* Container with overflow hidden */}
-                    <div className="absolute inset-0 border border-white/[0.08] bg-black/40 backdrop-blur-sm rounded-sm overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                        {/* Sacred Geometry Background */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                            <div className="w-[300px] h-[300px] border border-white rounded-full animate-spin-slow border-dashed"></div>
-                            <div className="absolute w-[200px] h-[200px] border border-white/50 rounded-full animate-spin-slow-reverse"></div>
-                        </div>
-
-                        {/* Floating Theme Orbs */}
-                        <style>
-                            {`
-                                @keyframes orbit-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -60px) scale(1.1); } }
-                                @keyframes orbit-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-50px, 30px) scale(1.15); } }
-                                @keyframes orbit-3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, 50px) scale(1.05); } }
-                                @keyframes orbit-4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-40px, -40px) scale(1.12); } }
-                                @keyframes orbit-5 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, 20px) scale(1.08); } }
-                                @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px currentColor; } 50% { box-shadow: 0 0 40px currentColor; } }
-                            `}
-                        </style>
-
-                        {/* Theme Orbs with Icons */}
-                        {themes.map((theme, index) => {
-                            const positions = [
-                                { top: '20%', left: '25%', animation: 'orbit-1' },
-                                { bottom: '30%', right: '20%', animation: 'orbit-2' },
-                                { top: '35%', right: '25%', animation: 'orbit-3' },
-                                { bottom: '25%', left: '30%', animation: 'orbit-4' },
-                                { top: '15%', right: '15%', animation: 'orbit-5' }
-                            ];
-                            const pos = positions[index];
-                            return (
-                                <div
-                                    key={index}
-                                    className="absolute flex flex-col items-center gap-2 group cursor-default"
-                                    style={{
-                                        ...pos,
-                                        animation: `${pos.animation} ${16 + index * 2}s ease-in-out infinite`
-                                    }}
-                                >
-                                    {/* Orb */}
-                                    <div
-                                        className={`w-16 h-16 rounded-full bg-gradient-to-br ${theme.color} flex items-center justify-center transition-all duration-500 group-hover:scale-125`}
-                                        style={{
-                                            animation: 'pulse-glow 3s ease-in-out infinite',
-                                            animationDelay: `${index * 0.6}s`
-                                        }}
-                                    >
-                                        <theme.icon className="w-7 h-7 text-white/90" strokeWidth={1.5} />
-                                    </div>
-                                    {/* Label */}
-                                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-light group-hover:text-white/70 transition-colors">
-                                        {theme.name}
-                                    </span>
-                                </div>
-                            );
-                        })}
-
-                        {/* Center Label */}
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center z-10">
-                            <span className="text-[10px] uppercase tracking-[0.3em] text-white/20">Theme Selection</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
