@@ -192,11 +192,28 @@ const HomePage = () => {
       {/* Main Content Sections */}
       <main className="relative z-10 space-y-0">
         <HeroSection />
-        {/* Continuous gradient wrapper for sections 2-8 */}
+        {/* Continuous wave gradient wrapper for sections 2-8 */}
         <div 
           className="relative z-20"
           style={{
-            background: 'linear-gradient(to bottom, #4b0753 0%, #2a0a3e 15%, #1a0b2e 30%, #121212 60%, #0a0a0a 100%)'
+            background: `
+              linear-gradient(
+                to bottom,
+                #4b0753 0%,
+                #2a0a3e 8%,
+                #1a0b2e 16%,
+                #2a0a3e 24%,
+                #4b0753 32%,
+                #2a0a3e 40%,
+                #1a0b2e 48%,
+                #121212 56%,
+                #1a0b2e 64%,
+                #121212 72%,
+                #0a0a0a 80%,
+                #121212 88%,
+                #0a0a0a 100%
+              )
+            `
           }}
         >
           <ProblemSection />

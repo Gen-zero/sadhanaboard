@@ -12,7 +12,7 @@ const FinalCTA = () => {
         : 'default';
 
     return (
-        <section className="py-32 px-4 relative overflow-hidden bg-cosmic">
+        <section className="min-h-screen px-4 relative overflow-hidden bg-cosmic flex items-center justify-center">
             {/* Shared hero background */}
             <ThemedBackground
                 theme={backgroundTheme}
