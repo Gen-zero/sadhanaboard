@@ -45,6 +45,11 @@ const HomePage = () => {
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src="/audio/ambient-temple.mp3" />
 
+      {/* Mobile Navigation - Rendered outside navbar to avoid overflow constraints */}
+      <div className="md:hidden">
+        <MobileNav showHamburger={true} showLoginButton={false} />
+      </div>
+
       {/* Sticky Navigation Bar - Glassy Spiritual Theme */}
       <div
         className="sticky top-0 left-0 right-0 z-[999999] px-2 sm:px-4 pt-2 sm:pt-3"
@@ -53,7 +58,7 @@ const HomePage = () => {
         }}
       >
         <nav
-          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 shadow-2xl group flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4"
+          className="relative overflow-visible rounded-xl sm:rounded-2xl transition-all duration-500 shadow-2xl group flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4"
           style={{
             background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15))',
             backdropFilter: 'blur(24px) saturate(200%)',
@@ -129,11 +134,6 @@ const HomePage = () => {
                 </span>
               </div>
             </Link>
-
-            {/* Mobile Nav Hamburger */}
-            <div className="md:hidden">
-              <MobileNav showHamburger={true} showLoginButton={false} />
-            </div>
           </div>
 
           {/* Desktop Nav Actions */}

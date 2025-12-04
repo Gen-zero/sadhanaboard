@@ -57,14 +57,14 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
     : 'shadow-[0_0_15px_rgba(251,191,36,0.5)]';
 
   return (
-    <div className="md:hidden">
-      {/* Mobile menu button with glow effect - only shown if showHamburger is true */}
+    <>
+      {/* Mobile menu button with glow effect - Fixed position in top-right of navbar */}
       {showHamburger && (
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleMenu}
-          className="relative z-50 p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300"
+          className="fixed top-4 right-4 z-[9999999] p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 md:hidden"
           aria-label="Toggle navigation menu"
         >
           {isOpen ? (
@@ -96,7 +96,7 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
       {/* Mobile menu overlay with fade and blur effect */}
       {(isOpen || isAnimating) && showHamburger && (
         <div 
-          className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-md transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[9999998] bg-black/70 backdrop-blur-md transition-opacity duration-300 ${
             isOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={closeMenu}
@@ -115,7 +115,7 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
       {/* Mobile menu with enhanced animations and effects - only shown if showHamburger is true */}
       {showHamburger && (
         <div 
-          className={`fixed top-0 right-0 h-full w-4/5 max-w-sm z-50 transform transition-all duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} ${bgColor} ${borderColor} border-l backdrop-blur-2xl shadow-2xl`}
+          className={`fixed top-0 right-0 h-full w-4/5 max-w-sm z-[9999999] transform transition-all duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} ${bgColor} ${borderColor} border-l backdrop-blur-2xl shadow-2xl`}
           style={{
             boxShadow: isMahakaliTheme 
               ? '0 0 30px rgba(220, 38, 38, 0.3), -5px 0 15px rgba(0, 0, 0, 0.5)' 
@@ -290,7 +290,7 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

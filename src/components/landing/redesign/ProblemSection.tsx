@@ -73,16 +73,25 @@ const ProblemSection = () => {
 
                     // Calculate Deltas
                     // Ensure the dot always tucks behind the mockup by targeting an inner point within the card
-                    const insetRatio = isMobile ? 0.3 : 0.2;
-                    const minInset = 32;
+                    const insetRatio = isMobile ? 0.45 : 0.2;
+                    const minInset = Math.min(mockupRect.width * 0.25, 96);
                     const maxInset = Math.max(minInset, mockupRect.width - 32);
                     const responsiveInset = Math.min(
                         Math.max(mockupRect.width * insetRatio, minInset),
                         maxInset
                     );
-                    const targetViewportX = mockupRect.left + responsiveInset;
+                    const targetViewportX = mockupRect.right - responsiveInset;
                     const deltaX = targetViewportX - currentDotViewportX;
-                    const deltaY = mockupCenterY - currentDotViewportY;
+
+                    // Vertical targeting with clamped margins so the dot stays within the mockup
+                    const verticalRatio = isMobile ? 0.35 : 0.5;
+                    const verticalMargin = Math.min(Math.max(mockupRect.height * 0.15, 40), Math.min(mockupRect.height * 0.3, 140));
+                    const clampedYOffset = Math.min(
+                        Math.max(mockupRect.height * verticalRatio, verticalMargin),
+                        Math.max(verticalMargin, mockupRect.height - verticalMargin)
+                    );
+                    const targetViewportY = mockupRect.top + clampedYOffset;
+                    const deltaY = targetViewportY - currentDotViewportY;
 
                     // Waypoint 1: BorderPos (Drop vertically to bottom of section)
                     const borderPos = {
