@@ -420,14 +420,9 @@ function AnimatedSadhanaParchment({ isActive, onComplete, isComplete, hasStarted
     isComplete: boolean;
     hasStarted: boolean;
 }) {
-    const [isBurning, setIsBurning] = useState(false);
-    const [burnProgress, setBurnProgress] = useState(0);
-    const [showParchment, setShowParchment] = useState(true);
-    const [showSpark, setShowSpark] = useState(false);
     const [isInitializing, setIsInitializing] = useState(true);
     const [scanProgress, setScanProgress] = useState(0);
     const [glitchActive, setGlitchActive] = useState(false);
-    const burnIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const { colors } = useThemeColors();
 
     const sadhanaContent = `Your Sadhana:
@@ -481,50 +476,6 @@ Durva Grass`;
         };
     }, [isActive, hasStarted]);
 
-    // Handle completion state change
-    useEffect(() => {
-        if (isComplete && !isBurning) {
-            startBurningAnimation();
-        }
-    }, [isComplete]);
-
-    const startBurningAnimation = () => {
-        if (burnIntervalRef.current) {
-            clearInterval(burnIntervalRef.current);
-        }
-
-        setIsBurning(true);
-        burnIntervalRef.current = setInterval(() => {
-            setBurnProgress(prev => {
-                const newProgress = prev + 2;
-                if (newProgress >= 100) {
-                    if (burnIntervalRef.current) {
-                        clearInterval(burnIntervalRef.current);
-                    }
-                    setTimeout(() => {
-                        setShowParchment(false);
-                        setShowSpark(true);
-                        setTimeout(() => {
-                            setShowSpark(false);
-                            if (onComplete) onComplete();
-                        }, 2000);
-                    }, 500);
-                    return 100;
-                }
-                return newProgress;
-            });
-        }, 50);
-    };
-
-    // Clean up interval on unmount
-    useEffect(() => {
-        return () => {
-            if (burnIntervalRef.current) {
-                clearInterval(burnIntervalRef.current);
-            }
-        };
-    }, []);
-
     // Auto-complete after 5 seconds
     useEffect(() => {
         if (!isActive || !hasStarted || isComplete) return;
@@ -538,23 +489,8 @@ Durva Grass`;
         return () => clearTimeout(timer);
     }, [isActive, hasStarted, isComplete, onComplete]);
 
-    if (!showParchment && !showSpark) {
-        return null;
-    }
-
-    if (showSpark) {
-        return (
-            <div className="flex justify-center items-center h-96">
-                <div className="relative">
-                    <div className="w-4 h-4 bg-yellow-300 rounded-full animate-ping absolute opacity-75" />
-                    <div className="w-4 h-4 bg-yellow-400 rounded-full animate-pulse" />
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="relative w-full max-w-2xl mx-auto">
+        <div className="relative w-full max-w-3xl mx-auto px-4">
             {/* Scanning beam effect */}
             {isInitializing && (
                 <div
@@ -569,64 +505,12 @@ Durva Grass`;
                 />
             )}
 
-            {/* Burning effect overlay */}
-            {isBurning && (
-                <div
-                    className="absolute inset-0 rounded-lg pointer-events-none z-20"
-                    style={{
-                        background: `linear-gradient(to top, 
-                            rgba(255, 69, 0, 1) ${burnProgress}%, 
-                            rgba(255, 140, 0, 0.9) ${Math.min(burnProgress + 10, 100)}%, 
-                            transparent ${Math.min(burnProgress + 30, 100)}%)`,
-                        mask: `linear-gradient(to top, black ${burnProgress}%, transparent ${Math.min(burnProgress + 20, 100)}%)`,
-                        WebkitMask: `linear-gradient(to top, black ${burnProgress}%, transparent ${Math.min(burnProgress + 20, 100)}%)`
-                    }}
-                >
-                    {/* Ember particles */}
-                    {[...Array(20)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute rounded-full bg-orange-400 ember-rise"
-                            style={{
-                                width: `${Math.random() * 6 + 2}px`,
-                                height: `${Math.random() * 6 + 2}px`,
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                                opacity: Math.random() * 0.7 + 0.3,
-                                animationDuration: `${Math.random() * 2 + 1}s`,
-                                filter: 'blur(1px)'
-                            }}
-                        />
-                    ))}
-                </div>
-            )}
-
-            {/* Smoke effect */}
-            {isBurning && (
-                <div className="absolute inset-0 rounded-lg pointer-events-none z-10 overflow-hidden">
-                    {[...Array(15)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute rounded-full bg-gray-300 smoke-rise"
-                            style={{
-                                width: `${Math.random() * 30 + 10}px`,
-                                height: `${Math.random() * 30 + 10}px`,
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 2}s`,
-                                filter: 'blur(8px)'
-                            }}
-                        />
-                    ))}
-                </div>
-            )}
-
             {/* Paper Container */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="relative p-6 rounded-2xl border-2 backdrop-blur-md"
+                className="relative p-6 md:p-8 rounded-2xl border-2 backdrop-blur-md"
                 style={{
                     background: 'linear-gradient(145deg, rgba(255, 223, 0, 0.05) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 207, 0, 0.04) 70%, rgba(255, 199, 0, 0.06) 100%)',
                     borderColor: isInitializing ? 'rgba(255, 215, 0, 0.6)' : 'rgba(255, 215, 0, 0.3)',
@@ -640,8 +524,7 @@ Durva Grass`;
                     `,
                     backdropFilter: 'blur(14px) saturate(140%)',
                     WebkitBackdropFilter: 'blur(14px) saturate(140%)',
-                    transform: isBurning ? `scale(${1 - burnProgress / 200})` : 'scale(1)',
-                    filter: glitchActive ? 'hue-rotate(20deg) contrast(1.2)' : (isBurning ? `blur(${burnProgress / 50}px)` : 'none'),
+                    filter: glitchActive ? 'hue-rotate(20deg) contrast(1.2)' : 'none',
                     transition: 'filter 0.1s, box-shadow 0.3s, border-color 0.3s'
                 }}
             >
@@ -714,7 +597,7 @@ Durva Grass`;
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
-                        className="text-2xl font-bold mb-2"
+                        className="text-xl md:text-2xl font-bold mb-2"
                         style={{
                             fontFamily: 'Georgia, serif',
                             color: 'rgba(255, 223, 0, 0.95)',
@@ -728,7 +611,7 @@ Durva Grass`;
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{ delay: 0.5, duration: 0.8 }}
-                        className="w-20 h-0.5 mx-auto"
+                        className="w-16 md:w-20 h-0.5 mx-auto"
                         style={{
                             background: 'linear-gradient(to right, transparent, rgba(255, 215, 0, 0.8), transparent)',
                             filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))'
@@ -737,7 +620,7 @@ Durva Grass`;
                 </div>
 
                 {/* Content with staggered fade-in */}
-                <div className="space-y-3 relative z-10" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="space-y-2 md:space-y-3 relative z-10 max-h-[50vh] md:max-h-none overflow-y-auto" style={{ fontFamily: 'Georgia, serif' }}>
                     {contentLines.map((section, index) => {
                         if (section.trim().endsWith(':')) {
                             return (
@@ -748,7 +631,7 @@ Durva Grass`;
                                     transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
                                 >
                                     <div
-                                        className="font-semibold mb-1 text-base"
+                                        className="font-semibold mb-1 text-sm md:text-base"
                                         style={{
                                             color: 'rgba(255, 223, 0, 0.95)',
                                             textShadow: '0 0 4px rgba(255, 215, 0, 0.4)'
@@ -765,7 +648,7 @@ Durva Grass`;
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
-                                className="text-sm leading-relaxed pl-2"
+                                className="text-xs md:text-sm leading-relaxed pl-2"
                                 style={{
                                     color: 'rgba(255, 255, 255, 0.85)',
                                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
@@ -792,7 +675,7 @@ Durva Grass`;
 
                 {/* Progress indicator dots during initialization */}
                 {isInitializing && (
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+                    <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
                         {[0, 1, 2].map((i) => (
                             <motion.div
                                 key={i}
@@ -820,7 +703,7 @@ Durva Grass`;
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 0.8, scale: 1 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
-                className="absolute -top-3 -right-3 text-2xl animate-pulse"
+                className="absolute -top-2 md:-top-3 -right-2 md:-right-3 text-xl md:text-2xl animate-pulse"
                 style={{
                     filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))'
                 }}
@@ -831,7 +714,7 @@ Durva Grass`;
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 0.8, scale: 1 }}
                 transition={{ delay: 1.4, duration: 0.5 }}
-                className="absolute -bottom-3 -left-3 text-xl animate-pulse"
+                className="absolute -bottom-2 md:-bottom-3 -left-2 md:-left-3 text-lg md:text-xl animate-pulse"
                 style={{
                     filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))'
                 }}
@@ -842,7 +725,7 @@ Durva Grass`;
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 0.7, scale: 1 }}
                 transition={{ delay: 1.6, duration: 0.5 }}
-                className="absolute top-1/2 -left-6 text-lg animate-bounce"
+                className="absolute top-1/2 -left-4 md:-left-6 text-base md:text-lg animate-bounce"
                 style={{
                     filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.5))'
                 }}
