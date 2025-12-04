@@ -204,20 +204,34 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
         }
 
         let fieldIndex = 0;
+        const timers: NodeJS.Timeout[] = [];
+        const intervals: NodeJS.Timeout[] = [];
+        let isCancelled = false;
+        
         const fillNextField = () => {
+            if (isCancelled) return;
+            
             if (fieldIndex >= formFields.length) {
-                setTimeout(() => {
-                    setSelectedDuration(21);
-                    setDurationFilled(true);
+                const timer = setTimeout(() => {
+                    if (!isCancelled) {
+                        setSelectedDuration(21);
+                        setDurationFilled(true);
+                    }
                 }, shouldReduceMotion ? 0 : 300);
+                timers.push(timer);
                 return;
             }
 
             const field = formFields[fieldIndex];
-            setTypingField(field.id);
+            if (!isCancelled) setTypingField(field.id);
 
             let charIndex = 0;
             const typeInterval = setInterval(() => {
+                if (isCancelled) {
+                    clearInterval(typeInterval);
+                    return;
+                }
+                
                 if (charIndex <= field.value.length) {
                     setTypedText(prev => ({
                         ...prev,
@@ -226,16 +240,26 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
                     charIndex++;
                 } else {
                     clearInterval(typeInterval);
-                    setFilledFields(prev => [...prev, field.id]);
-                    setTypingField(null);
-                    fieldIndex++;
-                    setTimeout(fillNextField, shouldReduceMotion ? 0 : 250);
+                    if (!isCancelled) {
+                        setFilledFields(prev => [...prev, field.id]);
+                        setTypingField(null);
+                        fieldIndex++;
+                        const timer = setTimeout(fillNextField, shouldReduceMotion ? 0 : 250);
+                        timers.push(timer);
+                    }
                 }
             }, shouldReduceMotion ? 0 : 35);
+            intervals.push(typeInterval);
         };
 
         const startTimeout = setTimeout(fillNextField, shouldReduceMotion ? 0 : 400);
-        return () => clearTimeout(startTimeout);
+        timers.push(startTimeout);
+        
+        return () => {
+            isCancelled = true;
+            timers.forEach(timer => clearTimeout(timer));
+            intervals.forEach(interval => clearInterval(interval));
+        };
     }, [isActive, isComplete, hasStarted, shouldReduceMotion]);
 
     return (
@@ -437,9 +461,11 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
 
         hasAnimatedRef.current = true;
         let offeringIndex = 0;
+        const timers: NodeJS.Timeout[] = [];
+        let isCancelled = false;
 
         const checkNextOffering = () => {
-            if (offeringIndex >= trackerSadhanaData.offerings.length) return;
+            if (isCancelled || offeringIndex >= trackerSadhanaData.offerings.length) return;
 
             setCompletedOfferings(prev => {
                 // Prevent duplicate additions
@@ -450,14 +476,18 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
             });
             offeringIndex++;
 
-            if (offeringIndex < trackerSadhanaData.offerings.length) {
-                setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 500);
+            if (offeringIndex < trackerSadhanaData.offerings.length && !isCancelled) {
+                const timer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 500);
+                timers.push(timer);
             }
         };
 
         const startTimer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 800);
+        timers.push(startTimer);
+        
         return () => {
-            clearTimeout(startTimer);
+            isCancelled = true;
+            timers.forEach(timer => clearTimeout(timer));
         };
     }, [isInitialized, isComplete, hasStarted, shouldReduceMotion]);
 
@@ -698,19 +728,28 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
         }
 
         let taskIndex = 0;
+        const timers: NodeJS.Timeout[] = [];
+        let isCancelled = false;
+        
         const checkNextTask = () => {
-            if (taskIndex >= tasks.length) return;
+            if (isCancelled || taskIndex >= tasks.length) return;
 
             setCheckedTasks(prev => [...prev, tasks[taskIndex].id]);
             taskIndex++;
 
-            if (taskIndex < tasks.length) {
-                setTimeout(checkNextTask, shouldReduceMotion ? 0 : 400);
+            if (taskIndex < tasks.length && !isCancelled) {
+                const timer = setTimeout(checkNextTask, shouldReduceMotion ? 0 : 400);
+                timers.push(timer);
             }
         };
 
         const startTimeout = setTimeout(checkNextTask, shouldReduceMotion ? 0 : 500);
-        return () => clearTimeout(startTimeout);
+        timers.push(startTimeout);
+        
+        return () => {
+            isCancelled = true;
+            timers.forEach(timer => clearTimeout(timer));
+        };
     }, [isActive, isComplete, tasks, hasStarted, shouldReduceMotion]);
 
     return (
