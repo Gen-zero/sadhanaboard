@@ -620,7 +620,7 @@ Durva Grass`;
                 </div>
 
                 {/* Content with staggered fade-in */}
-                <div className="space-y-2 md:space-y-3 relative z-10 max-h-[50vh] md:max-h-none overflow-y-auto" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="space-y-2 md:space-y-3 relative z-10 max-h-none overflow-visible md:max-h-[60vh] md:overflow-y-auto" style={{ fontFamily: 'Georgia, serif' }}>
                     {contentLines.map((section, index) => {
                         if (section.trim().endsWith(':')) {
                             return (
@@ -1041,7 +1041,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
         <section
             ref={sectionRef as React.RefObject<HTMLElement>}
             className={cn(
-                'relative h-screen min-h-[700px] max-h-[950px] flex items-center px-4 overflow-hidden',
+                'relative min-h-[700px] flex items-center px-4 overflow-visible pt-16 pb-12 sm:py-16 lg:h-screen lg:max-h-[950px] lg:overflow-hidden',
                 className
             )}
         >

@@ -6,6 +6,7 @@ interface TechnoSpiritualFeatureCardProps {
     description: string;
     icon: React.ElementType;
     isComingSoon?: boolean;
+    forcedHover?: boolean;
     theme?: {
         bg: string;
         panel: string;
@@ -31,6 +32,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
     description,
     icon: Icon,
     isComingSoon = false,
+    forcedHover,
     theme = {
         bg: '#1a1a1a',       // Dark Base
         panel: '#2a2a2a',    // Dark Panel
@@ -43,22 +45,33 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
     const [isHovered, setIsHovered] = useState(false);
 
     // Use saffron theme on hover
-    const activeTheme = isHovered ? saffronHoverTheme : theme;
+    const computedHover = forcedHover ?? isHovered;
+    const activeTheme = computedHover ? saffronHoverTheme : theme;
+
+    const handleMouseEnter = () => {
+        if (forcedHover !== undefined) return;
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (forcedHover !== undefined) return;
+        setIsHovered(false);
+    };
 
     return (
         <div
             className="relative w-full h-full rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 group shadow-xl hover:shadow-2xl flex flex-col"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             style={{
                 backgroundColor: activeTheme.bg,
-                boxShadow: isHovered ? `0 0 40px -10px ${saffronHoverTheme.glow}` : undefined
+                boxShadow: computedHover ? `0 0 40px -10px ${saffronHoverTheme.glow}` : undefined
             }}
         >
             {/* --- Overlay Pattern: Circuit Mandala --- */}
             <div
                 className="absolute inset-0 pointer-events-none mix-blend-screen transition-opacity duration-500"
-                style={{ opacity: isHovered ? 0.2 : 0.1 }}
+                style={{ opacity: computedHover ? 0.2 : 0.1 }}
             >
                 <SacredCircuitPattern color={activeTheme.accent} />
             </div>
@@ -68,15 +81,15 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                 className="absolute inset-2 border-[1px] border-dashed pointer-events-none rounded-lg z-20 transition-all duration-500"
                 style={{
                     borderColor: activeTheme.accent,
-                    opacity: isHovered ? 0 : 0.3
+                    opacity: computedHover ? 0 : 0.3
                 }}
             />
 
             {/* Corner Accents */}
-            <CornerBracket position="top-left" color={activeTheme.accent} isHovered={isHovered} />
-            <CornerBracket position="top-right" color={activeTheme.accent} isHovered={isHovered} />
-            <CornerBracket position="bottom-left" color={activeTheme.accent} isHovered={isHovered} />
-            <CornerBracket position="bottom-right" color={activeTheme.accent} isHovered={isHovered} />
+            <CornerBracket position="top-left" color={activeTheme.accent} isHovered={computedHover} />
+            <CornerBracket position="top-right" color={activeTheme.accent} isHovered={computedHover} />
+            <CornerBracket position="bottom-left" color={activeTheme.accent} isHovered={computedHover} />
+            <CornerBracket position="bottom-right" color={activeTheme.accent} isHovered={computedHover} />
 
             {/* --- Content Container --- */}
             <div className="relative z-10 flex flex-col h-full p-8">
@@ -87,12 +100,12 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                         className="relative shrink-0 flex items-center justify-center w-12 h-12 rounded border transition-all duration-500 group-hover:rotate-45 backdrop-blur-sm"
                         style={{
                             borderColor: activeTheme.accent,
-                            backgroundColor: isHovered ? activeTheme.accent : 'rgba(0,0,0,0.2)'
+                            backgroundColor: computedHover ? activeTheme.accent : 'rgba(0,0,0,0.2)'
                         }}
                     >
                         <div
                             className="group-hover:-rotate-45 transition-all duration-500"
-                            style={{ color: isHovered ? activeTheme.bg : activeTheme.accent }}
+                            style={{ color: computedHover ? activeTheme.bg : activeTheme.accent }}
                         >
                             <Icon size={24} strokeWidth={1.5} />
                         </div>
@@ -109,7 +122,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                 {/* Ornamented Tech Divider */}
                 <div
                     className="w-full h-px relative mb-6 transition-opacity duration-500"
-                    style={{ backgroundColor: activeTheme.accent, opacity: isHovered ? 0.6 : 0.4 }}
+                    style={{ backgroundColor: activeTheme.accent, opacity: computedHover ? 0.6 : 0.4 }}
                 >
                     <div
                         className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-500"
@@ -135,7 +148,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                 {/* Description */}
                 <p
                     className="text-sm leading-relaxed font-light flex-grow transition-colors duration-500"
-                    style={{ color: activeTheme.text, opacity: isHovered ? 1 : 0.8 }}
+                    style={{ color: activeTheme.text, opacity: computedHover ? 1 : 0.8 }}
                 >
                     {description}
                 </p>
@@ -143,7 +156,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                 {/* Footer Status Line */}
                 <div
                     className="flex justify-between items-center mt-6 text-[9px] font-mono uppercase tracking-wider transition-all duration-500"
-                    style={{ color: activeTheme.accent, opacity: isHovered ? 0.8 : 0.5 }}
+                    style={{ color: activeTheme.accent, opacity: computedHover ? 0.8 : 0.5 }}
                 >
                     <span className="group-hover:opacity-100 transition-opacity">
                         {isComingSoon ? 'Coming_Soon' : 'Sys_Active'}
@@ -156,15 +169,15 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
             <div
                 className="absolute inset-0 pointer-events-none transition-opacity duration-500"
                 style={{
-                    background: isHovered
+                    background: computedHover
                         ? `radial-gradient(circle at 50% 0%, ${saffronHoverTheme.glow}, transparent 70%)`
                         : `radial-gradient(circle at 50% 0%, ${theme.glow}, transparent 70%)`,
-                    opacity: isHovered ? 1 : 0
+                    opacity: computedHover ? 1 : 0
                 }}
             />
 
             {/* White shine overlay on hover */}
-            {isHovered && (
+            {computedHover && (
                 <div
                     className="absolute inset-0 pointer-events-none transition-opacity duration-500"
                     style={{

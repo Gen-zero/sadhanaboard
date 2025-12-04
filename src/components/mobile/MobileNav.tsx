@@ -64,13 +64,13 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
           variant="ghost"
           size="icon"
           onClick={toggleMenu}
-          className={`relative z-50 ${glowColor} rounded-full transition-all duration-300 hover:scale-110`}
+          className="relative z-50 p-1.5 rounded-lg hover:bg-white/10 transition-all duration-300"
           aria-label="Toggle navigation menu"
         >
           {isOpen ? (
-            <X className={`h-7 w-7 ${isMahakaliTheme ? 'text-red-400' : 'text-amber-400'} animate-spin`} style={{ animationDuration: '0.3s' }} />
+            <X className={`h-6 w-6 ${isMahakaliTheme ? 'text-red-400' : 'text-amber-400'}`} />
           ) : (
-            <Menu className={`h-7 w-7 ${isMahakaliTheme ? 'text-red-400' : 'text-amber-400'} hover:animate-pulse`} />
+            <Menu className={`h-6 w-6 ${isMahakaliTheme ? 'text-red-400' : 'text-amber-400'}`} />
           )}
         </Button>
       )}

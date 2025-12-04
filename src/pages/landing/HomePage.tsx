@@ -47,13 +47,13 @@ const HomePage = () => {
 
       {/* Sticky Navigation Bar - Glassy Spiritual Theme */}
       <div
-        className="sticky top-0 left-0 right-0 z-[999999] px-2 sm:px-4 pt-2 sm:pt-4"
+        className="sticky top-0 left-0 right-0 z-[999999] px-2 sm:px-4 pt-2 sm:pt-3"
         style={{
           pointerEvents: 'auto'
         }}
       >
         <nav
-          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 shadow-2xl group hidden md:flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4"
+          className="relative overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 shadow-2xl group flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4"
           style={{
             background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15))',
             backdropFilter: 'blur(24px) saturate(200%)',
@@ -88,13 +88,13 @@ const HomePage = () => {
             maskComposite: 'exclude'
           }} />
 
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group/logo">
+            <div className="flex items-center justify-between w-full md:w-auto">
+            <Link to="/" className="flex items-center space-x-2 group/logo">
               <div className="relative">
                 <ResponsiveImage
                   src="/lovable-uploads/sadhanaboard_logo.png"
                   alt="SadhanaBoard Logo"
-                  className="h-8 w-8 sm:h-12 sm:w-12 rounded-full cursor-pointer scale-110 shadow-lg shadow-purple-500/5 transition-transform duration-300 group-hover/logo:scale-125 relative z-10"
+                  className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full cursor-pointer scale-110 shadow-lg shadow-purple-500/5 transition-transform duration-300 group-hover/logo:scale-125 relative z-10"
                   quality="high"
                   lazy={false}
                   style={{
@@ -106,13 +106,6 @@ const HomePage = () => {
                   style={{
                     background: 'radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, rgba(255, 165, 0, 0.02) 60%, transparent 70%)',
                     animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-                  }}
-                />
-                {/* Secondary glow ring */}
-                <div className="absolute inset-[-4px] rounded-full z-[-1]"
-                  style={{
-                    background: 'conic-gradient(from 0deg, rgba(255, 215, 0, 0.05), rgba(255, 165, 0, 0.02), rgba(255, 215, 0, 0.05))',
-                    filter: 'blur(8px)'
                   }}
                 />
                 {/* Constant glowing ring around logo with animation */}
@@ -128,18 +121,23 @@ const HomePage = () => {
               </div>
 
               <div className="flex flex-col">
-                <span className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                <span className="text-base sm:text-lg md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
                   SadhanaBoard
                 </span>
-                <span className="text-[10px] sm:text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block transition-all duration-300 group-hover/logo:text-yellow-300">
+                <span className="text-[9px] sm:text-[10px] md:text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block transition-all duration-300 group-hover/logo:text-yellow-300">
                   ✨ Your Digital Yantra
                 </span>
               </div>
             </Link>
+
+            {/* Mobile Nav Hamburger */}
+            <div className="md:hidden">
+              <MobileNav showHamburger={true} showLoginButton={false} />
+            </div>
           </div>
 
           {/* Desktop Nav Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
@@ -158,34 +156,29 @@ const HomePage = () => {
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 <span className="relative z-10">Login</span>
-              </Link>
-            </Button>
+            </Link>
+          </Button>
 
             <Button
               asChild
               className="relative bg-gradient-to-r from-amber-500/90 via-yellow-500/90 to-amber-500/90 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/40 hover:border-yellow-400/60 shadow-lg hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-105 rounded-full text-black font-medium"
             >
               <Link to="/onboarding">
-                {/* Animated gradient background */}
-                <div
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                />
-                {/* Floating sparkles */}
-                <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+              {/* Animated gradient background */}
+              <div
+                className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+              />
+              {/* Floating sparkles */}
+              <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+              <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
 
-                <span className="relative z-10 flex items-center">
-                  Start Free
-                  <Sparkles className="ml-2 h-4 w-4 group-hover/cta:animate-spin" style={{ animationDuration: '1.5s' }} />
-                </span>
-              </Link>
-            </Button>
-          </div>
-
-          {/* Mobile Nav */}
-          <div className="md:hidden">
-            <MobileNav showHamburger={true} showLoginButton={false} />
-          </div>
+              <span className="relative z-10 flex items-center">
+                Start Free
+                <Sparkles className="ml-2 h-4 w-4 group-hover/cta:animate-spin" style={{ animationDuration: '1.5s' }} />
+              </span>
+            </Link>
+          </Button>
+        </div>
         </nav>
       </div>
 

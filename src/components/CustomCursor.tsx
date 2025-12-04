@@ -7,9 +7,35 @@ const CustomCursor = () => {
   const [visible, setVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    const updateEnabledState = () => {
+      const maxTouchPoints = typeof navigator !== "undefined" ? navigator.maxTouchPoints || (navigator as any).msMaxTouchPoints || 0 : 0;
+      const isTouchDevice =
+        "ontouchstart" in window || maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768;
+      const shouldEnable = !(isTouchDevice || isSmallScreen);
+      setEnabled(shouldEnable);
+      if (!shouldEnable) {
+        setVisible(false);
+      }
+    };
+
+    updateEnabledState();
+    window.addEventListener("resize", updateEnabledState);
+    window.addEventListener("orientationchange", updateEnabledState);
+
+    return () => {
+      window.removeEventListener("resize", updateEnabledState);
+      window.removeEventListener("orientationchange", updateEnabledState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !enabled) return;
 
     const onMouseMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
@@ -56,10 +82,10 @@ const CustomCursor = () => {
       document.removeEventListener("mouseover", onMouseOver);
       document.removeEventListener("mouseout", onMouseOut);
     };
-  }, []);
+  }, [enabled]);
 
   // Hide when not visible (e.g. page not focused)
-  if (!visible) return null;
+  if (!visible || !enabled) return null;
 
   return (
     <div

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BarChart3, ListTodo, Library, TrendingUp, Users, Sparkles } from "lucide-react";
 import TechnoSpiritualFeatureCard from './TechnoSpiritualFeatureCard';
 
@@ -46,6 +46,76 @@ const FeaturesSection = () => {
         glow: 'rgba(255, 213, 74, 0.1)', // Amber Glow
     };
 
+    const [isScrollActivated, setIsScrollActivated] = useState(false);
+    const [autoHoverStates, setAutoHoverStates] = useState<boolean[]>(() => features.map(() => false));
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        const updateActivation = () => {
+            const maxTouchPoints = typeof navigator !== 'undefined'
+                ? navigator.maxTouchPoints || (navigator as any).msMaxTouchPoints || 0
+                : 0;
+            const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || maxTouchPoints > 0);
+            const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 1024;
+            setIsScrollActivated(isTouchDevice || isSmallScreen);
+        };
+
+        updateActivation();
+        window.addEventListener('resize', updateActivation);
+        window.addEventListener('orientationchange', updateActivation);
+        return () => {
+            window.removeEventListener('resize', updateActivation);
+            window.removeEventListener('orientationchange', updateActivation);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!isScrollActivated) {
+            setAutoHoverStates(features.map(() => false));
+            return;
+        }
+
+        let frame: number | null = null;
+
+        const updateHoverStates = () => {
+            frame = null;
+            const viewportCenter = window.innerHeight / 2;
+            const nextStates = cardRefs.current.map((card) => {
+                if (!card) return false;
+                const rect = card.getBoundingClientRect();
+                const cardCenter = rect.top + rect.height / 2;
+                return cardCenter <= viewportCenter;
+            });
+
+            setAutoHoverStates((prev) => {
+                if (prev.length !== nextStates.length) {
+                    return nextStates;
+                }
+                const changed = nextStates.some((val, idx) => val !== prev[idx]);
+                return changed ? nextStates : prev;
+            });
+        };
+
+        const onScrollOrResize = () => {
+            if (frame !== null) return;
+            frame = window.requestAnimationFrame(updateHoverStates);
+        };
+
+        updateHoverStates();
+        window.addEventListener('scroll', onScrollOrResize, { passive: true });
+        window.addEventListener('resize', onScrollOrResize);
+        window.addEventListener('orientationchange', onScrollOrResize);
+
+        return () => {
+            if (frame !== null) {
+                window.cancelAnimationFrame(frame);
+            }
+            window.removeEventListener('scroll', onScrollOrResize);
+            window.removeEventListener('resize', onScrollOrResize);
+            window.removeEventListener('orientationchange', onScrollOrResize);
+        };
+    }, [isScrollActivated, features.length]);
+
     return (
         <section className="py-24 px-4 relative overflow-hidden">
 
@@ -75,14 +145,22 @@ const FeaturesSection = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {features.map((feature, index) => (
-                        <TechnoSpiritualFeatureCard
+                        <div
                             key={index}
-                            title={feature.title}
-                            description={feature.description}
-                            icon={feature.icon}
-                            theme={cardTheme}
-                            isComingSoon={index >= 4}
-                        />
+                            ref={(el) => {
+                                cardRefs.current[index] = el;
+                            }}
+                            className="h-full"
+                        >
+                            <TechnoSpiritualFeatureCard
+                                title={feature.title}
+                                description={feature.description}
+                                icon={feature.icon}
+                                theme={cardTheme}
+                                isComingSoon={index >= 4}
+                                forcedHover={isScrollActivated ? (autoHoverStates[index] ?? false) : undefined}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>
