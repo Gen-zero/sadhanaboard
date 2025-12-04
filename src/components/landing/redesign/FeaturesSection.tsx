@@ -4,7 +4,6 @@ import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const FeaturesSection = () => {
     const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.15 });
-    const sectionRef = useRef<HTMLElement>(null);
     const [activeStage, setActiveStage] = useState(1);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [cardHoverStates, setCardHoverStates] = useState<{[key: number]: boolean}>({});
@@ -48,49 +47,38 @@ const FeaturesSection = () => {
         }
     ];
 
-    // Scroll-based stage detection
+    // Auto-slider effect (changes stage every 4 seconds)
     useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current || isTransitioning) return;
-
-            const section = sectionRef.current;
-            const rect = section.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+        if (isTransitioning) return;
+        
+        const interval = setInterval(() => {
+            setIsTransitioning(true);
+            setActiveStage((prev) => (prev === 3 ? 1 : prev + 1));
             
-            // Calculate scroll progress through section
-            const sectionTop = rect.top;
-            const sectionHeight = rect.height;
-            const scrollProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / sectionHeight));
-            
-            // Determine stage based on scroll progress
-            let newStage = 1;
-            if (scrollProgress > 0.66) {
-                newStage = 3;
-            } else if (scrollProgress > 0.33) {
-                newStage = 2;
-            }
+            setTimeout(() => {
+                setIsTransitioning(false);
+            }, 500);
+        }, 4000);
 
-            if (newStage !== activeStage) {
-                setIsTransitioning(true);
-                setActiveStage(newStage);
-                
-                // Release transition lock after animation completes
-                setTimeout(() => {
-                    setIsTransitioning(false);
-                }, 500);
-            }
-        };
+        return () => clearInterval(interval);
+    }, [isTransitioning]);
 
-        window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Initial check
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [activeStage, isTransitioning]);
+    // Handle manual stage click
+    const handleStageClick = (stage: number) => {
+        if (stage === activeStage || isTransitioning) return;
+        
+        setIsTransitioning(true);
+        setActiveStage(stage);
+        
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 500);
+    };
 
     const currentFeatures = features.filter(f => f.stage === activeStage);
 
     return (
-        <section ref={sectionRef} className="py-24 px-4 relative overflow-hidden min-h-[150vh]">
+        <section className="py-24 px-4 relative overflow-hidden">
             {/* Tiled Yantra Pattern Background */}
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
                 style={{
@@ -124,7 +112,7 @@ const FeaturesSection = () => {
                     </h2>
 
                     {/* Subtitle with Divider */}
-                    <div className={`flex items-center justify-center gap-4 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                    <div className={`flex items-center justify-center gap-4 mb-8 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         <div className="h-px w-16 bg-gradient-to-r from-transparent to-slate-600"></div>
                         <p className="text-lg font-light text-slate-400 tracking-wide">
                             All in one <span className="text-sm font-bold uppercase text-cyan-400/80 tracking-wider">clean</span>, <span className="text-sm font-bold uppercase text-amber-400/80 tracking-wider">powerful</span> interface
@@ -132,15 +120,17 @@ const FeaturesSection = () => {
                         <div className="h-px w-16 bg-gradient-to-l from-transparent to-slate-600"></div>
                     </div>
 
-                    {/* Stage Indicators */}
-                    <div className="flex items-center justify-center gap-4 mt-12">
+                    {/* Stage Indicators - Clickable */}
+                    <div className="flex items-center justify-center gap-4">
                         {[1, 2, 3].map((stage) => (
-                            <div
+                            <button
                                 key={stage}
-                                className={`flex items-center justify-center rounded-full border transition-all duration-300 ${
+                                onClick={() => handleStageClick(stage)}
+                                disabled={isTransitioning}
+                                className={`flex items-center justify-center rounded-full border transition-all duration-300 cursor-pointer hover:scale-110 disabled:cursor-not-allowed ${
                                     activeStage === stage
                                         ? 'w-12 h-12 border-2 border-amber-400 bg-amber-400/20 shadow-[0_0_12px_rgba(251,191,36,0.3)]'
-                                        : 'w-10 h-10 border border-slate-600 bg-transparent opacity-60'
+                                        : 'w-10 h-10 border border-slate-600 bg-transparent opacity-60 hover:opacity-100 hover:border-amber-400/50'
                                 }`}
                             >
                                 <span className={`${
@@ -148,7 +138,7 @@ const FeaturesSection = () => {
                                 }`}>
                                     {stage}
                                 </span>
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>
