@@ -94,9 +94,11 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
       )}
 
       {/* Mobile menu overlay with fade and blur effect */}
-      {isOpen && showHamburger && (
-        <button 
-          className={`fixed inset-0 z-40 bg-black/90 backdrop-blur-lg transition-opacity duration-300 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
+      {(isOpen || isAnimating) && showHamburger && (
+        <div 
+          className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-md transition-opacity duration-300 ${
+            isOpen ? 'opacity-100' : 'opacity-0'
+          }`}
           onClick={closeMenu}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -104,6 +106,8 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
               closeMenu();
             }
           }}
+          role="button"
+          tabIndex={0}
           aria-label="Close mobile menu"
         />
       )}

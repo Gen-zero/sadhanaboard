@@ -72,13 +72,16 @@ const ProblemSection = () => {
                     const isMobile = windowWidth < 1024;
 
                     // Calculate Deltas
-                    // Ensure the dot always tucks behind the mockup by shifting relative to mockup width
-                    const baseShiftRatio = isMobile ? 0.15 : 0.35;
-                    const minShift = isMobile ? 40 : 90;
-                    const maxAvailableShift = Math.max(0, (mockupRect.width / 2) - 24);
-                    const responsiveShift = Math.min(maxAvailableShift, Math.max(mockupRect.width * baseShiftRatio, minShift));
-                    const shiftX = -responsiveShift;
-                    const deltaX = (mockupCenterX - currentDotViewportX) + shiftX;
+                    // Ensure the dot always tucks behind the mockup by targeting an inner point within the card
+                    const insetRatio = isMobile ? 0.3 : 0.2;
+                    const minInset = 32;
+                    const maxInset = Math.max(minInset, mockupRect.width - 32);
+                    const responsiveInset = Math.min(
+                        Math.max(mockupRect.width * insetRatio, minInset),
+                        maxInset
+                    );
+                    const targetViewportX = mockupRect.left + responsiveInset;
+                    const deltaX = targetViewportX - currentDotViewportX;
                     const deltaY = mockupCenterY - currentDotViewportY;
 
                     // Waypoint 1: BorderPos (Drop vertically to bottom of section)
