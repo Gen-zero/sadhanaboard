@@ -1350,6 +1350,10 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
   const thakurImageRef = useRef<HTMLImageElement>(null);
   const thakurImageLoadedRef = useRef(false);
   
+  const isMobileEnvironment = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  const adjustParticleCount = (count: number) => isMobileEnvironment ? Math.max(8, Math.floor(count * 0.4)) : count;
+  const adjustElementCount = (count: number) => isMobileEnvironment ? Math.max(2, Math.floor(count * 0.5)) : count;
+
   useEffect(() => {
     if (theme === 'earth') {
       const img = new Image();
@@ -1476,8 +1480,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
     // Particle systems for each theme
     let particles: any[] = [];
     let spiritualElements: any[] = [];
-    let particleCount = 100;
-    let spiritualElementCount = 5;
+    let particleCount = adjustParticleCount(100);
+    let spiritualElementCount = adjustElementCount(5);
     
     // Initialize based on theme
     const initParticles = () => {
@@ -1486,8 +1490,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
       
       switch (theme) {
         case 'default':
-          particleCount = 150;
-          spiritualElementCount = 12; // Increased to include more gold elements
+          particleCount = adjustParticleCount(150);
+          spiritualElementCount = adjustElementCount(12); // Increased to include more gold elements
           for (let i = 0; i < particleCount; i++) {
             particles.push({
               x: Math.random() * canvas.width,
@@ -1590,8 +1594,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'earth':
-          particleCount = 120;
-          spiritualElementCount = 12; // Increased for more gold mantras
+          particleCount = adjustParticleCount(120);
+          spiritualElementCount = adjustElementCount(12); // Increased for more gold mantras
           
           // Load Bhagwan_Krishna.png image for earth theme
           // Image loading is handled at the component level to ensure proper scope
@@ -1677,8 +1681,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'water':
-          particleCount = 100;
-          spiritualElementCount = 10;
+          particleCount = adjustParticleCount(100);
+          spiritualElementCount = adjustElementCount(10);
           for (let i = 0; i < particleCount; i++) {
             particles.push({
               x: Math.random() * canvas.width,
@@ -1771,8 +1775,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'fire':
-          particleCount = 150;
-          spiritualElementCount = 10;
+          particleCount = adjustParticleCount(150);
+          spiritualElementCount = adjustElementCount(10);
           for (let i = 0; i < particleCount; i++) {
             particles.push({
               x: Math.random() * canvas.width,
@@ -1831,8 +1835,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
 
         case 'shiva':
-          particleCount = 150;
-          spiritualElementCount = 10;
+          particleCount = adjustParticleCount(150);
+          spiritualElementCount = adjustElementCount(10);
           for (let i = 0; i < particleCount; i++) {
             particles.push({
               x: Math.random() * canvas.width,
@@ -1900,8 +1904,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'neon':
-          particleCount = 100;
-          spiritualElementCount = 12;
+          particleCount = adjustParticleCount(100);
+          spiritualElementCount = adjustElementCount(12);
           
           // Create neon particles (cyber grid points)
           for (let i = 0; i < particleCount; i++) {
@@ -2011,8 +2015,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'bhairava':
-          particleCount = 150;  // Increased from 120
-          spiritualElementCount = 25;  // Increased from 15
+          particleCount = adjustParticleCount(150);  // Increased from 120
+          spiritualElementCount = adjustElementCount(25);  // Increased from 15
           
           // Create dark particles for the background
           for (let i = 0; i < particleCount; i++) {
@@ -2173,8 +2177,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'serenity':
-          particleCount = 100;
-          spiritualElementCount = 8;
+          particleCount = adjustParticleCount(100);
+          spiritualElementCount = adjustElementCount(8);
           
           // Create soft light particles for the background
           for (let i = 0; i < particleCount; i++) {
@@ -2270,8 +2274,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'ganesha':
-          particleCount = 120;
-          spiritualElementCount = 10;
+          particleCount = adjustParticleCount(120);
+          spiritualElementCount = adjustElementCount(10);
           
           // Create golden particles for the background
           for (let i = 0; i < particleCount; i++) {
@@ -2377,8 +2381,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           break;
           
         case 'mystery':
-          particleCount = 80;
-          spiritualElementCount = 8;
+          particleCount = adjustParticleCount(80);
+          spiritualElementCount = adjustElementCount(8);
           
           // Create gentle floating particles for zen atmosphere
           for (let i = 0; i < particleCount; i++) {
@@ -2494,8 +2498,8 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
           
 
         case 'durga':
-          particleCount = 100;
-          spiritualElementCount = 8;
+          particleCount = adjustParticleCount(100);
+          spiritualElementCount = adjustElementCount(8);
           
           // Create Durga-themed particles
           for (let i = 0; i < particleCount; i++) {

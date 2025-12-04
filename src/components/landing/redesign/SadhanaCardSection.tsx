@@ -1048,7 +1048,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
         <section
             ref={sectionRef as React.RefObject<HTMLElement>}
             className={cn(
-                'relative min-h-[700px] flex items-center px-4 overflow-visible pt-16 pb-12 sm:py-16 lg:h-screen lg:max-h-[950px] lg:overflow-hidden',
+                'relative min-h-[700px] flex items-center px-4 overflow-visible pt-16 pb-12 sm:py-16 lg:min-h-screen lg:max-h-[1100px]',
                 className
             )}
         >

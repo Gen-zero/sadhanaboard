@@ -124,15 +124,17 @@ const SaadhanaBoard = () => {
         ))}
       </div>
       
-      <SadhanaHeader 
-        showManifestationForm={showManifestationForm}
-        view3D={view3D}
-        showDashboard={false}
-        setIsEditing={setIsEditing}
-        setShowManifestationForm={setShowManifestationForm}
-        setView3D={setView3D}
-        setShowDashboard={() => {}} // No-op function since we're redirecting to the dashboard page
-      />
+      <div className="relative z-10 mb-8">
+        <SadhanaHeader 
+          showManifestationForm={showManifestationForm}
+          view3D={view3D}
+          showDashboard={false}
+          setIsEditing={setIsEditing}
+          setShowManifestationForm={setShowManifestationForm}
+          setView3D={setView3D}
+          setShowDashboard={() => {}} // No-op function since we're redirecting to the dashboard page
+        />
+      </div>
 
       {showManifestationForm && (
         <div className="relative z-20">
@@ -143,7 +145,7 @@ const SaadhanaBoard = () => {
       <div className="flex justify-center relative z-10">
         <div className="w-full lg:max-w-4xl">
           {/* Sadhana Paper Section */}
-          <div className="space-y-6">
+          <div className="space-y-6 mt-6">
             {sadhanaState.hasStarted && sadhanaData && (
               <div className="space-y-4">
                 {/* Sadhana Header with Progress */}

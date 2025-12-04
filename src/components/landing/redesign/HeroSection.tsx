@@ -37,7 +37,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <Button
             size="lg"
-            className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-white border-0 shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transition-all duration-300 text-base sm:text-lg px-5 py-4 sm:px-8 sm:py-6 h-auto rounded-full"
+            className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-white border-0 shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full"
             asChild
           >
             <Link to="/onboarding">
@@ -48,9 +48,9 @@ const HeroSection = () => {
           <Button
             size="lg"
             variant="outline"
-            className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-base sm:text-lg px-5 py-4 sm:px-8 sm:py-6 h-auto rounded-full group"
+            className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full group"
           >
-            <Play className="w-5 h-5 mr-2 fill-current opacity-80 group-hover:scale-110 transition-transform" />
+            <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 fill-current opacity-80 group-hover:scale-110 transition-transform" />
             Watch Demo (45s)
           </Button>
         </div>

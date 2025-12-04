@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Scroll, Video, Book, Hourglass, Flower } from 'lucide-react';
 import { useScrollAnimation } from '@/context/ScrollAnimationContext';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const ProblemSection = () => {
@@ -15,6 +16,7 @@ const ProblemSection = () => {
     } = useScrollAnimation();
 
     const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
+    const isMobileDevice = useIsMobile();
 
     // Animation State Refs - Moved to top level
     const stateRef = useRef({
@@ -29,6 +31,16 @@ const ProblemSection = () => {
 
     // Optimized Physics-based Animation Loop for Section 2 & 3
     useEffect(() => {
+        if (isMobileDevice) {
+            if (dotRef.current) {
+                dotRef.current.style.transform = 'translate(0px, 0px)';
+                dotRef.current.style.backgroundColor = 'rgba(245, 158, 11, 0.6)';
+                dotRef.current.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.4)';
+            }
+            setAnimationStage('problem');
+            return;
+        }
+
         let animationFrameId: number;
 
         // Easing function: easeInOutCubic
@@ -280,7 +292,7 @@ const ProblemSection = () => {
             window.removeEventListener('resize', handleScroll);
             cancelAnimationFrame(animationFrameId);
         };
-    }, [animationStage, setAnimationStage, problemSectionRef, solutionSectionRef, mockupRef, dotRef]);
+    }, [animationStage, setAnimationStage, problemSectionRef, solutionSectionRef, mockupRef, dotRef, isMobileDevice]);
 
     return (
         <section
