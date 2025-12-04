@@ -124,6 +124,17 @@
         opacity: 1;
     }
 
+    .animate-rise-in {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .animate-rise-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     .animate-slide-in-left {
         opacity: 0;
         transform: translateX(-32px);

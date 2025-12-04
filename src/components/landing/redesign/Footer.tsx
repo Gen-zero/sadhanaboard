@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const Footer = () => {
+    const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     return (
-        <footer className="py-12 px-4 border-t border-white/5 bg-black/90 relative overflow-hidden">
+        <footer ref={sectionRef as React.RefObject<HTMLElement>} className="py-12 px-4 border-t border-white/5 bg-black/90 relative overflow-hidden">
             {/* Mandala background to mirror Solution section */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                 <div
@@ -18,7 +20,7 @@ const Footer = () => {
             </div>
 
             <div className="max-w-6xl mx-auto relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+                <div className={`flex flex-col md:flex-row justify-between items-center gap-8 mb-12 animate-rise-in ${isVisible ? 'visible' : ''}`}>
                     {/* Logo / Brand */}
                     <div className="text-center md:text-left">
                         <h3 className="text-xl font-bold text-white mb-2">SadhanaBoard</h3>
@@ -34,7 +36,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5 text-xs text-white/30">
+                <div className={`flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5 text-xs text-white/30 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                     <div className="flex gap-4">
                         <span>© 2024 SadhanaBoard</span>
                         <span>Privacy Policy</span>

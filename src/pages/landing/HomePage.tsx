@@ -15,7 +15,8 @@ import FeaturesSection from '@/components/landing/redesign/FeaturesSection';
 import WorkspaceSection from '@/components/landing/redesign/WorkspaceSection';
 import ExploreSection from '@/components/landing/redesign/ExploreSection';
 
-import TrustSection from '@/components/landing/redesign/TrustSection';
+import TargetAudienceSection from '@/components/landing/redesign/TargetAudienceSection';
+import OriginStorySection from '@/components/landing/redesign/OriginStorySection';
 import PricingSection from '@/components/landing/redesign/PricingSection';
 import FinalCTA from '@/components/landing/redesign/FinalCTA';
 import Footer from '@/components/landing/redesign/Footer';
@@ -93,7 +94,7 @@ const HomePage = () => {
             maskComposite: 'exclude'
           }} />
 
-            <div className="flex items-center justify-between w-full md:w-auto">
+          <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" className="flex items-center space-x-2 group/logo">
               <div className="relative">
                 <ResponsiveImage
@@ -156,29 +157,29 @@ const HomePage = () => {
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 <span className="relative z-10">Login</span>
-            </Link>
-          </Button>
+              </Link>
+            </Button>
 
             <Button
               asChild
               className="relative bg-gradient-to-r from-amber-500/90 via-yellow-500/90 to-amber-500/90 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/40 hover:border-yellow-400/60 shadow-lg hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-105 rounded-full text-black font-medium"
             >
               <Link to="/onboarding">
-              {/* Animated gradient background */}
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-              />
-              {/* Floating sparkles */}
-              <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-              <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                {/* Animated gradient background */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                />
+                {/* Floating sparkles */}
+                <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
 
-              <span className="relative z-10 flex items-center">
-                Start Free
-                <Sparkles className="ml-2 h-4 w-4 group-hover/cta:animate-spin" style={{ animationDuration: '1.5s' }} />
-              </span>
-            </Link>
-          </Button>
-        </div>
+                <span className="relative z-10 flex items-center">
+                  Start Free
+                  <Sparkles className="ml-2 h-4 w-4 group-hover/cta:animate-spin" style={{ animationDuration: '1.5s' }} />
+                </span>
+              </Link>
+            </Button>
+          </div>
         </nav>
       </div>
 
@@ -186,7 +187,7 @@ const HomePage = () => {
       <main className="relative z-10 space-y-0">
         <HeroSection />
         {/* Continuous wave gradient wrapper for sections 2-8 */}
-        <div 
+        <div
           className="relative z-20"
           style={{
             background: `
@@ -199,11 +200,11 @@ const HomePage = () => {
                 #4b0753 32%,
                 #2a0a3e 40%,
                 #1a0b2e 48%,
-                #121212 56%,
-                #1a0b2e 64%,
-                #121212 72%,
-                #0a0a0a 80%,
-                #121212 88%,
+                #2a0a3e 56%,
+                #4b0753 64%,
+                #2a0a3e 72%,
+                #1a0b2e 80%,
+                #2a0a3e 88%,
                 #0a0a0a 100%
               )
             `
@@ -216,7 +217,8 @@ const HomePage = () => {
             <FeaturesSection />
             <WorkspaceSection />
             <ExploreSection />
-            <TrustSection />
+            <TargetAudienceSection />
+            <OriginStorySection />
           </div>
         </div>
         {/* Sections after the gradient */}

@@ -59,7 +59,7 @@ const SolutionSection = () => {
 
             <div className="max-w-[1200px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 {/* Left Column: UI Mockup */}
-                <div className="relative group perspective-1000">
+                <div className={`relative group perspective-1000 animate-rise-in ${isVisible ? 'visible' : ''}`}>
                     {/* Orbiting Glyphs */}
                     <div className="absolute inset-0 -m-20 animate-[spin_10s_linear_infinite] pointer-events-none opacity-20">
                         <div className="absolute top-0 left-1/2 w-4 h-4 bg-[#FFD54A] rounded-full blur-[2px]" />

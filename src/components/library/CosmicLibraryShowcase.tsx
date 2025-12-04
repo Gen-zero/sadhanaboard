@@ -23,6 +23,7 @@ import {
 import { useSettings } from '@/hooks/useSettings';
 import { useDefaultThemeStyles } from '@/hooks/useDefaultThemeStyles';
 import type { StoreSadhana } from '@/types/store';
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 type Category = 'sadhanas' | 'texts' | 'journeys';
 type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
@@ -216,8 +217,14 @@ const CosmicLibraryShowcase: React.FC = () => {
     journeys: 'Guided Journeys'
   };
 
+  const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
+
   return (
-    <section aria-labelledby="cosmic-library-title" className={`relative overflow-hidden rounded-2xl p-6 backdrop-blur-lg ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'bg-background/70 border border-primary/20'}`}>
+    <section
+      ref={sectionRef as React.RefObject<HTMLElement>}
+      aria-labelledby="cosmic-library-title"
+      className={`relative overflow-hidden rounded-2xl p-6 backdrop-blur-lg ${isDefaultTheme ? defaultThemeClasses.borderedContainer : 'bg-background/70 border border-primary/20'}`}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 pointer-events-none"></div>
       
       <div className="relative z-10">
@@ -249,7 +256,7 @@ const CosmicLibraryShowcase: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-rise-in ${isVisible ? 'visible' : ''}`}>
           {filtered.map((item) => (
             <Card 
               key={item.id}

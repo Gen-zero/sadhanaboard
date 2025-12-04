@@ -73,14 +73,27 @@ const ProblemSection = () => {
 
                     // Calculate Deltas
                     // Ensure the dot always tucks behind the mockup by targeting an inner point within the card
-                    const insetRatio = isMobile ? 0.45 : 0.2;
-                    const minInset = Math.min(mockupRect.width * 0.25, 96);
-                    const maxInset = Math.max(minInset, mockupRect.width - 32);
-                    const responsiveInset = Math.min(
-                        Math.max(mockupRect.width * insetRatio, minInset),
-                        maxInset
-                    );
-                    const targetViewportX = mockupRect.right - responsiveInset;
+                    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+                    let targetViewportX: number;
+                    if (isMobile) {
+                        const mobileMin = 48;
+                        const mobileMax = Math.max(mobileMin, mockupRect.width - 48);
+                        const mobileOffset = clamp(mockupRect.width * 0.35, mobileMin, mobileMax);
+                        targetViewportX = clamp(
+                            mockupRect.left + mobileOffset,
+                            mockupRect.left + 32,
+                            mockupRect.right - 32
+                        );
+                    } else {
+                        const desktopMin = 120;
+                        const desktopMax = Math.max(desktopMin, (mockupRect.width / 2) - 32);
+                        const desktopOffset = clamp(mockupRect.width * 0.2, desktopMin, desktopMax);
+                        targetViewportX = clamp(
+                            mockupCenterX - desktopOffset,
+                            mockupRect.left + 32,
+                            mockupRect.right - 32
+                        );
+                    }
                     const deltaX = targetViewportX - currentDotViewportX;
 
                     // Vertical targeting with clamped margins so the dot stays within the mockup
@@ -297,7 +310,7 @@ const ProblemSection = () => {
                 </div>
 
                 {/* Ethereal Scattered Orbit Visualization Container */}
-                <div className="relative h-[450px] w-full flex items-center justify-center">
+                <div className={`relative h-[450px] w-full flex items-center justify-center animate-rise-in ${isVisible ? 'visible' : ''}`}>
 
                     {/* The Container for the Orbiting Icons (Overflow Hidden to clip them) */}
                     <div className="absolute inset-0 border border-white/[0.08] bg-black/40 backdrop-blur-sm rounded-sm overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]">

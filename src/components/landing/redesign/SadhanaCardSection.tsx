@@ -192,7 +192,7 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
             // Wait 2.5 seconds before marking complete
             const timer = setTimeout(() => {
                 onComplete();
-            }, 2500);
+            }, 500);
             return () => clearTimeout(timer);
         }
     }, [isFormComplete, isComplete, onComplete]);
@@ -212,10 +212,10 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
         const timers: NodeJS.Timeout[] = [];
         const intervals: NodeJS.Timeout[] = [];
         let isCancelled = false;
-        
+
         const fillNextField = () => {
             if (isCancelled) return;
-            
+
             if (fieldIndex >= formFields.length) {
                 const timer = setTimeout(() => {
                     if (!isCancelled) {
@@ -236,7 +236,7 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
                     clearInterval(typeInterval);
                     return;
                 }
-                
+
                 if (charIndex <= field.value.length) {
                     setTypedText(prev => ({
                         ...prev,
@@ -257,9 +257,9 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
             intervals.push(typeInterval);
         };
 
-        const startTimeout = setTimeout(fillNextField, shouldReduceMotion ? 0 : 400);
+        const startTimeout = setTimeout(fillNextField, shouldReduceMotion ? 0 : 1500);
         timers.push(startTimeout);
-        
+
         return () => {
             isCancelled = true;
             timers.forEach(timer => clearTimeout(timer));
@@ -445,20 +445,25 @@ Durva Grass`;
     const contentLines = sadhanaContent.trim().split('\n').filter(line => line.trim() !== '');
 
     // Tech initialization sequence
+    // Tech initialization sequence
     useEffect(() => {
         if (!isActive || !hasStarted) return;
 
-        // Scanning animation
-        const scanInterval = setInterval(() => {
-            setScanProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(scanInterval);
-                    setIsInitializing(false);
-                    return 100;
-                }
-                return prev + 2;
-            });
-        }, 30);
+        let scanInterval: NodeJS.Timeout;
+
+        // Scanning animation starts after 1.5s
+        const startScan = setTimeout(() => {
+            scanInterval = setInterval(() => {
+                setScanProgress(prev => {
+                    if (prev >= 100) {
+                        clearInterval(scanInterval);
+                        setIsInitializing(false);
+                        return 100;
+                    }
+                    return prev + 2;
+                });
+            }, 30);
+        }, 1500);
 
         // Random glitch effects during initialization
         const glitchInterval = setInterval(() => {
@@ -466,12 +471,14 @@ Durva Grass`;
             setTimeout(() => setGlitchActive(false), 100);
         }, 800);
 
-        setTimeout(() => {
+        const stopGlitch = setTimeout(() => {
             clearInterval(glitchInterval);
         }, 3000);
 
         return () => {
-            clearInterval(scanInterval);
+            clearTimeout(startScan);
+            clearTimeout(stopGlitch);
+            if (scanInterval) clearInterval(scanInterval);
             clearInterval(glitchInterval);
         };
     }, [isActive, hasStarted]);
@@ -484,7 +491,7 @@ Durva Grass`;
             if (!isComplete) {
                 onComplete();
             }
-        }, 5000);
+        }, 3500);
 
         return () => clearTimeout(timer);
     }, [isActive, hasStarted, isComplete, onComplete]);
@@ -753,7 +760,7 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
     useEffect(() => {
         if (allChecked && !isComplete) {
             // Wait 2.5 seconds before marking complete
-            const timer = setTimeout(onComplete, 2500);
+            const timer = setTimeout(onComplete, 500);
             return () => clearTimeout(timer);
         }
     }, [allChecked, isComplete, onComplete]);
@@ -772,7 +779,7 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
         let taskIndex = 0;
         const timers: NodeJS.Timeout[] = [];
         let isCancelled = false;
-        
+
         const checkNextTask = () => {
             if (isCancelled || taskIndex >= tasks.length) return;
 
@@ -786,9 +793,9 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
             }
         };
 
-        const startTimeout = setTimeout(checkNextTask, shouldReduceMotion ? 0 : 500);
+        const startTimeout = setTimeout(checkNextTask, shouldReduceMotion ? 0 : 1500);
         timers.push(startTimeout);
-        
+
         return () => {
             isCancelled = true;
             timers.forEach(timer => clearTimeout(timer));
@@ -868,7 +875,7 @@ function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
 
         const timer = setTimeout(() => {
             onComplete();
-        }, shouldReduceMotion ? 0 : 4000);
+        }, shouldReduceMotion ? 0 : 5000);
 
         return () => clearTimeout(timer);
     }, [isActive, hasStarted, isComplete, onComplete, shouldReduceMotion]);
@@ -888,7 +895,7 @@ function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.5, delay: 1.5 }}
                     className="bg-[#FDF5E6] text-[#4E342E] rounded-lg p-6 relative overflow-hidden shadow-lg"
                 >
                     {/* Parchment texture */}
@@ -948,7 +955,7 @@ function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                    transition={{ duration: 0.5, delay: 1.7 }}
                     className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-amber-500/20 relative overflow-hidden"
                 >
                     {/* Tech grid background */}
@@ -1030,7 +1037,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
             // Delay before moving to next step (happens after complete state shows for 2.5s)
             setTimeout(() => {
                 setActiveStep(stepIndex + 1);
-            }, 300);
+            }, 3000);
         }
     }, [stepData.length]);
 
@@ -1087,7 +1094,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                         initial={{ opacity: 0, x: -20 }}
                         animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
-                        className="flex md:flex-col items-center justify-center gap-4 md:gap-0 md:py-6"
+                        className={cn("flex md:flex-col items-center justify-center gap-4 md:gap-0 md:py-6 animate-rise-in", isVisible ? 'visible' : '')}
                     >
                         {stepData.map((step, index) => {
                             const isStepComplete = stepCompleted[index];
@@ -1173,7 +1180,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="flex-1"
+                        className={cn("flex-1 animate-rise-in", isVisible ? 'visible' : '')}
                     >
                         <Card
                             className={cn(

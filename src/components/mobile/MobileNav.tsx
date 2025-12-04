@@ -57,7 +57,7 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
     : 'shadow-[0_0_15px_rgba(251,191,36,0.5)]';
 
   return (
-    <>
+    <div>
       {/* Mobile menu button with glow effect - Fixed position in top-right of navbar */}
       {showHamburger && (
         <Button
@@ -290,7 +290,7 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

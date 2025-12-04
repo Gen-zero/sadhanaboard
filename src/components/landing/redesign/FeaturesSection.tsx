@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BarChart3, ListTodo, Library, TrendingUp, Users, Sparkles } from "lucide-react";
 import TechnoSpiritualFeatureCard from './TechnoSpiritualFeatureCard';
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 const FeaturesSection = () => {
     const features = [
@@ -49,6 +50,7 @@ const FeaturesSection = () => {
     const [isScrollActivated, setIsScrollActivated] = useState(false);
     const [autoHoverStates, setAutoHoverStates] = useState<boolean[]>(() => features.map(() => false));
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
 
     useEffect(() => {
         const updateActivation = () => {
@@ -117,7 +119,7 @@ const FeaturesSection = () => {
     }, [isScrollActivated, features.length]);
 
     return (
-        <section className="py-24 px-4 relative overflow-hidden">
+        <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-24 px-4 relative overflow-hidden">
 
 
             {/* Tiled Yantra Pattern Background */}
@@ -150,7 +152,8 @@ const FeaturesSection = () => {
                             ref={(el) => {
                                 cardRefs.current[index] = el;
                             }}
-                            className="h-full"
+                            className={`h-full animate-rise-in ${isVisible ? 'visible' : ''}`}
+                            style={{ transitionDelay: isVisible ? `${index * 0.1}s` : undefined }}
                         >
                             <TechnoSpiritualFeatureCard
                                 title={feature.title}
