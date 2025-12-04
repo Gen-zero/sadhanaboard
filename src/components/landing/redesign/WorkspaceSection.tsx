@@ -11,31 +11,36 @@ const WorkspaceSection = () => {
             name: "Shiva",
             description: "Deep indigo & ash. For dissolution and focus.",
             color: "from-indigo-900 to-slate-900",
-            icon: Moon
+            icon: Moon,
+            image: "/lovable-uploads/shiva.jpg"
         },
         {
-            name: "Devi",
-            description: "Crimson & gold. For energy and power.",
-            color: "from-red-900 to-orange-900",
-            icon: Flame
+            name: "Ganesh",
+            description: "Golden wisdom & prosperity. For removing obstacles.",
+            color: "from-orange-600 to-yellow-600",
+            icon: Sun,
+            image: "/lovable-uploads/ganesh.jpg"
         },
         {
-            name: "Krishna",
+            name: "Sri Krishna",
             description: "Peacock blue & forest green. For devotion.",
             color: "from-blue-900 to-emerald-900",
-            icon: Sparkles
-        },
-        {
-            name: "Surya",
-            description: "Radiant orange & yellow. For vitality.",
-            color: "from-orange-600 to-yellow-600",
-            icon: Sun
+            icon: Sparkles,
+            image: "/lovable-uploads/sri-krishna.jpg"
         },
         {
             name: "Bhairava",
             description: "Pitch black & fire. For intensity.",
             color: "from-gray-950 to-red-950",
-            icon: Flame
+            icon: Flame,
+            image: "/lovable-uploads/bhairava.jpg"
+        },
+        {
+            name: "Devi",
+            description: "Crimson & gold. For energy and power.",
+            color: "from-red-900 to-orange-900",
+            icon: Flame,
+            image: "/lovable-uploads/devi.jpg"
         }
     ];
 
@@ -100,28 +105,39 @@ const WorkspaceSection = () => {
                                 >
                                     {/* Deity Card */}
                                     <div className="h-full w-full rounded-2xl overflow-hidden card-glass border-2 border-white/10 shadow-2xl">
-                                        {/* Background Gradient - Made opaque to hide cards behind */}
+                                        {/* Deity Image Background */}
+                                        <div className="absolute inset-0">
+                                            <img 
+                                                src={theme.image} 
+                                                alt={theme.name}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    // Fallback to gradient if image fails to load
+                                                    e.currentTarget.style.display = 'none';
+                                                }}
+                                            />
+                                            {/* Dark overlay for text readability */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+                                        </div>
+
+                                        {/* Fallback gradient background (if image fails) */}
                                         <div className="absolute inset-0 bg-[#0a0a0a]" />
                                         <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-100`} />
 
-                                        {/* Pattern Overlay */}
-                                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518176258769-f227c798150e?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay" />
-
                                         {/* Content */}
                                         <div className="relative h-full flex flex-col justify-between p-8">
-                                            {/* Top: Icon */}
+                                            {/* Top: Deity Name Badge */}
                                             <div className="flex justify-center pt-8">
-                                                <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-                                                    <theme.icon className="w-12 h-12 text-white" strokeWidth={1.5} />
+                                                <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                                                    <h3 className="text-2xl font-serif font-bold text-white">
+                                                        {theme.name}
+                                                    </h3>
                                                 </div>
                                             </div>
 
-                                            {/* Bottom: Text */}
+                                            {/* Bottom: Description & Indicator */}
                                             <div className="text-center">
-                                                <h3 className="text-4xl font-serif font-bold text-white mb-3">
-                                                    {theme.name}
-                                                </h3>
-                                                <p className="text-white/80 text-lg font-light mb-6">
+                                                <p className="text-white/90 text-lg font-light mb-6 drop-shadow-lg">
                                                     {theme.description}
                                                 </p>
 
@@ -161,7 +177,7 @@ const WorkspaceSection = () => {
                         Choose from authentic deity-themed interfaces. Each theme carries the essence, colors, and symbolism of your chosen path.
                     </p>
                     <ul className="space-y-4 pt-4">
-                        {['Shiva for focus & dissolution', 'Devi for power & transformation', 'Krishna for devotion & joy'].map((item, i) => (
+                        {['Shiva for focus & dissolution', 'Ganesh for wisdom & prosperity', 'Krishna for devotion & joy'].map((item, i) => (
                             <li key={i} className={`flex items-center gap-3 text-white/80 animate-slide-in-left ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: `${0.4 + i * 0.1}s` }}>
                                 <div className="w-1.5 h-1.5 bg-amber-400/80 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></div>
                                 <div className="font-light">{item}</div>

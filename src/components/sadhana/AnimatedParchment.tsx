@@ -101,7 +101,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
   }
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
+    <div className="relative w-full max-w-2xl mx-auto min-h-[30rem] sm:min-h-[34rem] md:min-h-[26rem]">
       {/* Burning effect overlay */}
       {isBurning && (
         <div 
@@ -156,7 +156,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
 
       {/* Paper Container - Transparent Golden Metallic styling like landing page */}
       <div 
-        className={`relative p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 ${
+        className={`relative p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[30rem] sm:min-h-[34rem] md:min-h-[26rem] flex flex-col ${
           isUnrolled ? 'parchment-unroll' : ''
         }`}
         style={{
