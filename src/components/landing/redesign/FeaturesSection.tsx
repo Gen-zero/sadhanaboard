@@ -264,7 +264,12 @@ const FeaturesSection = () => {
                         }}
                     >
                         {/* Stardust Pattern Overlay */}
-                        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"2\" cy=\"2\" r=\"1\" fill=\"white\" opacity=\"0.5\"/%3E%3C/svg%3E')] pointer-events-none" />
+                        <div 
+                            className="absolute inset-0 opacity-20 pointer-events-none"
+                            style={{
+                                backgroundImage: "url('data:image/svg+xml,%3Csvg width=%2720%27 height=%2720%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Ccircle cx=%272%27 cy=%272%27 r=%271%27 fill=%27white%27 opacity=%270.5%27/%3E%3C/svg%3E')"
+                            }}
+                        />
                         
                         <span className="relative z-10 flex items-center justify-center gap-2">
                             Begin Your Journey
