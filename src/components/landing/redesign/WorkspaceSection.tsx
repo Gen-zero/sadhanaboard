@@ -5,7 +5,7 @@ import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 const WorkspaceSection = () => {
     const { ref: contentRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     const [currentSlide, setCurrentSlide] = useState(0);
-    
+
     const themes = [
         {
             name: "Shiva",
@@ -59,16 +59,16 @@ const WorkspaceSection = () => {
                             // Calculate position relative to current slide
                             let position = index - currentSlide;
                             if (position < 0) position += themes.length;
-                            
+
                             // Determine z-index and styling based on position
                             const isActive = position === 0;
                             const isNext = position === 1;
                             const isPrev = position === themes.length - 1;
-                            
+
                             let transform = '';
                             let opacity = 0;
                             let zIndex = 0;
-                            
+
                             if (isActive) {
                                 transform = 'translateX(0) scale(1) rotateY(0deg)';
                                 opacity = 1;
@@ -100,12 +100,13 @@ const WorkspaceSection = () => {
                                 >
                                     {/* Deity Card */}
                                     <div className="h-full w-full rounded-2xl overflow-hidden card-glass border-2 border-white/10 shadow-2xl">
-                                        {/* Background Gradient */}
-                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-60`} />
-                                        
+                                        {/* Background Gradient - Made opaque to hide cards behind */}
+                                        <div className="absolute inset-0 bg-[#0a0a0a]" />
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-100`} />
+
                                         {/* Pattern Overlay */}
                                         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518176258769-f227c798150e?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay" />
-                                        
+
                                         {/* Content */}
                                         <div className="relative h-full flex flex-col justify-between p-8">
                                             {/* Top: Icon */}
@@ -114,7 +115,7 @@ const WorkspaceSection = () => {
                                                     <theme.icon className="w-12 h-12 text-white" strokeWidth={1.5} />
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Bottom: Text */}
                                             <div className="text-center">
                                                 <h3 className="text-4xl font-serif font-bold text-white mb-3">
@@ -123,18 +124,17 @@ const WorkspaceSection = () => {
                                                 <p className="text-white/80 text-lg font-light mb-6">
                                                     {theme.description}
                                                 </p>
-                                                
+
                                                 {/* Active Indicator */}
                                                 {isActive && (
                                                     <div className="flex justify-center gap-2">
                                                         {themes.map((_, i) => (
                                                             <div
                                                                 key={i}
-                                                                className={`h-1.5 rounded-full transition-all duration-300 ${
-                                                                    i === currentSlide
+                                                                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentSlide
                                                                         ? 'w-8 bg-white'
                                                                         : 'w-1.5 bg-white/30'
-                                                                }`}
+                                                                    }`}
                                                             />
                                                         ))}
                                                     </div>
