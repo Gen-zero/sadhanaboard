@@ -49,7 +49,7 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
 
     return (
         <div
-            className={`relative w-full max-w-sm rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 group shadow-2xl ${isPopular ? 'scale-105 z-10' : ''}`}
+            className={`relative w-full max-w-[320px] md:max-w-sm mx-auto rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 group shadow-2xl ${isPopular ? 'lg:scale-105 lg:z-10' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={{ backgroundColor: theme.bg }}

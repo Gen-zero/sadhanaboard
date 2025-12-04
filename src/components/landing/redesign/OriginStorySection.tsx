@@ -7,7 +7,7 @@ const OriginStorySection = () => {
         <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-32 px-6 text-center bg-white/[0.02]">
             <div className="max-w-3xl mx-auto space-y-8">
                 <div className={`flex justify-center mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.05s' }}>
-                    <img src="/lovable-uploads/OM.png" alt="OM" className="w-12 h-12 opacity-80" />
+                    <img src="/lovable-uploads/OM.png" alt="OM" className="w-12 h-12 opacity-80" style={{ filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))' }} />
                 </div>
                 <div className={`w-px h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent mx-auto animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}></div>
                 <h2 className={`text-sm uppercase tracking-[0.3em] text-white/40 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.15s' }}>

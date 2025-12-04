@@ -5,7 +5,13 @@ import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 const Footer = () => {
     const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
     return (
-        <footer ref={sectionRef as React.RefObject<HTMLElement>} className="py-12 px-4 border-t border-white/5 bg-black/90 relative overflow-hidden">
+        <footer
+            ref={sectionRef as React.RefObject<HTMLElement>}
+            className="py-12 px-4 border-t border-white/5 relative overflow-hidden"
+            style={{
+                background: 'radial-gradient(circle at center -60px, rgba(75, 7, 83, 0.85) 0%, rgba(42, 10, 62, 0.9) 35%, rgba(10, 10, 10, 0.95) 100%)'
+            }}
+        >
             {/* Mandala background to mirror Solution section */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                 <div
