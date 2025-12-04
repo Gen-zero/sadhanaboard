@@ -72,8 +72,12 @@ const ProblemSection = () => {
                     const isMobile = windowWidth < 1024;
 
                     // Calculate Deltas
-                    // If mobile, NO horizontal shift (-150px removed), just align to center
-                    const shiftX = isMobile ? 0 : -150;
+                    // Ensure the dot always tucks behind the mockup by shifting relative to mockup width
+                    const baseShiftRatio = isMobile ? 0.15 : 0.35;
+                    const minShift = isMobile ? 40 : 90;
+                    const maxAvailableShift = Math.max(0, (mockupRect.width / 2) - 24);
+                    const responsiveShift = Math.min(maxAvailableShift, Math.max(mockupRect.width * baseShiftRatio, minShift));
+                    const shiftX = -responsiveShift;
                     const deltaX = (mockupCenterX - currentDotViewportX) + shiftX;
                     const deltaY = mockupCenterY - currentDotViewportY;
 
