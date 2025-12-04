@@ -160,6 +160,19 @@
     .perspective-1000 {
         perspective: 1000px;
     }
+    
+    @keyframes spin-slow {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+    }
 
     .text-gold-glow {
         @apply text-[#FFD54A] drop-shadow-[0_0_10px_#FFD54A4D];

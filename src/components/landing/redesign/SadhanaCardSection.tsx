@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { CheckCircle2, Sparkles, Flame, ScrollText, CheckSquare, User, Target, Gift, Heart, Calendar, ChevronDown, Scroll, Leaf, Droplet, Flower, Hexagon, Check } from 'lucide-react';
+import { CheckCircle2, Sparkles, Flame, ScrollText, CheckSquare, User, Target, Gift, Heart, Calendar, ChevronDown, Scroll, Leaf, Droplet, Flower, Hexagon, Check, FileText, Activity, Cpu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -149,16 +149,20 @@ const defaultSteps: Step[] = [
         ],
     },
     {
-        id: 'practice',
+        id: 'initialize',
         number: 3,
-        title: 'Practice & Track',
-        description: 'Follow your path and watch progress grow',
-        icon: CheckSquare,
-        tasks: [
-            { id: 't7', label: 'Complete daily sadhana', completed: false },
-            { id: 't8', label: 'Log experiences', completed: false },
-            { id: 't9', label: 'Reflect on growth', completed: false },
-        ],
+        title: 'Initialize Card',
+        description: 'Activate your sadhana tracker system',
+        icon: Cpu,
+        tasks: [],
+    },
+    {
+        id: 'practice',
+        number: 4,
+        title: 'Begin Journey',
+        description: 'Daily practice and continuous growth',
+        icon: Activity,
+        tasks: [],
     },
 ];
 
@@ -408,8 +412,8 @@ const trackerSadhanaData = {
     ]
 };
 
-// Sadhana Tracker Card Component - Shows the tracking card with Day 1 progress
-function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
+// Initialize Sadhana Card Component - Stage 3 (matching sadhanacard-init.txt)
+function InitializeSadhanaCard({ isActive, onComplete, isComplete, hasStarted }: {
     isActive: boolean;
     onComplete: () => void;
     isComplete: boolean;
@@ -418,10 +422,73 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
     const [isInitialized, setIsInitialized] = useState(false);
     const [completedOfferings, setCompletedOfferings] = useState<number[]>([]);
     const shouldReduceMotion = useReducedMotion();
-    const hasAnimatedRef = React.useRef(false);
 
-    const allCompleted = completedOfferings.length === trackerSadhanaData.offerings.length;
+    const sadhanaData = {
+        deity: 'Lord Ganesha',
+        mantra: 'Om Gam Ganapataye Namaha',
+        intent: 'Success & Clarity',
+        goalName: 'Get 1000 subscribers on YouTube',
+        durationDays: 21,
+        streak: 1,
+        level: 1,
+        offerings: [
+            { id: 1, name: 'Chant Mantra 108 Times', icon: Sparkles },
+            { id: 2, name: 'Offer Modak', icon: Gift },
+            { id: 3, name: 'Red Flowers', icon: Flower },
+            { id: 4, name: 'Durva Grass', icon: Leaf }
+        ]
+    };
 
+    const allCompleted = completedOfferings.length === sadhanaData.offerings.length;
+    const progressPercentage = (completedOfferings.length / sadhanaData.offerings.length) * 100;
+
+    // Auto-initialize after delay
+    useEffect(() => {
+        if (!isActive || !hasStarted || isComplete) return;
+
+        const initTimer = setTimeout(() => {
+            if (isActive && hasStarted && !isComplete) {
+                setIsInitialized(true);
+            }
+        }, shouldReduceMotion ? 0 : 1000);
+
+        return () => clearTimeout(initTimer);
+    }, [isActive, hasStarted, isComplete, shouldReduceMotion]);
+
+    // Auto-complete offerings
+    useEffect(() => {
+        if (!isInitialized || isComplete || !hasStarted) return;
+
+        let offeringIndex = 0;
+        const timers: NodeJS.Timeout[] = [];
+        let isCancelled = false;
+
+        const checkNextOffering = () => {
+            if (isCancelled || offeringIndex >= sadhanaData.offerings.length) return;
+
+            const currentOffering = sadhanaData.offerings[offeringIndex];
+            setCompletedOfferings(prev => {
+                if (prev.includes(currentOffering.id)) return prev;
+                return [...prev, currentOffering.id];
+            });
+            offeringIndex++;
+
+            if (offeringIndex < sadhanaData.offerings.length && !isCancelled) {
+                const timer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 600);
+                timers.push(timer);
+            }
+        };
+
+        const startTimer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 1200);
+        timers.push(startTimer);
+
+        return () => {
+            isCancelled = true;
+            timers.forEach(timer => clearTimeout(timer));
+        };
+    }, [isInitialized, isComplete, hasStarted, shouldReduceMotion]);
+
+    // Complete when all offerings checked
     useEffect(() => {
         if (allCompleted && !isComplete) {
             const timer = setTimeout(onComplete, 2500);
@@ -429,216 +496,100 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
         }
     }, [allCompleted, isComplete, onComplete]);
 
-    useEffect(() => {
-        if (isComplete) {
-            setIsInitialized(true);
-            setCompletedOfferings(trackerSadhanaData.offerings.map(o => o.id));
-            hasAnimatedRef.current = true;
-            return;
-        }
-
-        if (!isActive || !hasStarted) {
-            setIsInitialized(false);
-            setCompletedOfferings([]);
-            hasAnimatedRef.current = false;
-            return;
-        }
-
-        // Auto-initialize after a short delay
-        const initTimer = setTimeout(() => {
-            if (isActive && hasStarted && !isComplete) {
-                setIsInitialized(true);
-            }
-        }, shouldReduceMotion ? 0 : 600);
-
-        return () => clearTimeout(initTimer);
-    }, [isActive, hasStarted, isComplete, shouldReduceMotion]);
-
-    // Auto-check offerings one by one
-    useEffect(() => {
-        if (!isInitialized || isComplete || !hasStarted) return;
-        if (hasAnimatedRef.current) return;
-
-        hasAnimatedRef.current = true;
-        let offeringIndex = 0;
-        const timers: NodeJS.Timeout[] = [];
-        let isCancelled = false;
-
-        const checkNextOffering = () => {
-            if (isCancelled || offeringIndex >= trackerSadhanaData.offerings.length) return;
-
-            const currentOffering = trackerSadhanaData.offerings[offeringIndex];
-            setCompletedOfferings(prev => {
-                // Prevent duplicate additions
-                if (prev.includes(currentOffering.id)) {
-                    return prev;
-                }
-                return [...prev, currentOffering.id];
-            });
-            offeringIndex++;
-
-            if (offeringIndex < trackerSadhanaData.offerings.length && !isCancelled) {
-                const timer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 500);
-                timers.push(timer);
-            }
-        };
-
-        const startTimer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 800);
-        timers.push(startTimer);
-        
-        return () => {
-            isCancelled = true;
-            timers.forEach(timer => clearTimeout(timer));
-        };
-    }, [isInitialized, isComplete, hasStarted, shouldReduceMotion]);
-
     return (
-        <div className="space-y-4">
-            {/* Mini Tracker Card */}
+        <div className="w-full">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
                 className={cn(
-                    'relative rounded-xl overflow-hidden transition-all duration-500',
+                    'relative overflow-hidden transition-all duration-500 rounded-xl',
                     isComplete
                         ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80]'
-                        : 'bg-gradient-to-br from-amber-900/40 to-amber-800/30'
+                        : 'bg-gradient-to-br from-[#FFB74D] to-[#FFCC80]'
                 )}
                 style={{
-                    backgroundImage: isInitialized
-                        ? 'radial-gradient(circle, rgba(255, 204, 128, 0.1) 1px, transparent 1px)'
-                        : 'none',
-                    backgroundSize: '16px 16px',
-                    filter: isInitialized ? 'none' : 'grayscale(0.6) brightness(0.9)'
+                    backgroundImage: 'radial-gradient(circle, #FFCC80 1px, transparent 1px)',
+                    backgroundSize: '20px 20px',
+                    filter: isInitialized ? 'none' : 'grayscale(0.8) brightness(0.9)'
                 }}
             >
-                {/* Corner brackets */}
-                <div className={cn(
-                    'absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 transition-colors duration-500',
-                    isComplete ? 'border-[#5C2218]' : 'border-amber-500/50'
-                )} />
-                <div className={cn(
-                    'absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 transition-colors duration-500',
-                    isComplete ? 'border-[#5C2218]' : 'border-amber-500/50'
-                )} />
-                <div className={cn(
-                    'absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 transition-colors duration-500',
-                    isComplete ? 'border-[#5C2218]' : 'border-amber-500/50'
-                )} />
-                <div className={cn(
-                    'absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 transition-colors duration-500',
-                    isComplete ? 'border-[#5C2218]' : 'border-amber-500/50'
-                )} />
+                {/* Decorative Border Frame */}
+                <div className="absolute inset-2 border-2 border-dashed border-[#5D4037]/30 pointer-events-none z-10" />
+                <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#3E2723] z-20" />
+                <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#3E2723] z-20" />
+                <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#3E2723] z-20" />
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#3E2723] z-20" />
 
-                <div className="p-5 relative z-10">
-                    {/* Header */}
+                <div className="p-6 md:p-8 relative z-20">
+                    {/* Header Section */}
                     <div className="text-center mb-4">
-                        <motion.div
-                            className={cn(
-                                'w-12 h-12 mx-auto mb-3 rounded-full border-2 flex items-center justify-center transition-all duration-500',
-                                isComplete
-                                    ? 'border-[#5C2218] bg-[#FFB344]/50'
-                                    : 'border-amber-500/50 bg-amber-800/30',
-                                isInitialized && 'shadow-[0_0_20px_rgba(255,183,77,0.4)]'
-                            )}
-                            animate={isInitialized && !isComplete ? {
-                                boxShadow: ['0 0 15px rgba(255,183,77,0.3)', '0 0 25px rgba(255,183,77,0.5)', '0 0 15px rgba(255,183,77,0.3)']
-                            } : {}}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <span className="text-2xl">🕉️</span>
-                        </motion.div>
-
                         <div className={cn(
-                            'text-[10px] font-mono uppercase tracking-widest mb-1 transition-colors duration-500',
-                            isComplete ? 'text-[#5C2218]/70' : 'text-amber-400/60'
+                            'w-16 h-16 mx-auto mb-4 rounded-full border-2 border-[#3E2723] flex items-center justify-center bg-[#FFB74D] relative transition-all duration-1000',
+                            isInitialized && 'shadow-[0_0_30px_rgba(255,183,77,0.6)]'
                         )}>
-                            {trackerSadhanaData.deity}
+                            <div className={cn(
+                                'absolute inset-1 border border-[#3E2723] rounded-full',
+                                isInitialized ? 'animate-spin-slow' : 'opacity-50'
+                            )} />
+                            <span className="text-3xl">🕉️</span>
                         </div>
 
-                        {/* Day Counter */}
-                        <div className={cn(
-                            'flex items-baseline justify-center gap-1 transition-colors duration-500',
-                            isComplete ? 'text-[#4A1C12]' : 'text-white'
-                        )}>
-                            <span className="text-4xl font-serif font-bold">1</span>
-                            <span className={cn(
-                                'text-xl transition-colors duration-500',
-                                isComplete ? 'text-[#5C2218]/60' : 'text-white/40'
-                            )}>/{trackerSadhanaData.durationDays}</span>
+                        <div className="uppercase tracking-[0.2em] text-xs font-bold mb-2 opacity-80 text-[#3E2723]">
+                            {sadhanaData.deity}
                         </div>
 
-                        <div className={cn(
-                            'flex items-center justify-center gap-1 text-[10px] font-mono uppercase tracking-widest mt-1 transition-colors duration-500',
-                            isComplete ? 'text-[#5C2218]/60' : 'text-amber-400/50'
-                        )}>
-                            <Sparkles size={10} />
+                        <div className="font-serif text-[#3E2723] leading-none mb-2 flex items-baseline justify-center gap-1">
+                            <span className="text-7xl">{sadhanaData.streak}</span>
+                            <span className="text-3xl opacity-50">/{sadhanaData.durationDays}</span>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest opacity-70 text-[#3E2723]">
+                            <Sparkles size={12} />
                             <span>Day Streak</span>
                         </div>
                     </div>
 
                     {/* Divider */}
-                    <div className={cn(
-                        'flex items-center justify-center my-3 transition-opacity duration-500',
-                        isComplete ? 'opacity-40' : 'opacity-30'
-                    )}>
-                        <div className={cn(
-                            'h-[1px] w-1/4 transition-colors duration-500',
-                            isComplete ? 'bg-[#5C2218]' : 'bg-amber-500'
-                        )} />
-                        <Hexagon size={12} className={cn(
-                            'mx-2 transition-colors duration-500',
-                            isComplete ? 'text-[#5C2218] fill-[#5C2218]' : 'text-amber-500 fill-amber-500'
-                        )} />
-                        <div className={cn(
-                            'h-[1px] w-1/4 transition-colors duration-500',
-                            isComplete ? 'bg-[#5C2218]' : 'bg-amber-500'
-                        )} />
+                    <div className="flex items-center justify-center opacity-40 my-4">
+                        <div className="h-[1px] bg-[#3E2723] w-1/3" />
+                        <Hexagon size={16} className="mx-2 text-[#3E2723] fill-[#3E2723]" />
+                        <div className="h-[1px] bg-[#3E2723] w-1/3" />
                     </div>
 
-                    {/* Mission */}
-                    <div className="text-center mb-4">
-                        <div className={cn(
-                            'text-[10px] font-mono uppercase tracking-widest mb-1 flex items-center justify-center gap-1 transition-colors duration-500',
-                            isComplete ? 'text-[#5C2218]/60' : 'text-amber-400/50'
-                        )}>
-                            <Target size={10} /> Mission
+                    {/* Mission Info */}
+                    <div className="text-center space-y-4 mb-6 pb-4 border-b border-[#3E2723]/10">
+                        <div>
+                            <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1 text-[#3E2723]">
+                                <Target size={10} /> Mission
+                            </div>
+                            <div className="font-serif text-lg text-[#3E2723] leading-tight">{sadhanaData.goalName}</div>
                         </div>
-                        <div className={cn(
-                            'text-sm font-serif transition-colors duration-500',
-                            isComplete ? 'text-[#4A1C12]' : 'text-white'
-                        )}>
-                            {trackerSadhanaData.goalName}
+                        <div>
+                            <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1 text-[#3E2723]">
+                                <Scroll size={10} /> Intention
+                            </div>
+                            <div className="font-serif text-base text-[#3E2723] italic opacity-90 leading-tight">"{sadhanaData.intent}"</div>
                         </div>
                     </div>
 
                     {/* Offerings Checklist */}
-                    <div className="space-y-2">
-                        {trackerSadhanaData.offerings.map((offering, idx) => {
+                    <div className="space-y-3 mb-6">
+                        {sadhanaData.offerings.map((offering) => {
                             const isChecked = completedOfferings.includes(offering.id);
                             const Icon = offering.icon;
 
                             return (
-                                <motion.div
+                                <div
                                     key={offering.id}
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: idx * 0.1, duration: 0.2 }}
                                     className={cn(
-                                        'flex items-center gap-3 p-2 rounded transition-all duration-300',
-                                        !isInitialized && 'opacity-40'
+                                        'flex items-center gap-4 transition-opacity',
+                                        !isInitialized && 'opacity-30'
                                     )}
                                 >
                                     <div className={cn(
-                                        'w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-300 flex-shrink-0',
-                                        isChecked
-                                            ? isComplete
-                                                ? 'border-[#5C2218] bg-[#5C2218]'
-                                                : 'border-amber-500 bg-amber-500'
-                                            : isComplete
-                                                ? 'border-[#5C2218]/50 bg-transparent'
-                                                : 'border-amber-500/50 bg-transparent'
+                                        'w-6 h-6 border-2 border-[#3E2723] rounded flex items-center justify-center transition-all flex-shrink-0',
+                                        isChecked ? 'bg-[#3E2723]' : 'bg-transparent'
                                     )}>
                                         {isChecked && (
                                             <motion.div
@@ -646,48 +597,78 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
                                                 animate={{ scale: 1 }}
                                                 transition={{ type: 'spring', stiffness: 500, damping: 15 }}
                                             >
-                                                <Check size={12} className={cn(
-                                                    isComplete ? 'text-[#FFB344]' : 'text-[#1a1a1a]'
-                                                )} strokeWidth={3} />
+                                                <Check size={14} className="text-[#FFB74D]" strokeWidth={3} />
                                             </motion.div>
                                         )}
                                     </div>
-                                    <span className={cn(
-                                        'flex-1 text-xs font-serif transition-all duration-300',
-                                        isChecked
-                                            ? isComplete
-                                                ? 'text-[#5C2218]/50 line-through'
-                                                : 'text-amber-300/50 line-through'
-                                            : isComplete
-                                                ? 'text-[#4A1C12]'
-                                                : 'text-white/80'
+                                    <div className={cn(
+                                        'font-serif text-lg leading-none pt-1 text-[#3E2723]',
+                                        isChecked && 'line-through opacity-50'
                                     )}>
                                         {offering.name}
-                                    </span>
-                                    <Icon size={14} className={cn(
-                                        'transition-colors duration-300',
-                                        isComplete ? 'text-[#5C2218]/40' : 'text-amber-500/40'
-                                    )} />
-                                </motion.div>
+                                    </div>
+                                    <div className="ml-auto opacity-40 text-[#3E2723]">
+                                        <Icon size={16} />
+                                    </div>
+                                </div>
                             );
                         })}
                     </div>
 
-                    {/* Footer Status */}
-                    <div className={cn(
-                        'mt-4 pt-3 border-t flex justify-between items-center text-[9px] font-mono uppercase tracking-wider transition-colors duration-500',
-                        isComplete ? 'border-[#5C2218]/20 text-[#5C2218]/50' : 'border-amber-500/20 text-amber-400/40'
-                    )}>
-                        <span className="flex items-center gap-1">
-                            <span className={cn(
-                                'w-1.5 h-1.5 rounded-full transition-colors duration-500',
+                    {/* Main Action Button */}
+                    <div className="mt-6">
+                        <button
+                            className={cn(
+                                'w-full py-4 px-6 font-mono font-bold tracking-widest uppercase transition-all flex items-center justify-between relative overflow-hidden',
                                 isInitialized
-                                    ? isComplete ? 'bg-[#5C2218] animate-pulse' : 'bg-amber-400 animate-pulse'
-                                    : 'bg-amber-400/30'
+                                    ? 'bg-transparent border-2 border-[#3E2723] text-[#3E2723]'
+                                    : 'bg-[#3E2723] text-[#FFB74D] shadow-lg'
+                            )}
+                            disabled
+                        >
+                            <span className="relative z-10 flex items-center gap-2">
+                                {isInitialized ? (
+                                    <><Activity size={16} className="animate-pulse" /> SYSTEM_ACTIVE</>
+                                ) : (
+                                    <><Cpu size={16} /> INITIALIZE_SADHANA</>
+                                )}
+                            </span>
+
+                            {isInitialized && (
+                                <span className="text-xs opacity-60 relative z-10 flex items-center gap-1">
+                                    <FileText size={12} /> VIEW PROTOCOL
+                                </span>
+                            )}
+
+                            {isInitialized && (
+                                <div
+                                    className="absolute left-0 top-0 bottom-0 bg-[#3E2723]/10 transition-all duration-500 z-0"
+                                    style={{ width: `${progressPercentage}%` }}
+                                />
+                            )}
+                        </button>
+
+                        {!isInitialized && (
+                            <div className="text-center mt-2 text-[10px] uppercase tracking-widest opacity-40 text-[#3E2723]">
+                                Awaiting Initiation Sequence...
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="mt-6 flex justify-between items-end text-[10px] font-bold tracking-widest opacity-60 uppercase text-[#3E2723]">
+                        <div className="flex flex-col gap-1">
+                            <span>SYS_READY</span>
+                            <span className="flex items-center gap-1"><Cpu size={10} /> LVL.{sadhanaData.level} ACCESS</span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <span className={cn(
+                                'w-2 h-2 rounded-full bg-[#3E2723]',
+                                isInitialized ? 'animate-pulse' : 'opacity-20'
                             )} />
-                            {isInitialized ? 'SYS_ACTIVE' : 'AWAITING_INIT'}
-                        </span>
-                        <span>{trackerSadhanaData.mantra.split(' ').slice(0, 2).join('_').toUpperCase()}</span>
+                            {sadhanaData.mantra.split(' ').slice(0, 2).join('_').toUpperCase()}
+                        </div>
                     </div>
                 </div>
             </motion.div>
@@ -813,10 +794,169 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
     );
 }
 
+// Stage 4: Daily Practice View - Sadhana Paper + Task Manager Side by Side
+function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
+    isActive: boolean;
+    onComplete: () => void;
+    isComplete: boolean;
+    hasStarted: boolean;
+}) {
+    const shouldReduceMotion = useReducedMotion();
+
+    useEffect(() => {
+        if (!isActive || !hasStarted || isComplete) return;
+
+        const timer = setTimeout(() => {
+            onComplete();
+        }, shouldReduceMotion ? 0 : 4000);
+
+        return () => clearTimeout(timer);
+    }, [isActive, hasStarted, isComplete, onComplete, shouldReduceMotion]);
+
+    return (
+        <div className="w-full">
+            {/* Header Message */}
+            <div className="text-center mb-6">
+                <p className="text-lg font-serif text-white/80 italic">
+                    "Now keep doing the sadhana continuously for the duration you chose"
+                </p>
+            </div>
+
+            {/* Two Column Layout */}
+            <div className="grid md:grid-cols-2 gap-4">
+                {/* LEFT: Sadhana Paper (Promise to Self) */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-[#FDF5E6] text-[#4E342E] rounded-lg p-6 relative overflow-hidden shadow-lg"
+                >
+                    {/* Parchment texture */}
+                    <div className="absolute inset-0 opacity-5" style={{
+                        backgroundImage: 'repeating-linear-gradient(0deg, #3E2723 0px, #3E2723 1px, transparent 1px, transparent 2px)'
+                    }} />
+
+                    {/* Corner decorations */}
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#3E2723]/30" />
+                    <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#3E2723]/30" />
+                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#3E2723]/30" />
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#3E2723]/30" />
+
+                    <div className="relative z-10">
+                        {/* Header */}
+                        <div className="text-center mb-4 pb-3 border-b border-[#3E2723]/10">
+                            <Scroll size={24} className="mx-auto mb-2 text-[#3E2723]" />
+                            <h3 className="font-serif text-xl font-bold text-[#3E2723] uppercase tracking-wide">Sacred Promise</h3>
+                            <p className="text-[10px] opacity-60 mt-1 font-mono">To The Self</p>
+                        </div>
+
+                        {/* Promise Body */}
+                        <div className="space-y-4 text-sm font-serif leading-relaxed">
+                            <p className="text-center italic">
+                                "In the presence of <span className="font-bold text-[#8D6E63]">Lord Ganesha</span>,<br />
+                                I commit to my path of growth."
+                            </p>
+
+                            <div className="bg-[#fffcf5] p-3 border border-[#3E2723]/10 rounded">
+                                <p className="text-center">
+                                    For <span className="font-bold">21 Days</span>,<br />
+                                    seeking <span className="italic border-b border-[#3E2723]/30">Success & Clarity</span>
+                                </p>
+                            </div>
+
+                            <div>
+                                <div className="text-xs uppercase tracking-wide opacity-60 mb-2 text-center">My Sacred Mission</div>
+                                <p className="text-center font-medium">Get 1000 subscribers on YouTube</p>
+                            </div>
+
+                            <div className="mt-4 pt-4 border-t border-[#3E2723]/10">
+                                <p className="text-xs text-center italic opacity-80">
+                                    "I solemnly promise to complete this Sadhana without obstacle."
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Tech Elements */}
+                        <div className="mt-4 flex justify-between text-[9px] font-mono uppercase opacity-40">
+                            <span>PROTOCOL_ACTIVE</span>
+                            <span>DAY_001</span>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* RIGHT: Task Manager */}
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-amber-500/20 relative overflow-hidden"
+                >
+                    {/* Tech grid background */}
+                    <div className="absolute inset-0 opacity-5" style={{
+                        backgroundImage: 'linear-gradient(#amber-400 1px, transparent 1px), linear-gradient(90deg, #amber-400 1px, transparent 1px)',
+                        backgroundSize: '20px 20px'
+                    }} />
+
+                    <div className="relative z-10">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-4 pb-3 border-b border-amber-500/20">
+                            <div>
+                                <h3 className="font-mono text-sm uppercase tracking-wider text-amber-400">Daily Tasks</h3>
+                                <p className="text-xs text-white/50 mt-1">Sadhana Tracker</p>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-2xl font-bold text-white">1<span className="text-sm text-white/40">/21</span></div>
+                                <div className="text-[9px] uppercase text-amber-400/60 flex items-center gap-1 justify-end">
+                                    <Sparkles size={10} /> Day Streak
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Task List */}
+                        <div className="space-y-3">
+                            {[
+                                { name: 'Chant Mantra 108 Times', icon: Sparkles, done: false },
+                                { name: 'Offer Modak', icon: Gift, done: false },
+                                { name: 'Red Flowers', icon: Flower, done: false },
+                                { name: 'Durva Grass', icon: Leaf, done: false }
+                            ].map((task, idx) => {
+                                const Icon = task.icon;
+                                return (
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 + idx * 0.1 }}
+                                        className="flex items-center gap-3 p-3 rounded bg-white/5 border border-white/10 hover:border-amber-400/30 transition-all"
+                                    >
+                                        <div className="w-5 h-5 rounded border-2 border-amber-400/50 flex items-center justify-center flex-shrink-0" />
+                                        <span className="flex-1 text-sm text-white/90">{task.name}</span>
+                                        <Icon size={14} className="text-amber-400/40" />
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Progress Footer */}
+                        <div className="mt-4 pt-4 border-t border-amber-500/10">
+                            <div className="flex justify-between text-[10px] font-mono uppercase text-amber-400/60">
+                                <span className="flex items-center gap-1">
+                                    <Activity size={10} className="animate-pulse" /> READY
+                                </span>
+                                <span>0/4 COMPLETE</span>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </div>
+    );
+}
+
 export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProps) {
     const [activeStep, setActiveStep] = useState<number>(0);
     const [stepData] = useState<Step[]>(steps);
-    const [stepCompleted, setStepCompleted] = useState<boolean[]>([false, false, false]);
+    const [stepCompleted, setStepCompleted] = useState<boolean[]>([false, false, false, false]);
     const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.1 });
 
     const handleStepComplete = useCallback((stepIndex: number) => {
@@ -1057,10 +1197,19 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                 )}
 
                                 {activeStep === 2 && (
-                                    <SadhanaTrackerCard
+                                    <InitializeSadhanaCard
                                         isActive={activeStep === 2 && !stepCompleted[2]}
                                         onComplete={() => handleStepComplete(2)}
                                         isComplete={stepCompleted[2]}
+                                        hasStarted={isVisible}
+                                    />
+                                )}
+
+                                {activeStep === 3 && (
+                                    <DailyPracticeView
+                                        isActive={activeStep === 3 && !stepCompleted[3]}
+                                        onComplete={() => handleStepComplete(3)}
+                                        isComplete={stepCompleted[3]}
                                         hasStarted={isVisible}
                                     />
                                 )}

@@ -1,0 +1,359 @@
+import React, { useState } from 'react';
+import { Sparkles, Scroll, Target, Flame, Flower, Droplet, Edit2, Check, Save, RotateCcw, Hexagon, Cpu, Leaf, Activity, ArrowLeft, FileText, ExternalLink, AlertOctagon } from 'lucide-react';
+
+export default function App() {
+  const [mode, setMode] = useState('view'); // 'edit' or 'view'
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [showPaper, setShowPaper] = useState(false);
+  
+  // Sadhana Configuration
+  const [sadhana, setSadhana] = useState({
+    deity: 'Lord Shiva',
+    mantra: 'Om Namah Shivaya',
+    intent: 'Inner Peace & Clarity',
+    goalName: 'Complete Final Year Project',
+    durationDays: 40,
+    offerings: [
+      { id: 1, name: 'Chant Mantra 108 Times', icon: 'sparkles', completed: false },
+      { id: 2, name: 'Bilva Leaves', icon: 'leaf', completed: false },
+      { id: 3, name: 'Milk', icon: 'droplet', completed: false },
+      { id: 4, name: 'Flowers', icon: 'flower', completed: false }
+    ],
+    rules: [
+      "No consumption of alcohol or non-vegetarian food",
+      "Wake up during Brahma Muhurta (before 4:30 AM)",
+      "Cold water bath before practice",
+      "Maintain silence (Mauna) during meals",
+      "No negative speech or gossip"
+    ],
+    resources: [
+      { title: "Mantra Pronunciation Guide", type: "audio" },
+      { title: "Rudrashtakam Lyrics", type: "doc" }
+    ]
+  });
+
+  // Progress State
+  const [streak, setStreak] = useState(5);
+  const [level, setLevel] = useState(3);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  // Computed Progress
+  const completedCount = sadhana.offerings.filter(o => o.completed).length;
+  const totalOfferings = sadhana.offerings.length;
+  const progressPercentage = (completedCount / totalOfferings) * 100;
+  const isDailyComplete = completedCount === totalOfferings;
+
+  const toggleOffering = (id) => {
+    if (!isInitialized && mode === 'view') {
+        // alert("Please Initialize Sadhana first."); 
+        // Instead of alert, open the paper/init flow
+        setShowPaper(true);
+        return;
+    }
+
+    const updatedOfferings = sadhana.offerings.map(offering => {
+      if (offering.id === id) {
+        return { ...offering, completed: !offering.completed };
+      }
+      return offering;
+    });
+    
+    setSadhana({ ...sadhana, offerings: updatedOfferings });
+    
+    const newCompletedCount = updatedOfferings.filter(o => o.completed).length;
+    if (newCompletedCount === totalOfferings) {
+        completeDailyQuest();
+    }
+  };
+
+  const completeDailyQuest = () => {
+    if (!isDailyComplete) {
+        setStreak(prev => prev + 1);
+        triggerCelebration();
+    }
+  };
+
+  const triggerCelebration = () => {
+    setShowCelebration(true);
+    setTimeout(() => setShowCelebration(false), 3000);
+  };
+
+  const handleMainBtnClick = () => {
+    if (!isInitialized) {
+      // Reset for new day
+      setSadhana({
+        ...sadhana,
+        offerings: sadhana.offerings.map(o => ({ ...o, completed: false }))
+      });
+      setIsInitialized(true);
+      triggerCelebration();
+    }
+    // Navigate to paper
+    setShowPaper(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#1a1614] flex items-center justify-center p-4 font-mono text-[#3E2723]">
+      
+      {/* Main Card Container */}
+      <div className="max-w-md w-full relative bg-[#FFB74D] shadow-2xl overflow-hidden transition-all duration-500 min-h-[600px] flex flex-col" style={{
+        backgroundImage: 'radial-gradient(circle, #FFCC80 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
+        filter: isInitialized ? 'none' : 'grayscale(0.8) brightness(0.9)'
+      }}>
+        
+        {/* Decorative Border Frame */}
+        <div className="absolute inset-2 border-2 border-dashed border-[#5D4037]/30 pointer-events-none z-10"></div>
+        <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#3E2723] z-20"></div>
+        <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#3E2723] z-20"></div>
+        <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#3E2723] z-20"></div>
+        <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#3E2723] z-20"></div>
+
+        {/* Confetti Overlay */}
+        {showCelebration && (
+          <div className="absolute inset-0 pointer-events-none z-50 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
+            <div className="text-6xl animate-bounce">✨🕉️✨</div>
+          </div>
+        )}
+
+        {/* VIEW: SADHANA PAPER (Rules & Details) */}
+        {showPaper ? (
+          <div className="relative z-30 flex-1 flex flex-col p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 bg-[#FFB74D]">
+             
+             {/* Header */}
+             <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-[#3E2723]/20">
+                <div className="flex items-center gap-2">
+                   <FileText size={20} className="text-[#3E2723]" />
+                   <span className="text-sm font-bold tracking-widest uppercase">Sadhana Protocol</span>
+                </div>
+                <button onClick={() => setShowPaper(false)} className="hover:bg-[#3E2723]/10 p-2 rounded-full transition-colors">
+                   <ArrowLeft size={20} />
+                </button>
+             </div>
+
+             <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar">
+                
+                {/* Section 1: Identity */}
+                <div className="space-y-2">
+                   <div className="text-[10px] uppercase font-bold opacity-50 tracking-widest">Target Objective</div>
+                   <div className="font-serif text-2xl leading-none text-[#3E2723]">{sadhana.goalName}</div>
+                   <div className="font-serif italic opacity-70">"{sadhana.intent}"</div>
+                </div>
+
+                {/* Section 2: The Code */}
+                <div className="bg-[#3E2723]/5 p-4 rounded border border-[#3E2723]/10">
+                   <div className="flex items-center gap-2 mb-3 text-[#B71C1C]">
+                      <AlertOctagon size={14} />
+                      <span className="text-xs font-bold uppercase tracking-widest">The Code (Non-Negotiable)</span>
+                   </div>
+                   <ul className="space-y-3">
+                      {sadhana.rules.map((rule, idx) => (
+                        <li key={idx} className="flex gap-3 text-sm font-serif leading-tight">
+                           <span className="font-mono text-[10px] opacity-50 pt-1">0{idx+1}</span>
+                           <span>{rule}</span>
+                        </li>
+                      ))}
+                   </ul>
+                </div>
+
+                {/* Section 3: Resources */}
+                <div>
+                   <div className="text-[10px] uppercase font-bold opacity-50 tracking-widest mb-3">System Resources</div>
+                   <div className="grid grid-cols-1 gap-2">
+                      {sadhana.resources.map((res, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3 border border-[#3E2723]/20 rounded hover:bg-[#3E2723]/5 cursor-pointer group">
+                           <span className="text-sm font-bold group-hover:underline">{res.title}</span>
+                           <ExternalLink size={14} className="opacity-50" />
+                        </div>
+                      ))}
+                   </div>
+                </div>
+
+             </div>
+
+             <button 
+               onClick={() => setShowPaper(false)}
+               className="mt-6 w-full py-3 bg-[#3E2723] text-[#FFB74D] font-bold tracking-widest uppercase hover:bg-[#4E342E] transition-colors flex items-center justify-center gap-2"
+             >
+                <Check size={16} /> Acknowledge & Begin
+             </button>
+
+          </div>
+        ) : (
+          /* VIEW: TRACKER CARD */
+          <>
+            {/* Edit Toggle */}
+            <div className="absolute top-4 right-4 z-30">
+                <button 
+                  onClick={() => setMode(mode === 'view' ? 'edit' : 'view')}
+                  className="p-2 text-[#3E2723] hover:bg-[#3E2723]/10 rounded-full transition-all"
+                >
+                  {mode === 'view' ? <Edit2 size={14} /> : <Save size={14} />}
+                </button>
+            </div>
+
+            {/* Header Section */}
+            <div className="pt-12 pb-4 px-8 text-center relative z-20">
+              <div className={`
+                w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#3E2723] flex items-center justify-center bg-[#FFB74D] relative transition-all duration-1000
+                ${isInitialized ? 'shadow-[0_0_30px_rgba(255,183,77,0.6)]' : ''}
+              `}>
+                <div className={`absolute inset-1 border border-[#3E2723] rounded-full ${isInitialized ? 'animate-spin-slow' : 'opacity-50'}`}></div>
+                <span className="text-3xl font-serif">🕉️</span>
+              </div>
+
+              <div className="uppercase tracking-[0.2em] text-xs font-bold mb-2 opacity-80">
+                {mode === 'view' ? sadhana.deity : 'EDIT_MODE'}
+              </div>
+
+              <div className="font-serif text-[#3E2723] leading-none mb-2 flex items-baseline justify-center gap-1">
+                <span className="text-7xl">{streak}</span>
+                {mode === 'view' ? (
+                    <span className="text-3xl opacity-50">/{sadhana.durationDays}</span>
+                ) : (
+                    <div className="flex items-baseline">
+                      <span className="text-3xl opacity-50 mr-1">/</span>
+                      <input 
+                          type="number"
+                          className="w-20 bg-transparent border-b-2 border-[#3E2723]/50 text-3xl font-serif text-[#3E2723] outline-none text-center p-0"
+                          value={sadhana.durationDays}
+                          onChange={(e) => setSadhana({...sadhana, durationDays: parseInt(e.target.value) || 0})}
+                      />
+                    </div>
+                )}
+              </div>
+              
+              <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest opacity-70">
+                <Sparkles size={12} />
+                <span>Day Streak</span>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center justify-center opacity-40 my-2">
+              <div className="h-[1px] bg-[#3E2723] w-1/3"></div>
+              <Hexagon size={16} className="mx-2 text-[#3E2723] fill-[#3E2723]" />
+              <div className="h-[1px] bg-[#3E2723] w-1/3"></div>
+            </div>
+
+            {/* Protocol / Mission Info */}
+            <div className="px-8 py-4 text-center space-y-5 relative z-20 border-b border-[#3E2723]/10 mx-6 mb-4">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1">
+                  <Target size={10} /> Mission
+                </div>
+                {mode === 'view' ? (
+                  <div className="font-serif text-xl text-[#3E2723] leading-none">{sadhana.goalName}</div>
+                ) : (
+                  <input 
+                    value={sadhana.goalName} 
+                    onChange={(e) => setSadhana({...sadhana, goalName: e.target.value})}
+                    className="bg-transparent border-b border-[#3E2723] text-center w-full"
+                  />
+                )}
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1">
+                  <Scroll size={10} /> Intention
+                </div>
+                {mode === 'view' ? (
+                  <div className="font-serif text-lg text-[#3E2723] italic opacity-90 leading-none">"{sadhana.intent}"</div>
+                ) : (
+                  <input 
+                    value={sadhana.intent} 
+                    onChange={(e) => setSadhana({...sadhana, intent: e.target.value})}
+                    className="bg-transparent border-b border-[#3E2723] text-center w-full"
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Body Content */}
+            <div className="px-8 pb-6 space-y-6 relative z-20">
+              <div className="space-y-4">
+                {sadhana.offerings.map((offering) => (
+                  <div 
+                    key={offering.id} 
+                    className={`
+                        flex items-center gap-4 group cursor-pointer transition-opacity
+                        ${!isInitialized && mode === 'view' ? 'opacity-30 pointer-events-none' : 'opacity-100'}
+                    `} 
+                    onClick={() => !mode.includes('edit') && toggleOffering(offering.id)}
+                  >
+                      <div className={`
+                        w-6 h-6 border-2 border-[#3E2723] rounded flex items-center justify-center transition-all flex-shrink-0
+                        ${offering.completed ? 'bg-[#3E2723]' : 'bg-transparent'}
+                      `}>
+                        {offering.completed && <Check size={14} className="text-[#FFB74D]" strokeWidth={3} />}
+                      </div>
+                      <div className={`font-serif text-lg leading-none pt-1 ${offering.completed ? 'line-through opacity-50' : ''}`}>
+                        {offering.name}
+                      </div>
+                      <div className="ml-auto opacity-40">
+                        {offering.icon === 'leaf' && <Leaf size={16} />}
+                        {offering.icon === 'flower' && <Flower size={16} />}
+                        {offering.icon === 'droplet' && <Droplet size={16} />}
+                        {offering.icon === 'sparkles' && <Sparkles size={16} />}
+                      </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Main Action Area */}
+              <div className="mt-8 pt-4">
+                <button 
+                  onClick={handleMainBtnClick}
+                  className={`
+                    w-full py-4 px-6 font-mono font-bold tracking-widest uppercase
+                    transition-all flex items-center justify-between group relative overflow-hidden
+                    ${isInitialized 
+                        ? 'bg-transparent border-2 border-[#3E2723] text-[#3E2723] hover:bg-[#3E2723]/5' 
+                        : 'bg-[#3E2723] text-[#FFB74D] hover:bg-[#4E342E] shadow-lg'}
+                  `}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    {isInitialized ? <Activity size={16} className="animate-pulse"/> : <Cpu size={16} />}
+                    {isInitialized ? 'SYSTEM_ACTIVE' : 'INITIALIZE_SADHANA'}
+                  </span>
+                  
+                  {isInitialized && (
+                      <span className="text-xs opacity-60 relative z-10 flex items-center gap-1">
+                        <FileText size={12} /> VIEW PROTOCOL
+                      </span>
+                  )}
+
+                  {isInitialized && (
+                      <div 
+                        className="absolute left-0 top-0 bottom-0 bg-[#3E2723]/10 transition-all duration-500 z-0" 
+                        style={{ width: `${progressPercentage}%`}}
+                      />
+                  )}
+                </button>
+                
+                {!isInitialized && (
+                    <div className="text-center mt-2 text-[10px] uppercase tracking-widest opacity-40">
+                        Awaiting Initiation Sequence...
+                    </div>
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="pb-6 px-8 flex justify-between items-end text-[10px] font-bold tracking-widest opacity-60 uppercase relative z-20">
+              <div className="flex flex-col gap-1">
+                <span>SYS_READY</span>
+                <span className="flex items-center gap-1"><Cpu size={10} /> LVL.{level} ACCESS</span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full bg-[#3E2723] ${isInitialized ? 'animate-pulse' : 'opacity-20'}`}></span>
+                  {sadhana.mantra.length > 20 ? 'SECURE_LINK' : sadhana.mantra.toUpperCase().replace(/ /g, '_')}
+              </div>
+            </div>
+          </>
+        )}
+
+      </div>
+    </div>
+  );
+}
