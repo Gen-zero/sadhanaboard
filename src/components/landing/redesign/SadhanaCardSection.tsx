@@ -467,12 +467,13 @@ function SadhanaTrackerCard({ isActive, onComplete, isComplete, hasStarted }: {
         const checkNextOffering = () => {
             if (isCancelled || offeringIndex >= trackerSadhanaData.offerings.length) return;
 
+            const currentOffering = trackerSadhanaData.offerings[offeringIndex];
             setCompletedOfferings(prev => {
                 // Prevent duplicate additions
-                if (prev.includes(trackerSadhanaData.offerings[offeringIndex].id)) {
+                if (prev.includes(currentOffering.id)) {
                     return prev;
                 }
-                return [...prev, trackerSadhanaData.offerings[offeringIndex].id];
+                return [...prev, currentOffering.id];
             });
             offeringIndex++;
 
@@ -734,7 +735,8 @@ function AutoCheckTasks({ tasks, isActive, onComplete, isComplete, hasStarted }:
         const checkNextTask = () => {
             if (isCancelled || taskIndex >= tasks.length) return;
 
-            setCheckedTasks(prev => [...prev, tasks[taskIndex].id]);
+            const currentTask = tasks[taskIndex];
+            setCheckedTasks(prev => [...prev, currentTask.id]);
             taskIndex++;
 
             if (taskIndex < tasks.length && !isCancelled) {
