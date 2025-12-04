@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { CheckCircle2, Sparkles, Flame, ScrollText, CheckSquare, User, Target, Gift, Heart, Calendar, ChevronDown, Scroll, Leaf, Droplet, Flower, Hexagon, Check, FileText, Activity, Cpu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 interface Step {
     id: string;
@@ -412,266 +413,350 @@ const trackerSadhanaData = {
     ]
 };
 
-// Initialize Sadhana Card Component - Stage 3 (matching sadhanacard-init.txt)
-function InitializeSadhanaCard({ isActive, onComplete, isComplete, hasStarted }: {
+// Stage 3: Animated Sadhana Parchment
+function AnimatedSadhanaParchment({ isActive, onComplete, isComplete, hasStarted }: {
     isActive: boolean;
     onComplete: () => void;
     isComplete: boolean;
     hasStarted: boolean;
 }) {
-    const [isInitialized, setIsInitialized] = useState(false);
-    const [completedOfferings, setCompletedOfferings] = useState<number[]>([]);
-    const shouldReduceMotion = useReducedMotion();
+    const [isBurning, setIsBurning] = useState(false);
+    const [burnProgress, setBurnProgress] = useState(0);
+    const [showParchment, setShowParchment] = useState(true);
+    const [showSpark, setShowSpark] = useState(false);
+    const [isUnrolled, setIsUnrolled] = useState(false);
+    const burnIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const unrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const { colors } = useThemeColors();
 
-    const sadhanaData = {
-        deity: 'Lord Ganesha',
-        mantra: 'Om Gam Ganapataye Namaha',
-        intent: 'Success & Clarity',
-        goalName: 'Get 1000 subscribers on YouTube',
-        durationDays: 21,
-        streak: 1,
-        level: 1,
-        offerings: [
-            { id: 1, name: 'Chant Mantra 108 Times', icon: Sparkles },
-            { id: 2, name: 'Offer Modak', icon: Gift },
-            { id: 3, name: 'Red Flowers', icon: Flower },
-            { id: 4, name: 'Durva Grass', icon: Leaf }
-        ]
+    const sadhanaContent = `Your Sadhana:
+Deity: Lord Ganesha
+Mantra: Om Gam Ganapataye Namaha
+Intention: Success & Clarity
+
+Goal:
+Get 1000 subscribers on YouTube
+
+Duration:
+21 Days
+
+Daily Practices:
+Chant Mantra 108 Times
+Offer Modak
+Red Flowers
+Durva Grass`;
+
+    const contentLines = sadhanaContent.trim().split('\n').filter(line => line.trim() !== '');
+
+    // Auto unroll when component mounts
+    useEffect(() => {
+        if (!isActive || !hasStarted) return;
+
+        unrollTimeoutRef.current = setTimeout(() => {
+            setIsUnrolled(true);
+        }, 100);
+
+        return () => {
+            if (unrollTimeoutRef.current) {
+                clearTimeout(unrollTimeoutRef.current);
+            }
+        };
+    }, [isActive, hasStarted]);
+
+    // Handle completion state change
+    useEffect(() => {
+        if (isComplete && !isBurning) {
+            startBurningAnimation();
+        }
+    }, [isComplete]);
+
+    const startBurningAnimation = () => {
+        if (burnIntervalRef.current) {
+            clearInterval(burnIntervalRef.current);
+        }
+
+        setIsBurning(true);
+        burnIntervalRef.current = setInterval(() => {
+            setBurnProgress(prev => {
+                const newProgress = prev + 2;
+                if (newProgress >= 100) {
+                    if (burnIntervalRef.current) {
+                        clearInterval(burnIntervalRef.current);
+                    }
+                    setTimeout(() => {
+                        setShowParchment(false);
+                        setShowSpark(true);
+                        setTimeout(() => {
+                            setShowSpark(false);
+                            if (onComplete) onComplete();
+                        }, 2000);
+                    }, 500);
+                    return 100;
+                }
+                return newProgress;
+            });
+        }, 50);
     };
 
-    const allCompleted = completedOfferings.length === sadhanaData.offerings.length;
-    const progressPercentage = (completedOfferings.length / sadhanaData.offerings.length) * 100;
+    // Clean up interval on unmount
+    useEffect(() => {
+        return () => {
+            if (burnIntervalRef.current) {
+                clearInterval(burnIntervalRef.current);
+            }
+            if (unrollTimeoutRef.current) {
+                clearTimeout(unrollTimeoutRef.current);
+            }
+        };
+    }, []);
 
-    // Auto-initialize after delay
+    // Auto-complete after 4 seconds
     useEffect(() => {
         if (!isActive || !hasStarted || isComplete) return;
 
-        const initTimer = setTimeout(() => {
-            if (isActive && hasStarted && !isComplete) {
-                setIsInitialized(true);
+        const timer = setTimeout(() => {
+            if (!isComplete) {
+                onComplete();
             }
-        }, shouldReduceMotion ? 0 : 1000);
+        }, 4000);
 
-        return () => clearTimeout(initTimer);
-    }, [isActive, hasStarted, isComplete, shouldReduceMotion]);
+        return () => clearTimeout(timer);
+    }, [isActive, hasStarted, isComplete, onComplete]);
 
-    // Auto-complete offerings
-    useEffect(() => {
-        if (!isInitialized || isComplete || !hasStarted) return;
+    if (!showParchment && !showSpark) {
+        return null;
+    }
 
-        let offeringIndex = 0;
-        const timers: NodeJS.Timeout[] = [];
-        let isCancelled = false;
-
-        const checkNextOffering = () => {
-            if (isCancelled || offeringIndex >= sadhanaData.offerings.length) return;
-
-            const currentOffering = sadhanaData.offerings[offeringIndex];
-            setCompletedOfferings(prev => {
-                if (prev.includes(currentOffering.id)) return prev;
-                return [...prev, currentOffering.id];
-            });
-            offeringIndex++;
-
-            if (offeringIndex < sadhanaData.offerings.length && !isCancelled) {
-                const timer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 600);
-                timers.push(timer);
-            }
-        };
-
-        const startTimer = setTimeout(checkNextOffering, shouldReduceMotion ? 0 : 1200);
-        timers.push(startTimer);
-
-        return () => {
-            isCancelled = true;
-            timers.forEach(timer => clearTimeout(timer));
-        };
-    }, [isInitialized, isComplete, hasStarted, shouldReduceMotion]);
-
-    // Complete when all offerings checked
-    useEffect(() => {
-        if (allCompleted && !isComplete) {
-            const timer = setTimeout(onComplete, 2500);
-            return () => clearTimeout(timer);
-        }
-    }, [allCompleted, isComplete, onComplete]);
+    if (showSpark) {
+        return (
+            <div className="flex justify-center items-center h-96">
+                <div className="relative">
+                    <div className="w-4 h-4 bg-yellow-300 rounded-full animate-ping absolute opacity-75" />
+                    <div className="w-4 h-4 bg-yellow-400 rounded-full animate-pulse" />
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="w-full">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
+        <div className="relative w-full max-w-2xl mx-auto">
+            {/* Burning effect overlay */}
+            {isBurning && (
+                <div
+                    className="absolute inset-0 rounded-lg pointer-events-none z-20"
+                    style={{
+                        background: `linear-gradient(to top, 
+                            rgba(255, 69, 0, 1) ${burnProgress}%, 
+                            rgba(255, 140, 0, 0.9) ${Math.min(burnProgress + 10, 100)}%, 
+                            transparent ${Math.min(burnProgress + 30, 100)}%)`,
+                        mask: `linear-gradient(to top, black ${burnProgress}%, transparent ${Math.min(burnProgress + 20, 100)}%)`,
+                        WebkitMask: `linear-gradient(to top, black ${burnProgress}%, transparent ${Math.min(burnProgress + 20, 100)}%)`
+                    }}
+                >
+                    {/* Ember particles */}
+                    {[...Array(20)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="absolute rounded-full bg-orange-400 ember-rise"
+                            style={{
+                                width: `${Math.random() * 6 + 2}px`,
+                                height: `${Math.random() * 6 + 2}px`,
+                                top: `${Math.random() * 100}%`,
+                                left: `${Math.random() * 100}%`,
+                                opacity: Math.random() * 0.7 + 0.3,
+                                animationDuration: `${Math.random() * 2 + 1}s`,
+                                filter: 'blur(1px)'
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* Smoke effect */}
+            {isBurning && (
+                <div className="absolute inset-0 rounded-lg pointer-events-none z-10 overflow-hidden">
+                    {[...Array(15)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="absolute rounded-full bg-gray-300 smoke-rise"
+                            style={{
+                                width: `${Math.random() * 30 + 10}px`,
+                                height: `${Math.random() * 30 + 10}px`,
+                                top: `${Math.random() * 100}%`,
+                                left: `${Math.random() * 100}%`,
+                                animationDelay: `${Math.random() * 2}s`,
+                                filter: 'blur(8px)'
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* Paper Container */}
+            <div
                 className={cn(
-                    'relative overflow-hidden transition-all duration-500 rounded-xl',
-                    isComplete
-                        ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80]'
-                        : 'bg-gradient-to-br from-[#FFB74D] to-[#FFCC80]'
+                    'relative p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-1000',
+                    isUnrolled && 'parchment-unroll'
                 )}
                 style={{
-                    backgroundImage: 'radial-gradient(circle, #FFCC80 1px, transparent 1px)',
-                    backgroundSize: '20px 20px',
-                    filter: isInitialized ? 'none' : 'grayscale(0.8) brightness(0.9)'
+                    background: 'linear-gradient(145deg, rgba(255, 223, 0, 0.05) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 207, 0, 0.04) 70%, rgba(255, 199, 0, 0.06) 100%)',
+                    borderColor: 'rgba(255, 215, 0, 0.3)',
+                    fontFamily: 'Georgia, serif',
+                    boxShadow: `
+                        0 8px 32px rgba(255, 215, 0, 0.12),
+                        0 0 0 1px rgba(255, 215, 0, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                        inset 0 -1px 0 rgba(255, 215, 0, 0.08)
+                    `,
+                    backdropFilter: 'blur(14px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(14px) saturate(140%)',
+                    transform: isBurning ? `scale(${1 - burnProgress / 200})` : 'scale(1)',
+                    filter: isBurning ? `blur(${burnProgress / 50}px)` : 'none'
                 }}
             >
-                {/* Decorative Border Frame */}
-                <div className="absolute inset-2 border-2 border-dashed border-[#5D4037]/30 pointer-events-none z-10" />
-                <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#3E2723] z-20" />
-                <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#3E2723] z-20" />
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#3E2723] z-20" />
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#3E2723] z-20" />
+                {/* Metallic overlay gradient */}
+                <div
+                    className="absolute inset-0 rounded-2xl pointer-events-none"
+                    style={{
+                        background: `
+                            linear-gradient(135deg, 
+                                rgba(255, 255, 200, 0.08) 0%, 
+                                transparent 25%, 
+                                rgba(255, 223, 0, 0.05) 50%, 
+                                transparent 75%, 
+                                rgba(255, 255, 180, 0.03) 100%
+                            )
+                        `,
+                        opacity: 0.5
+                    }}
+                />
 
-                <div className="p-6 md:p-8 relative z-20">
-                    {/* Header Section */}
-                    <div className="text-center mb-4">
-                        <div className={cn(
-                            'w-16 h-16 mx-auto mb-4 rounded-full border-2 border-[#3E2723] flex items-center justify-center bg-[#FFB74D] relative transition-all duration-1000',
-                            isInitialized && 'shadow-[0_0_30px_rgba(255,183,77,0.6)]'
-                        )}>
-                            <div className={cn(
-                                'absolute inset-1 border border-[#3E2723] rounded-full',
-                                isInitialized ? 'animate-spin-slow' : 'opacity-50'
-                            )} />
-                            <span className="text-3xl">🕉️</span>
-                        </div>
+                {/* Enhanced ornate corners */}
+                <div
+                    className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
+                    style={{
+                        borderColor: 'rgba(255, 215, 0, 0.8)',
+                        filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+                    }}
+                />
+                <div
+                    className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
+                    style={{
+                        borderColor: 'rgba(255, 215, 0, 0.8)',
+                        filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+                    }}
+                />
+                <div
+                    className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
+                    style={{
+                        borderColor: 'rgba(255, 215, 0, 0.8)',
+                        filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+                    }}
+                />
+                <div
+                    className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
+                    style={{
+                        borderColor: 'rgba(255, 215, 0, 0.8)',
+                        filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.4))'
+                    }}
+                />
 
-                        <div className="uppercase tracking-[0.2em] text-xs font-bold mb-2 opacity-80 text-[#3E2723]">
-                            {sadhanaData.deity}
-                        </div>
+                {/* Header */}
+                <div className="text-center mb-4 relative z-10">
+                    <h3
+                        className="text-2xl font-bold mb-2"
+                        style={{
+                            fontFamily: 'Georgia, serif',
+                            color: 'rgba(255, 223, 0, 0.95)',
+                            textShadow: '0 0 8px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)'
+                        }}
+                    >
+                        🕉️ Sacred Sadhana
+                    </h3>
+                    <div
+                        className="w-20 h-0.5 mx-auto"
+                        style={{
+                            background: 'linear-gradient(to right, transparent, rgba(255, 215, 0, 0.8), transparent)',
+                            filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))'
+                        }}
+                    />
+                </div>
 
-                        <div className="font-serif text-[#3E2723] leading-none mb-2 flex items-baseline justify-center gap-1">
-                            <span className="text-7xl">{sadhanaData.streak}</span>
-                            <span className="text-3xl opacity-50">/{sadhanaData.durationDays}</span>
-                        </div>
-
-                        <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest opacity-70 text-[#3E2723]">
-                            <Sparkles size={12} />
-                            <span>Day Streak</span>
-                        </div>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="flex items-center justify-center opacity-40 my-4">
-                        <div className="h-[1px] bg-[#3E2723] w-1/3" />
-                        <Hexagon size={16} className="mx-2 text-[#3E2723] fill-[#3E2723]" />
-                        <div className="h-[1px] bg-[#3E2723] w-1/3" />
-                    </div>
-
-                    {/* Mission Info */}
-                    <div className="text-center space-y-4 mb-6 pb-4 border-b border-[#3E2723]/10">
-                        <div>
-                            <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1 text-[#3E2723]">
-                                <Target size={10} /> Mission
-                            </div>
-                            <div className="font-serif text-lg text-[#3E2723] leading-tight">{sadhanaData.goalName}</div>
-                        </div>
-                        <div>
-                            <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1 flex items-center justify-center gap-1 text-[#3E2723]">
-                                <Scroll size={10} /> Intention
-                            </div>
-                            <div className="font-serif text-base text-[#3E2723] italic opacity-90 leading-tight">"{sadhanaData.intent}"</div>
-                        </div>
-                    </div>
-
-                    {/* Offerings Checklist */}
-                    <div className="space-y-3 mb-6">
-                        {sadhanaData.offerings.map((offering) => {
-                            const isChecked = completedOfferings.includes(offering.id);
-                            const Icon = offering.icon;
-
+                {/* Content */}
+                <div className="space-y-3 relative z-10" style={{ fontFamily: 'Georgia, serif' }}>
+                    {contentLines.map((section, index) => {
+                        if (section.trim().endsWith(':')) {
                             return (
-                                <div
-                                    key={offering.id}
-                                    className={cn(
-                                        'flex items-center gap-4 transition-opacity',
-                                        !isInitialized && 'opacity-30'
-                                    )}
-                                >
-                                    <div className={cn(
-                                        'w-6 h-6 border-2 border-[#3E2723] rounded flex items-center justify-center transition-all flex-shrink-0',
-                                        isChecked ? 'bg-[#3E2723]' : 'bg-transparent'
-                                    )}>
-                                        {isChecked && (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                transition={{ type: 'spring', stiffness: 500, damping: 15 }}
-                                            >
-                                                <Check size={14} className="text-[#FFB74D]" strokeWidth={3} />
-                                            </motion.div>
-                                        )}
-                                    </div>
-                                    <div className={cn(
-                                        'font-serif text-lg leading-none pt-1 text-[#3E2723]',
-                                        isChecked && 'line-through opacity-50'
-                                    )}>
-                                        {offering.name}
-                                    </div>
-                                    <div className="ml-auto opacity-40 text-[#3E2723]">
-                                        <Icon size={16} />
+                                <div key={index}>
+                                    <div
+                                        className="font-semibold mb-1 text-base"
+                                        style={{
+                                            color: 'rgba(255, 223, 0, 0.95)',
+                                            textShadow: '0 0 4px rgba(255, 215, 0, 0.4)'
+                                        }}
+                                    >
+                                        {section}
                                     </div>
                                 </div>
                             );
-                        })}
-                    </div>
-
-                    {/* Main Action Button */}
-                    <div className="mt-6">
-                        <button
-                            className={cn(
-                                'w-full py-4 px-6 font-mono font-bold tracking-widest uppercase transition-all flex items-center justify-between relative overflow-hidden',
-                                isInitialized
-                                    ? 'bg-transparent border-2 border-[#3E2723] text-[#3E2723]'
-                                    : 'bg-[#3E2723] text-[#FFB74D] shadow-lg'
-                            )}
-                            disabled
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                {isInitialized ? (
-                                    <><Activity size={16} className="animate-pulse" /> SYSTEM_ACTIVE</>
-                                ) : (
-                                    <><Cpu size={16} /> INITIALIZE_SADHANA</>
-                                )}
-                            </span>
-
-                            {isInitialized && (
-                                <span className="text-xs opacity-60 relative z-10 flex items-center gap-1">
-                                    <FileText size={12} /> VIEW PROTOCOL
-                                </span>
-                            )}
-
-                            {isInitialized && (
-                                <div
-                                    className="absolute left-0 top-0 bottom-0 bg-[#3E2723]/10 transition-all duration-500 z-0"
-                                    style={{ width: `${progressPercentage}%` }}
-                                />
-                            )}
-                        </button>
-
-                        {!isInitialized && (
-                            <div className="text-center mt-2 text-[10px] uppercase tracking-widest opacity-40 text-[#3E2723]">
-                                Awaiting Initiation Sequence...
+                        }
+                        return (
+                            <div
+                                key={index}
+                                className="text-sm leading-relaxed pl-2"
+                                style={{
+                                    color: 'rgba(255, 255, 255, 0.85)',
+                                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                                }}
+                            >
+                                {section}
                             </div>
-                        )}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="mt-6 flex justify-between items-end text-[10px] font-bold tracking-widest opacity-60 uppercase text-[#3E2723]">
-                        <div className="flex flex-col gap-1">
-                            <span>SYS_READY</span>
-                            <span className="flex items-center gap-1"><Cpu size={10} /> LVL.{sadhanaData.level} ACCESS</span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <span className={cn(
-                                'w-2 h-2 rounded-full bg-[#3E2723]',
-                                isInitialized ? 'animate-pulse' : 'opacity-20'
-                            )} />
-                            {sadhanaData.mantra.split(' ').slice(0, 2).join('_').toUpperCase()}
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
-            </motion.div>
+
+                {/* Metallic texture overlay */}
+                <div
+                    className="absolute inset-0 rounded-2xl pointer-events-none"
+                    style={{
+                        background: `
+                            radial-gradient(circle at 20% 30%, rgba(255, 223, 0, 0.05) 0%, transparent 40%),
+                            radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.04) 0%, transparent 40%),
+                            radial-gradient(circle at 40% 80%, rgba(255, 207, 0, 0.03) 0%, transparent 30%)
+                        `,
+                        opacity: 0.4
+                    }}
+                />
+            </div>
+
+            {/* Floating spiritual elements */}
+            <div
+                className="absolute -top-3 -right-3 text-2xl animate-pulse"
+                style={{
+                    filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+                    opacity: 0.8
+                }}
+            >
+                🌸
+            </div>
+            <div
+                className="absolute -bottom-3 -left-3 text-xl animate-pulse"
+                style={{
+                    filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))',
+                    opacity: 0.8
+                }}
+            >
+                🪔
+            </div>
+            <div
+                className="absolute top-1/2 -left-6 text-lg animate-bounce"
+                style={{
+                    filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.5))',
+                    opacity: 0.7
+                }}
+            >
+                ✨
+            </div>
         </div>
     );
 }
@@ -1197,7 +1282,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                 )}
 
                                 {activeStep === 2 && (
-                                    <InitializeSadhanaCard
+                                    <AnimatedSadhanaParchment
                                         isActive={activeStep === 2 && !stepCompleted[2]}
                                         onComplete={() => handleStepComplete(2)}
                                         isComplete={stepCompleted[2]}

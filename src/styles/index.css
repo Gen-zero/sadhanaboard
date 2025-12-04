@@ -174,6 +174,55 @@
         animation: spin-slow 8s linear infinite;
     }
 
+    /* Parchment unroll animation */
+    @keyframes parchment-unroll {
+        0% {
+            transform: scaleY(0) rotateX(90deg);
+            opacity: 0;
+        }
+        100% {
+            transform: scaleY(1) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    .parchment-unroll {
+        animation: parchment-unroll 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        transform-origin: top center;
+    }
+
+    /* Ember particles rising */
+    @keyframes ember-rise {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) scale(0.5);
+            opacity: 0;
+        }
+    }
+
+    .ember-rise {
+        animation: ember-rise 2s ease-out infinite;
+    }
+
+    /* Smoke rising */
+    @keyframes smoke-rise {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 0.3;
+        }
+        100% {
+            transform: translateY(-150px) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    .smoke-rise {
+        animation: smoke-rise 3s ease-out infinite;
+    }
+
     .text-gold-glow {
         @apply text-[#FFD54A] drop-shadow-[0_0_10px_#FFD54A4D];
     }
