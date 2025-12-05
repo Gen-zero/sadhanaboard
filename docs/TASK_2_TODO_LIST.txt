@@ -1,0 +1,586 @@
+================================================================================
+TASK 2: CORE SERVICE REFACTORING - TIER 1 - TO-DO LIST
+================================================================================
+
+Task: 2 - Core Service Refactoring (Tier 1 - Simple CRUD Services)
+Start Date: December 5, 2025
+Estimated Duration: 18 hours
+Status: 🟡 PENDING START
+
+================================================================================
+TASK OVERVIEW
+================================================================================
+
+Objective:
+  Refactor 12 core CRUD services from PostgreSQL (db.query) to MongoDB/Mongoose.
+  These are foundational services used by many other services.
+
+Services to Refactor (in priority order):
+  1. authService.js (210 lines) - User login/register
+  2. profileService.js (187 lines) - User profiles
+  3. bookProgressService.js (1.0KB) - Book progress tracking
+  4. annotationService.js (1.7KB) - Annotations
+  5. messageService.js (1.6KB) - Messaging
+  6. bookmarkService.js (1.4KB) - Bookmarks
+  7. notificationService.js (1.3KB) - Notifications
+  8. milestoneService.js (1.5KB) - Milestones
+  9. featureFlagService.js (1.7KB) - Feature flags
+  10. experimentService.js (1.9KB) - A/B experiments
+  11. securityPolicyService.js (1.3KB) - Security policies
+  12. deploymentService.js (2.0KB) - Deployments
+
+Characteristics:
+  ✓ Basic CRUD operations (find, create, update, delete)
+  ✓ Simple WHERE clauses
+  ✓ No complex JOINs
+  ✓ Minimal aggregation
+  ✓ All required schemas already created in Phase 2
+
+Key Dependencies:
+  ✓ All 34 MongoDB schemas created (Phase 2 complete)
+  ✓ MongoDB Atlas configured (Phase 1 complete)
+  ✓ Mongoose installed and configured
+
+Blockers: NONE
+
+================================================================================
+DETAILED TO-DO LIST
+================================================================================
+
+## SUBTASK 1: Refactor authService.js
+Status: ⏳ PENDING
+Importance: CRITICAL - Used by all authentication flows
+
+Description:
+  Convert auth service from PostgreSQL to Mongoose
+
+Methods to refactor (7 methods):
+  1. register() - Create new user
+  2. login() - User login
+  3. verifyToken() - JWT token validation
+  4. getUserById() - Find user by ID
+  5. joinWaitlist() - Add to waitlist
+  6. Additional helper methods
+
+Requirements:
+  □ 1.1: Refactor register() method
+         OLD: db.query('SELECT id FROM users WHERE email = $1', [email])
+         NEW: const existing = await User.findOne({ email });
+         
+  □ 1.2: Refactor login() method
+         OLD: db.query('SELECT id, email, ... FROM users WHERE email = $1', [email])
+         NEW: const user = await User.findOne({ email });
+         
+  □ 1.3: Keep verifyToken() - JWT logic stays same
+  
+  □ 1.4: Refactor getUserById() method
+         OLD: db.query('SELECT id, email ... FROM users WHERE id = $1', [userId])
+         NEW: const user = await User.findById(userId);
+  
+  □ 1.5: Refactor joinWaitlist() method
+         OLD: db.query('INSERT INTO waitlist ...')
+         NEW: const waitlist = new Waitlist(data); await waitlist.save();
+  
+  □ 1.6: Update imports
+         - Remove: const db = require('../config/db');
+         - Add: const User = require('../schemas/User');
+         - Add: const Waitlist = require('../schemas/Waitlist');
+  
+  □ 1.7: Update error handling for Mongoose
+         - Handle validation errors differently
+         - Handle duplicate key errors (email unique)
+  
+  □ 1.8: Test authService
+         - Test register with existing email
+         - Test login with valid/invalid credentials
+         - Test getUserById
+         - Test joinWaitlist
+
+Acceptance Criteria:
+  ✓ All methods converted to Mongoose
+  ✓ All db.query() calls removed
+  ✓ Error handling works correctly
+  ✓ Service exports correct methods
+  ✓ No syntax errors
+
+Estimated Time: 2 hours
+
+---
+
+## SUBTASK 2: Refactor profileService.js
+Status: ⏳ PENDING
+Importance: CRITICAL - Used for user profiles
+
+Description:
+  Convert profile service from PostgreSQL to Mongoose
+
+Methods to refactor (4 methods):
+  1. getProfileByUserId() - Fetch profile
+  2. updateProfile() - Update profile fields
+  3. createProfile() - Create new profile
+  4. updateSpiritualMetrics() - Update metrics
+
+Requirements:
+  □ 2.1: Refactor getProfileByUserId() method
+         OLD: db.query('SELECT * FROM profiles WHERE id = $1', [userId])
+         NEW: const profile = await Profile.findOne({ userId });
+  
+  □ 2.2: Refactor updateProfile() method
+         OLD: db.query('UPDATE profiles SET ... WHERE id = $1', [..., userId])
+         NEW: const profile = await Profile.findOneAndUpdate(
+              { userId }, 
+              { ...updates }, 
+              { new: true, runValidators: true }
+         );
+  
+  □ 2.3: Refactor createProfile() method
+         OLD: db.query('INSERT INTO profiles (id, display_name) VALUES ...')
+         NEW: const profile = new Profile({ userId, displayName });
+              await profile.save();
+  
+  □ 2.4: Refactor updateSpiritualMetrics() method
+         OLD: db.query('UPDATE profiles SET ... WHERE id = $1')
+         NEW: const profile = await Profile.findOneAndUpdate(
+              { userId },
+              { $set: { ...metrics } },
+              { new: true }
+         );
+  
+  □ 2.5: Update imports
+         - Remove: const db = require('../config/db');
+         - Add: const Profile = require('../schemas/Profile');
+  
+  □ 2.6: Handle Model class removal
+         - Old: new Profile(result.rows[0])
+         - New: Direct Mongoose object returned
+  
+  □ 2.7: Test profileService
+         - Test getProfileByUserId
+         - Test updateProfile with partial updates
+         - Test createProfile
+         - Test updateSpiritualMetrics
+
+Acceptance Criteria:
+  ✓ All methods converted to Mongoose
+  ✓ All db.query() calls removed
+  ✓ COALESCE logic converted to proper Mongoose updates
+  ✓ Model class usage removed
+  ✓ Tests passing
+
+Estimated Time: 2 hours
+
+---
+
+## SUBTASK 3: Refactor bookProgressService.js
+Status: ⏳ PENDING
+Importance: HIGH - Book feature support
+
+Description:
+  Convert book progress service to Mongoose
+
+Requirements:
+  □ 3.1: Read bookProgressService.js to understand methods
+  
+  □ 3.2: Identify all db.query() calls
+  
+  □ 3.3: Convert find operations to Mongoose
+  
+  □ 3.4: Convert insert/update/delete operations
+  
+  □ 3.5: Update imports to use BookProgress schema
+  
+  □ 3.6: Test all methods
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1.5 hours
+
+---
+
+## SUBTASK 4: Refactor annotationService.js
+Status: ⏳ PENDING
+Importance: HIGH - Book features
+
+Requirements:
+  □ 4.1-4.6: Same pattern as Subtask 3
+  
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1.5 hours
+
+---
+
+## SUBTASK 5: Refactor messageService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - Messaging feature
+
+Requirements:
+  □ 5.1-5.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 6: Refactor bookmarkService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - Book features
+
+Requirements:
+  □ 6.1-6.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 7: Refactor notificationService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - Notification feature
+
+Requirements:
+  □ 7.1-7.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 8: Refactor milestoneService.js
+Status: ⏳ PENDING
+Importance: LOW - Milestone tracking
+
+Requirements:
+  □ 8.1-8.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 9: Refactor featureFlagService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - Feature management
+
+Requirements:
+  □ 9.1-9.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 10: Refactor experimentService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - A/B testing
+
+Requirements:
+  □ 10.1-10.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 11: Refactor securityPolicyService.js
+Status: ⏳ PENDING
+Importance: MEDIUM - Security
+
+Requirements:
+  □ 11.1-11.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 12: Refactor deploymentService.js
+Status: ⏳ PENDING
+Importance: LOW - Deployment tracking
+
+Requirements:
+  □ 12.1-12.6: Same pattern as Subtask 3
+
+Acceptance Criteria:
+  ✓ Service refactored
+  ✓ All db.query() removed
+  ✓ Tests passing
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 13: Comprehensive Tier 1 Testing
+Status: ⏳ PENDING
+Importance: CRITICAL - Validation
+
+Description:
+  Create comprehensive test suite for all Tier 1 services
+
+Requirements:
+  □ 13.1: Create test file for authService
+         - Test register flow
+         - Test login flow
+         - Test getUserById
+         - Test joinWaitlist
+  
+  □ 13.2: Create test file for profileService
+         - Test getProfileByUserId
+         - Test updateProfile
+         - Test createProfile
+         - Test updateSpiritualMetrics
+  
+  □ 13.3: Create test files for remaining 10 services
+         - Basic CRUD tests
+         - Error handling tests
+         - Validation tests
+  
+  □ 13.4: Run all tests
+  
+  □ 13.5: Fix any failing tests
+  
+  □ 13.6: Document test results
+
+Acceptance Criteria:
+  ✓ All tests written
+  ✓ All tests passing
+  ✓ 100% method coverage for Tier 1 services
+  ✓ No syntax errors
+
+Estimated Time: 4 hours
+
+---
+
+## SUBTASK 14: Create Tier 1 Progress Report
+Status: ⏳ PENDING
+
+Description:
+  Document Task 2 completion
+
+Requirements:
+  □ 14.1: Create summary of changes
+  □ 14.2: List all 12 refactored services
+  □ 14.3: Document test results
+  □ 14.4: Calculate total lines changed
+  □ 14.5: Estimate time savings
+  □ 14.6: Prepare for Tier 2
+
+Acceptance Criteria:
+  ✓ Report created
+  ✓ All metrics documented
+  ✓ Ready for Tier 2
+
+Estimated Time: 1 hour
+
+================================================================================
+EXECUTION ORDER
+================================================================================
+
+Sequential Order (by priority & dependency):
+
+1️⃣ Subtask 1: authService.js (2 hours) - CRITICAL, foundation
+2️⃣ Subtask 2: profileService.js (2 hours) - CRITICAL, user data
+3️⃣ Subtask 3: bookProgressService.js (1.5 hours)
+4️⃣ Subtask 4: annotationService.js (1.5 hours)
+5️⃣ Subtask 5: messageService.js (1 hour)
+6️⃣ Subtask 6: bookmarkService.js (1 hour)
+7️⃣ Subtask 7: notificationService.js (1 hour)
+8️⃣ Subtask 8: milestoneService.js (1 hour)
+9️⃣ Subtask 9: featureFlagService.js (1 hour)
+🔟 Subtask 10: experimentService.js (1 hour)
+1️⃣1️⃣ Subtask 11: securityPolicyService.js (1 hour)
+1️⃣2️⃣ Subtask 12: deploymentService.js (1 hour)
+1️⃣3️⃣ Subtask 13: Comprehensive Testing (4 hours)
+1️⃣4️⃣ Subtask 14: Progress Report (1 hour)
+
+Total: 18 hours
+
+================================================================================
+REFACTORING PATTERN FOR TIER 1 SERVICES
+================================================================================
+
+Step 1: Read original service file
+Step 2: Identify all db.query() calls (find, insert, update, delete)
+Step 3: Map each query to Mongoose equivalent
+Step 4: Update imports (remove db, add schemas)
+Step 5: Replace all db.query() calls with Mongoose methods
+Step 6: Update error handling for Mongoose
+Step 7: Remove old Model class instantiation (new Profile())
+Step 8: Test the service
+Step 9: Verify all methods work correctly
+
+Typical replacements:
+
+Find Operations:
+  db.query('SELECT * FROM users WHERE id = $1', [id])
+  → User.findById(id)
+
+  db.query('SELECT * FROM users WHERE email = $1', [email])
+  → User.findOne({ email })
+
+  db.query('SELECT * FROM users')
+  → User.find()
+
+Create Operations:
+  db.query('INSERT INTO users ... RETURNING *', [...])
+  → const user = new User(data); await user.save();
+
+Update Operations:
+  db.query('UPDATE users SET ... WHERE id = $1 RETURNING *', [...])
+  → User.findByIdAndUpdate(id, data, {new: true})
+
+Delete Operations:
+  db.query('DELETE FROM users WHERE id = $1', [id])
+  → User.findByIdAndDelete(id)
+
+Count Operations:
+  db.query('SELECT COUNT(*) FROM users')
+  → User.countDocuments()
+
+================================================================================
+KEY DIFFERENCES FROM POSTGRESQL
+================================================================================
+
+1. Field naming: PostgreSQL uses snake_case, MongoDB/Mongoose uses camelCase
+   - display_name → displayName
+   - created_at → createdAt
+   - user_id → userId
+   - Schemas handle this with getters/setters
+
+2. NULL handling
+   - PostgreSQL: NULL values
+   - MongoDB: undefined/null both work
+   - Mongoose: Use defaults in schema
+
+3. Validation
+   - PostgreSQL: Constraints in DB
+   - MongoDB: Mongoose validation in schema
+   - Must handle validation errors from schema
+
+4. Error messages
+   - PostgreSQL: Error strings
+   - MongoDB: Error objects with code
+   - Must check error types
+
+5. Transaction support
+   - Tier 1 services don't need transactions
+   - Tier 2/3 might need MongoDB sessions
+
+================================================================================
+COMMON ERRORS TO AVOID
+================================================================================
+
+❌ WRONG: await db.query(...)
+✓ RIGHT: await Model.find(...) or await Model.findById(...)
+
+❌ WRONG: result.rows[0]
+✓ RIGHT: Direct object returned from Mongoose
+
+❌ WRONG: new Profile(data); profile.id = 123;
+✓ RIGHT: const profile = new Profile({userId: 123}); await profile.save();
+
+❌ WRONG: Keep db = require('../config/db');
+✓ RIGHT: Remove db import, add Model imports
+
+❌ WRONG: Handle .rows array
+✓ RIGHT: Mongoose returns single object or array
+
+❌ WRONG: Using $ placeholders ($1, $2, $3)
+✓ RIGHT: Use object notation ({email: value})
+
+================================================================================
+SUCCESS CRITERIA - TASK 2
+================================================================================
+
+Phase 1 (Services 1-2, Critical): 4 hours
+  ✅ authService.js fully refactored
+  ✅ profileService.js fully refactored
+  ✅ All imports updated
+  ✅ Error handling verified
+  ✅ No db.query() calls remaining
+
+Phase 2 (Services 3-8, Core): 6 hours
+  ✅ 6 services refactored
+  ✅ All methods converted
+  ✅ All db.query() removed
+  ✅ Basic testing done
+
+Phase 3 (Services 9-12, Feature): 4 hours
+  ✅ 4 services refactored
+  ✅ All methods converted
+  ✅ All db.query() removed
+  ✅ Basic testing done
+
+Phase 4 (Testing & Documentation): 4 hours
+  ✅ Comprehensive test suite created
+  ✅ All tests passing
+  ✅ Progress report completed
+  ✅ Ready for Tier 2
+
+OVERALL SUCCESS:
+  ✅ All 12 Tier 1 services refactored
+  ✅ All db.query() calls removed
+  ✅ All Mongoose methods implemented
+  ✅ All error handling updated
+  ✅ All tests passing
+  ✅ Ready for Task 3 (Tier 2)
+
+================================================================================
+READY FOR TASK 2 EXECUTION
+================================================================================
+
+Status: ✅ READY
+
+Prerequisites Completed:
+  ✓ All 34 schemas created (Phase 2)
+  ✓ MongoDB Atlas configured (Phase 1)
+  ✓ Service inventory completed (Task 1)
+  ✓ Refactoring templates prepared (Task 1)
+
+Services Ready:
+  ✓ 12 Tier 1 services identified
+  ✓ All methods documented
+  ✓ Refactoring patterns clear
+  ✓ Schemas mapped to services
+
+No Blockers: TRUE
+
+Confidence Level: HIGH ✅
+
+Waiting for confirmation to begin refactoring Tier 1 services.
+
+================================================================================

@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const CmsVersionHistorySchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'c_ms_ve_rs_io_nh_is_to_ry' }); module.exports = mongoose.model('CmsVersionHistory', CmsVersionHistorySchema);

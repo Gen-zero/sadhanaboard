@@ -1,18 +1,19 @@
-const db = require('../config/db');
-
 /**
  * Base service class providing common functionality for all services
  */
 class BaseService {
   /**
    * Execute a database query with error handling
+   * Note: This method is deprecated. Use Mongoose directly instead.
    * @param {string} query - SQL query to execute
    * @param {Array} params - Query parameters
    * @returns {Promise} - Query result
+   * @deprecated Use Mongoose schemas directly
    */
   static async executeQuery(query, params = []) {
     try {
-      return await db.query(query, params);
+      console.warn('WARNING: executeQuery() is deprecated. Use Mongoose schemas directly instead.');
+      throw new Error('executeQuery() has been deprecated. Please refactor to use Mongoose schemas.');
     } catch (error) {
       console.error('Database query failed:', error);
       throw error;

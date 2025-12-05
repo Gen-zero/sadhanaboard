@@ -1,36 +1,86 @@
-const db = require('../config/db');
+const { MentorshipProgram, User } = require('../models');
 
 module.exports = {
   async listPairs({ limit = 50, offset = 0 } = {}) {
-    try { const r = await db.query('SELECT mp.*, m.display_name as mentor_name, me.display_name as mentee_name FROM mentorship_programs mp LEFT JOIN users m ON mp.mentor_id = m.id LEFT JOIN users me ON mp.mentee_id = me.id ORDER BY started_at DESC LIMIT $1 OFFSET $2', [limit, offset]); return r.rows; } catch (e) { console.error('listPairs', e); return []; }
+    try {
+      const items = await MentorshipProgram.find()
+        .populate('mentorId', 'displayName')
+        .populate('menteeId', 'displayName')
+        .sort({ startedAt: -1 })
+        .limit(limit)
+        .skip(offset)
+        .lean();
+      const total = await MentorshipProgram.countDocuments();
+      return { items, total, limit, offset };
+    } catch (e) {
+      console.error('listPairs', e);
+      return { items: [], total: 0, limit, offset };
+    }
   },
 
   async createMentorshipPair(mentorId, menteeId, programType = 'general', adminId) {
     try {
-      const r = await db.query('INSERT INTO mentorship_programs (mentor_id, mentee_id, program_type, status, started_at, metadata) VALUES($1,$2,$3,$4,NOW(),$5) RETURNING *', [mentorId, menteeId, programType, 'active', JSON.stringify({ created_by: adminId })]);
-      return r.rows[0];
-    } catch (e) { console.error('createMentorshipPair', e); return null; }
+      const pair = new MentorshipProgram({
+        mentorId,
+        menteeId,
+        programType,
+        status: 'active',
+        startedAt: new Date(),
+        metadata: { createdBy: adminId }
+      });
+      await pair.save();
+      return pair.toJSON();
+    } catch (e) {
+      console.error('createMentorshipPair', e);
+      return null;
+    }
   },
 
   async updatePairStatus(id, status, adminId) {
     try {
-      const meta = JSON.stringify({ updated_by: adminId, status });
-      const sql = `UPDATE mentorship_programs SET status=$1, metadata = COALESCE(metadata, '{}'::jsonb) || $2::jsonb WHERE id=$3 RETURNING *`;
-      const r = await db.query(sql, [status, meta, id]);
-      return r.rows[0];
-    } catch (e) { console.error('updatePairStatus', e); return null; }
+      const updates = {
+        status,
+        metadata: { updatedBy: adminId, status }
+      };
+      const pair = await MentorshipProgram.findByIdAndUpdate(id, updates, { new: true }).lean();
+      return pair;
+    } catch (e) {
+      console.error('updatePairStatus', e);
+      return null;
+    }
   },
 
   async endMentorship(id, adminId) {
     try {
-      const meta = JSON.stringify({ ended_by: adminId });
-      const sql = `UPDATE mentorship_programs SET status=$1, ended_at=NOW(), metadata = COALESCE(metadata, '{}'::jsonb) || $2::jsonb WHERE id=$3 RETURNING *`;
-      const r = await db.query(sql, ['ended', meta, id]);
-      return r.rows[0];
-    } catch (e) { console.error('endMentorship', e); return null; }
+      const updates = {
+        status: 'ended',
+        endedAt: new Date(),
+        metadata: { endedBy: adminId }
+      };
+      const pair = await MentorshipProgram.findByIdAndUpdate(id, updates, { new: true }).lean();
+      return pair;
+    } catch (e) {
+      console.error('endMentorship', e);
+      return null;
+    }
   },
 
-  async getPair(id) { try { const r = await db.query('SELECT * FROM mentorship_programs WHERE id=$1', [id]); return r.rows[0]; } catch (e) { console.error(e); return null; } },
+  async getPair(id) {
+    try {
+      return await MentorshipProgram.findById(id).lean();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  },
 
-  async deletePair(id) { try { await db.query('DELETE FROM mentorship_programs WHERE id=$1', [id]); return true; } catch (e) { console.error(e); return false; } }
+  async deletePair(id) {
+    try {
+      await MentorshipProgram.deleteOne({ _id: id });
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  }
 };

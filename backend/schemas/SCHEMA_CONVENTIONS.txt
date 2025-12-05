@@ -1,0 +1,653 @@
+================================================================================
+MONGOOSE SCHEMA CONVENTIONS FOR SADHANABOARD
+================================================================================
+
+This document outlines the standards and patterns for creating Mongoose schemas
+in the SaadhanaBoard project.
+
+================================================================================
+1. NAMING CONVENTIONS
+================================================================================
+
+Schema Names (Models):
+  Format: PascalCase
+  Examples: User, Sadhana, SpiritualBook, SharedSadhana
+  File Location: backend/schemas/[ModelName].js
+  Export: module.exports = mongoose.model('User', userSchema)
+
+Collection Names:
+  Format: lowercase
+  Examples: users, sadhanas, spiritualbooks, sharedsadhanas
+  Defined in schema options: { collection: 'users' }
+
+Field Names:
+  Format: camelCase (NOT snake_case)
+  Examples: userId, firstName, isActive, dueDate
+  Exception: None - always use camelCase
+
+Foreign Keys:
+  Format: [collectionName]Id or [modelName]Id
+  Examples: userId, bookId, sadhanaId, mentorId
+  Type: mongoose.Schema.Types.ObjectId
+  With ref: mongoose.Schema.Types.ObjectId, ref: 'User'
+
+Boolean Fields:
+  Prefix: is, has, can, should, etc.
+  Examples: isActive, hasCompleted, canManage, shouldNotify
+
+Timestamp Fields:
+  Standard: createdAt, updatedAt
+  Note: Let Mongoose handle these automatically
+
+Array Fields:
+  Format: Plural names
+  Examples: tags, traditions, offerings, comments
+  Type: [String], [Number], or [{nested schema}]
+
+================================================================================
+2. FIELD DEFINITIONS
+================================================================================
+
+Basic Field Pattern:
+  fieldName: {
+    type: String,                                    // Data type
+    required: [true, 'Error message'],              // Validation
+    trim: true,                                      // Auto-trim strings
+    default: 'value' or null,                       // Default value
+    enum: ['option1', 'option2'],                   // Restrict to values
+    minlength: [5, 'Error'],                        // String min length
+    maxlength: [50, 'Error'],                       // String max length
+    match: /regex/,                                  // Regex validation
+    min: 0,                                          // Number minimum
+    max: 100,                                        // Number maximum
+    index: true,                                     // Index this field
+    unique: true,                                    // Unique constraint
+    sparse: true,                                    // Sparse index
+    description: 'Field purpose'                     // Comment
+  }
+
+Data Types:
+  - String: Regular text
+  - Number: Integers and decimals
+  - Date: Timestamps and dates
+  - Boolean: true/false flags
+  - ObjectId: References to other documents
+  - Array: [type] for arrays
+  - Mixed: Schema.Types.Mixed for flexible data
+  - Map: Map type for key-value pairs
+
+Examples:
+
+  1. Simple String Field:
+     title: {
+       type: String,
+       required: true,
+       trim: true,
+       maxlength: 200
+     }
+
+  2. Optional Field:
+     description: {
+       type: String,
+       default: null,
+       trim: true
+     }
+
+  3. Enumerated Field:
+     status: {
+       type: String,
+       enum: ['active', 'inactive', 'archived'],
+       default: 'active',
+       index: true
+     }
+
+  4. Number with Range:
+     priority: {
+       type: Number,
+       min: 1,
+       max: 10,
+       default: 5
+     }
+
+  5. Foreign Key Reference:
+     userId: {
+       type: mongoose.Schema.Types.ObjectId,
+       ref: 'User',
+       required: true,
+       index: true
+     }
+
+  6. Array of Strings:
+     tags: {
+       type: [String],
+       default: []
+     }
+
+  7. Timestamps:
+     createdAt: {
+       type: Date,
+       default: Date.now,
+       index: true
+     },
+     updatedAt: {
+       type: Date,
+       default: Date.now
+     }
+
+================================================================================
+3. INDEXES
+================================================================================
+
+Index Types and Uses:
+
+1. Single Field Indexes:
+   Purpose: Speed up queries on single fields
+   Pattern: schema.index({ fieldName: 1 })
+   Example: schema.index({ userId: 1 })
+   Use for: Foreign keys, frequently filtered fields
+
+2. Compound Indexes:
+   Purpose: Speed up queries combining multiple fields
+   Pattern: schema.index({ field1: 1, field2: -1 })
+   Example: schema.index({ userId: 1, createdAt: -1 })
+   Use for: Common multi-field queries
+
+3. Unique Indexes:
+   Purpose: Ensure field uniqueness
+   Pattern: schema.index({ email: 1 }, { unique: true })
+   Note: Add sparse: true if field is optional
+   Use for: Email, username, etc.
+
+4. Text Indexes:
+   Purpose: Enable full-text search
+   Pattern: schema.index({ title: 'text', body: 'text' })
+   Use for: Searchable content fields
+
+5. TTL Indexes:
+   Purpose: Auto-delete documents after time
+   Pattern: schema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+   Use for: Sessions, temporary data
+
+Index Performance Tips:
+  ✓ Create indexes on frequently queried fields
+  ✓ Use compound indexes for common multi-field queries
+  ✓ Index foreign keys
+  ✓ Index sort fields
+  ✓ Don't over-index (impacts write performance)
+  ✓ Monitor index usage
+
+Example Index Set:
+  schema.index({ userId: 1 });
+  schema.index({ createdAt: -1 });
+  schema.index({ status: 1 });
+  schema.index({ userId: 1, createdAt: -1 });
+  schema.index({ email: 1 }, { unique: true, sparse: true });
+
+================================================================================
+4. VALIDATIONS
+================================================================================
+
+Built-in Validators:
+  - required: Field must have a value
+  - minlength: String minimum length
+  - maxlength: String maximum length
+  - min: Number minimum value
+  - max: Number maximum value
+  - enum: Restrict to specific values
+  - match: Regex pattern matching
+  - validate: Custom function validation
+
+Validation Patterns:
+
+1. Required Fields:
+   required: true
+   required: [true, 'Custom error message']
+
+2. String Validations:
+   trim: true                      // Auto-trim whitespace
+   lowercase: true                 // Auto-convert to lowercase
+   uppercase: true                 // Auto-convert to uppercase
+   minlength: [5, 'Too short']
+   maxlength: [100, 'Too long']
+   match: [/^[a-zA-Z]+$/, 'Invalid format']
+
+3. Number Validations:
+   min: [0, 'Must be positive']
+   max: [100, 'Must be less than 100']
+
+4. Custom Validations:
+   validate: {
+     validator: function(v) { return v > 0; },
+     message: 'Value must be positive'
+   }
+
+5. Pre-save Hooks for Complex Validation:
+   schema.pre('save', async function(next) {
+     // Custom validation logic
+     if (condition) {
+       throw new Error('Validation failed');
+     }
+     next();
+   });
+
+Example Validations:
+  email: {
+    type: String,
+    required: [true, 'Email required'],
+    match: [/^\S+@\S+\.\S+$/, 'Invalid email'],
+    lowercase: true,
+    trim: true
+  },
+  
+  age: {
+    type: Number,
+    min: [0, 'Age must be positive'],
+    max: [150, 'Invalid age']
+  },
+  
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    required: true
+  }
+
+================================================================================
+5. RELATIONSHIPS
+================================================================================
+
+One-to-Many (User has many Sadhanas):
+  In User Schema: (no field needed, or use virtuals)
+  In Sadhana Schema:
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    }
+  
+  Query:
+    const sadhanas = await Sadhana.find({ userId });
+    const withUser = await Sadhana.findById(id).populate('userId');
+
+One-to-One (User has one Profile):
+  In Profile Schema:
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true
+    }
+  
+  Query:
+    const profile = await Profile.findOne({ userId });
+
+Many-to-Many (Students and Courses):
+  Array of References:
+    studentIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
+  
+  Or separate junction collection
+
+Embedded Documents (Comments in Post):
+  comments: [{
+    userId: mongoose.Schema.Types.ObjectId,
+    content: String,
+    createdAt: { type: Date, default: Date.now }
+  }]
+
+Best Practices:
+  ✓ Use references for large data (avoid duplication)
+  ✓ Use embedding for small, tightly-coupled data
+  ✓ Create indexes on foreign key fields
+  ✓ Use populate() for related data
+  ✓ Use aggregation pipelines for complex joins
+
+================================================================================
+6. HOOKS AND MIDDLEWARE
+================================================================================
+
+Pre Hooks (Before action):
+  schema.pre('save', function(next) { ... })
+  schema.pre('findOne', function(next) { ... })
+  schema.pre('deleteOne', function(next) { ... })
+  
+  Use for: Validation, transformation, side effects
+
+Post Hooks (After action):
+  schema.post('save', function(doc) { ... })
+  schema.post('findOne', function(doc) { ... })
+  
+  Use for: Logging, cleanup, notifications
+
+Examples:
+
+1. Auto-update timestamp:
+   schema.pre('save', function() {
+     this.updatedAt = new Date();
+   });
+
+2. Custom validation:
+   schema.pre('save', async function(next) {
+     const user = await User.findById(this.userId);
+     if (!user) {
+       throw new Error('User not found');
+     }
+     next();
+   });
+
+3. Logging:
+   schema.post('save', function(doc) {
+     console.log(`${doc._id} saved`);
+   });
+
+4. Hash password before save:
+   schema.pre('save', async function(next) {
+     if (!this.isModified('password')) return next();
+     this.password = await bcrypt.hash(this.password, 10);
+     next();
+   });
+
+================================================================================
+7. METHODS
+================================================================================
+
+Instance Methods (operate on single document):
+  schema.methods.methodName = function() { ... }
+  
+  Usage: const result = doc.methodName()
+  
+  Examples:
+    schema.methods.isActive = function() {
+      return this.status === 'active';
+    }
+    
+    schema.methods.toJSON = function() {
+      const obj = this.toObject();
+      delete obj.password;
+      return obj;
+    }
+
+Static Methods (operate on model/collection):
+  schema.statics.staticName = function() { ... }
+  
+  Usage: const result = Model.staticName()
+  
+  Examples:
+    schema.statics.findActive = function() {
+      return this.find({ status: 'active' });
+    }
+    
+    schema.statics.countByUser = function(userId) {
+      return this.countDocuments({ userId });
+    }
+
+Virtual Fields (computed properties):
+  schema.virtual('virtualName').get(function() { ... })
+  
+  Usage: const value = doc.virtualName (no parentheses)
+  
+  Examples:
+    schema.virtual('fullName').get(function() {
+      return `${this.firstName} ${this.lastName}`;
+    })
+    
+    schema.virtual('isDue').get(function() {
+      return new Date() > this.dueDate;
+    })
+
+================================================================================
+8. QUERIES
+================================================================================
+
+Basic Queries:
+  find(filter, projection, options)
+  findById(id)
+  findOne(filter)
+  findByIdAndUpdate(id, update, options)
+  findByIdAndDelete(id)
+  updateOne(filter, update)
+  deleteOne(filter)
+
+Query Examples:
+
+1. Simple find:
+   const docs = await Model.find({ status: 'active' });
+
+2. Find with populate:
+   const doc = await Model.findById(id).populate('userId');
+
+3. Find with sorting and limiting:
+   const docs = await Model.find()
+     .sort({ createdAt: -1 })
+     .limit(10);
+
+4. Find with projection:
+   const docs = await Model.find({}, 'title author'); // Only these fields
+
+5. Aggregation pipeline:
+   const result = await Model.aggregate([
+     { $match: { status: 'active' } },
+     { $group: { _id: '$userId', count: { $sum: 1 } } },
+     { $sort: { count: -1 } }
+   ]);
+
+6. Update:
+   await Model.findByIdAndUpdate(id, { title: 'New' }, { new: true });
+
+7. Delete:
+   await Model.deleteOne({ _id: id });
+
+Best Practices:
+  ✓ Use lean() for read-only queries (performance)
+  ✓ Use select() to project specific fields
+  ✓ Use populate() only when needed
+  ✓ Use aggregation for complex queries
+  ✓ Add error handling to all queries
+  ✓ Use indexes for filtered/sorted fields
+
+================================================================================
+9. ERROR HANDLING
+================================================================================
+
+Validation Errors:
+  Thrown when required fields missing or invalid
+  
+  Handling:
+    try {
+      await doc.save();
+    } catch (error) {
+      if (error.name === 'ValidationError') {
+        // Handle validation error
+        const messages = Object.values(error.errors)
+          .map(e => e.message);
+      }
+    }
+
+Cast Errors:
+  Thrown when field type doesn't match
+  
+  Example: Passing string to ObjectId field
+  
+  Handling:
+    if (error.name === 'CastError') {
+      // Handle type mismatch
+    }
+
+Duplicate Key Errors:
+  Thrown when unique constraint violated
+  
+  Handling:
+    if (error.code === 11000) {
+      // Handle duplicate
+      const field = Object.keys(error.keyPattern)[0];
+    }
+
+Standard Error Pattern:
+  try {
+    const result = await Model.create(data);
+    return result;
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      throw new Error(`Validation failed: ${error.message}`);
+    }
+    if (error.code === 11000) {
+      throw new Error('Duplicate entry found');
+    }
+    throw error;
+  }
+
+================================================================================
+10. FILE STRUCTURE
+================================================================================
+
+Required Files:
+  backend/schemas/User.js
+  backend/schemas/Profile.js
+  backend/schemas/Sadhana.js
+  ... (all 30+ schemas)
+
+Schema File Pattern:
+  1. File header with documentation
+  2. Imports (mongoose, validators, etc.)
+  3. Schema definition
+  4. Index definitions
+  5. Validation hooks
+  6. Middleware hooks
+  7. Instance methods
+  8. Static methods
+  9. Virtual fields
+  10. Module export
+
+Each schema file should be self-contained and independent.
+Import dependencies only from config and utils, not other schemas.
+
+================================================================================
+11. DOCUMENTATION REQUIREMENTS
+================================================================================
+
+Every Schema Must Include:
+
+1. File Header:
+   /**
+    * Schema: [Name]
+    * Purpose: What this collection stores
+    * Key Fields: List of important fields
+    * Relationships: References to other collections
+    */
+
+2. Field Comments:
+   type: String,
+   description: 'What this field is for'
+
+3. Index Comments:
+   // For user-specific queries
+   schema.index({ userId: 1 });
+
+4. Method Documentation:
+   /**
+    * Description of what method does
+    * @param {Type} paramName - Description
+    * @returns {Type} What is returned
+    */
+
+5. Examples Section:
+   At end of file, include usage examples
+
+================================================================================
+12. TESTING SCHEMAS
+================================================================================
+
+Test File Location: backend/tests/schemas.test.js
+
+Tests Should Cover:
+  ✓ Create valid document
+  ✓ Validation errors for required fields
+  ✓ Validation errors for invalid data
+  ✓ Unique constraint enforcement
+  ✓ Index creation
+  ✓ Methods work correctly
+  ✓ Relationships function correctly
+  ✓ Timestamps are set correctly
+
+Example Test:
+  describe('User Schema', () => {
+    it('should create valid user', async () => {
+      const user = await User.create({
+        email: 'test@example.com',
+        displayName: 'Test User'
+      });
+      expect(user.email).toBe('test@example.com');
+    });
+    
+    it('should fail without email', async () => {
+      expect(async () => {
+        await User.create({ displayName: 'Test' });
+      }).rejects.toThrow();
+    });
+  });
+
+================================================================================
+13. MIGRATION NOTES
+================================================================================
+
+When Converting from PostgreSQL:
+
+1. UUID → ObjectId (Mongoose auto-generates)
+2. Text[] → [String] (Arrays)
+3. JSONB → Mixed or nested documents
+4. Timestamps: Use Mongoose timestamps middleware
+5. Enums: Use enum validation
+6. Constraints: Use unique indexes
+7. Foreign Keys: Use ObjectId references
+8. Check constraints: Use custom validation
+
+PostgreSQL to Mongoose Field Mapping:
+
+  UUID PRIMARY KEY
+  → type: mongoose.Schema.Types.ObjectId, auto-generated
+
+  VARCHAR(255) NOT NULL
+  → type: String, required: true, maxlength: 255
+
+  TEXT
+  → type: String
+
+  INTEGER NOT NULL
+  → type: Number, required: true
+
+  BOOLEAN DEFAULT false
+  → type: Boolean, default: false
+
+  TIMESTAMP DEFAULT NOW()
+  → type: Date, default: Date.now
+
+  TEXT[]
+  → type: [String]
+
+  JSONB
+  → type: mongoose.Schema.Types.Mixed
+
+  Foreign Key → ObjectId with ref
+
+================================================================================
+SUMMARY CHECKLIST
+================================================================================
+
+Before considering a schema complete:
+
+□ File is in backend/schemas/[ModelName].js
+□ Schema definition complete with all fields
+□ All fields have proper types
+□ Required fields marked as required
+□ Validations implemented
+□ All appropriate indexes created
+□ Foreign keys use ObjectId with ref
+□ Timestamps included (createdAt, updatedAt)
+□ Instance methods documented and working
+□ Static methods documented and working
+□ toJSON() method implemented for API responses
+□ Error handling documented
+□ File header with purpose documented
+□ All fields have description comments
+□ Unit tests created and passing
+□ Ready for service integration
+
+================================================================================

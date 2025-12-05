@@ -1,25 +1,43 @@
-const db = require('../config/db');
+const AdminIntegration = require('../schemas/AdminIntegration');
 
 module.exports = {
   async listPolicies({ limit = 50, offset = 0 } = {}) {
-    const res = await db.query(`SELECT * FROM admin_security_policies ORDER BY id DESC LIMIT $1 OFFSET $2`, [limit, offset]);
-    return { items: res.rows, total: res.rowCount, limit, offset };
+    const items = await AdminIntegration.find()
+      .sort({ _id: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset));
+    const total = await AdminIntegration.countDocuments();
+    return { items: items.map(i => i.toJSON()), total, limit, offset };
   },
+
   async getPolicy(id) {
-    const res = await db.query(`SELECT * FROM admin_security_policies WHERE id = $1`, [id]);
-    return res.rows[0] || null;
+    const policy = await AdminIntegration.findById(id);
+    return policy ? policy.toJSON() : null;
   },
+
   async createPolicy({ name, description = '', rules = [], enabled = true }) {
-    const res = await db.query(`INSERT INTO admin_security_policies(name,description,rules,enabled) VALUES($1,$2,$3,$4) RETURNING *`, [name, description, rules, enabled]);
-    return res.rows[0];
+    const policy = new AdminIntegration({
+      integrationName: name,
+      description,
+      configuration: { rules },
+      enabled
+    });
+    await policy.save();
+    return policy.toJSON();
   },
+
   async updatePolicy(id, patch) {
-    const keys = [], values = []; let idx = 1;
-    for (const k of Object.keys(patch)) { keys.push(`${k} = $${idx++}`); values.push(patch[k]); }
-    if (!keys.length) return this.getPolicy(id);
-    values.push(id);
-    const res = await db.query(`UPDATE admin_security_policies SET ${keys.join(', ')} WHERE id = $${idx} RETURNING *`, values);
-    return res.rows[0];
+    const updateData = {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (k === 'name') updateData.integrationName = v;
+      else updateData[k] = v;
+    }
+    const policy = await AdminIntegration.findByIdAndUpdate(id, updateData, { new: true });
+    return policy ? policy.toJSON() : null;
   },
-  async deletePolicy(id) { await db.query(`DELETE FROM admin_security_policies WHERE id = $1`, [id]); return { ok: true }; }
+
+  async deletePolicy(id) {
+    await AdminIntegration.findByIdAndDelete(id);
+    return { ok: true };
+  }
 };

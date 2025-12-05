@@ -1,43 +1,51 @@
-const db = require('../config/db');
+const FeatureFlag = require('../schemas/FeatureFlag');
 
 module.exports = {
   async listFlags({ q = '', limit = 50, offset = 0 } = {}) {
-    const params = [limit, offset];
-    let sql = `SELECT * FROM admin_feature_flags ORDER BY id DESC LIMIT $1 OFFSET $2`;
+    let query = {};
     if (q) {
-      sql = `SELECT * FROM admin_feature_flags WHERE key ILIKE $3 OR description ILIKE $3 ORDER BY id DESC LIMIT $1 OFFSET $2`;
-      params.push(`%${q}%`);
+      query.$or = [
+        { flagName: { $regex: q, $options: 'i' } },
+        { description: { $regex: q, $options: 'i' } }
+      ];
     }
-    const res = await db.query(sql, params);
-    return { items: res.rows, total: res.rowCount, limit, offset };
+    const items = await FeatureFlag.find(query)
+      .sort({ _id: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset));
+    const total = await FeatureFlag.countDocuments(query);
+    return { items: items.map(i => i.toJSON()), total, limit, offset };
   },
+
   async getFlag(keyOrId) {
-    const byId = Number.isInteger(keyOrId) || !isNaN(Number(keyOrId));
-    const sql = byId ? `SELECT * FROM admin_feature_flags WHERE id = $1` : `SELECT * FROM admin_feature_flags WHERE key = $1`;
-    const res = await db.query(sql, [keyOrId]);
-    return res.rows[0] || null;
+    const flag = await FeatureFlag.findOne({ flagName: keyOrId });
+    if (flag) return flag.toJSON();
+    return null;
   },
+
   async createFlag({ key, description = '', enabled = false, conditions = {} }) {
-    const sql = `INSERT INTO admin_feature_flags(key, description, enabled, conditions) VALUES($1,$2,$3,$4) RETURNING *`;
-    const res = await db.query(sql, [key, description, enabled, conditions]);
-    return res.rows[0];
+    const flag = new FeatureFlag({
+      flagName: key,
+      description,
+      enabled,
+      metadata: conditions
+    });
+    await flag.save();
+    return flag.toJSON();
   },
+
   async updateFlag(id, patch) {
-    const keys = [];
-    const values = [];
-    let idx = 1;
-    for (const k of Object.keys(patch)) {
-      keys.push(`${k} = $${idx++}`);
-      values.push(patch[k]);
+    const updateData = {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (k === 'key') updateData.flagName = v;
+      else updateData[k] = v;
     }
-    if (!keys.length) return this.getFlag(id);
-    values.push(id);
-    const sql = `UPDATE admin_feature_flags SET ${keys.join(', ')} WHERE id = $${idx} RETURNING *`;
-    const res = await db.query(sql, values);
-    return res.rows[0];
+    const flag = await FeatureFlag.findByIdAndUpdate(id, updateData, { new: true });
+    return flag ? flag.toJSON() : null;
   },
+
   async deleteFlag(id) {
-    await db.query(`DELETE FROM admin_feature_flags WHERE id = $1`, [id]);
+    await FeatureFlag.findByIdAndDelete(id);
     return { ok: true };
   }
 };

@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const AdminIntegrationSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'a_dm_in_in_te_gr_at_io_n' }); module.exports = mongoose.model('AdminIntegration', AdminIntegrationSchema);

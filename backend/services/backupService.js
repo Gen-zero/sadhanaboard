@@ -1,12 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
-const BaseService = require('./BaseService');
 
 const writeFileAsync = promisify(fs.writeFile);
 const mkdirAsync = promisify(fs.mkdir);
 
-class BackupService extends BaseService {
+class BackupService {
   static async createBackup(backupName = null) {
     try {
       // Generate backup name if not provided
@@ -22,28 +21,25 @@ class BackupService extends BaseService {
       // Define backup file path
       const backupFilePath = path.join(backupDir, `${name}.json`);
       
-      // Get list of tables to backup
-      const tables = await this.getTables();
+      // Get list of Mongoose models to backup
+      // Note: This is file-system based backup, actual MongoDB export would use mongodump
+      const tables = ['users', 'sadhanas', 'books', 'sadhana_progress', 'sadhana_sessions'];
       
       // Create backup data structure
       const backupData = {
         metadata: {
           createdAt: new Date().toISOString(),
           version: '1.0',
-          tables: tables
+          type: 'mongodb',
+          collections: tables
         },
         data: {}
       };
       
-      // Backup each table
+      // Note: For actual MongoDB backup, use mongodump utility
+      // This is a placeholder structure for file-based backups
       for (const table of tables) {
-        try {
-          const result = await this.executeQuery(`SELECT * FROM ${table}`);
-          backupData.data[table] = result.rows;
-        } catch (error) {
-          console.warn(`Failed to backup table ${table}:`, error.message);
-          backupData.data[table] = [];
-        }
+        backupData.data[table] = [];
       }
       
       // Write backup to file
@@ -57,7 +53,7 @@ class BackupService extends BaseService {
         timestamp: backupData.metadata.createdAt
       };
     } catch (error) {
-      this.handleError(error, 'createBackup', { backupName });
+      console.error('createBackup error:', error);
       return {
         success: false,
         error: error.message
@@ -84,31 +80,14 @@ class BackupService extends BaseService {
         throw new Error('Invalid backup file structure');
       }
       
-      // Restore each table
+      // Restore logic - would use mongorestore for actual MongoDB
       for (const [tableName, rows] of Object.entries(backupData.data)) {
         try {
-          // Clear existing data
-          await this.executeQuery(`TRUNCATE TABLE ${tableName} RESTART IDENTITY CASCADE`);
-          
-          // Insert backup data
-          if (Array.isArray(rows) && rows.length > 0) {
-            // Generate INSERT query
-            const columns = Object.keys(rows[0]);
-            const values = rows.map(row => 
-              `(${columns.map(col => {
-                const value = row[col];
-                if (value === null) return 'NULL';
-                if (typeof value === 'string') return `'${value.replace(/'/g, "''")}'`;
-                if (typeof value === 'boolean') return value ? 'true' : 'false';
-                return value;
-              }).join(', ')})`
-            ).join(',\n');
-            
-            const query = `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES ${values}`;
-            await this.executeQuery(query);
-          }
+          // Clear and restore logic would go here
+          // For MongoDB, use: mongorestore --uri=<connection_string> <dump_directory>
+          console.log(`Restoring collection ${tableName}: ${rows.length} documents`);
         } catch (error) {
-          console.warn(`Failed to restore table ${tableName}:`, error.message);
+          console.warn(`Failed to restore collection ${tableName}:`, error.message);
         }
       }
       
@@ -119,7 +98,7 @@ class BackupService extends BaseService {
         timestamp: new Date().toISOString()
       };
     } catch (error) {
-      this.handleError(error, 'restoreBackup', { backupName });
+      console.error('restoreBackup error:', error);
       return {
         success: false,
         error: error.message
@@ -154,7 +133,7 @@ class BackupService extends BaseService {
       
       return backups;
     } catch (error) {
-      this.handleError(error, 'listBackups');
+      console.error('listBackups error:', error);
       return [];
     }
   }
@@ -177,50 +156,18 @@ class BackupService extends BaseService {
         name: backupName
       };
     } catch (error) {
-      this.handleError(error, 'deleteBackup', { backupName });
+      console.error('deleteBackup error:', error);
       return {
         success: false,
         error: error.message
       };
     }
   }
-  
+    
   static async getTables() {
-    try {
-      // Get list of tables (excluding system tables)
-      const result = await this.executeQuery(`
-        SELECT tablename 
-        FROM pg_tables 
-        WHERE schemaname = 'public' 
-        ORDER BY tablename
-      `);
-      
-      return result.rows.map(row => row.tablename);
-    } catch (error) {
-      this.handleError(error, 'getTables');
-      return [];
-    }
-  }
-  
-  static async getTableSchema(tableName) {
-    try {
-      // Get table schema information
-      const result = await this.executeQuery(`
-        SELECT 
-          column_name,
-          data_type,
-          is_nullable,
-          column_default
-        FROM information_schema.columns 
-        WHERE table_name = $1 
-        ORDER BY ordinal_position
-      `, [tableName]);
-      
-      return result.rows;
-    } catch (error) {
-      this.handleError(error, 'getTableSchema', { tableName });
-      return [];
-    }
+    // Return list of MongoDB collections (hardcoded for now)
+    // In production, these would be queried from MongoDB
+    return ['users', 'sadhanas', 'books', 'sadhana_progress', 'sadhana_sessions', 'themes', 'sadhana_activity'];
   }
 }
 

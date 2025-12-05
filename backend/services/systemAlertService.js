@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const { SystemAlert, SystemAlertRule } = require('../models');
 const logger = require('../utils/logger');
 const { v4: uuidv4 } = require('uuid');
 
@@ -12,39 +12,51 @@ function setIoInstance(io) {
 
 async function createSystemAlert(alertType, severity, message, metricData) {
   try {
-    const r = await db.query('INSERT INTO system_alerts (alert_type,severity,message,metric_data) VALUES ($1,$2,$3,$4) RETURNING *', [alertType, severity, message, JSON.stringify(metricData || {})]);
-    const inserted = r.rows && r.rows[0];
-    try { 
+    const alert = new SystemAlert({
+      alertType,
+      severity,
+      message,
+      metricData: metricData || {}
+    });
+    await alert.save();
+    const result = alert.toJSON();
+    try {
       if (ioInstance) {
-        ioInstance.to('admins').emit('system:alert', inserted);
+        ioInstance.to('admins').emit('system:alert', result);
       }
     } catch (e) {
       logger.error('Failed to emit system alert via Socket.IO', e);
     }
-    return inserted;
-  } catch (e) { 
-    logger.error('createSystemAlert', e); 
-    throw e; 
+    return result;
+  } catch (e) {
+    logger.error('createSystemAlert', e);
+    throw e;
   }
 }
 
 async function listSystemAlerts() {
-  const r = await db.query('SELECT * FROM system_alerts ORDER BY created_at DESC LIMIT 200');
-  return r.rows || [];
+  try {
+    const alerts = await SystemAlert.find().sort({ createdAt: -1 }).limit(200).lean();
+    return alerts || [];
+  } catch (e) {
+    logger.error('listSystemAlerts', e);
+    return [];
+  }
 }
 
 async function createSystemAlertRule(name, conditions, thresholds) {
   try {
-    // Validate UUID format for id if provided
-    const id = uuidv4();
-    
-    const r = await db.query(
-      'INSERT INTO system_alert_rules (id, name, alert_type, conditions, thresholds, enabled, suppression_window, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING *',
-      [id, name, conditions.alert_type || 'system', JSON.stringify(conditions), JSON.stringify(thresholds || {}), true, 300]
-    );
-    
-    const inserted = r.rows && r.rows[0];
-    return { ok: true, rule: inserted };
+    const rule = new SystemAlertRule({
+      id: uuidv4(),
+      name,
+      alertType: conditions.alert_type || 'system',
+      conditions,
+      thresholds: thresholds || {},
+      enabled: true,
+      suppressionWindow: 300
+    });
+    await rule.save();
+    return { ok: true, rule: rule.toJSON() };
   } catch (e) {
     logger.error('createSystemAlertRule', e);
     return { error: String(e) };
@@ -53,23 +65,18 @@ async function createSystemAlertRule(name, conditions, thresholds) {
 
 async function updateSystemAlertRule(id, updates) {
   try {
-    // Validate UUID format
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(id)) {
-      throw new Error('Invalid UUID format');
-    }
-    
-    const r = await db.query(
-      'UPDATE system_alert_rules SET name = $2, conditions = $3, thresholds = $4, enabled = $5, suppression_window = $6, updated_at = NOW() WHERE id = $1 RETURNING *',
-      [id, updates.name, JSON.stringify(updates.conditions || {}), JSON.stringify(updates.thresholds || {}), updates.enabled, updates.suppression_window || 300]
-    );
-    
-    const updated = r.rows && r.rows[0];
-    if (!updated) {
+    const rule = await SystemAlertRule.findByIdAndUpdate(id, {
+      name: updates.name,
+      conditions: updates.conditions || {},
+      thresholds: updates.thresholds || {},
+      enabled: updates.enabled,
+      suppressionWindow: updates.suppressionWindow || 300
+    }, { new: true }).lean();
+
+    if (!rule) {
       return { error: 'Rule not found' };
     }
-    
-    return { ok: true, rule: updated };
+    return { ok: true, rule };
   } catch (e) {
     logger.error('updateSystemAlertRule', e);
     return { error: String(e) };
@@ -78,13 +85,7 @@ async function updateSystemAlertRule(id, updates) {
 
 async function deleteSystemAlertRule(id) {
   try {
-    // Validate UUID format
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(id)) {
-      throw new Error('Invalid UUID format');
-    }
-    
-    await db.query('DELETE FROM system_alert_rules WHERE id = $1', [id]);
+    await SystemAlertRule.deleteOne({ _id: id });
     return { ok: true };
   } catch (e) {
     logger.error('deleteSystemAlertRule', e);
@@ -94,33 +95,31 @@ async function deleteSystemAlertRule(id) {
 
 async function resolveSystemAlert(id, resolvedBy = null) {
   try {
-    // Validate UUID format
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(id)) {
-      throw new Error('Invalid UUID format');
-    }
-    
-    await db.query('UPDATE system_alerts SET resolved = true, resolved_at = NOW(), resolved_by = $2 WHERE id = $1', [id, resolvedBy]);
+    await SystemAlert.findByIdAndUpdate(id, {
+      resolved: true,
+      resolvedAt: new Date(),
+      resolvedBy
+    });
     return { ok: true };
-  } catch (e) { 
+  } catch (e) {
     logger.error('resolveSystemAlert', e);
-    return { error: String(e) }; 
+    return { error: String(e) };
   }
 }
 
 async function listSystemAlertRules() {
   try {
-    const r = await db.query('SELECT * FROM system_alert_rules ORDER BY created_at DESC');
-    return r.rows || [];
+    const rules = await SystemAlertRule.find().sort({ createdAt: -1 }).lean();
+    return rules || [];
   } catch (e) {
     logger.error('listSystemAlertRules', e);
     return [];
   }
 }
 
-module.exports = { 
-  createSystemAlert, 
-  listSystemAlerts, 
+module.exports = {
+  createSystemAlert,
+  listSystemAlerts,
   createSystemAlertRule,
   updateSystemAlertRule,
   deleteSystemAlertRule,

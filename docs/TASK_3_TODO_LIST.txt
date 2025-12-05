@@ -1,0 +1,402 @@
+================================================================================
+TASK 3: FEATURE SERVICE REFACTORING - TIER 2 - TO-DO LIST
+================================================================================
+
+Task: 3 - Feature Service Refactoring (Tier 2 - Moderate Complexity Services)
+Start Date: December 5, 2025
+Estimated Duration: 18 hours
+Status: 🟡 PENDING START
+
+================================================================================
+TASK OVERVIEW
+================================================================================
+
+Objective:
+  Refactor 18 moderate-complexity services from PostgreSQL to MongoDB/Mongoose.
+  These services use relationships, populate(), and some aggregations.
+
+Services to Refactor (in priority order):
+  1. sadhanaService.js (18.4KB) - Core spiritual practice feature
+  2. bookService.js (16.9KB) - Book library management
+  3. socialService.js (18.2KB) - Social features and graph
+  4. sadhanaProgressionService.js (12.3KB) - Progress tracking
+  5. userProgressionService.js (12.4KB) - User progression stats
+  6. communityService.js (6.8KB) - Community management
+  7. bookAnalyticsService.js (9.8KB) - Book analytics
+  8. dashboardService.js (6.9KB) - Dashboard data aggregation
+  9. dashboardStatsService.js (4.7KB) - Statistics aggregation
+  10. alertService.js (7.3KB) - Alert management
+  11. reminderService.js (4.7KB) - Reminder scheduling
+  12. contentApprovalService.js (6.4KB) - Content moderation
+  13. achievementService.js (5.1KB) - Achievement tracking
+  14. systemAlertService.js (4.1KB) - System notifications
+  15. mentorshipService.js (2.1KB) - Mentorship relationships
+  16. mediaProcessingService.js (5.0KB) - Media operations
+  17. eventService.js (4.2KB) - Event handling
+  18. redisService.js (1.2KB) - Caching layer
+
+Characteristics:
+  ✓ Uses relationships with populate()
+  ✓ Some aggregation pipelines
+  ✓ Filtering and complex queries
+  ✓ Statistics calculations
+  ✓ Pagination with relationships
+
+Key Differences from Tier 1:
+  • Will use populate() for relationship loading
+  • Some services need aggregation pipelines
+  • More complex filtering logic
+  • Statistics/counting operations
+  • Potential for performance optimization
+
+Dependencies:
+  ✓ All 34 MongoDB schemas created (Phase 2 complete)
+  ✓ Tier 1 services completed (Task 2 complete)
+  ✓ All Mongoose patterns validated
+
+Blockers: NONE
+
+================================================================================
+TIER 2 REFACTORING PATTERNS
+================================================================================
+
+Pattern 1: Find with Populate (Simple Join)
+  OLD:  db.query('SELECT s.*, u.name FROM sadhanas s 
+        JOIN users u ON s.user_id = u.id WHERE s.id = $1', [id])
+  NEW:  const sadhana = await Sadhana.findById(id).populate('userId', 'displayName');
+
+Pattern 2: Find with Multiple Relationships
+  OLD:  Complex multi-table join with WHERE
+  NEW:  Sadhana.findById(id)
+        .populate('userId')
+        .populate('likeIds')
+        .populate('commentIds');
+
+Pattern 3: List with Pagination and Populate
+  OLD:  SELECT * FROM items WHERE condition LIMIT x OFFSET y
+  NEW:  Item.find(query)
+        .populate('userId')
+        .sort({createdAt: -1})
+        .limit(10)
+        .skip(offset);
+
+Pattern 4: Aggregation Pipeline (GROUP BY)
+  OLD:  SELECT COUNT(*) as count, AVG(duration) as avg 
+        FROM sadhana_progress GROUP BY user_id
+  NEW:  SadhanaProgress.aggregate([
+        {$match: {userId: ObjectId(userId)}},
+        {$group: {_id: '$userId', count: {$sum: 1}, avg: {$avg: '$duration'}}}
+        ]);
+
+Pattern 5: Counting with Relationship
+  OLD:  SELECT COUNT(*) FROM likes WHERE sadhana_id = $1
+  NEW:  Like.countDocuments({sadhanaId});
+
+Pattern 6: Complex Filtering with Relationships
+  OLD:  Complex WHERE with multiple AND/OR conditions
+  NEW:  find({$and: [{status: 'active'}, {$or: [{userId}, {sharedWith}]}]})
+
+Pattern 7: Sorting with Statistics
+  OLD:  SELECT *, COUNT(likes) as likeCount FROM sadhanas 
+        GROUP BY id ORDER BY likeCount DESC
+  NEW:  Aggregation with $sort on computed field
+
+Pattern 8: Date Range Queries
+  OLD:  WHERE created_at >= $1 AND created_at <= $2
+  NEW:  find({createdAt: {$gte: start, $lte: end}})
+
+================================================================================
+DETAILED SUBTASKS
+================================================================================
+
+## SUBTASK 1: Refactor sadhanaService.js (Core Feature - 2 hours)
+Status: ⏳ PENDING
+Importance: CRITICAL
+
+Description:
+  Core sadhana (spiritual practice) service with user relationships
+
+Services:
+  □ 1.1: getUserSadhanas() - Find with userId reference
+  □ 1.2: createSadhana() - Create with relationships
+  □ 1.3: updateSadhana() - Update with validation
+  □ 1.4: deleteSadhana() - Soft delete
+  □ 1.5: getSadhanaProgress() - Related data fetch
+  □ 1.6: upsertSadhanaProgress() - Create/update progress
+
+Key Patterns:
+  • User relationship via populate()
+  • Progress tracking with aggregation
+  • Status filtering (active, completed, paused)
+
+Acceptance Criteria:
+  ✓ All db.query() converted
+  ✓ User relationships work via populate()
+  ✓ Progress tracking functional
+  ✓ Status transitions work correctly
+
+---
+
+## SUBTASK 2: Refactor bookService.js (2 hours)
+Status: ⏳ PENDING
+Importance: CRITICAL
+
+Description:
+  Book library management with user and engagement relationships
+
+Services:
+  □ 2.1: getUserBooks() - Find with user relationship
+  □ 2.2: createBook() - Create new book
+  □ 2.3: updateBook() - Update metadata
+  □ 2.4: deleteBook() - Soft delete
+  □ 2.5: getPublicBooks() - Find public books
+  □ 2.6: searchBooks() - Text search functionality
+
+Key Patterns:
+  • User relationship via populate()
+  • Text search with $text operator
+  • Privacy filtering (isPublic)
+  • Rating aggregation
+
+Acceptance Criteria:
+  ✓ All queries converted
+  ✓ Text search working
+  ✓ Privacy filtering in place
+  ✓ Relationships functioning
+
+---
+
+## SUBTASK 3: Refactor socialService.js (2 hours)
+Status: ⏳ PENDING
+Importance: CRITICAL
+
+Description:
+  Social graph operations: shares, comments, likes, follows
+
+Services:
+  □ 3.1: getSocialFeed() - Complex multi-collection query
+  □ 3.2: likeItem() - Create/update like
+  □ 3.3: commentOnItem() - Create comment with threading
+  □ 3.4: shareItem() - Create share record
+  □ 3.5: followUser() - Create follow relationship
+  □ 3.6: getFriendsList() - List user's social connections
+
+Key Patterns:
+  • Complex aggregation for feed
+  • Multiple relationship types
+  • Threading for comments
+  • Social graph traversal
+
+Acceptance Criteria:
+  ✓ Social feed aggregation working
+  ✓ All operations creating proper relationships
+  ✓ Threading working correctly
+  ✓ Privacy levels respected
+
+---
+
+## SUBTASK 4: Refactor sadhanaProgressionService.js (1.5 hours)
+Status: ⏳ PENDING
+
+Description:
+  Sadhana progress tracking with statistics
+
+Services:
+  □ 4.1: logProgress() - Create progress entry
+  □ 4.2: getProgressHistory() - Find with date range
+  □ 4.3: calculateStats() - Aggregation pipeline
+  □ 4.4: getStreak() - Calculate consecutive days
+
+Key Patterns:
+  • Date range filtering
+  • Aggregation for statistics
+  • Streak calculation logic
+
+---
+
+## SUBTASK 5: Refactor userProgressionService.js (1.5 hours)
+Status: ⏳ PENDING
+
+Description:
+  User progression (levels, experience points, achievements)
+
+---
+
+## SUBTASK 6: Refactor communityService.js (1.5 hours)
+Status: ⏳ PENDING
+
+Description:
+  Community/group management with member relationships
+
+---
+
+## SUBTASK 7: Refactor bookAnalyticsService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Book analytics: stats, trends, recommendations
+
+Key Patterns:
+  • Aggregation pipelines for analytics
+  • Time-series grouping
+  • Trending calculations
+
+---
+
+## SUBTASK 8: Refactor dashboardService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Dashboard data aggregation from multiple sources
+
+---
+
+## SUBTASK 9: Refactor dashboardStatsService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Statistics aggregation (user stats, system stats)
+
+---
+
+## SUBTASK 10: Refactor alertService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Alert management and notifications
+
+---
+
+## SUBTASK 11: Refactor reminderService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Reminder scheduling and delivery
+
+---
+
+## SUBTASK 12: Refactor contentApprovalService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Content moderation and approval workflow
+
+---
+
+## SUBTASK 13: Refactor achievementService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Achievement unlocking and tracking
+
+---
+
+## SUBTASK 14: Refactor systemAlertService.js (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  System alert generation and tracking
+
+---
+
+## SUBTASK 15: Refactor mentorshipService.js (0.75 hours)
+Status: ⏳ PENDING
+
+Description:
+  Mentorship relationships and goal tracking
+
+---
+
+## SUBTASK 16: Refactor mediaProcessingService.js (0.75 hours)
+Status: ⏳ PENDING
+
+Description:
+  Media file processing and storage
+
+---
+
+## SUBTASK 17: Refactor eventService.js (0.75 hours)
+Status: ⏳ PENDING
+
+Description:
+  Event handling and publishing
+
+---
+
+## SUBTASK 18: Refactor redisService.js (0.5 hours)
+Status: ⏳ PENDING
+
+Description:
+  Redis caching layer integration
+
+---
+
+## SUBTASK 19: Comprehensive Tier 2 Testing (2 hours)
+Status: ⏳ PENDING
+
+Description:
+  Test all Tier 2 services with relationships and aggregations
+
+---
+
+## SUBTASK 20: Create Tier 2 Progress Report (1 hour)
+Status: ⏳ PENDING
+
+Description:
+  Document Task 3 completion and metrics
+
+================================================================================
+EXECUTION STRATEGY
+================================================================================
+
+Phase 1 (Critical Services, 6 hours):
+  1. sadhanaService.js (2 hours)
+  2. bookService.js (2 hours)
+  3. socialService.js (2 hours)
+  
+  After Phase 1: Unblock most feature modules
+
+Phase 2 (Feature Services, 7 hours):
+  4-6. Progression services (4.5 hours)
+  7-11. Analytics & alerts (3.5 hours)
+
+Phase 3 (Supporting Services, 3 hours):
+  12-18. Moderation, achievement, media, events, caching (3 hours)
+
+Phase 4 (Testing & Documentation, 2 hours):
+  19-20. Comprehensive testing and progress report
+
+Total: 18 hours
+
+================================================================================
+SUCCESS CRITERIA
+================================================================================
+
+Tier 2 Complete when:
+
+  ✅ All 18 services refactored
+  ✅ All db.query() calls removed
+  ✅ All populate() relationships working
+  ✅ Aggregation pipelines implemented
+  ✅ Date range queries functional
+  ✅ Text search working
+  ✅ All tests passing
+  ✅ Ready for Tier 3
+
+================================================================================
+READY FOR TIER 2 REFACTORING
+================================================================================
+
+Status: ✅ READY
+
+Prerequisites:
+  ✓ Tier 1 services complete
+  ✓ All 34 schemas created
+  ✓ Refactoring patterns verified
+  ✓ Relationship mappings understood
+
+Confidence Level: HIGH ✅
+
+Waiting for confirmation to begin Task 3: Tier 2 Service Refactoring.
+
+================================================================================

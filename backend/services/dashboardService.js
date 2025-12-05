@@ -1,179 +1,98 @@
-const BaseService = require('./BaseService');
+const { AdminDashboard } = require('../models');
 
-class DashboardService extends BaseService {
-  // Create a custom dashboard for an admin
+class DashboardService {
   static async createCustomDashboard(adminId, name, layout = []) {
     try {
-      const query = `
-        INSERT INTO admin_dashboards 
-        (admin_id, name, layout, is_default, created_at, updated_at)
-        VALUES ($1, $2, $3, $4, NOW(), NOW())
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, [adminId, name, this.stringifyJson(layout), false]);
-      
-      const dashboard = result.rows[0];
-      return {
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      };
+      const dashboard = new AdminDashboard({
+        adminId,
+        name,
+        layout,
+        isDefault: false
+      });
+      await dashboard.save();
+      return dashboard.toJSON();
     } catch (error) {
-      this.handleError(error, 'createCustomDashboard', { adminId, name });
+      console.error('createCustomDashboard', error);
+      throw error;
     }
   }
-  
-  // Get all dashboards for an admin
   static async getDashboardsForAdmin(adminId) {
     try {
-      const query = `
-        SELECT * FROM admin_dashboards 
-        WHERE admin_id = $1 
-        ORDER BY is_default DESC, created_at ASC`;
-      
-      const result = await this.executeQuery(query, [adminId]);
-      
-      return result.rows.map(dashboard => ({
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      }));
+      const dashboards = await AdminDashboard.find({ adminId })
+        .sort({ isDefault: -1, createdAt: 1 })
+        .lean();
+      return dashboards;
     } catch (error) {
-      this.handleError(error, 'getDashboardsForAdmin', { adminId });
+      console.error('getDashboardsForAdmin', error);
+      throw error;
     }
   }
-  
-  // Get dashboard by ID
   static async getDashboardById(dashboardId, adminId) {
     try {
-      const query = `
-        SELECT * FROM admin_dashboards 
-        WHERE id = $1 AND admin_id = $2`;
-      
-      const result = await this.executeQuery(query, [dashboardId, adminId]);
-      
-      if (result.rows.length === 0) {
-        return null;
-      }
-      
-      const dashboard = result.rows[0];
-      return {
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      };
+      const dashboard = await AdminDashboard.findOne({
+        _id: dashboardId,
+        adminId
+      }).lean();
+      return dashboard || null;
     } catch (error) {
-      this.handleError(error, 'getDashboardById', { dashboardId, adminId });
+      console.error('getDashboardById', error);
+      throw error;
     }
   }
-  
-  // Update dashboard
   static async updateDashboard(dashboardId, adminId, updates) {
     try {
-      const fields = [];
-      const values = [];
-      let paramIndex = 1;
-      
-      if (updates.name !== undefined) {
-        fields.push(`name = $${paramIndex}`);
-        values.push(updates.name);
-        paramIndex++;
-      }
-      
-      if (updates.layout !== undefined) {
-        fields.push(`layout = $${paramIndex}`);
-        values.push(this.stringifyJson(updates.layout));
-        paramIndex++;
-      }
-      
+      const updateData = {};
+      if (updates.name !== undefined) updateData.name = updates.name;
+      if (updates.layout !== undefined) updateData.layout = updates.layout;
       if (updates.is_default !== undefined) {
-        fields.push(`is_default = $${paramIndex}`);
-        values.push(updates.is_default);
-        paramIndex++;
-        
-        // If setting this as default, unset others
+        updateData.isDefault = updates.is_default;
         if (updates.is_default) {
-          const unsetQuery = `
-            UPDATE admin_dashboards 
-            SET is_default = false 
-            WHERE admin_id = $1 AND id != $2`;
-          await this.executeQuery(unsetQuery, [adminId, dashboardId]);
+          await AdminDashboard.updateMany(
+            { adminId, _id: { $ne: dashboardId } },
+            { isDefault: false }
+          );
         }
       }
-      
-      fields.push(`updated_at = NOW()`);
-      
-      if (fields.length === 1) {
-        // Only updating timestamp
-        values.push(dashboardId, adminId);
-      } else {
-        values.push(dashboardId, adminId);
-      }
-      
-      const query = `
-        UPDATE admin_dashboards 
-        SET ${fields.join(', ')}
-        WHERE id = $${paramIndex} AND admin_id = $${paramIndex + 1}
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, values);
-      
-      if (result.rows.length === 0) {
-        throw new Error('Dashboard not found or unauthorized');
-      }
-      
-      const dashboard = result.rows[0];
-      return {
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      };
+      updateData.updatedAt = new Date();
+
+      const dashboard = await AdminDashboard.findByIdAndUpdate(dashboardId, updateData, { new: true }).lean();
+      if (!dashboard) throw new Error('Dashboard not found or unauthorized');
+      return dashboard;
     } catch (error) {
-      this.handleError(error, 'updateDashboard', { dashboardId, adminId, updates });
+      console.error('updateDashboard', error);
+      throw error;
     }
   }
-  
-  // Delete dashboard
   static async deleteDashboard(dashboardId, adminId) {
     try {
-      const query = `
-        DELETE FROM admin_dashboards 
-        WHERE id = $1 AND admin_id = $2 AND is_default = false
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, [dashboardId, adminId]);
-      
-      if (result.rows.length === 0) {
-        throw new Error('Dashboard not found, unauthorized, or is default dashboard');
-      }
-      
-      return result.rows[0];
+      const dashboard = await AdminDashboard.findOneAndDelete({
+        _id: dashboardId,
+        adminId,
+        isDefault: false
+      }).lean();
+      if (!dashboard) throw new Error('Dashboard not found, unauthorized, or is default dashboard');
+      return dashboard;
     } catch (error) {
-      this.handleError(error, 'deleteDashboard', { dashboardId, adminId });
+      console.error('deleteDashboard', error);
+      throw error;
     }
   }
-  
-  // Get default dashboard for admin
   static async getDefaultDashboard(adminId) {
     try {
-      const query = `
-        SELECT * FROM admin_dashboards 
-        WHERE admin_id = $1 AND is_default = true`;
+      let dashboard = await AdminDashboard.findOne({
+        adminId,
+        isDefault: true
+      }).lean();
       
-      const result = await this.executeQuery(query, [adminId]);
-      
-      if (result.rows.length === 0) {
-        // Create a default dashboard if none exists
-        return await this.createDefaultDashboard(adminId);
+      if (!dashboard) {
+        dashboard = await this.createDefaultDashboard(adminId);
       }
-      
-      const dashboard = result.rows[0];
-      return {
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      };
+      return dashboard;
     } catch (error) {
-      this.handleError(error, 'getDefaultDashboard', { adminId });
+      console.error('getDefaultDashboard', error);
+      throw error;
     }
   }
-  
-  // Create default dashboard
   static async createDefaultDashboard(adminId) {
     try {
       const defaultLayout = [
@@ -182,21 +101,17 @@ class DashboardService extends BaseService {
         { id: 'system-health', type: 'health', x: 8, y: 6, w: 4, h: 6 }
       ];
       
-      const query = `
-        INSERT INTO admin_dashboards 
-        (admin_id, name, layout, is_default, created_at, updated_at)
-        VALUES ($1, $2, $3, $4, NOW(), NOW())
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, [adminId, 'Default Dashboard', this.stringifyJson(defaultLayout), true]);
-      
-      const dashboard = result.rows[0];
-      return {
-        ...dashboard,
-        layout: this.parseJsonField(dashboard.layout, [])
-      };
+      const dashboard = new AdminDashboard({
+        adminId,
+        name: 'Default Dashboard',
+        layout: defaultLayout,
+        isDefault: true
+      });
+      await dashboard.save();
+      return dashboard.toJSON();
     } catch (error) {
-      this.handleError(error, 'createDefaultDashboard', { adminId });
+      console.error('createDefaultDashboard', error);
+      throw error;
     }
   }
   

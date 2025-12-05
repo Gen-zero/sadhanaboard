@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const CommunityReportSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'c_om_mu_ni_ty_re_po_rt' }); module.exports = mongoose.model('CommunityReport', CommunityReportSchema);

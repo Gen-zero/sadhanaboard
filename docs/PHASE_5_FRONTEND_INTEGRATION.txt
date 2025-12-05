@@ -1,0 +1,604 @@
+================================================================================
+PHASE 5: FRONTEND INTEGRATION WITH MONGODB BACKEND
+React + Vite Frontend Connected to Mongoose Backend
+================================================================================
+
+STATUS: Ready for Implementation
+Estimated Duration: 25-35 hours
+Priority: HIGH
+Impact: User-facing functionality, real-time application
+
+================================================================================
+OVERVIEW
+================================================================================
+
+This phase focuses on connecting the React frontend (built with Vite) to
+the refactored MongoDB backend. All API integrations will follow RESTful
+patterns with proper error handling, authentication, and real-time updates.
+
+Current State:
+  • React + Vite frontend ready ✅
+  • Express.js backend with 45 services ✅
+  • MongoDB Atlas connected ✅
+  • API routes defined ✅
+
+Target State:
+  • Frontend fully integrated with backend
+  • All CRUD operations working
+  • Authentication implemented
+  • Real-time updates via Socket.io
+  • Error handling & loading states
+  • Data fetching optimization
+
+================================================================================
+PART 1: API CLIENT SETUP
+================================================================================
+
+1.1 Axios Configuration
+
+Create: src/api/client.js
+```javascript
+import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3004/api';
+
+const client = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// Add token to requests
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Handle errors
+client.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default client;
+```
+
+1.2 React Query / TanStack Query Integration
+
+Create: src/api/hooks.js
+```javascript
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import client from './client';
+
+// User APIs
+export const useUser = (userId) => {
+  return useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => client.get(`/users/${userId}`).then(res => res.data),
+    staleTime: 5 * 60 * 1000
+  });
+};
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => client.put(`/users/${data.id}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    }
+  });
+};
+
+// Sadhana APIs
+export const useSadhanas = (userId) => {
+  return useQuery({
+    queryKey: ['sadhanas', userId],
+    queryFn: () => client.get(`/sadhanas?userId=${userId}`).then(res => res.data),
+    staleTime: 10 * 60 * 1000
+  });
+};
+
+export const useCreateSadhana = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => client.post('/sadhanas', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sadhanas'] });
+    }
+  });
+};
+```
+
+================================================================================
+PART 2: AUTHENTICATION INTEGRATION
+================================================================================
+
+2.1 Auth Service
+
+Create: src/services/auth.js
+```javascript
+import client from '../api/client';
+
+export const authService = {
+  login: async (email, password) => {
+    const response = await client.post('/auth/login', { email, password });
+    const { token } = response.data;
+    localStorage.setItem('authToken', token);
+    return response.data;
+  },
+
+  register: async (userData) => {
+    return client.post('/auth/register', userData);
+  },
+
+  logout: () => {
+    localStorage.removeItem('authToken');
+  },
+
+  getCurrentUser: () => {
+    const token = localStorage.getItem('authToken');
+    return token ? { authenticated: true } : null;
+  }
+};
+```
+
+2.2 Protected Routes
+
+Create: src/components/ProtectedRoute.jsx
+```javascript
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+
+export default function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <Navigate to="/login" />;
+
+  return children;
+}
+```
+
+2.3 Auth Context
+
+Create: src/context/AuthContext.jsx
+```javascript
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { authService } from '../services/auth';
+
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch('/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+      });
+      if (response.ok) {
+        setUser(await response.json());
+      }
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+      authService.logout();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading, fetchUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);
+```
+
+================================================================================
+PART 3: COMPONENT INTEGRATION PATTERNS
+================================================================================
+
+3.1 Sadhana List Component
+
+Create: src/components/SadhanaList.jsx
+```javascript
+import React from 'react';
+import { useSadhanas, useDeleteSadhana } from '../api/hooks';
+import { useAuth } from '../hooks/useAuth';
+
+export default function SadhanaList() {
+  const { user } = useAuth();
+  const { data: sadhanas, isLoading, error } = useSadhanas(user?.id);
+  const deleteMutation = useDeleteSadhana();
+
+  if (isLoading) return <div>Loading sadhanas...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div className="sadhana-list">
+      {sadhanas?.map(sadhana => (
+        <div key={sadhana._id} className="sadhana-card">
+          <h3>{sadhana.name}</h3>
+          <p>{sadhana.description}</p>
+          <button onClick={() => deleteMutation.mutate(sadhana._id)}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+3.2 Create Form Component
+
+Create: src/components/CreateSadhanaForm.jsx
+```javascript
+import React, { useState } from 'react';
+import { useCreateSadhana } from '../api/hooks';
+import { useAuth } from '../hooks/useAuth';
+
+export default function CreateSadhanaForm() {
+  const { user } = useAuth();
+  const mutation = useCreateSadhana();
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    type: 'meditation'
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await mutation.mutateAsync({
+        ...formData,
+        userId: user.id
+      });
+      setFormData({ name: '', description: '', type: 'meditation' });
+    } catch (error) {
+      console.error('Failed to create sadhana:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Sadhana name"
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        required
+      />
+      <textarea
+        placeholder="Description"
+        value={formData.description}
+        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+      />
+      <select
+        value={formData.type}
+        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+      >
+        <option value="meditation">Meditation</option>
+        <option value="yoga">Yoga</option>
+        <option value="reading">Reading</option>
+      </select>
+      <button type="submit" disabled={mutation.isPending}>
+        {mutation.isPending ? 'Creating...' : 'Create'}
+      </button>
+    </form>
+  );
+}
+```
+
+================================================================================
+PART 4: REAL-TIME UPDATES WITH SOCKET.IO
+================================================================================
+
+4.1 Socket.io Client Setup
+
+Create: src/services/socket.js
+```javascript
+import io from 'socket.io-client';
+
+const SOCKET_URL = import.meta.env.VITE_SOCKET_BASE_URL || 'http://localhost:3004';
+
+const socket = io(SOCKET_URL, {
+  auth: {
+    token: localStorage.getItem('authToken')
+  },
+  reconnection: true,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  reconnectionAttempts: 5
+});
+
+socket.on('connect', () => {
+  console.log('Connected to server');
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from server');
+});
+
+export default socket;
+```
+
+4.2 Real-time Sadhana Updates
+
+In backend service:
+```javascript
+// Emit when sadhana is created
+io.to(`user:${userId}`).emit('sadhana:created', newSadhana);
+
+// Emit when sadhana is updated
+io.to(`user:${userId}`).emit('sadhana:updated', updatedSadhana);
+
+// Emit when sadhana is deleted
+io.to(`user:${userId}`).emit('sadhana:deleted', sadhanaId);
+```
+
+In frontend component:
+```javascript
+import { useEffect } from 'react';
+import socket from '../services/socket';
+import { useQueryClient } from '@tanstack/react-query';
+
+export function useSadhanaUpdates() {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    socket.on('sadhana:created', (sadhana) => {
+      queryClient.invalidateQueries({ queryKey: ['sadhanas'] });
+    });
+
+    socket.on('sadhana:updated', (sadhana) => {
+      queryClient.setQueryData(['sadhana', sadhana._id], sadhana);
+    });
+
+    socket.on('sadhana:deleted', (sadhanaId) => {
+      queryClient.removeQueries({ queryKey: ['sadhana', sadhanaId] });
+    });
+
+    return () => {
+      socket.off('sadhana:created');
+      socket.off('sadhana:updated');
+      socket.off('sadhana:deleted');
+    };
+  }, [queryClient]);
+}
+```
+
+================================================================================
+PART 5: ERROR HANDLING & LOADING STATES
+================================================================================
+
+5.1 Custom Error Hook
+
+Create: src/hooks/useApiError.js
+```javascript
+import { useState, useCallback } from 'react';
+
+export const useApiError = () => {
+  const [error, setError] = useState(null);
+
+  const handleError = useCallback((err) => {
+    if (err.response?.status === 401) {
+      setError('Unauthorized. Please login again.');
+    } else if (err.response?.status === 403) {
+      setError('You do not have permission to perform this action.');
+    } else if (err.response?.status === 404) {
+      setError('Resource not found.');
+    } else if (err.response?.status >= 500) {
+      setError('Server error. Please try again later.');
+    } else if (err.message === 'Network Error') {
+      setError('Network error. Please check your connection.');
+    } else {
+      setError(err.response?.data?.message || err.message || 'An error occurred');
+    }
+  }, []);
+
+  const clearError = useCallback(() => setError(null), []);
+
+  return { error, handleError, clearError };
+};
+```
+
+5.2 Loading Skeleton Component
+
+Create: src/components/Skeleton.jsx
+```javascript
+import React from 'react';
+
+export function SadhanaCardSkeleton() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton-title"></div>
+      <div className="skeleton-text"></div>
+      <div className="skeleton-text"></div>
+    </div>
+  );
+}
+
+// CSS
+const styles = `
+  .skeleton-card {
+    padding: 1rem;
+    background: #f0f0f0;
+    border-radius: 8px;
+  }
+  
+  .skeleton-title {
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .skeleton-text {
+    height: 16px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+`;
+```
+
+================================================================================
+PART 6: API INTEGRATION CHECKLIST
+================================================================================
+
+Authentication & Authorization:
+  ☐ Login/Register pages connected
+  ☐ Token storage and retrieval working
+  ☐ Protected routes implemented
+  ☐ Logout functionality working
+  ☐ Auth errors handled properly
+
+User Management:
+  ☐ User profile retrieval working
+  ☐ User profile updates working
+  ☐ User settings management
+  ☐ Password change functionality
+  ☐ Profile image upload
+
+Sadhana Operations:
+  ☐ List sadhanas by user
+  ☐ Create new sadhana
+  ☐ Update sadhana details
+  ☐ Delete sadhana
+  ☐ Filter/search sadhanas
+
+Sadhana Sessions:
+  ☐ Log sadhana session
+  ☐ Track session duration
+  ☐ Update session notes
+  ☐ View session history
+
+Book Operations:
+  ☐ Book list/search
+  ☐ Book details view
+  ☐ Add to collection
+  ☐ Remove from collection
+  ☐ Book progress tracking
+
+Social Features:
+  ☐ Follow/unfollow users
+  ☐ View user profiles
+  ☐ View shared sadhanas
+  ☐ Comment on sadhanas
+  ☐ Like/unlike sadhanas
+
+Real-time Updates:
+  ☐ Socket.io connection
+  ☐ Real-time notifications
+  ☐ Live activity feed
+  ☐ Chat functionality
+
+Error Handling:
+  ☐ Network errors handled
+  ☐ Validation errors shown
+  ☐ User-friendly messages
+  ☐ Retry logic implemented
+  ☐ Fallback UI ready
+
+Loading States:
+  ☐ Skeleton screens
+  ☐ Loading spinners
+  ☐ Progress indicators
+  ☐ Optimistic updates
+
+Performance:
+  ☐ Data caching working
+  ☐ Pagination implemented
+  ☐ Lazy loading enabled
+  ☐ Image optimization done
+
+================================================================================
+IMPLEMENTATION TIMELINE
+================================================================================
+
+Week 1: API Client Setup (8 hours)
+  • Create Axios client
+  • Setup React Query
+  • Configure request/response interceptors
+  • Error handling middleware
+
+Week 2: Authentication (10 hours)
+  • Login/Register integration
+  • Token management
+  • Protected routes
+  • Auth context setup
+
+Week 3: Main Features (10 hours)
+  • Sadhana CRUD operations
+  • Book operations
+  • User management
+  • Real-time updates
+
+Week 4: Polish & Optimization (7 hours)
+  • Error handling refinement
+  • Loading state improvements
+  • Performance optimization
+  • Testing
+
+Total: 35 hours
+
+================================================================================
+EXPECTED RESULTS
+================================================================================
+
+Functional Frontend:
+  • All pages working with real data
+  • Real-time updates visible
+  • Smooth user experience
+  • Professional error handling
+
+User Experience:
+  • Fast page loads
+  • Responsive interface
+  • Clear loading states
+  • Helpful error messages
+
+Performance:
+  • Optimized API calls
+  • Efficient caching
+  • Smooth animations
+  • Low data usage
+
+Integration:
+  • Frontend & backend perfectly synced
+  • All business logic working
+  • Real-time notifications
+  • Persistent data
+
+================================================================================
+
+Status: Ready for Implementation
+Next: Phase 6 - Security & Authentication
+
+================================================================================

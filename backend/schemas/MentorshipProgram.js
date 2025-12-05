@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const MentorshipProgramSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'm_en_to_rs_hi_pp_ro_gr_am' }); module.exports = mongoose.model('MentorshipProgram', MentorshipProgramSchema);

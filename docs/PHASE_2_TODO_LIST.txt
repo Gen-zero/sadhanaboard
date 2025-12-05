@@ -1,0 +1,867 @@
+================================================================================
+PHASE 2: MONGOOSE SCHEMAS & SERVICE REFACTORING - TODO LIST
+================================================================================
+
+Project: SaadhanaBoard MongoDB Migration
+Phase: 2 (Schema Creation & Service Refactoring)
+Start Date: December 5, 2025
+Estimated Duration: 2-3 weeks
+Status: ⏳ PENDING
+
+================================================================================
+PHASE 2 OVERVIEW
+================================================================================
+
+Main Objectives:
+  1. Create 30+ Mongoose schemas for all collections
+  2. Refactor 46 service files to use MongoDB/Mongoose
+  3. Update data access patterns (SQL → MongoDB)
+  4. Implement aggregation pipelines for complex queries
+  5. Ensure all services are compatible with MongoDB
+
+Success Criteria:
+  ✓ All 30+ collections have Mongoose schemas
+  ✓ All 46 services refactored and working
+  ✓ All CRUD operations functional
+  ✓ Complex queries using aggregation pipelines
+  ✓ Transactions working correctly
+  ✓ Unit tests passing for services
+  ✓ No db.query() calls remaining
+
+================================================================================
+TASK 1: PREPARE SCHEMA STRUCTURE
+================================================================================
+
+Status: ⏳ PENDING
+
+Subtasks:
+  □ 1.1: Create schemas directory structure
+         Location: backend/schemas/
+         Action: Create empty directory
+         
+  □ 1.2: Review schema requirements
+         Document: MONGODB_MIGRATION_PLAN.txt (Section 3)
+         Action: Study collection design
+         
+  □ 1.3: Plan naming conventions
+         Convention: camelCase for MongoDB fields
+         Action: Document conventions in README
+         
+  □ 1.4: Create schema template file
+         File: backend/schemas/SchemaTemplate.js
+         Action: Template for consistent schema creation
+         
+  □ 1.5: Set up validation patterns
+         Action: Document validation rules
+         
+Acceptance Criteria:
+  ✓ Directory created
+  ✓ Naming conventions documented
+  ✓ Template created
+  ✓ Ready for schema creation
+
+Estimated Time: 2-3 hours
+
+================================================================================
+TASK 2: CREATE CORE AUTHENTICATION SCHEMAS
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL (highest priority - blocks other development)
+
+Schemas to Create:
+  □ 2.1: User Schema
+         File: backend/schemas/User.js
+         Fields: id, email, password, displayName, timestamps
+         Indexes: email (unique), createdAt
+         Validation: Email validation, password requirements
+         
+  □ 2.2: Profile Schema
+         File: backend/schemas/Profile.js
+         Fields: userId, displayName, bio, avatar, traditions, etc.
+         Indexes: userId
+         Validation: Field requirements
+         
+  □ 2.3: Admin User Schema
+         File: backend/schemas/AdminUser.js
+         Fields: email, passwordHash, role, permissions
+         Indexes: email (unique)
+         Validation: Role validation
+         
+  □ 2.4: Admin Session Schema
+         File: backend/schemas/AdminSession.js
+         Fields: adminId, jwtToken, expiresAt
+         Indexes: expiresAt (TTL), adminId
+         Validation: Expiry logic
+         
+  □ 2.5: Waitlist Schema
+         File: backend/schemas/Waitlist.js
+         Fields: name, email, reason, status
+         Indexes: email (unique), status
+         Validation: Status enum validation
+
+Acceptance Criteria:
+  ✓ All 5 schemas created
+  ✓ Validation implemented
+  ✓ Indexes defined
+  ✓ Schemas export properly
+  ✓ Test basic creation of documents
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 3: CREATE SADHANA SCHEMAS (CORE FEATURE)
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL (core feature - high priority)
+
+Schemas to Create:
+  □ 3.1: Sadhana Schema
+         File: backend/schemas/Sadhana.js
+         Fields: userId, title, description, dueDate, status, etc.
+         Indexes: userId, createdAt, dueDate, completed
+         Relationships: userId → User, assignedBy → User
+         
+  □ 3.2: Sadhana Progress Schema
+         File: backend/schemas/SadhanaProgress.js
+         Fields: sadhanaId, userId, progressDate, completed, notes
+         Indexes: sadhanaId+progressDate (unique), userId
+         Validation: Date and boolean validation
+         
+  □ 3.3: Sadhana Store Items Schema
+         File: backend/schemas/SadhanaStoreItem.js
+         Fields: sadhanaId, data
+         Indexes: sadhanaId
+         
+  □ 3.4: Shared Sadhana Schema
+         File: backend/schemas/SharedSadhana.js
+         Fields: sadhanaId, userId, privacyLevel, viewCount
+         Indexes: sadhanaId, userId
+         Validation: Privacy level enum
+         
+  □ 3.5: Sadhana Like Schema
+         File: backend/schemas/SadhanaLike.js
+         Fields: sadhanaId, userId
+         Indexes: sadhanaId+userId (unique)
+         Validation: Unique constraint
+         
+  □ 3.6: Sadhana Comment Schema
+         File: backend/schemas/SadhanaComment.js
+         Fields: sadhanaId, userId, content, parentCommentId
+         Indexes: sadhanaId, userId, parentCommentId
+         Validation: Content validation
+
+Acceptance Criteria:
+  ✓ All 6 schemas created
+  ✓ All relationships properly defined
+  ✓ All indexes created
+  ✓ Validation working
+  ✓ Can create test documents
+
+Estimated Time: 1.5 days (12 hours)
+
+================================================================================
+TASK 4: CREATE BOOK SCHEMAS
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: HIGH (important feature)
+
+Schemas to Create:
+  □ 4.1: Spiritual Book Schema
+         File: backend/schemas/SpiritualBook.js
+         Fields: userId, title, author, content, storage, etc.
+         Indexes: userId, createdAt, deleted, text search
+         Text Index: For full-text search
+         
+  □ 4.2: Book Progress Schema
+         File: backend/schemas/BookProgress.js
+         Fields: userId, bookId, position, page, percent
+         Indexes: userId+bookId (unique)
+         
+  □ 4.3: Book Bookmark Schema
+         File: backend/schemas/BookBookmark.js
+         Fields: userId, bookId, label, page, position
+         Indexes: userId, bookId
+         
+  □ 4.4: Book Annotation Schema
+         File: backend/schemas/BookAnnotation.js
+         Fields: userId, bookId, page, content, isPrivate
+         Indexes: userId, bookId
+
+Acceptance Criteria:
+  ✓ All 4 schemas created
+  ✓ Text index configured
+  ✓ Relationships defined
+  ✓ Unique constraints working
+  ✓ Test document creation
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 5: CREATE SOCIAL & COMMUNITY SCHEMAS
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM-HIGH
+
+Schemas to Create:
+  □ 5.1: Group Schema
+         File: backend/schemas/Group.js
+         Fields: creatorId, name, description, metadata
+         Indexes: creatorId, createdAt
+         
+  □ 5.2: Group Member Schema
+         File: backend/schemas/GroupMember.js
+         Fields: groupId, userId, role, status
+         Indexes: groupId, userId, groupId+userId (unique)
+         
+  □ 5.3: Mentorship Schema
+         File: backend/schemas/Mentorship.js
+         Fields: mentorId, menteeId, status, startDate
+         Indexes: mentorId, menteeId, status
+         
+  □ 5.4: Mentorship Goal Schema
+         File: backend/schemas/MentorshipGoal.js
+         Fields: mentorshipId, goalTitle, achieved
+         Indexes: mentorshipId, achieved
+         
+  □ 5.5: Shared Sadhana Like Schema
+         File: backend/schemas/SharedSadhanaLike.js
+         Fields: sadhanaId, userId
+         Indexes: sadhanaId+userId (unique)
+
+Acceptance Criteria:
+  ✓ All 5 schemas created
+  ✓ All unique constraints defined
+  ✓ Relationships set up
+  ✓ Documents can be created
+  ✓ Queries working
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 6: CREATE ADMIN & ANALYTICS SCHEMAS
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM
+
+Schemas to Create:
+  □ 6.1: Audit Log Schema
+         File: backend/schemas/AuditLog.js
+         Fields: adminId, action, entityType, details, timestamp
+         Indexes: adminId, createdAt, entityType
+         
+  □ 6.2: System Metrics Schema
+         File: backend/schemas/SystemMetrics.js
+         Fields: metricName, metricValue, data, timestamp
+         Indexes: metricName, timestamp
+         
+  □ 6.3: Feature Flag Schema
+         File: backend/schemas/FeatureFlag.js
+         Fields: flagName, enabled, description
+         Indexes: flagName (unique)
+         
+  □ 6.4: BI Report Schema
+         File: backend/schemas/BiReport.js
+         Fields: userId, reportName, configuration, lastRun
+         Indexes: userId, createdAt
+         
+  □ 6.5: Google Sheets Integration Schema
+         File: backend/schemas/GoogleSheetsIntegration.js
+         Fields: userId, sheetId, tokens, metadata, syncEnabled
+         Indexes: userId
+
+Acceptance Criteria:
+  ✓ All 5 schemas created
+  ✓ Proper indexing
+  ✓ Relationships defined
+  ✓ Documents create properly
+  ✓ Queries functional
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 7: CREATE REMAINING FEATURE SCHEMAS
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM
+
+Schemas to Create:
+  □ 7.1: Badge Schema
+         File: backend/schemas/Badge.js
+         Fields: name, description, requirements, icon
+         
+  □ 7.2: Achievement Schema
+         File: backend/schemas/Achievement.js
+         Fields: userId, badgeId, unlockedAt
+         Indexes: userId+badgeId (unique)
+         
+  □ 7.3: CMS Page Schema
+         File: backend/schemas/CMSPage.js
+         Fields: slug, title, content, published
+         Indexes: slug (unique), published
+         
+  □ 7.4: Admin Integration Schema
+         File: backend/schemas/AdminIntegration.js
+         Fields: integrationName, configuration, enabled
+         Indexes: integrationName, enabled
+         
+  □ 7.5: Experiment Schema
+         File: backend/schemas/Experiment.js
+         Fields: experimentName, configuration, status, dates
+         Indexes: experimentName, status
+
+Acceptance Criteria:
+  ✓ All 5 schemas created
+  ✓ Proper structure
+  ✓ Indexes defined
+  ✓ Documents create properly
+
+Estimated Time: 8 hours (1 day)
+
+================================================================================
+TASK 8: SCHEMA TESTING & VALIDATION
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: HIGH (before service refactoring)
+
+Testing Tasks:
+  □ 8.1: Test all schema creation
+         Action: Create test documents for each schema
+         File: backend/tests/schemas.test.js
+         
+  □ 8.2: Verify all indexes created
+         Action: Test index creation
+         Command: db.collection.getIndexes()
+         
+  □ 8.3: Test validation rules
+         Action: Try invalid data, expect validation errors
+         
+  □ 8.4: Test unique constraints
+         Action: Try duplicate unique fields
+         
+  □ 8.5: Test relationships/references
+         Action: Verify foreign key functionality
+         
+  □ 8.6: Test query operations
+         Action: Test find, update, delete operations
+         
+  □ 8.7: Document schema structure
+         Action: Create schema documentation
+
+Acceptance Criteria:
+  ✓ All schemas tested
+  ✓ All validations working
+  ✓ All indexes functional
+  ✓ All queries working
+  ✓ Documentation complete
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 9: PRIORITIZE SERVICES FOR REFACTORING
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL (planning step)
+
+Services to Prioritize:
+  TIER 1 (Do first - core authentication):
+    □ authService.js (5 methods)
+    □ adminAuthService.js (6 methods)
+    □ profileService.js (4 methods)
+    
+  TIER 2 (Second - core features):
+    □ sadhanaService.js (12+ methods, complex)
+    □ bookService.js (8+ methods)
+    □ bookProgressService.js (4 methods)
+    □ bookmarkService.js (4 methods)
+    
+  TIER 3 (Third - social/community):
+    □ socialService.js (10+ methods)
+    □ communityService.js (8+ methods)
+    □ groupService.js (8+ methods)
+    □ mentorshipService.js (6+ methods)
+    
+  TIER 4 (Fourth - admin/analytics):
+    □ adminAuthService.js (already in Tier 1)
+    □ auditLogService.js (4 methods)
+    □ systemMetricsService.js (4 methods)
+    □ biReportService.js (6+ methods)
+    
+  TIER 5 (Fifth - remaining services):
+    □ All other 24+ services
+
+Refactoring Plan:
+  □ 9.1: Map service to schema dependencies
+  □ 9.2: Identify Tier 1 refactoring order
+  □ 9.3: Create refactoring template
+  □ 9.4: Document breaking changes
+  □ 9.5: Create migration guide for each service
+
+Acceptance Criteria:
+  ✓ Services prioritized
+  ✓ Dependencies mapped
+  ✓ Refactoring order clear
+  ✓ Template created
+  ✓ Ready to start refactoring
+
+Estimated Time: 4 hours
+
+================================================================================
+TASK 10: REFACTOR TIER 1 SERVICES
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL (unblocks everything else)
+
+Services to Refactor:
+  □ 10.1: Refactor authService.js
+          Methods to update:
+            - register() → User + Profile creation
+            - login() → Find user with password check
+            - verifyToken() → Keep as-is
+            - getUserById() → User.findById()
+            - joinWaitlist() → Waitlist.create()
+          File: backend/services/authService.js
+          
+  □ 10.2: Refactor adminAuthService.js
+          Methods to update:
+            - createAdmin() → AdminUser.create()
+            - login() → Find + password check
+            - All query methods → Use AdminUser schema
+          File: backend/services/adminAuthService.js
+          
+  □ 10.3: Refactor profileService.js
+          Methods to update:
+            - getProfile() → Profile.findOne()
+            - updateProfile() → Profile.findByIdAndUpdate()
+            - All methods → Use Profile schema
+          File: backend/services/profileService.js
+
+Refactoring Pattern:
+  OLD: db.query('SELECT * FROM users WHERE id = $1', [id])
+  NEW: await User.findById(id)
+  
+  OLD: db.query('INSERT INTO users (...) VALUES (...)', [...])
+  NEW: await User.create({...})
+  
+  OLD: db.query('UPDATE users SET ... WHERE id = $1', [...])
+  NEW: await User.findByIdAndUpdate(id, {...})
+  
+  OLD: db.query('DELETE FROM users WHERE id = $1', [id])
+  NEW: await User.findByIdAndDelete(id)
+
+Acceptance Criteria:
+  ✓ All 3 services refactored
+  ✓ All methods working
+  ✓ No db.query() calls
+  ✓ Proper error handling
+  ✓ Unit tests passing
+  ✓ Ready for use by other services
+
+Estimated Time: 2 days (16 hours)
+
+================================================================================
+TASK 11: REFACTOR TIER 2 SERVICES
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: HIGH (core features)
+
+Services to Refactor:
+  □ 11.1: Refactor sadhanaService.js (complex - 12+ methods)
+          Key considerations:
+            - Convert JOINs to Mongoose populate()
+            - Convert GROUP BY to aggregation pipelines
+            - Update complex queries (feed, progress, etc.)
+            
+  □ 11.2: Refactor bookService.js
+          Key considerations:
+            - Text search conversion
+            - File storage handling
+            - Pagination updates
+            
+  □ 11.3: Refactor bookProgressService.js
+          
+  □ 11.4: Refactor bookmarkService.js
+
+Pattern for Complex Queries:
+  OLD (SQL JOINs):
+    SELECT u.*, p.bio, s.title
+    FROM users u
+    LEFT JOIN profiles p ON u.id = p.id
+    LEFT JOIN sadhanas s ON u.id = s.user_id
+    
+  NEW (Mongoose populate):
+    User.findById(id).populate('profile').populate('sadhanas')
+    
+  NEW (Aggregation pipeline):
+    User.aggregate([
+      { $match: { _id: id } },
+      { $lookup: { from: 'profiles', localField: '_id', foreignField: 'userId', as: 'profile' } },
+      { $lookup: { from: 'sadhanas', let: { userId: '$_id' }, pipeline: [...], as: 'sadhanas' } }
+    ])
+
+Acceptance Criteria:
+  ✓ All 4 services refactored
+  ✓ Complex queries working
+  ✓ Aggregation pipelines correct
+  ✓ No db.query() calls
+  ✓ Unit tests passing
+  ✓ Performance acceptable
+
+Estimated Time: 3 days (24 hours)
+
+================================================================================
+TASK 12: REFACTOR TIER 3 SERVICES
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: HIGH
+
+Services to Refactor:
+  □ 12.1: Refactor socialService.js
+          - Likes functionality
+          - Comments with nesting
+          - Pagination updates
+          
+  □ 12.2: Refactor communityService.js
+          - Feed aggregation
+          - Search functionality
+          
+  □ 12.3: Refactor groupService.js
+          - Member management
+          - Role-based queries
+          
+  □ 12.4: Refactor mentorshipService.js
+          - Relationship queries
+          - Goal tracking
+
+Acceptance Criteria:
+  ✓ All 4 services refactored
+  ✓ All methods working
+  ✓ No db.query() calls
+  ✓ Unit tests passing
+
+Estimated Time: 2.5 days (20 hours)
+
+================================================================================
+TASK 13: REFACTOR TIER 4 SERVICES
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM
+
+Services to Refactor:
+  □ 13.1: Refactor auditLogService.js
+  □ 13.2: Refactor systemMetricsService.js
+  □ 13.3: Refactor biReportService.js
+  □ 13.4: Other admin/analytics services
+
+Acceptance Criteria:
+  ✓ All services refactored
+  ✓ Admin functionality working
+  ✓ Analytics queries functional
+
+Estimated Time: 1.5 days (12 hours)
+
+================================================================================
+TASK 14: REFACTOR REMAINING SERVICES
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM
+
+Services to Refactor:
+  □ 14.1: Refactor all remaining 24+ services
+          - Use same pattern as previous tasks
+          - Systematic conversion
+          - Each service independently tested
+
+Categories:
+  □ Notification services
+  □ Achievement/Badge services
+  □ CMS services
+  □ Integration services
+  □ Feature flag services
+  □ All others
+
+Acceptance Criteria:
+  ✓ All 46 services refactored
+  ✓ 0 db.query() calls remaining
+  ✓ All unit tests passing
+
+Estimated Time: 3 days (24 hours)
+
+================================================================================
+TASK 15: SERVICE INTEGRATION TESTING
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL
+
+Testing Tasks:
+  □ 15.1: Test authService with auth routes
+          Verify: Registration, login, token validation
+          
+  □ 15.2: Test sadhanaService with sadhana routes
+          Verify: CRUD, progress, sharing, feed
+          
+  □ 15.3: Test bookService with book routes
+          Verify: Upload, read, progress, search
+          
+  □ 15.4: Test all social services
+          Verify: Comments, likes, sharing
+          
+  □ 15.5: Test admin services
+          Verify: Auth, logging, reporting
+          
+  □ 15.6: Run full integration test suite
+          
+  □ 15.7: Load testing
+          Action: Test with concurrent requests
+          
+  □ 15.8: Error scenario testing
+          Action: Test error handling
+
+Acceptance Criteria:
+  ✓ All integration tests passing
+  ✓ Error handling working
+  ✓ Load tests passing
+  ✓ No unexpected failures
+  ✓ Performance acceptable
+
+Estimated Time: 2 days (16 hours)
+
+================================================================================
+TASK 16: DOCUMENTATION & CLEANUP
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: MEDIUM-HIGH
+
+Documentation Tasks:
+  □ 16.1: Create service refactoring summary
+          Document: Changes made to each service
+          
+  □ 16.2: Update API documentation
+          Update: Service signatures and return types
+          
+  □ 16.3: Create migration guide for developers
+          Document: How to refactor similar services
+          
+  □ 16.4: Remove deprecated code
+          Action: Delete config/db.js, config/db-supabase.js
+          
+  □ 16.5: Remove PostgreSQL references
+          Action: Search for and remove all SQL comments
+          
+  □ 16.6: Update README
+          Action: Document MongoDB setup and usage
+          
+  □ 16.7: Create PHASE_2_COMPLETION_SUMMARY.txt
+          Document: What was completed
+
+Acceptance Criteria:
+  ✓ All documentation updated
+  ✓ Deprecated code removed
+  ✓ No PostgreSQL references remaining
+  ✓ README current
+  ✓ Summary document created
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+TASK 17: FINAL PHASE 2 VERIFICATION
+================================================================================
+
+Status: ⏳ PENDING
+
+Priority: CRITICAL
+
+Verification Tasks:
+  □ 17.1: Verify all 30+ schemas created and functional
+  □ 17.2: Verify all 46 services refactored
+  □ 17.3: Verify no db.query() calls remaining
+  □ 17.4: Verify all tests passing
+  □ 17.5: Verify performance acceptable
+  □ 17.6: Verify error handling working
+  □ 17.7: Create completion checklist
+  □ 17.8: Document any issues/blockers for Phase 3
+
+Acceptance Criteria:
+  ✓ All 30+ schemas functional
+  ✓ All 46 services refactored
+  ✓ 0 db.query() calls
+  ✓ All tests passing
+  ✓ Performance metrics acceptable
+  ✓ Ready for Phase 3
+
+Estimated Time: 1 day (8 hours)
+
+================================================================================
+SUMMARY TIMELINE
+================================================================================
+
+Task 1: Preparation                 2-3 hours      ✓ Planning
+Task 2: Auth Schemas               8 hours        (1 day)
+Task 3: Sadhana Schemas           12 hours        (1.5 days)
+Task 4: Book Schemas               8 hours        (1 day)
+Task 5: Social/Community Schemas   8 hours        (1 day)
+Task 6: Admin/Analytics Schemas    8 hours        (1 day)
+Task 7: Remaining Schemas          8 hours        (1 day)
+Task 8: Schema Testing             8 hours        (1 day)
+Task 9: Prioritize Services        4 hours        (0.5 days)
+Task 10: Refactor Tier 1          16 hours        (2 days)
+Task 11: Refactor Tier 2          24 hours        (3 days)
+Task 12: Refactor Tier 3          20 hours        (2.5 days)
+Task 13: Refactor Tier 4          12 hours        (1.5 days)
+Task 14: Refactor Tier 5          24 hours        (3 days)
+Task 15: Integration Testing      16 hours        (2 days)
+Task 16: Documentation             8 hours        (1 day)
+Task 17: Final Verification        8 hours        (1 day)
+
+TOTAL ESTIMATED TIME: ~180 hours
+ESTIMATED DURATION: 3-4 weeks (working full-time)
+
+================================================================================
+DEPENDENCIES & BLOCKERS
+================================================================================
+
+Current Blockers: NONE ✓
+
+Task Dependencies:
+  - Task 1 → All other tasks (must prepare first)
+  - Task 2-7 → Task 8 (schemas must be created before testing)
+  - Task 8 → Task 9 (schemas verified before service refactoring)
+  - Task 9 → Task 10 (prioritization before refactoring)
+  - Task 10 → Task 11-14 (Tier 1 unblocks others)
+  - Task 11-14 → Task 15 (all services must be refactored)
+  - Task 15 → Task 16 (testing before cleanup)
+  - Task 16 → Task 17 (cleanup before final verification)
+
+Sequential Order:
+  1 → 2,3,4,5,6,7 (parallel possible) → 8 → 9 → 10 → 11,12,13,14 (parallel possible) → 15 → 16 → 17
+
+Parallel Opportunities:
+  - Tasks 2-7 can be done in parallel (different schemas)
+  - Tasks 11-14 can be done in parallel (different services)
+  - Multiple developers can work on different tiers simultaneously
+
+================================================================================
+SUCCESS METRICS FOR PHASE 2
+================================================================================
+
+Completion Metrics:
+  ✓ 30+ Mongoose schemas created
+  ✓ 46 services refactored
+  ✓ 0 db.query() calls remaining
+  ✓ 100% of tests passing
+  ✓ All API endpoints functional
+  ✓ All CRUD operations working
+  ✓ Aggregation pipelines implemented for complex queries
+  ✓ Transactions working correctly
+  ✓ Text search functional
+  ✓ Pagination working
+  ✓ Sorting/filtering functional
+  ✓ Error handling comprehensive
+  ✓ Performance acceptable (no significant degradation)
+  ✓ Code documentation complete
+  ✓ Ready for Phase 3 (data migration)
+
+Quality Metrics:
+  ✓ Code follows MongoDB/Mongoose best practices
+  ✓ Consistent naming conventions
+  ✓ Proper error handling throughout
+  ✓ Comprehensive logging
+  ✓ Unit tests for all services
+  ✓ Integration tests for all routes
+
+================================================================================
+NOTES & REMINDERS
+================================================================================
+
+Important Reminders:
+  1. Always use Mongoose methods, never db.query()
+  2. Use populate() or aggregation pipelines for joins
+  3. Implement proper validation on all schemas
+  4. Create indexes for frequently queried fields
+  5. Test unique constraints thoroughly
+  6. Handle transactions properly with sessions
+  7. Use lean() for read-only queries (performance)
+  8. Document all schema relationships
+  9. Keep error messages consistent
+  10. Test edge cases and error scenarios
+
+Pitfalls to Avoid:
+  ✗ Forgetting to create indexes (will cause performance issues)
+  ✗ Not validating input (data quality issues)
+  ✗ Using synchronous methods (concurrency issues)
+  ✗ Forgetting transaction support (data integrity issues)
+  ✗ Not handling connection errors (reliability issues)
+  ✗ Leaving old code (confusion and maintenance issues)
+  ✗ Inconsistent naming (confusion for developers)
+  ✗ Not testing edge cases (unexpected failures)
+
+Resources:
+  - Mongoose Documentation: https://mongoosejs.com/docs/
+  - MongoDB Best Practices: https://www.mongodb.com/docs/manual/
+  - Aggregation Pipeline Guide: https://www.mongodb.com/docs/manual/reference/operator/aggregation/
+  - Schema Design Guide: MONGODB_MIGRATION_PLAN.txt (Section 3)
+
+================================================================================
+START CHECKLIST
+================================================================================
+
+Before Starting Phase 2:
+  ✓ Phase 1 complete and verified
+  ✓ MongoDB connection working
+  ✓ Server running successfully
+  ✓ All environment variables set
+  ✓ This TODO list reviewed
+  ✓ Dependencies understood
+  ✓ Resources available
+  ✓ Timeline acknowledged
+  ✓ Success criteria understood
+  ✓ Ready to proceed
+
+Ready to Start: ⏳ PENDING USER CONFIRMATION
+
+================================================================================
+PHASE 2 STATUS
+================================================================================
+
+Current Status: ⏳ READY TO START
+Start Date: Pending confirmation
+Target Completion: ~3-4 weeks from start
+
+Next Action:
+  1. Review this TODO list
+  2. Confirm understanding of scope
+  3. Begin with Task 1 (Preparation)
+  4. Follow tasks in order
+
+Let me know when you're ready to begin!
+
+================================================================================

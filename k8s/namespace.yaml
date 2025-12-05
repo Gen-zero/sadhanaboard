@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sadhanaboard
+  labels:
+    name: sadhanaboard
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sadhanaboard-staging
+  labels:
+    name: sadhanaboard-staging
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sadhanaboard-prod
+  labels:
+    name: sadhanaboard-prod

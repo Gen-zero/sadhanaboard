@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const ReportExecutionSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'r_ep_or_te_xe_cu_ti_on' }); module.exports = mongoose.model('ReportExecution', ReportExecutionSchema);

@@ -1,23 +1,37 @@
-const db = require('../config/db');
+const BookProgress = require('../schemas/BookProgress');
 
 const upsertProgress = async ({ userId, bookId, position, page, percent, timeSpentMinutes }) => {
-  const sql = `INSERT INTO book_progress (user_id, book_id, position, page, percent, time_spent_minutes, last_seen_at)
-    VALUES ($1,$2,$3,$4,$5,$6,now())
-    ON CONFLICT (user_id, book_id) DO UPDATE SET 
-      position = EXCLUDED.position, 
-      page = EXCLUDED.page, 
-      percent = EXCLUDED.percent,
-      time_spent_minutes = COALESCE(book_progress.time_spent_minutes, 0) + EXCLUDED.time_spent_minutes,
-      last_seen_at = now()
-    RETURNING *`;
-  const params = [userId, bookId, position, page || null, percent || null, timeSpentMinutes || 0];
-  const res = await db.query(sql, params);
-  return res.rows[0];
+  // Find existing progress or create new
+  let progress = await BookProgress.findOne({ userId, bookId });
+  
+  if (progress) {
+    // Update existing: add time spent, update position/page/percent
+    progress.position = position;
+    progress.currentPage = page || progress.currentPage;
+    progress.percentageRead = percent || progress.percentageRead;
+    progress.totalTimeSpent = (progress.totalTimeSpent || 0) + (timeSpentMinutes || 0);
+    progress.lastReadAt = new Date();
+    await progress.save();
+  } else {
+    // Create new
+    progress = new BookProgress({
+      userId,
+      bookId,
+      position,
+      currentPage: page,
+      percentageRead: percent,
+      totalTimeSpent: timeSpentMinutes || 0,
+      lastReadAt: new Date()
+    });
+    await progress.save();
+  }
+  
+  return progress.toJSON();
 };
 
 const getProgress = async ({ userId, bookId }) => {
-  const res = await db.query('SELECT * FROM book_progress WHERE user_id = $1 AND book_id = $2', [userId, bookId]);
-  return res.rows[0] || null;
+  const progress = await BookProgress.findOne({ userId, bookId });
+  return progress ? progress.toJSON() : null;
 };
 
 module.exports = { upsertProgress, getProgress };

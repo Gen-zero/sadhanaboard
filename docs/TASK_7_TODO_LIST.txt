@@ -1,0 +1,468 @@
+================================================================================
+TASK 7: CREATE MISCELLANEOUS SCHEMAS - TO-DO LIST
+================================================================================
+
+Task: Create Miscellaneous Schemas (NotificationLog, UserPreferences, Feedback, Support, BugReport, UserNotification, ActivityLog)
+Start Date: December 5, 2025
+Estimated Duration: 6 hours
+Status: 🟡 PENDING START
+
+================================================================================
+TASK OVERVIEW
+================================================================================
+
+Objective: Create remaining miscellaneous schemas to complete Phase 2
+
+Schemas to Create:
+  1. NotificationLog.js - Notification delivery tracking
+  2. UserPreferences.js - User settings and preferences
+  3. Feedback.js - User feedback collection
+  4. Support.js - Support tickets and inquiries
+  5. BugReport.js - Bug tracking system
+  6. UserNotification.js - User notification inbox
+  7. ActivityLog.js - User activity tracking
+
+Key Features Needed:
+  • Notification management
+  • User preferences/settings
+  • Feedback collection system
+  • Support ticketing
+  • Bug reporting
+  • User notification inbox
+  • Activity audit trail
+
+Dependencies:
+  ✓ User schema (Task 2)
+  ✓ AdminUser schema (Task 2)
+  ✓ Sadhana schemas (Task 3)
+
+Blockers: NONE
+
+================================================================================
+DETAILED TO-DO LIST
+================================================================================
+
+## SUBTASK 1: Create NotificationLog Schema
+Status: ⏳ PENDING
+
+Description:
+  Tracks all notification delivery attempts for analytics and debugging.
+  Useful for monitoring notification reliability.
+
+Requirements:
+  □ 1.1: Define core fields
+         - userId (reference to User)
+         - type (email, push, sms, in-app)
+         - subject
+         - content/body
+         
+  □ 1.2: Add recipient info
+         - recipientEmail
+         - recipientPhoneNumber
+         
+  □ 1.3: Add delivery tracking
+         - status (sent, pending, failed, bounced)
+         - sentAt
+         - deliveredAt
+         - failureReason
+         
+  □ 1.4: Add context
+         - eventType (what triggered it)
+         - relatedEntityId (ID of related object)
+         - metadata
+         
+  □ 1.5: Create indexes
+         - userId
+         - type
+         - status
+         - createdAt
+         - compound: userId + createdAt
+         
+  □ 1.6: Add static methods
+         - findByUser()
+         - findByStatus()
+         - findByDateRange()
+         - countByType()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All indexes created
+  ✓ Methods working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 2: Create UserPreferences Schema
+Status: ⏳ PENDING
+
+Description:
+  Stores user app preferences and settings.
+
+Requirements:
+  □ 2.1: Define core fields
+         - userId (unique reference)
+         - email/communication preferences
+         
+  □ 2.2: Add notification settings
+         - notificationEnabled
+         - emailNotifications (frequency)
+         - pushNotifications
+         - smsNotifications
+         
+  □ 2.3: Add privacy settings
+         - profileVisibility
+         - activityVisibility
+         - dataCollection
+         
+  □ 2.4: Add app settings
+         - language
+         - theme (light/dark)
+         - timezone
+         - dailySummary
+         
+  □ 2.5: Create indexes
+         - userId (unique)
+         
+  □ 2.6: Add methods
+         - updateNotificationPreferences()
+         - updatePrivacySettings()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All settings fields present
+  ✓ Methods working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 3: Create Feedback Schema
+Status: ⏳ PENDING
+
+Description:
+  Collects user feedback for app improvement.
+
+Requirements:
+  □ 3.1: Define core fields
+         - userId (reference to User)
+         - category (bug, feature_request, improvement, other)
+         - title
+         - description
+         
+  □ 3.2: Add feedback details
+         - rating (1-5)
+         - attachments (URLs)
+         
+  □ 3.3: Add status
+         - status (new, under_review, in_progress, resolved, closed)
+         - priority (low, medium, high)
+         
+  □ 3.4: Add response
+         - adminResponse
+         - respondedBy (admin ID)
+         - respondedAt
+         
+  □ 3.5: Create indexes
+         - userId
+         - status
+         - category
+         - createdAt
+         
+  □ 3.6: Add methods
+         - respond()
+         - close()
+         - updateStatus()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All indexes created
+  ✓ Methods working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 4: Create Support Schema
+Status: ⏳ PENDING
+
+Description:
+  Support tickets and customer inquiries.
+
+Requirements:
+  □ 4.1: Define core fields
+         - userId (reference)
+         - ticketNumber (unique)
+         - subject
+         - description
+         
+  □ 4.2: Add support info
+         - priority (low, medium, high, urgent)
+         - status (open, in_progress, waiting_user, resolved, closed)
+         
+  □ 4.3: Add assignment
+         - assignedTo (admin ID)
+         - assignedAt
+         
+  □ 4.4: Add conversation
+         - messages (array of {sender, content, timestamp})
+         
+  □ 4.5: Add resolution
+         - resolvedAt
+         - resolution
+         
+  □ 4.6: Create indexes
+         - userId
+         - status
+         - priority
+         - ticketNumber (unique)
+         
+  □ 4.7: Add methods
+         - assignTo()
+         - addMessage()
+         - resolve()
+         - reopen()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ Ticket management working
+  ✓ Conversation tracking working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 5: Create BugReport Schema
+Status: ⏳ PENDING
+
+Description:
+  Bug tracking system for developers.
+
+Requirements:
+  □ 5.1: Define core fields
+         - reporterId (user who reported)
+         - title
+         - description
+         
+  □ 5.2: Add environment info
+         - appVersion
+         - osVersion
+         - deviceInfo
+         
+  □ 5.3: Add reproduction
+         - stepsToReproduce (array)
+         - reproducible (boolean)
+         - severity (critical, high, medium, low)
+         
+  □ 5.4: Add tracking
+         - status (new, assigned, in_progress, fixed, verified, closed)
+         - assignedTo (developer ID)
+         - tags (array)
+         
+  □ 5.5: Add resolution
+         - fixedInVersion
+         - verifiedAt
+         - notes
+         
+  □ 5.6: Create indexes
+         - reporterId
+         - status
+         - severity
+         - createdAt
+         
+  □ 5.7: Add methods
+         - assignTo()
+         - markFixed()
+         - verify()
+         - addTag()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All indexes created
+  ✓ Methods working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 6: Create UserNotification Schema
+Status: ⏳ PENDING
+
+Description:
+  User notification inbox for in-app notifications.
+
+Requirements:
+  □ 6.1: Define core fields
+         - userId (reference)
+         - type (like, comment, mention, system, promotion)
+         - title
+         - content
+         
+  □ 6.2: Add related info
+         - relatedEntityId (like/comment ID)
+         - relatedEntityType (Sadhana, Comment, etc.)
+         - fromUserId (who triggered)
+         
+  □ 6.3: Add status
+         - isRead
+         - readAt
+         - isArchived
+         
+  □ 6.4: Add action
+         - actionUrl (where to navigate)
+         
+  □ 6.5: Create indexes
+         - userId
+         - isRead
+         - createdAt
+         - compound: userId + isRead + createdAt
+         
+  □ 6.6: Add methods
+         - markAsRead()
+         - markAsUnread()
+         - archive()
+         - getUnreadCount()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All indexes created
+  ✓ Methods working
+
+Estimated Time: 0.75 hours
+
+---
+
+## SUBTASK 7: Create ActivityLog Schema
+Status: ⏳ PENDING
+
+Description:
+  User activity tracking for analytics and audit trail.
+
+Requirements:
+  □ 7.1: Define core fields
+         - userId (reference)
+         - action (string)
+         - actionType (create, update, delete, view, like, comment, etc.)
+         
+  □ 7.2: Add context
+         - entityType (what was acted upon)
+         - entityId (what ID)
+         - metadata (additional info)
+         
+  □ 7.3: Add technical info
+         - ipAddress
+         - userAgent
+         
+  □ 7.4: Create indexes
+         - userId
+         - actionType
+         - createdAt
+         - compound: userId + createdAt
+         
+  □ 7.5: Add static methods
+         - findByUser()
+         - findByActionType()
+         - findByDateRange()
+         - countByAction()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ All indexes created
+  ✓ Methods working
+
+Estimated Time: 0.75 hours
+
+---
+
+## SUBTASK 8: Verify All Schemas
+Status: ⏳ PENDING
+
+Description:
+  Verify all miscellaneous schemas created successfully.
+
+Requirements:
+  □ 8.1: Verify file creation (7 files)
+  □ 8.2: Check syntax (no errors)
+  □ 8.3: Verify file sizes (~2,200-2,400 lines total)
+
+Acceptance Criteria:
+  ✓ All 7 files created
+  ✓ No syntax errors
+  ✓ Proper structure
+
+Estimated Time: 0.5 hours
+
+---
+
+## SUBTASK 9: Create Progress Report
+Status: ⏳ PENDING
+
+Description:
+  Document Task 7 completion.
+
+Requirements:
+  □ 9.1: Create summary
+  □ 9.2: Document relationships
+  □ 9.3: Calculate final phase completion
+  □ 9.4: Prepare for Phase 2 Summary
+
+Acceptance Criteria:
+  ✓ Report created
+  ✓ Metrics documented
+  ✓ All schemas accounted for
+
+Estimated Time: 0.5 hours
+
+================================================================================
+EXECUTION ORDER
+================================================================================
+
+Sequential order:
+
+1️⃣ Subtask 1: Create NotificationLog Schema (1 hour)
+2️⃣ Subtask 2: Create UserPreferences Schema (1 hour)
+3️⃣ Subtask 3: Create Feedback Schema (1 hour)
+4️⃣ Subtask 4: Create Support Schema (1 hour)
+5️⃣ Subtask 5: Create BugReport Schema (1 hour)
+6️⃣ Subtask 6: Create UserNotification Schema (0.75 hours)
+7️⃣ Subtask 7: Create ActivityLog Schema (0.75 hours)
+8️⃣ Subtask 8: Verify All Schemas (0.5 hours)
+9️⃣ Subtask 9: Create Progress Report (0.5 hours)
+
+Total: 7 hours (under 6-hour estimate for extra verification)
+
+================================================================================
+SUCCESS CRITERIA
+================================================================================
+
+Task 7 is complete when:
+
+  ✅ All 7 miscellaneous schemas created
+  ✅ All schemas properly validated
+  ✅ All indexes defined
+  ✅ All methods implemented
+  ✅ No syntax errors
+  ✅ ~2,300 lines of code
+  ✅ Progress report created
+  ✅ ~34 total schemas completed (93% of Phase 2)
+
+================================================================================
+READY TO START TASK 7
+================================================================================
+
+Status: ✅ READY
+
+All prerequisites met:
+  ✓ To-do list created
+  ✓ No blockers identified
+  ✓ Clear execution plan
+  ✓ Success criteria defined
+  ✓ All previous tasks complete
+
+Schemas built to date: 27
+Lines written to date: 11,706
+Remaining for Phase 2: ~8-10 schemas
+
+Waiting for confirmation to begin Subtask 1.
+
+================================================================================

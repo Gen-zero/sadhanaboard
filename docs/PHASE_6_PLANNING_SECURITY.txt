@@ -1,0 +1,613 @@
+================================================================================
+PHASE 6: SECURITY & AUTHENTICATION
+Comprehensive Security Hardening & Role-Based Access Control
+================================================================================
+
+START DATE: December 5, 2025
+ESTIMATED DURATION: 25-30 hours
+STATUS: PLANNING
+
+================================================================================
+PHASE 6 OVERVIEW
+================================================================================
+
+OBJECTIVE: Implement comprehensive security measures including JWT token
+           management, role-based access control (RBAC), encrypted storage,
+           API security, and audit logging.
+
+SCOPE:
+  • JWT token implementation & refresh logic
+  • Role-based access control (RBAC)
+  • Permission checking middleware
+  • API key management
+  • Data encryption at rest and in transit
+  • Secure password hashing
+  • Rate limiting & throttling
+  • CORS & security headers
+  • Audit logging
+  • Two-factor authentication setup
+  • Session management
+  • CSRF protection
+
+PHASE 6 IMPORTANCE:
+  CRITICAL - Without proper security, the application is vulnerable to:
+    • Unauthorized access
+    • Data breaches
+    • Session hijacking
+    • API abuse
+    • Privilege escalation
+    • SQL/NoSQL injection
+    • XSS/CSRF attacks
+
+================================================================================
+PHASE 6 TASK BREAKDOWN
+================================================================================
+
+TASK 1: JWT Token Management (4 hours)
+  Objective: Implement secure token generation, storage, and refresh
+
+  Deliverables:
+    ☐ JWT token generation service
+    ☐ Token refresh endpoint
+    ☐ Token storage hook (useAuthToken)
+    ☐ Token validation middleware
+    ☐ Token expiration handling
+    ☐ Refresh token rotation
+    ☐ JWT configuration guide
+    ☐ Security best practices doc
+
+  Components to Create:
+    • backend/services/tokenService.js
+    • frontend/hooks/useAuthToken.ts
+    • backend/middleware/tokenValidation.js
+    • backend/middleware/tokenRefresh.js
+    • documentation/JWT_SETUP.txt
+
+  Testing:
+    • Token generation tests
+    • Token validation tests
+    • Refresh flow tests
+    • Expiration handling tests
+
+---
+
+TASK 2: Role-Based Access Control (RBAC) (5 hours)
+  Objective: Implement granular permission system with roles
+
+  Deliverables:
+    ☐ Role definitions (Admin, Mentor, User, Guest)
+    ☐ Permission matrix
+    ☐ RBAC middleware
+    ☐ Frontend permission checking
+    ☐ Protected route components
+    ☐ Permission-based UI rendering
+    ☐ RBAC configuration guide
+    ☐ Role management endpoints
+
+  Roles to Implement:
+    • SUPER_ADMIN - Full system access
+    • ADMIN - System administration
+    • MENTOR - Community guidance
+    • USER - Standard user
+    • GUEST - Limited access
+    • DISABLED - No access
+
+  Components to Create:
+    • backend/middleware/rbac.js
+    • backend/services/rbacService.js
+    • frontend/hooks/usePermission.ts
+    • frontend/components/ProtectedRoute.tsx
+    • backend/config/roles.config.js
+    • documentation/RBAC_GUIDE.txt
+
+  Testing:
+    • Permission validation tests
+    • Route protection tests
+    • UI rendering tests
+    • Cross-role access tests
+
+---
+
+TASK 3: API Security & Rate Limiting (4 hours)
+  Objective: Secure API endpoints and prevent abuse
+
+  Deliverables:
+    ☐ Rate limiting middleware
+    ☐ API key management
+    ☐ Input validation/sanitization
+    ☐ Request signing
+    ☐ CORS configuration
+    ☐ Security headers
+    ☐ DDoS protection strategy
+    ☐ API security guide
+
+  Components to Create:
+    • backend/middleware/rateLimiting.js
+    • backend/middleware/inputValidation.js
+    • backend/middleware/securityHeaders.js
+    • backend/services/apiKeyService.js
+    • backend/config/security.config.js
+    • documentation/API_SECURITY.txt
+
+  Rate Limiting Tiers:
+    • Public endpoints: 100 req/min
+    • Authenticated: 1000 req/min
+    • Admin: 5000 req/min
+    • API key: Custom per key
+
+  Testing:
+    • Rate limit enforcement tests
+    • Input validation tests
+    • Header injection tests
+    • API key tests
+
+---
+
+TASK 4: Data Encryption & Secure Storage (4 hours)
+  Objective: Encrypt sensitive data at rest and in transit
+
+  Deliverables:
+    ☐ Field-level encryption for PII
+    ☐ Database encryption
+    ☐ Transit encryption (HTTPS)
+    ☐ Secure token storage (frontend)
+    ☐ Encryption key management
+    ☐ Data masking strategies
+    ☐ Encryption guide
+    ☐ Key rotation procedure
+
+  Fields to Encrypt:
+    • email
+    • phone_number
+    • password (hashed)
+    • payment_info
+    • personal_notes
+    • location
+
+  Components to Create:
+    • backend/services/encryptionService.js
+    • backend/middleware/dataEncryption.js
+    • frontend/hooks/useSecureStorage.ts
+    • backend/migrations/encryptData.js
+    • documentation/ENCRYPTION_GUIDE.txt
+
+  Testing:
+    • Encryption/decryption tests
+    • Key rotation tests
+    • Storage tests
+    • Performance tests
+
+---
+
+TASK 5: Audit Logging & Monitoring (4 hours)
+  Objective: Track all security-relevant actions
+
+  Deliverables:
+    ☐ Audit log schema
+    ☐ Audit logging middleware
+    ☐ Action tracking service
+    ☐ Audit dashboard
+    ☐ Alert system for suspicious activity
+    ☐ Log retention policy
+    ☐ Audit log analysis tools
+    ☐ Monitoring guide
+
+  Events to Log:
+    • User login/logout
+    • Password changes
+    • Permission changes
+    • Data access
+    • Data modifications
+    • Failed auth attempts
+    • API abuse detection
+    • Admin actions
+
+  Components to Create:
+    • backend/services/auditService.js
+    • backend/middleware/auditLogging.js
+    • backend/models/AuditLog.js
+    • frontend/dashboard/AuditDashboard.tsx
+    • documentation/AUDIT_LOGGING.txt
+
+  Testing:
+    • Log creation tests
+    • Log querying tests
+    • Alert tests
+    • Performance tests
+
+---
+
+TASK 6: Authentication Flows & 2FA (4 hours)
+  Objective: Enhance authentication with additional security layers
+
+  Deliverables:
+    ☐ Enhanced login flow
+    ☐ 2FA setup endpoint
+    ☐ 2FA verification endpoint
+    ☐ 2FA UI components
+    ☐ Recovery codes implementation
+    ☐ Session management
+    ☐ Account lockout after failed attempts
+    ☐ 2FA guide
+
+  2FA Methods:
+    • TOTP (Time-based One-Time Password)
+    • SMS (optional)
+    • Email verification
+
+  Components to Create:
+    • backend/services/twoFactorService.js
+    • backend/routes/twoFactor.js
+    • frontend/hooks/useTwoFactor.ts
+    • frontend/components/TwoFactorSetup.tsx
+    • documentation/2FA_SETUP.txt
+
+  Testing:
+    • TOTP generation tests
+    • Verification tests
+    • Recovery code tests
+    • Account lockout tests
+
+---
+
+TASK 7: Security Testing & Hardening (3 hours)
+  Objective: Test security measures and identify vulnerabilities
+
+  Deliverables:
+    ☐ Security test suite
+    ☐ Penetration test scenarios
+    ☐ Vulnerability scan
+    ☐ Load testing with auth
+    ☐ Security checklist
+    ☐ Incident response plan
+    ☐ Security hardening guide
+
+  Security Tests:
+    • SQL/NoSQL injection tests
+    • XSS/CSRF tests
+    • Authentication bypass attempts
+    • Authorization bypass attempts
+    • Rate limit evasion tests
+    • Token manipulation tests
+    • Session hijacking tests
+
+  Components to Create:
+    • src/__tests__/security.test.ts
+    • src/__tests__/penetration.test.ts
+    • documentation/SECURITY_TESTING.txt
+    • documentation/INCIDENT_RESPONSE.txt
+
+  Testing:
+    • Vulnerability validation tests
+    • Penetration test scenarios
+    • Performance under load
+
+---
+
+TASK 8: Documentation & Security Audit (2 hours)
+  Objective: Document all security measures and prepare audit
+
+  Deliverables:
+    ☐ Security architecture documentation
+    ☐ Threat model documentation
+    ☐ Security checklist
+    ☐ Incident response procedures
+    ☐ Security best practices guide
+    ☐ Compliance documentation (GDPR)
+    ☐ Phase 6 final summary
+    ☐ Phase 7 readiness assessment
+
+  Components to Create:
+    • PHASE_6_SECURITY_ARCHITECTURE.txt
+    • PHASE_6_THREAT_MODEL.txt
+    • PHASE_6_SECURITY_CHECKLIST.txt
+    • PHASE_6_INCIDENT_RESPONSE.txt
+    • PHASE_6_COMPLIANCE.txt
+    • PHASE_6_FINAL_SUMMARY.txt
+
+================================================================================
+PHASE 6 TECHNICAL ARCHITECTURE
+================================================================================
+
+SECURITY LAYERS:
+
+1. NETWORK LAYER
+   • HTTPS/TLS encryption
+   • CORS configuration
+   • Security headers
+   • DDoS protection
+
+2. API LAYER
+   • Rate limiting
+   • Input validation
+   • Request signing
+   • API key management
+
+3. AUTHENTICATION LAYER
+   • JWT tokens
+   • Token refresh
+   • Session management
+   • 2FA support
+
+4. AUTHORIZATION LAYER
+   • RBAC middleware
+   • Permission checking
+   • Role validation
+   • Resource-based access
+
+5. DATA LAYER
+   • Field-level encryption
+   • Database encryption
+   • Secure deletion
+   • Data masking
+
+6. AUDIT LAYER
+   • Action logging
+   • Access logging
+   • Error logging
+   • Anomaly detection
+
+TOKEN FLOW:
+  1. User login
+  2. Generate JWT + Refresh token
+  3. Return tokens to frontend
+  4. Frontend stores in secure storage
+  5. Include JWT in API requests
+  6. Backend validates JWT
+  7. Check permissions
+  8. Execute request
+  9. Log action
+  10. Return response
+
+PERMISSION HIERARCHY:
+  SUPER_ADMIN
+    ├── Can do anything
+    ├── Access all resources
+    └── Create/delete other admins
+
+  ADMIN
+    ├── Manage system settings
+    ├── Moderate content
+    ├── View audit logs
+    └── Manage regular users
+
+  MENTOR
+    ├── Guide community
+    ├── Create content
+    ├── Respond to inquiries
+    └── View mentor analytics
+
+  USER
+    ├── Create content
+    ├── View community
+    ├── Track sadhanas
+    └── Personal settings
+
+  GUEST
+    ├── View public content
+    └── No write access
+
+================================================================================
+PHASE 6 DEPENDENCIES
+================================================================================
+
+REQUIRED:
+  ✅ Phase 5 (Frontend Integration) - Completed
+  ✅ Node.js 22 - Available
+  ✅ npm packages - Install as needed
+  ✅ MongoDB Atlas - Connected
+  ✅ Environment variables - Configure
+
+NEW PACKAGES NEEDED:
+  • jsonwebtoken - JWT handling
+  • bcrypt - Password hashing
+  • helmet - Security headers
+  • express-rate-limit - Rate limiting
+  • joi - Input validation
+  • speakeasy - 2FA/TOTP
+  • crypto - Encryption utilities
+  • dotenv - Environment variables
+
+================================================================================
+PHASE 6 MILESTONES
+================================================================================
+
+WEEK 1 (Tasks 1-2):
+  ☐ JWT token management implemented
+  ☐ RBAC system operational
+  ☐ Role definitions finalized
+  ☐ Protected routes working
+
+WEEK 2 (Tasks 3-4):
+  ☐ Rate limiting deployed
+  ☐ Data encryption enabled
+  ☐ API security hardened
+  ☐ Compliance requirements met
+
+WEEK 3 (Tasks 5-6):
+  ☐ Audit logging active
+  ☐ 2FA available
+  ☐ Session management working
+  ☐ Monitoring operational
+
+WEEK 4 (Tasks 7-8):
+  ☐ Security testing complete
+  ☐ Vulnerabilities fixed
+  ☐ Documentation finalized
+  ☐ Ready for Phase 7
+
+================================================================================
+PHASE 6 RISKS & MITIGATION
+================================================================================
+
+RISK 1: Token Leakage
+  Impact: Account takeover
+  Mitigation: Secure storage, short expiry, rotation
+
+RISK 2: Insufficient Rate Limiting
+  Impact: API abuse, DoS
+  Mitigation: Multi-tier limiting, adaptive limits
+
+RISK 3: Weak Encryption
+  Impact: Data breach
+  Mitigation: Industry standards (AES-256), key rotation
+
+RISK 4: Permission Bypass
+  Impact: Unauthorized access
+  Mitigation: Comprehensive testing, middleware validation
+
+RISK 5: Audit Log Tampering
+  Impact: Loss of evidence
+  Mitigation: Immutable logs, off-site backup
+
+================================================================================
+PHASE 6 SUCCESS CRITERIA
+================================================================================
+
+SECURITY:
+  ✅ All API endpoints require authentication
+  ✅ All data encrypted at rest
+  ✅ All sensitive operations logged
+  ✅ Rate limiting enforced
+  ✅ 2FA available for users
+  ✅ Zero SQL/NoSQL injection vulnerabilities
+  ✅ Zero known security vulnerabilities
+
+PERFORMANCE:
+  ✅ Token validation <5ms
+  ✅ Permission check <10ms
+  ✅ Rate limit check <5ms
+  ✅ Overall API latency <100ms
+  ✅ Zero security-related timeouts
+
+COMPLIANCE:
+  ✅ GDPR compliant
+  ✅ Data retention policies followed
+  ✅ Audit logs maintained
+  ✅ Incident response plan documented
+  ✅ Security documentation complete
+
+TESTING:
+  ✅ 100+ security tests passing
+  ✅ 90%+ code coverage for security code
+  ✅ Penetration tests completed
+  ✅ Vulnerability scan clean
+  ✅ Load tests under security load pass
+
+================================================================================
+PHASE 6 DELIVERABLES CHECKLIST
+================================================================================
+
+CODE:
+  ☐ JWT service implementation
+  ☐ RBAC middleware & service
+  ☐ Rate limiting middleware
+  ☐ Encryption service
+  ☐ Audit logging service
+  ☐ 2FA service
+  ☐ Security headers middleware
+  ☐ All files compile without errors
+
+TESTING:
+  ☐ Security test suite (100+ tests)
+  ☐ All tests passing
+  ☐ Coverage >90%
+  ☐ Penetration tests documented
+  ☐ Vulnerability scan completed
+
+DOCUMENTATION:
+  ☐ JWT setup guide
+  ☐ RBAC implementation guide
+  ☐ API security guide
+  ☐ Encryption guide
+  ☐ Audit logging guide
+  ☐ 2FA setup guide
+  ☐ Security architecture
+  ☐ Threat model
+  ☐ Incident response plan
+  ☐ Compliance documentation
+
+VERIFICATION:
+  ☐ All endpoints secured
+  ☐ All permissions enforced
+  ☐ Rate limiting working
+  ☐ Audit logging active
+  ☐ 2FA operational
+  ☐ No security warnings
+  ☐ Production ready
+
+================================================================================
+PHASE 6 TEAM ASSIGNMENTS (SOLO)
+================================================================================
+
+As solo developer:
+  • Handle all 8 tasks sequentially
+  • Implement security features incrementally
+  • Test after each feature
+  • Document as you go
+  • Conduct security review at end
+
+ESTIMATED TIME ALLOCATION:
+  Task 1 (JWT): 4 hours
+  Task 2 (RBAC): 5 hours
+  Task 3 (API Security): 4 hours
+  Task 4 (Encryption): 4 hours
+  Task 5 (Audit): 4 hours
+  Task 6 (2FA): 4 hours
+  Task 7 (Testing): 3 hours
+  Task 8 (Documentation): 2 hours
+  Total: 30 hours
+
+BUFFER: 5 hours for unexpected issues
+
+================================================================================
+NEXT PHASES PREVIEW
+================================================================================
+
+PHASE 7: Testing & QA (30 hours)
+  • End-to-end testing
+  • Performance testing
+  • Load testing
+  • Security testing
+  • Accessibility testing
+  • Browser compatibility
+
+PHASE 8: Deployment & DevOps (25 hours)
+  • CI/CD pipeline setup
+  • Docker containerization
+  • Kubernetes deployment
+  • CDN configuration
+  • Monitoring setup
+  • Alerting system
+
+PHASE 9: Documentation (15 hours)
+  • Architecture documentation
+  • API documentation
+  • Deployment guides
+  • Troubleshooting guides
+  • Video tutorials
+  • Knowledge base
+
+================================================================================
+PHASE 6 ENTRY CHECKLIST (GO/NO-GO)
+================================================================================
+
+PREREQUISITES:
+  ✅ Phase 5 complete
+  ✅ Frontend running successfully
+  ✅ Backend APIs responsive
+  ✅ Database connected
+  ✅ All tests passing
+
+READINESS:
+  ✅ Security planning complete
+  ✅ Task breakdown finalized
+  ✅ Risks identified
+  ✅ Mitigation strategies ready
+  ✅ Testing strategy defined
+
+STATUS: GO ✅
+
+Ready to begin Phase 6 Task 1: JWT Token Management
+
+================================================================================

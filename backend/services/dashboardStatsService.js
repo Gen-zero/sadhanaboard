@@ -1,21 +1,27 @@
-const db = require('../config/db');
+const User = require('../schemas/User');
+const Sadhana = require('../schemas/Sadhana');
+const Book = require('../schemas/Book');
+const Theme = require('../schemas/Theme');
+const SadhanaSession = require('../schemas/SadhanaSession');
 
 async function getBasicStats() {
   try {
-    const users = await db.query('SELECT COUNT(*)::int AS c FROM users');
-    const activeUsers = await db.query('SELECT COUNT(*)::int AS c FROM users WHERE active = true');
-    const activeSadhanas = await db.query("SELECT COUNT(*)::int AS c FROM sadhanas WHERE status = 'active' ");
-    const completedSadhanas = await db.query("SELECT COUNT(*)::int AS c FROM sadhanas WHERE status = 'completed' ");
-    const books = await db.query('SELECT COUNT(*)::int AS c FROM books');
-    const themes = await db.query('SELECT COUNT(*)::int AS c FROM themes');
+    const [users, activeUsers, activeSadhanas, completedSadhanas, books, themes] = await Promise.all([
+      User.countDocuments(),
+      User.countDocuments({ active: true }),
+      Sadhana.countDocuments({ status: 'active' }),
+      Sadhana.countDocuments({ status: 'completed' }),
+      Book.countDocuments(),
+      Theme.countDocuments()
+    ]);
 
     return {
-      totalUsers: users.rows[0].c,
-      activeUsers: activeUsers.rows[0].c,
-      activeSadhanas: activeSadhanas.rows[0].c,
-      completedSadhanas: completedSadhanas.rows[0].c,
-      uploadedBooks: books.rows[0].c,
-      currentThemes: themes.rows[0].c
+      totalUsers: users,
+      activeUsers: activeUsers,
+      activeSadhanas: activeSadhanas,
+      completedSadhanas: completedSadhanas,
+      uploadedBooks: books,
+      currentThemes: themes
     };
   } catch (error) {
     console.warn('Basic stats query failed, returning placeholder data:', error.message);
@@ -33,17 +39,34 @@ async function getBasicStats() {
 
 async function getWeeklyTrends() {
   try {
-    const weeklyLogins = await db.query(`
-      SELECT DATE_TRUNC('day', last_login) as date, COUNT(*)::int as logins
-      FROM users WHERE last_login > NOW() - INTERVAL '7 days' GROUP BY DATE_TRUNC('day', last_login) ORDER BY date
-    `);
+    const sevenDaysAgo = new Date(Date.now() - 7 * 86400000);
+    const [weeklyLogins, weeklySadhanaCompletions] = await Promise.all([
+      User.aggregate([
+        { $match: { lastLogin: { $gte: sevenDaysAgo } } },
+        {
+          $group: {
+            _id: { $dateToString: { format: '%Y-%m-%d', date: '$lastLogin' } },
+            logins: { $sum: 1 }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]),
+      Sadhana.aggregate([
+        { $match: { status: 'completed', updatedAt: { $gte: sevenDaysAgo } } },
+        {
+          $group: {
+            _id: { $dateToString: { format: '%Y-%m-%d', date: '$updatedAt' } },
+            completions: { $sum: 1 }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ])
+    ]);
 
-    const weeklySadhanaCompletions = await db.query(`
-      SELECT DATE_TRUNC('day', updated_at) as date, COUNT(*)::int as completions
-      FROM sadhanas WHERE status = 'completed' AND updated_at > NOW() - INTERVAL '7 days' GROUP BY DATE_TRUNC('day', updated_at) ORDER BY date
-    `);
-
-    return { weeklyLogins: weeklyLogins.rows, weeklySadhanaCompletions: weeklySadhanaCompletions.rows };
+    return {
+      weeklyLogins: weeklyLogins.map(r => ({ date: r._id, logins: r.logins })),
+      weeklySadhanaCompletions: weeklySadhanaCompletions.map(r => ({ date: r._id, completions: r.completions }))
+    };
   } catch (error) {
     console.warn('Weekly trends query failed, returning placeholder data:', error.message);
     return { weeklyLogins: [], weeklySadhanaCompletions: [], note: 'Database unavailable - placeholder data' };
@@ -52,17 +75,33 @@ async function getWeeklyTrends() {
 
 async function getUserEngagement() {
   try {
-    // Example metrics: avg practice duration, sessions per user
-    const avgDuration = await db.query(`
-      SELECT COALESCE(AVG(EXTRACT(EPOCH FROM (ended_at - started_at))/60),0)::numeric(10,2) as avg_minutes
-      FROM sadhana_sessions WHERE ended_at IS NOT NULL
-    `);
+    const avgDurationResult = await SadhanaSession.aggregate([
+      { $match: { endedAt: { $ne: null } } },
+      {
+        $project: {
+          durationMinutes: {
+            $divide: [{ $subtract: ['$endedAt', '$startedAt'] }, 60000]
+          }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          avgMinutes: { $avg: '$durationMinutes' }
+        }
+      }
+    ]);
 
-    const sessionsPerUser = await db.query(`
-      SELECT user_id, COUNT(*)::int as sessions FROM sadhana_sessions GROUP BY user_id ORDER BY sessions DESC LIMIT 10
-    `);
+    const sessionsPerUser = await SadhanaSession.aggregate([
+      { $group: { _id: '$userId', sessions: { $sum: 1 } } },
+      { $sort: { sessions: -1 } },
+      { $limit: 10 }
+    ]);
 
-    return { averagePracticeMinutes: Number(avgDuration.rows[0].avg_minutes || 0), topSessions: sessionsPerUser.rows };
+    return {
+      averagePracticeMinutes: Number(avgDurationResult[0]?.avgMinutes || 0),
+      topSessions: sessionsPerUser.map(s => ({ userId: s._id, sessions: s.sessions }))
+    };
   } catch (error) {
     console.warn('User engagement query failed, returning placeholder data:', error.message);
     return { averagePracticeMinutes: 0, topSessions: [], note: 'Database unavailable - placeholder data' };

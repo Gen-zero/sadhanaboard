@@ -41,6 +41,7 @@ import CustomCursor from "./components/CustomCursor";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
 import { HelpProvider } from "./contexts/HelpContext";
+import { SocketProvider } from "./contexts/SocketContext";
 import { ScrollAnimationProvider } from "@/context/ScrollAnimationContext";
 import DemoBanner from "./components/DemoBanner";
 
@@ -286,8 +287,9 @@ const App = () => {
         <LoadingProvider>
           <TooltipProvider>
             <AuthProvider>
-              <HelpProvider>
-                <ScrollAnimationProvider>
+              <SocketProvider>
+                <HelpProvider>
+                  <ScrollAnimationProvider>
                   <div className="relative">
                     <ThemedBackground theme={backgroundTheme} />
                     <div className="relative z-10">
@@ -318,8 +320,9 @@ const App = () => {
                       </BrowserRouter>
                     </div>
                   </div>
-                </ScrollAnimationProvider>
-              </HelpProvider>
+                  </ScrollAnimationProvider>
+                </HelpProvider>
+              </SocketProvider>
             </AuthProvider>
           </TooltipProvider>
         </LoadingProvider>

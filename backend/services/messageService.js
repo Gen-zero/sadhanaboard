@@ -1,12 +1,19 @@
-const db = require('../config/db');
+const Message = require('../schemas/UserNotification');
 const sanitizeHtml = str => (typeof str === 'string' ? str.replace(/<[^>]*>/g, '') : str);
 
 const messageService = {
-  async sendMessage(adminId, userId, content) {
+  async sendMessage(senderId, receiverId, content) {
     try {
       const clean = sanitizeHtml(content);
-      const q = await db.query('INSERT INTO messages (sender_id, receiver_id, content, created_at, is_read) VALUES ($1, $2, $3, NOW(), false) RETURNING id, created_at', [adminId, userId, clean]);
-      return q.rows[0];
+      const message = new Message({
+        fromUserId: senderId,
+        userId: receiverId,
+        content: clean,
+        type: 'message',
+        isRead: false
+      });
+      await message.save();
+      return { id: message._id, createdAt: message.createdAt };
     } catch (e) {
       console.error('sendMessage error', e);
       throw e;
@@ -15,8 +22,18 @@ const messageService = {
 
   async getMessagesForUser(userId, limit = 50, offset = 0) {
     try {
-      const q = await db.query('SELECT id, sender_id, receiver_id, content, created_at, is_read FROM messages WHERE (sender_id = $1 OR receiver_id = $1) ORDER BY created_at DESC LIMIT $2 OFFSET $3', [userId, Number(limit), Number(offset)]);
-      return q.rows || [];
+      const messages = await Message.find({
+        $or: [
+          { fromUserId: userId },
+          { userId: userId }
+        ]
+      })
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset))
+      .select('id fromUserId userId content createdAt isRead');
+      
+      return messages.map(m => m.toJSON()) || [];
     } catch (e) {
       console.error('getMessagesForUser error', e);
       throw e;
@@ -25,7 +42,7 @@ const messageService = {
 
   async markAsRead(messageId) {
     try {
-      await db.query('UPDATE messages SET is_read = true WHERE id = $1', [messageId]);
+      await Message.findByIdAndUpdate(messageId, { isRead: true });
       return { ok: true };
     } catch (e) {
       console.error('markAsRead error', e);
@@ -35,8 +52,8 @@ const messageService = {
 
   async unreadCount(userId) {
     try {
-      const q = await db.query('SELECT COUNT(*)::int AS unread FROM messages WHERE receiver_id=$1 AND is_read = false', [userId]);
-      return q.rows[0].unread || 0;
+      const count = await Message.countDocuments({ userId, isRead: false });
+      return count || 0;
     } catch (e) {
       console.error('unreadCount error', e);
       throw e;

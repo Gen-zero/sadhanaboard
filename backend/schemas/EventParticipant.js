@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const EventParticipantSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'e_ve_nt_pa_rt_ic_ip_an_t' }); module.exports = mongoose.model('EventParticipant', EventParticipantSchema);

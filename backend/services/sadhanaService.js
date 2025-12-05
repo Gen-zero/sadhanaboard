@@ -1,17 +1,18 @@
-const db = require('../config/db');
+const Sadhana = require('../schemas/Sadhana');
+const SadhanaProgress = require('../schemas/SadhanaProgress');
+const SharedSadhana = require('../schemas/SharedSadhana');
+const SadhanaComment = require('../schemas/SadhanaComment');
+const SadhanaLike = require('../schemas/SadhanaLike');
 
 class SadhanaService {
   // Get sadhanas for a user
   static async getUserSadhanas(userId) {
     try {
-      const result = await db.query(
-        `SELECT * FROM sadhanas 
-         WHERE user_id = $1 OR assigned_by = $1
-         ORDER BY created_at DESC`,
-        [userId]
-      );
+      const sadhanas = await Sadhana.find({
+        $or: [{ userId }, { assignedBy: userId }]
+      }).select('_id title type status dueDate frequency duration createdAt updatedAt').sort({ createdAt: -1 }).lean();
 
-      return result.rows;
+      return sadhanas;
     } catch (error) {
       throw new Error(`Failed to fetch sadhanas: ${error.message}`);
     }
@@ -23,48 +24,35 @@ class SadhanaService {
       const {
         title,
         description,
-        category,
-        due_date,
-        due_time,
+        type,
+        dueDate,
+        frequency,
         priority,
         tags,
-        sadhana_id,
-        
-        // New spiritual fields
-        deity,
-        duration_minutes,
-        experience_points,
-        spiritual_tags,
-        practice_type
+        duration,
+        traditions,
+        goal,
+        motivation
       } = sadhanaData;
 
-      const result = await db.query(
-        `INSERT INTO sadhanas 
-         (user_id, title, description, category, due_date, due_time, priority, tags, sadhana_id,
-          deity, duration_minutes, experience_points, spiritual_tags, practice_type)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-         RETURNING *`,
-        [
-          userId,
-          title,
-          description,
-          category || 'daily',
-          due_date,
-          due_time,
-          priority || 'medium',
-          tags || [],
-          sadhana_id,
-          
-          // New spiritual fields
-          deity,
-          duration_minutes || 30,
-          experience_points || 10,
-          spiritual_tags || [],
-          practice_type || 'general'
-        ]
-      );
+      const sadhana = new Sadhana({
+        userId,
+        title,
+        description,
+        type: type || 'other',
+        dueDate,
+        frequency: frequency || 'daily',
+        priority,
+        tags: tags || [],
+        duration: duration || 30,
+        traditions: traditions || [],
+        goal,
+        motivation,
+        status: 'draft'
+      });
 
-      return result.rows[0];
+      await sadhana.save();
+      return sadhana.toJSON();
     } catch (error) {
       throw new Error(`Failed to create sadhana: ${error.message}`);
     }
@@ -73,81 +61,37 @@ class SadhanaService {
   // Update a sadhana
   static async updateSadhana(sadhanaId, sadhanaData, userId) {
     try {
-      const {
-        title,
-        description,
-        completed,
-        category,
-        due_date,
-        due_time,
-        priority,
-        tags,
-        reflection,
-        
-        // New spiritual fields
-        deity,
-        duration_minutes,
-        experience_points,
-        streak_count,
-        last_completed_at,
-        spiritual_tags,
-        practice_type
-      } = sadhanaData;
+      const sadhana = await Sadhana.findOne({
+        _id: sadhanaId,
+        $or: [{ userId }, { assignedBy: userId }]
+      });
 
-      const result = await db.query(
-        `UPDATE sadhanas 
-         SET title = COALESCE($1, title),
-             description = COALESCE($2, description),
-             completed = COALESCE($3, completed),
-             category = COALESCE($4, category),
-             due_date = COALESCE($5, due_date),
-             due_time = COALESCE($6, due_time),
-             priority = COALESCE($7, priority),
-             tags = COALESCE($8, tags),
-             reflection = COALESCE($9, reflection),
-             
-             // New spiritual fields
-             deity = COALESCE($10, deity),
-             duration_minutes = COALESCE($11, duration_minutes),
-             experience_points = COALESCE($12, experience_points),
-             streak_count = COALESCE($13, streak_count),
-             last_completed_at = COALESCE($14, last_completed_at),
-             spiritual_tags = COALESCE($15, spiritual_tags),
-             practice_type = COALESCE($16, practice_type),
-             
-             updated_at = NOW()
-         WHERE id = $17 AND (user_id = $18 OR assigned_by = $18)
-         RETURNING *`,
-        [
-          title,
-          description,
-          completed,
-          category,
-          due_date,
-          due_time,
-          priority,
-          tags,
-          reflection,
-          
-          // New spiritual fields
-          deity,
-          duration_minutes,
-          experience_points,
-          streak_count,
-          last_completed_at,
-          spiritual_tags,
-          practice_type,
-          
-          sadhanaId,
-          userId
-        ]
-      );
-
-      if (result.rows.length === 0) {
+      if (!sadhana) {
         throw new Error('Sadhana not found or unauthorized');
       }
 
-      return result.rows[0];
+      const updateData = {};
+      if (sadhanaData.title !== undefined) updateData.title = sadhanaData.title;
+      if (sadhanaData.description !== undefined) updateData.description = sadhanaData.description;
+      if (sadhanaData.type !== undefined) updateData.type = sadhanaData.type;
+      if (sadhanaData.dueDate !== undefined) updateData.dueDate = sadhanaData.dueDate;
+      if (sadhanaData.frequency !== undefined) updateData.frequency = sadhanaData.frequency;
+      if (sadhanaData.priority !== undefined) updateData.priority = sadhanaData.priority;
+      if (sadhanaData.tags !== undefined) updateData.tags = sadhanaData.tags;
+      if (sadhanaData.duration !== undefined) updateData.duration = sadhanaData.duration;
+      if (sadhanaData.status !== undefined) updateData.status = sadhanaData.status;
+      if (sadhanaData.traditions !== undefined) updateData.traditions = sadhanaData.traditions;
+      if (sadhanaData.goal !== undefined) updateData.goal = sadhanaData.goal;
+      if (sadhanaData.motivation !== undefined) updateData.motivation = sadhanaData.motivation;
+      if (sadhanaData.completedAt !== undefined) updateData.completedAt = sadhanaData.completedAt;
+      if (sadhanaData.notes !== undefined) updateData.notes = sadhanaData.notes;
+
+      const updated = await Sadhana.findByIdAndUpdate(sadhanaId, updateData, {
+        new: true,
+        runValidators: true
+      });
+
+      return updated.toJSON();
     } catch (error) {
       throw new Error(`Failed to update sadhana: ${error.message}`);
     }
@@ -156,18 +100,16 @@ class SadhanaService {
   // Delete a sadhana
   static async deleteSadhana(sadhanaId, userId) {
     try {
-      const result = await db.query(
-        `DELETE FROM sadhanas 
-         WHERE id = $1 AND (user_id = $2 OR assigned_by = $2)
-         RETURNING id`,
-        [sadhanaId, userId]
-      );
+      const sadhana = await Sadhana.findOneAndDelete({
+        _id: sadhanaId,
+        $or: [{ userId }, { assignedBy: userId }]
+      });
 
-      if (result.rows.length === 0) {
+      if (!sadhana) {
         throw new Error('Sadhana not found or unauthorized');
       }
 
-      return { id: result.rows[0].id };
+      return { id: sadhana._id };
     } catch (error) {
       throw new Error(`Failed to delete sadhana: ${error.message}`);
     }
@@ -176,14 +118,12 @@ class SadhanaService {
   // Get sadhana progress
   static async getSadhanaProgress(sadhanaId, userId) {
     try {
-      const result = await db.query(
-        `SELECT * FROM sadhana_progress 
-         WHERE sadhana_id = $1 AND user_id = $2
-         ORDER BY progress_date DESC`,
-        [sadhanaId, userId]
-      );
+      const progress = await SadhanaProgress.find({
+        sadhanaId,
+        userId
+      }).select('_id sadhanaId progressDate completed durationMinutes notes createdAt').sort({ progressDate: -1 }).lean();
 
-      return result.rows;
+      return progress;
     } catch (error) {
       throw new Error(`Failed to fetch sadhana progress: ${error.message}`);
     }
@@ -193,35 +133,39 @@ class SadhanaService {
   static async upsertSadhanaProgress(progressData, userId) {
     try {
       const {
-        sadhana_id,
-        progress_date,
+        sadhanaId,
+        progressDate,
         completed,
         notes,
-        duration_minutes
+        durationMinutes
       } = progressData;
 
-      const result = await db.query(
-        `INSERT INTO sadhana_progress 
-         (sadhana_id, user_id, progress_date, completed, notes, duration_minutes)
-         VALUES ($1, $2, $3, $4, $5, $6)
-         ON CONFLICT (sadhana_id, progress_date) 
-         DO UPDATE SET 
-           completed = COALESCE($4, sadhana_progress.completed),
-           notes = COALESCE($5, sadhana_progress.notes),
-           duration_minutes = COALESCE($6, sadhana_progress.duration_minutes),
-           created_at = NOW()
-         RETURNING *`,
-        [
-          sadhana_id,
+      const date = progressDate ? new Date(progressDate) : new Date();
+      const dateStr = date.toISOString().split('T')[0];
+
+      let progress = await SadhanaProgress.findOne({
+        sadhanaId,
+        progressDate: { $gte: date, $lt: new Date(date.getTime() + 86400000) }
+      });
+
+      if (progress) {
+        if (completed !== undefined) progress.completed = completed;
+        if (notes !== undefined) progress.notes = notes;
+        if (durationMinutes !== undefined) progress.durationMinutes = durationMinutes;
+        await progress.save();
+      } else {
+        progress = new SadhanaProgress({
+          sadhanaId,
           userId,
-          progress_date || new Date().toISOString().split('T')[0],
+          progressDate: date,
           completed,
           notes,
-          duration_minutes
-        ]
-      );
+          durationMinutes: durationMinutes || 0
+        });
+        await progress.save();
+      }
 
-      return result.rows[0];
+      return progress.toJSON();
     } catch (error) {
       throw new Error(`Failed to upsert sadhana progress: ${error.message}`);
     }
@@ -231,24 +175,30 @@ class SadhanaService {
 
   static async shareSadhana(sadhanaId, userId, privacyLevel = 'public') {
     try {
-      if (!['public', 'friends', 'private'].includes(privacyLevel)) {
+      if (!['public', 'friends', 'private', 'community'].includes(privacyLevel)) {
         throw new Error('Invalid privacy level');
       }
 
       // verify sadhana exists and belongs to userId
-      const row = await db.query(`SELECT id, user_id FROM sadhanas WHERE id = $1`, [sadhanaId]);
-      if (row.rows.length === 0) throw new Error('Sadhana not found');
-      if (String(row.rows[0].user_id) !== String(userId)) throw new Error('Unauthorized to share this sadhana');
+      const sadhana = await Sadhana.findById(sadhanaId);
+      if (!sadhana) throw new Error('Sadhana not found');
+      if (String(sadhana.userId) !== String(userId)) throw new Error('Unauthorized to share this sadhana');
 
-      const res = await db.query(
-        `INSERT INTO shared_sadhanas (sadhana_id, user_id, privacy_level)
-         VALUES ($1, $2, $3)
-         ON CONFLICT (sadhana_id) DO UPDATE SET privacy_level = EXCLUDED.privacy_level, updated_at = NOW()
-         RETURNING *`,
-        [sadhanaId, userId, privacyLevel]
-      );
+      let shared = await SharedSadhana.findOne({ sadhanaId });
+      if (shared) {
+        shared.privacyLevel = privacyLevel;
+        shared.updatedAt = new Date();
+        await shared.save();
+      } else {
+        shared = new SharedSadhana({
+          sadhanaId,
+          userId,
+          privacyLevel
+        });
+        await shared.save();
+      }
 
-      return res.rows[0];
+      return shared.toJSON();
     } catch (error) {
       throw new Error(`Failed to share sadhana: ${error.message}`);
     }
@@ -256,12 +206,12 @@ class SadhanaService {
 
   static async unshareSadhana(sadhanaId, userId) {
     try {
-      const res = await db.query(
-        `DELETE FROM shared_sadhanas WHERE sadhana_id = $1 AND user_id = $2 RETURNING id`,
-        [sadhanaId, userId]
-      );
+      const shared = await SharedSadhana.findOneAndDelete({
+        sadhanaId,
+        userId
+      });
 
-      if (res.rows.length === 0) throw new Error('Shared sadhana not found or unauthorized');
+      if (!shared) throw new Error('Shared sadhana not found or unauthorized');
       return { success: true };
     } catch (error) {
       throw new Error(`Failed to unshare sadhana: ${error.message}`);
@@ -270,17 +220,18 @@ class SadhanaService {
 
   static async updateSharePrivacy(sadhanaId, userId, newPrivacyLevel) {
     try {
-      if (!['public', 'friends', 'private'].includes(newPrivacyLevel)) {
+      if (!['public', 'friends', 'private', 'community'].includes(newPrivacyLevel)) {
         throw new Error('Invalid privacy level');
       }
 
-      const res = await db.query(
-        `UPDATE shared_sadhanas SET privacy_level = $1, updated_at = NOW() WHERE sadhana_id = $2 AND user_id = $3 RETURNING *`,
-        [newPrivacyLevel, sadhanaId, userId]
+      const shared = await SharedSadhana.findOneAndUpdate(
+        { sadhanaId, userId },
+        { privacyLevel: newPrivacyLevel, updatedAt: new Date() },
+        { new: true }
       );
 
-      if (res.rows.length === 0) throw new Error('Shared sadhana not found or unauthorized');
-      return res.rows[0];
+      if (!shared) throw new Error('Shared sadhana not found or unauthorized');
+      return shared.toJSON();
     } catch (error) {
       throw new Error(`Failed to update share privacy: ${error.message}`);
     }
@@ -292,67 +243,99 @@ class SadhanaService {
       const limit = pagination.limit || 20;
       const offset = pagination.offset || 0;
 
-      // only public for now
-      const whereClauses = [`ss.privacy_level = 'public'`];
-      const params = [];
-      let idx = 1;
+      let matchStage = { privacyLevel: { $in: ['community', 'public'] }, isActive: true };
 
       if (searchQuery) {
-        whereClauses.push(`(s.title ILIKE '%' || $${idx} || '%' OR s.description ILIKE '%' || $${idx} || '%')`);
-        params.push(searchQuery);
-        idx++;
+        matchStage.$text = { $search: searchQuery };
       }
 
-      const order = sortBy === 'popular' ? 'COALESCE(ss.share_count,0) + COALESCE(like_count,0) DESC' : 'ss.shared_at DESC';
+      const pipeline = [
+        { $match: matchStage },
+        {
+          $lookup: {
+            from: 'sadhanas',
+            localField: 'sadhanaId',
+            foreignField: '_id',
+            as: 'sadhana'
+          }
+        },
+        { $unwind: '$sadhana' },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'owner'
+          }
+        },
+        { $unwind: { path: '$owner', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'profiles',
+            localField: 'userId',
+            foreignField: 'userId',
+            as: 'ownerProfile'
+          }
+        },
+        { $unwind: { path: '$ownerProfile', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'sadhanalikes',
+            localField: 'sadhanaId',
+            foreignField: 'sadhanaId',
+            as: 'likes'
+          }
+        },
+        {
+          $lookup: {
+            from: 'sadhanacomments',
+            localField: 'sadhanaId',
+            foreignField: 'sadhanaId',
+            as: 'comments'
+          }
+        },
+        {
+          $lookup: {
+            from: 'sadhanalikes',
+            let: { sadhanaId: '$sadhanaId' },
+            pipeline: [
+              { $match: { $expr: { $and: [{ $eq: ['$sadhanaId', '$$sadhanaId'] }, { $eq: ['$userId', viewerId] }] } } }
+            ],
+            as: 'userLike'
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            sadhanaId: 1,
+            userId: 1,
+            privacyLevel: 1,
+            caption: 1,
+            viewCount: 1,
+            likeCount: { $size: '$likes' },
+            commentCount: { $size: '$comments' },
+            userHasLiked: { $gt: [{ $size: '$userLike' }, 0] },
+            createdAt: 1,
+            ownerName: '$ownerProfile.displayName',
+            ownerAvatar: '$ownerProfile.avatar',
+            isShared: true,
+            title: '$sadhana.title',
+            description: '$sadhana.description'
+          }
+        },
+        { $sort: sortBy === 'popular' ? { likeCount: -1 } : { createdAt: -1 } },
+        { $skip: offset },
+        { $limit: limit }
+      ];
 
-      const query = `
-        SELECT ss.*, s.*, p.display_name as owner_name, p.avatar as owner_avatar,
-          COALESCE(l.like_count,0) as like_count,
-          COALESCE(c.comment_count,0) as comment_count,
-          CASE WHEN ul.user_id IS NULL THEN false ELSE true END as user_has_liked
-        FROM shared_sadhanas ss
-        JOIN sadhanas s ON s.id = ss.sadhana_id
-        LEFT JOIN profiles p ON p.user_id = ss.user_id
-        LEFT JOIN (
-          SELECT sadhana_id, COUNT(*) as like_count FROM sadhana_likes GROUP BY sadhana_id
-        ) l ON l.sadhana_id = ss.sadhana_id
-        LEFT JOIN (
-          SELECT sadhana_id, COUNT(*) as comment_count FROM sadhana_comments GROUP BY sadhana_id
-        ) c ON c.sadhana_id = ss.sadhana_id
-        LEFT JOIN (
-          SELECT sadhana_id, user_id FROM sadhana_likes WHERE user_id = $${idx}
-        ) ul ON ul.sadhana_id = ss.sadhana_id
-        WHERE ${whereClauses.join(' AND ')}
-        ORDER BY ${order}
-        LIMIT $${idx+1} OFFSET $${idx+2}
-      `;
-
-      params.push(viewerId);
-      params.push(limit);
-      params.push(offset);
-
-      const rows = await db.query(query, params);
-  // count total - build count params separately (only include searchQuery if present)
-  const countSql = `SELECT COUNT(*) FROM shared_sadhanas ss JOIN sadhanas s ON s.id = ss.sadhana_id WHERE ${whereClauses.join(' AND ')}`;
-  const countParams = [];
-  if (searchQuery) countParams.push(searchQuery);
-  const countRes = await db.query(countSql, countParams);
-      const total = parseInt(countRes.rows[0].count, 10) || 0;
-
-      const items = rows.rows.map(r => ({
-        ...r,
-        id: r.sadhana_id,
-        ownerName: r.owner_name,
-        ownerAvatar: r.owner_avatar,
-        isShared: true,
-        privacyLevel: r.privacy_level,
-        sharedAt: r.shared_at,
-        shareCount: r.share_count,
-        viewCount: r.view_count,
-        likeCount: r.like_count,
-        commentCount: r.comment_count,
-        userHasLiked: r.user_has_liked
-      }));
+      const items = await SharedSadhana.aggregate(pipeline);
+      
+      const countPipeline = [
+        { $match: matchStage },
+        { $count: 'total' }
+      ];
+      const countResult = await SharedSadhana.aggregate(countPipeline);
+      const total = countResult.length > 0 ? countResult[0].total : 0;
 
       return { items, total, hasMore: offset + items.length < total };
     } catch (error) {
@@ -362,53 +345,90 @@ class SadhanaService {
 
   static async getSharedSadhanaDetails(sadhanaId, viewerId) {
     try {
-      const query = `
-        SELECT ss.*, s.*, p.display_name as owner_name, p.avatar as owner_avatar,
-          COALESCE(l.like_count,0) as like_count,
-          COALESCE(c.comment_count,0) as comment_count,
-          CASE WHEN ul.user_id IS NULL THEN false ELSE true END as user_has_liked
-        FROM shared_sadhanas ss
-        JOIN sadhanas s ON s.id = ss.sadhana_id
-        LEFT JOIN profiles p ON p.user_id = ss.user_id
-        LEFT JOIN (
-          SELECT sadhana_id, COUNT(*) as like_count FROM sadhana_likes GROUP BY sadhana_id
-        ) l ON l.sadhana_id = ss.sadhana_id
-        LEFT JOIN (
-          SELECT sadhana_id, COUNT(*) as comment_count FROM sadhana_comments GROUP BY sadhana_id
-        ) c ON c.sadhana_id = ss.sadhana_id
-        LEFT JOIN (
-          SELECT sadhana_id, user_id FROM sadhana_likes WHERE user_id = $2
-        ) ul ON ul.sadhana_id = ss.sadhana_id
-        WHERE ss.sadhana_id = $1
-        LIMIT 1
-      `;
+      const pipeline = [
+        { $match: { sadhanaId } },
+        {
+          $lookup: {
+            from: 'sadhanas',
+            localField: 'sadhanaId',
+            foreignField: '_id',
+            as: 'sadhana'
+          }
+        },
+        { $unwind: '$sadhana' },
+        {
+          $lookup: {
+            from: 'profiles',
+            localField: 'userId',
+            foreignField: 'userId',
+            as: 'ownerProfile'
+          }
+        },
+        { $unwind: { path: '$ownerProfile', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'sadhanalikes',
+            localField: 'sadhanaId',
+            foreignField: 'sadhanaId',
+            as: 'likes'
+          }
+        },
+        {
+          $lookup: {
+            from: 'sadhanacomments',
+            localField: 'sadhanaId',
+            foreignField: 'sadhanaId',
+            as: 'comments'
+          }
+        },
+        {
+          $lookup: {
+            from: 'sadhanalikes',
+            let: { sadhanaId: '$sadhanaId' },
+            pipeline: [
+              { $match: { $expr: { $and: [{ $eq: ['$sadhanaId', '$$sadhanaId'] }, { $eq: ['$userId', viewerId] }] } } }
+            ],
+            as: 'userLike'
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            sadhanaId: 1,
+            userId: 1,
+            privacyLevel: 1,
+            viewCount: 1,
+            likeCount: { $size: '$likes' },
+            commentCount: { $size: '$comments' },
+            userHasLiked: { $gt: [{ $size: '$userLike' }, 0] },
+            createdAt: 1,
+            ownerName: '$ownerProfile.displayName',
+            ownerAvatar: '$ownerProfile.avatar'
+          }
+        },
+        { $limit: 1 }
+      ];
 
-      const res = await db.query(query, [sadhanaId, viewerId]);
-      if (res.rows.length === 0) throw new Error('Shared sadhana not found');
+      const result = await SharedSadhana.aggregate(pipeline);
+      if (result.length === 0) throw new Error('Shared sadhana not found');
 
-      const row = res.rows[0];
+      const row = result[0];
 
       // enforce privacy: only owner can view non-public shares
-      if (row.privacy_level && row.privacy_level !== 'public' && String(row.user_id) !== String(viewerId)) {
+      if (row.privacyLevel && row.privacyLevel !== 'public' && String(row.userId) !== String(viewerId)) {
         throw new Error('Cannot view this shared sadhana');
       }
 
       // increment view count
-      await db.query(`UPDATE shared_sadhanas SET view_count = view_count + 1 WHERE sadhana_id = $1`, [sadhanaId]);
+      await SharedSadhana.findByIdAndUpdate(row._id, { $inc: { viewCount: 1 } });
 
       return {
         ...row,
-        id: row.sadhana_id,
-        ownerName: row.owner_name,
-        ownerAvatar: row.owner_avatar,
+        id: row.sadhanaId,
+        ownerName: row.ownerName,
+        ownerAvatar: row.ownerAvatar,
         isShared: true,
-        privacyLevel: row.privacy_level,
-        sharedAt: row.shared_at,
-        shareCount: row.share_count,
-        viewCount: row.view_count + 1,
-        likeCount: row.like_count,
-        commentCount: row.comment_count,
-        userHasLiked: row.user_has_liked
+        viewCount: row.viewCount + 1
       };
     } catch (error) {
       throw new Error(`Failed to fetch shared sadhana details: ${error.message}`);
@@ -418,13 +438,18 @@ class SadhanaService {
   static async likeSadhana(sadhanaId, userId) {
     try {
       // check access: ensure shared and public for now
-      const shared = await db.query(`SELECT privacy_level FROM shared_sadhanas WHERE sadhana_id = $1`, [sadhanaId]);
-      if (shared.rows.length === 0) throw new Error('Shared sadhana not found');
-      if (shared.rows[0].privacy_level !== 'public') throw new Error('Cannot like this sadhana');
+      const shared = await SharedSadhana.findOne({ sadhanaId });
+      if (!shared) throw new Error('Shared sadhana not found');
+      if (shared.privacyLevel !== 'public' && shared.privacyLevel !== 'community') throw new Error('Cannot like this sadhana');
 
-      await db.query(`INSERT INTO sadhana_likes (sadhana_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [sadhanaId, userId]);
-      const countRes = await db.query(`SELECT COUNT(*) FROM sadhana_likes WHERE sadhana_id = $1`, [sadhanaId]);
-      return { liked: true, like_count: parseInt(countRes.rows[0].count, 10) };
+      let like = await SadhanaLike.findOne({ sadhanaId, userId });
+      if (!like) {
+        like = new SadhanaLike({ sadhanaId, userId });
+        await like.save();
+      }
+
+      const likeCount = await SadhanaLike.countDocuments({ sadhanaId });
+      return { liked: true, likeCount };
     } catch (error) {
       throw new Error(`Failed to like sadhana: ${error.message}`);
     }
@@ -432,9 +457,9 @@ class SadhanaService {
 
   static async unlikeSadhana(sadhanaId, userId) {
     try {
-      await db.query(`DELETE FROM sadhana_likes WHERE sadhana_id = $1 AND user_id = $2`, [sadhanaId, userId]);
-      const countRes = await db.query(`SELECT COUNT(*) FROM sadhana_likes WHERE sadhana_id = $1`, [sadhanaId]);
-      return { liked: false, like_count: parseInt(countRes.rows[0].count, 10) };
+      await SadhanaLike.deleteOne({ sadhanaId, userId });
+      const likeCount = await SadhanaLike.countDocuments({ sadhanaId });
+      return { liked: false, likeCount };
     } catch (error) {
       throw new Error(`Failed to unlike sadhana: ${error.message}`);
     }
@@ -443,25 +468,21 @@ class SadhanaService {
   static async getSadhanaComments(sadhanaId, viewerId, pagination = { limit: 50, offset: 0 }) {
     try {
       // basic access check
-      const shared = await db.query(`SELECT privacy_level FROM shared_sadhanas WHERE sadhana_id = $1`, [sadhanaId]);
-      if (shared.rows.length === 0) throw new Error('Shared sadhana not found');
-      if (shared.rows[0].privacy_level !== 'public') throw new Error('Cannot view comments');
+      const shared = await SharedSadhana.findOne({ sadhanaId });
+      if (!shared) throw new Error('Shared sadhana not found');
+      if (shared.privacyLevel !== 'public' && shared.privacyLevel !== 'community') throw new Error('Cannot view comments');
 
       const limit = pagination.limit || 50;
       const offset = pagination.offset || 0;
 
-      const q = `
-        SELECT sc.*, p.display_name as user_name, p.avatar as user_avatar
-        FROM sadhana_comments sc
-        LEFT JOIN profiles p ON p.user_id = sc.user_id
-        WHERE sc.sadhana_id = $1
-        ORDER BY sc.created_at ASC
-        LIMIT $2 OFFSET $3
-      `;
+      const comments = await SadhanaComment.find({ sadhanaId })
+        .populate('userId', 'displayName avatar')
+        .sort({ createdAt: 1 })
+        .skip(offset)
+        .limit(limit);
 
-      const res = await db.query(q, [sadhanaId, limit, offset]);
-      const count = await db.query(`SELECT COUNT(*) FROM sadhana_comments WHERE sadhana_id = $1`, [sadhanaId]);
-      return { comments: res.rows, total: parseInt(count.rows[0].count, 10) };
+      const total = await SadhanaComment.countDocuments({ sadhanaId });
+      return { comments, total };
     } catch (error) {
       throw new Error(`Failed to fetch comments: ${error.message}`);
     }
@@ -472,16 +493,19 @@ class SadhanaService {
       if (!content || String(content).trim().length === 0) throw new Error('Content cannot be empty');
       if (content.length > 1000) throw new Error('Content too long');
 
-      const shared = await db.query(`SELECT privacy_level FROM shared_sadhanas WHERE sadhana_id = $1`, [sadhanaId]);
-      if (shared.rows.length === 0) throw new Error('Shared sadhana not found');
-      if (shared.rows[0].privacy_level !== 'public') throw new Error('Cannot comment on this sadhana');
+      const shared = await SharedSadhana.findOne({ sadhanaId });
+      if (!shared) throw new Error('Shared sadhana not found');
+      if (shared.privacyLevel !== 'public' && shared.privacyLevel !== 'community') throw new Error('Cannot comment on this sadhana');
 
-      const res = await db.query(
-        `INSERT INTO sadhana_comments (sadhana_id, user_id, content, parent_comment_id) VALUES ($1, $2, $3, $4) RETURNING *`,
-        [sadhanaId, userId, content, parentCommentId]
-      );
+      const comment = new SadhanaComment({
+        sadhanaId,
+        userId,
+        content,
+        parentCommentId
+      });
 
-      return res.rows[0];
+      await comment.save();
+      return comment.toJSON();
     } catch (error) {
       throw new Error(`Failed to create comment: ${error.message}`);
     }
@@ -492,13 +516,14 @@ class SadhanaService {
       if (!newContent || String(newContent).trim().length === 0) throw new Error('Content cannot be empty');
       if (newContent.length > 1000) throw new Error('Content too long');
 
-      const res = await db.query(
-        `UPDATE sadhana_comments SET content = $1, is_edited = true, updated_at = NOW() WHERE id = $2 AND user_id = $3 RETURNING *`,
-        [newContent, commentId, userId]
+      const comment = await SadhanaComment.findOneAndUpdate(
+        { _id: commentId, userId },
+        { content: newContent, isEdited: true, updatedAt: new Date() },
+        { new: true }
       );
 
-      if (res.rows.length === 0) throw new Error('Comment not found or unauthorized');
-      return res.rows[0];
+      if (!comment) throw new Error('Comment not found or unauthorized');
+      return comment.toJSON();
     } catch (error) {
       throw new Error(`Failed to update comment: ${error.message}`);
     }
@@ -506,17 +531,16 @@ class SadhanaService {
 
   static async deleteSadhanaComment(commentId, userId) {
     try {
-      // allow comment owner or sadhana owner to delete: check ownership via join
-      const check = await db.query(
-        `SELECT sc.id, sc.user_id, s.user_id as sadhana_owner FROM sadhana_comments sc JOIN sadhanas s ON s.id = sc.sadhana_id WHERE sc.id = $1`,
-        [commentId]
-      );
+      // allow comment owner or sadhana owner to delete
+      const comment = await SadhanaComment.findById(commentId);
+      if (!comment) throw new Error('Comment not found');
 
-      if (check.rows.length === 0) throw new Error('Comment not found');
-      const row = check.rows[0];
-      if (String(row.user_id) !== String(userId) && String(row.sadhana_owner) !== String(userId)) throw new Error('Unauthorized to delete comment');
+      const sadhana = await Sadhana.findById(comment.sadhanaId);
+      if (String(comment.userId) !== String(userId) && String(sadhana.userId) !== String(userId)) {
+        throw new Error('Unauthorized to delete comment');
+      }
 
-      await db.query(`DELETE FROM sadhana_comments WHERE id = $1`, [commentId]);
+      await SadhanaComment.findByIdAndDelete(commentId);
       return { success: true };
     } catch (error) {
       throw new Error(`Failed to delete comment: ${error.message}`);
@@ -525,4 +549,3 @@ class SadhanaService {
 }
 
 module.exports = SadhanaService;
-

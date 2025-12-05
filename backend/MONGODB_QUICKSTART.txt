@@ -1,0 +1,297 @@
+================================================================================
+MONGODB ATLAS - QUICK START GUIDE
+================================================================================
+
+PROJECT: SaadhanaBoard Backend Migration
+SETUP DATE: December 5, 2025
+STATUS: ✓ Ready to Use
+
+================================================================================
+1. START THE SERVER
+================================================================================
+
+Option A: Development Mode (with auto-reload)
+  cd backend
+  npm run dev
+
+Option B: Production Mode
+  cd backend
+  npm start
+
+Expected Output:
+  ╔════════════════════════════════════════╗
+  ║   SaadhanaBoard Backend Server         ║
+  ╠════════════════════════════════════════╣
+  ║ Port:        3004                      ║
+  ║ Environment: development               ║
+  ║ Backend URL: http://localhost:3004     ║
+  ║ Database:    MongoDB Atlas             ║
+  ║ Status:      Running                   ║
+  ╚════════════════════════════════════════╝
+
+================================================================================
+2. VERIFY CONNECTIVITY
+================================================================================
+
+Test MongoDB Connection:
+  cd backend
+  node test-mongodb-connection.js
+
+Expected: ✓ SUCCESS: Connected to MongoDB Atlas!
+
+Check Server Health:
+  curl http://localhost:3004/health
+
+Check Database Health:
+  curl http://localhost:3004/api/health/db
+
+================================================================================
+3. WHAT'S CHANGED FROM SUPABASE
+================================================================================
+
+REMOVED:
+  ✓ PostgreSQL configuration
+  ✓ Supabase URLs
+  ✓ SQL-based queries
+  
+ADDED:
+  ✓ MongoDB Atlas cluster connection
+  ✓ Mongoose ODM
+  ✓ Document-based data model
+  ✓ Aggregation pipelines
+  
+STILL NEEDED:
+  - Mongoose schemas for collections
+  - Service refactoring for MongoDB
+  - Data migration from PostgreSQL
+
+================================================================================
+4. ENVIRONMENT VARIABLES
+================================================================================
+
+MONGODB_URI
+  └─ Connection string to MongoDB Atlas
+  └─ Format: mongodb+srv://user:password@cluster.net/?options
+  └─ Location: .env.development, .env.production
+
+DB_NAME
+  └─ Database name (sadhanaboard)
+  └─ Already set in .env files
+
+Other Variables (unchanged):
+  - PORT: 3004
+  - CORS_ORIGIN: frontend URLs
+  - JWT_SECRET: authentication secret
+  - Admin credentials
+  - Polling intervals
+
+================================================================================
+5. FILE STRUCTURE
+================================================================================
+
+backend/
+├── config/
+│   ├── mongodb.js ← NEW (MongoDB connection)
+│   ├── db.js (deprecated - keep for reference)
+│   └── db-supabase.js (deprecated)
+├── .env.development ← UPDATED
+├── .env.production ← UPDATED
+├── .env.example ← UPDATED
+├── server.js ← UPDATED
+├── package.json ← UPDATED
+├── test-mongodb-connection.js ← NEW
+├── routes/
+├── services/ ← NEED TO REFACTOR
+├── controllers/
+└── middleware/
+
+================================================================================
+6. NEXT TASKS
+================================================================================
+
+TASK 1: Create Mongoose Schemas
+  Location: backend/schemas/
+  Files needed:
+    - User.js
+    - Profile.js
+    - SpiritualBook.js
+    - Sadhana.js
+    - ... (30+ total)
+
+TASK 2: Refactor Services
+  Update all 46 service files to use Mongoose
+  Examples:
+    backend/services/authService.js
+    backend/services/sadhanaService.js
+    backend/services/bookService.js
+    ... (43 more)
+
+TASK 3: Data Migration
+  - Export PostgreSQL data
+  - Transform to MongoDB format
+  - Import to MongoDB Atlas
+
+TASK 4: Testing
+  - Unit tests
+  - Integration tests
+  - Load tests
+
+================================================================================
+7. CONNECTION STRING
+================================================================================
+
+MongoDB Atlas Cluster:
+  Cluster Name: cluster1
+  Region: (check MongoDB Atlas dashboard)
+  Tier: (check MongoDB Atlas dashboard)
+
+Connection Details:
+  Host: cluster1.mn2ty8w.mongodb.net
+  Database: sadhanaboard
+  Username: subham4343_db_user
+  
+Full Connection String (in .env):
+  mongodb+srv://subham4343_db_user:RsD0qysfLKGeX3GL@cluster1.mn2ty8w.mongodb.net/?appName=Cluster1
+
+================================================================================
+8. COMMON ISSUES & SOLUTIONS
+================================================================================
+
+ISSUE: "Cannot find module 'mongoose'"
+SOLUTION: npm install mongoose
+
+ISSUE: "Connection timeout"
+SOLUTION: Check MongoDB Atlas IP whitelist in settings
+
+ISSUE: "Authentication failed"
+SOLUTION: Verify connection string credentials in .env
+
+ISSUE: Server starts but database errors occur
+SOLUTION: Services still using old db.query() - need refactoring
+
+ISSUE: "MONGODB DRIVER Warning: useNewUrlParser"
+SOLUTION: Already fixed in config/mongodb.js
+
+================================================================================
+9. USEFUL COMMANDS
+================================================================================
+
+Test Connection:
+  node test-mongodb-connection.js
+
+Install Dependencies:
+  npm install
+
+Install Mongoose only:
+  npm install mongoose
+
+Start Server:
+  npm run dev
+
+View Logs:
+  npm run dev (all logs visible in console)
+
+Check Health:
+  curl http://localhost:3004/health
+  curl http://localhost:3004/api/health/db
+
+MongoDB Atlas Dashboard:
+  https://cloud.mongodb.com/
+  Login with your account
+  Select cluster1 to view data
+
+================================================================================
+10. CONFIGURATION CHECKLIST
+================================================================================
+
+✓ MongoDB Atlas cluster created
+✓ Connection string in .env.development
+✓ Connection string in .env.production
+✓ Mongoose installed (npm install mongoose)
+✓ config/mongodb.js created
+✓ server.js updated
+✓ test-mongodb-connection.js created and tested
+✓ Health check endpoints configured
+✓ CSP headers updated for MongoDB
+
+REMAINING:
+□ Create Mongoose schemas (30+ files)
+□ Refactor services (46 files)
+□ Create data migration scripts
+□ Migrate data from PostgreSQL
+□ Create unit tests
+□ Create integration tests
+□ Update documentation
+
+================================================================================
+11. SUPPORT & DOCUMENTATION
+================================================================================
+
+Mongoose Documentation:
+  https://mongoosejs.com/docs/
+
+MongoDB Atlas Documentation:
+  https://www.mongodb.com/docs/atlas/
+
+MongoDB Query Language:
+  https://www.mongodb.com/docs/manual/crud/
+
+API Health Endpoint:
+  GET /health - Server status
+  GET /api/health/db - Database connection status
+
+Connection Test Script:
+  Location: backend/test-mongodb-connection.js
+  Run: node test-mongodb-connection.js
+
+Migration Plan:
+  Location: MONGODB_MIGRATION_PLAN.txt
+  Detailed step-by-step plan for full migration
+
+Setup Summary:
+  Location: MONGODB_SETUP_COMPLETE.txt
+  Complete details of what was done
+
+================================================================================
+12. QUICK TROUBLESHOOTING
+================================================================================
+
+Server won't start?
+  1. Check .env files have MONGODB_URI set
+  2. Run: node test-mongodb-connection.js
+  3. Check MongoDB Atlas cluster is running
+  4. Check IP whitelist in Atlas settings
+
+MongoDB connection failing?
+  1. Verify connection string in .env
+  2. Check credentials are correct
+  3. Verify cluster is not paused
+  4. Check network/firewall
+  5. Try: nslookup cluster1.mn2ty8w.mongodb.net
+
+Services throwing database errors?
+  1. Services still use old db.query() syntax
+  2. They need refactoring to use Mongoose
+  3. This is expected during migration
+
+Port 3004 already in use?
+  1. Kill process on port 3004
+   Windows: netstat -ano | findstr :3004
+   Then: taskkill /PID [PID] /F
+  2. Or change PORT in .env
+
+================================================================================
+READY TO GO!
+================================================================================
+
+Your MongoDB Atlas backend is now:
+  ✓ Connected and verified
+  ✓ Ready for development
+  ✓ Ready for schema creation
+  ✓ Ready for service refactoring
+
+Start with: npm run dev
+
+Good luck with the migration!
+
+================================================================================

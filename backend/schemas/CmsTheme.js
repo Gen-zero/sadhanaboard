@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const CmsThemeSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'c_ms_th_em_e' }); module.exports = mongoose.model('CmsTheme', CmsThemeSchema);

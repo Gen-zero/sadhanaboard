@@ -25,7 +25,7 @@ const csvExportRoutes = require('./routes/csvExport');
 const googleSheetsRoutes = require('./routes/googleSheets');
 
 // Import database
-const db = require('./config/db');
+const { connectMongoDB } = require('./config/mongodb');
 
 // Import logger
 const logger = require('./utils/logger');
@@ -62,7 +62,7 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", 'data:', 'https:'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      connectSrc: ["'self'", ...corsOrigins, 'https://*.supabase.co', 'wss://*.supabase.co'],
+  connectSrc: ["'self'", ...corsOrigins, 'https://mongodb.net', 'wss://mongodb.net'],
       frameSrc: ["'self'"],
     },
   },
@@ -94,7 +94,8 @@ app.get('/health', (req, res) => {
 // Database health check endpoint
 app.get('/api/health/db', catchAsync(async (req, res) => {
   try {
-    const connectionTest = await db.getConnectionTestResult();
+    const { getConnectionTestResult } = require('./config/mongodb');
+    const connectionTest = await getConnectionTestResult();
     res.json({
       status: connectionTest.success ? 'connected' : 'disconnected',
       method: connectionTest.method,
@@ -181,16 +182,10 @@ app.locals.io = io;
 // Start server
 const startServer = async () => {
   try {
-    // Test database connection on startup
-    logger.info('Testing database connection...');
-    const dbTest = await db.getConnectionTestResult();
-    if (dbTest.success) {
-      logger.info('Database connection successful', { method: dbTest.method });
-    } else {
-      logger.warn('Database connection failed on startup', { error: dbTest.error });
-      console.warn('⚠️  Database connection failed:', dbTest.error);
-      console.warn('The server will continue but database operations may fail.');
-    }
+    // Connect to MongoDB
+    logger.info('Connecting to MongoDB...');
+    await connectMongoDB();
+    logger.info('MongoDB connected successfully');
 
     server.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`, { environment: NODE_ENV, backendUrl: BACKEND_URL });
@@ -201,6 +196,7 @@ const startServer = async () => {
 ║ Port:        ${PORT.toString().padEnd(30)}║
 ║ Environment: ${NODE_ENV.padEnd(30)}║
 ║ Backend URL: ${BACKEND_URL.padEnd(30)}║
+║ Database:    MongoDB Atlas             ║
 ║ Status:      Running                   ║
 ╚════════════════════════════════════════╝
       `);

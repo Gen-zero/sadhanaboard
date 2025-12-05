@@ -1,5 +1,3 @@
-const db = require('../config/db');
-
 // Define role-based permissions with more granular control
 const ROLE_PERMISSIONS = {
   'admin': [

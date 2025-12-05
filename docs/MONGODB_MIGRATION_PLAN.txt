@@ -1,0 +1,1338 @@
+================================================================================
+SADHANABOARD: POSTGRESQL TO MONGODB ATLAS MIGRATION PLAN
+================================================================================
+Date: December 5, 2025
+Project: SaadhanaBoard Backend Migration
+Current Database: Supabase (PostgreSQL)
+Target Database: MongoDB Atlas
+
+================================================================================
+1. EXECUTIVE SUMMARY
+================================================================================
+
+This document outlines the comprehensive migration plan from PostgreSQL (Supabase) 
+to MongoDB Atlas. The migration involves 30+ tables with complex relationships that 
+need to be converted into MongoDB collections with embedded documents and references.
+
+Key Challenges:
+- Converting SQL JOINs to MongoDB aggregations
+- Handling UUID primary keys
+- Managing foreign key constraints
+- Full-text search implementation
+- JSONB field handling
+- Array field transformations
+
+Timeline Estimate: 4-6 weeks
+Effort Level: High
+Risk Level: Medium-High
+
+================================================================================
+2. CURRENT POSTGRESQL SCHEMA ANALYSIS
+================================================================================
+
+CORE AUTHENTICATION & USERS (Tables: 3)
+├── users (UUID PK, unique email, password, timestamps)
+├── profiles (UUID PK->users.id, JSONB settings, array traditions)
+└── waitlist (UUID PK, email, status check constraint)
+
+SPIRITUAL BOOKS & READING (Tables: 4)
+├── spiritual_books (UUID PK, JSONB cover_url, TSVECTOR search_vector, file_size)
+├── book_progress (SERIAL PK, JSONB position, numeric percent)
+├── book_bookmarks (SERIAL PK, JSONB position, boolean flags)
+└── book_annotations (SERIAL PK, JSONB position, text content)
+
+SADHANAS - SPIRITUAL PRACTICES (Tables: 3)
+├── sadhanas (UUID PK, text arrays tags/spiritual_tags, time fields)
+├── sadhana_progress (UUID PK, date field, daily tracking)
+└── sadhana_store_items (UUID PK, JSONB data field)
+
+SHARING & COMMUNITY (Tables: 4)
+├── shared_sadhanas (UUID PK, privacy level enum)
+├── sadhana_likes (UUID PK, composite unique constraint)
+├── sadhana_comments (UUID PK, hierarchical/nested structure)
+└── shared_sadhana_likes (UUID PK)
+
+GROUPS & MENTORSHIP (Tables: 4)
+├── groups (UUID PK, JSONB metadata)
+├── group_members (UUID PK, role enum, status enum)
+├── mentorships (UUID PK, start/end dates)
+└── mentorship_goals (UUID PK, JSONB data)
+
+ADMIN & ANALYTICS (Tables: 7)
+├── admin_users (SERIAL PK, role, permissions)
+├── admin_sessions (UUID PK, JWT token, expiration)
+├── audit_logs (SERIAL PK, large text field for details)
+├── system_metrics (SERIAL PK, JSONB data)
+├── feature_flags (SERIAL PK, boolean enabled)
+├── bi_reports (UUID PK, JSONB configuration)
+└── google_sheets_integrations (UUID PK, JSONB metadata)
+
+OTHER FEATURES (Tables: 5)
+├── badges (UUID PK, requirements JSONB)
+├── achievements (SERIAL PK, user_id FK)
+├── cms_pages (UUID PK, content TEXT)
+├── admin_integrations (UUID PK, metadata JSONB)
+└── experiments (UUID PK, JSONB configuration)
+
+INDEXES IDENTIFIED: 40+ PostgreSQL indexes on frequently queried columns
+
+================================================================================
+3. MONGODB COLLECTION DESIGN
+================================================================================
+
+3.1 AUTHENTICATION & USERS COLLECTIONS
+────────────────────────────────────────
+
+Collection: users
+{
+  _id: ObjectId,
+  email: String (unique index),
+  password: String,
+  displayName: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: email (unique), createdAt
+
+Collection: profiles
+{
+  _id: ObjectId,
+  userId: ObjectId (index, reference to users._id),
+  displayName: String,
+  avatarUrl: String,
+  bio: String,
+  experienceLevel: String,
+  traditions: Array<String>,
+  location: String,
+  availableForGuidance: Boolean,
+  dateOfBirth: Date,
+  timeOfBirth: String,
+  placeOfBirth: String,
+  favoriteDeity: String,
+  gotra: String,
+  varna: String,
+  sampradaya: String,
+  onboardingCompleted: Boolean,
+  settings: Object,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, createdAt
+
+Collection: waitlist
+{
+  _id: ObjectId,
+  name: String,
+  email: String (unique index),
+  reason: String,
+  status: String (enum: pending, approved, rejected),
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: email (unique), status, createdAt
+
+3.2 BOOKS & READING COLLECTIONS
+────────────────────────────────
+
+Collection: spiritualBooks
+{
+  _id: ObjectId,
+  userId: ObjectId (index, reference to users._id),
+  title: String,
+  author: String,
+  traditions: Array<String>,
+  content: String,
+  storageUrl: String,
+  isStorageFile: Boolean,
+  description: String,
+  year: Number,
+  language: String,
+  pageCount: Number,
+  coverUrl: String,
+  fileSize: Number,
+  deletedAt: Date,
+  searchText: String (for text search - replace TSVECTOR),
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, createdAt, deletedAt, text search on searchText, deletedAt
+
+Collection: bookProgress
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  bookId: ObjectId (index),
+  position: Object,
+  page: Number,
+  percent: Number,
+  timeSpentMinutes: Number,
+  lastSeenAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId+bookId (compound unique), userId, bookId
+Note: Ensure unique constraint on userId+bookId using MongoDB unique indexes
+
+Collection: bookBookmarks
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  bookId: ObjectId (index),
+  label: String,
+  page: Number,
+  position: Object,
+  isPublic: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, bookId, createdAt
+
+Collection: bookAnnotations
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  bookId: ObjectId (index),
+  page: Number,
+  position: Object,
+  content: String,
+  isPrivate: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, bookId, createdAt
+
+3.3 SADHANAS (SPIRITUAL PRACTICES) COLLECTIONS
+──────────────────────────────────────────────
+
+Collection: sadhanas
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  assignedBy: ObjectId,
+  title: String,
+  description: String,
+  completed: Boolean,
+  category: String (daily, goal),
+  dueDate: Date,
+  dueTime: String,
+  priority: String (low, medium, high),
+  tags: Array<String>,
+  reflection: String,
+  sadhanaId: Number,
+  deity: String,
+  durationMinutes: Number,
+  experiencePoints: Number,
+  streakCount: Number,
+  lastCompletedAt: Date,
+  spiritualTags: Array<String>,
+  practiceType: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, createdAt, dueDate, completed
+
+Collection: sadhanaProgress
+{
+  _id: ObjectId,
+  sadhanaId: ObjectId (index),
+  userId: ObjectId (index),
+  progressDate: Date,
+  completed: Boolean,
+  notes: String,
+  durationMinutes: Number,
+  createdAt: Date
+}
+Indexes: sadhanaId+progressDate (compound unique), userId, sadhanaId
+
+Collection: sadhanaStoreItems
+{
+  _id: ObjectId,
+  sadhanaId: Number,
+  data: Object,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+3.4 SHARING & COMMUNITY COLLECTIONS
+──────────────────────────────────
+
+Collection: sharedSadhanas
+{
+  _id: ObjectId,
+  sadhanaId: ObjectId (index),
+  userId: ObjectId (index),
+  privacyLevel: String,
+  viewCount: Number,
+  shareToken: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: sadhanaId, userId, shareToken
+
+Collection: sadhanaLikes
+{
+  _id: ObjectId,
+  sadhanaId: ObjectId (index),
+  userId: ObjectId (index),
+  createdAt: Date
+}
+Indexes: sadhanaId+userId (compound unique), sadhanaId, userId
+
+Collection: sadhanaComments
+{
+  _id: ObjectId,
+  sadhanaId: ObjectId (index),
+  userId: ObjectId (index),
+  content: String,
+  parentCommentId: ObjectId,
+  isEdited: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: sadhanaId, userId, parentCommentId, createdAt
+
+Collection: sharedSadhanaLikes
+{
+  _id: ObjectId,
+  sadhanaId: ObjectId (index),
+  userId: ObjectId (index),
+  createdAt: Date
+}
+Indexes: sadhanaId+userId (compound unique)
+
+3.5 GROUPS & MENTORSHIP COLLECTIONS
+──────────────────────────────────
+
+Collection: groups
+{
+  _id: ObjectId,
+  creatorId: ObjectId (index),
+  name: String,
+  description: String,
+  type: String,
+  metadata: Object,
+  memberCount: Number,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: creatorId, createdAt
+
+Collection: groupMembers
+{
+  _id: ObjectId,
+  groupId: ObjectId (index),
+  userId: ObjectId (index),
+  role: String,
+  status: String,
+  joinedAt: Date,
+  updatedAt: Date
+}
+Indexes: groupId, userId, groupId+userId (compound unique)
+
+Collection: mentorships
+{
+  _id: ObjectId,
+  mentorId: ObjectId (index),
+  menteeId: ObjectId (index),
+  status: String,
+  startDate: Date,
+  endDate: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: mentorId, menteeId, status
+
+Collection: mentorshipGoals
+{
+  _id: ObjectId,
+  mentorshipId: ObjectId (index),
+  goalTitle: String,
+  description: String,
+  data: Object,
+  achieved: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: mentorshipId, achieved
+
+3.6 ADMIN & ANALYTICS COLLECTIONS
+─────────────────────────────────
+
+Collection: adminUsers
+{
+  _id: ObjectId,
+  email: String (unique index),
+  passwordHash: String,
+  role: String,
+  permissions: Array<String>,
+  isActive: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: email (unique), role, createdAt
+
+Collection: adminSessions
+{
+  _id: ObjectId,
+  adminId: ObjectId (index),
+  jwtToken: String,
+  expiresAt: Date,
+  createdAt: Date
+}
+Indexes: adminId, expiresAt (TTL index for automatic cleanup)
+
+Collection: auditLogs
+{
+  _id: ObjectId,
+  adminId: ObjectId (index),
+  action: String,
+  entityType: String,
+  entityId: ObjectId,
+  details: String,
+  ipAddress: String,
+  userAgent: String,
+  createdAt: Date
+}
+Indexes: adminId, createdAt, entityType, action
+
+Collection: systemMetrics
+{
+  _id: ObjectId,
+  metricName: String,
+  metricValue: Number,
+  data: Object,
+  timestamp: Date
+}
+Indexes: metricName, timestamp
+
+Collection: featureFlags
+{
+  _id: ObjectId,
+  flagName: String (unique index),
+  enabled: Boolean,
+  description: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: flagName (unique)
+
+Collection: biReports
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  reportName: String,
+  configuration: Object,
+  lastRun: Date,
+  nextRun: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, createdAt
+
+Collection: googleSheetsIntegrations
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  sheetId: String,
+  accessToken: String,
+  refreshToken: String,
+  metadata: Object,
+  syncEnabled: Boolean,
+  lastSyncAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: userId, createdAt
+
+3.7 OTHER FEATURES COLLECTIONS
+──────────────────────────────
+
+Collection: badges
+{
+  _id: ObjectId,
+  name: String,
+  description: String,
+  requirements: Object,
+  icon: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+Collection: achievements
+{
+  _id: ObjectId,
+  userId: ObjectId (index),
+  badgeId: ObjectId (index),
+  unlockedAt: Date,
+  createdAt: Date
+}
+Indexes: userId, badgeId, userId+badgeId (compound unique)
+
+Collection: cmsPages
+{
+  _id: ObjectId,
+  slug: String (unique index),
+  title: String,
+  content: String,
+  author: String,
+  published: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: slug (unique), published, createdAt
+
+Collection: adminIntegrations
+{
+  _id: ObjectId,
+  integrationName: String,
+  configuration: Object,
+  metadata: Object,
+  enabled: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: integrationName, enabled
+
+Collection: experiments
+{
+  _id: ObjectId,
+  experimentName: String,
+  description: String,
+  configuration: Object,
+  status: String,
+  startDate: Date,
+  endDate: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+Indexes: experimentName, status, startDate
+
+================================================================================
+4. DETAILED IMPLEMENTATION ROADMAP
+================================================================================
+
+4.1 PHASE 1: SETUP & PREPARATION (Week 1)
+─────────────────────────────────────────
+
+TASK 1.1: MongoDB Atlas Setup
+├── Create MongoDB Atlas account (if not exists)
+├── Create cluster (M10 recommended for production)
+├── Configure network access (IP whitelist)
+├── Create database user with appropriate permissions
+├── Enable backups and automatic snapshots
+└── Get connection string (store in .env)
+
+TASK 1.2: Install MongoDB Dependencies
+├── npm install mongoose (or mongodb driver)
+├── npm install dotenv
+├── npm install bcryptjs (for password hashing - already installed)
+└── Create new config/mongodb.js file
+
+TASK 1.3: Create MongoDB Connection Module
+├── File: backend/config/mongodb.js
+├── Implement connection pooling
+├── Add reconnection logic
+├── Error handling for connection failures
+├── Health check function
+└── Export connection instance
+
+TASK 1.4: Set Environment Variables
+├── Add MONGODB_URI to .env.development
+├── Add MONGODB_URI to .env.production
+├── Format: mongodb+srv://user:password@cluster.mongodb.net/database
+├── Add DB_NAME variable
+└── Document all new variables in .env.example
+
+4.2 PHASE 2: DATA SCHEMA MIGRATION (Week 1-2)
+──────────────────────────────────────────────
+
+TASK 2.1: Create Data Mapping Document
+├── Map PostgreSQL data types to MongoDB types
+├── Document UUID -> ObjectId conversion
+├── Plan array field migrations
+├── Document JSONB field handling
+├── Create field naming conventions (camelCase for MongoDB)
+└── Plan indexes strategy
+
+TASK 2.2: Implement Data Type Conversions
+├── UUID to ObjectId conversion utility
+├── Date field normalization
+├── Array field handling
+├── JSONB to nested documents
+├── Text search field preparation
+└── Create helpers/mongoDataTypeConverters.js
+
+TASK 2.3: Create Migration Scripts
+├── Script 1: Export data from PostgreSQL
+│  └── backend/scripts/migrations/exportPostgresData.js
+├── Script 2: Transform data for MongoDB
+│  └── backend/scripts/migrations/transformData.js
+├── Script 3: Validate transformed data
+│  └── backend/scripts/migrations/validateData.js
+└── Script 4: Import to MongoDB
+   └── backend/scripts/migrations/importToMongo.js
+
+TASK 2.4: Create MongoDB Schemas Using Mongoose
+├── Create schemas/User.js (users collection)
+├── Create schemas/Profile.js
+├── Create schemas/SpiritualBook.js
+├── Create schemas/Sadhana.js
+├── Create schemas/SadhanaProgress.js
+├── Create schemas/SharedSadhana.js
+├── Create schemas/AdminUser.js
+├── Create remaining 15+ collection schemas
+├── Add validation rules for each schema
+├── Add virtual fields and methods
+└── Create indexes in schema definitions
+
+4.3 PHASE 3: SERVICE LAYER REFACTORING (Week 2-3)
+──────────────────────────────────────────────────
+
+TASK 3.1: Identify All Services Requiring Changes
+├── authService.js (queries 3-5 SQL operations)
+├── sadhanaService.js (queries 10+ SQL operations)
+├── bookService.js (queries 8+ SQL operations)
+├── profileService.js (queries 5+ SQL operations)
+├── socialService.js (queries 10+ SQL operations)
+├── adminAuthService.js (queries 5+ SQL operations)
+├── Read all 46 service files and catalog changes needed
+└── Create service update checklist
+
+TASK 3.2: Create MongoDB Query Helper Functions
+├── helpers/mongoQueryBuilders.js
+├── getUserWithProfile() - with population/lookup
+├── getSadhanaWithProgress() - with aggregations
+├── getSharedSadhanaWithComments()
+├── addAggregationPipelines for complex queries
+├── Create transaction helpers for multi-document operations
+└── Error handling wrappers
+
+TASK 3.3: Refactor AuthService
+├── Update register() - insertOne user and profile
+├── Update login() - findOne with projection
+├── Update getUserById() - findById with populate
+├── Update joinWaitlist() - insertOne waitlist
+├── Update all database calls to use MongoDB methods
+├── Add proper error handling
+└── Test with unit tests
+
+TASK 3.4: Refactor SadhanaService
+├── Update getUserSadhanas() - find() with filters
+├── Update createSadhana() - insertOne with transaction
+├── Update updateSadhana() - findByIdAndUpdate()
+├── Update deleteSadhana() - findByIdAndDelete()
+├── Update getSadhanaProgress() - aggregate()
+├── Convert all JOINs to $lookup stages
+├── Convert all complex queries to aggregation pipelines
+├── Test aggregation pipelines separately
+└── Handle nested arrays and documents
+
+TASK 3.5: Refactor Book-Related Services
+├── bookService.js refactoring
+├── bookProgressService.js refactoring
+├── bookmarkService.js refactoring
+├── annotationService.js refactoring
+├── Update file storage references
+├── Convert full-text search (TSVECTOR -> MongoDB text indexes)
+└── Test search functionality
+
+TASK 3.6: Refactor Social/Community Services
+├── socialService.js (likes, comments)
+├── communityService.js (shared sadhanas)
+├── groupService.js (groups and members)
+├── mentorshipService.js
+├── Convert relationship queries
+├── Implement aggregation pipelines for feed
+└── Handle pagination with $skip/$limit
+
+TASK 3.7: Refactor Admin Services
+├── adminAuthService.js
+├── auditLogService.js
+├── featureFlagService.js
+├── biReportService.js
+├── Update all admin-related queries
+└── Ensure proper role-based access control
+
+TASK 3.8: Refactor Remaining Services
+├── profileService.js
+├── settingsService.js
+├── integrationService.js
+├── notificationService.js
+├── reminderService.js
+├── googleSheetsService.js
+├── All other 39 services
+└── Complete systematic refactoring
+
+4.4 PHASE 4: CONTROLLER UPDATES (Week 3)
+──────────────────────────────────────────
+
+TASK 4.1: No Changes Required for Controllers
+├── Controllers already abstract database calls via Services
+├── Controllers only call Service methods
+├── No direct database queries in controllers
+├── Verify each controller file
+├── Only update if service signatures changed
+└── Conduct spot-check on 5-10 controller files
+
+4.5 PHASE 5: ROUTE & MIDDLEWARE UPDATES (Week 3)
+──────────────────────────────────────────────────
+
+TASK 5.1: Verify Routes Work with New Services
+├── Spot-check 10-15 route files
+├── Ensure service method calls match new MongoDB methods
+├── Verify request/response contracts haven't changed
+├── Test pagination (MongoDB uses different approach)
+└── Update any hard-coded SQL comments
+
+TASK 5.2: Update Authentication Middleware
+├── auth.js - verify JWT still works
+├── adminAuth.js - update user lookup if needed
+├── socketAuth.js - update user verification
+└── Test middleware with MongoDB lookups
+
+TASK 5.3: Update Error Handling Middleware
+├── errorHandler.js - update for MongoDB errors
+├── Add MongoDB-specific error messages
+├── Update validation error handling
+└── Update connection error handling
+
+TASK 5.4: Database Health Check
+├── Update health-check.js
+├── Change from SQL SELECT NOW() to MongoDB ping()
+├── Test connection pool
+└── Document health check endpoints
+
+================================================================================
+5. CRITICAL CHANGES REQUIRED PER FILE
+================================================================================
+
+5.1 DATABASE CONFIGURATION FILES
+────────────────────────────────
+
+FILE: backend/config/db.js
+CURRENT: PostgreSQL Pool with pg library
+ACTION: Keep as fallback, create separate MongoDB config
+CHANGES:
+  - Create new backend/config/mongodb.js
+  - Implement Mongoose or MongoDB native driver
+  - Export connection pool and connection methods
+  - Add connection timeout and retry logic
+
+FILE: backend/config/db-supabase.js
+ACTION: Deprecate (can keep for reference)
+CHANGES: Not needed for MongoDB, remove from imports
+
+5.2 MODEL FILES (MINIMAL CHANGES)
+─────────────────────────────────
+
+FILE: backend/models/User.js
+CURRENT: Basic class definition
+ACTION: Update to use Mongoose schema
+CHANGES:
+  - Import Mongoose
+  - Create userSchema with validation
+  - Add indexes for email, createdAt
+  - Export Mongoose model
+  - Keep same toJSON() method for API compatibility
+
+FILE: backend/models/Profile.js
+CURRENT: Basic class definition
+ACTION: Convert to Mongoose schema
+CHANGES:
+  - Create profileSchema
+  - Add userId reference
+  - Convert traditions TEXT[] to Array<String>
+  - Convert settings JSONB to Object
+  - Add proper validation
+
+FILE: backend/models/Admin.js
+CURRENT: Basic class definition
+ACTION: Convert to Mongoose schema
+CHANGES:
+  - Create adminSchema
+  - Add role and permissions arrays
+  - Add password hashing pre-save hooks
+  - Create indexes
+
+5.3 SERVICE FILES (MAJOR CHANGES - 46 FILES)
+──────────────────────────────────────────────
+
+HIGHEST PRIORITY SERVICES (Direct user impact):
+1. authService.js - User registration, login, token management
+2. sadhanaService.js - Core feature, complex queries
+3. bookService.js - Book management and queries
+4. profileService.js - User profile management
+5. socialService.js - Community features
+
+MEDIUM PRIORITY SERVICES:
+6. bookProgressService.js
+7. bookmarkService.js
+8. groupService.js
+9. mentorshipService.js
+10. adminAuthService.js
+... (continuing with medium priority)
+
+LOWER PRIORITY SERVICES:
+- Feature-specific services (googleSheetsService, etc.)
+- Analytics services
+- Background task services
+- Utility services
+
+CONVERSION PATTERN FOR EACH SERVICE:
+FROM (PostgreSQL):
+  const result = await db.query(
+    'SELECT * FROM users WHERE id = $1',
+    [userId]
+  );
+  return result.rows[0];
+
+TO (MongoDB):
+  const user = await User.findById(userId);
+  return user;
+
+COMPLEX QUERY CONVERSION PATTERN:
+FROM (PostgreSQL with JOINs):
+  SELECT u.id, u.email, p.bio, 
+         COUNT(s.id) as sadhana_count
+  FROM users u
+  LEFT JOIN profiles p ON u.id = p.id
+  LEFT JOIN sadhanas s ON u.id = s.user_id
+  WHERE u.id = $1
+  GROUP BY u.id, p.id
+
+TO (MongoDB with aggregation):
+  const pipeline = [
+    { $match: { _id: ObjectId(userId) } },
+    { $lookup: {
+        from: 'profiles',
+        localField: '_id',
+        foreignField: 'userId',
+        as: 'profile'
+      }
+    },
+    { $lookup: {
+        from: 'sadhanas',
+        let: { userId: '$_id' },
+        pipeline: [
+          { $match: { $expr: { $eq: ['$userId', '$$userId'] } } },
+          { $count: 'count' }
+        ],
+        as: 'sadhanaStats'
+      }
+    }
+  ];
+  return await User.aggregate(pipeline);
+
+5.4 MIGRATION SCRIPTS
+─────────────────────
+
+Scripts to create (in backend/scripts/migrations/):
+
+1. exportPostgresData.js
+   - Exports all tables from PostgreSQL
+   - Creates JSON files in backup directory
+   - Includes all relationships
+   - Size: ~200 lines
+
+2. transformData.js
+   - Converts PostgreSQL data to MongoDB format
+   - UUID -> ObjectId conversion
+   - Date normalization
+   - Array field transformation
+   - Nested document creation
+   - Size: ~400-500 lines
+
+3. validateData.js
+   - Validates transformed data
+   - Checks for required fields
+   - Verifies relationships
+   - Checks data types
+   - Size: ~300 lines
+
+4. importToMongo.js
+   - Imports data to MongoDB
+   - Handles batch inserts
+   - Creates indexes
+   - Validates import success
+   - Size: ~250 lines
+
+5. rollbackMigration.js
+   - Rollback script in case of issues
+   - Preserves MongoDB data
+   - Documents rollback process
+   - Size: ~200 lines
+
+================================================================================
+6. DATABASE INDEXES PLANNING
+================================================================================
+
+PERFORMANCE CRITICAL INDEXES:
+
+Users & Auth:
+  - users: email (unique)
+  - profiles: userId (index)
+  - adminUsers: email (unique)
+  - adminSessions: expiresAt (TTL index)
+
+Sadhana Queries:
+  - sadhanas: userId, createdAt, dueDate, completed
+  - sadhanaProgress: sadhanaId+progressDate (unique), userId, sadhanaId
+
+Book Queries:
+  - spiritualBooks: userId, createdAt, deletedAt, searchText (text index)
+  - bookProgress: userId+bookId (unique)
+
+Social Features:
+  - sadhanaLikes: sadhanaId+userId (unique)
+  - sharedSadhanas: sadhanaId, userId, shareToken
+  - sadhanaComments: sadhanaId, userId, parentCommentId
+
+Admin & Analytics:
+  - auditLogs: adminId, createdAt, entityType
+  - systemMetrics: metricName, timestamp
+  - biReports: userId, createdAt
+
+GROUP INDEXES:
+  - groups: creatorId, createdAt
+  - groupMembers: groupId, userId (compound unique)
+  - mentorships: mentorId, menteeId, status
+
+TEXT SEARCH INDEXES:
+  - spiritualBooks: searchText (text index)
+  - cmsPages: content (text index)
+
+================================================================================
+7. TRANSACTION HANDLING
+================================================================================
+
+PostgreSQL had ACID transactions. MongoDB requires explicit session handling.
+
+OPERATIONS REQUIRING TRANSACTIONS:
+
+Transaction 1: User Registration
+  - Create user document
+  - Create profile document
+  - Create entry in system (if needed)
+  - Rollback on any failure
+
+Transaction 2: Create Sadhana with Details
+  - Create sadhana document
+  - Create initial progress entry
+  - Update user stats
+  - Rollback if any fails
+
+Transaction 3: Share Sadhana
+  - Create sharedSadhana document
+  - Update view count
+  - Create audit log
+  - Rollback if any fails
+
+IMPLEMENTATION:
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    // Perform operations with session parameter
+    await User.create([{...}], { session });
+    await Profile.create([{...}], { session });
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+
+================================================================================
+8. FULL-TEXT SEARCH MIGRATION
+================================================================================
+
+Current PostgreSQL Implementation:
+  - Uses TSVECTOR for search_vector column
+  - GIN index on search_vector
+  - Full-text search query: 
+    WHERE search_vector @@ plainto_tsquery('english', 'search_term')
+
+MongoDB Implementation Options:
+
+OPTION A: MongoDB Text Indexes (RECOMMENDED)
+  - Create text index on searchText field
+  - Query: db.spiritualBooks.find({ $text: { $search: "term" } })
+  - Simpler than PostgreSQL
+  - Scores results by relevance
+  - Drawback: Limited language support
+
+OPTION B: Elasticsearch (For Production Scale)
+  - Separate Elasticsearch cluster
+  - Sync data from MongoDB
+  - Better performance on large datasets
+  - Better language support
+  - More complex to maintain
+
+RECOMMENDATION:
+Start with Option A, migrate to Option B if performance issues arise.
+
+IMPLEMENTATION STEPS:
+1. Create text index in Mongoose schema:
+   searchSchema.index({ searchText: 'text' });
+
+2. Update SpiritualBook creation to populate searchText:
+   searchText: `${title} ${author} ${description} ${traditions.join(' ')}`
+
+3. Update search queries:
+   OLD: WHERE search_vector @@ plainto_tsquery(...)
+   NEW: { $text: { $search: searchQuery } }
+
+4. Handle ranking/scoring:
+   Use MongoDB's textScore for result ordering
+
+================================================================================
+9. TESTING STRATEGY
+================================================================================
+
+9.1 UNIT TESTS (Per Service)
+────────────────────────────
+
+For each service file:
+  - Mock MongoDB models
+  - Test CRUD operations
+  - Test error handling
+  - Test validation
+
+Example test file structure (tests/authService.test.js):
+  describe('AuthService', () => {
+    describe('register', () => {
+      test('should create user and profile', ...)
+      test('should hash password', ...)
+      test('should handle duplicate email', ...)
+    });
+    describe('login', () => {
+      test('should return user with token', ...)
+      test('should reject invalid password', ...)
+    });
+  });
+
+9.2 INTEGRATION TESTS
+─────────────────────
+
+Test full request/response flow:
+  - POST /api/auth/register -> MongoDB creates user+profile
+  - GET /api/sadhanas -> MongoDB returns user's sadhanas
+  - POST /api/sadhanas/:id/like -> MongoDB records like
+  - etc.
+
+9.3 MIGRATION VALIDATION TESTS
+──────────────────────────────
+
+Data integrity checks:
+  - Count matching records: PostgreSQL vs MongoDB
+  - Check no data loss
+  - Verify relationships are intact
+  - Validate data types converted correctly
+  - Check indexes created
+
+9.4 PERFORMANCE TESTS
+────────────────────
+
+Load testing before/after:
+  - Query performance benchmarks
+  - Write operation benchmarks
+  - Index effectiveness
+  - Connection pool sizing
+  - Memory usage
+
+9.5 ROLLBACK TESTS
+─────────────────
+
+Ensure rollback plan works:
+  - Export MongoDB data
+  - Restore to PostgreSQL
+  - Validate data integrity
+  - Verify application still works
+
+================================================================================
+10. DEPLOYMENT STRATEGY
+================================================================================
+
+DEPLOYMENT TIMELINE:
+
+Week 1: Setup & Preparation
+  - MongoDB Atlas cluster ready
+  - All dependencies installed
+  - Config files created
+
+Week 2: Parallel Running
+  - Keep PostgreSQL running
+  - Deploy MongoDB alongside
+  - Replicate data on write operations (dual-write pattern)
+  - Verify MongoDB consistency
+
+Week 3: Migration
+  - Migrate data to MongoDB
+  - Run comprehensive tests
+  - Switch read traffic to MongoDB
+  - Keep PostgreSQL as backup
+
+Week 4: Cutover
+  - Migrate write traffic to MongoDB
+  - Disable PostgreSQL connections
+  - Monitor for issues
+  - Keep backup running
+
+Week 5-6: Post-Migration
+  - Monitor performance
+  - Optimize queries
+  - Fix any issues discovered
+  - Document final setup
+  - Decommission PostgreSQL
+
+CUTOVER CHECKLIST:
+
+Pre-cutover:
+  [ ] All services refactored and tested
+  [ ] Data fully migrated and validated
+  [ ] Rollback plan documented
+  [ ] Team trained
+  [ ] Monitoring configured
+  [ ] Backup strategy in place
+
+Cutover:
+  [ ] Stop accepting new PostgreSQL writes
+  [ ] Verify all data in MongoDB
+  [ ] Switch application to MongoDB
+  [ ] Monitor error rates
+  [ ] Test all critical paths
+  [ ] Verify user-facing features work
+
+Post-cutover:
+  [ ] Monitor logs for issues
+  [ ] Performance testing
+  [ ] Load testing
+  [ ] Document final architecture
+  [ ] Schedule PostgreSQL decommission
+
+================================================================================
+11. MONITORING & ALERTING
+================================================================================
+
+MongoDB Atlas provides built-in monitoring:
+  - Connection count
+  - Query performance
+  - Memory usage
+  - Disk usage
+  - Replication lag
+
+Additional monitoring needed:
+  - Application-level error tracking
+  - Slow query logging
+  - Index usage monitoring
+  - Data validation checks
+  - Backup verification
+
+Alerting thresholds:
+  - Connection count > 90% of max
+  - Query latency > 1000ms
+  - Memory usage > 85%
+  - Failed authentication attempts > 10/min
+  - Replication lag > 10 seconds
+
+================================================================================
+12. ROLLBACK PROCEDURE
+================================================================================
+
+If issues occur after MongoDB migration:
+
+PHASE 1: Immediate Rollback (< 1 hour)
+  1. Identify issue severity
+  2. If critical, switch application back to PostgreSQL
+  3. Keep MongoDB running for data comparison
+  4. Notify team of issue
+
+PHASE 2: Investigation (While on PostgreSQL)
+  1. Analyze MongoDB data vs PostgreSQL
+  2. Identify root cause
+  3. Determine if data loss occurred
+  4. Plan remediation
+
+PHASE 3: Resolution Options
+  Option A: Fix and retry MongoDB migration
+    - Fix issue in MongoDB
+    - Validate data
+    - Switch back to MongoDB
+    
+  Option B: Merge PostgreSQL and MongoDB
+    - Restore PostgreSQL from backup
+    - Merge new MongoDB data
+    - Re-attempt migration with fixes
+    
+  Option C: Stay on PostgreSQL
+    - Keep PostgreSQL running
+    - Document lessons learned
+    - Plan future migration
+
+================================================================================
+13. ESTIMATED FILE CHANGES
+================================================================================
+
+APPROXIMATE LINES OF CODE CHANGES:
+
+Configuration Files:
+  - backend/config/db.js: 50 lines (add MongoDB alongside)
+  - backend/config/mongodb.js: 100 lines (new file)
+  - .env files: 5 lines additions
+
+Model Files (8 files):
+  - User.js: 40 lines
+  - Profile.js: 60 lines
+  - Admin.js: 50 lines
+  - Others (5 files): ~150 lines total
+
+Service Files (46 files):
+  - authService.js: 120 lines changed
+  - sadhanaService.js: 300 lines changed
+  - bookService.js: 200 lines changed
+  - socialService.js: 250 lines changed
+  - 42 other services: ~2000 lines changed total
+
+Migration Scripts (5 files):
+  - Total: ~1500 lines of new code
+
+Test Files (50+ files):
+  - Total: ~3000 lines of new test code
+
+TOTAL ESTIMATED CHANGES: ~8000-10000 lines of code
+
+================================================================================
+14. RESOURCE REQUIREMENTS
+================================================================================
+
+TEAM REQUIREMENTS:
+  - 2 Backend Developers (1 lead, 1 support)
+  - 1 Database Administrator
+  - 1 QA Engineer
+  - 1 DevOps Engineer (for deployment)
+
+INFRASTRUCTURE:
+  - MongoDB Atlas cluster (M10 minimum, M30 recommended for production)
+  - MongoDB backup storage
+  - Testing MongoDB instance
+  - Staging environment
+  - Production environment
+
+TOOLS NEEDED:
+  - Mongoose (ODM for MongoDB)
+  - MongoDB Compass (visualization)
+  - Studio 3T (advanced client - optional)
+  - Data migration tools
+
+================================================================================
+15. RISK ASSESSMENT
+================================================================================
+
+HIGH RISKS:
+  Risk 1: Data Loss During Migration
+    Mitigation: Complete PostgreSQL backup before starting
+    
+  Risk 2: Performance Degradation
+    Mitigation: Load testing before production deployment
+    
+  Risk 3: Complex Query Compatibility
+    Mitigation: Extensive testing of aggregation pipelines
+
+MEDIUM RISKS:
+  Risk 4: Transaction Handling Complexity
+    Mitigation: Thorough testing of transactional operations
+    
+  Risk 5: Full-text Search Functionality Loss
+    Mitigation: Equivalent MongoDB text index testing
+
+  Risk 6: Timeline Overruns
+    Mitigation: Parallel development, prioritized features
+
+LOW RISKS:
+  Risk 7: Team Skill Gap
+    Mitigation: Training and documentation
+    
+  Risk 8: Third-party Integration Issues
+    Mitigation: Review all integrations, test thoroughly
+
+================================================================================
+16. SUCCESS CRITERIA
+================================================================================
+
+Project is successful when:
+  ✓ All data migrated without loss
+  ✓ All services refactored and working
+  ✓ Performance metrics equal or better than PostgreSQL
+  ✓ All tests passing (unit, integration, load)
+  ✓ No critical bugs in production
+  ✓ Team trained and capable of managing MongoDB
+  ✓ Monitoring and alerting in place
+  ✓ Documentation complete
+  ✓ Rollback procedure tested and documented
+  ✓ PostgreSQL successfully decommissioned
+
+================================================================================
+17. KNOWLEDGE BASE & REFERENCES
+================================================================================
+
+MONGODB DOCUMENTATION:
+  - https://docs.mongodb.com/manual/
+  - https://mongoosejs.com/docs/
+
+MIGRATION GUIDES:
+  - https://docs.mongodb.com/manual/faq/fundamentals/
+  - https://docs.mongodb.com/manual/core/transactions/
+
+RELATED TECHNOLOGIES:
+  - Express.js with MongoDB integration
+  - Socket.IO with MongoDB for real-time features
+  - Google Sheets API with MongoDB storage
+
+PERFORMANCE:
+  - MongoDB indexing strategies
+  - Aggregation pipeline optimization
+  - Connection pooling best practices
+
+================================================================================
+18. POST-MIGRATION OPTIMIZATION
+================================================================================
+
+After successful migration, optimize:
+
+QUERIES:
+  1. Review slow queries using MongoDB profiler
+  2. Optimize aggregation pipelines
+  3. Add missing indexes
+  4. Consider denormalization for frequently joined data
+
+SCHEMA:
+  1. Evaluate embedding vs referencing strategies
+  2. Consider materializing frequently calculated fields
+  3. Optimize document size
+
+INFRASTRUCTURE:
+  1. Right-size MongoDB cluster capacity
+  2. Enable sharding if needed
+  3. Optimize backup retention
+  4. Configure geo-replication if multi-region
+
+CACHING:
+  1. Implement Redis caching for hot data
+  2. Cache aggregation pipeline results
+  3. Cache frequently accessed documents
+
+================================================================================
+END OF MONGODB MIGRATION PLAN
+================================================================================
+
+Next Steps:
+1. Review and approve this plan with stakeholders
+2. Set up MongoDB Atlas environment
+3. Begin Phase 1 implementation
+4. Weekly status meetings and progress tracking
+5. Adjust timeline based on actual progress
+
+Document History:
+  Created: December 5, 2025
+  Status: Draft - Ready for Review
+  Next Review: After stakeholder approval

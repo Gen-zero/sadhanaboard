@@ -1,43 +1,64 @@
-const db = require('../config/db');
+const Experiment = require('../schemas/Experiment');
 
 module.exports = {
   async listExperiments({ q = '', limit = 50, offset = 0 } = {}) {
-    const params = [limit, offset];
-    let sql = `SELECT * FROM admin_ab_experiments ORDER BY id DESC LIMIT $1 OFFSET $2`;
+    let query = {};
     if (q) {
-      sql = `SELECT * FROM admin_ab_experiments WHERE key ILIKE $3 OR description ILIKE $3 ORDER BY id DESC LIMIT $1 OFFSET $2`;
-      params.push(`%${q}%`);
+      query.$or = [
+        { experimentName: { $regex: q, $options: 'i' } },
+        { description: { $regex: q, $options: 'i' } }
+      ];
     }
-    const res = await db.query(sql, params);
-    return { items: res.rows, total: res.rowCount, limit, offset };
+    const items = await Experiment.find(query)
+      .sort({ _id: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset));
+    const total = await Experiment.countDocuments(query);
+    return { items: items.map(i => i.toJSON()), total, limit, offset };
   },
+
   async getExperiment(keyOrId) {
-    const sql = isNaN(Number(keyOrId)) ? `SELECT * FROM admin_ab_experiments WHERE key = $1` : `SELECT * FROM admin_ab_experiments WHERE id = $1`;
-    const res = await db.query(sql, [keyOrId]);
-    return res.rows[0] || null;
+    const experiment = await Experiment.findOne({ experimentName: keyOrId });
+    if (experiment) return experiment.toJSON();
+    return null;
   },
+
   async createExperiment(payload) {
-    const { key, description = '', variants = {}, traffic_allocation = {}, started_at = null, ended_at = null, active = true, metadata = {} } = payload;
-    const sql = `INSERT INTO admin_ab_experiments(key, description, variants, traffic_allocation, started_at, ended_at, active, metadata) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
-    const res = await db.query(sql, [key, description, variants, traffic_allocation, started_at, ended_at, active, metadata]);
-    return res.rows[0];
+    const {
+      key,
+      description = '',
+      variants = {},
+      trafficAllocation = {},
+      startedAt = null,
+      endedAt = null,
+      active = true,
+      metadata = {}
+    } = payload;
+
+    const experiment = new Experiment({
+      experimentName: key,
+      description,
+      results: { variants, trafficAllocation, metadata },
+      startDate: startedAt,
+      actualEndDate: endedAt,
+      status: active ? 'running' : 'planning'
+    });
+    await experiment.save();
+    return experiment.toJSON();
   },
+
   async updateExperiment(id, patch) {
-    const keys = [];
-    const values = [];
-    let idx = 1;
-    for (const k of Object.keys(patch)) {
-      keys.push(`${k} = $${idx++}`);
-      values.push(patch[k]);
+    const updateData = {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (k === 'key') updateData.experimentName = v;
+      else updateData[k] = v;
     }
-    if (!keys.length) return this.getExperiment(id);
-    values.push(id);
-    const sql = `UPDATE admin_ab_experiments SET ${keys.join(', ')} WHERE id = $${idx} RETURNING *`;
-    const res = await db.query(sql, values);
-    return res.rows[0];
+    const experiment = await Experiment.findByIdAndUpdate(id, updateData, { new: true });
+    return experiment ? experiment.toJSON() : null;
   },
+
   async deleteExperiment(id) {
-    await db.query(`DELETE FROM admin_ab_experiments WHERE id = $1`, [id]);
+    await Experiment.findByIdAndDelete(id);
     return { ok: true };
   }
 };

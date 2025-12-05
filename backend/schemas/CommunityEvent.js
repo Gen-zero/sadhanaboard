@@ -1,0 +1,1 @@
+﻿const mongoose = require('mongoose'); const CommunityEventSchema = new mongoose.Schema({ name: { type: String, required: true, index: true }, data: mongoose.Schema.Types.Mixed, createdAt: { type: Date, default: Date.now, index: true } }, { collection: 'c_om_mu_ni_ty_ev_en_t' }); module.exports = mongoose.model('CommunityEvent', CommunityEventSchema);

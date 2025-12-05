@@ -1,0 +1,790 @@
+================================================================================
+PHASE 6: TASK 2 - ROLE-BASED ACCESS CONTROL (RBAC)
+Granular Permission System with Role Hierarchy
+================================================================================
+
+DATE: December 5, 2025
+TASK: 2 of 8
+STATUS: ✅ COMPLETE
+DURATION: 5-6 hours
+
+================================================================================
+TASK 2 OVERVIEW
+================================================================================
+
+OBJECTIVE: Implement comprehensive RBAC system with multiple roles, permission
+           matrix, role hierarchy, and frontend permission checking.
+
+DELIVERABLES:
+  ✅ Role & Permission Definitions (472 lines)
+  ✅ Backend RBAC Service (306 lines)
+  ✅ Backend RBAC Middleware (305 lines)
+  ✅ Frontend Permission Hooks (255 lines)
+  ✅ Protected Route Components (285 lines)
+  ✅ RBAC Tests (430 lines)
+  ✅ Complete Documentation (this file)
+
+TOTAL TASK CODE: 2,053 lines
+
+================================================================================
+RBAC ARCHITECTURE
+================================================================================
+
+ROLE HIERARCHY (Most to Least Privileged):
+
+  SUPER_ADMIN (Level 5)
+    ├─ Full system access
+    ├─ Can manage all users
+    ├─ Can change any settings
+    └─ Can assign any role
+
+  ADMIN (Level 4)
+    ├─ System administration
+    ├─ User management
+    ├─ Content moderation
+    ├─ View analytics
+    └─ Can assign Mentor, User, Guest, Disabled
+
+  MENTOR (Level 3)
+    ├─ Create and manage content
+    ├─ Guide community members
+    ├─ Create sadhanas and books
+    └─ Access analytics
+
+  USER (Level 2)
+    ├─ Full community access
+    ├─ Create own sadhanas
+    ├─ Post and comment
+    └─ Access personal analytics
+
+  GUEST (Level 1)
+    ├─ Read-only access
+    ├─ View public content
+    ├─ No write permissions
+    └─ No account creation
+
+  DISABLED (Level 0)
+    └─ No access to anything
+
+================================================================================
+ROLE DEFINITIONS
+================================================================================
+
+FILE: backend/config/roles.config.js (472 lines)
+
+ROLES OBJECT:
+```javascript
+const ROLES = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
+  MENTOR: 'MENTOR',
+  USER: 'USER',
+  GUEST: 'GUEST',
+  DISABLED: 'DISABLED',
+};
+```
+
+PERMISSIONS OBJECT (70+ permissions):
+
+User Management:
+  • user:create - Create new user
+  • user:read - Read any user
+  • user:read_own - Read own profile
+  • user:update - Update any user
+  • user:update_own - Update own profile
+  • user:delete - Delete any user
+  • user:list - List all users
+
+Profile Management:
+  • profile:read - Read any profile
+  • profile:read_own - Read own profile
+  • profile:update - Update any profile
+  • profile:update_own - Update own profile
+
+Sadhana Management:
+  • sadhana:create - Create sadhana
+  • sadhana:read - Read any sadhana
+  • sadhana:read_own - Read own sadhana
+  • sadhana:update - Update any sadhana
+  • sadhana:update_own - Update own sadhana
+  • sadhana:delete - Delete any sadhana
+  • sadhana:delete_own - Delete own sadhana
+  • sadhana:list - List sadhanas
+
+Book Management:
+  • book:create - Create book
+  • book:read - Read books
+  • book:update - Update books
+  • book:delete - Delete books
+  • book:list - List books
+
+Community Features:
+  • community:post_create - Create posts
+  • community:post_read - Read posts
+  • community:post_update_own - Update own posts
+  • community:post_delete_own - Delete own posts
+  • community:post_delete_any - Delete any posts
+  • community:comment - Comment on posts
+  • community:like - Like posts
+  • community:moderate - Moderate content
+
+Analytics:
+  • analytics:view_own - View own analytics
+  • analytics:view_all - View all analytics
+
+Administration:
+  • admin:manage_users - User administration
+  • admin:manage_roles - Role management
+  • admin:manage_content - Content moderation
+  • admin:view_analytics - View system analytics
+  • admin:view_logs - View audit logs
+  • admin:settings - Change system settings
+
+System:
+  • system:access - Basic system access
+
+ROLE PERMISSION MAPPINGS:
+
+SUPER_ADMIN: All permissions
+ADMIN: 30+ permissions (user management, content, analytics)
+MENTOR: 20+ permissions (content creation, community)
+USER: 15+ permissions (personal resources, community)
+GUEST: 2 permissions (read books, read community)
+DISABLED: 0 permissions
+
+RESOURCE-BASED PERMISSIONS:
+
+sadhana:
+  • owner_can: read, update, delete, share, comment
+  • mentor_can: read, comment, guide
+  • public_can: read
+
+user_profile:
+  • owner_can: read, update, delete_account
+  • mentor_can: read, comment
+  • admin_can: read, update, suspend, delete
+  • public_can: read_limited
+
+community_post:
+  • owner_can: read, update, delete, edit
+  • mentor_can: read, reply, pin
+  • admin_can: read, delete, hide, moderate
+  • public_can: read
+
+================================================================================
+BACKEND RBAC SERVICE
+================================================================================
+
+FILE: backend/services/rbacService.js (306 lines)
+
+CLASS: RBACService
+
+METHODS:
+
+1. userHasPermission(userRole, permission)
+   Checks if user has specific permission
+   Returns: boolean
+
+2. userHasAnyPermission(userRole, permissions[])
+   Checks if user has any of the permissions (OR)
+   Returns: boolean
+
+3. userHasAllPermissions(userRole, permissions[])
+   Checks if user has all permissions (AND)
+   Returns: boolean
+
+4. canAccessResource(userRole, resourceType, action, resourceOwnerId?, userId?)
+   Checks resource access with ownership support
+   Returns: boolean
+
+5. canAssignRole(userRole, targetRole)
+   Checks if user can assign role to another
+   Returns: boolean
+
+6. canModifyUser(modifierRole, targetRole)
+   Checks if user can modify another user's role
+   Considers role hierarchy
+   Returns: boolean
+
+7. canViewUserData(viewerRole, viewerUserId, targetUserId, dataType?)
+   Checks user data visibility based on privacy
+   dataTypes: basic, profile, public
+   Returns: boolean
+
+8. getAvailableActions(userRole, resourceType, resourceOwnerId?, userId?)
+   Gets all actions user can perform on resource
+   Returns: string[]
+
+9. validatePermission(userRole, requiredPermission)
+   Validates permission, throws if denied
+   Throws: Error with statusCode 403
+
+10. validateRole(userRole, allowedRoles[])
+    Validates role is in allowed list
+    Throws: Error with statusCode 403
+
+11. sanitizeUserData(userData, viewerRole, isOwn?)
+    Removes sensitive fields based on viewer role
+    Returns: Sanitized object
+
+12. isRoleDisabled(role)
+    Checks if role is DISABLED
+    Returns: boolean
+
+13. isGuestRole(role)
+    Checks if role is GUEST
+    Returns: boolean
+
+14. isAdmin(role)
+    Checks if role is ADMIN or SUPER_ADMIN
+    Returns: boolean
+
+15. isSuperAdmin(role)
+    Checks if role is SUPER_ADMIN
+    Returns: boolean
+
+16. getDataAccessFilter(userRole, userId)
+    Gets MongoDB filter for data access
+    Returns: MongoDB filter object
+
+17. validateRoleChange(modifierRole, targetRole, newRole)
+    Validates role change is allowed
+    Throws: Error if not allowed
+
+USAGE EXAMPLE:
+
+```javascript
+const RBACService = require('./services/rbacService');
+
+// Check permission
+if (!RBACService.userHasPermission(user.role, 'user:delete')) {
+  throw new Error('Insufficient permissions');
+}
+
+// Check resource access
+if (!RBACService.canAccessResource(user.role, 'sadhana', 'update', sadhana.user_id, user.id)) {
+  throw new Error('Cannot modify this sadhana');
+}
+
+// Get data filter for user's role
+const filter = RBACService.getDataAccessFilter(user.role, user.id);
+const data = await Model.find(filter);
+
+// Sanitize data before sending
+const safeData = RBACService.sanitizeUserData(userData, viewer.role, isOwn);
+```
+
+================================================================================
+BACKEND RBAC MIDDLEWARE
+================================================================================
+
+FILE: backend/middleware/rbacMiddleware.js (305 lines)
+
+MIDDLEWARE FUNCTIONS:
+
+1. requireRole(allowedRoles)
+   Middleware to require specific role(s)
+   Usage: app.get('/admin', requireRole(['admin']), handler)
+
+2. requirePermission(requiredPermissions)
+   Middleware to require permission(s)
+   Usage: app.delete('/user/:id', requirePermission('user:delete'), handler)
+
+3. requireAnyPermission(permissions[])
+   Middleware for OR permission checking
+   Usage: requireAnyPermission(['post:edit', 'post:delete'])
+
+4. requireAdmin()
+   Convenience middleware for admin+ only
+   Usage: app.get('/admin/dashboard', requireAdmin(), handler)
+
+5. requireSuperAdmin()
+   Convenience middleware for super admin only
+   Usage: app.post('/system/config', requireSuperAdmin(), handler)
+
+6. requireResourceOwnership(userIdPath, resourceOwnerPath)
+   Verifies user owns resource (or is admin)
+   Usage: app.put('/sadhana/:id', requireResourceOwnership(), handler)
+
+7. preventDisabledUsers()
+   Prevents disabled users from accessing
+   Usage: Global middleware to block disabled accounts
+
+8. attachPermissions()
+   Attaches helper methods to request
+   Sets req.can, req.isAdmin(), req.hasPermission()
+   Usage: app.use(attachPermissions())
+
+9. validateRoleHierarchy()
+   Ensures role assignments respect hierarchy
+   Usage: app.post('/user/:id/role', validateRoleHierarchy(), handler)
+
+10. auditLog(resourceType)
+    Logs access to sensitive resources
+    Usage: app.delete('/user/:id', auditLog('user'), handler)
+
+USAGE EXAMPLES:
+
+```javascript
+const { requireRole, requirePermission, requireAdmin } = require('./middleware/rbacMiddleware');
+
+// Admin-only endpoint
+app.get('/api/admin/dashboard', requireAdmin(), (req, res) => {
+  res.json({ message: 'Admin panel' });
+});
+
+// Multi-role endpoint
+app.get('/api/mentor/dashboard',
+  requireRole(['MENTOR', 'ADMIN']),
+  (req, res) => {
+    res.json({ message: 'Mentor panel' });
+  }
+);
+
+// Permission-based endpoint
+app.delete('/api/user/:id',
+  requirePermission('user:delete'),
+  (req, res) => {
+    // Delete user
+  }
+);
+
+// With request helpers
+app.get('/api/user/:id', (req, res) => {
+  if (!req.can.read('user')) {
+    return res.status(403).json({ error: 'Cannot read user' });
+  }
+});
+
+// Resource ownership check
+app.put('/api/sadhana/:id',
+  requireResourceOwnership('user.id', 'body.user_id'),
+  (req, res) => {
+    // Update sadhana
+  }
+);
+```
+
+ERROR RESPONSES:
+
+Missing Authentication:
+```json
+{
+  "error": "Unauthorized",
+  "message": "Authentication required"
+}
+```
+
+Insufficient Role:
+```json
+{
+  "error": "Forbidden",
+  "message": "Insufficient role permissions",
+  "requiredRoles": ["admin"],
+  "userRole": "user"
+}
+```
+
+Insufficient Permission:
+```json
+{
+  "error": "Forbidden",
+  "message": "Insufficient permissions",
+  "requiredPermissions": ["user:delete"]
+}
+```
+
+================================================================================
+FRONTEND PERMISSION HOOKS
+================================================================================
+
+FILE: src/hooks/usePermission.ts (255 lines)
+
+HOOKS PROVIDED:
+
+1. usePermission()
+   Main hook for permission checking
+   Returns:
+     {
+       userRole: string,
+       isLoading: boolean,
+       hasPermission: (perm) => boolean,
+       hasAnyPermission: (perms[]) => boolean,
+       hasAllPermissions: (perms[]) => boolean,
+       hasRole: (role) => boolean,
+       hasAnyRole: (roles[]) => boolean,
+       isAdmin: () => boolean,
+       isSuperAdmin: () => boolean,
+       isDisabled: () => boolean,
+       canModifyUser: (targetRole) => boolean,
+       canAccessResource: (resource, action) => boolean,
+       can: {
+         create: (resource) => boolean,
+         read: (resource) => boolean,
+         update: (resource) => boolean,
+         delete: (resource) => boolean
+       }
+     }
+
+2. useRole()
+   Simple role checking
+   Returns:
+     {
+       current: string,
+       isSuperAdmin: boolean,
+       isAdmin: boolean,
+       isMentor: boolean,
+       isUser: boolean,
+       isGuest: boolean,
+       isDisabled: boolean
+     }
+
+3. useCanAccess(action, resource)
+   Check single action on resource
+   Returns: boolean
+
+USAGE EXAMPLES:
+
+```typescript
+import { usePermission, useRole } from '@/hooks/usePermission';
+
+function UserManagement() {
+  const { hasPermission, isAdmin, can } = usePermission();
+
+  if (!isAdmin()) {
+    return <div>Not authorized</div>;
+  }
+
+  return (
+    <>
+      {can.delete('user') && (
+        <button onClick={deleteUser}>Delete</button>
+      )}
+    </>
+  );
+}
+
+function Dashboard() {
+  const { userRole } = usePermission();
+
+  return (
+    <div>
+      {userRole === 'SUPER_ADMIN' && <SuperAdminPanel />}
+      {userRole === 'ADMIN' && <AdminPanel />}
+    </div>
+  );
+}
+```
+
+================================================================================
+PROTECTED ROUTE COMPONENTS
+================================================================================
+
+FILE: src/components/ProtectedRoute.tsx (285 lines)
+
+COMPONENTS PROVIDED:
+
+1. ProtectedRoute
+   Wrapper for routes requiring auth and/or permissions
+   Props:
+     - children: React.ReactNode
+     - requiredRoles?: string[]
+     - requiredPermissions?: string[]
+     - fallback?: React.ReactNode
+     - redirectTo?: string (default: '/login')
+
+2. RoleGate
+   Conditional rendering based on role
+   Props:
+     - children: React.ReactNode
+     - requiredRoles?: string[]
+     - requiredPermissions?: string[]
+     - fallback?: React.ReactNode
+
+3. AdminOnly
+   Convenience component for admin content
+   Props:
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+
+4. MentorOnly
+   Convenience component for mentor+ content
+   Props:
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+
+5. AuthenticatedOnly
+   Shows only to authenticated users
+   Props:
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+
+6. GuestOnly
+   Shows only to non-authenticated users
+   Props:
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+
+7. PermissionGate
+   Conditional rendering based on permissions
+   Props:
+     - permission: string | string[]
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+     - requireAll?: boolean
+
+8. CanAccess
+   Check specific action on resource
+   Props:
+     - action: string
+     - resource: string
+     - children: React.ReactNode
+     - fallback?: React.ReactNode
+
+USAGE EXAMPLES:
+
+```typescript
+import {
+  ProtectedRoute,
+  RoleGate,
+  AdminOnly,
+  PermissionGate,
+  CanAccess,
+} from '@/components/ProtectedRoute';
+
+// Route protection
+<ProtectedRoute requiredRoles={['admin']}>
+  <AdminDashboard />
+</ProtectedRoute>
+
+// Conditional rendering
+<RoleGate requiredRoles={['mentor', 'admin']}>
+  <MentorPanel />
+</RoleGate>
+
+// Admin-only section
+<AdminOnly>
+  <UserManagement />
+</AdminOnly>
+
+// Permission-based
+<PermissionGate permission="user:delete">
+  <DeleteButton />
+</PermissionGate>
+
+// Resource action
+<CanAccess action="delete" resource="sadhana">
+  <DeleteButton onClick={deleteSadhana} />
+</CanAccess>
+
+// With fallback
+<PermissionGate 
+  permission="admin:manage_users"
+  fallback={<p>Not authorized</p>}
+>
+  <UserManagement />
+</PermissionGate>
+```
+
+================================================================================
+ROLE PERMISSION MATRIX
+================================================================================
+
+Permission        | SUPER_ADMIN | ADMIN | MENTOR | USER | GUEST | DISABLED
+------------------|-------------|-------|--------|------|-------|----------
+user:create       |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+user:read         |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+user:update       |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+user:delete       |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+user:list         |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+profile:read      |     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+profile:read_own  |     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+profile:update    |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+profile:update_own|     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+sadhana:create    |     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+sadhana:read      |     ✅      |  ✅   |   ✅   |  ❌  |  ❌   |    ❌
+sadhana:read_own  |     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+sadhana:update    |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+sadhana:update_own|     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+sadhana:delete    |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+sadhana:delete_own|     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+book:create       |     ✅      |  ✅   |   ✅   |  ❌  |  ❌   |    ❌
+book:read         |     ✅      |  ✅   |   ✅   |  ✅  |  ✅   |    ❌
+book:update       |     ✅      |  ✅   |   ✅   |  ❌  |  ❌   |    ❌
+book:delete       |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+book:list         |     ✅      |  ✅   |   ✅   |  ✅  |  ✅   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+community:*       |     ✅      |  ✅   |   ✅   |  ✅  |  ✅   |    ❌
+community:moderate|     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+analytics:view_own|     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+analytics:view_all|     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+admin:manage_users|     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+admin:manage_roles|     ✅      |  ❌   |   ❌   |  ❌  |  ❌   |    ❌
+admin:view_logs   |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+admin:settings    |     ✅      |  ✅   |   ❌   |  ❌  |  ❌   |    ❌
+------------------|-------------|-------|--------|------|-------|----------
+system:access     |     ✅      |  ✅   |   ✅   |  ✅  |  ❌   |    ❌
+
+================================================================================
+TESTING
+================================================================================
+
+TEST FILE: src/__tests__/rbac.test.ts (430 lines)
+
+TEST SUITES:
+
+1. Role Hierarchy Tests
+   ✅ Verify correct role levels
+   ✅ Test hierarchy ordering
+
+2. Permission Tests
+   ✅ Super admin permissions
+   ✅ Admin permissions
+   ✅ User permissions
+   ✅ Guest permissions
+   ✅ Disabled permissions
+
+3. Resource-Based Access Tests
+   ✅ Resource ownership checks
+   ✅ Owner modification allowed
+   ✅ Non-owner denied
+   ✅ Admin bypass
+
+4. Role Assignment Tests
+   ✅ Valid role assignment
+   ✅ Prevent promotion above self
+   ✅ Prevent user from assigning
+   ✅ Allow super admin to assign
+
+5. Middleware Tests
+   ✅ Role requirement enforcement
+   ✅ Permission requirement enforcement
+   ✅ Disabled user blocking
+   ✅ Permission attachment
+
+6. Data Sanitization Tests
+   ✅ Sanitize for guests
+   ✅ Show all data to admin
+   ✅ Show own data to user
+
+RUNNING TESTS:
+
+```bash
+npm test -- rbac.test.ts
+npm test -- rbac.test.ts --coverage
+```
+
+================================================================================
+SECURITY CONSIDERATIONS
+================================================================================
+
+✅ DO:
+  • Always validate permissions on backend
+  • Use role hierarchy for assignments
+  • Check resource ownership for modifications
+  • Log role/permission changes
+  • Sanitize data before sending
+  • Prevent privilege escalation
+  • Validate role changes
+  • Use middleware for all protected routes
+
+❌ DON'T:
+  • Trust client-side permission checks alone
+  • Allow users to assign roles above their own
+  • Expose sensitive data in API responses
+  • Skip permission validation
+  • Trust user role from client
+  • Allow role self-assignment
+  • Forget to sanitize data
+  • Expose permission details to unauthorized users
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ISSUE: "Insufficient permissions" error
+
+Solution:
+  1. Check user's role: req.user.role
+  2. Verify role in ROLE_PERMISSIONS config
+  3. Check if permission is in role's list
+  4. Verify middleware is applied to route
+
+---
+
+ISSUE: User can access resources they shouldn't
+
+Solution:
+  1. Check resource ownership logic
+  2. Verify canAccessResource() is being called
+  3. Check data sanitization is applied
+  4. Check admin bypass logic
+
+---
+
+ISSUE: Cannot modify user role
+
+Solution:
+  1. Verify modifier has sufficient role
+  2. Check target role is lower than modifier
+  3. Check role is in assignable list
+  4. Verify validateRoleChange() is called
+
+================================================================================
+PHASE 6 TASK 2 COMPLETION SUMMARY
+================================================================================
+
+DELIVERABLES:
+  ✅ Role & Permission Definitions (472 lines)
+     • 6 role definitions
+     • 70+ permissions
+     • Role hierarchy
+     • Resource-based permissions
+
+  ✅ Backend RBAC Service (306 lines)
+     • Permission checking
+     • Role validation
+     • Resource access control
+     • Data sanitization
+
+  ✅ Backend RBAC Middleware (305 lines)
+     • Role checking
+     • Permission checking
+     • Resource ownership
+     • Audit logging
+
+  ✅ Frontend Permission Hooks (255 lines)
+     • usePermission()
+     • useRole()
+     • useCanAccess()
+
+  ✅ Protected Route Components (285 lines)
+     • ProtectedRoute
+     • RoleGate
+     • AdminOnly, MentorOnly
+     • PermissionGate, CanAccess
+
+  ✅ RBAC Tests (430 lines)
+     • 25+ test cases
+     • All scenarios covered
+
+  ✅ Complete Documentation (this file)
+
+TOTAL PHASE 6 TASK 2: 2,053 lines
+
+VERIFICATION:
+  ✅ All code compiles without errors
+  ✅ All tests passing (25+)
+  ✅ Permission matrix complete
+  ✅ Role hierarchy enforced
+  ✅ Resource-based access works
+  ✅ Frontend integration complete
+
+READY FOR: Phase 6 Task 3 - API Security & Rate Limiting
+
+================================================================================

@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../config/db');
 const axios = require('axios');
+const User = require('../schemas/User');
+const Profile = require('../schemas/Profile');
+const Waitlist = require('../schemas/Waitlist');
 require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'saadhanaboard_secret_key';
@@ -13,12 +15,9 @@ class AuthService {
   static async register(email, password, displayName) {
     try {
       // Check if user already exists
-      const existingUser = await db.query(
-        'SELECT id FROM users WHERE email = $1',
-        [email]
-      );
+      const existingUser = await User.findOne({ email }).select('_id').lean();
 
-      if (existingUser.rows.length > 0) {
+      if (existingUser) {
         throw new Error('User already exists');
       }
 
@@ -27,25 +26,30 @@ class AuthService {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       // Create user
-      const result = await db.query(
-        'INSERT INTO users (email, password, display_name) VALUES ($1, $2, $3) RETURNING id, email, display_name',
-        [email, hashedPassword, displayName]
-      );
-
-      const user = result.rows[0];
+      const user = new User({
+        email,
+        password: hashedPassword,
+        displayName
+      });
+      await user.save();
 
       // Create profile
-      await db.query(
-        'INSERT INTO profiles (id, display_name) VALUES ($1, $2)',
-        [user.id, displayName]
-      );
+      const profile = new Profile({
+        userId: user._id,
+        displayName
+      });
+      await profile.save();
 
       // Generate JWT token
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
 
-      return { user, token };
+      // Remove password from response
+      const userResponse = user.toJSON();
+      delete userResponse.password;
+
+      return { user: userResponse, token };
     } catch (error) {
       throw new Error(`Registration failed: ${error.message}`);
     }
@@ -54,17 +58,12 @@ class AuthService {
   // Login user
   static async login(email, password) {
     try {
-      // Find user
-      const result = await db.query(
-        'SELECT id, email, display_name, password FROM users WHERE email = $1',
-        [email]
-      );
+      // Find user (need password field for verification)
+      const user = await User.findOne({ email }).select('email password displayName _id');
 
-      if (result.rows.length === 0) {
+      if (!user) {
         throw new Error('Invalid credentials');
       }
-
-      const user = result.rows[0];
 
       // Check password
       const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -73,14 +72,19 @@ class AuthService {
       }
 
       // Generate JWT token
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
 
-      // Remove password from response
-      delete user.password;
-
-      return { user, token };
+      // Return user without password
+      return { 
+        user: { 
+          _id: user._id, 
+          email: user.email, 
+          displayName: user.displayName 
+        }, 
+        token 
+      };
     } catch (error) {
       throw new Error(`Login failed: ${error.message}`);
     }
@@ -98,16 +102,13 @@ class AuthService {
   // Get user by ID
   static async getUserById(userId) {
     try {
-      const result = await db.query(
-        'SELECT id, email, display_name FROM users WHERE id = $1',
-        [userId]
-      );
+      const user = await User.findById(userId).select('email displayName createdAt').lean();
 
-      if (result.rows.length === 0) {
+      if (!user) {
         throw new Error('User not found');
       }
 
-      return result.rows[0];
+      return user;
     } catch (error) {
       throw new Error(`Failed to get user: ${error.message}`);
     }
@@ -118,12 +119,9 @@ class AuthService {
     try {
       // Try to check if email already exists in waitlist (if database is available)
       try {
-        const existingEntry = await db.query(
-          'SELECT id FROM waitlist WHERE email = $1',
-          [email]
-        );
+        const existingEntry = await Waitlist.findOne({ email });
 
-        if (existingEntry.rows.length > 0) {
+        if (existingEntry) {
           throw new Error('This email is already on the waiting list');
         }
       } catch (dbError) {
@@ -171,12 +169,14 @@ class AuthService {
 
       // Try to store in database as backup/fallback
       try {
-        const result = await db.query(
-          'INSERT INTO waitlist (name, email, reason, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id, name, email, reason, created_at',
-          [name, email, reason || null]
-        );
+        const waitlistEntry = new Waitlist({
+          name,
+          email,
+          reason: reason || null
+        });
+        const result = await waitlistEntry.save();
 
-        return result.rows[0];
+        return result.toJSON();
       } catch (dbError) {
         // If database storage also fails, log the error but don't fail the request
         console.warn('Database storage for waitlist entry failed:', dbError.message);

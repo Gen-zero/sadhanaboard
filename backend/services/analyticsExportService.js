@@ -1,4 +1,3 @@
-const db = require('../config/db');
 const { PassThrough } = require('stream');
 const PDFDocument = require('pdfkit');
 const { createObjectCsvStringifier } = require('csv-writer');

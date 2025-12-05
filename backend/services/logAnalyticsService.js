@@ -1,4 +1,6 @@
-const db = require('../config/db');
+const AdminLog = require('../schemas/AdminLog');
+const SecurityEvent = require('../schemas/SecurityEvent');
+const User = require('../schemas/User');
 const { v4: uuidv4 } = require('uuid');
 
 /**
@@ -8,37 +10,27 @@ const { v4: uuidv4 } = require('uuid');
 // Enhanced logging function with more detailed audit trails
 async function insertEnrichedLog(entry) {
   try {
-    // Generate a correlation ID if not provided
-    const correlation_id = entry.correlation_id || require('uuid').v4();
-    
-    // Add timestamp if not provided
-    const timestamp = entry.timestamp || new Date().toISOString();
-    
-    // Insert the log entry
-    const result = await db.query(
-      `INSERT INTO admin_logs 
-       (admin_id, action, target_type, target_id, details, severity, category, ip_address, user_agent, session_id, correlation_id, metadata, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-       RETURNING id, correlation_id`,
-      [
-        entry.admin_id,
-        entry.action,
-        entry.target_type,
-        entry.target_id,
-        entry.details ? JSON.stringify(entry.details) : null,
-        entry.severity || 'info',
-        entry.category || null,
-        entry.ip_address || null,
-        entry.user_agent || null,
-        entry.session_id || null,
-        correlation_id,
-        entry.metadata ? JSON.stringify(entry.metadata) : null,
-        timestamp
-      ]
-    );
-    
-    // Return the inserted row for correlation
-    return result.rows[0];
+    const correlationId = entry.correlationId || uuidv4();
+    const timestamp = entry.timestamp || new Date();
+
+    const log = new AdminLog({
+      adminId: entry.adminId,
+      action: entry.action,
+      targetType: entry.targetType,
+      targetId: entry.targetId,
+      details: entry.details || null,
+      severity: entry.severity || 'info',
+      category: entry.category || null,
+      ipAddress: entry.ipAddress || null,
+      userAgent: entry.userAgent || null,
+      sessionId: entry.sessionId || null,
+      correlationId,
+      metadata: entry.metadata || null,
+      createdAt: timestamp
+    });
+
+    const result = await log.save();
+    return { id: result._id, correlationId };
   } catch (error) {
     console.error('Failed to insert enriched log:', error);
     return null;
@@ -107,21 +99,15 @@ async function detectSecurityThreats(entry) {
 // Function to create security events
 async function createSecurityEvent(eventData) {
   try {
-    const result = await db.query(
-      `INSERT INTO security_events 
-       (event_type, threat_level, detection_rule, log_id, correlation_id, created_at)
-       VALUES ($1, $2, $3, $4, $5, NOW())
-       RETURNING *`,
-      [
-        eventData.eventType,
-        eventData.threatLevel || 'medium',
-        eventData.detectionRule || null,
-        eventData.logId || null,
-        eventData.correlation_id || null
-      ]
-    );
-    
-    return result.rows[0];
+    const event = new SecurityEvent({
+      eventType: eventData.eventType,
+      threatLevel: eventData.threatLevel || 'medium',
+      detectionRule: eventData.detectionRule || null,
+      logId: eventData.logId || null,
+      correlationId: eventData.correlationId || null
+    });
+    const result = await event.save();
+    return result.toJSON();
   } catch (error) {
     console.error('Failed to create security event:', error);
     return null;
@@ -131,101 +117,35 @@ async function createSecurityEvent(eventData) {
 // Function to get audit logs with filtering and pagination
 async function getAuditLogs(filters = {}, limit = 50, offset = 0) {
   try {
-    let whereClause = '';
-    let params = [];
-    let paramIndex = 1;
-    
-    // Build WHERE clause based on filters
-    const filterConditions = [];
-    
-    if (filters.admin_id) {
-      filterConditions.push(`admin_id = $${paramIndex}`);
-      params.push(filters.admin_id);
-      paramIndex++;
+    const query = {};
+
+    if (filters.adminId) query.adminId = filters.adminId;
+    if (filters.action) query.action = { $regex: filters.action, $options: 'i' };
+    if (filters.targetType) query.targetType = filters.targetType;
+    if (filters.severity) query.severity = filters.severity;
+    if (filters.category) query.category = filters.category;
+
+    if (filters.startDate || filters.endDate) {
+      query.createdAt = {};
+      if (filters.startDate) query.createdAt.$gte = new Date(filters.startDate);
+      if (filters.endDate) query.createdAt.$lte = new Date(filters.endDate);
     }
-    
-    if (filters.action) {
-      filterConditions.push(`action ILIKE $${paramIndex}`);
-      params.push(`%${filters.action}%`);
-      paramIndex++;
-    }
-    
-    if (filters.target_type) {
-      filterConditions.push(`target_type = $${paramIndex}`);
-      params.push(filters.target_type);
-      paramIndex++;
-    }
-    
-    if (filters.severity) {
-      filterConditions.push(`severity = $${paramIndex}`);
-      params.push(filters.severity);
-      paramIndex++;
-    }
-    
-    if (filters.category) {
-      filterConditions.push(`category = $${paramIndex}`);
-      params.push(filters.category);
-      paramIndex++;
-    }
-    
-    if (filters.startDate) {
-      filterConditions.push(`created_at >= $${paramIndex}`);
-      params.push(filters.startDate);
-      paramIndex++;
-    }
-    
-    if (filters.endDate) {
-      filterConditions.push(`created_at <= $${paramIndex}`);
-      params.push(filters.endDate);
-      paramIndex++;
-    }
-    
-    if (filterConditions.length > 0) {
-      whereClause = `WHERE ${filterConditions.join(' AND ')}`;
-    }
-    
-    // Add limit and offset
-    params.push(limit, offset);
-    
-    // Query for logs
-    const logsQuery = `
-      SELECT 
-        al.id,
-        al.admin_id,
-        u.display_name as admin_name,
-        al.action,
-        al.target_type,
-        al.target_id,
-        al.details,
-        al.severity,
-        al.category,
-        al.ip_address,
-        al.user_agent,
-        al.session_id,
-        al.correlation_id,
-        al.metadata,
-        al.created_at
-      FROM admin_logs al
-      LEFT JOIN users u ON al.admin_id = u.id
-      ${whereClause}
-      ORDER BY al.created_at DESC
-      LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
-    `;
-    
-    const countQuery = `
-      SELECT COUNT(*) as total
-      FROM admin_logs al
-      ${whereClause}
-    `;
-    
-    const logsResult = await db.query(logsQuery, params);
-    const countResult = await db.query(countQuery, params.slice(0, params.length - 2));
-    
+
+    const [logs, total] = await Promise.all([
+      AdminLog.find(query)
+        .populate('adminId', 'displayName')
+        .sort({ createdAt: -1 })
+        .limit(Number(limit))
+        .skip(Number(offset))
+        .lean(),
+      AdminLog.countDocuments(query)
+    ]);
+
     return {
-      logs: logsResult.rows,
-      total: parseInt(countResult.rows[0].total),
-      limit,
-      offset
+      logs,
+      total,
+      limit: Number(limit),
+      offset: Number(offset)
     };
   } catch (error) {
     console.error('Failed to get audit logs:', error);
@@ -241,35 +161,21 @@ async function getAuditLogs(filters = {}, limit = 50, offset = 0) {
 // Function to get security events
 async function getSecurityEvents(limit = 50, offset = 0) {
   try {
-    const result = await db.query(
-      `SELECT 
-         se.id,
-         se.event_type,
-         se.threat_level,
-         se.detection_rule,
-         se.log_id,
-         se.correlation_id,
-         se.created_at,
-         al.action,
-         al.admin_id,
-         u.display_name as admin_name,
-         al.ip_address,
-         al.details
-       FROM security_events se
-       LEFT JOIN admin_logs al ON se.log_id = al.id
-       LEFT JOIN users u ON al.admin_id = u.id
-       ORDER BY se.created_at DESC
-       LIMIT $1 OFFSET $2`,
-      [limit, offset]
-    );
-    
-    const countResult = await db.query('SELECT COUNT(*) as total FROM security_events');
-    
+    const [events, total] = await Promise.all([
+      SecurityEvent.find()
+        .populate('logId')
+        .sort({ createdAt: -1 })
+        .limit(Number(limit))
+        .skip(Number(offset))
+        .lean(),
+      SecurityEvent.countDocuments()
+    ]);
+
     return {
-      events: result.rows,
-      total: parseInt(countResult.rows[0].total),
-      limit,
-      offset
+      events,
+      total,
+      limit: Number(limit),
+      offset: Number(offset)
     };
   } catch (error) {
     console.error('Failed to get security events:', error);

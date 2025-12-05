@@ -1,0 +1,454 @@
+================================================================================
+TASK 5: CREATE SOCIAL/COMMUNITY SCHEMAS - TO-DO LIST
+================================================================================
+
+Task: Create Social and Community Schemas (Group, GroupMember, Mentorship, MentorshipGoal, SharedSadhanaLike)
+Start Date: December 5, 2025
+Estimated Duration: 8 hours (1 day)
+Status: 🟡 PENDING START
+
+================================================================================
+TASK OVERVIEW
+================================================================================
+
+Objective: Create 5 schemas for social/community features
+
+Schemas to Create:
+  1. Group.js - User groups/communities
+  2. GroupMember.js - Group membership with roles
+  3. Mentorship.js - Mentorship relationships
+  4. MentorshipGoal.js - Goals within mentorship
+  5. SharedSadhanaLike.js - Likes on shared sadhanas (engagement)
+
+Key Features Needed:
+  • Group creation and management
+  • Member roles and permissions
+  • Mentorship relationships
+  • Goal tracking for mentees
+  • Engagement metrics
+  • Privacy and visibility controls
+  • Activity tracking
+
+Dependencies:
+  ✓ User schema (completed in Task 2)
+  ✓ Sadhana schemas (completed in Task 3)
+  ✓ SharedSadhana schema (completed in Task 3)
+
+Blockers: NONE
+
+================================================================================
+DETAILED TO-DO LIST
+================================================================================
+
+## SUBTASK 1: Create Group Schema
+Status: ⏳ PENDING
+
+Description:
+  Main schema for user communities/groups. Allows users to create
+  and manage spiritual practice groups with settings and metadata.
+
+Requirements:
+  □ 1.1: Define core fields
+         - creatorId (reference to User)
+         - name (required)
+         - description
+         - profileImage
+         - coverImage
+         
+  □ 1.2: Add metadata fields
+         - category (meditation, yoga, study, etc.)
+         - traditions (array)
+         - tags (array)
+         - memberCount (cached)
+         - postCount (cached)
+         
+  □ 1.3: Add visibility fields
+         - isPublic (boolean)
+         - privacyLevel (open, closed, secret)
+         - joinType (open, approval, invite)
+         
+  □ 1.4: Add engagement metrics
+         - viewCount (cached)
+         - joinRequestCount (cached)
+         
+  □ 1.5: Add settings
+         - description (detailed)
+         - rules (string)
+         - moderators (array of user IDs)
+         - allowComments (boolean)
+         - allowSelfPromotion (boolean)
+         
+  □ 1.6: Add timestamps
+         - createdAt
+         - updatedAt
+         - lastActivityAt
+         
+  □ 1.7: Create indexes
+         - creatorId
+         - isPublic
+         - privacyLevel
+         - createdAt
+         - lastActivityAt
+         - compound: isPublic + createdAt
+         - text: name, description
+         
+  □ 1.8: Add instance methods
+         - addModerator()
+         - removeModerator()
+         - makePublic()
+         - makePrivate()
+         - updateSettings()
+         - getEngagement()
+         - getSummary()
+         - toJSON()
+         
+  □ 1.9: Add static methods
+         - findByCreator()
+         - findPublic()
+         - findTrending()
+         - search()
+         - countByCreator()
+         - findByCategory()
+
+Acceptance Criteria:
+  ✓ Schema created and validated
+  ✓ All fields properly typed
+  ✓ Indexes created
+  ✓ Methods implemented
+  ✓ Ready for use
+
+Estimated Time: 1.5 hours
+
+---
+
+## SUBTASK 2: Create GroupMember Schema
+Status: ⏳ PENDING
+
+Description:
+  Tracks group membership with roles and permissions.
+  Supports different member roles: creator, moderator, member.
+
+Requirements:
+  □ 2.1: Define core fields
+         - groupId (reference to Group)
+         - userId (reference to User)
+         - role (creator, moderator, member)
+         
+  □ 2.2: Add status fields
+         - status (active, inactive, banned, left)
+         - joinedAt
+         - leftAt (if applicable)
+         
+  □ 2.3: Add permissions
+         - permissions (array of permission strings)
+         - canPost (boolean)
+         - canComment (boolean)
+         - canKickMembers (boolean)
+         
+  □ 2.4: Add metadata
+         - nickname (optional in-group name)
+         - bio (optional group-specific bio)
+         - contribution (count of posts)
+         
+  □ 2.5: Create indexes
+         - groupId + userId (unique)
+         - groupId
+         - userId
+         - status
+         - joinedAt
+         
+  □ 2.6: Add instance methods
+         - promoteToModerator()
+         - demoteToMember()
+         - ban()
+         - unban()
+         - leave()
+         - updatePermissions()
+         - getSummary()
+         - toJSON()
+         
+  □ 2.7: Add static methods
+         - findByGroupAndUser()
+         - findByGroup()
+         - findByUser()
+         - findModerators()
+         - countMembers()
+         - findActiveMembers()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ Unique constraint on groupId+userId
+  ✓ Role-based methods working
+  ✓ Status management working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 3: Create Mentorship Schema
+Status: ⏳ PENDING
+
+Description:
+  Tracks mentorship relationships between users (mentor-mentee).
+  Supports goal tracking and communication.
+
+Requirements:
+  □ 3.1: Define core fields
+         - mentorId (reference to User - the mentor)
+         - menteeId (reference to User - the mentee)
+         - status (active, completed, paused, cancelled)
+         
+  □ 3.2: Add relationship info
+         - description (about the mentorship)
+         - startDate
+         - expectedEndDate
+         - actualEndDate
+         
+  □ 3.3: Add goals and tracking
+         - goalCount (cached)
+         - completedGoalCount (cached)
+         - lastActivityAt
+         
+  □ 3.4: Add communication
+         - notes (string for shared notes)
+         - learnings (string for lessons learned)
+         
+  □ 3.5: Add feedback
+         - mentorRating (rating by mentee)
+         - menteeRating (rating by mentor)
+         - mentorFeedback (string)
+         - menteeFeedback (string)
+         
+  □ 3.6: Create indexes
+         - mentorId
+         - menteeId
+         - status
+         - createdAt
+         - compound: mentorId + status
+         - compound: menteeId + status
+         
+  □ 3.7: Add instance methods
+         - complete()
+         - pause()
+         - resume()
+         - cancel()
+         - addNote()
+         - rateMentor()
+         - rateMentee()
+         - getSummary()
+         - toJSON()
+         
+  □ 3.8: Add static methods
+         - findByMentor()
+         - findByMentee()
+         - findActive()
+         - findCompleted()
+         - countByMentor()
+         - countByMentee()
+         - findMentorshipPairs()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ Mentor-mentee relationship clear
+  ✓ Goal tracking setup
+  ✓ Rating methods working
+
+Estimated Time: 1.5 hours
+
+---
+
+## SUBTASK 4: Create MentorshipGoal Schema
+Status: ⏳ PENDING
+
+Description:
+  Goals within a mentorship relationship. Tracks progress
+  towards learning objectives.
+
+Requirements:
+  □ 4.1: Define core fields
+         - mentorshipId (reference to Mentorship)
+         - goalTitle (required)
+         - description
+         
+  □ 4.2: Add goal details
+         - targetDate
+         - completedAt
+         - achieved (boolean)
+         - progressPercentage (0-100)
+         
+  □ 4.3: Add tracking
+         - category (skill, knowledge, behavior, project, etc.)
+         - priority (low, medium, high)
+         - notes
+         
+  □ 4.4: Add timestamps
+         - createdAt
+         - updatedAt
+         
+  □ 4.5: Create indexes
+         - mentorshipId
+         - achieved
+         - targetDate
+         - compound: mentorshipId + achieved
+         
+  □ 4.6: Add instance methods
+         - markCompleted()
+         - updateProgress()
+         - addNote()
+         - getSummary()
+         - toJSON()
+         
+  □ 4.7: Add static methods
+         - findByMentorship()
+         - findIncomplete()
+         - findCompleted()
+         - countByMentorship()
+         - getProgressStats()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ Goal tracking working
+  ✓ Progress calculation working
+
+Estimated Time: 1 hour
+
+---
+
+## SUBTASK 5: Create SharedSadhanaLike Schema
+Status: ⏳ PENDING
+
+Description:
+  Tracks likes on shared sadhanas. Similar to SadhanaLike
+  but specific to the SharedSadhana version.
+
+Requirements:
+  □ 5.1: Define core fields
+         - sharedSadhanaId (reference to SharedSadhana)
+         - userId (reference to User)
+         
+  □ 5.2: Add like metadata
+         - likeType (like, love, inspiring, helpful)
+         
+  □ 5.3: Create indexes
+         - sharedSadhanaId + userId (unique)
+         - sharedSadhanaId
+         - userId
+         
+  □ 5.4: Add instance methods
+         - changeLikeType()
+         - getSummary()
+         - toJSON()
+         
+  □ 5.5: Add static methods
+         - findBySharedSadhana()
+         - findByUser()
+         - countBySharedSadhana()
+         - getUserLikesForList()
+
+Acceptance Criteria:
+  ✓ Schema created
+  ✓ Unique constraint on sharedSadhanaId+userId
+  ✓ Like tracking working
+
+Estimated Time: 0.5 hours
+
+---
+
+## SUBTASK 6: Verify All Schemas
+Status: ⏳ PENDING
+
+Description:
+  Verify all social/community schemas created successfully.
+
+Requirements:
+  □ 6.1: Verify file creation
+         - Group.js exists
+         - GroupMember.js exists
+         - Mentorship.js exists
+         - MentorshipGoal.js exists
+         - SharedSadhanaLike.js exists
+         
+  □ 6.2: Check syntax
+         - No syntax errors
+         - All imports/exports correct
+         
+  □ 6.3: Verify file sizes
+         - Total: ~1,700-1,900 lines
+         - Group: ~450-500 lines
+         - GroupMember: ~350-400 lines
+         - Mentorship: ~450-500 lines
+         - MentorshipGoal: ~300-350 lines
+         - SharedSadhanaLike: ~250-300 lines
+
+Acceptance Criteria:
+  ✓ All 5 files created
+  ✓ No syntax errors
+  ✓ Proper structure
+
+Estimated Time: 0.5 hours
+
+---
+
+## SUBTASK 7: Create Progress Report
+Status: ⏳ PENDING
+
+Description:
+  Document Task 5 completion.
+
+Requirements:
+  □ 7.1: Create summary
+  □ 7.2: Document relationships
+  □ 7.3: Update cumulative progress
+  □ 7.4: List next steps
+
+Acceptance Criteria:
+  ✓ Report created
+  ✓ Metrics documented
+
+Estimated Time: 0.5 hours
+
+================================================================================
+EXECUTION ORDER
+================================================================================
+
+Sequential order:
+
+1️⃣ Subtask 1: Create Group Schema (1.5 hours)
+2️⃣ Subtask 2: Create GroupMember Schema (1 hour)
+3️⃣ Subtask 3: Create Mentorship Schema (1.5 hours)
+4️⃣ Subtask 4: Create MentorshipGoal Schema (1 hour)
+5️⃣ Subtask 5: Create SharedSadhanaLike Schema (0.5 hours)
+6️⃣ Subtask 6: Verify All Schemas (0.5 hours)
+7️⃣ Subtask 7: Create Progress Report (0.5 hours)
+
+Total: 8 hours
+
+================================================================================
+SUCCESS CRITERIA
+================================================================================
+
+Task 5 is complete when:
+
+  ✅ All 5 social/community schemas created
+  ✅ All schemas properly validated
+  ✅ All indexes defined
+  ✅ All methods implemented
+  ✅ No syntax errors
+  ✅ ~1,800 lines of code
+  ✅ Progress report created
+
+================================================================================
+READY TO START TASK 5
+================================================================================
+
+Status: ✅ READY
+
+All prerequisites met:
+  ✓ To-do list created
+  ✓ No blockers identified
+  ✓ Clear execution plan
+  ✓ Success criteria defined
+
+Waiting for confirmation to begin Subtask 1.
+
+================================================================================

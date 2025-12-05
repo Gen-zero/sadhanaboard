@@ -1,35 +1,42 @@
-const db = require('../config/db');
+const Profile = require('../schemas/Profile');
 const AchievementService = require('./achievementService');
 
 class UserProgressionService {
   // Initialize user progression data when they complete onboarding
   static async initializeUserProgression(userId) {
     try {
-      // Set initial spiritual progression values
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           karma_balance = 100,
-           spiritual_points = 50,
-           level = 1,
-           daily_streak = 0,
-           sankalpa_progress = 0.00,
-           chakra_balance = '{"root": 50, "sacral": 50, "solar": 50, "heart": 50, "throat": 50, "thirdEye": 50, "crown": 50}'::jsonb,
-           energy_balance = '{"sattva": 33, "rajas": 33, "tamas": 34}'::jsonb,
-           updated_at = NOW()
-         WHERE id = $1
-         RETURNING *`,
-        [userId]
+      const profile = await Profile.findOneAndUpdate(
+        { userId },
+        {
+          karmaBalance: 100,
+          spiritualPoints: 50,
+          level: 1,
+          dailyStreak: 0,
+          sankalphaProgress: 0.0,
+          chakraBalance: {
+            root: 50,
+            sacral: 50,
+            solar: 50,
+            heart: 50,
+            throat: 50,
+            thirdEye: 50,
+            crown: 50
+          },
+          energyBalance: {
+            sattva: 33,
+            rajas: 33,
+            tamas: 34
+          }
+        },
+        { new: true, runValidators: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
+      if (!profile) throw new Error('Profile not found');
 
       // Create default achievements for the user
       await this.initializeDefaultAchievements(userId);
 
-      return result.rows[0];
+      return profile.toJSON();
     } catch (error) {
       throw new Error(`Failed to initialize user progression: ${error.message}`);
     }
@@ -39,51 +46,14 @@ class UserProgressionService {
   static async initializeDefaultAchievements(userId) {
     try {
       const defaultAchievements = [
-        {
-          name: 'First Steps',
-          description: 'Completed your first sadhana',
-          category: 'beginner',
-          points: 10,
-          metadata: { icon: 'Leaf' }
-        },
-        {
-          name: 'Consistency Master',
-          description: '7-day streak achieved',
-          category: 'streak',
-          points: 50,
-          metadata: { icon: 'Flame' }
-        },
-        {
-          name: 'Mindful Warrior',
-          description: 'Completed 50 sadhanas',
-          category: 'completion',
-          points: 100,
-          metadata: { icon: 'Medal' }
-        },
-        {
-          name: 'Energy Balancer',
-          description: 'Balanced all chakras',
-          category: 'chakra',
-          points: 75,
-          metadata: { icon: 'Zap' }
-        },
-        {
-          name: 'Sankalpa Keeper',
-          description: 'Maintained intention for 30 days',
-          category: 'intention',
-          points: 80,
-          metadata: { icon: 'Target' }
-        },
-        {
-          name: 'Community Builder',
-          description: 'Shared 10 practices',
-          category: 'social',
-          points: 60,
-          metadata: { icon: 'Users' }
-        }
+        { name: 'First Steps', description: 'Completed your first sadhana', category: 'beginner', points: 10, metadata: { icon: 'Leaf' } },
+        { name: 'Consistency Master', description: '7-day streak achieved', category: 'streak', points: 50, metadata: { icon: 'Flame' } },
+        { name: 'Mindful Warrior', description: 'Completed 50 sadhanas', category: 'completion', points: 100, metadata: { icon: 'Medal' } },
+        { name: 'Energy Balancer', description: 'Balanced all chakras', category: 'chakra', points: 75, metadata: { icon: 'Zap' } },
+        { name: 'Sankalpa Keeper', description: 'Maintained intention for 30 days', category: 'intention', points: 80, metadata: { icon: 'Target' } },
+        { name: 'Community Builder', description: 'Shared 10 practices', category: 'social', points: 60, metadata: { icon: 'Users' } }
       ];
 
-      // Create each achievement
       for (const achievement of defaultAchievements) {
         await AchievementService.createAchievement(achievement, userId);
       }
@@ -103,39 +73,25 @@ class UserProgressionService {
   // Award experience points for completing a sadhana
   static async awardExperiencePoints(userId, points = 10) {
     try {
-      // Get current profile data
-      const profileResult = await db.query(
-        `SELECT spiritual_points, level FROM profiles WHERE id = $1`,
-        [userId]
-      );
+      const profile = await Profile.findOne({ userId });
+      if (!profile) throw new Error('Profile not found');
 
-      if (profileResult.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      const currentPoints = profileResult.rows[0].spiritual_points || 0;
-      const newPoints = currentPoints + points;
+      const newPoints = (profile.spiritualPoints || 0) + points;
       const newLevel = this.calculateLevel(newPoints);
+      const oldLevel = profile.level || 1;
 
-      // Update profile with new points and level
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           spiritual_points = $1,
-           level = $2,
-           updated_at = NOW()
-         WHERE id = $3
-         RETURNING *`,
-        [newPoints, newLevel, userId]
+      const updated = await Profile.findOneAndUpdate(
+        { userId },
+        { spiritualPoints: newPoints, level: newLevel },
+        { new: true, runValidators: true }
       );
 
-      // Check if level increased and award bonus if so
-      const oldLevel = profileResult.rows[0].level || 1;
+      // Award bonus if level increased
       if (newLevel > oldLevel) {
         await this.awardLevelUpBonus(userId, newLevel);
       }
 
-      return result.rows[0];
+      return updated.toJSON();
     } catch (error) {
       throw new Error(`Failed to award experience points: ${error.message}`);
     }
@@ -144,21 +100,14 @@ class UserProgressionService {
   // Award spiritual points for completing a sadhana
   static async awardSpiritualPoints(userId, points = 5) {
     try {
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           spiritual_points = spiritual_points + $1,
-           updated_at = NOW()
-         WHERE id = $2
-         RETURNING *`,
-        [points, userId]
+      const profile = await Profile.findOneAndUpdate(
+        { userId },
+        { $inc: { spiritualPoints: points } },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      return result.rows[0];
+      if (!profile) throw new Error('Profile not found');
+      return profile.toJSON();
     } catch (error) {
       throw new Error(`Failed to award spiritual points: ${error.message}`);
     }
@@ -167,21 +116,14 @@ class UserProgressionService {
   // Award karma points for positive actions
   static async awardKarmaPoints(userId, points = 10) {
     try {
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           karma_balance = karma_balance + $1,
-           updated_at = NOW()
-         WHERE id = $2
-         RETURNING *`,
-        [points, userId]
+      const profile = await Profile.findOneAndUpdate(
+        { userId },
+        { $inc: { karmaBalance: points } },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      return result.rows[0];
+      if (!profile) throw new Error('Profile not found');
+      return profile.toJSON();
     } catch (error) {
       throw new Error(`Failed to award karma points: ${error.message}`);
     }
@@ -190,24 +132,15 @@ class UserProgressionService {
   // Award level up bonus
   static async awardLevelUpBonus(userId, newLevel) {
     try {
-      const bonusPoints = newLevel * 20; // 20 points per level as bonus
-      
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           spiritual_points = spiritual_points + $1,
-           karma_balance = karma_balance + $2,
-           updated_at = NOW()
-         WHERE id = $3
-         RETURNING *`,
-        [bonusPoints, bonusPoints, userId]
+      const bonusPoints = newLevel * 20;
+      const profile = await Profile.findOneAndUpdate(
+        { userId },
+        { $inc: { spiritualPoints: bonusPoints, karmaBalance: bonusPoints } },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      return result.rows[0];
+      if (!profile) throw new Error('Profile not found');
+      return profile.toJSON();
     } catch (error) {
       throw new Error(`Failed to award level up bonus: ${error.message}`);
     }
@@ -216,43 +149,24 @@ class UserProgressionService {
   // Update daily streak
   static async updateDailyStreak(userId, completed = true) {
     try {
-      let result;
-      
-      if (completed) {
-        // Increment streak
-        result = await db.query(
-          `UPDATE profiles 
-           SET 
-             daily_streak = daily_streak + 1,
-             updated_at = NOW()
-           WHERE id = $1
-           RETURNING *`,
-          [userId]
-        );
-      } else {
-        // Reset streak
-        result = await db.query(
-          `UPDATE profiles 
-           SET 
-             daily_streak = 0,
-             updated_at = NOW()
-           WHERE id = $1
-           RETURNING *`,
-          [userId]
-        );
-      }
+      const incValue = completed ? 1 : { $set: 0 };
+      const updateOp = completed ? { $inc: { dailyStreak: incValue } } : { $set: { dailyStreak: 0 } };
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
+      const profile = await Profile.findOneAndUpdate(
+        { userId },
+        updateOp,
+        { new: true }
+      );
+
+      if (!profile) throw new Error('Profile not found');
 
       // Check for streak achievements
-      const newStreak = result.rows[0].daily_streak;
+      const newStreak = profile.dailyStreak;
       if (completed && [7, 30, 100, 365].includes(newStreak)) {
         await this.awardStreakAchievement(userId, newStreak);
       }
 
-      return result.rows[0];
+      return profile.toJSON();
     } catch (error) {
       throw new Error(`Failed to update daily streak: ${error.message}`);
     }
@@ -261,164 +175,80 @@ class UserProgressionService {
   // Award streak achievement
   static async awardStreakAchievement(userId, streak) {
     try {
-      let achievementName, points;
-      
-      switch (streak) {
-        case 7:
-          achievementName = 'Consistency Master';
-          points = 50;
-          break;
-        case 30:
-          achievementName = 'Month Master';
-          points = 100;
-          break;
-        case 100:
-          achievementName = 'Century Champion';
-          points = 200;
-          break;
-        case 365:
-          achievementName = 'Year Master';
-          points = 500;
-          break;
-        default:
-          return;
-      }
+      const streakMap = {
+        7: { name: 'Consistency Master', points: 50 },
+        30: { name: 'Month Master', points: 100 },
+        100: { name: 'Century Champion', points: 200 },
+        365: { name: 'Year Master', points: 500 }
+      };
 
-      // Mark achievement as earned
-      await db.query(
-        `UPDATE achievements 
-         SET 
-           earned = true,
-           earned_at = NOW(),
-           updated_at = NOW()
-         WHERE user_id = $1 AND name = $2`,
-        [userId, achievementName]
-      );
+      const achievement = streakMap[streak];
+      if (!achievement) return;
 
-      // Award bonus points
-      await this.awardSpiritualPoints(userId, points);
+      await AchievementService.unlockAchievement(userId, achievement.name);
+      await this.awardSpiritualPoints(userId, achievement.points);
     } catch (error) {
       console.error(`Failed to award streak achievement: ${error.message}`);
     }
   }
 
   // Update sankalpa progress
-  static async updateSankalpaProgress(userId, progressIncrement = 1.00) {
+  static async updateSankalpaProgress(userId, progressIncrement = 1.0) {
     try {
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           sankalpa_progress = LEAST(sankalpa_progress + $1, 100.00),
-           updated_at = NOW()
-         WHERE id = $2
-         RETURNING *`,
-        [progressIncrement, userId]
+      const profile = await Profile.findOne({ userId });
+      if (!profile) throw new Error('Profile not found');
+
+      const newProgress = Math.min((profile.sankalphaProgress || 0) + progressIncrement, 100.0);
+
+      const updated = await Profile.findOneAndUpdate(
+        { userId },
+        { sankalphaProgress: newProgress },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
+      if (newProgress >= 100.0) {
+        await AchievementService.unlockAchievement(userId, 'Sankalpa Keeper');
       }
 
-      // Check if sankalpa is complete (100%)
-      if (result.rows[0].sankalpa_progress >= 100.00) {
-        await this.awardSankalpaAchievement(userId);
-      }
-
-      return result.rows[0];
+      return updated.toJSON();
     } catch (error) {
       throw new Error(`Failed to update sankalpa progress: ${error.message}`);
-    }
-  }
-
-  // Award sankalpa achievement
-  static async awardSankalpaAchievement(userId) {
-    try {
-      // Mark achievement as earned
-      await db.query(
-        `UPDATE achievements 
-         SET 
-           earned = true,
-           earned_at = NOW(),
-           updated_at = NOW()
-         WHERE user_id = $1 AND name = 'Sankalpa Keeper'`,
-        [userId]
-      );
-
-      // Award bonus points
-      await this.awardSpiritualPoints(userId, 80);
-    } catch (error) {
-      console.error(`Failed to award sankalpa achievement: ${error.message}`);
     }
   }
 
   // Update chakra balance
   static async updateChakraBalance(userId, chakraData) {
     try {
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           chakra_balance = $1::jsonb,
-           updated_at = NOW()
-         WHERE id = $2
-         RETURNING *`,
-        [JSON.stringify(chakraData), userId]
+      const updated = await Profile.findOneAndUpdate(
+        { userId },
+        { chakraBalance: chakraData },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
+      if (!updated) throw new Error('Profile not found');
 
-      // Check if all chakras are balanced (above 70%)
       const allBalanced = Object.values(chakraData).every(value => value >= 70);
       if (allBalanced) {
-        await this.awardChakraAchievement(userId);
+        await AchievementService.unlockAchievement(userId, 'Energy Balancer');
       }
 
-      return result.rows[0];
+      return updated.toJSON();
     } catch (error) {
       throw new Error(`Failed to update chakra balance: ${error.message}`);
-    }
-  }
-
-  // Award chakra achievement
-  static async awardChakraAchievement(userId) {
-    try {
-      // Mark achievement as earned
-      await db.query(
-        `UPDATE achievements 
-         SET 
-           earned = true,
-           earned_at = NOW(),
-           updated_at = NOW()
-         WHERE user_id = $1 AND name = 'Energy Balancer'`,
-        [userId]
-      );
-
-      // Award bonus points
-      await this.awardSpiritualPoints(userId, 75);
-    } catch (error) {
-      console.error(`Failed to award chakra achievement: ${error.message}`);
     }
   }
 
   // Update energy balance
   static async updateEnergyBalance(userId, energyData) {
     try {
-      const result = await db.query(
-        `UPDATE profiles 
-         SET 
-           energy_balance = $1::jsonb,
-           updated_at = NOW()
-         WHERE id = $2
-         RETURNING *`,
-        [JSON.stringify(energyData), userId]
+      const updated = await Profile.findOneAndUpdate(
+        { userId },
+        { energyBalance: energyData },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      return result.rows[0];
+      if (!updated) throw new Error('Profile not found');
+      return updated.toJSON();
     } catch (error) {
       throw new Error(`Failed to update energy balance: ${error.message}`);
     }
@@ -427,25 +257,12 @@ class UserProgressionService {
   // Get user progression data
   static async getUserProgressionData(userId) {
     try {
-      const result = await db.query(
-        `SELECT 
-           karma_balance,
-           spiritual_points,
-           level,
-           daily_streak,
-           sankalpa_progress,
-           chakra_balance,
-           energy_balance
-         FROM profiles 
-         WHERE id = $1`,
-        [userId]
-      );
+      const profile = await Profile.findOne({ userId }).select(
+        'karmaBalance spiritualPoints level dailyStreak sankalphaProgress chakraBalance energyBalance'
+      ).lean();
 
-      if (result.rows.length === 0) {
-        throw new Error('Profile not found');
-      }
-
-      return result.rows[0];
+      if (!profile) throw new Error('Profile not found');
+      return profile;
     } catch (error) {
       throw new Error(`Failed to get user progression data: ${error.message}`);
     }

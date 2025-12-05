@@ -1,8 +1,7 @@
-const db = require('../config/db');
+const LogAlertRule = require('../schemas/LogAlertRule');
 const notificationService = require('./notificationService');
 const logAnalytics = require('./logAnalyticsService');
 
-// In-memory suppression cache (simple placeholder)
 const recentAlerts = new Map();
 
 /**
@@ -100,8 +99,7 @@ function evaluateCondition(logEntry, conditions) {
 module.exports = {
   async evaluateAlertRules(logEntry) {
     try {
-      const res = await db.query(`SELECT * FROM log_alert_rules WHERE enabled = true`);
-      const rules = res.rows || [];
+      const rules = await LogAlertRule.find({ enabled: true }).lean();
       const triggered = [];
       for (const rule of rules) {
         const cond = rule.conditions || {};
@@ -116,9 +114,8 @@ module.exports = {
       // trigger alerts for each unique rule
       for (const t of triggered) {
         try {
-          // use t.rule (the matched rule) for severity threshold
-          const sev = (t.rule && t.rule.severity_threshold) || 'warn';
-          await this.triggerAlert(t.rule.id, logEntry, sev);
+          const sev = (t.rule && t.rule.severityThreshold) || 'warn';
+          await this.triggerAlert(t.rule._id, logEntry, sev);
         } catch (e) { console.error('triggerAlert error', e); }
       }
       return triggered.length > 0;
@@ -131,7 +128,7 @@ module.exports = {
   async triggerAlert(ruleId, logEntry, severity = 'warn') {
     try {
       // suppression key
-      const key = `${ruleId}:${logEntry.correlation_id || logEntry.ip_address || 'global'}`;
+      const key = `${ruleId}:${logEntry.correlationId || logEntry.ipAddress || 'global'}`;
       const last = recentAlerts.get(key) || 0;
       const now = Date.now();
       if (now - last < (60 * 1000)) return; // suppress duplicates within 60s
@@ -140,15 +137,14 @@ module.exports = {
       // create security event
       const sev = await logAnalytics.createSecurityEvent({ logId: logEntry.id, eventType: 'alert_trigger', threatLevel: severity, detectionRule: String(ruleId) });
 
-      // notify channels: for now broadcast via Socket.IO if server attaches global io
+      // notify channels
       if (global.__ADMIN_IO__) {
         try { global.__ADMIN_IO__.to('admins').emit('security:alert', { event: sev, log: logEntry }); } catch (e) { console.error('socket emit failed', e); }
       }
 
-      // send notifications via configured channels (placeholder)
-      // load rule channels
-      const r = await db.query('SELECT notification_channels FROM log_alert_rules WHERE id = $1', [ruleId]).catch(() => null);
-      const channels = (r && r.rows && r.rows[0] && r.rows[0].notification_channels) || [];
+      // send notifications via configured channels
+      const rule = await LogAlertRule.findById(ruleId).select('notificationChannels').lean();
+      const channels = (rule && rule.notificationChannels) || [];
       for (const ch of channels) {
         try {
           if (ch.type === 'email') {
@@ -166,8 +162,9 @@ module.exports = {
 
   async createAlertRule(ruleName, conditions, channels = [], createdBy = null) {
     try {
-      const res = await db.query(`INSERT INTO log_alert_rules(rule_name, conditions, notification_channels, created_by) VALUES($1,$2,$3,$4) RETURNING *`, [ruleName, conditions, channels, createdBy]);
-      return res.rows[0];
+      const rule = new LogAlertRule({ ruleName, conditions, notificationChannels: channels, createdBy });
+      await rule.save();
+      return rule.toJSON();
     } catch (e) {
       console.error('createAlertRule error', e);
       return null;
@@ -176,8 +173,8 @@ module.exports = {
 
   async listAlertRules() {
     try {
-      const res = await db.query('SELECT * FROM log_alert_rules ORDER BY id DESC');
-      return res.rows;
+      const rules = await LogAlertRule.find().sort({ _id: -1 }).lean();
+      return rules;
     } catch (e) {
       console.error('listAlertRules error', e);
       return [];

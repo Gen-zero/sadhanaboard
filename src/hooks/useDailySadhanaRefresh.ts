@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSadhanaData } from './useSadhanaData';
 import type { Task } from '@/types/task';
 import { format } from 'date-fns';
@@ -6,6 +6,10 @@ import { format } from 'date-fns';
 // Custom hook to manage daily sadhana task refresh
 export const useDailySadhanaRefresh = () => {
   const { sadhanaState, sadhanaData } = useSadhanaData();
+  const timersRef = useRef<{ midnightTimer: NodeJS.Timeout | null; dailyInterval: NodeJS.Timeout | null }>({ 
+    midnightTimer: null, 
+    dailyInterval: null 
+  });
 
   useEffect(() => {
     // Check and refresh sadhana tasks on app load and daily
@@ -69,17 +73,24 @@ export const useDailySadhanaRefresh = () => {
     
     const msUntilMidnight = tomorrow.getTime() - now.getTime();
     
-    const midnightTimer = setTimeout(() => {
+    // Set up midnight timer
+    timersRef.current.midnightTimer = setTimeout(() => {
       refreshSadhanaTasks();
       
       // Set up daily interval after first midnight trigger
-      const dailyInterval = setInterval(refreshSadhanaTasks, 24 * 60 * 60 * 1000); // 24 hours
-      
-      return () => clearInterval(dailyInterval);
+      timersRef.current.dailyInterval = setInterval(refreshSadhanaTasks, 24 * 60 * 60 * 1000); // 24 hours
     }, msUntilMidnight);
 
+    // Cleanup function - clear both timers
     return () => {
-      clearTimeout(midnightTimer);
+      if (timersRef.current.midnightTimer) {
+        clearTimeout(timersRef.current.midnightTimer);
+        timersRef.current.midnightTimer = null;
+      }
+      if (timersRef.current.dailyInterval) {
+        clearInterval(timersRef.current.dailyInterval);
+        timersRef.current.dailyInterval = null;
+      }
     };
   }, [sadhanaState.hasStarted, sadhanaState.sadhanaId, sadhanaData]);
 

@@ -1,14 +1,14 @@
-const db = require('../config/db');
 const cron = require('node-cron');
 const cronParser = require('cron-parser');
 const notificationService = require('./notificationService');
+const { AdminReminderTemplate } = require('../models');
 
 // Registry of scheduled cron jobs: templateId -> cron job
 const scheduledJobs = new Map();
 
 async function executeReminder(template) {
   try {
-    const channelIds = template.channel_ids || [];
+    const channelIds = template.channelIds || [];
     if (!channelIds.length) return;
     for (const channelId of channelIds) {
       try {
@@ -42,14 +42,14 @@ function unscheduleTemplate(templateId) {
 }
 
 function scheduleTemplate(template) {
-  unscheduleTemplate(template.id);
-  if (!template || !template.enabled || !template.schedule_cron) return;
+  unscheduleTemplate(template.id || template._id);
+  if (!template || !template.enabled || !template.scheduleCron) return;
   try {
-    cronParser.parseExpression(template.schedule_cron);
-    const job = cron.schedule(template.schedule_cron, () => {
+    cronParser.parseExpression(template.scheduleCron);
+    const job = cron.schedule(template.scheduleCron, () => {
       executeReminder(template).catch(() => {});
     }, { scheduled: true, timezone: 'UTC' });
-    scheduledJobs.set(template.id, job);
+    scheduledJobs.set(template.id || template._id, job);
   } catch (err) {
     // invalid cron expression - ignore scheduling
   }
@@ -57,33 +57,45 @@ function scheduleTemplate(template) {
 
 module.exports = {
   async listTemplates({ limit = 50, offset = 0 } = {}) {
-    const res = await db.query(`SELECT * FROM admin_reminder_templates ORDER BY id DESC LIMIT $1 OFFSET $2`, [limit, offset]);
-    return { items: res.rows, total: res.rowCount, limit, offset };
+    const total = await AdminReminderTemplate.countDocuments();
+    const items = await AdminReminderTemplate.find().sort({ _id: -1 }).limit(limit).skip(offset).lean();
+    return { items, total, limit, offset };
   },
   async getTemplate(id) {
-    const res = await db.query(`SELECT * FROM admin_reminder_templates WHERE id = $1`, [id]);
-    return res.rows[0] || null;
+    return await AdminReminderTemplate.findById(id).lean() || null;
   },
   async createTemplate({ key, title = '', body = '', schedule_cron = null, channel_ids = [], enabled = true, metadata = {} }) {
-    const res = await db.query(`INSERT INTO admin_reminder_templates(key,title,body,schedule_cron,channel_ids,enabled,metadata) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [key, title, body, schedule_cron, channel_ids, enabled, metadata]);
-    const template = res.rows[0];
-    if (template && template.enabled && template.schedule_cron) scheduleTemplate(template);
-    return template;
+    const template = new AdminReminderTemplate({
+      key,
+      title,
+      body,
+      scheduleCron: schedule_cron,
+      channelIds: channel_ids,
+      enabled,
+      metadata
+    });
+    await template.save();
+    const result = template.toJSON();
+    if (result.enabled && result.scheduleCron) scheduleTemplate(result);
+    return result;
   },
   async updateTemplate(id, patch) {
-    const keys = [], values = []; let idx = 1;
-    for (const k of Object.keys(patch)) { keys.push(`${k} = $${idx++}`); values.push(patch[k]); }
-    if (!keys.length) return this.getTemplate(id);
-    values.push(id);
-    const res = await db.query(`UPDATE admin_reminder_templates SET ${keys.join(', ')} WHERE id = $${idx} RETURNING *`, values);
-    const template = res.rows[0];
-    // Always reschedule after any successful update so scheduled jobs use latest template data
+    const updates = {};
+    if (patch.hasOwnProperty('schedule_cron')) updates.scheduleCron = patch.schedule_cron;
+    if (patch.hasOwnProperty('channel_ids')) updates.channelIds = patch.channel_ids;
+    if (patch.hasOwnProperty('key')) updates.key = patch.key;
+    if (patch.hasOwnProperty('title')) updates.title = patch.title;
+    if (patch.hasOwnProperty('body')) updates.body = patch.body;
+    if (patch.hasOwnProperty('enabled')) updates.enabled = patch.enabled;
+    if (patch.hasOwnProperty('metadata')) updates.metadata = patch.metadata;
+    if (!Object.keys(updates).length) return this.getTemplate(id);
+    const template = await AdminReminderTemplate.findByIdAndUpdate(id, updates, { new: true }).lean();
     if (template) scheduleTemplate(template);
     return template;
   },
   async deleteTemplate(id) {
     unscheduleTemplate(id);
-    await db.query(`DELETE FROM admin_reminder_templates WHERE id = $1`, [id]);
+    await AdminReminderTemplate.deleteOne({ _id: id });
     return { ok: true };
   },
   async triggerReminder(templateId) {
@@ -94,8 +106,7 @@ module.exports = {
   },
   async initializeScheduledJobs() {
     try {
-      const res = await db.query(`SELECT * FROM admin_reminder_templates WHERE enabled = true AND schedule_cron IS NOT NULL`);
-      const templates = res.rows || [];
+      const templates = await AdminReminderTemplate.find({ enabled: true, scheduleCron: { $ne: null } }).lean();
       for (const t of templates) scheduleTemplate(t);
       return { scheduled: templates.length };
     } catch (err) {

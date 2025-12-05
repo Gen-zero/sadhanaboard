@@ -1,209 +1,158 @@
-const BaseService = require('./BaseService');
+const { ContentApproval, User } = require('../models');
 
-class ContentApprovalService extends BaseService {
-  // Create a new content approval request
+class ContentApprovalService {
   static async createApprovalRequest(contentType, contentId, submitterId, notes = null) {
     try {
-      const query = `
-        INSERT INTO content_approvals 
-        (content_type, content_id, submitter_id, status, notes, created_at, updated_at)
-        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, [contentType, contentId, submitterId, 'pending', notes]);
-      
-      return result.rows[0];
+      const approval = new ContentApproval({
+        contentType,
+        contentId,
+        submitterId,
+        status: 'pending',
+        notes,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      await approval.save();
+      return approval.toJSON();
     } catch (error) {
-      this.handleError(error, 'createApprovalRequest', { contentType, contentId, submitterId });
+      console.error('createApprovalRequest', error);
+      throw error;
     }
   }
-  
-  // Get approval requests with filtering
   static async getApprovalRequests(filters = {}, limit = 50, offset = 0) {
     try {
-      const params = [];
-      const { whereClause, nextIndex } = this.buildWhereClause(filters, params);
-      
-      params.push(limit, offset);
-      
-      const query = `
-        SELECT 
-          ca.*,
-          u.display_name as submitter_name
-        FROM content_approvals ca
-        LEFT JOIN users u ON ca.submitter_id = u.id
-        ${whereClause}
-        ORDER BY ca.created_at DESC
-        LIMIT $${nextIndex} OFFSET $${nextIndex + 1}`;
-      
-      const countQuery = `
-        SELECT COUNT(*) as total
-        FROM content_approvals ca
-        ${whereClause}`;
-      
-      const result = await this.executeQuery(query, params);
-      const countResult = await this.executeQuery(countQuery, params.slice(0, params.length - 2));
-      
+      const query = {};
+      if (filters.status) query.status = filters.status;
+      if (filters.contentType) query.contentType = filters.contentType;
+
+      const [approvals, total] = await Promise.all([
+        ContentApproval.find(query)
+          .populate('submitterId', 'displayName')
+          .sort({ createdAt: -1 })
+          .limit(limit)
+          .skip(offset)
+          .lean(),
+        ContentApproval.countDocuments(query)
+      ]);
+
       return {
-        requests: result.rows,
-        total: parseInt(countResult.rows[0].total),
+        requests: approvals,
+        total,
         limit,
         offset
       };
     } catch (error) {
-      this.handleError(error, 'getApprovalRequests', { filters, limit, offset });
+      console.error('getApprovalRequests', error);
+      throw error;
     }
   }
-  
-  // Approve content
   static async approveContent(approvalId, approverId, notes = null) {
     try {
-      const query = `
-        UPDATE content_approvals 
-        SET status = $1, approver_id = $2, approved_at = NOW(), notes = COALESCE(notes, '') || $3, updated_at = NOW()
-        WHERE id = $4
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, ['approved', approverId, notes ? ` [Approved: ${notes}]` : '', approvalId]);
-      
-      if (result.rows.length === 0) {
+      const approval = await ContentApproval.findByIdAndUpdate(approvalId, {
+        status: 'approved',
+        approverId,
+        approvedAt: new Date(),
+        notes: notes ? `${approval?.notes || ''} [Approved: ${notes}]` : approval?.notes,
+        updatedAt: new Date()
+      }, { new: true }).lean();
+
+      if (!approval) {
         throw new Error('Approval request not found');
       }
-      
-      return result.rows[0];
+
+      return approval;
     } catch (error) {
-      this.handleError(error, 'approveContent', { approvalId, approverId });
+      console.error('approveContent', error);
+      throw error;
     }
   }
-  
-  // Reject content
   static async rejectContent(approvalId, approverId, notes = null) {
     try {
-      const query = `
-        UPDATE content_approvals 
-        SET status = $1, approver_id = $2, rejected_at = NOW(), notes = COALESCE(notes, '') || $3, updated_at = NOW()
-        WHERE id = $4
-        RETURNING *`;
-      
-      const result = await this.executeQuery(query, ['rejected', approverId, notes ? ` [Rejected: ${notes}]` : '', approvalId]);
-      
-      if (result.rows.length === 0) {
+      const approval = await ContentApproval.findByIdAndUpdate(approvalId, {
+        status: 'rejected',
+        approverId,
+        rejectedAt: new Date(),
+        notes: notes ? `${approval?.notes || ''} [Rejected: ${notes}]` : approval?.notes,
+        updatedAt: new Date()
+      }, { new: true }).lean();
+
+      if (!approval) {
         throw new Error('Approval request not found');
       }
-      
-      return result.rows[0];
+
+      return approval;
     } catch (error) {
-      this.handleError(error, 'rejectContent', { approvalId, approverId });
+      console.error('rejectContent', error);
+      throw error;
     }
   }
-  
-  // Get approval request by ID
   static async getApprovalRequestById(id) {
     try {
-      const query = `
-        SELECT 
-          ca.*,
-          u1.display_name as submitter_name,
-          u2.display_name as approver_name
-        FROM content_approvals ca
-        LEFT JOIN users u1 ON ca.submitter_id = u1.id
-        LEFT JOIN users u2 ON ca.approver_id = u2.id
-        WHERE ca.id = $1`;
-      
-      const result = await this.executeQuery(query, [id]);
-      
-      if (result.rows.length === 0) {
-        return null;
-      }
-      
-      return result.rows[0];
+      const approval = await ContentApproval.findById(id)
+        .populate('submitterId', 'displayName')
+        .populate('approverId', 'displayName')
+        .lean();
+      return approval || null;
     } catch (error) {
-      this.handleError(error, 'getApprovalRequestById', { id });
+      console.error('getApprovalRequestById', error);
+      return null;
     }
   }
-  
-  // Get pending approvals for a user
   static async getPendingApprovalsForUser(userId) {
     try {
-      const query = `
-        SELECT 
-          ca.*,
-          u.display_name as submitter_name
-        FROM content_approvals ca
-        LEFT JOIN users u ON ca.submitter_id = u.id
-        WHERE ca.status = 'pending'
-        ORDER BY ca.created_at ASC`;
-      
-      const result = await this.executeQuery(query);
-      
-      return result.rows;
+      const approvals = await ContentApproval.find({ status: 'pending' })
+        .populate('submitterId', 'displayName')
+        .sort({ createdAt: 1 })
+        .lean();
+      return approvals;
     } catch (error) {
-      this.handleError(error, 'getPendingApprovalsForUser', { userId });
+      console.error('getPendingApprovalsForUser', error);
+      return [];
     }
   }
-  
-  // Get user's approval history
   static async getUserApprovalHistory(userId, limit = 50, offset = 0) {
     try {
-      const query = `
-        SELECT 
-          ca.*,
-          u.display_name as submitter_name,
-          u2.display_name as approver_name
-        FROM content_approvals ca
-        LEFT JOIN users u ON ca.submitter_id = u.id
-        LEFT JOIN users u2 ON ca.approver_id = u2.id
-        WHERE ca.submitter_id = $1 OR ca.approver_id = $1
-        ORDER BY ca.updated_at DESC
-        LIMIT $2 OFFSET $3`;
-      
-      const countQuery = `
-        SELECT COUNT(*) as total
-        FROM content_approvals 
-        WHERE submitter_id = $1 OR approver_id = $1`;
-      
-      const result = await this.executeQuery(query, [userId, limit, offset]);
-      const countResult = await this.executeQuery(countQuery, [userId]);
-      
+      const query = { $or: [{ submitterId: userId }, { approverId: userId }] };
+
+      const [approvals, total] = await Promise.all([
+        ContentApproval.find(query)
+          .populate('submitterId', 'displayName')
+          .populate('approverId', 'displayName')
+          .sort({ updatedAt: -1 })
+          .limit(limit)
+          .skip(offset)
+          .lean(),
+        ContentApproval.countDocuments(query)
+      ]);
+
       return {
-        requests: result.rows,
-        total: parseInt(countResult.rows[0].total),
+        requests: approvals,
+        total,
         limit,
         offset
       };
     } catch (error) {
-      this.handleError(error, 'getUserApprovalHistory', { userId, limit, offset });
+      console.error('getUserApprovalHistory', error);
+      return { requests: [], total: 0, limit, offset };
     }
   }
-  
-  // Get approval statistics
   static async getApprovalStats() {
     try {
-      const query = `
-        SELECT 
-          status,
-          COUNT(*) as count
-        FROM content_approvals
-        GROUP BY status`;
-      
-      const result = await this.executeQuery(query);
-      
-      // Convert to object format
-      const stats = {
-        pending: 0,
-        approved: 0,
-        rejected: 0
-      };
-      
-      result.rows.forEach(row => {
-        stats[row.status] = parseInt(row.count);
-      });
-      
-      stats.total = stats.pending + stats.approved + stats.rejected;
-      
-      return stats;
+      const stats = await ContentApproval.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } }
+      ]);
+
+      const result = { pending: 0, approved: 0, rejected: 0 };
+      for (const stat of stats) {
+        if (stat._id === 'pending') result.pending = stat.count;
+        else if (stat._id === 'approved') result.approved = stat.count;
+        else if (stat._id === 'rejected') result.rejected = stat.count;
+      }
+      result.total = result.pending + result.approved + result.rejected;
+      return result;
     } catch (error) {
-      this.handleError(error, 'getApprovalStats');
+      console.error('getApprovalStats', error);
+      return { pending: 0, approved: 0, rejected: 0, total: 0 };
     }
   }
 }

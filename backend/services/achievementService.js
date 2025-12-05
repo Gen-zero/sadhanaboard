@@ -1,17 +1,11 @@
-const db = require('../config/db');
+const Achievement = require('../schemas/Achievement');
 
 class AchievementService {
   // Get all achievements for a user
   static async getUserAchievements(userId) {
     try {
-      const result = await db.query(
-        `SELECT * FROM achievements 
-         WHERE user_id = $1
-         ORDER BY earned_at DESC, created_at DESC`,
-        [userId]
-      );
-
-      return result.rows;
+      const achievements = await Achievement.find({ userId }).sort({ earnedAt: -1, createdAt: -1 }).lean();
+      return achievements;
     } catch (error) {
       throw new Error(`Failed to fetch achievements: ${error.message}`);
     }
@@ -20,14 +14,8 @@ class AchievementService {
   // Get earned achievements for a user
   static async getUserEarnedAchievements(userId) {
     try {
-      const result = await db.query(
-        `SELECT * FROM achievements 
-         WHERE user_id = $1 AND earned = true
-         ORDER BY earned_at DESC`,
-        [userId]
-      );
-
-      return result.rows;
+      const achievements = await Achievement.find({ userId, earned: true }).sort({ earnedAt: -1 }).lean();
+      return achievements;
     } catch (error) {
       throw new Error(`Failed to fetch earned achievements: ${error.message}`);
     }
@@ -36,30 +24,19 @@ class AchievementService {
   // Create a new achievement
   static async createAchievement(achievementData, userId) {
     try {
-      const {
+      const { name, description, category, points, metadata } = achievementData;
+
+      const achievement = new Achievement({
+        userId,
         name,
         description,
         category,
-        points,
-        metadata
-      } = achievementData;
+        points: points || 0,
+        metadata: metadata || {}
+      });
+      await achievement.save();
 
-      const result = await db.query(
-        `INSERT INTO achievements 
-         (user_id, name, description, category, points, metadata)
-         VALUES ($1, $2, $3, $4, $5, $6)
-         RETURNING *`,
-        [
-          userId,
-          name,
-          description,
-          category,
-          points || 0,
-          metadata || {}
-        ]
-      );
-
-      return result.rows[0];
+      return achievement.toJSON();
     } catch (error) {
       throw new Error(`Failed to create achievement: ${error.message}`);
     }
@@ -68,89 +45,70 @@ class AchievementService {
   // Update an achievement
   static async updateAchievement(achievementId, achievementData, userId) {
     try {
-      const {
-        name,
-        description,
-        category,
-        points,
-        earned,
-        earned_at,
-        metadata
-      } = achievementData;
+      const { name, description, category, points, earned, earnedAt, metadata } = achievementData;
 
-      const result = await db.query(
-        `UPDATE achievements 
-         SET name = COALESCE($1, name),
-             description = COALESCE($2, description),
-             category = COALESCE($3, category),
-             points = COALESCE($4, points),
-             earned = COALESCE($5, earned),
-             earned_at = COALESCE($6, earned_at),
-             metadata = COALESCE($7, metadata),
-             updated_at = NOW()
-         WHERE id = $8 AND user_id = $9
-         RETURNING *`,
-        [
-          name,
-          description,
-          category,
-          points,
-          earned,
-          earned_at,
-          metadata,
-          achievementId,
-          userId
-        ]
+      const updateData = {};
+      if (name !== undefined) updateData.name = name;
+      if (description !== undefined) updateData.description = description;
+      if (category !== undefined) updateData.category = category;
+      if (points !== undefined) updateData.points = points;
+      if (earned !== undefined) updateData.earned = earned;
+      if (earnedAt !== undefined) updateData.earnedAt = earnedAt;
+      if (metadata !== undefined) updateData.metadata = metadata;
+
+      const achievement = await Achievement.findOneAndUpdate(
+        { _id: achievementId, userId },
+        updateData,
+        { new: true, runValidators: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Achievement not found or unauthorized');
-      }
-
-      return result.rows[0];
+      if (!achievement) throw new Error('Achievement not found or unauthorized');
+      return achievement.toJSON();
     } catch (error) {
       throw new Error(`Failed to update achievement: ${error.message}`);
     }
   }
 
-  // Mark an achievement as earned
+  // Mark an achievement as earned (also handles unlock)
   static async earnAchievement(achievementId, userId) {
     try {
-      const result = await db.query(
-        `UPDATE achievements 
-         SET earned = true,
-             earned_at = NOW(),
-             updated_at = NOW()
-         WHERE id = $1 AND user_id = $2 AND earned = false
-         RETURNING *`,
-        [achievementId, userId]
+      const achievement = await Achievement.findOneAndUpdate(
+        { _id: achievementId, userId, earned: false },
+        { earned: true, earnedAt: new Date() },
+        { new: true }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Achievement not found, already earned, or unauthorized');
-      }
-
-      return result.rows[0];
+      if (!achievement) throw new Error('Achievement not found, already earned, or unauthorized');
+      return achievement.toJSON();
     } catch (error) {
       throw new Error(`Failed to earn achievement: ${error.message}`);
+    }
+  }
+
+  // Unlock achievement by name (helper method for automatic unlocking)
+  static async unlockAchievement(userId, achievementName) {
+    try {
+      const achievement = await Achievement.findOneAndUpdate(
+        { userId, name: achievementName, earned: false },
+        { earned: true, earnedAt: new Date() },
+        { new: true }
+      );
+      return achievement?.toJSON() || null;
+    } catch (error) {
+      console.error(`Failed to unlock achievement: ${error.message}`);
+      return null;
     }
   }
 
   // Delete an achievement
   static async deleteAchievement(achievementId, userId) {
     try {
-      const result = await db.query(
-        `DELETE FROM achievements 
-         WHERE id = $1 AND user_id = $2
-         RETURNING id`,
-        [achievementId, userId]
+      const achievement = await Achievement.findOneAndDelete(
+        { _id: achievementId, userId }
       );
 
-      if (result.rows.length === 0) {
-        throw new Error('Achievement not found or unauthorized');
-      }
-
-      return { id: result.rows[0].id };
+      if (!achievement) throw new Error('Achievement not found or unauthorized');
+      return { id: achievement._id };
     } catch (error) {
       throw new Error(`Failed to delete achievement: ${error.message}`);
     }
@@ -159,14 +117,8 @@ class AchievementService {
   // Get achievements by category
   static async getAchievementsByCategory(userId, category) {
     try {
-      const result = await db.query(
-        `SELECT * FROM achievements 
-         WHERE user_id = $1 AND category = $2
-         ORDER BY created_at DESC`,
-        [userId, category]
-      );
-
-      return result.rows;
+      const achievements = await Achievement.find({ userId, category }).sort({ createdAt: -1 }).lean();
+      return achievements;
     } catch (error) {
       throw new Error(`Failed to fetch achievements by category: ${error.message}`);
     }
@@ -175,17 +127,27 @@ class AchievementService {
   // Get achievement statistics for a user
   static async getUserAchievementStats(userId) {
     try {
-      const result = await db.query(
-        `SELECT 
-           COUNT(*) as total_achievements,
-           COUNT(*) FILTER (WHERE earned = true) as earned_achievements,
-           SUM(points) FILTER (WHERE earned = true) as total_points
-         FROM achievements 
-         WHERE user_id = $1`,
-        [userId]
-      );
+      const stats = await Achievement.aggregate([
+        { $match: { userId } },
+        {
+          $group: {
+            _id: null,
+            totalAchievements: { $sum: 1 },
+            earnedAchievements: { $sum: { $cond: ['$earned', 1, 0] } },
+            totalPoints: { $sum: { $cond: ['$earned', '$points', 0] } }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            total_achievements: '$totalAchievements',
+            earned_achievements: '$earnedAchievements',
+            total_points: '$totalPoints'
+          }
+        }
+      ]);
 
-      return result.rows[0];
+      return stats[0] || { total_achievements: 0, earned_achievements: 0, total_points: 0 };
     } catch (error) {
       throw new Error(`Failed to fetch achievement stats: ${error.message}`);
     }

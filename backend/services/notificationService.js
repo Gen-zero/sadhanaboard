@@ -1,25 +1,44 @@
-const db = require('../config/db');
+const AdminIntegration = require('../schemas/AdminIntegration');
 
 module.exports = {
   async listChannels({ limit = 50, offset = 0 } = {}) {
-    const res = await db.query(`SELECT * FROM admin_notification_channels ORDER BY id DESC LIMIT $1 OFFSET $2`, [limit, offset]);
-    return { items: res.rows, total: res.rowCount, limit, offset };
+    const items = await AdminIntegration.find()
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset));
+    const total = await AdminIntegration.countDocuments();
+    return { items: items.map(i => i.toJSON()), total, limit, offset };
   },
+
   async getChannel(id) {
-    const res = await db.query(`SELECT * FROM admin_notification_channels WHERE id = $1`, [id]);
-    return res.rows[0] || null;
+    const channel = await AdminIntegration.findById(id);
+    return channel ? channel.toJSON() : null;
   },
+
   async createChannel({ name, type, config = {}, enabled = true }) {
-    const res = await db.query(`INSERT INTO admin_notification_channels(name,type,config,enabled) VALUES($1,$2,$3,$4) RETURNING *`, [name, type, config, enabled]);
-    return res.rows[0];
+    const channel = new AdminIntegration({
+      integrationName: name,
+      integrationKey: `${type}-${Date.now()}`,
+      configuration: config,
+      enabled
+    });
+    await channel.save();
+    return channel.toJSON();
   },
+
   async updateChannel(id, patch) {
-    const keys = [], values = []; let idx = 1;
-    for (const k of Object.keys(patch)) { keys.push(`${k} = $${idx++}`); values.push(patch[k]); }
-    if (!keys.length) return this.getChannel(id);
-    values.push(id);
-    const res = await db.query(`UPDATE admin_notification_channels SET ${keys.join(', ')} WHERE id = $${idx} RETURNING *`, values);
-    return res.rows[0];
+    const updateData = {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (k === 'name') updateData.integrationName = v;
+      else if (k === 'config') updateData.configuration = v;
+      else updateData[k] = v;
+    }
+    const channel = await AdminIntegration.findByIdAndUpdate(id, updateData, { new: true });
+    return channel ? channel.toJSON() : null;
   },
-  async deleteChannel(id) { await db.query(`DELETE FROM admin_notification_channels WHERE id = $1`, [id]); return { ok: true }; }
+
+  async deleteChannel(id) {
+    await AdminIntegration.findByIdAndDelete(id);
+    return { ok: true };
+  }
 };

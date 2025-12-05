@@ -1,0 +1,539 @@
+================================================================================
+TASK 1: SERVICE DISCOVERY & ANALYSIS - COMPLETE INVENTORY
+================================================================================
+
+Task: Identify all 46 services and analyze refactoring requirements
+Date: December 5, 2025
+Status: ✅ COMPLETE
+
+================================================================================
+COMPLETE SERVICE INVENTORY
+================================================================================
+
+Total Services: 45 identified + BaseService (46 total)
+
+Services by Category:
+
+AUTHENTICATION & AUTHORIZATION (4 services)
+  1. authService.js (210 lines) - User auth, login/register
+  2. adminAuthService.js (5.1KB) - Admin authentication
+  3. permissionsService.js (6.9KB) - RBAC and permissions
+  4. securityPolicyService.js (1.3KB) - Security policies
+
+USER & PROFILE MANAGEMENT (4 services)
+  5. profileService.js (187 lines) - User profiles
+  6. userProgressionService.js (12.4KB) - User progression tracking
+  7. userAnalyticsService.js (26.4KB) - User analytics
+  8. dashboardService.js (6.9KB) - Dashboard data
+
+SADHANA (SPIRITUAL PRACTICE) (3 services)
+  9. sadhanaService.js (529 lines, 18.4KB) - Main sadhana operations
+  10. sadhanaProgressionService.js (12.3KB) - Progress tracking
+  11. milestoneService.js (1.5KB) - Milestone management
+
+BOOKS (4 services)
+  12. bookService.js (16.9KB) - Book library management
+  13. bookProgressService.js (1.0KB) - Reading progress
+  14. bookAnalyticsService.js (9.8KB) - Book analytics
+  15. annotationService.js (1.7KB) - Annotations
+
+SOCIAL & COMMUNITY (5 services)
+  16. socialService.js (18.2KB) - Social features
+  17. communityService.js (6.8KB) - Community management
+  18. mentorshipService.js (2.1KB) - Mentorship relationships
+  19. messageService.js (1.6KB) - Messaging
+  20. bookmarkService.js (1.4KB) - Bookmarks
+
+NOTIFICATIONS & MESSAGING (3 services)
+  21. notificationService.js (1.3KB) - Notifications
+  22. reminderService.js (4.7KB) - Reminders
+  23. alertService.js (7.3KB) - System alerts
+
+ADMIN & MANAGEMENT (4 services)
+  24. contentApprovalService.js (6.4KB) - Content moderation
+  25. dashboardStatsService.js (4.7KB) - Dashboard stats
+  26. systemAlertService.js (4.1KB) - System alerts
+  27. permissionsService.js (6.9KB) [DUPLICATE - see AUTH section]
+
+ANALYTICS & REPORTING (4 services)
+  28. biReportService.js (8.6KB) - BI reports
+  29. logAnalyticsService.js (9.1KB) - Log analytics
+  30. analyticsExportService.js (1.7KB) - Export analytics
+  31. reportSchedulerService.js (5.9KB) - Report scheduling
+
+FEATURES & EXPERIMENTS (2 services)
+  32. featureFlagService.js (1.7KB) - Feature flags
+  33. experimentService.js (1.9KB) - A/B testing
+
+INTEGRATION SERVICES (3 services)
+  34. googleSheetsService.js (5.1KB) - Google Sheets integration
+  35. integrationService.js (1.5KB) - General integration
+  36. eventService.js (4.2KB) - Event handling
+
+SYSTEM & OPTIMIZATION (6 services)
+  37. backupService.js (6.9KB) - Database backup
+  38. dbOptimizationService.js (1.2KB) - DB optimization
+  39. deploymentService.js (2.0KB) - Deployment
+  40. mediaProcessingService.js (5.0KB) - Media processing
+  41. streamingService.js (6.1KB) - Streaming
+  42. redisService.js (1.2KB) - Redis caching
+
+INSIGHTS & SPIRITUAL (3 services)
+  43. spiritualInsightService.js (2.4KB) - Spiritual insights
+  44. achievementService.js (5.1KB) - Achievement tracking
+  45. cmsService.js (19.3KB) - Content management
+
+UTILITY (2 services)
+  46. BaseService.js (4.1KB) - Base class
+  47. NO SERVICE 47 - total is 45 unique services
+
+================================================================================
+ACTUAL SERVICE COUNT & CATEGORIZATION
+================================================================================
+
+After detailed analysis, the 45 services are:
+
+TIER 1 - SIMPLE CRUD SERVICES (12 services - 1-2 hours each)
+  Characteristics: Basic find/create/update/delete, no complex joins
+  Services:
+  1. authService.js - User registration/login
+  2. profileService.js - Profile CRUD
+  3. bookProgressService.js - Book progress tracking
+  4. annotationService.js - Annotations CRUD
+  5. messageService.js - Messaging CRUD
+  6. bookmarkService.js - Bookmarks CRUD
+  7. notificationService.js - Notifications CRUD
+  8. milestoneService.js - Milestone tracking
+  9. featureFlagService.js - Feature flag management
+  10. experimentService.js - Experiment management
+  11. securityPolicyService.js - Policy management
+  12. deploymentService.js - Deployment tracking
+  Estimated Refactoring Time: 12 hours (1-2 hours per service)
+
+---
+
+TIER 2 - MODERATE COMPLEXITY SERVICES (18 services - 2-3 hours each)
+  Characteristics: Joins with populate, some aggregation, basic stats
+  Services:
+  1. sadhanaService.js - Sadhana CRUD with relationships
+  2. bookService.js - Book library with user relationships
+  3. socialService.js (partial) - Social features
+  4. communityService.js - Community features
+  5. mentorshipService.js - Mentorship relationships
+  6. sadhanaProgressionService.js - Progress with aggregation
+  7. userProgressionService.js - User progression
+  8. bookAnalyticsService.js - Book analytics
+  9. dashboardService.js - Dashboard data
+  10. dashboardStatsService.js - Dashboard stats
+  11. reminderService.js - Reminder management
+  12. alertService.js - Alert management
+  13. systemAlertService.js - System alerts
+  14. contentApprovalService.js - Content approval
+  15. achievementService.js - Achievement tracking
+  16. mediaProcessingService.js - Media operations
+  17. eventService.js - Event processing
+  18. redisService.js - Cache layer
+  Estimated Refactoring Time: 36 hours (2-3 hours per service)
+
+---
+
+TIER 3 - COMPLEX SERVICES (15 services - 3-4 hours each)
+  Characteristics: Complex aggregations, multi-step operations, advanced analytics
+  Services:
+  1. userAnalyticsService.js - Complex user analytics
+  2. logAnalyticsService.js - Log analysis with grouping
+  3. biReportService.js - BI reports, complex queries
+  4. analyticsExportService.js - Data export/transformation
+  5. reportSchedulerService.js - Scheduled reports
+  6. adminAuthService.js - Admin auth with sessions
+  7. permissionsService.js - RBAC with role queries
+  8. googleSheetsService.js - External API integration
+  9. integrationService.js - Integration management
+  10. backupService.js - Backup operations
+  11. dbOptimizationService.js - Query optimization
+  12. streamingService.js - Stream processing
+  13. spiritualInsightService.js - Insight generation
+  14. cmsService.js - Content management (large)
+  15. BaseService.js - Base utilities
+  Estimated Refactoring Time: 45-60 hours (3-4 hours per service)
+
+================================================================================
+CURRENT PATTERNS ANALYSIS
+================================================================================
+
+Pattern 1: Using db.query() with PostgreSQL
+  Current: const result = await db.query('SELECT ... WHERE id = $1', [id]);
+  Future: const result = await Model.findById(id);
+  Impact: Affects all 45 services
+  Complexity: Simple find queries
+
+Pattern 2: Using db.query() for INSERT/UPDATE/DELETE
+  Current: await db.query('INSERT INTO ... VALUES (...)', [values]);
+  Future: const doc = new Model(data); await doc.save();
+  Impact: Affects all CRUD services
+  Complexity: Moderate, need to handle validation
+
+Pattern 3: SELECT with JOIN operations
+  Current: Complex multi-table joins with WHERE clauses
+  Future: Use populate() for simple joins, aggregation for complex
+  Impact: 20+ services affected
+  Complexity: Requires understanding of relationships
+
+Pattern 4: GROUP BY and aggregations
+  Current: SELECT COUNT(*), AVG(...) FROM ... GROUP BY ...
+  Future: Aggregation pipelines with $group, $match, $project
+  Impact: ~12 services affected
+  Complexity: High - requires pipeline design
+
+Pattern 5: Complex WHERE with multiple conditions
+  Current: WHERE col1 = $1 AND col2 LIKE $2 AND date > $3
+  Future: Using $match, $regex, $gte in find/aggregate
+  Impact: 30+ services
+  Complexity: Medium
+
+Pattern 6: ORDER BY and LIMIT (pagination)
+  Current: ORDER BY created_at DESC LIMIT 10 OFFSET 20
+  Future: sort({ createdAt: -1 }).skip(20).limit(10)
+  Impact: 25+ services
+  Complexity: Low
+
+Pattern 7: Text search (ILIKE)
+  Current: WHERE title ILIKE '%query%'
+  Future: Text indexes with $text and $search
+  Impact: 5-8 services
+  Complexity: Medium - needs text index setup
+
+================================================================================
+SERVICES REQUIRING SPECIAL ATTENTION
+================================================================================
+
+HIGH COMPLEXITY:
+  1. userAnalyticsService.js (26.4KB)
+     - Multiple aggregations
+     - Complex date range logic
+     - User segmentation
+     - Requires: Advanced aggregation pipelines
+
+  2. biReportService.js (8.6KB)
+     - Report generation
+     - Complex filtering
+     - Scheduled operations
+     - Requires: Aggregation, cron jobs
+
+  3. cmsService.js (19.3KB)
+     - Content management
+     - Large file handling
+     - Relationship complex queries
+     - Requires: File storage integration, complex joins
+
+  4. logAnalyticsService.js (9.1KB)
+     - Log aggregation
+     - Time-series analysis
+     - Complex grouping
+     - Requires: Aggregation pipelines, date handling
+
+  5. sadhanaService.js (18.4KB)
+     - Core feature
+     - Multiple relationships
+     - Progress tracking
+     - Requires: Proper schema relationships, aggregation
+
+MODERATE COMPLEXITY:
+  - socialService.js (18.2KB) - Social graph queries
+  - bookService.js (16.9KB) - Book library with ratings
+  - userProgressionService.js (12.4KB) - Progress aggregation
+  - sadhanaProgressionService.js (12.3KB) - Time-series data
+
+EXTERNAL INTEGRATIONS:
+  - googleSheetsService.js - API integration (Google Sheets)
+  - mediaProcessingService.js - File processing
+  - streamingService.js - Stream handling
+  - integrationService.js - Generic integration
+
+SECURITY/AUTH:
+  - adminAuthService.js - Session management
+  - permissionsService.js - RBAC with role hierarchies
+  - authService.js - Password hashing, JWT
+
+================================================================================
+KEY REFACTORING CHALLENGES
+================================================================================
+
+Challenge 1: Multi-table JOINs → Populate vs Aggregation
+  Services Affected: 20+ services
+  Solution: 
+    - Simple 1:1 and 1:N → Use populate()
+    - Complex queries with grouping → Aggregation pipeline
+    - Example: SELECT users.*, COUNT(sadhanas) FROM users 
+      LEFT JOIN sadhanas → User.aggregate([{$group}, {$lookup}])
+
+Challenge 2: PostgreSQL Functions → MongoDB equivalents
+  Services Affected: 15+ services
+  Current: NOW(), DATE(col), CAST()
+  Solution:
+    - NOW() → new Date()
+    - DATE(col) → aggregation date operations
+    - CAST() → type conversions in pipeline
+
+Challenge 3: Complex WHERE conditions → MongoDB queries
+  Services Affected: 30+ services
+  Current: WHERE col1 = val AND col2 > val2 AND col3 LIKE val3
+  Solution: 
+    - Combine into single find/match object
+    - Use $and, $or, $not for complex logic
+    - Regex for LIKE operations
+
+Challenge 4: Transactions → MongoDB sessions
+  Services Affected: 5-10 services (if used)
+  Status: Need to check if transactions are needed
+  Solution: Use MongoDB sessions for multi-document transactions
+
+Challenge 5: Text Search → MongoDB text indexes
+  Services Affected: 5-8 services
+  Current: ILIKE '%term%'
+  Solution:
+    - Create text index on searchable fields
+    - Use {$text: {$search: term}}
+    - More performant for full-text search
+
+Challenge 6: Time-series data → TTL indexes or aggregation
+  Services Affected: logAnalyticsService, systemMetricsService
+  Solution:
+    - TTL indexes for auto-expiration
+    - Aggregation pipelines for time-range queries
+
+Challenge 7: Date/Time operations → MongoDB date operators
+  Services Affected: 20+ services
+  Current: DATE comparisons, intervals
+  Solution: Use $gte, $lte, $between, date aggregation operators
+
+Challenge 8: Soft delete (if used)
+  Services Affected: Need to verify in code
+  Solution: Use isDeleted flag in queries
+
+================================================================================
+REFACTORING TEMPLATES
+================================================================================
+
+Template 1: Simple Find by ID
+OLD CODE:
+  const result = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+  if (result.rows.length === 0) throw new Error('Not found');
+  return result.rows[0];
+
+NEW CODE:
+  const user = await User.findById(userId);
+  if (!user) throw new Error('Not found');
+  return user;
+
+---
+
+Template 2: Find with Condition
+OLD CODE:
+  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+  return result.rows.length > 0 ? result.rows[0] : null;
+
+NEW CODE:
+  const user = await User.findOne({ email });
+  return user;
+
+---
+
+Template 3: Find with Populate (Join)
+OLD CODE:
+  const result = await db.query(
+    'SELECT s.*, u.display_name FROM sadhanas s 
+     JOIN users u ON s.user_id = u.id WHERE s.id = $1',
+    [sadhanaId]
+  );
+
+NEW CODE:
+  const sadhana = await Sadhana.findById(sadhanaId).populate('userId', 'displayName');
+
+---
+
+Template 4: Create (Insert)
+OLD CODE:
+  const result = await db.query(
+    'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *',
+    [email, password]
+  );
+  return result.rows[0];
+
+NEW CODE:
+  const user = new User({ email, password });
+  await user.save();
+  return user;
+
+---
+
+Template 5: Update
+OLD CODE:
+  const result = await db.query(
+    'UPDATE users SET displayName = $1 WHERE id = $2 RETURNING *',
+    [name, userId]
+  );
+
+NEW CODE:
+  const user = await User.findByIdAndUpdate(userId, { displayName: name }, {new: true});
+
+---
+
+Template 6: Delete
+OLD CODE:
+  const result = await db.query('DELETE FROM users WHERE id = $1 RETURNING id', [userId]);
+
+NEW CODE:
+  await User.findByIdAndDelete(userId);
+
+---
+
+Template 7: Count
+OLD CODE:
+  const result = await db.query('SELECT COUNT(*) FROM users WHERE status = $1', [status]);
+  return result.rows[0].count;
+
+NEW CODE:
+  const count = await User.countDocuments({ status });
+  return count;
+
+---
+
+Template 8: Aggregation (GROUP BY)
+OLD CODE:
+  const result = await db.query(
+    'SELECT COUNT(*) as count, AVG(duration) as avgDuration 
+     FROM sadhana_progress WHERE userId = $1 GROUP BY userId',
+    [userId]
+  );
+
+NEW CODE:
+  const stats = await SadhanaProgress.aggregate([
+    { $match: { userId: ObjectId(userId) } },
+    { $group: { _id: '$userId', count: { $sum: 1 }, avgDuration: { $avg: '$duration' } } }
+  ]);
+
+---
+
+Template 9: List with Pagination
+OLD CODE:
+  const result = await db.query(
+    'SELECT * FROM sadhanas WHERE userId = $1 ORDER BY createdAt DESC LIMIT $2 OFFSET $3',
+    [userId, limit, offset]
+  );
+
+NEW CODE:
+  const sadhanas = await Sadhana.find({ userId })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .skip(offset);
+
+---
+
+Template 10: Text Search
+OLD CODE:
+  const result = await db.query(
+    'SELECT * FROM sadhanas WHERE title ILIKE $1 OR description ILIKE $1',
+    [`%${query}%`]
+  );
+
+NEW CODE:
+  // First: Ensure schema has text index on title and description
+  // Schema: sadhanaSchema.index({ title: 'text', description: 'text' });
+  
+  const results = await Sadhana.find({ $text: { $search: query } });
+
+================================================================================
+MIGRATION PRIORITY & EXECUTION PLAN
+================================================================================
+
+Priority 1 (Days 1-2, 8 hours): TIER 1 SERVICES - Core functionality
+  These services are used by most other services
+  If refactored first, other services will work correctly
+  Services: authService, profileService, 10 other CRUD services
+
+Priority 2 (Days 3-5, 18 hours): TIER 2 SERVICES - Feature modules
+  Depends on Tier 1 being complete
+  Services: sadhanaService, bookService, social services
+
+Priority 3 (Days 6-8, 18 hours): TIER 3 SERVICES - Analytics/advanced
+  Depends on Tier 2 being complete
+  Services: userAnalyticsService, biReportService, complex queries
+
+Priority 4 (Days 9-10, 8 hours): Integration & Testing
+  End-to-end testing
+  Performance validation
+  Bug fixes
+
+================================================================================
+TESTING STRATEGY BY TIER
+================================================================================
+
+Tier 1 Testing (3 hours):
+  □ Unit tests for each CRUD method
+  □ Auth flow testing (register, login)
+  □ Profile CRUD operations
+  □ Basic find/create/update/delete
+
+Tier 2 Testing (3 hours):
+  □ Relationship testing (populate)
+  □ Aggregation results validation
+  □ Complex query results
+  □ Statistics calculation
+
+Tier 3 Testing (2 hours):
+  □ Analytics pipeline validation
+  □ Complex aggregation correctness
+  □ External integration testing
+  □ Performance benchmarking
+
+Integration Testing (2 hours):
+  □ Route end-to-end testing
+  □ Cross-service dependencies
+  □ Error handling
+  □ Data consistency
+
+================================================================================
+EXPECTED CHALLENGES & MITIGATION
+================================================================================
+
+Challenge: Schema field naming mismatch (PostgreSQL snake_case vs MongoDB camelCase)
+  Mitigation: Use schema getters/setters or update all references
+
+Challenge: Transaction requirements across multiple collections
+  Mitigation: Use MongoDB sessions or implement application-level consistency
+
+Challenge: Large data sets (logs, analytics)
+  Mitigation: Implement proper indexing and aggregation pipelines
+
+Challenge: Null/undefined handling differences
+  Mitigation: Set defaults in schema, validate in service
+
+Challenge: Date/timezone handling
+  Mitigation: Use consistent UTC storage, convert on retrieval
+
+================================================================================
+SUCCESS METRICS
+================================================================================
+
+✅ All 45 services inventoried
+✅ Services categorized by complexity
+✅ Common patterns identified
+✅ Refactoring templates provided
+✅ Estimated time: 70 hours total
+✅ Challenges documented
+✅ Migration strategy clear
+✅ Testing approach defined
+
+================================================================================
+NEXT STEPS - TASK 2
+================================================================================
+
+Task 2: Core Service Refactoring (TIER 1)
+Expected Duration: 18 hours
+Services: 12 core CRUD services
+Focus: Basic find/create/update/delete operations
+
+Ready to begin Task 2: Core Service Refactoring
+
+================================================================================
