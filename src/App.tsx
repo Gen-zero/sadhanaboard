@@ -178,9 +178,10 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setLoaded(false);
+    // Reduced timeout for faster page transitions (50ms instead of 100ms)
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 100);
+    }, 50);
 
     return () => clearTimeout(timer);
   }, [location]);
@@ -194,7 +195,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   if (!loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -202,6 +203,16 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   // Render children directly without animations
   return <div>{children}</div>;
 };
+
+// Loading fallback component for lazy-loaded routes
+const RouteLoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="text-center">
+      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-sm text-muted-foreground">Loading page...</p>
+    </div>
+  </div>
+);
 
 const AppRoutes = () => {
   // Initialize daily sadhana refresh globally
@@ -221,20 +232,12 @@ const AppRoutes = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={
-        <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        }>
+        <Suspense fallback={<RouteLoadingFallback />}>
           <CareersPage />
         </Suspense>
       } />
       <Route path="/manifesto" element={
-        <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        }>
+        <Suspense fallback={<RouteLoadingFallback />}>
           <ManifestoPage />
         </Suspense>
       } />
