@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 import ThemedBackground from "@/components/ThemedBackground";
 import { useSettings } from "@/hooks/useSettings";
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { Link } from "react-router-dom";
 
 const FinalCTA = () => {
     const { settings } = useSettings();
@@ -42,16 +43,20 @@ const FinalCTA = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button className={`w-full sm:w-auto px-10 py-4 rounded-full bg-[#F59E0B] text-white font-bold text-lg shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:scale-105 transition-transform duration-300 animate-rise-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
-                        Start Your Free Trial
-                    </button>
+                    <Link
+                        to="/waitlist"
+                        className={`w-full sm:w-auto px-10 py-4 rounded-full bg-[#F59E0B] text-white font-bold text-lg shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:scale-105 transition-transform duration-300 animate-rise-in ${isVisible ? 'visible' : ''}`}
+                        style={{ transitionDelay: '0.3s' }}
+                    >
+                        Join the Waitlist
+                    </Link>
                     <button className={`w-full sm:w-auto px-10 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium text-lg hover:bg-white/10 transition-colors backdrop-blur-sm animate-rise-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.35s' }}>
                         View Demo
                     </button>
                 </div>
 
                 <p className={`mt-8 text-white/40 text-sm animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
-                    No credit card required for 14-day trial.
+                    Private beta access opens in cohorts—join the waitlist to be notified first.
                 </p>
             </div>
         </section>

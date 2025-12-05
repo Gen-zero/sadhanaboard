@@ -40,8 +40,8 @@ const HeroSection = () => {
             className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-white border-0 shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full"
             asChild
           >
-            <Link to="/onboarding">
-              Start Your First Sadhana (Free)
+            <Link to="/waitlist">
+              Join the Waitlist
             </Link>
           </Button>
 
