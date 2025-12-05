@@ -3,6 +3,8 @@ name: CD Pipeline
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
 
 jobs:
   # Build and Deploy Frontend
@@ -12,14 +14,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Use Node.js 22.12.0
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v4
       with:
-        node-version: '22.12.0'
+        node-version: '20'
         cache: 'npm'
     
     - name: Install dependencies
       run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run frontend tests
+      run: npm test -- --passWithNoTests
     
     - name: Run build
       run: npm run build
@@ -41,20 +49,46 @@ jobs:
   deploy-backend:
     runs-on: ubuntu-latest
     
+    services:
+      mongodb:
+        image: mongo:6.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: password
+        options: >
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
+    
     steps:
     - uses: actions/checkout@v4
     
-    - name: Use Node.js 22.12.0
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v4
       with:
-        node-version: '22.12.0'
+        node-version: '20'
         cache: 'npm'
     
     - name: Install backend dependencies
       run: cd backend && npm ci
     
     - name: Run backend tests
-      run: cd backend && npm test
+      run: cd backend && npm test -- --forceExit
+      env:
+        MONGODB_URI: mongodb://admin:password@localhost:27017/test
+        NODE_ENV: test
+        JWT_SECRET: test_secret_key
+    
+    - name: Build Docker image
+      run: |
+        docker build -f Dockerfile.backend -t sadhanaboard-backend:latest .
+    
+    - name: Test Docker image
+      run: |
+        docker run --rm -e NODE_ENV=test -e PORT=3004 sadhanaboard-backend:latest echo "Build successful"
     
     - name: Deploy to production
       # This is a placeholder for actual deployment

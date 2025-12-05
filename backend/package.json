@@ -17,7 +17,11 @@
     "check:admin": "node ./scripts/admin/setup_admin.js",
     "reset:admin": "node ./scripts/admin/fix_admin_setup.js --force-reset",
     "logs:admin": "node -e \"console.log('Check logs in backend/logs')\"",
-    "test": "mocha tests/integration.test.js tests/tier1-crud-operations.test.js tests/tier2-feature-operations.test.js tests/tier3-advanced-operations.test.js",
+    "test": "jest --detectOpenHandles --forceExit",
+    "test:unit": "jest --testPathPattern=tests --forceExit",
+    "test:integration": "jest tests/integration.test.js --forceExit",
+    "test:coverage": "jest --coverage --forceExit",
+    "test:mocha": "mocha tests/integration.test.js tests/tier1-crud-operations.test.js tests/tier2-feature-operations.test.js tests/tier3-advanced-operations.test.js",
     "test:validation": "node tests/mongodb-validation.js",
     "docs:generate": "node ./scripts/generateApiDocs.js"
   },

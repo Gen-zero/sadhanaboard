@@ -15,7 +15,17 @@ export default {
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: 'tsconfig.jest.json',
-      jsx: 'react-jsx'
+      jsx: 'react-jsx',
+      isolatedModules: true
     }]
-  }
+  },
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/main.tsx'
+  ],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
+    '<rootDir>/src/**/*.{spec,test}.{ts,tsx}'
+  ]
 };
