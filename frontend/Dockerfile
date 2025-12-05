@@ -1,5 +1,5 @@
 # Multi-stage build for frontend
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -20,7 +20,6 @@ FROM nginx:alpine
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Copy built application from builder
 COPY --from=builder /app/dist /usr/share/nginx/html
@@ -33,6 +32,7 @@ RUN adduser -S nginx -u 1001
 RUN chown -R nginx:nginx /usr/share/nginx/html
 RUN chown -R nginx:nginx /var/cache/nginx
 RUN chown -R nginx:nginx /var/log/nginx
+RUN chown -R nginx:nginx /etc/nginx
 
 USER nginx
 
