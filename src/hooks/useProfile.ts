@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/services/api';
 import { useAuth } from '@/lib/auth-context';
+import { useSocket } from '@/contexts/SocketContext';
 
 /**
  * Query key factory for profile
@@ -173,7 +174,7 @@ export const useUpdateSettings = () => {
  */
 export const useProfileRealtime = () => {
   const queryClient = useQueryClient();
-  const { isConnected } = require('@/hooks/useRealtimeUpdate').useSocket?.() || { isConnected: false };
+  const { isConnected } = useSocket();
 
   // When real-time updates come in, invalidate profile cache
   const invalidateProfile = () => {

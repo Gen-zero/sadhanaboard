@@ -90,17 +90,17 @@ Object.defineProperty(window, 'BroadcastChannel', {
  * Mock Socket.io
  */
 export const createMockSocket = () => {
-  const listeners: Map<string, Function[]> = new Map();
+  const listeners: Map<string, Array<(data?: any) => void>> = new Map();
 
   return {
     id: 'mock-socket-id',
-    on: jest.fn((event: string, callback: Function) => {
+    on: jest.fn((event: string, callback: (data?: any) => void) => {
       if (!listeners.has(event)) {
         listeners.set(event, []);
       }
       listeners.get(event)!.push(callback);
     }),
-    off: jest.fn((event: string, callback?: Function) => {
+    off: jest.fn((event: string, callback?: (data?: any) => void) => {
       if (callback) {
         const cbs = listeners.get(event) || [];
         const index = cbs.indexOf(callback);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useThemeColors } from '@/hooks/useThemeColors';
 
 interface AnimatedParchmentProps {
@@ -23,26 +23,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
   const { colors } = useThemeColors();
 
   // Handle completion state change
-  useEffect(() => {
-    if (isCompleted && !isBurning) {
-      startBurningAnimation();
-    }
-  }, [isCompleted]);
-
-  // Auto unroll when component mounts
-  useEffect(() => {
-    unrollTimeoutRef.current = setTimeout(() => {
-      setIsUnrolled(true);
-    }, 100);
-    
-    return () => {
-      if (unrollTimeoutRef.current) {
-        clearTimeout(unrollTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const startBurningAnimation = () => {
+  const startBurningAnimation = useCallback(() => {
     if (burnIntervalRef.current) {
       clearInterval(burnIntervalRef.current);
     }
@@ -70,7 +51,26 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         return newProgress;
       });
     }, 50);
-  };
+  }, [onComplete]);
+
+  useEffect(() => {
+    if (isCompleted && !isBurning) {
+      startBurningAnimation();
+    }
+  }, [isCompleted, isBurning, startBurningAnimation]);
+
+  // Auto unroll when component mounts
+  useEffect(() => {
+    unrollTimeoutRef.current = setTimeout(() => {
+      setIsUnrolled(true);
+    }, 100);
+    
+    return () => {
+      if (unrollTimeoutRef.current) {
+        clearTimeout(unrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Clean up interval on unmount
   useEffect(() => {

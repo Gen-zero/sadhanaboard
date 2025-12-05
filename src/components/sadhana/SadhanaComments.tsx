@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from '@/services/api';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -8,7 +8,7 @@ const SadhanaComments: React.FC<{ sadhanaId: string | number }> = ({ sadhanaId }
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     setLoading(true);
     try {
       const res = await api.getSadhanaComments(String(sadhanaId));
@@ -18,11 +18,13 @@ const SadhanaComments: React.FC<{ sadhanaId: string | number }> = ({ sadhanaId }
     } finally {
       setLoading(false);
     }
-  };
+  }, [sadhanaId]);
 
-  useEffect(() => { fetch(); }, [sadhanaId]);
+  useEffect(() => { 
+    fetch(); 
+  }, [fetch]);
 
-  const submit = async () => {
+  const submit = useCallback(async () => {
     if (!user) return;
     if (!text.trim()) return;
     try {
@@ -30,7 +32,7 @@ const SadhanaComments: React.FC<{ sadhanaId: string | number }> = ({ sadhanaId }
       setText('');
       fetch();
     } catch (err) { console.error(err); }
-  };
+  }, [user, text, sadhanaId, fetch]);
 
   return (
     <div className="bg-card p-4 rounded">

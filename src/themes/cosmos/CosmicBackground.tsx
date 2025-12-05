@@ -439,11 +439,12 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     animate();
 
     // Cleanup
+    const currentMountRef = mountRef.current;
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (currentMountRef) {
+        currentMountRef.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };

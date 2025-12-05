@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, ArrowDown } from 'lucide-react';
 
@@ -25,7 +25,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
   const currentYRef = useRef<number>(0);
   const isPullingRef = useRef<boolean>(false);
 
-  const handleTouchStart = (e: TouchEvent) => {
+  const handleTouchStart = useCallback((e: TouchEvent) => {
     if (disabled || isRefreshing) return;
     
     // Only start pull-to-refresh if we're at the top of the page
@@ -33,9 +33,9 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     
     startYRef.current = e.touches[0].clientY;
     isPullingRef.current = true;
-  };
+  }, [disabled, isRefreshing]);
 
-  const handleTouchMove = (e: TouchEvent) => {
+  const handleTouchMove = useCallback((e: TouchEvent) => {
     if (disabled || isRefreshing || !isPullingRef.current) return;
     
     currentYRef.current = e.touches[0].clientY;
@@ -50,9 +50,9 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
       setPullDistance(resistance);
       setCanRefresh(resistance >= threshold);
     }
-  };
+  }, [disabled, isRefreshing, threshold]);
 
-  const handleTouchEnd = async () => {
+  const handleTouchEnd = useCallback(async () => {
     if (disabled || isRefreshing || !isPullingRef.current) return;
     
     isPullingRef.current = false;
@@ -71,22 +71,23 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
     // Reset states
     setPullDistance(0);
     setCanRefresh(false);
-  };
+  }, [disabled, isRefreshing, canRefresh, pullDistance, threshold, onRefresh]);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener('touchstart', handleTouchStart, { passive: false });
-    container.addEventListener('touchmove', handleTouchMove, { passive: false });
-    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    container.addEventListener('touchstart', handleTouchStart as EventListener, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove as EventListener, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd as EventListener, { passive: true });
 
     return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchmove', handleTouchMove);
-      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchstart', handleTouchStart as EventListener);
+      container.removeEventListener('touchmove', handleTouchMove as EventListener);
+      container.removeEventListener('touchend', handleTouchEnd as EventListener);
     };
-  }, [disabled, isRefreshing, canRefresh, pullDistance, threshold, handleTouchStart, handleTouchMove, handleTouchEnd]);
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
+
 
   // Calculate refresh indicator progress
   const progress = Math.min(pullDistance / threshold, 1);
