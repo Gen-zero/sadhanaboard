@@ -13,7 +13,7 @@ const PricingSection = () => {
         {
             title: "Seeker",
             price: "0",
-            period: "Monthly Karma",
+            period: "Lifetime Karma",
             features: ["Basic Sadhana Tracker", "3 Active Vows", "Community Access"],
             buttonText: "START_FREE",
             buttonTextColor: "#000000",
@@ -46,11 +46,11 @@ const PricingSection = () => {
             }
         },
         {
-            title: "Lifetime",
+            title: "Master",
             price: "10",
-            period: "One-Time Karma",
-            features: ["Everything in Disciple", "Lifetime Access", "Founder's Badge", "Early Access"],
-            buttonText: "BECOME_FOUNDER",
+            period: "Monthly Karma",
+            features: ["Everything in Disciple", "Lifetime Access", "Master's Badge", "Early Access"],
+            buttonText: "BECOME_MASTER",
             buttonTextColor: "#2D1B4E",
             chipColor: "#2D1B4E",
             theme: {

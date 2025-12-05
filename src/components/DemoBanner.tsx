@@ -2,12 +2,18 @@ import { useDemoMode } from '@/hooks/useDemoMode';
 import { AlertCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/lib/auth-context';
 
 export const DemoBanner = () => {
-  const { isDemoMode } = useDemoMode();
+  const { isDemoMode, isLoading } = useDemoMode();
+  const { user, isLoading: authLoading } = useAuth();
   const [isDismissed, setIsDismissed] = useState(false);
 
-  if (!isDemoMode || isDismissed) {
+  if (isLoading || authLoading) {
+    return null;
+  }
+
+  if (!user || !isDemoMode || isDismissed) {
     return null;
   }
 

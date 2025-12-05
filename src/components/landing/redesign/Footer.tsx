@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import ResponsiveImage from '@/components/ui/ResponsiveImage';
 
 const Footer = () => {
     const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.2 });
@@ -26,14 +27,55 @@ const Footer = () => {
             </div>
 
             <div className="max-w-6xl mx-auto relative z-10">
-                <div className={`flex flex-col md:flex-row justify-between items-center gap-8 mb-12 animate-rise-in ${isVisible ? 'visible' : ''}`}>
-                    {/* Logo / Brand */}
-                    <div className="text-center md:text-left">
-                        <h3 className="text-xl font-bold text-white mb-2">SadhanaBoard</h3>
-                        <p className="text-white/40 text-sm">The Spiritual Operating System</p>
+                <div className={`flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-12 animate-rise-in ${isVisible ? 'visible' : ''}`}>
+                    {/* Logo Group with OS Line */}
+                    <div className="flex flex-col items-center md:items-start">
+                        <Link to="/" className="flex items-center space-x-3 group/logo mb-4">
+                            <div className="relative">
+                                <ResponsiveImage
+                                    src="/lovable-uploads/sadhanaboard_logo.png"
+                                    alt="SadhanaBoard Logo"
+                                    className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer scale-110 shadow-lg shadow-purple-500/20 transition-transform duration-300 group-hover/logo:scale-125 relative z-10"
+                                    quality="high"
+                                    lazy={false}
+                                    style={{
+                                        filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.2))'
+                                    }}
+                                />
+                                {/* Enhanced glowing aura around the logo */}
+                                <div className="absolute inset-0 rounded-full animate-pulse z-0"
+                                    style={{
+                                        background: 'radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 60%, transparent 70%)',
+                                        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                                    }}
+                                />
+                                {/* Constant glowing ring around logo with animation */}
+                                <div
+                                    className="absolute inset-0 rounded-full animate-spin-slow"
+                                    style={{
+                                        background: 'conic-gradient(from 0deg, rgba(255, 215, 0, 0.2), rgba(138, 43, 226, 0.2), rgba(255, 215, 0, 0.2))',
+                                        padding: '2px'
+                                    }}
+                                >
+                                    <div className="w-full h-full rounded-full bg-background/30" />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col">
+                                <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                                    SadhanaBoard
+                                </span>
+                                <span className="text-xs text-yellow-400/80 font-medium tracking-wider transition-all duration-300 group-hover/logo:text-yellow-300">
+                                    ✨ Your Digital Yantra
+                                </span>
+                            </div>
+                        </Link>
+
+                        {/* Spiritual OS Tagline - Below Logo */}
+                        <p className="text-sm text-white/50 font-medium tracking-wide">The Spiritual Operating System</p>
                     </div>
 
-                    {/* Navigation */}
+                    {/* Navigation Links */}
                     <div className="flex flex-wrap justify-center gap-8 text-sm text-white/60">
                         <Link to="/about" className="hover:text-white transition-colors">About</Link>
                         <Link to="/manifesto" className="hover:text-white transition-colors">Manifesto</Link>

@@ -164,7 +164,7 @@ const HomePage = () => {
               asChild
               className="relative bg-gradient-to-r from-amber-500/90 via-yellow-500/90 to-amber-500/90 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/40 hover:border-yellow-400/60 shadow-lg hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-105 rounded-full text-black font-medium"
             >
-              <Link to="/onboarding">
+              <Link to="/waitlist">
                 {/* Animated gradient background */}
                 <div
                   className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
@@ -174,7 +174,7 @@ const HomePage = () => {
                 <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
 
                 <span className="relative z-10 flex items-center">
-                  Start Free
+                  Join Waitlist
                   <Sparkles className="ml-2 h-4 w-4 group-hover/cta:animate-spin" style={{ animationDuration: '1.5s' }} />
                 </span>
               </Link>

@@ -1025,6 +1025,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
     const [stepData] = useState<Step[]>(steps);
     const [stepCompleted, setStepCompleted] = useState<boolean[]>([false, false, false, false]);
     const { ref: sectionRef, isVisible } = useScrollTrigger({ threshold: 0.1 });
+    const allowPaperOverflow = activeStep >= 2;
 
     const handleStepComplete = useCallback((stepIndex: number) => {
         setStepCompleted(prev => {
@@ -1106,7 +1107,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                         whileHover={{ scale: 1.08 }}
                                         whileTap={{ scale: 0.95 }}
                                         className={cn(
-                                            'relative w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-500',
+                                            'relative w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-sm md:text-base transition-all duration-500',
                                             activeStep === index
                                                 ? isStepComplete
                                                     ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80] text-[#5C2218] shadow-[0_0_30px_-5px_rgba(255,179,68,0.6)]'
@@ -1119,7 +1120,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                         )}
                                     >
                                         {isStepComplete ? (
-                                            <CheckCircle2 className="w-6 h-6" />
+                                            <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
                                         ) : (
                                             <span className="font-serif">{step.number}</span>
                                         )}
@@ -1184,7 +1185,8 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                     >
                         <Card
                             className={cn(
-                                'relative overflow-hidden backdrop-blur-xl rounded-2xl p-6 md:p-8 h-full transition-all duration-500',
+                                'relative backdrop-blur-xl rounded-2xl p-6 md:p-8 h-full transition-all duration-500',
+                                allowPaperOverflow ? 'overflow-visible' : 'overflow-hidden',
                                 isCurrentStepComplete
                                     ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80] border-2 border-[#5C2218]/40 shadow-[0_0_60px_-15px_rgba(255,179,68,0.6)]'
                                     : 'bg-gradient-to-br from-[#0a0a0a]/90 to-[#1a1a1a]/90 border-2 border-amber-500/30 shadow-2xl shadow-amber-900/20'
