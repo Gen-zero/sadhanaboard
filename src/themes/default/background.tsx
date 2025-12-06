@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sparkles, Float, Text } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
@@ -15,18 +15,21 @@ export interface CosmicSpiritualBackgroundProps {
 // Central Image - Default Background
 const CentralBackgroundImage: React.FC = () => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const textureRef = useRef<THREE.Texture | null>(null);
+  const [texture, setTexture] = React.useState<THREE.Texture | null>(null);
 
-  useMemo(() => {
+  React.useEffect(() => {
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load('/themes/default/assets/default-bg.jpg', (texture) => {
-      textureRef.current = texture;
-      if (meshRef.current) {
-        const material = meshRef.current.material as THREE.MeshBasicMaterial;
-        material.map = texture;
-        material.needsUpdate = true;
+    textureLoader.load(
+      '/themes/default/assets/default-bg.jpg',
+      (loadedTexture) => {
+        console.log('[Default Theme] Texture loaded successfully:', loadedTexture);
+        setTexture(loadedTexture);
+      },
+      undefined,
+      (error) => {
+        console.error('[Default Theme] Failed to load texture:', error);
       }
-    });
+    );
   }, []);
 
   useFrame(({ clock }) => {
@@ -47,7 +50,8 @@ const CentralBackgroundImage: React.FC = () => {
       <meshBasicMaterial 
         transparent={true}
         opacity={0.9}
-        map={textureRef.current}
+        map={texture}
+        toneMapped={false}
       />
     </mesh>
   );
