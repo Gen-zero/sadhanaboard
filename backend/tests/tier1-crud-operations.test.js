@@ -6,6 +6,8 @@
 
 const assert = require('assert');
 const mongoose = require('mongoose');
+// Import all models to register them with Mongoose
+require('../models');
 
 describe('TIER 1 - Basic CRUD Service Operations', () => {
 
@@ -16,7 +18,7 @@ describe('TIER 1 - Basic CRUD Service Operations', () => {
         // Validate schema has required fields
         const schema = User.schema;
         assert(schema.paths.email !== undefined, 'User schema missing email');
-        assert(schema.paths.username !== undefined, 'User schema missing username');
+        assert(schema.paths.displayName !== undefined, 'User schema missing displayName');
       } catch (error) {
         assert.fail(`User CRUD create test failed: ${error.message}`);
       }
@@ -36,7 +38,7 @@ describe('TIER 1 - Basic CRUD Service Operations', () => {
       try {
         const User = mongoose.model('User');
         assert(User.findByIdAndUpdate !== undefined, 'User model missing findByIdAndUpdate()');
-        // Would test: const updated = await User.findByIdAndUpdate(id, { username: 'new' });
+        // Would test: const updated = await User.findByIdAndUpdate(id, { displayName: 'new' });
       } catch (error) {
         assert.fail(`User update test failed: ${error.message}`);
       }

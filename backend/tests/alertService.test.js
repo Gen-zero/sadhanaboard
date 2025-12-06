@@ -1,28 +1,67 @@
 const assert = require('assert');
 const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+
+// Mock Mongoose model methods
+const mockLogAlertRule = {
+  find: sinon.stub(),
+  findById: sinon.stub(),
+  create: sinon.stub()
+};
+
+// Mock lean() method that Mongoose queries return
+const mockLean = sinon.stub();
+
+// Mock notificationService
+const mockNotificationService = { 
+  sendEmailAlert: sinon.stub().resolves(), 
+  sendWebhookAlert: sinon.stub().resolves() 
+};
+
+// Mock logAnalyticsService
+const mockLogAnalyticsService = { 
+  createSecurityEvent: sinon.stub().resolves({ id: 123 }) 
+};
 
 describe('alertService', () => {
-  it('evaluateAlertRules triggers alerts for matching rule without ReferenceError', async () => {
-    // mock db to return one rule that matches
-    const fakeDb = {
-      query: async (sql) => {
-        if (sql && sql.includes('FROM log_alert_rules')) {
-          return { rows: [{ id: 1, rule_name: 'test', conditions: { matchAction: 'danger' }, severity_threshold: 'high' }] };
-        }
-        if (sql && sql.includes('SELECT notification_channels')) {
-          return { rows: [{ notification_channels: [] }] };
-        }
-        return { rows: [] };
-      }
-    };
+  beforeEach(() => {
+    // Reset all stubs
+    mockLogAlertRule.find.reset();
+    mockLogAlertRule.findById.reset();
+    mockLogAlertRule.create.reset();
+    mockLean.reset();
+    mockNotificationService.sendEmailAlert.reset();
+    mockNotificationService.sendWebhookAlert.reset();
+    mockLogAnalyticsService.createSecurityEvent.reset();
+    
+    // Setup mock chainable methods
+    mockLogAlertRule.find.returns({
+      lean: mockLean
+    });
+    
+    mockLogAlertRule.findById.returns({
+      select: sinon.stub().returns({
+        lean: mockLean
+      })
+    });
+  });
 
-    const fakeNotification = { sendEmailAlert: async () => {}, sendWebhookAlert: async () => {} };
-    const fakeLogAnalytics = { createSecurityEvent: async () => ({ id: 123 }) };
+  it('evaluateAlertRules triggers alerts for matching rule without ReferenceError', async () => {
+    // mock LogAlertRule.find to return one rule that matches
+    mockLean.resolves([
+      { 
+        _id: 1, 
+        ruleName: 'test', 
+        conditions: { matchAction: 'danger' }, 
+        severityThreshold: 'high',
+        notificationChannels: []
+      }
+    ]);
 
     const alertService = proxyquire('../services/alertService', {
-      '../config/db': fakeDb,
-      './notificationService': fakeNotification,
-      './logAnalyticsService': fakeLogAnalytics
+      '../schemas/LogAlertRule.js': mockLogAlertRule,
+      './notificationService.js': mockNotificationService,
+      './logAnalyticsService.js': mockLogAnalyticsService
     });
 
     const res = await alertService.evaluateAlertRules({ action: 'some danger action', correlation_id: 'abc' });
@@ -30,26 +69,21 @@ describe('alertService', () => {
   });
 
   it('should handle complex condition evaluation', async () => {
-    // simulate recording an alert and evaluating complex conditions
-    const fakeDb = {
-      query: async (sql) => {
-        if (sql && sql.includes('FROM log_alert_rules')) {
-          return { rows: [{ id: 1, rule_name: 'complex', conditions: { expr: 'a && (b || c)' }, severity_threshold: 'high' }] };
-        }
-        if (sql && sql.includes('SELECT notification_channels')) {
-          return { rows: [{ notification_channels: [] }] };
-        }
-        return { rows: [] };
+    // mock LogAlertRule.find to return one rule with complex conditions
+    mockLean.resolves([
+      { 
+        _id: 1, 
+        ruleName: 'complex', 
+        conditions: { expr: 'a && (b || c)' }, 
+        severityThreshold: 'high',
+        notificationChannels: []
       }
-    };
-
-    const fakeNotification = { sendEmailAlert: async () => {}, sendWebhookAlert: async () => {} };
-    const fakeLogAnalytics = { createSecurityEvent: async () => ({ id: 123 }) };
+    ]);
 
     const alertService = proxyquire('../services/alertService', {
-      '../config/db': fakeDb,
-      './notificationService': fakeNotification,
-      './logAnalyticsService': fakeLogAnalytics
+      '../schemas/LogAlertRule.js': mockLogAlertRule,
+      './notificationService.js': mockNotificationService,
+      './logAnalyticsService.js': mockLogAnalyticsService
     });
 
     const res = await alertService.evaluateAlertRules({ a: true, b: false, c: true });

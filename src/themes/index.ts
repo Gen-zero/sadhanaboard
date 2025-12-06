@@ -283,11 +283,12 @@ export * from './utils';
 export { themeCache } from './themeCache';
 
 // Initialize theme cache on app load
+import { themeCache as themeCacheManager } from './themeCache';
+
 if (typeof window !== 'undefined') {
   setTimeout(() => {
-    const { themeCache } = require('./themeCache');
     THEME_REGISTRY.forEach((theme: ThemeDefinition) => {
-      themeCache.set(theme.metadata.id, theme);
+      themeCacheManager.set(theme.metadata.id, theme);
     });
     console.log('[ThemeCache] Initialized with all themes');
   }, 0);

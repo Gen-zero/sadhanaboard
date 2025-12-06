@@ -13,9 +13,21 @@ process.env.PORT = process.env.PORT || 3004;
 const originalLog = console.log;
 const originalError = console.error;
 
-beforeAll(() => {
+beforeAll(async () => {
   // Keep error logs visible during tests
   console.log = jest.fn(originalLog);
+  
+  // Load all models by requiring the index file
+  // Models will be registered with Mongoose but won't connect to DB in tests
+  require('../models');
+  
+  // Mock MongoDB connection for tests that don't require actual database operations
+  jest.mock('../config/mongodb', () => ({
+    connectMongoDB: jest.fn().mockResolvedValue({}),
+    disconnectMongoDB: jest.fn().mockResolvedValue(),
+    getConnectionTestResult: jest.fn().mockResolvedValue({ success: true, method: 'mock' }),
+    mongoose: require('mongoose')
+  }));
 });
 
 afterAll(() => {

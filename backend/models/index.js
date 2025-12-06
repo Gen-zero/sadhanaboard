@@ -21,18 +21,26 @@ const CommunityComment = require('../schemas/CommunityComment');
 
 // Import other existing schemas - these should already exist
 const ActivityLog = require('../schemas/ActivityLog');
+const AdminReminderTemplate = require('../schemas/AdminReminderTemplate');
 const AuditLog = require('../schemas/AuditLog');
 const BiReport = require('../schemas/BiReport');
 const BookAnnotation = require('../schemas/BookAnnotation');
 const BookBookmark = require('../schemas/BookBookmark');
 const BookProgress = require('../schemas/BookProgress');
 const BugReport = require('../schemas/BugReport');
+const CmsAsset = require('../schemas/CmsAsset');
+const CmsAssetVariant = require('../schemas/CmsAssetVariant');
+const CmsAuditTrail = require('../schemas/CmsAuditTrail');
+const CmsTemplate = require('../schemas/CmsTemplate');
+const CmsTheme = require('../schemas/CmsTheme');
+const CmsVersionHistory = require('../schemas/CmsVersionHistory');
 const Experiment = require('../schemas/Experiment');
 const FeatureFlag = require('../schemas/FeatureFlag');
 const Feedback = require('../schemas/Feedback');
 const GoogleSheetsIntegration = require('../schemas/GoogleSheetsIntegration');
 const Group = require('../schemas/Group');
 const GroupMember = require('../schemas/GroupMember');
+const LogAlertRule = require('../schemas/LogAlertRule');
 const Mentorship = require('../schemas/Mentorship');
 const MentorshipGoal = require('../schemas/MentorshipGoal');
 const NotificationLog = require('../schemas/NotificationLog');
@@ -81,6 +89,7 @@ module.exports = {
   ActivityLog,
   AdminLog,
   AuditLog,
+  LogAlertRule,
   SecurityEvent,
   SadhanaActivity,
   NotificationLog,
@@ -103,7 +112,16 @@ module.exports = {
   Support,
   SystemMetrics,
   
+  // CMS models
+  CmsAsset,
+  CmsAssetVariant,
+  CmsAuditTrail,
+  CmsTemplate,
+  CmsTheme,
+  CmsVersionHistory,
+  
   // Configuration & Integration models
+  AdminReminderTemplate,
   Experiment,
   FeatureFlag,
   GoogleSheetsIntegration,

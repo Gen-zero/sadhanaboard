@@ -7,7 +7,7 @@ import { cmsApi } from '@/services/cmsApi';
 // fallback provides a no-op dropzone so the UI still renders
 let useDropzone: any;
 try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   useDropzone = require('react-dropzone').useDropzone;
 } catch (e) {
   useDropzone = (opts: any) => ({ getRootProps: () => ({}), getInputProps: () => ({}), isDragActive: false });

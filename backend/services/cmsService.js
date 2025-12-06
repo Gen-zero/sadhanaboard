@@ -1,9 +1,11 @@
-const CmsAsset = require('../schemas/CmsAsset');
-const CmsTheme = require('../schemas/CmsTheme');
-const CmsTemplate = require('../schemas/CmsTemplate');
-const CmsAssetVariant = require('../schemas/CmsAssetVariant');
-const CmsAuditTrail = require('../schemas/CmsAuditTrail');
-const CmsVersionHistory = require('../schemas/CmsVersionHistory');
+const { 
+  CmsAsset, 
+  CmsTheme, 
+  CmsTemplate, 
+  CmsAssetVariant, 
+  CmsAuditTrail, 
+  CmsVersionHistory 
+} = require('../models');
 const path = require('path');
 const fs = require('fs');
 const themeRegistry = require('../utils/themeRegistry');
