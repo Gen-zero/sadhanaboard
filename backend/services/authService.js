@@ -44,8 +44,7 @@ class AuthService {
 
       // Create profile
       const profile = new Profile({
-        userId: user._id,
-        displayName
+        userId: user._id
       });
       await profile.save();
 

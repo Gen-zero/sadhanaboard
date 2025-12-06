@@ -46,7 +46,13 @@ class ProfileController {
         return res.status(404).json({ error: 'Profile not found' });
       }
 
-      res.json({ profile: profile.toJSON() });
+      // Merge profile with user data (displayName from User document)
+      const profileData = profile.toJSON();
+      profileData.display_name = req.user.displayName;
+      profileData.email = req.user.email;
+      profileData.user_id = req.user.id;
+
+      res.json({ profile: profileData });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -98,7 +104,13 @@ class ProfileController {
         }
       }
       
-      res.json({ profile: profile.toJSON() });
+      // Merge profile with user data (displayName from User document)
+      const profileData = profile.toJSON();
+      profileData.display_name = req.user.displayName;
+      profileData.email = req.user.email;
+      profileData.user_id = req.user.id;
+      
+      res.json({ profile: profileData });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
