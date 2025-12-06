@@ -195,7 +195,24 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   if (!loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        {/* Enhanced animated loading spinner */}
+        <div className="relative w-16 h-16">
+          {/* Outer rotating ring */}
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
+          
+          {/* Middle pulsing ring */}
+          <div className="absolute inset-2 rounded-full border-2 border-primary/30" style={{
+            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            animationDelay: '0.2s'
+          }}></div>
+          
+          {/* Inner dot */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-2 h-2 bg-primary rounded-full" style={{
+              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            }}></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -208,7 +225,21 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 const RouteLoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="text-center">
-      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      {/* Enhanced animated loading spinner with multiple elements */}
+      <div className="relative w-16 h-16 mx-auto mb-6">
+        {/* Outer rotating ring */}
+        <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
+        
+        {/* Middle rotating ring (opposite direction) */}
+        <div className="absolute inset-3 rounded-full border-2 border-transparent border-b-primary/50 border-l-primary/50 animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
+        
+        {/* Inner dot */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-3 h-3 bg-primary rounded-full" style={{
+            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          }}></div>
+        </div>
+      </div>
       <p className="text-sm text-muted-foreground">Loading page...</p>
     </div>
   </div>
@@ -267,14 +298,27 @@ const App = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="relative w-16 h-16">
+          {/* Outer rotating ring */}
+          <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
+          
+          {/* Middle rotating ring (opposite direction) */}
+          <div className="absolute inset-3 rounded-full border-2 border-transparent border-b-primary/50 border-l-primary/50 animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
+          
+          {/* Inner dot */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-3 h-3 bg-primary rounded-full" style={{
+              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            }}></div>
+          </div>
+        </div>
       </div>
     );
   }
 
   // Determine the theme for background animation
   // Remove the forced default theme on landing pages to allow them to maintain original color schemes
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
   const backgroundTheme = settings?.appearance?.colorScheme &&
     validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
     ? settings.appearance.colorScheme as typeof validThemes[number]

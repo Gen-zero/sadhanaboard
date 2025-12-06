@@ -1,17 +1,27 @@
-import { useEffect, useRef, useMemo, useState } from 'react';
+import { useEffect, useRef, useMemo, useState, useCallback } from 'react';
 import { SettingsType } from '@/components/settings/SettingsTypes';
 import i118n from '@/lib/i18n';
 import { getThemeById, listThemes, themeUtils } from '@/themes';
+import { performanceMonitor } from '@/utils/performanceMonitor';
 
 interface ThemeProviderProps {
   settings: SettingsType;
   children: React.ReactNode;
 }
 
+interface ThemeSwitchState {
+  isLoading: boolean;
+  progress: number;
+}
+
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => {
   const previousThemeRef = useRef<string | undefined>(undefined);
-  const [isReloading, setIsReloading] = useState(false);
-  const reloadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [switchState, setSwitchState] = useState<ThemeSwitchState>({
+    isLoading: false,
+    progress: 0
+  });
+  const switchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const switchAbortRef = useRef<boolean>(false);
   
   // Memoize settings values to prevent unnecessary re-renders
   const memoizedSettings = useMemo(() => settings, [
@@ -24,6 +34,146 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
     settings?.language
   ]);
   
+  // Load theme CSS dynamically
+  const loadThemeCSS = useCallback(async (cssPath: string, themeId: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // Check if already loaded
+      const existing = document.getElementById(`theme-css-${themeId}`);
+      if (existing) {
+        resolve();
+        return;
+      }
+
+      // Remove previous theme CSS
+      document.querySelectorAll('[id^="theme-css-"]').forEach(el => {
+        if (el.id !== `theme-css-${themeId}`) {
+          el.remove();
+        }
+      });
+
+      const link = document.createElement('link');
+      link.id = `theme-css-${themeId}`;
+      link.rel = 'stylesheet';
+      link.href = cssPath;
+      
+      const timeout = setTimeout(() => {
+        reject(new Error(`CSS load timeout for ${cssPath}`));
+      }, 5000);
+
+      link.onload = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+
+      link.onerror = () => {
+        clearTimeout(timeout);
+        reject(new Error(`Failed to load CSS: ${cssPath}`));
+      };
+
+      document.head.appendChild(link);
+    });
+  }, []);
+  
+  // Apply theme colors smoothly without reload
+  const applyThemeSmoothly = useCallback(async (selected: string) => {
+    console.log('[ThemeProvider] Starting theme switch to:', selected);
+    const themeDef = getThemeById(selected);
+    
+    if (!themeDef) {
+      console.warn(`Unknown theme id '${selected}', falling back to default`);
+      return;
+    }
+
+    // Prevent rapid successive theme switches
+    if (switchAbortRef.current) {
+      console.log('[ThemeProvider] Theme switch aborted (rapid switch detected)');
+      return;
+    }
+    
+    // START MONITORING
+    const isCached = false; // TODO: Check cache
+    performanceMonitor.startThemeSwitch(selected, isCached);
+    
+    setSwitchState({ isLoading: true, progress: 0 });
+
+    try {
+      console.log('[ThemeProvider] Step 1: Fade out');
+      // Step 1: Fade out (20ms)
+      document.body.style.opacity = '0.95';
+      document.body.style.transition = 'opacity 150ms ease-in-out';
+      setSwitchState(prev => ({ ...prev, progress: 25 }));
+      
+      await new Promise(resolve => setTimeout(resolve, 20));
+
+      console.log('[ThemeProvider] Step 2: Remove old theme classes');
+      // Step 2: Remove old theme classes
+      Array.from(document.body.classList)
+        .filter((c) => c.startsWith('color-scheme-') || c.startsWith('theme-') || c.endsWith('-theme'))
+        .forEach((c) => {
+          console.log('[ThemeProvider] Removing class:', c);
+          document.body.classList.remove(c);
+        });
+      
+      setSwitchState(prev => ({ ...prev, progress: 40 }));
+
+      console.log('[ThemeProvider] Step 3: Apply new theme class');
+      // Step 3: Apply new theme class
+      const themeClass = `theme-${selected}`;
+      document.body.classList.add(themeClass);
+      console.log('[ThemeProvider] Added class:', themeClass);
+
+      console.log('[ThemeProvider] Step 4: Apply colors');
+      // Step 4: Apply colors
+      const colorsRecord: Record<string, string> = {};
+      Object.entries(themeDef.colors).forEach(([key, value]) => {
+        colorsRecord[key] = value as string;
+      });
+      console.log('[ThemeProvider] Colors to apply:', Object.keys(colorsRecord));
+      themeUtils.applyThemeColors(colorsRecord);
+      performanceMonitor.recordColorsApplied();
+      
+      setSwitchState(prev => ({ ...prev, progress: 60 }));
+
+      console.log('[ThemeProvider] Step 5: Load theme CSS');
+      // Step 5: Load theme CSS asynchronously
+      if (themeDef.assets?.css) {
+        try {
+          console.log('[ThemeProvider] Loading CSS from:', themeDef.assets.css);
+          await loadThemeCSS(themeDef.assets.css, selected);
+          performanceMonitor.recordCSSLoaded(themeDef.assets.css);
+          setSwitchState(prev => ({ ...prev, progress: 90 }));
+        } catch (e) {
+          console.warn('Failed to load theme CSS:', themeDef.assets.css, e);
+        }
+      } else {
+        console.log('[ThemeProvider] No CSS asset for theme:', selected);
+      }
+
+      console.log('[ThemeProvider] Step 6: Fade back in');
+      // Step 6: Fade back in
+      setTimeout(() => {
+        document.body.style.opacity = '1';
+      }, 30);
+      
+      setSwitchState(prev => ({ ...prev, progress: 100 }));
+
+      console.log('[ThemeProvider] Step 7: Cleanup');
+      // Step 7: Cleanup
+      setTimeout(() => {
+        document.body.style.transition = '';
+        setSwitchState({ isLoading: false, progress: 0 });
+        previousThemeRef.current = selected;
+        console.log('[ThemeProvider] Theme switch complete:', selected);
+        // COMPLETE MONITORING
+        performanceMonitor.completeThemeSwitch();
+      }, 150);
+
+    } catch (e) {
+      console.error('Error applying theme:', e);
+      setSwitchState({ isLoading: false, progress: 0 });
+    }
+  }, [loadThemeCSS]);
+  
   useEffect(() => {
     // Base theme - ALWAYS use dark mode regardless of settings
     const baseTheme = 'dark';
@@ -32,6 +182,26 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
     
     // Apply appearance settings
     const appearance = memoizedSettings?.appearance;
+    
+    console.log('[ThemeProvider] useEffect triggered');
+    console.log('[ThemeProvider] memoizedSettings:', memoizedSettings);
+    console.log('[ThemeProvider] appearance:', appearance);
+    console.log('[ThemeProvider] colorScheme:', appearance?.colorScheme);
+    console.log('[ThemeProvider] previousThemeRef.current:', previousThemeRef.current);
+    
+    // Also check localStorage directly to catch updates from useSettings hook
+    const localStorageSettings = localStorage.getItem('sadhanaSettings');
+    if (localStorageSettings) {
+      try {
+        const parsed = JSON.parse(localStorageSettings);
+        console.log('[ThemeProvider] localStorage colorScheme:', parsed.appearance?.colorScheme);
+        if (parsed.appearance?.colorScheme && parsed.appearance.colorScheme !== previousThemeRef.current) {
+          console.log('[ThemeProvider] Detected localStorage change, applying theme');
+        }
+      } catch (e) {
+        console.warn('[ThemeProvider] Error reading localStorage:', e);
+      }
+    }
     
     // Apply font size
     if (appearance?.fontSize) {
@@ -56,131 +226,62 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ settings, children }) => 
       }
     }
     
-    // Apply color scheme via registry-driven classes + CSS variables
+    // Apply color scheme
     if (appearance?.colorScheme) {
       const selected = appearance.colorScheme;
-      console.log('ThemeProvider: Applying color scheme:', selected);
+      console.log('[ThemeProvider] Checking if theme changed:', { selected, previous: previousThemeRef.current });
       
-      // Check if theme actually changed
+      // Only apply if theme actually changed
       if (previousThemeRef.current !== selected) {
-        console.log('ThemeProvider: Theme changed from', previousThemeRef.current, 'to', selected);
-        
-        // Show loading indicator and reload the page
-        if (previousThemeRef.current !== undefined) {
-          setIsReloading(true);
-          // Show a loading message
-          const loadingDiv = document.createElement('div');
-          loadingDiv.id = 'theme-loading-indicator';
-          loadingDiv.innerHTML = `
-            <div style="
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: rgba(0, 0, 0, 0.8);
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              z-index: 9999;
-              color: white;
-              font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
-            ">
-              <div style="
-                width: 40px;
-                height: 40px;
-                border: 4px solid rgba(139, 92, 246, 0.3);
-                border-top: 4px solid #8b5cf6;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-                margin-bottom: 20px;
-              "></div>
-              <div style="font-size: 18px; font-weight: 500;">
-                Applying new theme...
-              </div>
-            </div>
-            <style>
-              @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-              }
-            </style>
-          `;
-          document.body.appendChild(loadingDiv);
-          
-          // Clear any existing timeout
-          if (reloadTimeoutRef.current) {
-            clearTimeout(reloadTimeoutRef.current);
-          }
-          
-          // Reload the page after a short delay to show the loading indicator
-          reloadTimeoutRef.current = setTimeout(() => {
-            window.location.reload();
-          }, 500);
-        }
-        
-        // Add a small delay to ensure smooth transition for initial load
-        setTimeout(() => {
-          // remove any known color-scheme-* and theme-* classes conservatively
-          Array.from(document.body.classList)
-            .filter((c) => c.startsWith('color-scheme-') || c.startsWith('theme-') || c.endsWith('-theme'))
-            .forEach((c) => {
-              console.log('ThemeProvider: Removing class:', c);
-              document.body.classList.remove(c);
-            });
-
-          if (selected) {
-            // add a theme class for legacy CSS that expects it
-            const themeClass = `theme-${selected}`;
-            console.log('ThemeProvider: Adding theme class:', themeClass);
-            document.body.classList.add(themeClass);
-
-            // apply CSS vars if the theme is in registry
-            const themeDef = getThemeById(selected as string);
-            console.log('ThemeProvider: Theme definition from registry:', themeDef);
-            if (!themeDef) {
-              console.warn(`Unknown theme id '${selected}', falling back to default`);
-            } else {
-              console.log('ThemeProvider: Found theme definition:', themeDef);
-              // apply theme token colors
-              try {
-                console.log('ThemeProvider: Applying theme colors:', themeDef.colors);
-                // Convert ThemeColors to Record<string, string>
-                const colorsRecord: Record<string, string> = {};
-                Object.entries(themeDef.colors).forEach(([key, value]) => {
-                  colorsRecord[key] = value as string;
-                });
-                themeUtils.applyThemeColors(colorsRecord);
-                
-                // apply theme CSS if specified
-                themeUtils.applyThemeCSS(themeDef);
-              } catch(e) {
-                console.warn('applyThemeColors failed', e);
-              }
-            }
-          }
-          
-          // Update the ref to the current theme
-          previousThemeRef.current = selected;
-        }, 10);
+        console.log('[ThemeProvider] Theme changed! Calling applyThemeSmoothly');
+        switchAbortRef.current = false;
+        applyThemeSmoothly(selected);
+      } else {
+        console.log('[ThemeProvider] Theme did not change, skipping');
       }
     }
-  }, [memoizedSettings?.theme, memoizedSettings?.appearance, memoizedSettings?.language]);
+  }, [memoizedSettings?.appearance?.colorScheme, memoizedSettings?.appearance?.fontSize, 
+      memoizedSettings?.appearance?.animationsEnabled, memoizedSettings?.appearance?.highContrastMode, 
+      applyThemeSmoothly]);
+
+  // Additional effect to monitor custom settings change events
+  useEffect(() => {
+    const handleSettingsChanged = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const { settings: newSettings, changedPath } = customEvent.detail;
+      
+      console.log('[ThemeProvider] Custom event received: sadhanaSettingsChanged', {
+        settings: newSettings,
+        changedPath,
+        currentColorScheme: newSettings.appearance?.colorScheme,
+        previousColorScheme: previousThemeRef.current
+      });
+      
+      // Check if the colorScheme changed
+      if (changedPath && changedPath[0] === 'appearance' && changedPath[1] === 'colorScheme') {
+        const newColorScheme = newSettings.appearance?.colorScheme;
+        if (newColorScheme && newColorScheme !== previousThemeRef.current) {
+          console.log('[ThemeProvider] ColorScheme changed in event! Applying theme:', newColorScheme);
+          switchAbortRef.current = false;
+          applyThemeSmoothly(newColorScheme);
+        }
+      }
+    };
+
+    // Listen for custom settings changed events
+    window.addEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+    return () => window.removeEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+  }, [applyThemeSmoothly]);
   
-  // Clean up timeout on unmount
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (reloadTimeoutRef.current) {
-        clearTimeout(reloadTimeoutRef.current);
+      switchAbortRef.current = true;
+      if (switchTimeoutRef.current) {
+        clearTimeout(switchTimeoutRef.current);
       }
     };
   }, []);
-
-  // If we're reloading, don't render children
-  if (isReloading) {
-    return null;
-  }
 
   return <>{children}</>;
 };

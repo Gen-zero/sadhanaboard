@@ -55,7 +55,7 @@ const LoginPage = () => {
         return;
       }
       
-      navigate("/sadhana");
+      navigate("/dashboard");
     } catch (err: unknown) {
       console.error('Login error:', err);
       // Show more specific error message if available
@@ -83,7 +83,7 @@ const LoginPage = () => {
         return;
       }
       
-      navigate("/sadhana");
+      navigate("/dashboard");
     } catch (err: unknown) {
       console.error('Demo login error:', err);
       const message = err instanceof Error ? err.message : 'Demo login failed';
@@ -199,8 +199,8 @@ const LoginPage = () => {
           <div className="mt-4 text-center text-sm text-white">
             <p>
               Don't have an account?{" "}
-              <Link to="/waitlist" className="text-white hover:text-white hover:underline">
-                Join waitlist
+              <Link to="/signup" className="text-white hover:text-white hover:underline">
+                Create account
               </Link>
             </p>
           </div>

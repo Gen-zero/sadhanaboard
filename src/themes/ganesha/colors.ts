@@ -8,30 +8,30 @@ import { ThemeColors } from '../types';
 
 const colors: ThemeColors = {
   background: '30 70% 85%', // Soft Orange with violet undertones
-  foreground: '270 100% 25%', // Indigo text
+  foreground: '270 70% 28%', // Enhanced dark indigo text for better contrast
   card: '30 60% 90%',         // Card background with orange-violet blend
-  cardForeground: '270 100% 25%',
+  cardForeground: '270 70% 28%', // Matching strong foreground
   popover: '30 55% 93%',      // Popover with warm violet tones
-  popoverForeground: '270 100% 25%',
+  popoverForeground: '270 70% 28%', // Enhanced text
   primary: '30 70% 85%', // Soft Orange primary
-  primaryForeground: '270 100% 25%',
+  primaryForeground: '270 70% 28%', // Dark indigo
   secondary: '270 40% 70%', // Violet secondary
   secondaryForeground: '30 100% 95%',
   muted: '270 30% 80%',        // Muted violet background
-  mutedForeground: '270 50% 40%', // Slate blue muted text
+  mutedForeground: '270 60% 35%', // Brightened slate blue muted text
   accent: '270 60% 50%', // Violet accent
-  accentForeground: '0 0% 100%',
+  accentForeground: '270 50% 18%', // Dark violet instead of white
   destructive: '0 84.2% 58%',
   destructiveForeground: '0 0% 100%',
   border: '270 40% 75%',       // Violet border
   input: '270 50% 88%',        // Violet input fields
   ring: '270 60% 50%', // Violet ring
   sidebarBackground: '270 50% 80%',  // Violet sidebar
-  sidebarForeground: '30 100% 95%',
+  sidebarForeground: '270 70% 28%', // Dark indigo text
   sidebarPrimary: '270 60% 50%', // Violet
-  sidebarPrimaryForeground: '0 0% 100%',
+  sidebarPrimaryForeground: '270 10% 98%', // Off-white text
   sidebarAccent: '30 70% 70%', // Orange accent
-  sidebarAccentForeground: '270 100% 25%',
+  sidebarAccentForeground: '270 70% 28%', // Dark indigo text
   sidebarBorder: '270 40% 70%',       // Violet sidebar border
   sidebarRing: '270 60% 50%'
 };

@@ -7,7 +7,7 @@ import ThemedBackground from "@/components/ThemedBackground";
 
 const HeroSection = () => {
   const { settings } = useSettings();
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'] as const;
+  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
   const backgroundTheme = settings?.appearance?.colorScheme &&
     validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
     ? settings.appearance.colorScheme as typeof validThemes[number]

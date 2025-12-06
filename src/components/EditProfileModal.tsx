@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -10,11 +10,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useProfileData } from '@/hooks/useProfileData';
-import { useUserProfile } from '@/hooks/useUserProfile';
+import { useProfile, useUpdateProfile, profileKeys } from '@/hooks/useProfile';
 import { useProfileValidation } from '@/hooks/useProfileValidation';
+import { useQueryClient } from '@tanstack/react-query';
 import { Save, X, Loader2 } from 'lucide-react';
 import { Profile } from '@/types/profile';
+import api from '@/services/api';
 
 interface EditProfileModalProps {
   open: boolean;
@@ -22,11 +23,11 @@ interface EditProfileModalProps {
 }
 
 const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
-  const { profile: localProfile, updateProfile: updateLocalProfile } = useProfileData();
-  const { profile: backendProfile, isLoading: isProfileLoading, fetchProfile, updateProfile: updateBackendProfile } = useUserProfile();
+  const { data: backendProfile, isLoading: isProfileLoading, refetch: refetchProfile } = useProfile(open);
+  const { mutateAsync: updateProfile, isPending: isUpdating } = useUpdateProfile();
   const { validateProfile } = useProfileValidation();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     display_name: '',
@@ -57,23 +58,15 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
   // Load profile data from backend when modal opens
   useEffect(() => {
     if (open) {
-      const loadProfileData = async () => {
-        try {
-          await fetchProfile();
-        } catch (error) {
-          console.error('Error loading profile data:', error);
-        }
-      };
-
-      loadProfileData();
+      refetchProfile();
     }
-  }, [open, fetchProfile]);
+  }, [open, refetchProfile]);
 
   // Update form data when backend profile loads
   useEffect(() => {
     if (backendProfile) {
       setFormData({
-        display_name: backendProfile.display_name || localProfile.name || '',
+        display_name: backendProfile.display_name || '',
         bio: backendProfile.bio || '',
         location: backendProfile.location || '',
         experience_level: backendProfile.experience_level || 'beginner',
@@ -86,7 +79,7 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
         avatar_url: backendProfile.avatar_url || '/lovable-uploads/sadhanaboard_logo.png',
       });
     }
-  }, [backendProfile, localProfile.name]);
+  }, [backendProfile]);
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -122,8 +115,7 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
     }
 
     try {
-      setIsLoading(true);
-      const success = await updateBackendProfile({
+      await updateProfile({
         display_name: formData.display_name,
         bio: formData.bio,
         location: formData.location,
@@ -137,25 +129,21 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
         avatar_url: formData.avatar_url,
       });
 
-      if (success) {
-        // Update local profile data
-        updateLocalProfile({ name: formData.display_name });
-        
-        toast({
-          title: "Profile updated",
-          description: "Your profile has been successfully updated.",
-        });
-        
-        onClose();
-      }
+      // Invalidate profile cache
+      queryClient.invalidateQueries({ queryKey: profileKeys.detail() });
+
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been successfully updated.",
+      });
+      
+      onClose();
     } catch (error: unknown) {
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to update profile. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -225,7 +213,7 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  value={localProfile.email}
+                  value={backendProfile?.email || ''}
                   disabled
                 />
               </div>
@@ -338,12 +326,12 @@ const EditProfileModal = ({ open, onClose }: EditProfileModalProps) => {
             </div>
             
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={onClose} disabled={isLoading}>
+              <Button variant="outline" onClick={onClose} disabled={isUpdating}>
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isLoading} className="flex items-center gap-2">
-                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                {isLoading ? 'Saving...' : 'Save Changes'}
+              <Button onClick={handleSave} disabled={isUpdating} className="flex items-center gap-2">
+                {isUpdating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                {isUpdating ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>
           </div>

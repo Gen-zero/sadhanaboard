@@ -1,25 +1,25 @@
 import { ThemeColors } from '../types';
 
 const colors: ThemeColors = {
-  background: '0 100% 8%', // Changed from 0 100% 5%
-  foreground: '0 0% 95%', // Changed from 0 0% 98%
-  card: '0 100% 12%', // Changed from 0 100% 10%
-  cardForeground: '0 0% 92%', // Changed from 0 0% 97%
-  popover: '0 100% 15%', // Changed from 0 100% 12%
-  popoverForeground: '0 0% 92%', // Changed from 0 0% 97%
-  primary: '0 95% 45%', // Changed from 0 100% 40%
-  primaryForeground: '0 0% 100%',
-  secondary: '25 95% 35%', // Changed from 25 100% 30%
-  secondaryForeground: '0 0% 95%',
-  muted: '0 50% 18%', // Changed from 0 50% 15%
-  mutedForeground: '0 20% 65%', // Changed from 0 20% 70%
-  accent: '30 95% 55%', // Changed from 30 100% 50%
-  accentForeground: '0 0% 0%',
+  background: '0 100% 8%', // Deep red background
+  foreground: '0 100% 96%', // Bright white/cream for maximum contrast
+  card: '0 100% 12%',
+  cardForeground: '0 100% 94%', // Bright text
+  popover: '0 100% 15%',
+  popoverForeground: '0 100% 93%', // Bright text
+  primary: '0 95% 45%', // Fire red
+  primaryForeground: '0 0% 100%', // Pure white
+  secondary: '25 95% 35%', // Orange
+  secondaryForeground: '0 0% 100%', // White text
+  muted: '0 50% 18%',
+  mutedForeground: '0 100% 80%', // Improved from 0 20% 65%
+  accent: '30 95% 55%', // Golden yellow
+  accentForeground: '0 20% 10%', // Dark red instead of pure black
   destructive: '0 62.8% 35.6%',
-  destructiveForeground: '0 0% 95%', // Changed from 0 0% 97%
-  border: '0 50% 22%', // Changed from 0 50% 20%
-  input: '0 60% 20%', // Changed from 0 60% 18%
-  ring: '0 95% 45%' // Changed to match new primary
+  destructiveForeground: '0 100% 96%', // Bright text
+  border: '0 50% 22%',
+  input: '0 60% 20%',
+  ring: '0 95% 45%'
 };
 
 export default colors;

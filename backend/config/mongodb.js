@@ -9,28 +9,46 @@ if (!MONGODB_URI) {
 }
 
 let cachedConnection = null;
+const MAX_CONNECTION_RETRIES = 5;
+const RETRY_DELAY_MS = 2000; // Start with 2 seconds
 
 async function connectMongoDB() {
   if (cachedConnection) {
     return cachedConnection;
   }
 
-  try {
-    const connection = await mongoose.connect(MONGODB_URI, {
-      maxPoolSize: 10,
-      minPoolSize: 2,
-      retryWrites: true,
-      w: 'majority',
-      appName: 'SaadhanaBoard'
-    });
+  let lastError;
+  for (let attempt = 1; attempt <= MAX_CONNECTION_RETRIES; attempt++) {
+    try {
+      console.log(`Attempting MongoDB connection (${attempt}/${MAX_CONNECTION_RETRIES})...`);
+      const connection = await mongoose.connect(MONGODB_URI, {
+        maxPoolSize: 10,
+        minPoolSize: 2,
+        retryWrites: true,
+        w: 'majority',
+        appName: 'SaadhanaBoard',
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+      });
 
-    cachedConnection = connection;
-    console.log('✓ MongoDB connected successfully');
-    return connection;
-  } catch (error) {
-    console.error('✗ MongoDB connection failed:', error.message);
-    throw error;
+      cachedConnection = connection;
+      console.log('✓ MongoDB connected successfully on attempt', attempt);
+      return connection;
+    } catch (error) {
+      lastError = error;
+      console.error(`✗ MongoDB connection attempt ${attempt} failed:`, error.message);
+      
+      // Don't retry on last attempt
+      if (attempt < MAX_CONNECTION_RETRIES) {
+        const waitTime = RETRY_DELAY_MS * attempt; // Exponential backoff
+        console.log(`Retrying in ${waitTime}ms...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+      }
+    }
   }
+  
+  console.error('✗ Failed to connect to MongoDB after', MAX_CONNECTION_RETRIES, 'attempts');
+  throw lastError;
 }
 
 async function disconnectMongoDB() {

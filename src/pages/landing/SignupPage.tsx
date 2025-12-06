@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UserPlus, User, Mail, ArrowLeft, Loader2, CheckCircle, Key } from "lucide-react";
 import { useSettings } from "@/hooks/useSettings";
-import { api } from "@/services/api.js";
+import { useAuth } from "@/lib/auth-context";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -31,6 +31,7 @@ const formSchema = z.object({
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { signup } = useAuth();
   const { settings } = useSettings();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,18 +56,19 @@ const SignupPage = () => {
     setError(null);
     
     try {
-      const response = await api.post('/auth/waitlist', {
-        name: values.name,
-        email: values.email,
-        reason: values.reason || null,
-        password: values.password
-      });
+      // Use the auth context signup method instead of direct API call
+      const result = await signup(values.email, values.password, values.name);
+      
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
       
       setSuccess(true);
-  // success handled via UI state/toast
+      // Redirect to onboarding for new users
+      navigate("/onboarding");
     } catch (err: unknown) {
-  // error shown to user via setError()
-      const errorMessage = err instanceof Error ? err.message : "Failed to join waiting list. Please try again.";
+      const errorMessage = err instanceof Error ? err.message : "Failed to create account. Please try again.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -86,7 +88,7 @@ const SignupPage = () => {
             Saadhana Yantra
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Begin your spiritual journey
+            Create your account to start your spiritual journey
           </p>
         </div>
 

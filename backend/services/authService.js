@@ -4,9 +4,18 @@ const axios = require('axios');
 const User = require('../schemas/User');
 const Profile = require('../schemas/Profile');
 const Waitlist = require('../schemas/Waitlist');
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env.development') });
 
 const JWT_SECRET = process.env.JWT_SECRET || 'saadhanaboard_secret_key';
+
+// CRITICAL: Log the JWT_SECRET on module load to detect configuration issues
+if (!process.env.JWT_SECRET) {
+  console.warn('[CRITICAL] JWT_SECRET not found in environment! Using fallback default.');
+  console.warn('[CRITICAL] This will cause token verification failures.');
+  console.warn('[CRITICAL] Please ensure .env.development file exists and JWT_SECRET is set.');
+} else {
+  console.log('[JWT_CONFIG] JWT_SECRET loaded from environment (length: ' + JWT_SECRET.length + ' chars)');
+}
 const N8N_WEBHOOK_URL = 'https://sadhanaboard.app.n8n.cloud/webhook/waitlist';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -93,9 +102,29 @@ class AuthService {
   // Verify JWT token
   static verifyToken(token) {
     try {
-      return jwt.verify(token, JWT_SECRET);
+      // Log the token structure for debugging
+      const parts = token.split('.');
+      console.log(`[JWT] Token structure: ${parts.length} parts, payload: ${parts[1] ? parts[1].substring(0, 50) : 'missing'}...`);
+      
+      // Log the secret being used
+      console.log(`[JWT] Using JWT_SECRET of length: ${JWT_SECRET.length}`);
+      
+      const decoded = jwt.verify(token, JWT_SECRET);
+      console.log(`[JWT] Token verified successfully for userId: ${decoded.userId}`);
+      return decoded;
     } catch (error) {
-      throw new Error('Invalid token');
+      // Enhanced error logging
+      console.error(`[JWT] Verification failed - Error name: ${error.name}, Message: ${error.message}`);
+      
+      if (error.name === 'TokenExpiredError') {
+        console.error('[JWT] Token has expired');
+        throw new Error('Token expired');
+      } else if (error.name === 'JsonWebTokenError') {
+        console.error('[JWT] Invalid token format or signature');
+        throw new Error('Invalid token signature');
+      }
+      console.error('[JWT] Unknown token verification error');
+      throw new Error(`Token verification failed: ${error.message}`);
     }
   }
 

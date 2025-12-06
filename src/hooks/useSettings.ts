@@ -132,6 +132,8 @@ export const useSettings = (): {
   }, []);
 
   const updateSettings = (path: (string | number)[], value: unknown) => {
+    console.log('[useSettings] updateSettings called with:', { path, value });
+    
     // Prevent changing the theme to light mode
     if (path.length === 1 && path[0] === 'theme' && value !== 'dark') {
       console.log('Attempt to change theme to light mode blocked. Enforcing dark mode.');
@@ -158,9 +160,23 @@ export const useSettings = (): {
       // ALWAYS ensure theme is dark
       newSettings.theme = 'dark';
       
+      console.log('[useSettings] New settings after update:', { 
+        path,
+        newValue: value,
+        colorScheme: newSettings.appearance?.colorScheme,
+        fullAppearance: newSettings.appearance
+      });
+      
       // Save to localStorage
       try {
         localStorage.setItem('sadhanaSettings', JSON.stringify(newSettings));
+        console.log('[useSettings] Settings saved to localStorage');
+        
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new CustomEvent('sadhanaSettingsChanged', { 
+          detail: { settings: newSettings, changedPath: path }
+        }));
+        console.log('[useSettings] Custom event dispatched: sadhanaSettingsChanged');
       } catch (error) {
         console.error('Error saving settings:', error);
       }

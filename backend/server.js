@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '.env.development') });
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
@@ -87,7 +87,8 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     environment: NODE_ENV,
     uptime: process.uptime(),
-    backendUrl: BACKEND_URL
+    backendUrl: BACKEND_URL,
+    database: 'checking...'
   });
 });
 
@@ -110,6 +111,14 @@ app.get('/api/health/db', catchAsync(async (req, res) => {
     });
   }
 }));
+
+// Quick startup health check endpoint (for frontend to verify backend readiness)
+app.get('/api/health/ready', (req, res) => {
+  if (global.mongoConnected) {
+    return res.json({ ready: true, timestamp: new Date().toISOString() });
+  }
+  return res.status(503).json({ ready: false, message: 'Database not connected', timestamp: new Date().toISOString() });
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -186,6 +195,9 @@ const startServer = async () => {
     logger.info('Connecting to MongoDB...');
     await connectMongoDB();
     logger.info('MongoDB connected successfully');
+    
+    // Mark backend as ready
+    global.mongoConnected = true;
 
     server.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`, { environment: NODE_ENV, backendUrl: BACKEND_URL });
@@ -197,7 +209,8 @@ const startServer = async () => {
 ║ Environment: ${NODE_ENV.padEnd(30)}║
 ║ Backend URL: ${BACKEND_URL.padEnd(30)}║
 ║ Database:    MongoDB Atlas             ║
-║ Status:      Running                   ║
+║ Status:      ✓ Running                 ║
+║ Ready:       ✓ Accepting Requests      ║
 ╚════════════════════════════════════════╝
       `);
     });

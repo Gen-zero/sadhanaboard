@@ -1,5 +1,5 @@
 import React from 'react';
-import { MoonStar, Sparkles, LayoutDashboard } from 'lucide-react';
+import { MoonStar, Sparkles, LayoutDashboard, CheckSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -31,6 +31,10 @@ const SadhanaHeader = ({
     navigate('/dashboard');
   };
 
+  const handleSadhanasNavigation = () => {
+    navigate('/saadhanas');
+  };
+
   return (
     <div className="backdrop-blur-sm bg-transparent p-4 rounded-xl border border-white relative overflow-hidden">
       {/* Cosmic glow effect */}
@@ -56,7 +60,8 @@ const SadhanaHeader = ({
               onClick={() => setShowManifestationForm(!showManifestationForm)}
             >
               <Sparkles className="h-4 w-4" />
-              <span>Manifest Intention</span>
+              <span className="hidden sm:inline">Manifest Intention</span>
+              <span className="sm:hidden">Manifest</span>
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
@@ -68,9 +73,21 @@ const SadhanaHeader = ({
               size="sm"
               className="flex items-center gap-1 bg-transparent border border-white hover:from-secondary/30 hover:to-accent/30 text-secondary-foreground"
               onClick={handleDashboardToggle}
+              title="View Progress"
             >
               <LayoutDashboard className="h-4 w-4" />
-              <span>View Progress</span>
+              <span className="hidden sm:inline">View Progress</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 bg-transparent border border-white hover:from-accent/30 hover:to-primary/30 text-accent-foreground"
+              onClick={handleSadhanasNavigation}
+              title="View All Sadhanas"
+            >
+              <CheckSquare className="h-4 w-4" />
+              <span className="hidden sm:inline">View All Sadhanas</span>
             </Button>
           </div>
         </div>

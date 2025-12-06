@@ -17,7 +17,6 @@ import krishnaTheme from './krishna';
 import swamijiTheme from './swamiji';
 import durgaTheme from './durga';
 import cosmosTheme from './cosmos';
-import androidTheme from './android';
 
 export type { ThemeDefinition } from './types';
 const loadDefaultTheme = () => import('./default');
@@ -38,7 +37,6 @@ const loadKrishnaTheme = () => import('./krishna');
 const loadSwamijiTheme = () => import('./swamiji');
 const loadDurgaTheme = () => import('./durga');
 const loadCosmosTheme = () => import('./cosmos');
-const loadAndroidTheme = () => import('./android');
 
 // Validate theme definition
 function validateTheme(def: ThemeDefinition): boolean {
@@ -157,7 +155,6 @@ const RAW_THEME_REGISTRY: ThemeDefinition[] = [
   swamijiTheme,
   durgaTheme,
   cosmosTheme,
-  androidTheme,
 ];
 
 // Debug logging
@@ -178,7 +175,7 @@ if (duplicateIds.length > 0) {
 }
 
 // Check for unused themes (themes not in validThemes list in App.tsx)
-const validThemesInApp = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna', 'android'];
+const validThemesInApp = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'];
 const unusedThemes = RAW_THEME_REGISTRY.filter(t => !validThemesInApp.includes(t.metadata.id));
 if (unusedThemes.length > 0) {
   console.warn('[DEBUG] Unused themes found:', unusedThemes.map(t => t.metadata.id));
@@ -281,3 +278,17 @@ export default {
 // Re-export utilities for convenience
 export { default as themeUtils } from './utils';
 export * from './utils';
+
+// Re-export cache manager
+export { themeCache } from './themeCache';
+
+// Initialize theme cache on app load
+if (typeof window !== 'undefined') {
+  setTimeout(() => {
+    const { themeCache } = require('./themeCache');
+    THEME_REGISTRY.forEach((theme: ThemeDefinition) => {
+      themeCache.set(theme.metadata.id, theme);
+    });
+    console.log('[ThemeCache] Initialized with all themes');
+  }, 0);
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
   BookHeart, 
@@ -34,6 +34,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 }) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { profile } = useUserProfile();
 
@@ -41,8 +42,8 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   const navItems = [
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
     { name: t('library'), icon: BookHeart, path: '/library' },
-    { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
-    { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
+    // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
+    // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     { name: t('store'), icon: ShoppingCart, path: '/store' },
     { name: t('settings'), icon: Settings, path: '/settings' }
   ];
@@ -225,7 +226,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                   className="w-full justify-start hover:bg-primary/10 px-3 py-2.5 touch-target-large mobile-focus-visible"
                   onClick={() => {
                     signOut();
-                    handleNavigation();
+                    navigate('/login');
                   }}
                 >
                   <LogOut size={16} className="mr-2 text-destructive flex-shrink-0" />

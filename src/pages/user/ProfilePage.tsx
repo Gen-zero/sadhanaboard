@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import Layout from '@/components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { 
@@ -41,7 +43,7 @@ import { useToast } from '@/components/ui/use-toast';
 import BadgeGallery from '@/components/profile/BadgeGallery';
 import { useBadges } from '@/hooks/useBadges';
 import { useSettings } from '@/hooks/useSettings';
-import { useUserProfile } from '@/hooks/useUserProfile';
+import { useProfile } from '@/hooks/useProfile';
 import EditProfileModal from '@/components/EditProfileModal';
 
 // Types for our profile data
@@ -194,15 +196,19 @@ const ProfilePage = () => {
   const { toast } = useToast();
   const { allBadges, earnedBadges } = useBadges();
   const { settings } = useSettings();
-  const { profile, isLoading, error, fetchProfile } = useUserProfile();
-
-  // Fetch profile data on component mount
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+  const queryClient = useQueryClient();
+  const { data: profile, isLoading, error, refetch } = useProfile();
 
   // Get current theme to adapt colors
   const currentTheme = settings?.appearance?.colorScheme || 'default';
+
+  // Handle profile refresh after edits
+  const handleEditModalClose = (wasEdited: boolean) => {
+    setIsEditing(false);
+    if (wasEdited) {
+      refetch();
+    }
+  };
 
   const handleCopyProfileLink = () => {
     if (profile) {
@@ -229,7 +235,8 @@ const ProfilePage = () => {
   // Show loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-fuchsia-900/20 to-pink-900/20 p-4 md:p-8">
+      <Layout>
+        <div className="p-4 md:p-8 space-y-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -294,14 +301,16 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </Layout>
     );
   }
 
   // Show error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-fuchsia-900/20 to-pink-900/20 p-4 md:p-8 flex items-center justify-center">
+      <Layout>
+        <div className="p-4 md:p-8 flex items-center justify-center min-h-screen">
         <Card className="max-w-md w-full backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-400">
@@ -310,19 +319,21 @@ const ProfilePage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <p className="text-muted-foreground mb-4">{error}</p>
-            <Button onClick={fetchProfile} className="w-full">
+            <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : String(error) || 'Failed to load profile'}</p>
+            <Button onClick={() => refetch()} className="w-full">
               Try Again
             </Button>
           </CardContent>
         </Card>
-      </div>
+        </div>
+      </Layout>
     );
   }
 
   // Show profile data when loaded
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900/20 via-fuchsia-900/20 to-pink-900/20 p-4 md:p-8">
+    <Layout>
+      <div className="p-4 md:p-8 space-y-6">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -555,37 +566,45 @@ const ProfilePage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5 text-purple-300" />
-                  Achievements
+                  Badges Earned
                 </CardTitle>
-                <CardDescription>Badges earned on your spiritual journey</CardDescription>
+                <CardDescription>Achievements from your spiritual journey</CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                  {mockAchievements.map((achievement, index) => (
-                    <motion.div
-                      key={achievement.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ y: -10, scale: 1.05, zIndex: 10 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex flex-col items-center p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all cursor-pointer relative overflow-hidden group"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-                      <div className="relative z-10">
-                        <motion.div 
-                          className="p-3 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 mb-3 shadow-lg"
-                          whileHover={{ rotate: 10, scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          {achievement.icon}
-                        </motion.div>
-                        <h3 className="font-semibold text-sm text-center text-purple-100 group-hover:text-white transition-colors duration-300">{achievement.name}</h3>
-                        <p className="text-xs text-purple-300 text-center mt-1 group-hover:text-purple-200 transition-colors duration-300">{achievement.earned}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                {earnedBadges.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                    {earnedBadges.map((badge, index) => (
+                      <motion.div
+                        key={`${badge.id}-${index}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        whileHover={{ y: -10, scale: 1.05, zIndex: 10 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex flex-col items-center p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all cursor-pointer relative overflow-hidden group"
+                        title={badge.title}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                        <div className="relative z-10">
+                          <motion.div 
+                            className="p-3 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 mb-3 shadow-lg"
+                            whileHover={{ rotate: 10, scale: 1.1 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            <Award className="h-6 w-6 text-white" />
+                          </motion.div>
+                          <h3 className="font-semibold text-sm text-center text-purple-100 group-hover:text-white transition-colors duration-300">{badge.title}</h3>
+                          <p className="text-xs text-purple-300 text-center mt-1 group-hover:text-purple-200 transition-colors duration-300">{badge.description || 'Achievement'}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <Award className="h-12 w-12 text-purple-300/50 mx-auto mb-3" />
+                    <p className="text-muted-foreground">No badges earned yet. Complete sadhanas to earn achievements!</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>
@@ -863,8 +882,9 @@ const ProfilePage = () => {
       </motion.div>
 
       {/* Edit Profile Modal */}
-      <EditProfileModal open={isEditing} onClose={() => setIsEditing(false)} />
-    </div>
+      <EditProfileModal open={isEditing} onClose={() => handleEditModalClose(true)} />
+      </div>
+    </Layout>
   );
 };
 

@@ -66,6 +66,8 @@ class ApiService {
 
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
+    const maxRetries = 3;
+    const baseDelay = 500; // 500ms
     
     const config = {
       headers: {
@@ -75,35 +77,52 @@ class ApiService {
       },
       ...(USE_CREDENTIALS ? { credentials: 'include' } : {}),
       ...options,
+      // Add timeout using AbortController
+      signal: options.signal || AbortSignal.timeout(30000), // 30 second timeout
     };
 
-    try {
-      const response = await fetch(url, config);
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(url, config);
 
-      const text = await response.text().catch(() => '');
-      let payload = null;
-      try { 
-        payload = text ? JSON.parse(text) : null; 
-      } catch (e) { 
-        payload = { raw: text }; 
+        const text = await response.text().catch(() => '');
+        let payload = null;
+        try { 
+          payload = text ? JSON.parse(text) : null; 
+        } catch (e) { 
+          payload = { raw: text }; 
+        }
+
+        if (!response.ok) {
+          const message = (payload && (payload.error || payload.message)) || `HTTP error: ${response.status}`;
+          const details = payload && (payload.details || payload);
+          const err = new ApiError(message, { status: response.status, details, code: payload && payload.code });
+          // include server-provided error in console for debugging
+          console.error('API error response:', { url, status: response.status, payload, attempt });
+          throw err;
+        }
+
+        return payload;
+      } catch (error) {
+        // Check if this is a retryable error
+        const isRetryable = error instanceof TypeError || // Network errors
+                           (error.name === 'AbortError') || // Timeout
+                           (error instanceof ApiError && error.status >= 500); // Server errors
+
+        if (isRetryable && attempt < maxRetries) {
+          // Calculate exponential backoff
+          const delay = baseDelay * Math.pow(2, attempt - 1);
+          console.warn(`API request failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms...`, { url, error: error.message });
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        
+        // normalize errors
+        if (error instanceof ApiError) throw error;
+        const msg = error && error.message ? error.message : 'Network error';
+        console.error(`API request failed after ${attempt} attempts: ${msg}`, { url, options });
+        throw new ApiError(msg, { status: 0, details: error });
       }
-
-      if (!response.ok) {
-        const message = (payload && (payload.error || payload.message)) || `HTTP error: ${response.status}`;
-        const details = payload && (payload.details || payload);
-        const err = new ApiError(message, { status: response.status, details, code: payload && payload.code });
-        // include server-provided error in console for debugging
-        console.error('API error response:', { url, status: response.status, payload });
-        throw err;
-      }
-
-      return payload;
-    } catch (error) {
-      // normalize errors
-      if (error instanceof ApiError) throw error;
-      const msg = error && error.message ? error.message : 'Network error';
-      console.error(`API request failed: ${msg}`, { url, options });
-      throw new ApiError(msg, { status: 0, details: error });
     }
   }
 

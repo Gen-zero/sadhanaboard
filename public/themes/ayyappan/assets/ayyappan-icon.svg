@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="95" stroke="#1E40AF" stroke-width="2"/>
+  <path d="M50 100 Q100 50 150 100 Q100 150 50 100" fill="none" stroke="#64B5F6" stroke-width="2"/>
+  <circle cx="100" cy="100" r="25" fill="#FFD700"/>
+  <path d="M100 60 L105 75 L120 75 L110 85 L115 100 L100 90 L85 100 L90 85 L80 75 L95 75 Z" fill="#F0E68C"/>
+  <text x="100" y="180" font-size="12" text-anchor="middle" fill="#1E40AF" font-weight="bold">AYYAPPAN</text>
+</svg>

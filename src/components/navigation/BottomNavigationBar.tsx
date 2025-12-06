@@ -26,8 +26,8 @@ const BottomNavigationBar: React.FC = () => {
 
   const navItems: BottomNavigationItem[] = [
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
-    { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
-    { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
+    // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
+    // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     { name: user ? t('profile') : t('account'), icon: User, path: user ? '/profile' : '/login' }
   ];
 

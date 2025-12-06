@@ -1338,21 +1338,70 @@ const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width:
 
 interface ThemedBackgroundProps {
   className?: string;
-  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna' | 'android';
+  theme: 'default' | 'earth' | 'water' | 'fire' | 'shiva' | 'bhairava' | 'serenity' | 'ganesha' | 'mahakali' | 'mystery' | 'neon' | 'lakshmi' | 'tara' | 'swamiji' | 'durga' | 'cosmos' | 'vishnu' | 'krishna';
+  paused?: boolean; // NEW: Add pause prop for navigation/visibility
 }
 
-const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className }) => {
+const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme: initialTheme, className, paused = false }) => {
   const defaultClasses = "fixed inset-0 pointer-events-none z-[-1]";
   const finalClasses = className || defaultClasses;
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [theme, setTheme] = useState<string>(initialTheme);
   
   // Load Bhagwan_Krishna.png image for earth theme
   const thakurImageRef = useRef<HTMLImageElement>(null);
   const thakurImageLoadedRef = useRef(false);
   
+  // Visibility detection and animation control
+  const [isVisible, setIsVisible] = useState(!document.hidden);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const isAnimatingRef = useRef(true);
+  
+  // Listen for theme changes from settings
+  useEffect(() => {
+    const handleSettingsChanged = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const { settings, changedPath } = customEvent.detail;
+      
+      // Check if colorScheme changed
+      if (changedPath && changedPath[0] === 'appearance' && changedPath[1] === 'colorScheme') {
+        const newTheme = settings.appearance?.colorScheme;
+        if (newTheme) {
+          console.log('[ThemedBackground] Theme changed to:', newTheme);
+          setTheme(newTheme);
+        }
+      }
+    };
+    
+    window.addEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+    return () => window.removeEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+  }, []);
+  
+  // Also update when prop changes (for initial load)
+  useEffect(() => {
+    setTheme(initialTheme);
+  }, [initialTheme]);
+  
   const isMobileEnvironment = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
   const adjustParticleCount = (count: number) => isMobileEnvironment ? Math.max(8, Math.floor(count * 0.4)) : count;
   const adjustElementCount = (count: number) => isMobileEnvironment ? Math.max(2, Math.floor(count * 0.5)) : count;
+
+  // Add visibility change detection to pause animations when page hidden
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const visible = !document.hidden;
+      setIsVisible(visible);
+      setShouldAnimate(visible && !paused);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [paused]);
+
+  // Update shouldAnimate when paused prop changes
+  useEffect(() => {
+    setShouldAnimate(!paused && isVisible);
+  }, [paused, isVisible]);
 
   useEffect(() => {
     if (theme === 'earth') {
@@ -1366,7 +1415,7 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
     }
   }, [theme]);
   
-  console.log('ThemedBackground: Rendering with theme:', theme);
+  console.log('ThemedBackground: Rendering with theme:', theme, 'shouldAnimate:', shouldAnimate);
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -2747,6 +2796,13 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
     const animate = () => {
       if (!ctx) return;
       
+      // Only update and draw if shouldAnimate is true
+      // Continue requesting animation frame regardless to avoid losing it
+      if (!shouldAnimate) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
       // Clear with a dark background appropriate to theme
       let bgColor = 'rgba(10, 5, 20, 0.1)'; // Default dark cosmic
       switch (theme) {
@@ -2827,17 +2883,17 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme, className })
     
     animate();
     
-    // Reinitialize particles when theme changes
-    const handleThemeChange = () => {
-      initParticles();
-    };
-    
     // Clean up
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
+      // Clear particles on cleanup
+      particles = [];
+      spiritualElements = [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      console.log(`[ThemedBackground] Cleaned up animation for theme: ${theme}`);
     };
-  }, [theme]);
+  }, [theme, shouldAnimate]);
   
   // If the theme registered a BackgroundComponent, render it
   const registered = getThemeById(theme);

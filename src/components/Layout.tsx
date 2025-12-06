@@ -22,6 +22,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
   const isMobile = useIsMobile();
   const [mantraIndex, setMantraIndex] = useState(0);
+  const [currentThemeState, setCurrentThemeState] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
@@ -113,6 +114,25 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
     return () => clearInterval(interval);
   }, [hinduMantras.length]);
 
+  // Listen for theme changes from custom events
+  useEffect(() => {
+    const handleSettingsChanged = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const { settings: newSettings, changedPath } = customEvent.detail;
+      
+      // Check if colorScheme changed
+      if (changedPath && changedPath[0] === 'appearance' && changedPath[1] === 'colorScheme') {
+        const newTheme = newSettings.appearance?.colorScheme;
+        if (newTheme) {
+          setCurrentThemeState(newTheme);
+        }
+      }
+    };
+
+    window.addEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+    return () => window.removeEventListener('sadhanaSettingsChanged', handleSettingsChanged as EventListener);
+  }, []);
+
   // Don't render anything if settings are still loading
   if (isLoading) {
     return (
@@ -183,11 +203,41 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       icon: themeUtils.renderThemeIcon(getThemeById('lakshmi')!, 'h-32 w-32 rounded-full'),
       name: 'Lakshmi',
       element: 'Earth'
+    },
+    tara: {
+      icon: themeUtils.renderThemeIcon(getThemeById('tara')!, 'h-20 w-20 rounded-full'),
+      name: 'Goddess Tara',
+      element: 'Water'
+    },
+    vishnu: {
+      icon: themeUtils.renderThemeIcon(getThemeById('vishnu')!, 'h-20 w-20 rounded-full'),
+      name: 'Lord Vishnu',
+      element: 'Water'
+    },
+    krishna: {
+      icon: themeUtils.renderThemeIcon(getThemeById('krishna')!, 'h-20 w-20 rounded-full'),
+      name: 'Lord Krishna',
+      element: 'Air'
+    },
+    durga: {
+      icon: themeUtils.renderThemeIcon(getThemeById('durga')!, 'h-20 w-20 rounded-full'),
+      name: 'Goddess Durga',
+      element: 'Fire'
+    },
+    mystery: {
+      icon: themeUtils.renderThemeIcon(getThemeById('mystery')!, 'h-16 w-16 rounded-full theme-icon-contain'),
+      name: 'Mystery',
+      element: 'Ether'
+    },
+    cosmos: {
+      icon: themeUtils.renderThemeIcon(getThemeById('cosmos')!, 'h-16 w-16 rounded-full theme-icon-contain'),
+      name: 'Cosmos',
+      element: 'Ether'
     }
   };
 
-  // Get the current theme
-  const currentTheme = settings?.appearance?.colorScheme || 'default';
+  // Get the current theme (use state if updated by event, otherwise use settings)
+  const currentTheme = currentThemeState || settings?.appearance?.colorScheme || 'default';
   const currentThemeData = themeData[currentTheme as keyof typeof themeData] || themeData.default;
 
   return (

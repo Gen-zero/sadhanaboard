@@ -203,6 +203,14 @@ const profileSchema = new mongoose.Schema(
       description: 'Whether profile is verified by admin'
     },
 
+    // Onboarding status
+    onboarding_completed: {
+      type: Boolean,
+      default: false,
+      index: true,
+      description: 'Whether user has completed the onboarding process'
+    },
+
     // Timestamps
     createdAt: {
       type: Date,

@@ -1,94 +1,144 @@
-// Performance monitoring utilities
-import React, { useEffect } from 'react';
+export interface ThemePerformanceMetrics {
+  themeSwitchStart: number;
+  colorsAppliedTime?: number;
+  cssLoadTime?: number;
+  transitionCompleteTime?: number;
+  totalTime?: number;
+  themeId: string;
+  cssUrl?: string;
+  cached: boolean;
+  deviceInfo?: {
+    cores: number;
+    memory: number;
+    isMobile: boolean;
+  };
+}
 
 export class PerformanceMonitor {
-  private static instance: PerformanceMonitor;
-  private metrics: Map<string, number[]> = new Map();
-  
-  private constructor() {}
-  
-  static getInstance(): PerformanceMonitor {
-    if (!PerformanceMonitor.instance) {
-      PerformanceMonitor.instance = new PerformanceMonitor();
+  private metrics: ThemePerformanceMetrics[] = [];
+  private activeMetric: Partial<ThemePerformanceMetrics> | null = null;
+
+  /**
+   * Start measuring theme switch
+   */
+  startThemeSwitch(themeId: string, cached: boolean): void {
+    this.activeMetric = {
+      themeSwitchStart: performance.now(),
+      themeId,
+      cached,
+      deviceInfo: {
+        cores: navigator.hardwareConcurrency || 1,
+        memory: (navigator as any).deviceMemory || 4,
+        isMobile: window.innerWidth < 768,
+      },
+    };
+  }
+
+  /**
+   * Record colors applied
+   */
+  recordColorsApplied(): void {
+    if (this.activeMetric) {
+      this.activeMetric.colorsAppliedTime = 
+        performance.now() - this.activeMetric.themeSwitchStart!;
     }
-    return PerformanceMonitor.instance;
   }
-  
-  // Start timing a metric
-  start(name: string): string {
-    const id = `${name}-${Date.now()}-${Math.random()}`;
-    performance.mark(`${id}-start`);
-    return id;
-  }
-  
-  // End timing and record metric
-  end(id: string): void {
-    const name = id.split('-')[0];
-    performance.mark(`${id}-end`);
-    const measure = performance.measure(name, `${id}-start`, `${id}-end`);
-    
-    if (!this.metrics.has(name)) {
-      this.metrics.set(name, []);
+
+  /**
+   * Record CSS load completion
+   */
+  recordCSSLoaded(cssUrl: string): void {
+    if (this.activeMetric) {
+      this.activeMetric.cssLoadTime = 
+        performance.now() - this.activeMetric.themeSwitchStart!;
+      this.activeMetric.cssUrl = cssUrl;
     }
-    
-    this.metrics.get(name)!.push(measure.duration);
   }
-  
-  // Get average time for a metric
-  getAverage(name: string): number {
-    const times = this.metrics.get(name);
-    if (!times || times.length === 0) return 0;
-    
-    const sum = times.reduce((acc, time) => acc + time, 0);
-    return sum / times.length;
+
+  /**
+   * Complete theme switch measurement
+   */
+  completeThemeSwitch(): void {
+    if (this.activeMetric && this.activeMetric.themeSwitchStart) {
+      this.activeMetric.transitionCompleteTime = 
+        performance.now() - this.activeMetric.themeSwitchStart;
+      this.activeMetric.totalTime = this.activeMetric.transitionCompleteTime;
+      
+      this.metrics.push(this.activeMetric as ThemePerformanceMetrics);
+      
+      console.log(
+        `[Performance] Theme switch (${this.activeMetric.themeId}): ` +
+        `${this.activeMetric.totalTime.toFixed(2)}ms ` +
+        `(cached: ${this.activeMetric.cached})`
+      );
+      
+      this.activeMetric = null;
+    }
   }
-  
-  // Log all metrics
-  logMetrics(): void {
-    console.log('=== Performance Metrics ===');
-    this.metrics.forEach((times, name) => {
-      const avg = this.getAverage(name);
-      const min = Math.min(...times);
-      const max = Math.max(...times);
-      console.log(`${name}: avg=${avg.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms`);
-    });
+
+  /**
+   * Get all recorded metrics
+   */
+  getMetrics(): ThemePerformanceMetrics[] {
+    return [...this.metrics];
   }
-  
-  // Clear metrics
+
+  /**
+   * Get average theme switch time
+   */
+  getAverageThemeSwitchTime(): number {
+    if (this.metrics.length === 0) return 0;
+    const sum = this.metrics.reduce((acc, m) => acc + (m.totalTime || 0), 0);
+    return sum / this.metrics.length;
+  }
+
+  /**
+   * Get cached vs non-cached comparison
+   */
+  getCachedComparison(): {
+    cached: number;
+    nonCached: number;
+    improvement: string;
+  } {
+    const cached = this.metrics
+      .filter(m => m.cached)
+      .reduce((acc, m) => acc + (m.totalTime || 0), 0) / 
+      (this.metrics.filter(m => m.cached).length || 1);
+
+    const nonCached = this.metrics
+      .filter(m => !m.cached)
+      .reduce((acc, m) => acc + (m.totalTime || 0), 0) / 
+      (this.metrics.filter(m => !m.cached).length || 1);
+
+    const improvement = nonCached > 0 
+      ? ((nonCached - cached) / nonCached * 100).toFixed(1)
+      : '0';
+
+    return {
+      cached: Math.round(cached),
+      nonCached: Math.round(nonCached),
+      improvement: `${improvement}%`,
+    };
+  }
+
+  /**
+   * Clear metrics
+   */
   clear(): void {
-    this.metrics.clear();
+    this.metrics = [];
+    this.activeMetric = null;
+  }
+
+  /**
+   * Export metrics as JSON
+   */
+  export(): string {
+    return JSON.stringify({
+      metrics: this.metrics,
+      averageTime: this.getAverageThemeSwitchTime(),
+      comparison: this.getCachedComparison(),
+    }, null, 2);
   }
 }
 
-// Utility hook for React components
-export const usePerformanceMonitor = () => {
-  const monitor = PerformanceMonitor.getInstance();
-  
-  return {
-    start: monitor.start.bind(monitor),
-    end: monitor.end.bind(monitor),
-    logMetrics: monitor.logMetrics.bind(monitor)
-  };
-};
-
-// HOC for monitoring component performance
-export function withPerformanceMonitoring<P extends object>(
-  WrappedComponent: React.ComponentType<P>,
-  componentName: string
-): React.FC<P> {
-  const ComponentWithMonitoring: React.FC<P> = (props) => {
-    const monitor = PerformanceMonitor.getInstance();
-    const id = monitor.start(componentName);
-    
-    // Use useEffect to end timing after component mounts
-    useEffect(() => {
-      monitor.end(id);
-    }, [id, monitor]);
-    
-    return React.createElement(WrappedComponent, props);
-  };
-  
-  ComponentWithMonitoring.displayName = `withPerformanceMonitoring(${componentName})`;
-  
-  return ComponentWithMonitoring;
-}
+export const performanceMonitor = new PerformanceMonitor();

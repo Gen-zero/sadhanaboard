@@ -8,30 +8,30 @@ import { ThemeColors } from '../types';
 
 const colors: ThemeColors = {
   background: '277 100% 5%', // #10001A
-  foreground: '0 0% 100%', // #FFFFFF
+  foreground: '0 0% 100%', // #FFFFFF - Pure white
   card: '277 90% 8%',
-  cardForeground: '0 0% 100%',
+  cardForeground: '0 0% 100%', // Pure white
   popover: '277 85% 10%',
-  popoverForeground: '0 0% 100%',
+  popoverForeground: '0 0% 100%', // Pure white
   primary: '277 100% 5%', // #10001A Dark Cosmic Purple
-  primaryForeground: '0 0% 100%',
+  primaryForeground: '0 0% 100%', // Pure white
   secondary: '277 70% 12%',
-  secondaryForeground: '0 0% 100%',
+  secondaryForeground: '0 0% 100%', // Pure white
   muted: '277 50% 15%',
-  mutedForeground: '0 0% 84%', // #D5D5D5
+  mutedForeground: '0 0% 92%', // Brightened light grey
   accent: '160 100% 50%', // #00FFB0 Neon Green (primary gradient color)
-  accentForeground: '0 0% 0%',
+  accentForeground: '277 70% 15%', // Dark purple instead of black
   destructive: '0 84.2% 58%',
   destructiveForeground: '0 0% 100%',
   border: '277 60% 18%',
   input: '277 70% 15%',
   ring: '320 100% 50%', // #FF00E0 Neon Pink (for variety)
   sidebarBackground: '277 100% 4%',
-  sidebarForeground: '0 0% 100%',
+  sidebarForeground: '0 0% 100%', // Pure white
   sidebarPrimary: '160 100% 50%', // Neon green
-  sidebarPrimaryForeground: '0 0% 0%',
+  sidebarPrimaryForeground: '277 70% 15%', // Dark purple
   sidebarAccent: '260 100% 66%', // #7C4DFF Neon Purple
-  sidebarAccentForeground: '0 0% 100%',
+  sidebarAccentForeground: '0 0% 100%', // White text
   sidebarBorder: '277 60% 15%',
   sidebarRing: '320 100% 50%'
 };

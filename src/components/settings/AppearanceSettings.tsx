@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useThemePreload } from '@/hooks/useThemePreload';
 import {
   Card,
   CardContent,
@@ -39,6 +40,7 @@ const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
   updateSettings,
 }) => {
   const { t } = useTranslation();
+  useThemePreload(); // Triggers prefetching when settings open
   
   // Remove the isChangingTheme state since ThemeProvider now handles this
 
