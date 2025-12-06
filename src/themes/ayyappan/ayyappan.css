@@ -1,0 +1,70 @@
+/* Swami Ayyappan Theme - Serenity & Unity */
+
+@keyframes ayyappan-meditation-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ayyappan-mandala-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ayyappan-sacred-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px hsla(220, 100%, 45%, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px hsla(50, 100%, 50%, 0.6);
+  }
+}
+
+.theme-ayyappan {
+  --ayyappan-glow: 0 0 20px hsla(220, 100%, 45%, 0.5);
+}
+
+.ayyappan-card {
+  border: 2px solid hsl(50, 100%, 50%);
+  background: hsla(220, 60%, 18%, 0.95);
+}
+
+.ayyappan-meditation-pulse {
+  animation: ayyappan-meditation-pulse 4s ease-in-out infinite;
+}
+
+.ayyappan-mandala-rotate {
+  animation: ayyappan-mandala-rotate 20s linear infinite;
+}
+
+.ayyappan-cosmic-glow {
+  animation: ayyappan-sacred-glow 3s ease-in-out infinite;
+}
+
+.ayyappan-pilgrimage-path {
+  position: relative;
+  overflow: hidden;
+}
+
+.ayyappan-pilgrimage-path::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, hsl(50, 100%, 50%), transparent);
+  animation: slide-right 2s ease-in-out infinite;
+}
+
+@keyframes slide-right {
+  0% { left: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}

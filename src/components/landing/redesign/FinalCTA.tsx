@@ -45,10 +45,15 @@ const FinalCTA = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         to="/waitlist"
-                        className={`w-full sm:w-auto px-10 py-4 rounded-full bg-[#F59E0B] text-white font-bold text-lg shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:scale-105 transition-transform duration-300 animate-rise-in ${isVisible ? 'visible' : ''}`}
-                        style={{ transitionDelay: '0.3s' }}
+                        className={`w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 text-black font-bold text-lg shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 border border-yellow-300/60 hover:border-yellow-200/80 animate-rise-in group/cta overflow-hidden relative ${isVisible ? 'visible' : ''}`}
+                        style={{
+                            transitionDelay: '0.3s',
+                            boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                        }}
                     >
-                        Join the Waitlist
+                        {/* Shimmer effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full" />
+                        <span className="relative z-10">Join the Waitlist</span>
                     </Link>
                     <button className={`w-full sm:w-auto px-10 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium text-lg hover:bg-white/10 transition-colors backdrop-blur-sm animate-rise-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.35s' }}>
                         View Demo

@@ -4,12 +4,12 @@
       "id": "default",
       "metadata": {
         "id": "default",
-        "name": "Default Theme",
-        "description": "Cosmic purple landing page",
+        "name": "Cosmic Divinity",
+        "description": "✨🕉️ Experience transcendental cosmic energy with sacred geometry, divine golden light, floating Om symbols, and ethereal nebula effects. A mesmerizing spiritual journey through sacred mandalas and celestial particles.",
         "category": "landing",
         "isLandingPage": true,
         "landingPagePath": "/landingpage",
-        "gradient": "from-purple-500 to-fuchsia-500"
+        "gradient": "from-purple-500 via-gold-400 to-fuchsia-500"
       }
     },
     {

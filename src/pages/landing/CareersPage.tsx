@@ -94,13 +94,12 @@ const CareersPage = () => {
                   <span className="relative z-10">Login</span>
                 </Link>
               </Button>
-              <Button asChild className="relative bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm touch-target-large">
+              <Button asChild className="relative bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 text-black border border-yellow-300/60 hover:border-yellow-200/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-3 sm:px-4 py-2 text-sm touch-target-large transform hover:scale-110 font-bold" style={{ boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)' }}>
                 <Link to="/waitlist">
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-purple-400/20 to-fuchsia-400/20 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
-                  />
-                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  <div className="absolute top-0.5 sm:top-1 right-1 sm:right-2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-yellow-200 rounded-full animate-ping opacity-60 group-hover/cta:opacity-100" />
+                  <div className="absolute bottom-0.5 sm:bottom-1 left-1 sm:left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-60 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
                   <span className="relative z-10 flex items-center">
                     <span className="hidden xs:inline">Join Waitlist</span>
                     <span className="xs:hidden">Waitlist</span>

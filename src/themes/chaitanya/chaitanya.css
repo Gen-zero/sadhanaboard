@@ -1,0 +1,106 @@
+/* Chaitanya Mahaprabhu Theme - Joyful & Loving */
+
+@keyframes chaitanya-ecstatic-dance {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+}
+
+@keyframes chaitanya-heart-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px hsla(345, 100%, 65%, 0.4));
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 20px hsla(345, 100%, 65%, 0.8));
+  }
+}
+
+@keyframes chaitanya-floating-notes {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) translateX(0px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) translateX(50px);
+  }
+}
+
+@keyframes chaitanya-kirtan-beat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes chaitanya-flower-celebration {
+  0% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-150px) scale(0);
+  }
+}
+
+.theme-chaitanya {
+  --chaitanya-love-glow: 0 0 25px hsla(345, 100%, 65%, 0.5);
+}
+
+.chaitanya-card {
+  border: 2px solid hsl(45, 100%, 50%);
+  background: hsla(30, 40%, 92%, 0.95);
+  box-shadow: 0 4px 15px hsla(345, 100%, 65%, 0.2);
+}
+
+.chaitanya-ecstatic-dance {
+  animation: chaitanya-ecstatic-dance 2s ease-in-out infinite;
+}
+
+.chaitanya-heart-glow {
+  animation: chaitanya-heart-pulse 1.5s ease-in-out infinite;
+}
+
+.chaitanya-floating-notes {
+  animation: chaitanya-floating-notes 3s ease-in infinite;
+}
+
+.chaitanya-kirtan-beat {
+  animation: chaitanya-kirtan-beat 1s ease-in-out infinite;
+}
+
+.chaitanya-flower-celebration {
+  animation: chaitanya-flower-celebration 2s ease-out forwards;
+}
+
+.chaitanya-button {
+  background: linear-gradient(135deg, hsl(45, 100%, 50%), hsl(160, 100%, 40%));
+  transition: transform 0.3s ease;
+}
+
+.chaitanya-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px hsla(345, 100%, 65%, 0.4);
+}
+
+.chaitanya-text-glow {
+  color: hsl(30, 70%, 35%);
+  text-shadow: 0 0 10px hsla(345, 100%, 65%, 0.3);
+}

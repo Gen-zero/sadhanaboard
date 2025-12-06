@@ -162,16 +162,22 @@ const HomePage = () => {
 
             <Button
               asChild
-              className="relative bg-gradient-to-r from-amber-500/90 via-yellow-500/90 to-amber-500/90 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/40 hover:border-yellow-400/60 shadow-lg hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-105 rounded-full text-black font-medium"
+              className="relative bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-yellow-300/60 hover:border-yellow-200/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-110 rounded-full text-black font-bold"
+              style={{
+                boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+              }}
             >
               <Link to="/waitlist">
                 {/* Animated gradient background */}
                 <div
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-purple-400/30 to-fuchsia-400/30 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-300/40 via-orange-300/30 to-yellow-300/40 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
                 />
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                 {/* Floating sparkles */}
-                <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-0 group-hover/cta:opacity-100" />
-                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-200 rounded-full animate-ping opacity-60 group-hover/cta:opacity-100" />
+                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-60 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-amber-300 rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.3s' }} />
 
                 <span className="relative z-10 flex items-center">
                   Join Waitlist

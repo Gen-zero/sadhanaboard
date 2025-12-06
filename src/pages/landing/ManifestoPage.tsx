@@ -46,8 +46,12 @@ const ManifestoPage = () => {
               <Button asChild variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-amber-400/40 transition-all duration-300">
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild className="bg-gradient-to-r from-amber-500/80 via-yellow-500/80 to-amber-500/80 hover:from-amber-400 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-amber-400/30 hover:border-yellow-400/50 shadow-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300">
-                <Link to="/waitlist">Join Waitlist</Link>
+              <Button asChild className="relative bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 text-black border border-yellow-300/60 hover:border-yellow-200/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-4 py-2 text-sm touch-target-large transform hover:scale-110 font-bold" style={{ boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)' }}>
+                <Link to="/waitlist">
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  <span className="relative z-10">Join Waitlist</span>
+                </Link>
               </Button>
             </div>
           </div>
