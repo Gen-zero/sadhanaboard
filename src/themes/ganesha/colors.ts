@@ -1,39 +1,15 @@
 import { ThemeColors } from '../types';
+import { getAdaptiveColors } from '../colorAdaptation';
 
-// Ganesha – Orange and Violet Blend
-// Primary (Background): #FED8B1 (Soft Orange) mixed with violet undertones
-// Accent / Highlight: #8A2BE2 (Violet) with orange accents
-// Text (Primary): #4B0082 (Indigo)
-// Text (Secondary): #6A5ACD (Slate Blue)
-
-const colors: ThemeColors = {
-  background: '30 70% 85%', // Soft Orange with violet undertones
-  foreground: '270 70% 28%', // Enhanced dark indigo text for better contrast
-  card: '30 60% 90%',         // Card background with orange-violet blend
-  cardForeground: '270 70% 28%', // Matching strong foreground
-  popover: '30 55% 93%',      // Popover with warm violet tones
-  popoverForeground: '270 70% 28%', // Enhanced text
-  primary: '30 70% 85%', // Soft Orange primary
-  primaryForeground: '270 70% 28%', // Dark indigo
-  secondary: '270 40% 70%', // Violet secondary
-  secondaryForeground: '30 100% 95%',
-  muted: '270 30% 80%',        // Muted violet background
-  mutedForeground: '270 60% 35%', // Brightened slate blue muted text
-  accent: '270 60% 50%', // Violet accent
-  accentForeground: '270 50% 18%', // Dark violet instead of white
-  destructive: '0 84.2% 58%',
-  destructiveForeground: '0 0% 100%',
-  border: '270 40% 75%',       // Violet border
-  input: '270 50% 88%',        // Violet input fields
-  ring: '270 60% 50%', // Violet ring
-  sidebarBackground: '270 50% 80%',  // Violet sidebar
-  sidebarForeground: '270 70% 28%', // Dark indigo text
-  sidebarPrimary: '270 60% 50%', // Violet
-  sidebarPrimaryForeground: '270 10% 98%', // Off-white text
-  sidebarAccent: '30 70% 70%', // Orange accent
-  sidebarAccentForeground: '270 70% 28%', // Dark indigo text
-  sidebarBorder: '270 40% 70%',       // Violet sidebar border
-  sidebarRing: '270 60% 50%'
-};
+/**
+ * Ganesha Theme - Auspicious Prosperity
+ * Inspired by Lord Ganesha, the remover of obstacles and bringer of good fortune
+ * Colors generated from adaptive color palette:
+ * - Primary: Red (#0) for auspiciousness
+ * - Secondary: Gold (#45) for prosperity
+ * - Accent: Orange (#30) for divine energy
+ * - Background: Light warm gradient with red and gold tones
+ */
+const colors: ThemeColors = getAdaptiveColors('ganesha');
 
 export default colors;
