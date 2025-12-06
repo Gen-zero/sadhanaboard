@@ -1,5 +1,3 @@
-# Mahakali theme assets
+# Assets for theme mahakali
 
-Local assets for the Mahakali theme (icons, backgrounds, textures). These are copied from the repository-level `icons/` folder by the script `scripts/copy-theme-icons.cjs`.
-
-Do not edit the files under version control directly unless you intend to update the source `icons/` files.
+Store local icon/background assets here. Run `npm run themes:copy-icons` to sync from repository icons folder.
