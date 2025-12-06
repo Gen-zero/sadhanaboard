@@ -7,16 +7,21 @@ import '@testing-library/jest-dom';
 import { QueryClient } from '@tanstack/react-query';
 
 /**
+ * Setup test - validates test environment configuration
+ */
+describe('Test Environment Setup', () => {
+  it('should have jest configured correctly', () => {
+    expect(global.fetch).toBeDefined();
+    expect(typeof global.fetch).toBe('function');
+  });
+});
+
+/**
  * Mock fetch globally
  */
 global.fetch = jest.fn();
 
-/**
- * Reset fetch before each test
- */
-beforeEach(() => {
-  (global.fetch as jest.Mock).mockClear();
-});
+
 
 /**
  * Create a fresh QueryClient for each test

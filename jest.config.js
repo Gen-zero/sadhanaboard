@@ -13,10 +13,9 @@ export default {
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', {
+    '^.+\.tsx?$': ['ts-jest', {
       tsconfig: 'tsconfig.jest.json',
-      jsx: 'react-jsx',
-      isolatedModules: true
+      jsx: 'react-jsx'
     }]
   },
   collectCoverageFrom: [
