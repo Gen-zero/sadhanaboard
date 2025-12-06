@@ -14,56 +14,100 @@ class ProfileService {
   // Update profile
   static async updateProfile(userId, profileData) {
     try {
+      // Handle both snake_case (from frontend) and camelCase (for backward compatibility)
       const {
+        display_name,
         displayName,
+        avatar_url,
         avatarUrl,
         bio,
+        experience_level,
         experienceLevel,
         traditions,
         location,
+        country,
+        city,
+        state,
+        practices,
+        interests,
+        available_for_guidance,
         availableForGuidance,
+        date_of_birth,
         dateOfBirth,
+        time_of_birth,
         timeOfBirth,
+        place_of_birth,
         placeOfBirth,
+        favorite_deity,
         favoriteDeity,
         gotra,
         varna,
         sampradaya,
+        onboarding_completed,
         onboardingCompleted,
         settings,
+        karma_balance,
         karmaBalance,
+        spiritual_points,
         spiritualPoints,
         level,
+        daily_streak,
         dailyStreak,
+        sankalpa_progress,
         sankalpProgress,
+        chakra_balance,
         chakraBalance,
-        energyBalance
+        energy_balance,
+        energyBalance,
+        social_links,
+        socialLinks
       } = profileData;
 
       const updateData = {};
-      if (displayName !== undefined) updateData.displayName = displayName;
-      if (avatarUrl !== undefined) updateData.avatarUrl = avatarUrl;
+      
+      // Map fields to Profile schema field names
       if (bio !== undefined) updateData.bio = bio;
-      if (experienceLevel !== undefined) updateData.experienceLevel = experienceLevel;
+      if (avatar_url !== undefined || avatarUrl !== undefined) updateData.avatar = avatar_url || avatarUrl;
       if (traditions !== undefined) updateData.traditions = traditions;
-      if (location !== undefined) updateData.location = location;
-      if (availableForGuidance !== undefined) updateData.availableForGuidance = availableForGuidance;
-      if (dateOfBirth !== undefined) updateData.dateOfBirth = dateOfBirth;
-      if (timeOfBirth !== undefined) updateData.timeOfBirth = timeOfBirth;
-      if (placeOfBirth !== undefined) updateData.placeOfBirth = placeOfBirth;
-      if (favoriteDeity !== undefined) updateData.favoriteDeity = favoriteDeity;
-      if (gotra !== undefined) updateData.gotra = gotra;
-      if (varna !== undefined) updateData.varna = varna;
-      if (sampradaya !== undefined) updateData.sampradaya = sampradaya;
-      if (onboardingCompleted !== undefined) updateData.onboardingCompleted = onboardingCompleted;
-      if (settings !== undefined) updateData.settings = settings;
-      if (karmaBalance !== undefined) updateData.karmaBalance = karmaBalance;
-      if (spiritualPoints !== undefined) updateData.spiritualPoints = spiritualPoints;
+      if (practices !== undefined) updateData.practices = practices;
+      if (interests !== undefined) updateData.interests = interests;
+      
+      // Location fields
+      if (location !== undefined) updateData.city = location; // Map 'location' to 'city' for backward compatibility
+      if (country !== undefined) updateData.country = country;
+      if (city !== undefined) updateData.city = city;
+      if (state !== undefined) updateData.state = state;
+      
+      // Social links
+      if (social_links !== undefined || socialLinks !== undefined) {
+        updateData.socialLinks = social_links || socialLinks;
+      }
+      
+      // Spiritual information (not in Profile schema, but keep for backward compatibility)
+      // These fields are not used in the actual Profile schema
+      // if (favorite_deity !== undefined || favoriteDeity !== undefined) { }
+      // if (gotra !== undefined) { }
+      // if (varna !== undefined) { }
+      // if (sampradaya !== undefined) { }
+      // if (date_of_birth !== undefined || dateOfBirth !== undefined) { }
+      // if (place_of_birth !== undefined || placeOfBirth !== undefined) { }
+      // if (experience_level !== undefined || experienceLevel !== undefined) { }
+      
+      // Spiritual metrics
+      if (karma_balance !== undefined || karmaBalance !== undefined) updateData.karmaBalance = karma_balance || karmaBalance;
+      if (spiritual_points !== undefined || spiritualPoints !== undefined) updateData.spiritualPoints = spiritual_points || spiritualPoints;
       if (level !== undefined) updateData.level = level;
-      if (dailyStreak !== undefined) updateData.dailyStreak = dailyStreak;
-      if (sankalpProgress !== undefined) updateData.sankalpProgress = sankalpProgress;
-      if (chakraBalance !== undefined) updateData.chakraBalance = chakraBalance;
-      if (energyBalance !== undefined) updateData.energyBalance = energyBalance;
+      if (daily_streak !== undefined || dailyStreak !== undefined) updateData.dailyStreak = daily_streak || dailyStreak;
+      if (sankalpa_progress !== undefined || sankalpProgress !== undefined) updateData.sankalpProgress = sankalpa_progress || sankalpProgress;
+      if (chakra_balance !== undefined || chakraBalance !== undefined) updateData.chakraBalance = chakra_balance || chakraBalance;
+      if (energy_balance !== undefined || energyBalance !== undefined) updateData.energyBalance = energy_balance || energyBalance;
+      
+      // Onboarding
+      if (onboarding_completed !== undefined || onboardingCompleted !== undefined) updateData.onboarding_completed = onboarding_completed || onboardingCompleted;
+      if (settings !== undefined) updateData.settings = settings;
+
+      console.log('[ProfileService] Updating profile for userId:', userId);
+      console.log('[ProfileService] Update data:', JSON.stringify(updateData, null, 2));
 
       const profile = await Profile.findOneAndUpdate(
         { userId },
@@ -75,8 +119,10 @@ class ProfileService {
         throw new Error('Profile not found');
       }
 
+      console.log('[ProfileService] Profile updated successfully');
       return profile;
     } catch (error) {
+      console.error('[ProfileService] Error updating profile:', error.message);
       throw new Error(`Failed to update profile: ${error.message}`);
     }
   }
