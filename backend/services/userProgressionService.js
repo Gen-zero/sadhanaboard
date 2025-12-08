@@ -12,7 +12,7 @@ class UserProgressionService {
           spiritualPoints: 50,
           level: 1,
           dailyStreak: 0,
-          sankalphaProgress: 0.0,
+          sankalpaProgress: 0.0,
           chakraBalance: {
             root: 50,
             sacral: 50,
@@ -258,7 +258,7 @@ class UserProgressionService {
   static async getUserProgressionData(userId) {
     try {
       const profile = await Profile.findOne({ userId }).select(
-        'karmaBalance spiritualPoints level dailyStreak sankalphaProgress chakraBalance energyBalance'
+        'karmaBalance spiritualPoints level dailyStreak sankalpaProgress chakraBalance energyBalance'
       ).lean();
 
       if (!profile) throw new Error('Profile not found');

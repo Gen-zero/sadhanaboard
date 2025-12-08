@@ -121,6 +121,10 @@ class ProfileService {
         updateData.socialLinks = social_links || socialLinks;
       }
       
+      // Onboarding preferences
+      if (deity_preferences !== undefined) updateData.deity_preferences = deity_preferences;
+      if (energy_level_answers !== undefined) updateData.energy_level_answers = energy_level_answers;
+      
       // Spiritual metrics
       if (karma_balance !== undefined || karmaBalance !== undefined) updateData.karmaBalance = karma_balance || karmaBalance;
       if (spiritual_points !== undefined || spiritualPoints !== undefined) updateData.spiritualPoints = spiritual_points || spiritualPoints;

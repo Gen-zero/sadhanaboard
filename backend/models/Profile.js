@@ -19,6 +19,10 @@ class Profile {
     // Removed welcome_quiz_completed field
     this.settings = data.settings || {}; // Add settings field
     
+    // Onboarding preferences
+    this.deity_preferences = data.deity_preferences || [];
+    this.energy_level_answers = data.energy_level_answers || {};
+    
     // New spiritual feature fields
     this.karma_balance = data.karma_balance || 0;
     this.spiritual_points = data.spiritual_points || 0;
@@ -65,6 +69,10 @@ class Profile {
       onboarding_completed: this.onboarding_completed,
       // Removed welcome_quiz_completed field
       settings: this.settings, // Include settings in JSON response
+      
+      // Onboarding preferences
+      deity_preferences: this.deity_preferences,
+      energy_level_answers: this.energy_level_answers,
       
       // New spiritual feature fields
       karma_balance: this.karma_balance,

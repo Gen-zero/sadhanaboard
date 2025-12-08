@@ -134,6 +134,22 @@ const profileSchema = new mongoose.Schema(
       description: 'User interests and areas of focus'
     },
 
+    // Onboarding preferences
+    deity_preferences: {
+      type: [{
+        deityId: String,
+        priority: Number
+      }],
+      default: [],
+      description: 'User deity preferences with priority rankings'
+    },
+
+    energy_level_answers: {
+      type: Object,
+      default: {},
+      description: 'User answers to energy level assessment questions'
+    },
+
     // Location information
     country: {
       type: String,
@@ -490,6 +506,10 @@ profileSchema.methods.toJSON = function() {
   for (const [key, value] of Object.entries(obj)) {
     if (key === 'avatar') {
       response.avatar_url = value; // avatar in MongoDB → avatar_url in API
+    } else if (key === 'deity_preferences') {
+      response.deity_preferences = value; // Maintain field name consistency
+    } else if (key === 'energy_level_answers') {
+      response.energy_level_answers = value; // Maintain field name consistency
     } else {
       response[key] = value;
     }
