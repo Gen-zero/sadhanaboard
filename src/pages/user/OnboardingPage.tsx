@@ -249,7 +249,7 @@ const OnboardingPage = () => {
                     placeholder="Enter your name"
                     value={onboardingData.name}
                     onChange={(e) => updateData('name', e.target.value)}
-                    className="pl-10 bg-background/50 border-purple-500/20 focus:border-purple-500/50 text-lg"
+                    className="pl-10 bg-background/50 border-purple-500/20 focus:border-purple-500/50 text-lg text-foreground"
                   />
                 </div>
                 {localErrors.name && (
@@ -294,7 +294,7 @@ const OnboardingPage = () => {
                     type="date"
                     value={onboardingData.dateOfBirth || ''}
                     onChange={(e) => updateData('dateOfBirth', e.target.value)}
-                    className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50"
+                    className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50 text-foreground"
                   />
                 </div>
                 {localErrors.dateOfBirth && (
@@ -313,7 +313,7 @@ const OnboardingPage = () => {
                     type="time"
                     value={onboardingData.timeOfBirth || ''}
                     onChange={(e) => updateData('timeOfBirth', e.target.value)}
-                    className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50"
+                    className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50 text-foreground"
                   />
                 </div>
                 {localErrors.timeOfBirth && (
@@ -333,7 +333,7 @@ const OnboardingPage = () => {
                   placeholder="City, State/Country"
                   value={onboardingData.placeOfBirth || ''}
                   onChange={(e) => updateData('placeOfBirth', e.target.value)}
-                  className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50"
+                  className="pl-10 bg-background/50 border-blue-500/20 focus:border-blue-500/50 text-foreground"
                 />
               </div>
             </div>
@@ -403,7 +403,7 @@ const OnboardingPage = () => {
                   setOtherDeity(e.target.value);
                   updateData('favoriteDeity', e.target.value);
                 }}
-                className="mt-2 bg-background/50 border-amber-500/20 focus:border-amber-500/50"
+                className="mt-2 bg-background/50 border-amber-500/20 focus:border-amber-500/50 text-foreground"
               />
             </div>
           </motion.div>
@@ -441,7 +441,7 @@ const OnboardingPage = () => {
                   placeholder="Enter your gotra"
                   value={onboardingData.gotra || ''}
                   onChange={(e) => updateData('gotra', e.target.value)}
-                  className="mt-2 bg-background/50 border-green-500/20 focus:border-green-500/50"
+                  className="mt-2 bg-background/50 border-green-500/20 focus:border-green-500/50 text-foreground"
                 />
                 {localErrors.gotra && (
                   <p className="text-red-400 text-sm mt-1">{localErrors.gotra}</p>
@@ -516,7 +516,7 @@ const OnboardingPage = () => {
                     placeholder="City, State/Country"
                     value={onboardingData.location || ''}
                     onChange={(e) => updateData('location', e.target.value)}
-                    className="pl-10 bg-background/50 border-green-500/20 focus:border-green-500/50"
+                    className="pl-10 bg-background/50 border-green-500/20 focus:border-green-500/50 text-foreground"
                   />
                 </div>
               </div>
@@ -592,7 +592,7 @@ const OnboardingPage = () => {
                     placeholder="City, State/Country"
                     value={onboardingData.location || ''}
                     onChange={(e) => updateData('location', e.target.value)}
-                    className="pl-10 bg-background/50 border-indigo-500/20 focus:border-indigo-500/50"
+                    className="pl-10 bg-background/50 border-indigo-500/20 focus:border-indigo-500/50 text-foreground"
                   />
                 </div>
               </div>

@@ -415,7 +415,7 @@ const StorePage = () => {
             {icon}
             <h2 className="text-xl font-bold text-foreground">{title}</h2>
           </div>
-          <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border-primary/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+          <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border border-primary/40 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
             <CardContent className="p-8 text-center">
               {type === 'merchandise' ? (
                 <Shirt className="h-12 w-12 text-primary mx-auto mb-4" />
@@ -518,7 +518,7 @@ const StorePage = () => {
     <Layout>
       <div className="space-y-6 animate-fade-in bg-transparent">
         {/* Premium Hero Section */}
-        <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border-primary/20 relative overflow-hidden">
+        <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border border-primary/40 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--primary-rgb),0.15)_0%,rgba(0,0,0,0)_70%)]" />
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5" />
           
@@ -539,14 +539,14 @@ const StorePage = () => {
                 </p>
                 
                 {/* Beta Badge */}
-                <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 px-4 py-2 rounded-full">
+                <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/50 px-4 py-2 rounded-full">
                   <Gift className="h-4 w-4 text-accent" />
                   <span className="text-sm font-semibold text-accent">Beta Special: All Items FREE</span>
                 </div>
               </div>
               
               {/* Right: SP Balance Card */}
-              <Card className="lg:w-80 bg-gradient-to-br from-accent/10 to-accent/5 border-accent/30">
+              <Card className="lg:w-80 bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/50">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -578,7 +578,7 @@ const StorePage = () => {
         </Card>
 
         {/* Search and Filter Section */}
-        <Card className="border-primary/20">
+        <Card className="border border-primary/40">
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search Bar */}
@@ -588,7 +588,7 @@ const StorePage = () => {
                   placeholder="Search themes, yantras, and more..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-foreground"
                 />
               </div>
               
@@ -775,7 +775,7 @@ const StorePage = () => {
                     </div>
                     {/* First-time visitor discount */}
                     {isFirstTimeVisitor && (
-                      <div className="p-3 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg">
+                      <div className="p-3 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/50 rounded-lg">
                         <div className="flex items-center gap-2">
                           <Sparkles className="h-4 w-4 text-accent" />
                           <span className="font-medium text-accent">First-Time Visitor Discount!</span>
@@ -955,7 +955,7 @@ const StoreItemCard = ({ item, userLevel, spiritualPoints, isPurchased, onPurcha
       {/* Lock overlay */}
       {isLocked && (
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-20 gap-2">
-          <div className="p-4 rounded-full bg-primary/20 border-2 border-primary/50">
+          <div className="p-4 rounded-full bg-primary/20 border border-primary/70">
             <Lock className="h-8 w-8 text-primary" />
           </div>
           <div className="text-center">
@@ -967,7 +967,7 @@ const StoreItemCard = ({ item, userLevel, spiritualPoints, isPurchased, onPurcha
       
       {/* Item icon/image placeholder */}
       <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20">
-        <div className="p-4 rounded-full bg-background/80 backdrop-blur-sm border border-primary/30">
+        <div className="p-4 rounded-full bg-background/80 backdrop-blur-sm border border-primary/50">
           <div className="text-primary">
             {getTypeIcon()}
           </div>
@@ -977,7 +977,7 @@ const StoreItemCard = ({ item, userLevel, spiritualPoints, isPurchased, onPurcha
       <CardContent className="p-5 relative z-10 space-y-3">
         {/* Title and rating */}
         <div>
-          <h3 className="font-bold text-lg mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+          <h3 className="font-bold text-lg mb-1 line-clamp-1 group-hover:text-primary transition-colors text-foreground">
             {item.title}
           </h3>
           <div className="flex items-center gap-2">
@@ -998,7 +998,7 @@ const StoreItemCard = ({ item, userLevel, spiritualPoints, isPurchased, onPurcha
         </div>
         
         {/* Description */}
-        <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">
+        <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem] text-foreground/80">
           {item.description}
         </p>
         
