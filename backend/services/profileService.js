@@ -14,6 +14,8 @@ class ProfileService {
   // Update profile
   static async updateProfile(userId, profileData) {
     try {
+      const User = require('../schemas/User');
+      
       // Handle both snake_case (from frontend) and camelCase (for backward compatibility)
       const {
         display_name,
@@ -64,6 +66,20 @@ class ProfileService {
       } = profileData;
 
       const updateData = {};
+      
+      // Update display_name in User document if provided
+      if (display_name !== undefined || displayName !== undefined) {
+        const nameToUpdate = display_name || displayName;
+        if (nameToUpdate) {
+          try {
+            await User.findByIdAndUpdate(userId, { displayName: nameToUpdate }, { new: true });
+            console.log('[ProfileService] Updated User displayName:', nameToUpdate);
+          } catch (userError) {
+            console.error('[ProfileService] Warning: Failed to update User displayName:', userError.message);
+            // Don't fail the entire profile update if user update fails
+          }
+        }
+      }
       
       // Map fields to Profile schema field names
       if (bio !== undefined) updateData.bio = bio;
