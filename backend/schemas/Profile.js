@@ -53,6 +53,55 @@ const profileSchema = new mongoose.Schema(
       description: 'URL to profile cover image'
     },
 
+    // Profile completeness fields from frontend
+    experience_level: {
+      type: String,
+      enum: ['beginner', 'intermediate', 'advanced', 'master'],
+      default: null,
+      description: 'User spiritual experience level'
+    },
+
+    favorite_deity: {
+      type: String,
+      trim: true,
+      default: null,
+      description: 'User\'s favorite deity'
+    },
+
+    gotra: {
+      type: String,
+      trim: true,
+      default: null,
+      description: 'User\'s family lineage (Gotra)'
+    },
+
+    varna: {
+      type: String,
+      enum: ['brahmana', 'kshatriya', 'vaishya', 'shudra'],
+      default: null,
+      description: 'User\'s Varna (social classification)'
+    },
+
+    sampradaya: {
+      type: String,
+      trim: true,
+      default: null,
+      description: 'User\'s spiritual tradition (Sampradaya)'
+    },
+
+    date_of_birth: {
+      type: Date,
+      default: null,
+      description: 'User\'s date of birth'
+    },
+
+    place_of_birth: {
+      type: String,
+      trim: true,
+      default: null,
+      description: 'User\'s place of birth'
+    },
+
     // Spiritual information
     traditions: {
       type: [String],
@@ -429,12 +478,24 @@ profileSchema.methods.removeInterest = async function(interest) {
 
 /**
  * Convert to JSON response format
+ * Maps MongoDB field names to frontend field names for consistency
  * @returns {Object} JSON safe profile data
  */
 profileSchema.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.__v;
-  return obj;
+  
+  // Convert MongoDB field names to frontend field names for consistency
+  const response = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === 'avatar') {
+      response.avatar_url = value; // avatar in MongoDB → avatar_url in API
+    } else {
+      response[key] = value;
+    }
+  }
+  
+  return response;
 };
 
 // ============================================================================

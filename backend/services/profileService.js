@@ -72,26 +72,38 @@ class ProfileService {
       if (practices !== undefined) updateData.practices = practices;
       if (interests !== undefined) updateData.interests = interests;
       
-      // Location fields
-      if (location !== undefined) updateData.city = location; // Map 'location' to 'city' for backward compatibility
+      // Location fields - handle both 'location' and 'city' field names
+      if (location !== undefined && city === undefined) {
+        // 'location' is provided, use it as city for backward compatibility
+        updateData.city = location;
+      } else if (city !== undefined) {
+        // 'city' is explicitly provided, use it
+        updateData.city = city;
+      }
       if (country !== undefined) updateData.country = country;
-      if (city !== undefined) updateData.city = city;
       if (state !== undefined) updateData.state = state;
+      
+      // Profile completion fields
+      if (experience_level !== undefined || experienceLevel !== undefined) {
+        updateData.experience_level = experience_level || experienceLevel;
+      }
+      if (favorite_deity !== undefined || favoriteDeity !== undefined) {
+        updateData.favorite_deity = favorite_deity || favoriteDeity;
+      }
+      if (gotra !== undefined) updateData.gotra = gotra;
+      if (varna !== undefined) updateData.varna = varna;
+      if (sampradaya !== undefined) updateData.sampradaya = sampradaya;
+      if (date_of_birth !== undefined || dateOfBirth !== undefined) {
+        updateData.date_of_birth = date_of_birth || dateOfBirth;
+      }
+      if (place_of_birth !== undefined || placeOfBirth !== undefined) {
+        updateData.place_of_birth = place_of_birth || placeOfBirth;
+      }
       
       // Social links
       if (social_links !== undefined || socialLinks !== undefined) {
         updateData.socialLinks = social_links || socialLinks;
       }
-      
-      // Spiritual information (not in Profile schema, but keep for backward compatibility)
-      // These fields are not used in the actual Profile schema
-      // if (favorite_deity !== undefined || favoriteDeity !== undefined) { }
-      // if (gotra !== undefined) { }
-      // if (varna !== undefined) { }
-      // if (sampradaya !== undefined) { }
-      // if (date_of_birth !== undefined || dateOfBirth !== undefined) { }
-      // if (place_of_birth !== undefined || placeOfBirth !== undefined) { }
-      // if (experience_level !== undefined || experienceLevel !== undefined) { }
       
       // Spiritual metrics
       if (karma_balance !== undefined || karmaBalance !== undefined) updateData.karmaBalance = karma_balance || karmaBalance;
@@ -107,7 +119,8 @@ class ProfileService {
       if (settings !== undefined) updateData.settings = settings;
 
       console.log('[ProfileService] Updating profile for userId:', userId);
-      console.log('[ProfileService] Update data:', JSON.stringify(updateData, null, 2));
+      console.log('[ProfileService] Input data keys:', Object.keys(profileData));
+      console.log('[ProfileService] Update data being sent to MongoDB:', JSON.stringify(updateData, null, 2));
 
       const profile = await Profile.findOneAndUpdate(
         { userId },
@@ -120,6 +133,7 @@ class ProfileService {
       }
 
       console.log('[ProfileService] Profile updated successfully');
+      console.log('[ProfileService] Updated profile:', JSON.stringify(profile.toJSON(), null, 2));
       return profile;
     } catch (error) {
       console.error('[ProfileService] Error updating profile:', error.message);
