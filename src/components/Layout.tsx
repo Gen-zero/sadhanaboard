@@ -6,7 +6,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { getThemeById, themeUtils } from '@/themes';
 import EnhancedDeityIcon from './EnhancedDeityIcon';
-import { Leaf, Zap, Menu } from 'lucide-react';
+import { Zap, Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import MobileNavigation from '@/components/navigation/MobileNavigation';
 import DesktopNavigation from '@/components/navigation/DesktopNavigation';
@@ -28,14 +28,14 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
   const { user, signOut } = useAuth();
   const { settings, isLoading } = useSettings();
   const { t } = useTranslation();
-  const { 
-    prefersReducedMotion, 
-    prefersHighContrast, 
-    isKeyboardUser, 
+  const {
+    prefersReducedMotion,
+    prefersHighContrast,
+    isKeyboardUser,
     useSkipToContent,
     useFocusTrap
   } = useAccessibility();
-  
+
   const {
     isSidebarOpen,
     isMobileMenuOpen,
@@ -51,19 +51,19 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
     } else {
       document.body.classList.remove('reduced-motion');
     }
-    
+
     if (prefersHighContrast) {
       document.body.classList.add('high-contrast');
     } else {
       document.body.classList.remove('high-contrast');
     }
-    
+
     if (isKeyboardUser) {
       document.body.classList.add('user-is-tabbing');
     } else {
       document.body.classList.remove('user-is-tabbing');
     }
-    
+
     return () => {
       document.body.classList.remove('reduced-motion', 'high-contrast', 'user-is-tabbing');
     };
@@ -119,7 +119,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
     const handleSettingsChanged = (event: Event) => {
       const customEvent = event as CustomEvent;
       const { settings: newSettings, changedPath } = customEvent.detail;
-      
+
       // Check if colorScheme changed
       if (changedPath && changedPath[0] === 'appearance' && changedPath[1] === 'colorScheme') {
         const newTheme = newSettings.appearance?.colorScheme;
@@ -243,8 +243,8 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
   return (
     <div className="min-h-screen flex bg-transparent relative overflow-hidden">
       {/* Skip to content link for keyboard users */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="skip-link"
         aria-label="Skip to main content"
       >
@@ -254,7 +254,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       {/* Cosmic particle background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         {[...Array(30)].map((_, i) => (
-          <div 
+          <div
             key={i}
             className="absolute rounded-full bg-purple-500/20 animate-pulse"
             style={{
@@ -269,60 +269,22 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
         ))}
       </div>
 
-      {/* Ambient floating lotus petals */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {[...Array(20)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute animate-float-petal"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${i * 2}s`,
-              animationDuration: `${20 + Math.random() * 20}s`,
-              opacity: 0.3 + Math.random() * 0.4
-            }}
-          >
-            <Leaf className="h-8 w-8 text-pink-300/50" />
-          </div>
-        ))}
-      </div>
-
       {/* Mandala background pattern */}
       <div className="fixed inset-0 pointer-events-none z-[-1] opacity-5">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full border border-primary/30 animate-spin" style={{ animationDuration: '60s' }}></div>
         <div className="absolute top-1/3 right-1/3 w-48 h-48 rounded-full border border-pink-500/30 animate-spin" style={{ animationDuration: '40s', animationDirection: 'reverse' }}></div>
         <div className="absolute bottom-1/4 left-1/3 w-32 h-32 rounded-full border border-blue-500/30 animate-spin" style={{ animationDuration: '30s' }}></div>
-        
+
         {/* Additional mandala elements */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-primary/20 rounded-full"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-pink-500/20 rounded-full"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-blue-500/20 rounded-full"></div>
       </div>
 
-      {/* Floating yantra patterns in the background */}
-      <div className="fixed inset-0 pointer-events-none z-[-1] opacity-3">
-        {[...Array(8)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute animate-float-diagonal"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${i * 5}s`,
-              animationDuration: `${30 + Math.random() * 30}s`,
-              opacity: 0.1 + Math.random() * 0.2,
-              fontSize: `${2 + Math.random() * 2}rem`
-            }}
-          >
-            ▲▼▲
-          </div>
-        ))}
-      </div>
 
       {/* Mobile Header */}
       {isMobile && (
-        <motion.header 
+        <motion.header
           initial={{ y: 0 }}
           animate={{ y: 0 }}
           className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/10 pt-safe mobile-header"
@@ -330,11 +292,11 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
           <div className="flex items-center justify-between px-4 py-3 mobile-header-content">
             <div className="flex items-center space-x-3 min-w-0 flex-shrink-0">
               {/* Mobile Navigation */}
-              <MobileNavigation 
-                isOpen={isMobileMenuOpen} 
-                onOpenChange={setIsMobileMenuOpen} 
+              <MobileNavigation
+                isOpen={isMobileMenuOpen}
+                onOpenChange={setIsMobileMenuOpen}
               />
-              
+
               {/* Logo and Title Container */}
               <div className="flex items-center space-x-2 min-w-0 flex-shrink-0 overflow-hidden mobile-header-logo-title">
                 {/* Logo */}
@@ -361,7 +323,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div
                   className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0 border-0 bg-transparent p-0"
                   onClick={() => {
@@ -381,7 +343,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
                 </div>
               </div>
             </div>
-            
+
             {/* Ambient mantra display for mobile */}
             <div className="overflow-hidden max-w-[100px] flex-shrink-0 ml-2">
               <div className="text-center text-xs text-primary/60 font-sans animate-pulse-slow whitespace-nowrap truncate mobile-text-scale" aria-live="polite">
@@ -394,11 +356,11 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
 
       {/* Desktop Sidebar - Only shown on desktop */}
       {!isMobile && (
-        <DesktopNavigation 
+        <DesktopNavigation
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
           currentThemeData={currentThemeData}
-          onNavigate={() => {}}
+          onNavigate={() => { }}
         />
       )}
 
@@ -414,12 +376,11 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       )}
 
       {/* Main content */}
-      <main 
+      <main
         id="main-content"
         tabIndex={-1}
-        className={`flex-1 transition-all duration-300 ${
-          isMobile ? 'pt-mobile-header px-4 pb-24' : 'p-4 sm:p-6'
-        } ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
+        className={`flex-1 transition-all duration-300 ${isMobile ? 'pt-mobile-header px-4 pb-24' : 'p-4 sm:p-6'
+          } ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
       >
         <div className="max-w-screen-2xl mx-auto w-full">
           {children}
