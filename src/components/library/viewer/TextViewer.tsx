@@ -99,7 +99,7 @@ const TextViewer = ({ book, bookId }: TextViewerProps) => {
       </div>
       
       <div className="p-3 border-t border-purple-500/20 flex justify-between items-center text-sm">
-        <span>Page {currentPage + 1} of {totalPages}</span>
+        <span style={{ color: 'hsl(var(--foreground))' }}>Page {currentPage + 1} of {totalPages}</span>
         <div className="flex gap-3">
           <Button 
             variant="outline" 

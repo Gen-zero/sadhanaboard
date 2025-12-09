@@ -42,7 +42,7 @@ const SadhanaPage = () => {
   
   useEffect(() => {
     // Create cosmic particles
-    const particles = Array.from({ length: 100 }, (_, i) => i);
+    const particles = Array.from({ length: 50 }, (_, i) => i); // Reduce particles for mobile performance
     setCosmicParticles(particles);
     
     // Play ethereal sound on first visit
@@ -67,7 +67,7 @@ const SadhanaPage = () => {
   return (
     <Layout>
       {/* Cosmic particles - hidden for Shiva theme */}
-      <div className={`fixed inset-0 pointer-events-none overflow-hidden z-0 ${isShivaTheme ? 'hidden' : ''}`}>
+      <div className={`fixed inset-0 pointer-events-none overflow-hidden z-0 ${isShivaTheme ? 'hidden' : 'hidden md:block'}`}>
         {cosmicParticles.map((_, index) => (
           <CosmicParticle key={index} delay={index * 0.05} />
         ))}
@@ -90,6 +90,13 @@ const SadhanaPage = () => {
         @keyframes cosmic-pulse {
           0%, 100% { opacity: 0.3; transform: scale(1); }
           50% { opacity: 0.7; transform: scale(1.3); }
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+          .cosmic-bg {
+            background-attachment: scroll; /* Improve mobile performance */
+          }
         }
       `}</style>
     </Layout>

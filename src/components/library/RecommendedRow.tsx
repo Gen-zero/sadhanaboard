@@ -229,7 +229,7 @@ const RecommendedRow = () => {
                   </Badge>
                 )}
               </div>
-              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{item.description}</p>
+              <p className="text-sm mb-4 line-clamp-2 text-muted-foreground">{item.description}</p>
               
               <div className="flex flex-wrap gap-2 mb-4">
                 {item.type === 'sadhana' && item.difficulty && (

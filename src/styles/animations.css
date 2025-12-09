@@ -5,6 +5,7 @@
 
 .float {
   animation: float 4s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes float-diagonal {
@@ -26,6 +27,7 @@
 
 .cosmic-pulse {
   animation: cosmic-pulse 4s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes gradient-shift {
@@ -43,6 +45,7 @@
 
 .animate-pulse-slow {
   animation: pulse 6s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* New color-specific glow animations */
@@ -217,6 +220,8 @@
 
 .yantra-rotate {
   animation: yantra-rotate 60s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Chakra energy pulse */
@@ -233,6 +238,8 @@
 
 .chakra-pulse {
   animation: chakra-pulse 2s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Parchment unroll animation */
@@ -341,6 +348,8 @@
 
 .library-float {
   animation: library-float 7s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Sacred reveal for parchment & library cards */

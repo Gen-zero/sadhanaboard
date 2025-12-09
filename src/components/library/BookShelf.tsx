@@ -181,7 +181,7 @@ const BookCard = ({ book, onSelect, progress, isMobile = false }: BookCardProps)
       
       <div className="p-4 flex-1 flex flex-col">
         <div className="flex-1">
-          <h3 className="text-base md:text-lg font-semibold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">{book.title}</h3>
+          <h3 className="text-base md:text-lg font-semibold leading-tight text-foreground">{book.title}</h3>
           <p className="text-xs md:text-sm text-muted-foreground mt-1 font-medium">{book.author}</p>
           
           <div className="flex flex-wrap gap-1.5 mt-3">
@@ -265,7 +265,7 @@ const BookListItem = ({ book, onSelect, progress, isMobile = false }: BookCardPr
           <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         <div>
-          <h3 className="text-base md:text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">{book.title}</h3>
+          <h3 className="text-base md:text-lg font-semibold text-foreground">{book.title}</h3>
           <p className="text-xs md:text-sm text-muted-foreground font-medium">{book.author}</p>
           {book.is_storage_file && (
             <span className="text-xs text-primary">PDF from Storage</span>

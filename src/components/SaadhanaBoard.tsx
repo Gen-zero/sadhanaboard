@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import ManifestationForm from './sadhana/ManifestationForm';
 import SadhanaHeader from './sadhana/SadhanaHeader';
 import SadhanaContent from './sadhana/SadhanaContent';
@@ -101,12 +101,12 @@ const SaadhanaBoard = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in relative bg-transparent">
+    <div className="space-y-6 animate-fade-in relative bg-transparent">
       <CosmicBackgroundSimple />
       
-      {/* Enhanced cosmic overlay */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {[...Array(30)].map((_, i) => (
+      {/* Enhanced cosmic overlay - reduced for mobile performance */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 hidden md:block">
+        {[...Array(20)].map((_, i) => (
           <div
             key={i}
             className="absolute rounded-full"
@@ -124,7 +124,7 @@ const SaadhanaBoard = () => {
         ))}
       </div>
       
-      <div className="relative z-10 mb-8">
+      <div className="relative z-10 mb-6">
         <SadhanaHeader 
           showManifestationForm={showManifestationForm}
           view3D={view3D}
@@ -145,92 +145,7 @@ const SaadhanaBoard = () => {
       <div className="flex justify-center relative z-10">
         <div className="w-full lg:max-w-4xl">
           {/* Sadhana Paper Section */}
-          <div className="space-y-6 mt-6">
-            {sadhanaState.hasStarted && sadhanaData && (
-              <div className="space-y-4">
-                {/* Sadhana Header with Progress */}
-                <div className="backdrop-blur-sm bg-transparent p-6 rounded-lg border border-white">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <h2 className="text-2xl font-bold text-foreground mb-2" style={{ color: 'hsl(45 100% 50%)' }}>
-                        Your Sacred Sadhana
-                      </h2>
-                      <div className="flex items-center gap-4 text-sm mb-2">
-                        <span className="flex items-center gap-1 text-foreground" style={{ color: 'white' }}>
-                          <Calendar className="h-4 w-4" />
-                          {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
-                        </span>
-                        <span className={getStatusColor()}>
-                          {getStatusMessage()}
-                        </span>
-                      </div>
-                      
-                      {/* Progress Bar */}
-                      {sadhanaState.status === 'active' && (
-                        <div className="space-y-2">
-                          <Progress value={progress} className="h-2" />
-                          <p className="text-xs text-foreground" style={{ color: 'white' }}>
-                            {Math.round(progress)}% complete
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Action Buttons */}
-                    <div className="flex gap-2 shrink-0 ml-4">
-                      {sadhanaState.status === 'active' && (
-                        <>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex items-center gap-1 bg-primary/30 border-primary/50 hover:bg-primary/40 text-primary-foreground"
-                            onClick={handleEditToggle}
-                          >
-                            {isEditing ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
-                            {isEditing ? 'View Paper' : 'Edit Details'}
-                          </Button>
-                          
-                          {canComplete && (
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="flex items-center gap-1 bg-green-500/30 border-green-500/50 hover:bg-green-500/40 text-green-900"
-                              onClick={handleCompleteSadhana}
-                            >
-                              <CheckCircle className="h-4 w-4" />
-                              Complete Sadhana
-                            </Button>
-                          )}
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex items-center gap-1 bg-destructive/30 border-destructive/50 hover:bg-destructive/40 text-destructive-foreground"
-                            onClick={handleBreakSadhana}
-                          >
-                            <XCircle className="h-4 w-4" />
-                            Break Sadhana
-                          </Button>
-                        </>
-                      )}
-                      
-                      {(sadhanaState.status === 'completed' || sadhanaState.status === 'broken') && (
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="flex items-center gap-1 bg-secondary/30 border-secondary/50 hover:bg-secondary/40 text-secondary-foreground"
-                          onClick={handleResetSadhana}
-                        >
-                          <RotateCcw className="h-4 w-4" />
-                          Start New Sadhana
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            
+          <div className="space-y-6 mt-4">
             <SadhanaContent 
               isEditing={isEditing}
               view3D={view3D}
@@ -248,6 +163,91 @@ const SaadhanaBoard = () => {
               onCreateCustomSadhana={createCustomSadhana}
               status={sadhanaState.status}
             />
+            
+            {sadhanaState.hasStarted && sadhanaData && (
+              <div className="space-y-4">
+                {/* Sadhana Header with Progress - compact for mobile */}
+                <div className="backdrop-blur-sm bg-transparent p-4 rounded-lg border border-white md:p-6">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3 md:mb-4">
+                    <div className="flex-1 mb-3 md:mb-0">
+                      <h2 className="text-xl font-bold text-foreground mb-2 md:text-2xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+                        Your Sacred Sadhana
+                      </h2>
+                      <div className="flex flex-col md:flex-row md:items-center gap-2 text-xs md:text-sm mb-2 md:gap-4">
+                        <span className="flex items-center gap-1 text-foreground" style={{ color: 'hsl(210 40% 80%)' }}>
+                          <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+                          {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
+                        </span>
+                        <span className={getStatusColor()}>
+                          {getStatusMessage()}
+                        </span>
+                      </div>
+                      
+                      {/* Progress Bar - compact for mobile */}
+                      {sadhanaState.status === 'active' && (
+                        <div className="space-y-1 md:space-y-2">
+                          <Progress value={progress} className="h-1.5 md:h-2" />
+                          <p className="text-xs text-foreground" style={{ color: 'hsl(210 40% 80%)' }}>
+                            {Math.round(progress)}% complete
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Action Buttons - responsive stacking for mobile */}
+                    <div className="flex flex-wrap gap-2 md:gap-2 shrink-0 md:ml-4">
+                      {sadhanaState.status === 'active' && (
+                        <>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex items-center gap-1 bg-amber-500/30 border-amber-500/50 hover:bg-amber-500/40 text-amber-900 text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
+                            onClick={handleEditToggle}
+                          >
+                            {isEditing ? <Eye className="h-3 w-3 md:h-4 md:w-4" /> : <Pencil className="h-3 w-3 md:h-4 md:w-4" />}
+                            <span className="hidden xs:inline">{isEditing ? 'View Paper' : 'Edit Details'}</span>
+                          </Button>
+                          
+                          {canComplete && (
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="flex items-center gap-1 bg-green-500/30 border-green-500/50 hover:bg-green-500/40 text-green-900 text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
+                              onClick={handleCompleteSadhana}
+                            >
+                              <CheckCircle className="h-3 w-3 md:h-4 md:w-4" />
+                              <span className="hidden xs:inline">Complete</span>
+                            </Button>
+                          )}
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex items-center gap-1 bg-destructive/30 border-destructive/50 hover:bg-destructive/40 text-destructive-foreground text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
+                            onClick={handleBreakSadhana}
+                          >
+                            <XCircle className="h-3 w-3 md:h-4 md:w-4" />
+                            <span className="hidden xs:inline">Break</span>
+                          </Button>
+                        </>
+                      )}
+                      
+                      {(sadhanaState.status === 'completed' || sadhanaState.status === 'broken') && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="flex items-center gap-1 bg-secondary/30 border-secondary/50 hover:bg-secondary/40 text-secondary-foreground text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
+                          onClick={handleResetSadhana}
+                        >
+                          <RotateCcw className="h-3 w-3 md:h-4 md:w-4" />
+                          <span className="hidden xs:inline">New Sadhana</span>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -258,19 +258,19 @@ const SaadhanaBoard = () => {
       <Dialog open={showCompleteDialog} onOpenChange={setShowCompleteDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-accent" />
+            <DialogTitle className="flex items-center gap-2 text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+              <CheckCircle className="h-5 w-5 text-amber-500" />
               Complete Sadhana
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription style={{ color: 'hsl(210 40% 80%)' }}>
               Are you sure you want to mark this sadhana as complete? You have successfully finished your spiritual practice!
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCompleteDialog(false)}>
+            <Button variant="outline" className="border-amber-500/50 hover:bg-amber-500/10 rounded-full" onClick={() => setShowCompleteDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-accent hover:bg-accent/90" onClick={confirmCompleteSadhana}>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-white rounded-full" onClick={confirmCompleteSadhana}>
               Complete
             </Button>
           </DialogFooter>
@@ -281,19 +281,19 @@ const SaadhanaBoard = () => {
       <Dialog open={showBreakDialog} onOpenChange={setShowBreakDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
               <AlertTriangle className="h-5 w-5 text-destructive" />
               Break Sadhana
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription style={{ color: 'hsl(210 40% 80%)' }}>
               Are you sure you want to break this sadhana? This will end your current practice early. You can start a new sadhana afterwards.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowBreakDialog(false)}>
+            <Button variant="outline" className="border-amber-500/50 hover:bg-amber-500/10 rounded-full" onClick={() => setShowBreakDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-destructive hover:bg-destructive/90" onClick={confirmBreakSadhana}>
+            <Button className="bg-destructive hover:bg-destructive/90 rounded-full" onClick={confirmBreakSadhana}>
               Break
             </Button>
           </DialogFooter>
@@ -304,19 +304,19 @@ const SaadhanaBoard = () => {
       <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <RotateCcw className="h-5 w-5 text-primary" />
+            <DialogTitle className="flex items-center gap-2 text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+              <RotateCcw className="h-5 w-5 text-amber-500" />
               Start New Sadhana
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription style={{ color: 'hsl(210 40% 80%)' }}>
               Are you sure you want to start a new sadhana? This will clear your current practice.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
+            <Button variant="outline" className="border-amber-500/50 hover:bg-amber-500/10 rounded-full" onClick={() => setShowResetDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-primary hover:bg-primary/90" onClick={confirmResetSadhana}>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-white rounded-full" onClick={confirmResetSadhana}>
               Start New
             </Button>
           </DialogFooter>
@@ -336,9 +336,20 @@ const SaadhanaBoard = () => {
           0%, 100% { opacity: 0.1; transform: scale(1); }
           50% { opacity: 0.3; transform: scale(1.2); }
         }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+          .space-y-8 {
+            space-y: 1.5rem;
+          }
+          
+          .backdrop-blur-sm {
+            backdrop-filter: blur(8px);
+          }
+        }
       `}</style>
     </div>
   );
 };
 
-export default SaadhanaBoard;
+export default React.memo(SaadhanaBoard);

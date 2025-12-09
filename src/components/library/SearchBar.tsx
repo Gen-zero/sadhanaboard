@@ -154,7 +154,7 @@ const SearchBar = ({ value, onChange, placeholder = "Search...", onSelectSuggest
               >
                 <div className="font-medium text-sm md:text-base">{s.title}</div>
                 {s.author && (
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="text-xs mt-1 text-muted-foreground">
                     by {s.author}
                   </div>
                 )}

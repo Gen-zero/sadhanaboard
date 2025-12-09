@@ -98,7 +98,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
             >
               <CardContent className="p-5">
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">
+                  <h3 className="font-semibold text-lg line-clamp-2 text-foreground">
                     {book.title}
                   </h3>
                 </div>
@@ -108,7 +108,7 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
                 
                 {/* Progress bar */}
                 <div className="mb-4">
-                  <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <div className="flex justify-between text-xs mb-2 text-muted-foreground">
                     <span>
                       {percent > 0 ? `${Math.round(percent)}% complete` : ''}
                       {percent > 0 && progress?.time_spent_minutes && progress.time_spent_minutes > 0 && (

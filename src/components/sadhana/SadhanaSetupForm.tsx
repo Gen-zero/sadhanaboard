@@ -48,7 +48,6 @@ const SadhanaSetupForm = ({
     message: "",
     offerings: [""],
   });
-
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Check if Shiva theme is active
@@ -147,52 +146,52 @@ const SadhanaSetupForm = ({
 
   return (
     <div
-      className={`rounded-lg p-6 ${isShivaTheme ? "bg-transparent" : "bg-transparent"}`}
+      className={`rounded-lg p-4 md:p-6 ${isShivaTheme ? "bg-transparent" : "bg-transparent"}`}
     >
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-2 mb-6 md:mb-8 md:gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={onCancel}
-            className="hover:bg-white/10"
+            className="hover:bg-white/10 h-8 w-8 p-0 md:h-9 md:w-9"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            <ArrowLeft className="h-4 w-4" />
           </Button>
           <div className="flex-1">
             <h2
-              className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent"
+              className="text-2xl md:text-3xl font-bold uppercase tracking-wide"
               style={{ color: "hsl(45 100% 50%)" }}
             >
               Create Your Sacred Sadhana
             </h2>
             <p
-              className="text-amber-100/80 mt-1"
-              style={{ color: "hsl(45 100% 50%)" }}
+              className="text-sm md:text-base"
+              style={{ color: "hsl(210 40% 80%)" }}
             >
               Fill in your spiritual intentions and divine commitments
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
+        {/* Mobile-optimized grid layout */}
+        <div className="grid grid-cols-1 gap-4 md:gap-6">
+          <div className="space-y-4 md:space-y-6">
             <Card className="bg-transparent border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10">
-                <CardTitle style={{ color: "hsl(45 100% 50%)" }}>
+              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
+                <CardTitle style={{ color: "hsl(45 100% 50%)" }} className="text-lg md:text-xl uppercase tracking-wide">
                   Purpose & Goal
                 </CardTitle>
-                <CardDescription style={{ color: "white" }}>
+                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
                   Why you're on this spiritual journey
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 p-4 md:p-6">
                 <div className="space-y-3">
                   <Label
                     htmlFor="purpose"
-                    style={{ color: "white" }}
-                    className="text-base font-semibold"
+                    style={{ color: "hsl(210 40% 80%)" }}
+                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
                   >
                     Purpose *
                   </Label>
@@ -207,20 +206,20 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What is the purpose of your spiritual practice?"
-                      className="min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors"
+                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.purpose && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {errors.purpose}
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="space-y-3 pt-4 border-t border-white/10">
+                <div className="space-y-3 pt-3 md:pt-4 border-t border-white/10">
                   <Label
                     htmlFor="goal"
-                    style={{ color: "white" }}
-                    className="text-base font-semibold"
+                    style={{ color: "hsl(210 40% 80%)" }}
+                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
                   >
                     Goal *
                   </Label>
@@ -235,10 +234,10 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What is your specific spiritual goal?"
-                      className="min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors"
+                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.goal && (
-                      <p className="text-sm text-destructive">{errors.goal}</p>
+                      <p className="text-xs md:text-sm text-destructive">{errors.goal}</p>
                     )}
                   </div>
                 </div>
@@ -246,22 +245,22 @@ const SadhanaSetupForm = ({
             </Card>
 
             <Card className="bg-transparent border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10">
+              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
                 <CardTitle
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
                   style={{ color: "hsl(45 100% 50%)" }}
                 >
-                  <Calendar className="h-5 w-5 text-amber-400" />
+                  <Calendar className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)" }} />
                   <span>Duration & Timeline</span>
                 </CardTitle>
-                <CardDescription style={{ color: "white" }}>
+                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
                   Set your sadhana practice period
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent className="space-y-4 p-4 md:p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate" style={{ color: "white" }}>
+                    <Label htmlFor="startDate" style={{ color: "hsl(210 40% 80%)" }} className="text-sm md:text-base font-semibold uppercase tracking-wide">
                       Start Date *
                     </Label>
                     <Input
@@ -270,15 +269,16 @@ const SadhanaSetupForm = ({
                       value={formData.startDate}
                       onChange={(e) => handleStartDateChange(e.target.value)}
                       min={today}
+                      className="text-sm md:text-base"
                     />
                     {errors.startDate && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {errors.startDate}
                       </p>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="duration" style={{ color: "white" }}>
+                    <Label htmlFor="duration" style={{ color: "hsl(210 40% 80%)" }} className="text-sm md:text-base font-semibold uppercase tracking-wide">
                       Duration
                     </Label>
                     <Select
@@ -287,7 +287,7 @@ const SadhanaSetupForm = ({
                         handleDurationChange(parseInt(value))
                       }
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm md:text-base">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -304,13 +304,13 @@ const SadhanaSetupForm = ({
                       </SelectContent>
                     </Select>
                     {errors.duration && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {errors.duration}
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="text-sm" style={{ color: "white" }}>
+                <div className="text-xs md:text-sm" style={{ color: "white" }}>
                   <p>
                     End Date:{" "}
                     {format(new Date(formData.endDate), "MMMM dd, yyyy")}
@@ -320,26 +320,26 @@ const SadhanaSetupForm = ({
             </Card>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             <Card className="bg-transparent border border-pink-400/20 hover:border-pink-400/40 transition-colors shadow-lg shadow-pink-500/10">
-              <CardHeader className="bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-b border-pink-400/10">
+              <CardHeader className="bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-b border-pink-400/10 p-4 md:p-6">
                 <CardTitle
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
                   style={{ color: "hsl(45 100% 50%)" }}
                 >
-                  <Heart className="h-5 w-5 text-pink-400" />
+                  <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)" }} />
                   <span>Divine Connection</span>
                 </CardTitle>
-                <CardDescription style={{ color: "white" }}>
+                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
                   Your chosen deity or spiritual focus
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 md:space-y-6 p-4 md:p-6">
                 <div className="space-y-3">
                   <Label
                     htmlFor="deity"
-                    style={{ color: "white" }}
-                    className="text-base font-semibold"
+                    style={{ color: "hsl(210 40% 80%)" }}
+                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
                   >
                     Deity or Spiritual Focus *
                   </Label>
@@ -353,17 +353,17 @@ const SadhanaSetupForm = ({
                       }))
                     }
                     placeholder="Who or what is your spiritual focus?"
-                    className="bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors"
+                    className="bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
                   />
                   {errors.deity && (
-                    <p className="text-sm text-destructive">{errors.deity}</p>
+                    <p className="text-xs md:text-sm text-destructive">{errors.deity}</p>
                   )}
                 </div>
-                <div className="space-y-3 pt-4 border-t border-white/10">
+                <div className="space-y-3 pt-3 md:pt-4 border-t border-white/10">
                   <Label
                     htmlFor="message"
-                    style={{ color: "white" }}
-                    className="text-base font-semibold"
+                    style={{ color: "hsl(210 40% 80%)" }}
+                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
                   >
                     Your Message *
                   </Label>
@@ -378,10 +378,10 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What message would you like to share with your deity?"
-                      className="min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors"
+                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.message && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {errors.message}
                       </p>
                     )}
@@ -391,16 +391,16 @@ const SadhanaSetupForm = ({
             </Card>
 
             <Card className="bg-transparent border border-purple-400/20 hover:border-purple-400/40 transition-colors shadow-lg shadow-purple-500/10">
-              <CardHeader className="bg-gradient-to-r from-purple-500/5 to-pink-500/5 border-b border-purple-400/10">
-                <CardTitle style={{ color: "hsl(45 100% 50%)" }}>
+              <CardHeader className="bg-gradient-to-r from-purple-500/5 to-pink-500/5 border-b border-purple-400/10 p-4 md:p-6">
+                <CardTitle style={{ color: "hsl(45 100% 50%)" }} className="text-lg md:text-xl uppercase tracking-wide">
                   Offerings & Practices
                 </CardTitle>
-                <CardDescription style={{ color: "white" }}>
+                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
                   What you'll be doing or offering for your spiritual practice
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="p-4 md:p-6">
+                <div className="space-y-3">
                   {formData.offerings.map((offering, index) => (
                     <div key={index} className="flex gap-2 group">
                       <Input
@@ -409,13 +409,13 @@ const SadhanaSetupForm = ({
                           handleOfferingChange(index, e.target.value)
                         }
                         placeholder={`Offering or practice ${index + 1}`}
-                        className="bg-background/40 border-purple-400/30 focus:border-purple-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors group-hover:border-purple-400/50"
+                        className="bg-background/40 border-purple-400/30 focus:border-purple-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors group-hover:border-purple-400/50 text-sm md:text-base"
                       />
                       {formData.offerings.length > 1 && (
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="shrink-0 text-purple-400/60 hover:text-purple-300 hover:bg-purple-500/10"
+                          className="shrink-0 text-purple-400/60 hover:text-purple-300 hover:bg-purple-500/10 h-9 w-9 md:h-10 md:w-10"
                           onClick={() => handleRemoveOffering(index)}
                         >
                           ×
@@ -424,24 +424,24 @@ const SadhanaSetupForm = ({
                     </div>
                   ))}
                   {errors.offerings && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {errors.offerings}
                     </p>
                   )}
 
                   <Button
                     variant="outline"
-                    className="w-full mt-4 bg-purple-500/10 border-purple-400/30 hover:bg-purple-500/20 hover:border-purple-400/50 text-purple-300 hover:text-purple-200 transition-colors"
+                    className="w-full mt-3 md:mt-4 bg-purple-500/10 border-purple-400/30 hover:bg-purple-500/20 hover:border-purple-400/50 text-purple-300 hover:text-purple-200 transition-colors text-sm md:text-base h-9 md:h-10"
                     onClick={handleAddOffering}
                   >
                     + Add New Offering
                   </Button>
 
                   <Button
-                    className="w-full mt-6 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-black font-semibold shadow-lg shadow-amber-500/30 transition-all hover:shadow-amber-500/50"
+                    className="w-full mt-4 md:mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold shadow-lg transition-all hover:shadow-amber-500/50 text-sm md:text-base h-10 md:h-12 rounded-full"
                     onClick={handleSubmit}
                   >
-                    <Sparkles className="mr-2 h-5 w-5" />
+                    <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                     Begin Sacred Sadhana
                   </Button>
                 </div>

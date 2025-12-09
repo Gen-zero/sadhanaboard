@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Heart, MoonStar } from 'lucide-react';
+import { Sparkles, Heart } from 'lucide-react';
 import { useThemeColors } from '@/hooks/useThemeColors';
 
 interface SadhanaWelcomeProps {
@@ -12,51 +12,63 @@ const SadhanaWelcome = ({
 }: SadhanaWelcomeProps) => {
   const { colors } = useThemeColors();
 
-  return <div className="bg-transparent rounded-lg p-8 text-center">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Cosmic header - removed animations */}
-        
+  return (
+    <div className="bg-transparent rounded-lg p-8 text-center">
+      <div className="max-w-2xl mx-auto space-y-8">
+        {/* Cosmic icon */}
+        <div className="flex justify-center">
+          <div className="p-4 rounded-full border border-amber-500/30 bg-amber-500/10">
+            <Sparkles className="h-8 w-8" style={{ color: 'hsl(45 100% 50%)' }} />
+          </div>
+        </div>
 
-        {/* Welcome text */}
+        {/* Main heading - large and bold */}
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold" style={{ color: 'hsl(45 100% 50%)' }}>
-            Begin Your Sacred Journey
-          </h2>
-          <p className="text-lg leading-relaxed" style={{ color: 'hsl(45 100% 50%)' }}>
-            A Sadhana is a spiritual practice that connects you with the divine. 
-            Create your personal sacred commitment and let the universe guide your path.
+          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+            Begin Your Sacred
+            <br />
+            Journey
+          </h1>
+          <p className="text-base md:text-lg leading-relaxed" style={{ color: 'hsl(210 40% 80%)' }}>
+            A Sadhana is a spiritual practice that connects you with the divine. Create
+            <br />
+            your personal sacred commitment and let the universe guide your path.
           </p>
         </div>
 
-        {/* Spiritual quotes/inspiration */}
-        <div className="bg-transparent backdrop-blur-sm rounded-lg p-6 border border-white">
-          <blockquote className="italic" style={{ color: 'white' }}>
+        {/* Spiritual quote section */}
+        <div className="bg-transparent backdrop-blur-sm rounded-lg p-6 md:p-8 border border-primary/30" style={{ borderColor: 'hsl(210 50% 40%)' }}>
+          <div className="flex justify-center mb-4">
+            <div className="p-2 rounded-full border border-amber-500/30">
+              <Heart className="h-5 w-5" style={{ color: 'hsl(45 100% 50%)' }} />
+            </div>
+          </div>
+          <blockquote className="text-lg md:text-xl italic font-light" style={{ color: 'white' }}>
             "The mind is everything. What you think you become."
           </blockquote>
-          <p className="text-sm mt-2" style={{ color: 'white' }}>
-— Buddha</p>
+          <div className="mt-4">
+            <div className="h-0.5 w-12 mx-auto mb-3" style={{ backgroundColor: 'hsl(45 100% 50%)' }}></div>
+            <p className="text-sm" style={{ color: 'hsl(45 100% 50%)' }}>— Buddha</p>
+          </div>
         </div>
 
         {/* Call to action */}
-        <div className="space-y-4">
-          <p style={{ color: 'white' }}>
-            Ready to manifest your spiritual intentions and create your divine practice?
+        <div className="space-y-4 pt-2">
+          <p style={{ color: 'hsl(210 40% 80%)' }}>
+            Ready to manifest your spiritual intentions?
           </p>
-          <Button onClick={onStartSadhana} size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg">
+          <Button 
+            onClick={onStartSadhana} 
+            size="lg" 
+            className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+          >
             <Heart className="mr-2 h-5 w-5" />
             Start Your Sadhana
           </Button>
         </div>
-
-        {/* Additional info */}
-        <div className="text-sm space-y-2" style={{ color: 'white' }}>
-          <p>✨ Set your spiritual purpose and goals</p>
-          <p>🙏 Choose your divine focus and offerings</p>
-          <p>📜 Create your personalized sacred paper</p>
-          <p>⏰ Set your practice duration and commitment</p>
-        </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 
 export default SadhanaWelcome;

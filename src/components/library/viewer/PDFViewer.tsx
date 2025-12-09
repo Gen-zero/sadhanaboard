@@ -173,7 +173,7 @@ const PDFViewer = ({ fileUrl, fileName, bookId }: PDFViewerProps) => {
                 min={1}
                 max={numPages}
               />
-              <span className="text-muted-foreground">
+                <span className="text-muted-foreground">
                 / {numPages || 0}
               </span>
             </div>

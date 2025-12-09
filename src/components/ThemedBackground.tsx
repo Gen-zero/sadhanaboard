@@ -2922,4 +2922,4 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme: initialTheme
   );
 };
 
-export default ThemedBackground;
+export default React.memo(ThemedBackground);

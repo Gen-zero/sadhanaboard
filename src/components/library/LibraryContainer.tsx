@@ -320,7 +320,7 @@ const LibraryContainer = () => {
                   <div className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-0">
                     <span className="hidden md:inline">Showing {offset + 1} to {Math.min(offset + limit, total)} of {total} books</span>
                     <span className="md:hidden">{currentPage} / {totalPages}</span>
-                    <span className="ml-2 hidden md:inline">• Page {currentPage} of {totalPages}</span>
+                    <span className="ml-2 hidden md:inline text-muted-foreground">• Page {currentPage} of {totalPages}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" size={isMobile ? "default" : "sm"} onClick={prevPage} disabled={!hasPrevPage} aria-label="Previous page">

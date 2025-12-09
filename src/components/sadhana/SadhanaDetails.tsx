@@ -59,77 +59,81 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-semibold">Edit Sadhana Details</h3>
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h3 className="text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+          Edit Sadhana Details
+        </h3>
         <Button 
           variant="outline" 
           size="sm" 
           onClick={() => setView3D(!view3D)}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 h-8 md:h-9 text-xs md:text-sm px-2 md:px-3"
         >
-          {view3D ? <Eye className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          {view3D ? '2D View' : '3D View'}
+          {view3D ? <Eye className="h-3 w-3 md:h-4 md:w-4" /> : <Eye className="h-3 w-3 md:h-4 md:w-4" />}
+          <span className="hidden xs:inline">{view3D ? '2D View' : '3D View'}</span>
         </Button>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-6">
+      {/* Mobile-optimized grid layout */}
+      <div className="grid grid-cols-1 gap-4 md:gap-6">
+        <div className="space-y-4 md:space-y-6">
           <Card className="bg-transparent">
-            <CardHeader>
-              <CardTitle style={{ color: 'hsl(45 100% 50%)' }}>Purpose & Goal</CardTitle>
-              <CardDescription style={{ color: 'white' }}>Why you're on this spiritual journey</CardDescription>
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle style={{ color: 'hsl(45 100% 50%)' }} className="text-lg md:text-xl uppercase tracking-wide">Purpose & Goal</CardTitle>
+              <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">Why you're on this spiritual journey</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 p-4 md:p-6">
               <div className="space-y-2">
-                <Label htmlFor="purpose" style={{ color: 'white' }}>Purpose</Label>
+                <Label htmlFor="purpose" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Purpose</Label>
                 <Textarea 
                   id="purpose" 
                   value={formData.purpose}
                   onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
                   placeholder="What is the purpose of your spiritual practice?"
-                  className="min-h-[100px]"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="goal" style={{ color: 'white' }}>Goal</Label>
+                <Label htmlFor="goal" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Goal</Label>
                 <Textarea 
                   id="goal" 
                   value={formData.goal}
                   onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
                   placeholder="What is your specific spiritual goal?"
-                  className="min-h-[100px]"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
                 />
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-transparent">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2" style={{ color: 'hsl(45 100% 50%)' }}>
-                <Heart className="h-5 w-5 text-primary" />
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+                <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: 'hsl(45 100% 50%)' }} />
                 <span>Divine Connection</span>
               </CardTitle>
-              <CardDescription style={{ color: 'white' }}>Your chosen deity or spiritual focus</CardDescription>
+              <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">Your chosen deity or spiritual focus</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 p-4 md:p-6">
               <div className="space-y-2">
-                <Label htmlFor="deity" style={{ color: 'white' }}>Deity or Spiritual Focus</Label>
+                <Label htmlFor="deity" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Deity or Spiritual Focus</Label>
                 <Input 
                   id="deity" 
                   value={formData.deity}
                   onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
                   placeholder="Who or what is your spiritual focus?"
+                  className="text-sm md:text-base"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message" style={{ color: 'white' }}>Your Message</Label>
+                <Label htmlFor="message" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Your Message</Label>
                 <Textarea 
                   id="message" 
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   placeholder="What message would you like to share with your deity?"
-                  className="min-h-[100px]"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
                 />
               </div>
             </CardContent>
@@ -137,37 +141,38 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
         </div>
 
         <Card className="bg-transparent">
-          <CardHeader>
-            <CardTitle style={{ color: 'hsl(45 100% 50%)' }}>Offerings & Practices</CardTitle>
-            <CardDescription style={{ color: 'white' }}>What you'll be doing or offering for your spiritual practice</CardDescription>
+          <CardHeader className="p-4 md:p-6">
+            <CardTitle style={{ color: 'hsl(45 100% 50%)' }} className="text-lg md:text-xl uppercase tracking-wide">Offerings & Practices</CardTitle>
+            <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">What you'll be doing or offering for your spiritual practice</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="p-4 md:p-6">
+            <div className="space-y-3">
               {formData.offerings.map((offering, index) => (
                 <div key={index} className="flex gap-2">
                   <Input 
                     value={offering} 
                     onChange={(e) => handleOfferingChange(index, e.target.value)}
                     placeholder={`Offering or practice ${index + 1}`}
+                    className="text-sm md:text-base"
                   />
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="shrink-0"
+                    className="shrink-0 h-9 w-9 md:h-10 md:w-10"
                     onClick={() => handleRemoveOffering(index)}
                   >
                     ×
                   </Button>
                 </div>
               ))}
-              <Button variant="outline" className="w-full mt-2" onClick={handleAddOffering}>
+              <Button variant="outline" className="w-full mt-2 md:mt-3 text-sm md:text-base h-9 md:h-10" onClick={handleAddOffering}>
                 + Add New Offering
               </Button>
               <Button 
-                className="w-full mt-6 bg-primary hover:bg-primary/90" 
+                className="w-full mt-4 md:mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold shadow-lg transition-all hover:shadow-amber-500/50 text-sm md:text-base h-10 md:h-12 rounded-full" 
                 onClick={handleSave}
               >
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Save Changes
               </Button>
             </div>

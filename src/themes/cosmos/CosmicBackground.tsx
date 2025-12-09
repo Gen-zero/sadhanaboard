@@ -41,7 +41,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
 
     const starsVertices = [];
     const starsColors = [];
-    const starCount = 10000;
+    const starCount = 2000; // Reduced from 10000
     
     for (let i = 0; i < starCount; i++) {
       const x = THREE.MathUtils.randFloatSpread(2000);
@@ -74,8 +74,8 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     for (let i = 0; i < nebulaCount; i++) {
       const nebulaGeometry = new THREE.SphereGeometry(
         THREE.MathUtils.randFloat(50, 150), 
-        32, 
-        32
+        16,  // Reduced from 32
+        16   // Reduced from 32
       );
       
       const nebulaMaterial = new THREE.MeshBasicMaterial({
@@ -105,7 +105,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     const solarSystemGroup = new THREE.Group();
     
     // Central Sun - Large glowing star
-    const sunGeometry = new THREE.SphereGeometry(200, 64, 64);
+    const sunGeometry = new THREE.SphereGeometry(200, 32, 32); // Reduced from 64, 64
     const sunMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(1.0, 0.9, 0.3), // Bright yellow
       emissive: new THREE.Color(1.0, 0.7, 0.2), // Strong glow
@@ -118,7 +118,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     solarSystemGroup.add(sun);
     
     // Sun's corona effect
-    const coronaGeometry = new THREE.SphereGeometry(220, 64, 64);
+    const coronaGeometry = new THREE.SphereGeometry(220, 32, 32); // Reduced from 64, 64
     const coronaMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color(1.0, 0.8, 0.4),
       transparent: true,
@@ -148,7 +148,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 1 - Mercury (closest to sun)
     const mercuryGroup = new THREE.Group();
     const mercuryOrbitGroup = new THREE.Group();
-    const mercuryGeometry = new THREE.SphereGeometry(30, 32, 32);
+    const mercuryGeometry = new THREE.SphereGeometry(30, 16, 16); // Reduced from 32, 32
     const mercuryMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.5, 0.5, 0.5), // Gray
       roughness: 0.9,
@@ -165,7 +165,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 2 - Venus
     const venusGroup = new THREE.Group();
     const venusOrbitGroup = new THREE.Group();
-    const venusGeometry = new THREE.SphereGeometry(40, 32, 32);
+    const venusGeometry = new THREE.SphereGeometry(40, 16, 16); // Reduced from 32, 32
     const venusMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.8, 0.6, 0.2), // Yellowish
       emissive: new THREE.Color(0.8, 0.6, 0.2), // Yellowish glow
@@ -182,7 +182,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 3 - Earth
     const earthGroup = new THREE.Group();
     const earthOrbitGroup = new THREE.Group();
-    const earthGeometry = new THREE.SphereGeometry(44, 32, 32);
+    const earthGeometry = new THREE.SphereGeometry(44, 16, 16); // Reduced from 32, 32
     const earthMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.2, 0.4, 0.8), // Blue
       emissive: new THREE.Color(0.2, 0.4, 0.8), // Blue glow
@@ -195,7 +195,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     earthOrbitGroup.add(earth);
     
     // Earth's atmosphere
-    const earthAtmosphereGeometry = new THREE.SphereGeometry(48, 32, 32);
+    const earthAtmosphereGeometry = new THREE.SphereGeometry(48, 16, 16); // Reduced from 32, 32
     const earthAtmosphereMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color(0.5, 0.7, 1.0),
       transparent: true,
@@ -212,7 +212,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 4 - Mars
     const marsGroup = new THREE.Group();
     const marsOrbitGroup = new THREE.Group();
-    const marsGeometry = new THREE.SphereGeometry(36, 32, 32);
+    const marsGeometry = new THREE.SphereGeometry(36, 16, 16); // Reduced from 32, 32
     const marsMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.8, 0.3, 0.2), // Red
       emissive: new THREE.Color(0.8, 0.3, 0.2), // Red glow
@@ -229,7 +229,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 5 - Jupiter (gas giant)
     const jupiterGroup = new THREE.Group();
     const jupiterOrbitGroup = new THREE.Group();
-    const jupiterGeometry = new THREE.SphereGeometry(90, 64, 64);
+    const jupiterGeometry = new THREE.SphereGeometry(90, 32, 32); // Reduced from 64, 64
     const jupiterMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.8, 0.7, 0.5), // Brownish
       emissive: new THREE.Color(0.8, 0.7, 0.5), // Brownish glow
@@ -242,7 +242,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     jupiterOrbitGroup.add(jupiter);
     
     // Jupiter's rings
-    const jupiterRingGeometry = new THREE.RingGeometry(96, 120, 32);
+    const jupiterRingGeometry = new THREE.RingGeometry(96, 120, 16); // Reduced from 32
     const jupiterRingMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color(0.7, 0.6, 0.4),
       side: THREE.DoubleSide,
@@ -260,7 +260,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 6 - Saturn (with prominent rings)
     const saturnGroup = new THREE.Group();
     const saturnOrbitGroup = new THREE.Group();
-    const saturnGeometry = new THREE.SphereGeometry(80, 64, 64);
+    const saturnGeometry = new THREE.SphereGeometry(80, 32, 32); // Reduced from 64, 64
     const saturnMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.8, 0.7, 0.4), // Yellowish
       emissive: new THREE.Color(0.8, 0.7, 0.4), // Yellowish glow
@@ -273,7 +273,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     saturnOrbitGroup.add(saturn);
     
     // Saturn's rings
-    const saturnRingGeometry = new THREE.RingGeometry(100, 150, 64);
+    const saturnRingGeometry = new THREE.RingGeometry(100, 150, 32); // Reduced from 64
     const saturnRingMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color(0.8, 0.7, 0.5),
       side: THREE.DoubleSide,
@@ -291,7 +291,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 7 - Uranus
     const uranusGroup = new THREE.Group();
     const uranusOrbitGroup = new THREE.Group();
-    const uranusGeometry = new THREE.SphereGeometry(60, 32, 32);
+    const uranusGeometry = new THREE.SphereGeometry(60, 16, 16); // Reduced from 32, 32
     const uranusMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.5, 0.8, 0.9), // Light blue
       emissive: new THREE.Color(0.5, 0.8, 0.9), // Light blue glow
@@ -308,7 +308,7 @@ const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ className = '' }) =
     // Planet 8 - Neptune
     const neptuneGroup = new THREE.Group();
     const neptuneOrbitGroup = new THREE.Group();
-    const neptuneGeometry = new THREE.SphereGeometry(56, 32, 32);
+    const neptuneGeometry = new THREE.SphereGeometry(56, 16, 16); // Reduced from 32, 32
     const neptuneMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0.3, 0.4, 0.8), // Deep blue
       emissive: new THREE.Color(0.3, 0.4, 0.8), // Deep blue glow

@@ -31,7 +31,7 @@ import { ThemesShowcasePage } from "./pages";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useDailySadhanaRefresh } from "./hooks/useDailySadhanaRefresh";
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense, useMemo, useCallback } from "react";
 import ThemeProvider from "./components/ThemeProvider";
 import { useSettings } from "./hooks/useSettings";
 import ThemedBackground from "./components/ThemedBackground";
@@ -53,10 +53,11 @@ const ManifestoPage = lazy(() => import('./pages/landing/ManifestoPage'));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 10, // 10 minutes (renamed from cacheTime)
+      staleTime: 1000 * 60 * 10, // 10 minutes (increased for better caching)
+      gcTime: 1000 * 60 * 15, // 15 minutes (increased)
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      refetchOnMount: false,
       retry: 1,
     },
   },
@@ -104,7 +105,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }} />
       </div>
     );
   }
@@ -126,7 +127,7 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
     if (isLoading || isOnboardingComplete === null) {
       const timer = setTimeout(() => {
         setLoadingTimeout(true);
-      }, 5000); // 5 second timeout
+      }, 3000); // 3 second timeout (reduced from 5)
 
       return () => clearTimeout(timer);
     }
@@ -135,7 +136,7 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }} />
       </div>
     );
   }
@@ -154,7 +155,7 @@ const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
   if (isOnboardingComplete === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }} />
       </div>
     );
   }
@@ -173,46 +174,29 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 
   // Get the current theme from settings or default to 'default'
   const { settings } = useSettings();
-  const currentTheme = settings?.appearance?.colorScheme || 'default';
-  const isTaraTheme = currentTheme === 'tara';
+  const currentTheme = useMemo(() => settings?.appearance?.colorScheme || 'default', [settings?.appearance?.colorScheme]);
 
   useEffect(() => {
     setLoaded(false);
-    // Reduced timeout for faster page transitions (50ms instead of 100ms)
+    // Instant transition for faster perceived performance
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 50);
+    }, 0);
 
     return () => clearTimeout(timer);
   }, [location]);
 
-  // For Tara theme, disable transitions completely to maintain consistent scale and position
-  if (isTaraTheme) {
+  // For Tara theme and others, disable transitions for better performance
+  if (currentTheme === 'tara' || currentTheme === 'cosmos') {
     return <div className="transition-none">{children}</div>;
   }
 
-  // Show loading spinner while transitioning
+  // Show minimal loading indicator while transitioning
   if (!loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        {/* Enhanced animated loading spinner */}
-        <div className="relative w-16 h-16">
-          {/* Outer rotating ring */}
-          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
-          
-          {/* Middle pulsing ring */}
-          <div className="absolute inset-2 rounded-full border-2 border-primary/30" style={{
-            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            animationDelay: '0.2s'
-          }}></div>
-          
-          {/* Inner dot */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-2 h-2 bg-primary rounded-full" style={{
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-            }}></div>
-          </div>
-        </div>
+        {/* Minimal loading spinner - less CPU intense */}
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }}></div>
       </div>
     );
   }
@@ -224,24 +208,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
 // Loading fallback component for lazy-loaded routes
 const RouteLoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
-    <div className="text-center">
-      {/* Enhanced animated loading spinner with multiple elements */}
-      <div className="relative w-16 h-16 mx-auto mb-6">
-        {/* Outer rotating ring */}
-        <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
-        
-        {/* Middle rotating ring (opposite direction) */}
-        <div className="absolute inset-3 rounded-full border-2 border-transparent border-b-primary/50 border-l-primary/50 animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
-        
-        {/* Inner dot */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-3 h-3 bg-primary rounded-full" style={{
-            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          }}></div>
-        </div>
-      </div>
-      <p className="text-sm text-muted-foreground">Loading page...</p>
-    </div>
+    <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }} />
   </div>
 );
 
@@ -294,35 +261,23 @@ const AppRoutes = () => {
 const App = () => {
   const { settings, isLoading } = useSettings();
 
-  // Show a loading spinner while settings are loading
+  // Memoize theme determination - MUST be called before any conditional returns
+  const backgroundTheme = useMemo(() => {
+    const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
+    return (settings?.appearance?.colorScheme &&
+      validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
+      ? settings.appearance.colorScheme as typeof validThemes[number]
+      : 'default');
+  }, [settings?.appearance?.colorScheme]);
+
+  // Show a minimal loading spinner while settings are loading
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="relative w-16 h-16">
-          {/* Outer rotating ring */}
-          <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-primary border-r-primary animate-spin" style={{ animationDuration: '2s' }}></div>
-          
-          {/* Middle rotating ring (opposite direction) */}
-          <div className="absolute inset-3 rounded-full border-2 border-transparent border-b-primary/50 border-l-primary/50 animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
-          
-          {/* Inner dot */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-3 h-3 bg-primary rounded-full" style={{
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-            }}></div>
-          </div>
-        </div>
+        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" style={{ animationDuration: '1s' }} />
       </div>
     );
   }
-
-  // Determine the theme for background animation
-  // Remove the forced default theme on landing pages to allow them to maintain original color schemes
-  const validThemes = ['default', 'earth', 'water', 'fire', 'shiva', 'bhairava', 'serenity', 'ganesha', 'mystery', 'neon', 'tara', 'durga', 'mahakali', 'swamiji', 'cosmos', 'lakshmi', 'vishnu', 'krishna'] as const;
-  const backgroundTheme = settings?.appearance?.colorScheme &&
-    validThemes.includes(settings.appearance.colorScheme as typeof validThemes[number])
-    ? settings.appearance.colorScheme as typeof validThemes[number]
-    : 'default';
 
   return (
     <ErrorBoundary
@@ -350,7 +305,6 @@ const App = () => {
                         v7_startTransition: true,
                         v7_relativeSplatPath: true
                       }}>
-                        {/* Only render ThemeProvider when settings are loaded */}
                         <PageTransition>
                           {settings ? (
                             <ThemeProvider settings={settings}>

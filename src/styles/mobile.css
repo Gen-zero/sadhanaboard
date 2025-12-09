@@ -202,6 +202,248 @@
   padding: 8px;
 }
 
+/* Mobile Sadhana Page Optimizations */
+.mobile-sadhana-container {
+  padding: 0.5rem;
+}
+
+.mobile-sadhana-header {
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.mobile-sadhana-title {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.mobile-sadhana-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.mobile-sadhana-card {
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+}
+
+.mobile-sadhana-card-header {
+  padding: 1rem;
+}
+
+.mobile-sadhana-card-title {
+  font-size: 1.125rem;
+}
+
+.mobile-sadhana-card-description {
+  font-size: 0.8125rem;
+}
+
+.mobile-sadhana-card-content {
+  padding: 1rem;
+}
+
+.mobile-sadhana-form-field {
+  margin-bottom: 1rem;
+}
+
+.mobile-sadhana-textarea {
+  min-height: 6rem;
+  font-size: 0.875rem;
+}
+
+.mobile-sadhana-input {
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.mobile-sadhana-button {
+  height: 2.5rem;
+  font-size: 0.875rem;
+  padding: 0 1rem;
+}
+
+.mobile-sadhana-button-large {
+  height: 3rem;
+  font-size: 1rem;
+  padding: 0 1.25rem;
+}
+
+.mobile-sadhana-progress-container {
+  margin-top: 0.5rem;
+}
+
+.mobile-sadhana-progress-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.mobile-sadhana-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.mobile-sadhana-parchment {
+  min-height: 16rem;
+  padding: 1rem;
+}
+
+.mobile-sadhana-parchment-header {
+  margin-bottom: 0.75rem;
+}
+
+.mobile-sadhana-parchment-title {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-sadhana-parchment-content {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.mobile-sadhana-parchment-section {
+  margin-bottom: 0.75rem;
+}
+
+.mobile-sadhana-parchment-section-header {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Compact layout for small screens */
+@media (max-width: 480px) {
+  .compact-spacing {
+    space-y: 0.5rem;
+  }
+  
+  .compact-padding {
+    padding: 0.75rem;
+  }
+  
+  .compact-margin {
+    margin: 0.5rem 0;
+  }
+  
+  .compact-card {
+    border-radius: 0.75rem;
+  }
+  
+  .compact-button {
+    height: 2.25rem;
+    font-size: 0.8125rem;
+    padding: 0 0.75rem;
+  }
+  
+  .compact-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .compact-text {
+    font-size: 0.8125rem;
+  }
+  
+  .compact-title {
+    font-size: 1rem;
+  }
+  
+  .compact-subtitle {
+    font-size: 0.75rem;
+  }
+  
+  .compact-form-element {
+    margin-bottom: 0.75rem;
+  }
+  
+  .compact-textarea {
+    min-height: 5rem;
+  }
+}
+
+/* Medium mobile screens */
+@media (min-width: 481px) and (max-width: 768px) {
+  .medium-mobile-spacing {
+    space-y: 1rem;
+  }
+  
+  .medium-mobile-padding {
+    padding: 1rem;
+  }
+  
+  .medium-mobile-margin {
+    margin: 0.75rem 0;
+  }
+  
+  .medium-mobile-card {
+    border-radius: 1rem;
+  }
+  
+  .medium-mobile-button {
+    height: 2.75rem;
+    font-size: 0.875rem;
+    padding: 0 1rem;
+  }
+  
+  .medium-mobile-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .medium-mobile-text {
+    font-size: 0.875rem;
+  }
+  
+  .medium-mobile-title {
+    font-size: 1.25rem;
+  }
+  
+  .medium-mobile-subtitle {
+    font-size: 0.8125rem;
+  }
+  
+  .medium-mobile-form-element {
+    margin-bottom: 1rem;
+  }
+  
+  .medium-mobile-textarea {
+    min-height: 6rem;
+  }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+  .mobile-performance-optimize {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  
+  .mobile-reduce-animations * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .mobile-light-backdrop {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
+  .mobile-reduced-particles {
+    display: none;
+  }
+  
+  .mobile-hide-non-essential {
+    display: none;
+  }
+  
+  .mobile-minimal-effects {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
 /* Native Android-like animations */
 @keyframes mobile-fade-in {
   from {

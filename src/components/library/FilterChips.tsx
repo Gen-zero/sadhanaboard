@@ -43,7 +43,7 @@ const FilterChips: React.FC<FilterChipsProps> = ({ filters, onRemoveFilter, onCl
             {c.label}
           </span>
           <button 
-            className="text-base md:text-xs text-muted-foreground p-1 hover:bg-primary/20 rounded-full transition-colors h-5 w-5 flex items-center justify-center hover:scale-110"
+            className="text-base md:text-xs p-1 hover:bg-primary/20 rounded-full transition-colors h-5 w-5 flex items-center justify-center hover:scale-110 text-muted-foreground"
             onClick={() => onRemoveFilter(c.key, c.payload)}
             aria-label={`Remove ${c.label}`}
           >

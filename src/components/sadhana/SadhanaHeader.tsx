@@ -91,14 +91,6 @@ const SadhanaHeader = ({
             </Button>
           </div>
         </div>
-        
-        {/* Enhanced description with cosmic styling */}
-        <div className="mt-4 p-3 rounded-lg bg-transparent border border-white">
-          <p className="font-light tracking-wide text-sm" style={{ color: 'white' }}>
-            <span className="font-medium text-primary">Tip:</span> Your spiritual intentions transcend dimensions through this cosmic yantra. 
-            Connect with your divine guide to manifest your desires into reality.
-          </p>
-        </div>
       </div>
     </div>
   );

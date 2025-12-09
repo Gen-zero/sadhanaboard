@@ -67,7 +67,7 @@ const RecentlyAddedSection = ({ onSelectBook }: RecentlyAddedSectionProps) => {
                   NEW
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground mb-3 line-clamp-1">
+              <p className="text-sm mb-3 line-clamp-1 text-muted-foreground">
                 by {book.author}
               </p>
               

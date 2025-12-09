@@ -238,7 +238,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
             </div>
             
             <div className="pt-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+              <div className="flex items-center gap-2 text-sm mb-2" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 <Clock className="h-4 w-4" />
                 <span>Duration: {sadhana.duration} days</span>
               </div>

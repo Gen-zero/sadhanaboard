@@ -279,9 +279,9 @@ const LotusPetals: React.FC<{ enabled: boolean }> = ({ enabled }) => {
 
   return (
     <group ref={groupRef} position={[0, 0, -1]}>
-      {/* Golden divine particles */}
+      {/* Golden divine particles - heavily reduced */}
       <Sparkles 
-        count={300} 
+        count={60} 
         scale={12} 
         size={2} 
         speed={0.3} 
@@ -289,9 +289,9 @@ const LotusPetals: React.FC<{ enabled: boolean }> = ({ enabled }) => {
         opacity={0.8}
       />
       
-      {/* Purple mystical particles */}
+      {/* Purple mystical particles - reduced */}
       <Sparkles 
-        count={200} 
+        count={40} 
         scale={15} 
         size={1.5} 
         speed={0.2} 
@@ -299,9 +299,9 @@ const LotusPetals: React.FC<{ enabled: boolean }> = ({ enabled }) => {
         opacity={0.6}
       />
       
-      {/* White divine light particles */}
+      {/* White divine light particles - reduced */}
       <Sparkles 
-        count={150} 
+        count={30} 
         scale={10} 
         size={1} 
         speed={0.4} 
@@ -309,9 +309,9 @@ const LotusPetals: React.FC<{ enabled: boolean }> = ({ enabled }) => {
         opacity={0.5}
       />
       
-      {/* Rose/pink blessing particles */}
+      {/* Rose/pink blessing particles - reduced */}
       <Sparkles 
-        count={100} 
+        count={20} 
         scale={18} 
         size={0.8} 
         speed={0.15} 
@@ -319,9 +319,9 @@ const LotusPetals: React.FC<{ enabled: boolean }> = ({ enabled }) => {
         opacity={0.4}
       />
       
-      {/* Deep cosmic purple dust */}
+      {/* Deep cosmic purple dust - reduced */}
       <Sparkles 
-        count={250} 
+        count={50} 
         scale={20} 
         size={0.5} 
         speed={0.1} 
@@ -494,9 +494,9 @@ const CosmicSpiritualBackground: React.FC<CosmicSpiritualBackgroundProps> = ({
     <div className={className ?? 'fixed inset-0 z-0'}>
       <Canvas 
         camera={{ position: [0, 0, 5], fov: 60 }} 
-        frameloop="always" 
-        dpr={[1, 2]} 
-        gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
+        frameloop="demand" 
+        dpr={[1, 1.5]} 
+        gl={{ antialias: true, alpha: true, premultipliedAlpha: true, powerPreference: 'high-performance' }}
       >
         <CosmicSpiritualScene 
           intensity={intensity} 

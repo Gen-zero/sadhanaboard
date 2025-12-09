@@ -117,7 +117,7 @@ const FoundationsCategory = ({ onSadhanaSelect }: FoundationsCategoryProps) => {
           <Sparkles className="h-6 w-6" />
           Foundations for Your Journey
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
+        <p className="max-w-2xl mx-auto text-muted-foreground">
           Start with these beginner-friendly practices designed to introduce you to mindfulness 
           and spiritual growth using accessible, secular language.
         </p>
@@ -140,7 +140,7 @@ const FoundationsCategory = ({ onSadhanaSelect }: FoundationsCategoryProps) => {
                   </Badge>
                 )}
               </div>
-              <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+              <p className="text-sm mt-2 line-clamp-2 text-muted-foreground">
                 {sadhana.description}
               </p>
             </CardHeader>
