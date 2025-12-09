@@ -448,10 +448,96 @@ const ProfilePage = () => {
             </Card>
           </motion.div>
 
-          {/* Stats & Streak */}
-          <motion.div variants={itemVariants} className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Stats Card */}
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+          {/* Spiritual Journey */}
+          <motion.div variants={itemVariants} className="lg:col-span-2">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Leaf className="h-5 w-5 text-purple-300" />
+                  Spiritual Journey
+                </CardTitle>
+                <CardDescription>About your path and practices</CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2">
+                      <Compass className="h-4 w-4 text-purple-400" />
+                      Spiritual Background
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                        <span className="text-sm text-muted-foreground">Varna</span>
+                        <span className="text-sm font-medium">
+                          {profile?.varna ? profile.varna.charAt(0).toUpperCase() + profile.varna.slice(1) : "Not specified"} 🙏
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                        <span className="text-sm text-muted-foreground">Gotra</span>
+                        <span className="text-sm font-medium">
+                          {profile?.gotra || "Not specified"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                        <span className="text-sm text-muted-foreground">Sampradaya</span>
+                        <span className="text-sm font-medium">
+                          {profile?.sampradaya ? profile.sampradaya.charAt(0).toUpperCase() + profile.sampradaya.slice(1) : "Not specified"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                        <span className="text-sm text-muted-foreground">Favorite Mantra</span>
+                        <span className="text-sm font-medium text-purple-300">
+                          {profile?.favorite_deity ? `Om ${profile.favorite_deity} Namaha` : "Not specified"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2">
+                      <Target className="h-4 w-4 text-purple-400" />
+                      Deity Connections
+                    </h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={mockDeityConnectionData}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          >
+                            {mockDeityConnectionData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={['#8b5cf6', '#a78bfa', '#c4b5fd', '#ddd6fe', '#ede9fe'][index % 5]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            contentStyle={{ 
+                              backgroundColor: 'rgba(124, 58, 237, 0.2)', 
+                              borderColor: '#7c3aed',
+                              backdropFilter: 'blur(10px)',
+                              borderRadius: '0.75rem'
+                            }} 
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Spiritual Stats and Practice Streak */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Spiritual Stats */}
+          <motion.div variants={itemVariants}>
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-purple-300" />
@@ -515,9 +601,11 @@ const ProfilePage = () => {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
 
-            {/* Streak Card */}
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+          {/* Practice Streak */}
+          <motion.div variants={itemVariants}>
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Flame className="h-5 w-5 text-orange-400" />
@@ -559,64 +647,10 @@ const ProfilePage = () => {
               </CardContent>
             </Card>
           </motion.div>
-
-          {/* Achievements */}
-          <motion.div variants={itemVariants} className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-purple-300" />
-                  Badges Earned
-                </CardTitle>
-                <CardDescription>Achievements from your spiritual journey</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                {earnedBadges.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    {earnedBadges.map((badge, index) => (
-                      <motion.div
-                        key={`${badge.id}-${index}`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        whileHover={{ y: -10, scale: 1.05, zIndex: 10 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex flex-col items-center p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all cursor-pointer relative overflow-hidden group"
-                        title={badge.title}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-                        <div className="relative z-10">
-                          <motion.div 
-                            className="p-3 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 mb-3 shadow-lg"
-                            whileHover={{ rotate: 10, scale: 1.1 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                          >
-                            <Award className="h-6 w-6 text-white" />
-                          </motion.div>
-                          <h3 className="font-semibold text-sm text-center text-purple-100 group-hover:text-white transition-colors duration-300">{badge.title}</h3>
-                          <p className="text-xs text-purple-300 text-center mt-1 group-hover:text-purple-200 transition-colors duration-300">{badge.description || 'Achievement'}</p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Award className="h-12 w-12 text-purple-300/50 mx-auto mb-3" />
-                    <p className="text-muted-foreground">No badges earned yet. Complete sadhanas to earn achievements!</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
-        {/* Badge Gallery */}
-        <motion.div variants={itemVariants}>
-          <BadgeGallery allBadges={allBadges} earnedBadges={earnedBadges.map(b => b.id)} />
-        </motion.div>
-
-        {/* Analytics Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Sadhana Duration Chart */}
           <motion.div variants={itemVariants}
             whileHover={{ y: -5 }}
@@ -625,7 +659,7 @@ const ProfilePage = () => {
             <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full overflow-hidden">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-purple-300" />
+                  <Clock className="h-5 w-5 text-purple-300" />
                   Sadhana Duration
                 </CardTitle>
                 <CardDescription>Minutes per day over the last week</CardDescription>
@@ -719,166 +753,132 @@ const ProfilePage = () => {
           </motion.div>
         </div>
 
-        {/* Additional Analytics */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-
-
-          {/* Energy Level Section */}
-          <motion.div variants={itemVariants}>
-            <Card className={`backdrop-blur-xl rounded-2xl shadow-xl h-full ${
-              currentTheme === 'tara' 
-                ? 'bg-gradient-to-br from-blue-950/10 to-indigo-950/10 border border-blue-500/20' 
-                : 'bg-gradient-to-br from-yellow-600/10 to-orange-500/10 border border-yellow-500/20'
-            }`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className={`h-5 w-5 ${
-                    currentTheme === 'tara' ? 'text-blue-300' : 'text-yellow-300'
-                  }`} />
-                  Energy Level
-                </CardTitle>
-                <CardDescription>Your current guna balance (Sattva, Rajas, Tamas)</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className={`text-center p-3 rounded-lg border ${
-                      currentTheme === 'tara' 
-                        ? 'bg-green-950/10 border-green-500/20' 
-                        : 'bg-green-500/10 border-green-500/20'
-                    }`}>
-                      <div className={`text-xl font-bold ${
-                        currentTheme === 'tara' ? 'text-green-300' : 'text-green-400'
-                      }`}>{profile?.energy_balance?.sattva || 33}%</div>
-                      <div className={`text-xs ${
-                        currentTheme === 'tara' ? 'text-green-400' : 'text-green-300'
-                      }`}>Sattva</div>
-                    </div>
-                    <div className={`text-center p-3 rounded-lg border ${
-                      currentTheme === 'tara' 
-                        ? 'bg-orange-950/10 border-orange-500/20' 
-                        : 'bg-orange-500/10 border-orange-500/20'
-                    }`}>
-                      <div className={`text-xl font-bold ${
-                        currentTheme === 'tara' ? 'text-orange-300' : 'text-orange-400'
-                      }`}>{profile?.energy_balance?.rajas || 33}%</div>
-                      <div className={`text-xs ${
-                        currentTheme === 'tara' ? 'text-orange-400' : 'text-orange-300'
-                      }`}>Rajas</div>
-                    </div>
-                    <div className={`text-center p-3 rounded-lg border ${
-                      currentTheme === 'tara' 
-                        ? 'bg-red-950/10 border-red-500/20' 
-                        : 'bg-red-500/10 border-red-500/20'
-                    }`}>
-                      <div className={`text-xl font-bold ${
-                        currentTheme === 'tara' ? 'text-red-300' : 'text-red-400'
-                      }`}>{profile?.energy_balance?.tamas || 34}%</div>
-                      <div className={`text-xs ${
-                        currentTheme === 'tara' ? 'text-red-400' : 'text-red-300'
-                      }`}>Tamas</div>
-                    </div>
+        {/* Energy Level Section */}
+        <motion.div variants={itemVariants}>
+          <Card className={`backdrop-blur-xl rounded-2xl shadow-xl ${
+            currentTheme === 'tara' 
+              ? 'bg-gradient-to-br from-blue-950/10 to-indigo-950/10 border border-blue-500/20' 
+              : 'bg-gradient-to-br from-yellow-600/10 to-orange-500/10 border border-yellow-500/20'
+          }`}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className={`h-5 w-5 ${
+                  currentTheme === 'tara' ? 'text-blue-300' : 'text-yellow-300'
+                }`} />
+                Energy Levels
+              </CardTitle>
+              <CardDescription>Your current guna balance (Sattva, Rajas, Tamas)</CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-3">
+                  <div className={`text-center p-3 rounded-lg border ${
+                    currentTheme === 'tara' 
+                      ? 'bg-green-950/10 border-green-500/20' 
+                      : 'bg-green-500/10 border-green-500/20'
+                  }`}>
+                    <div className={`text-xl font-bold ${
+                      currentTheme === 'tara' ? 'text-green-300' : 'text-green-400'
+                    }`}>{profile?.energy_balance?.sattva || 33}%</div>
+                    <div className={`text-xs ${
+                      currentTheme === 'tara' ? 'text-green-400' : 'text-green-300'
+                    }`}>Sattva</div>
                   </div>
-                  
-                  <Button 
-                    onClick={() => navigate('/energy-level')}
-                    className={`w-full ${
-                      currentTheme === 'tara' 
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700' 
-                        : 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600'
-                    }`}
-                  >
-                    View Detailed Assessment
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Bio & Spiritual Details */}
-          <motion.div variants={itemVariants} className="lg:col-span-1">
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Leaf className="h-5 w-5 text-purple-300" />
-                  Spiritual Journey
-                </CardTitle>
-                <CardDescription>About your path and practices</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                      <Compass className="h-4 w-4 text-purple-400" />
-                      Spiritual Background
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                        <span className="text-sm text-muted-foreground">Varna</span>
-                        <span className="text-sm font-medium">
-                          {profile?.varna ? profile.varna.charAt(0).toUpperCase() + profile.varna.slice(1) : "Not specified"} 🙏
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                        <span className="text-sm text-muted-foreground">Gotra</span>
-                        <span className="text-sm font-medium">
-                          {profile?.gotra || "Not specified"}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                        <span className="text-sm text-muted-foreground">Sampradaya</span>
-                        <span className="text-sm font-medium">
-                          {profile?.sampradaya ? profile.sampradaya.charAt(0).toUpperCase() + profile.sampradaya.slice(1) : "Not specified"}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                        <span className="text-sm text-muted-foreground">Favorite Mantra</span>
-                        <span className="text-sm font-medium text-purple-300">
-                          {profile?.favorite_deity ? `Om ${profile.favorite_deity} Namaha` : "Not specified"}
-                        </span>
-                      </div>
-                    </div>
+                  <div className={`text-center p-3 rounded-lg border ${
+                    currentTheme === 'tara' 
+                      ? 'bg-orange-950/10 border-orange-500/20' 
+                      : 'bg-orange-500/10 border-orange-500/20'
+                  }`}>
+                    <div className={`text-xl font-bold ${
+                      currentTheme === 'tara' ? 'text-orange-300' : 'text-orange-400'
+                    }`}>{profile?.energy_balance?.rajas || 33}%</div>
+                    <div className={`text-xs ${
+                      currentTheme === 'tara' ? 'text-orange-400' : 'text-orange-300'
+                    }`}>Rajas</div>
                   </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                      <Target className="h-4 w-4 text-purple-400" />
-                      Deity Connections
-                    </h3>
-                    <div className="h-64">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={mockDeityConnectionData}
-                            cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            outerRadius={80}
-                            fill="#8884d8"
-                            dataKey="value"
-                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                          >
-                            {mockDeityConnectionData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={['#8b5cf6', '#a78bfa', '#c4b5fd', '#ddd6fe', '#ede9fe'][index % 5]} />
-                            ))}
-                          </Pie>
-                          <Tooltip 
-                            contentStyle={{ 
-                              backgroundColor: 'rgba(124, 58, 237, 0.2)', 
-                              borderColor: '#7c3aed',
-                              backdropFilter: 'blur(10px)',
-                              borderRadius: '0.75rem'
-                            }} 
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
+                  <div className={`text-center p-3 rounded-lg border ${
+                    currentTheme === 'tara' 
+                      ? 'bg-red-950/10 border-red-500/20' 
+                      : 'bg-red-500/10 border-red-500/20'
+                  }`}>
+                    <div className={`text-xl font-bold ${
+                      currentTheme === 'tara' ? 'text-red-300' : 'text-red-400'
+                    }`}>{profile?.energy_balance?.tamas || 34}%</div>
+                    <div className={`text-xs ${
+                      currentTheme === 'tara' ? 'text-red-400' : 'text-red-300'
+                    }`}>Tamas</div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+                
+                <Button 
+                  onClick={() => navigate('/energy-level')}
+                  className={`w-full ${
+                    currentTheme === 'tara' 
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700' 
+                      : 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600'
+                  }`}
+                >
+                  View Detailed Assessment
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Badges Earned */}
+        <motion.div variants={itemVariants}>
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Award className="h-5 w-5 text-purple-300" />
+                Badges Earned
+              </CardTitle>
+              <CardDescription>Achievements from your spiritual journey</CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              {earnedBadges.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                  {earnedBadges.map((badge, index) => (
+                    <motion.div
+                      key={`${badge.id}-${index}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileHover={{ y: -10, scale: 1.05, zIndex: 10 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex flex-col items-center p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all cursor-pointer relative overflow-hidden group"
+                      title={badge.title}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                      <div className="relative z-10">
+                        <motion.div 
+                          className="p-3 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 mb-3 shadow-lg"
+                          whileHover={{ rotate: 10, scale: 1.1 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Award className="h-6 w-6 text-white" />
+                        </motion.div>
+                        <h3 className="font-semibold text-sm text-center text-purple-100 group-hover:text-white transition-colors duration-300">{badge.title}</h3>
+                        <p className="text-xs text-purple-300 text-center mt-1 group-hover:text-purple-200 transition-colors duration-300">{badge.description || 'Achievement'}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <Award className="h-12 w-12 text-purple-300/50 mx-auto mb-3" />
+                  <p className="text-muted-foreground">No badges earned yet. Complete sadhanas to earn achievements!</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Badges Collection (Badge Gallery) - Hidden as per user request */}
+        {/* <motion.div variants={itemVariants}>
+          <BadgeGallery allBadges={allBadges} earnedBadges={earnedBadges.map(b => b.id)} />
+        </motion.div> */}
+
       </motion.div>
 
       {/* Edit Profile Modal */}

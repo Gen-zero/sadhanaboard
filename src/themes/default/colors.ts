@@ -8,17 +8,17 @@ import { ThemeColors } from '../types';
 
 const colors: ThemeColors = {
   background: '270 50% 95%',          // Light lavender background with golden undertones
-  foreground: '270 70% 35%',          // Brighter rich purple text for better visibility
+  foreground: '270 60% 28%',          // Enhanced rich purple text for better contrast
   primary: '270 60% 60%',             // Purple-gold blend for primary elements
   primaryForeground: '0 0% 100%',     // White text
   secondary: '270 40% 70%',           // Lighter purple-gold for secondary elements
-  secondaryForeground: '270 65% 30%', // Brighter purple text
+  secondaryForeground: '270 50% 25%', // Dark purple text
   accent: '45 100% 50%',              // Golden accent
-  accentForeground: '270 60% 25%',    // Brighter purple instead of black
+  accentForeground: '270 30% 20%',    // Dark purple instead of black
   card: '270 30% 90%',                // Lavender card background
-  cardForeground: '270 70% 35%',      // Brighter strong purple
+  cardForeground: '270 60% 28%',      // Strong dark purple
   popover: '270 40% 92%',             // Popover with golden undertones
-  popoverForeground: '270 70% 35%',   // Brighter strong text
+  popoverForeground: '270 60% 28%',   // Strong text
   border: '270 50% 80%',              // Border with purple-gold mix
   input: '270 35% 93%',               // Input fields
   muted: '270 25% 85%',               // Muted background
@@ -27,11 +27,11 @@ const colors: ThemeColors = {
   destructiveForeground: '0 0% 100%',
   ring: '45 100% 50%',                // Golden focus ring
   sidebarBackground: '270 40% 90%',    // Sidebar
-  sidebarForeground: '270 70% 32%',   // Brighter strong text
+  sidebarForeground: '270 60% 25%',   // Strong text
   sidebarPrimary: '45 100% 50%',      // Golden primary
-  sidebarPrimaryForeground: '270 65% 28%',
-  sidebarAccent: '270 60% 65%',       // Brighter purple-gold accent
-  sidebarAccentForeground: '270 70% 32%',
+  sidebarPrimaryForeground: '270 40% 20%',
+  sidebarAccent: '270 50% 75%',       // Light purple-gold accent
+  sidebarAccentForeground: '270 60% 25%',
   sidebarBorder: '270 40% 80%',
   sidebarRing: '45 100% 50%'
 };

@@ -62,9 +62,10 @@ class ProfileService {
         energy_balance,
         energyBalance,
         social_links,
-        socialLinks
+        socialLinks,
+        deity_preferences,
+        energy_level_answers
       } = profileData;
-
       const updateData = {};
       
       // Update display_name in User document if provided

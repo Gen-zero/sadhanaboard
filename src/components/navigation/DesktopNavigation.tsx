@@ -44,7 +44,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
     { name: t('library'), icon: BookHeart, path: '/library' },
     // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
-    { name: t('store'), icon: ShoppingCart, path: '/store' },
+    // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
     { name: t('settings'), icon: Settings, path: '/settings' }
   ];
 

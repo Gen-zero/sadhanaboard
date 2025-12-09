@@ -25,7 +25,7 @@ const DEFAULT_SETTINGS: SettingsType = {
     fontSize: 16,
     animationsEnabled: true,
     highContrastMode: false,
-    colorScheme: 'default',
+    colorScheme: 'mahakali',
   },
   privacy: {
     storeDataLocally: true,

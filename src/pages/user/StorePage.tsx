@@ -530,18 +530,18 @@ const StorePage = () => {
                   <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-secondary">
                     <ShoppingCart className="h-6 w-6 text-white" />
                   </div>
-                  <CardTitle className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
+                  <CardTitle className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent drop-shadow-lg">
                     Spiritual Store
                   </CardTitle>
                 </div>
-                <p className="text-muted-foreground text-lg mb-4">
+                <p className="text-lg mb-4 font-medium text-foreground/90">
                   Transform your spiritual practice with premium themes, yantras, and exclusive content
                 </p>
                 
                 {/* Beta Badge */}
                 <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/50 px-4 py-2 rounded-full">
                   <Gift className="h-4 w-4 text-accent" />
-                  <span className="text-sm font-semibold text-accent">Beta Special: All Items FREE</span>
+                  <span className="text-sm font-semibold text-accent-foreground">Beta Special: All Items FREE</span>
                 </div>
               </div>
               

@@ -56,13 +56,13 @@
     --primary: 270 60% 50%;              /* True purple */
     --primary-foreground: 60 100% 97%;
 
-    --secondary: 270 30% 25%;
+    --secondary: 270 30% 25%;            /* True purple */
     --secondary-foreground: 60 100% 97%;
 
     --muted: 210 12% 17%;
     --muted-foreground: 210 11% 60%;
 
-    --accent: 270 50% 40%;
+    --accent: 270 50% 40%;               /* True purple */
     --accent-foreground: 60 100% 97%;
 
     --destructive: 0 62.8% 35.6%;
@@ -103,11 +103,11 @@
 
   /* Serenity theme - professional and visually distinct */
   .color-scheme-serenity {
-    --primary: 202 96% 46%;     /* Professional sky blue (#0EA5E9) */
+    --primary: 202 96% 46%;     /* Professional sky blue */
     --secondary: 210 40% 90%;   /* Subtle blue-gray for secondary elements */
-    --accent: 199 89% 48%;      /* Vibrant teal for accents (#06B6D4) */
-    --background: 210 100% 97%; /* Professional light blue background (#F0F9FF) */
-    --foreground: 222 47% 11%;  /* Deep navy blue text (#0F172A) */
+    --accent: 199 89% 48%;      /* Vibrant teal for accents */
+    --background: 210 100% 97%; /* Professional light blue background */
+    --foreground: 222 47% 11%;  /* Deep navy blue text */
     --card: 210 80% 98%;        /* Lighter card background */
     --card-foreground: 222 47% 11%; /* Deep navy blue text on cards */
     --border: 210 40% 85%;      /* Soft blue-gray border */
@@ -232,24 +232,33 @@
 /* Theme-specific styles */
 /* Default Theme - Golden Purple Mix */
 .theme-default {
-  --background: 270 50% 95%;          /* Light lavender background with golden undertones */
-  --foreground: 270 70% 25%;          /* Rich purple-gold text */
-  --primary: 270 60% 60%;             /* Purple-gold blend for primary elements */
-  --secondary: 270 40% 70%;           /* Lighter purple-gold for secondary elements */
+  --background: 45 20% 95%;          /* Light golden background */
+  --foreground: 45 100% 30%;          /* Rich golden text */
+  --primary: 45 100% 60%;             /* Vibrant gold for primary elements */
+  --primary-foreground: 0 0% 100%;    /* White text */
+  --secondary: 45 80% 70%;           /* Light golden for secondary elements */
+  --secondary-foreground: 45 100% 25%; /* Rich golden text */
   --accent: 45 100% 50%;              /* Golden accent */
-  --card: 270 30% 90%;                /* Lavender card background */
-  --popover: 270 40% 92%;             /* Popover with golden undertones */
-  --border: 270 50% 80%;              /* Border with purple-gold mix */
-  --input: 270 35% 93%;               /* Input fields */
-  --muted: 270 25% 85%;               /* Muted background */
-  --muted-foreground: 270 30% 60%;    /* Muted purple-gold text */
+  --accent-foreground: 45 100% 20%;   /* Dark golden text */
+  --card: 45 30% 95%;                /* Light golden card background */
+  --card-foreground: 0 0% 100%;     /* White text for better contrast */
+  --popover: 45 40% 95%;             /* Popover with golden undertones */
+  --popover-foreground: 45 100% 30%;  /* Rich golden text */
+  --border: 0 0% 100%;              /* White border */
+  --input: 45 25% 96%;               /* Light golden input fields */
+  --muted: 45 20% 90%;               /* Muted golden background */
+  --muted-foreground: 45 50% 40%;    /* Muted golden text */
+  --destructive: 0 84.2% 58%;
+  --destructive-foreground: 0 0% 100%;
   --ring: 45 100% 50%;                /* Golden focus ring */
-  --sidebar-background: 270 40% 90%;  /* Sidebar */
-  --sidebar-foreground: 0 0% 100%;  /* Sidebar text */
-  --sidebar-primary: 45 100% 50%;     /* Golden sidebar primary */
-  --sidebar-accent: 270 50% 75%;      /* Light purple-gold accent */
-  --sidebar-border: 270 40% 80%;      /* Sidebar border */
-  --sidebar-ring: 45 100% 50%;        /* Golden sidebar ring */
+  --sidebar-background: 45 100% 95%;  /* Golden white sidebar background */
+  --sidebar-foreground: 45 100% 20%;  /* Dark golden text */
+  --sidebar-primary: 45 100% 50%;     /* Golden primary */
+  --sidebar-primary-foreground: 0 0% 100%; /* White text for better contrast */
+  --sidebar-accent: 45 100% 70%;      /* Bright golden accent */
+  --sidebar-accent-foreground: 45 100% 25%; /* Dark golden text */
+  --sidebar-border: 0 0% 100%;      /* White sidebar border */
+  --sidebar-ring: 45 100% 50%;
   
   /* Enhanced golden theme variables for adaptive coloring */
   --gold-light: 45 100% 70%;          /* Light gold for highlights */
@@ -413,75 +422,75 @@
 /* Cosmos Theme - Interstellar Nebula */
 .theme-cosmos {
   /* Deep space background with subtle cosmic undertones */
-  --background: 240 20% 6%;        /* #0A0A1A - Deep space black */
+  --background: 240 20% 6%;        /* Deep space black */
   
   /* Primary text color */
-  --foreground: 240 30% 90%;      /* #E6E6FA - Cosmic lavender text */
+  --foreground: 240 30% 90%;      /* Cosmic lavender text */
   
   /* Primary color for buttons, links, and key UI elements */
-  --primary: 240 30% 20%;         /* #2A2A4A - Cosmic slate blue */
+  --primary: 240 30% 20%;         /* Cosmic slate blue */
   
   /* Secondary color for less important UI elements */
-  --secondary: 240 25% 25%;       /* #353555 - Stellar gray-blue */
+  --secondary: 240 25% 25%;       /* Stellar gray-blue */
   
   /* Accent color for highlights and special elements */
-  --accent: 240 40% 60%;          /* #6A5ACD - Cosmic slate blue (Nebula) */
+  --accent: 240 40% 60%;          /* Cosmic slate blue (Nebula) */
   
   /* Background color for cards */
-  --card: 240 15% 12%;            /* #1A1A2A - Dark cosmic card background */
+  --card: 240 15% 12%;            /* Dark cosmic card background */
   
   /* Text color for content inside cards */
-  --card-foreground: 240 30% 90%; /* #E6E6FA - Cosmic lavender text on cards */
+  --card-foreground: 240 30% 90%; /* Cosmic lavender text on cards */
   
   /* Background color for popovers/tooltips */
-  --popover: 240 20% 15%;         /* #222235 - Popover with deep space feel */
+  --popover: 240 20% 15%;         /* Popover with deep space feel */
   
   /* Text color for content inside popovers */
-  --popover-foreground: 240 30% 90%; /* #E6E6FA - Cosmic lavender text on popovers */
+  --popover-foreground: 240 30% 90%; /* Cosmic lavender text on popovers */
   
   /* Border color for most UI elements */
-  --border: 240 30% 30%;          /* #454565 - Cosmic border with shimmer */
+  --border: 240 30% 30%;          /* Cosmic border with shimmer */
   
   /* Background color for input fields */
-  --input: 240 20% 15%;           /* #222235 - Input fields with space feel */
+  --input: 240 20% 15%;           /* Input fields with space feel */
   
   /* Background color for muted/disabled elements */
-  --muted: 240 20% 18%;           /* #252538 - Muted cosmic background */
+  --muted: 240 20% 18%;           /* Muted cosmic background */
   
   /* Text color for muted/disabled elements */
-  --muted-foreground: 240 20% 70%; /* #B0B0C0 - Stellar gray text */
+  --muted-foreground: 240 20% 70%; /* Stellar gray text */
   
   /* Focus ring color for interactive elements */
-  --ring: 240 40% 60%;            /* #6A5ACD - Cosmic slate blue ring */
+  --ring: 240 40% 60%;            /* Cosmic slate blue ring */
   
   /* Deep space sidebar variants */
   
   /* Background color for the sidebar */
-  --sidebar-background: 240 25% 8%;  /* #121225 - Deep space sidebar */
+  --sidebar-background: 240 25% 8%;  /* Deep space sidebar */
   
   /* Text color for sidebar content */
   --sidebar-foreground: 0 0% 90%;    /* Very light text for sidebar */
   
   /* Primary color for sidebar elements (buttons, links) */
-  --sidebar-primary: 240 40% 60%;    /* #6A5ACD - Cosmic slate blue for sidebar */
+  --sidebar-primary: 240 40% 60%;    /* Cosmic slate blue for sidebar */
   
   /* Text color for elements on top of sidebar primary color */
   --sidebar-primary-foreground: 0 0% 100%; /* Pure white text */
   
   /* Accent color for sidebar highlights */
-  --sidebar-accent: 270 50% 70%;     /* #9966CC - Cosmic purple accent */
+  --sidebar-accent: 270 50% 70%;     /* Cosmic purple accent */
   
   /* Text color for elements on top of sidebar accent color */
   --sidebar-accent-foreground: 0 0% 100%; /* Pure white text */
   
   /* Border color for sidebar elements */
-  --sidebar-border: 240 30% 20%;     /* #2A2A4A - Sidebar border */
+  --sidebar-border: 240 30% 20%;     /* Sidebar border */
   
   /* Focus ring color for sidebar interactive elements */
-  --sidebar-ring: 270 50% 70%;      /* #9966CC - Cosmic purple ring */
+  --sidebar-ring: 270 50% 70%;      /* Cosmic purple ring */
   
   /* Destructive actions with cosmic warning */
-  --destructive: 0 80% 60%;         /* #F55 - Cosmic red */
+  --destructive: 0 80% 60%;         /* Cosmic red */
   --destructive-foreground: 0 0% 100%; /* White text on destructive elements */
 }
 
@@ -566,24 +575,24 @@
   --background: 240 100% 6%;       /* Deep cosmic blue */
   --foreground: 210 100% 96%;      /* Light blue-white */
   --primary: 240 100% 50%;         /* Deep blue */
-  --secondary: 230 40% 20%;        /* Blue-grey */
+  --secondary: 0 0% 100%;          /* Blue-grey */
   --accent: 180 80% 45%;           /* Turquoise */
   --card: 240 95% 10%;
   --popover: 240 90% 12%;
-  --border: 235 50% 22%;
+  --border: 0 0% 100%;             /* White border */
   --input: 240 60% 12%;
   --muted: 230 30% 25%;
   --muted-foreground: 220 25% 70%;
   --ring: 240 100% 55%;
 
   /* Sidebar variants */
-  --sidebar-background: 240 100% 4%;
+  --sidebar-background: 0 0% 100%;    
   --sidebar-foreground: 210 100% 96%;
-  --sidebar-primary: 240 100% 50%;
+  --sidebar-primary: 0 0% 100%; 
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 180 80% 45%;
+  --sidebar-accent: 0 0% 100%;    
   --sidebar-accent-foreground: 0 0% 0%;
-  --sidebar-border: 235 50% 20%;
+  --sidebar-border: 0 0% 100%;     /* White sidebar border */
   --sidebar-ring: 240 100% 55%;
 
   /* Vishnu-specific effects */

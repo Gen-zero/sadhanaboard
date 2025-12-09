@@ -55,8 +55,10 @@ const LoginPage = () => {
         return;
       }
       
-      navigate("/dashboard");
-    } catch (err: unknown) {
+      // After successful login, let the OnboardingRoute component handle redirection
+      // If onboarding is incomplete, it will redirect to /onboarding
+      // If complete, it will redirect to /dashboard
+      navigate("/dashboard");    } catch (err: unknown) {
       console.error('Login error:', err);
       // Show more specific error message if available
       if (err instanceof Error && err.message) {
