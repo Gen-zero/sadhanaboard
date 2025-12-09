@@ -890,6 +890,27 @@ const drawBamboo = (ctx: CanvasRenderingContext2D, x: number, y: number, height:
     ctx.stroke();
   }
   
+  // Draw bamboo leaves
+  const leafGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 20);
+  leafGradient.addColorStop(0, 'rgba(124, 252, 0, 0.8)'); // Lawn green
+  leafGradient.addColorStop(1, 'rgba(34, 139, 34, 0.4)'); // Forest green
+  
+  ctx.fillStyle = leafGradient;
+  
+  for (let i = 0; i < 6; i++) {
+    const leafY = (-height/2) + (height * i / 6) + Math.random() * 20 - 10;
+    const leafX = (i % 2 === 0 ? 1 : -1) * (15 + Math.random() * 10);
+    
+    ctx.save();
+    ctx.translate(leafX, leafY);
+    ctx.rotate((i * 0.3) + Math.random() * 0.4 - 0.2);
+    
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 25, 8, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+  
   ctx.restore();
 };
 
@@ -1177,8 +1198,141 @@ const drawZenLotus = (ctx: CanvasRenderingContext2D, x: number, y: number, size:
 
 // Function to draw mandala patterns based on theme
 const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width: number, height: number) => {
-  // Empty function - all mandala patterns removed
   ctx.save();
+  
+  // Set colors based on theme
+  let primaryColor, secondaryColor, accentColor;
+  
+  switch (theme) {
+    case 'earth':
+      primaryColor = 'rgba(139, 69, 19, 0.1)';    // Brown
+      secondaryColor = 'rgba(34, 139, 34, 0.1)'; // Green
+      accentColor = 'rgba(210, 105, 30, 0.1)';   // Chocolate
+      break;
+    case 'water':
+      primaryColor = 'rgba(30, 144, 255, 0.1)';  // DodgerBlue
+      secondaryColor = 'rgba(0, 191, 255, 0.1)'; // DeepSkyBlue
+      accentColor = 'rgba(135, 206, 250, 0.1)';  // LightSkyBlue
+      break;
+    case 'fire':
+      primaryColor = 'rgba(255, 69, 0, 0.1)';    // Red-Orange
+      secondaryColor = 'rgba(255, 140, 0, 0.1)'; // DarkOrange
+      accentColor = 'rgba(255, 215, 0, 0.1)';    // Gold
+      break;
+    case 'shiva':
+      primaryColor = 'rgba(75, 0, 130, 0.1)';    // Indigo
+      secondaryColor = 'rgba(138, 43, 226, 0.1)'; // BlueViolet
+      accentColor = 'rgba(147, 112, 219, 0.1)';  // MediumPurple
+      break;
+    case 'bhairava':
+      primaryColor = 'rgba(139, 0, 0, 0.2)';     // Dark red
+      secondaryColor = 'rgba(220, 20, 60, 0.2)'; // Crimson
+      accentColor = 'rgba(255, 215, 0, 0.2)';    // Gold
+      break;
+    case 'serenity':
+      primaryColor = 'rgba(179, 229, 252, 0.1)'; // Light blue
+      secondaryColor = 'rgba(79, 195, 247, 0.1)'; // Medium blue
+      accentColor = 'rgba(41, 182, 246, 0.1)';   // Darker blue
+      break;
+    case 'ganesha':
+      primaryColor = 'rgba(147, 112, 219, 0.1)';  // Purple
+      secondaryColor = 'rgba(255, 215, 0, 0.1)';  // Gold
+      accentColor = 'rgba(150, 200, 150, 0.1)';   // Muted teal
+      break;
+    case 'mystery':
+      primaryColor = 'rgba(34, 139, 34, 0.15)';   // Forest green
+      secondaryColor = 'rgba(0, 128, 128, 0.1)';  // Teal
+      accentColor = 'rgba(144, 238, 144, 0.08)';  // Light green
+      break;
+    case 'neon':
+      primaryColor = 'rgba(0, 255, 255, 0.15)';   // Neon cyan
+      secondaryColor = 'rgba(255, 0, 255, 0.12)'; // Neon magenta
+      accentColor = 'rgba(0, 255, 127, 0.1)';     // Neon green
+      break;
+    case 'tara':
+      primaryColor = 'rgba(0, 102, 255, 0.15)';   // Deep sapphire blue
+      secondaryColor = 'rgba(0, 153, 255, 0.12)'; // Medium blue
+      accentColor = 'rgba(204, 0, 102, 0.1)';     // Crimson accent
+      break;
+    default: // default/cosmic
+      primaryColor = 'rgba(139, 0, 139, 0.1)';   // DarkMagenta
+      secondaryColor = 'rgba(75, 0, 130, 0.1)';  // Indigo
+      accentColor = 'rgba(147, 112, 219, 0.1)';  // MediumPurple
+  }
+
+  // Draw multiple concentric mandala circles
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const maxRadius = Math.min(width, height) * 0.4;
+
+  // Outer mandala circle
+  ctx.strokeStyle = primaryColor;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, maxRadius, 0, Math.PI * 2);
+
+  ctx.stroke();
+  
+  // Middle mandala circle
+  ctx.strokeStyle = secondaryColor;
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, maxRadius * 0.7, 0, Math.PI * 2);
+  ctx.stroke();
+  
+  // Inner mandala circle
+  ctx.strokeStyle = accentColor;
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, maxRadius * 0.4, 0, Math.PI * 2);
+  ctx.stroke();
+  
+  // Draw geometric patterns within mandala
+  const layers = 3;
+  for (let layer = 0; layer < layers; layer++) {
+    const radius = maxRadius * (0.4 + (layer * 0.2));
+    const points = 8 + layer * 4;
+    
+    ctx.strokeStyle = layer === 0 ? primaryColor : layer === 1 ? secondaryColor : accentColor;
+    ctx.lineWidth = 0.5;
+    
+    // Draw polygon
+    ctx.beginPath();
+    for (let i = 0; i <= points; i++) {
+      const angle = (i * Math.PI * 2) / points;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.stroke();
+    
+    // Draw connecting lines for more intricate pattern
+    if (layer > 0) {
+      const innerPoints = 8 + (layer - 1) * 4;
+      const innerRadius = maxRadius * (0.4 + (layer - 1) * 0.2);
+      
+      for (let i = 0; i < points; i++) {
+        const angle1 = (i * Math.PI * 2) / points;
+        const x1 = centerX + Math.cos(angle1) * radius;
+        const y1 = centerY + Math.sin(angle1) * radius;
+        
+        // Connect to corresponding point in inner layer
+        const innerIndex = Math.floor((i / points) * innerPoints);
+        const angle2 = (innerIndex * Math.PI * 2) / innerPoints;
+        const x2 = centerX + Math.cos(angle2) * innerRadius;
+        const y2 = centerY + Math.sin(angle2) * innerRadius;
+        
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+    }
+  }
+  
   ctx.restore();
 };
 
