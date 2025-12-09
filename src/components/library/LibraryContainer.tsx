@@ -20,7 +20,7 @@ import ContinueReadingSection from './ContinueReadingSection';
 import FoundationsCategory from './FoundationsCategory';
 import BookRequestDialog from './BookRequestDialog';
 import FoundationSadhanaViewer from './FoundationSadhanaViewer';
-import SadhanaStore from './store/SadhanaStore';
+// SadhanaStore import removed as per requirement to hide Sadhana Store from library
 import { useSpiritualBooks, useBookTraditions } from '@/hooks/useSpiritualBooks';
 import { useReadingProgress } from '@/hooks/useReadingProgress';
 
@@ -185,14 +185,10 @@ const LibraryContainer = () => {
       />
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="books" className="flex items-center gap-2 text-sm md:text-base">
             <BookOpen className="h-4 w-4" />
             Sacred Books
-          </TabsTrigger>
-          <TabsTrigger value="store" className="flex items-center gap-2 text-sm md:text-base">
-            <StoreIcon className="h-4 w-4" />
-            Sadhana Store
           </TabsTrigger>
         </TabsList>
         
@@ -345,28 +341,7 @@ const LibraryContainer = () => {
           )}
         </TabsContent>
         
-        <TabsContent value="store">
-          <div className="mb-4 p-3 md:p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <StoreIcon className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <h3 className="font-medium text-lg">Expand Your Spiritual Journey</h3>
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    Visit our full store for premium themes, 3D yantras, merchandise, and workshops
-                  </p>
-                </div>
-              </div>
-              <Link to="/store">
-                <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-sm md:text-base">
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Visit Full Store
-                </Button>
-              </Link>
-            </div>
-          </div>
-          <SadhanaStore />
-        </TabsContent>
+
       </Tabs>
     </div>
   );
