@@ -1110,10 +1110,10 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                             'relative w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-sm md:text-base transition-all duration-500',
                                             activeStep === index
                                                 ? isStepComplete
-                                                    ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80] text-[#5C2218] shadow-[0_0_30px_-5px_rgba(255,179,68,0.6)]'
-                                                    : 'bg-gradient-to-br from-amber-400 to-yellow-500 text-[#5C2218] shadow-lg shadow-amber-500/50'
+                                                    ? 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 text-[#5C2218] shadow-[0_0_30px_-5px_rgba(217,119,6,0.6)]'
+                                                    : 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 text-[#5C2218] shadow-lg shadow-amber-500/50'
                                                 : isStepComplete
-                                                    ? 'bg-gradient-to-br from-[#FFB344]/80 to-[#FFCC80]/80 text-[#5C2218] shadow-md shadow-amber-500/30'
+                                                    ? 'bg-gradient-to-br from-amber-600/80 via-yellow-500/80 to-amber-500/80 text-[#5C2218] shadow-md shadow-amber-500/30'
                                                     : activeStep > index
                                                         ? 'bg-amber-500/20 text-amber-400 border-2 border-amber-500/50'
                                                         : 'bg-[#1a1a1a] text-amber-400/50 border-2 border-amber-600/30'
@@ -1188,7 +1188,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                 'relative backdrop-blur-xl rounded-2xl p-6 md:p-8 h-full transition-all duration-500',
                                 allowPaperOverflow ? 'overflow-visible' : 'overflow-hidden',
                                 isCurrentStepComplete
-                                    ? 'bg-gradient-to-br from-[#FFB344] to-[#FFCC80] border-2 border-[#5C2218]/40 shadow-[0_0_60px_-15px_rgba(255,179,68,0.6)]'
+                                    ? 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 border-2 border-[#5C2218]/40 shadow-[0_0_60px_-15px_rgba(217,119,6,0.6)]'
                                     : 'bg-gradient-to-br from-[#0a0a0a]/90 to-[#1a1a1a]/90 border-2 border-amber-500/30 shadow-2xl shadow-amber-900/20'
                             )}
                         >

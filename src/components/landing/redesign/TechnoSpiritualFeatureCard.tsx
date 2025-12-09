@@ -17,14 +17,14 @@ interface TechnoSpiritualFeatureCardProps {
     };
 }
 
-// $5 Pricing Card Saffron Theme for hover
+// Join Waitlist Button Gradient Theme for hover (amber-600 via yellow-500 to amber-500)
 const saffronHoverTheme = {
-    bg: '#FFB344',
-    panel: '#FFCC80',
+    bg: '#d97706',      // amber-600
+    panel: '#eab308',   // yellow-500
     accent: '#5C2218',
     highlight: '#4A1C12',
     text: '#5C2218',
-    glow: 'rgba(255, 179, 68, 0.4)',
+    glow: 'rgba(217, 119, 6, 0.4)',  // amber-600 glow
 };
 
 const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({

@@ -5,12 +5,12 @@ export const defaultTheme: ThemeDefinition = {
   metadata: {
     id: 'default',
     name: 'Default Theme',
-    description: 'Cosmic purple landing page',
+    description: 'Cosmic purple landing page with deep purples and golden accents',
     category: 'landing',
     isLandingPage: true,
     landingPagePath: '/landingpage',
     icon: '/themes/default/assets/default icon.png',
-    gradient: 'from-purple-500 to-fuchsia-500'
+    gradient: 'from-purple-900 to-fuchsia-900'
   },
   colors,
   available: true,

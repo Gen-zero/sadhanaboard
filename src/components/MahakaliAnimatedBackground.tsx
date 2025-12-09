@@ -20,7 +20,7 @@ export interface MahakaliAnimatedBackgroundProps {
 // Add new component for floating mantras
 const FloatingMantra: React.FC<{ text: string; position: [number, number, number]; intensity: number }> = ({ text, position, intensity }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
-  
+
   useFrame((state, delta) => {
     if (meshRef.current) {
       // Gentle rotation and floating
@@ -50,7 +50,7 @@ const FloatingMantra: React.FC<{ text: string; position: [number, number, number
 // Add new component for glowing yantra symbols
 const GlowingSymbol: React.FC<{ position: [number, number, number]; size: number; intensity: number }> = ({ position, size, intensity }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
-  
+
   useFrame((state, delta) => {
     if (meshRef.current) {
       // Gentle pulsing glow
@@ -62,9 +62,9 @@ const GlowingSymbol: React.FC<{ position: [number, number, number]; size: number
   return (
     <mesh ref={meshRef} position={position}>
       <planeGeometry args={[size, size]} />
-      <meshStandardMaterial 
+      <meshStandardMaterial
         color={0xff0000}
-        transparent 
+        transparent
         opacity={0.8}
         emissive={0xff0000}
         emissiveIntensity={0.6 * intensity}
@@ -80,11 +80,11 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
   const innerRef = useRef<THREE.Mesh>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
   const [hasTexture, setHasTexture] = useState(false);
-  
+
   // Load texture via async effect instead of Suspense
   useEffect(() => {
     let isMounted = true;
-    
+
     const loadTexture = async () => {
       try {
         const tex = await createMahakaliYantraTexture();
@@ -102,9 +102,9 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
         }
       }
     };
-    
+
     loadTexture();
-    
+
     return () => {
       isMounted = false;
       if (texture) {
@@ -174,7 +174,7 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
       transparent: true,
       depthWrite: false
     });
-    
+
     // mark as not tone-mapped so bloom treats it as glowing
     (mat as unknown as { toneMapped?: boolean }).toneMapped = false;
     return mat;
@@ -182,13 +182,13 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
 
   // Energy waves material
   const wavesMaterial = useMemo(() => {
-  const uniforms: UniformsRecord = {
+    const uniforms: UniformsRecord = {
       time: { value: 0 },
       waveSpeed: { value: 2.5 }, // Increased from 2.0 to 2.5
       waveIntensity: { value: 0.45 } // Increased from 0.35 to 0.45
     };
 
-  const vertexShader = `varying vec2 vUv; void main(){ vUv = vec2(uv.x, 1.0 - uv.y); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`;
+    const vertexShader = `varying vec2 vUv; void main(){ vUv = vec2(uv.x, 1.0 - uv.y); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`;
 
     const fragmentShader = `
       uniform float time;
@@ -262,8 +262,8 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
       depthWrite: false
     });
     // ensure bloom sees this as HDR-like
-  // mark as not tone mapped so bloom treats it as glowing
-  (mat as unknown as { toneMapped?: boolean }).toneMapped = false;
+    // mark as not tone mapped so bloom treats it as glowing
+    (mat as unknown as { toneMapped?: boolean }).toneMapped = false;
     return mat;
   }, []);
 
@@ -468,7 +468,7 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
         <pointLight key={i} ref={(el) => { if (el) emberLightsRef.current[i] = el; }} color={i % 2 ? '#ff8b55' : '#ff6666'} intensity={0.4 * intensity} distance={5} />
       ))}
 
-      <group position={[0, 0, 0]}> 
+      <group position={[0, 0, 0]}>
         {/* Energy waves behind yantra - HIDDEN */}
         {/* <mesh position={[0, 0, -0.5]} renderOrder={-1}>
           <planeGeometry args={[8, 8]} />
@@ -483,14 +483,14 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
 
         {/* Central yantra plane */}
         <mesh ref={meshRef} position={[0, 0, 0]} renderOrder={0}>
-          <planeGeometry args={[3, 3, 1, 1]} />
+          <planeGeometry args={[5.5, 5.5, 1, 1]} />
           {/* attach shader material */}
           <primitive object={yantraMaterial} attach="material" />
         </mesh>
 
         {/* Inner rotating layer for hypnotic effect */}
         <mesh ref={innerRef} position={[0, 0, 0.01]} renderOrder={1}>
-          <planeGeometry args={[1.2, 1.2]} />
+          <planeGeometry args={[2.5, 2.5]} />
           <primitive object={innerMaterial} attach="material" />
         </mesh>
 
@@ -525,7 +525,7 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
 const MahakaliAnimatedBackground: React.FC<MahakaliAnimatedBackgroundProps> = ({ intensity = 1, enableParticles = true, enableBloom = false, enablePostFX = true, className }) => {
   return (
     <div className={className ?? 'fixed inset-0 z-0'}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} frameloop="always" dpr={[1, 2]} gl={{ antialias: true }}>
+      <Canvas camera={{ position: [0, 0, 4.2], fov: 50 }} frameloop="always" dpr={[1, 2]} gl={{ antialias: true }}>
         <MahakaliScene intensity={intensity} enableParticles={!!enableParticles} enableBloom={!!enableBloom} enablePostFX={enablePostFX} />
         <OrbitControls enabled={false} enableZoom={false} enablePan={false} />
       </Canvas>

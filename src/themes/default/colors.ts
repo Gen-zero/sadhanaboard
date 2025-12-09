@@ -1,39 +1,40 @@
 import { ThemeColors } from '../types';
 
-// Default – Golden Purple Mix Theme
-// Primary (Background): Light lavender with golden undertones
+// Default – Cosmic Purple Landing Theme
+// Primary (Background): Deep purple cosmic tones matching landing page
 // Accent / Highlight: #FFD700 (Bright Divine Gold)
-// Text (Primary): Rich purple text
-// Text (Secondary): Medium purple text
+// Text (Primary): Light amber/white for contrast
+// Text (Secondary): Amber tones
+// Matches the purplish landing page gradient: #4b0753, #2a0a3e, #1a0b2e
 
 const colors: ThemeColors = {
-  background: '270 50% 95%',          // Light lavender background with golden undertones
-  foreground: '270 60% 28%',          // Enhanced rich purple text for better contrast
-  primary: '270 60% 60%',             // Purple-gold blend for primary elements
-  primaryForeground: '0 0% 100%',     // White text
-  secondary: '270 40% 70%',           // Lighter purple-gold for secondary elements
-  secondaryForeground: '270 50% 25%', // Dark purple text
-  accent: '45 100% 50%',              // Golden accent
-  accentForeground: '270 30% 20%',    // Dark purple instead of black
-  card: '270 30% 90%',                // Lavender card background
-  cardForeground: '270 60% 28%',      // Strong dark purple
-  popover: '270 40% 92%',             // Popover with golden undertones
-  popoverForeground: '270 60% 28%',   // Strong text
-  border: '270 50% 80%',              // Border with purple-gold mix
-  input: '270 35% 93%',               // Input fields
-  muted: '270 25% 85%',               // Muted background
-  mutedForeground: '270 40% 40%',     // Improved muted text
-  destructive: '0 84.2% 58%',
-  destructiveForeground: '0 0% 100%',
+  background: '280 85% 15%',          // Deep purple (#4b0753 ~ #2a0a3e) matching landing gradient
+  foreground: '45 100% 95%',          // Light amber-white text for contrast
+  primary: '280 80% 25%',             // Rich deep purple for primary elements
+  primaryForeground: '45 100% 90%',   // Light golden text on purple
+  secondary: '285 75% 20%',           // Darker purple-fuchsia for secondary elements
+  secondaryForeground: '45 100% 85%', // Golden-white text
+  accent: '45 100% 50%',              // Bright golden accent (unchanged)
+  accentForeground: '0 0% 0%',        // Black text on gold
+  card: '280 70% 18%',                // Deep purple card background
+  cardForeground: '45 100% 90%',      // Light text on cards
+  popover: '280 75% 20%',             // Purple popover
+  popoverForeground: '45 100% 90%',   // Light text
+  border: '280 60% 30%',              // Purple border with visibility
+  input: '280 70% 22%',               // Deep purple input fields
+  muted: '280 50% 25%',               // Muted purple background
+  mutedForeground: '45 50% 70%',      // Muted amber text
+  destructive: '0 84.2% 58%',         // Red for errors
+  destructiveForeground: '0 0% 100%', // White text
   ring: '45 100% 50%',                // Golden focus ring
-  sidebarBackground: '270 40% 90%',    // Sidebar
-  sidebarForeground: '270 60% 25%',   // Strong text
-  sidebarPrimary: '45 100% 50%',      // Golden primary
-  sidebarPrimaryForeground: '270 40% 20%',
-  sidebarAccent: '270 50% 75%',       // Light purple-gold accent
-  sidebarAccentForeground: '270 60% 25%',
-  sidebarBorder: '270 40% 80%',
-  sidebarRing: '45 100% 50%'
+  sidebarBackground: '280 85% 12%',   // Very dark purple sidebar
+  sidebarForeground: '45 100% 92%',   // Light golden-white sidebar text
+  sidebarPrimary: '45 100% 50%',      // Golden sidebar primary
+  sidebarPrimaryForeground: '0 0% 0%', // Black text on gold
+  sidebarAccent: '280 70% 25%',       // Purple accent in sidebar
+  sidebarAccentForeground: '45 100% 90%', // Light text
+  sidebarBorder: '280 60% 20%',       // Dark purple border
+  sidebarRing: '45 100% 50%'          // Golden sidebar ring
 };
 
 export default colors;
