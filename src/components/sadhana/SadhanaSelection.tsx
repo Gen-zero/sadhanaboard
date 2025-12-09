@@ -34,10 +34,10 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold" style={{ color: 'hsl(45 100% 50%)' }}>
+          <h2 className="text-3xl font-bold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>
             Begin Your Sadhana Journey
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'white' }}>
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
             Start your personalized spiritual practice journey today. Create your own path or choose from our curated practices.
           </p>
         </div>
@@ -53,7 +53,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <p className="text-center text-lg" style={{ color: 'white' }}>
+              <p className="text-center text-lg" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
                 Design a personalized spiritual practice tailored to your unique journey, goals, and preferences.
               </p>
               
@@ -61,24 +61,24 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex flex-col items-center text-center space-y-2">
                   <Sparkles className="h-8 w-8 text-primary" />
-                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)' }}>Personalization</h4>
-                  <p className="text-sm" style={{ color: 'white' }}>
+                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Personalization</h4>
+                  <p className="text-sm" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
                     Choose your spiritual purpose & goals
                   </p>
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-2">
                   <Heart className="h-8 w-8 text-primary" />
-                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)' }}>Divine Focus</h4>
-                  <p className="text-sm" style={{ color: 'white' }}>
+                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Divine Focus</h4>
+                  <p className="text-sm" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
                     Select your spiritual focus or deity
                   </p>
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-2">
                   <Wand2 className="h-8 w-8 text-primary" />
-                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)' }}>Creative Freedom</h4>
-                  <p className="text-sm" style={{ color: 'white' }}>
+                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Creative Freedom</h4>
+                  <p className="text-sm" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
                     Add multiple practices and offerings
                   </p>
                 </div>

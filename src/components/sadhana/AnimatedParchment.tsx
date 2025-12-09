@@ -218,9 +218,9 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
           isUnrolled ? 'parchment-unroll' : ''
         }`}
         style={{
-          background: 'linear-gradient(145deg, rgba(255, 223, 0, 0.05) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 207, 0, 0.04) 70%, rgba(255, 199, 0, 0.06) 100%)',
-          borderColor: isInitializing ? 'rgba(255, 215, 0, 0.6)' : 'rgba(255, 215, 0, 0.3)',
-          fontFamily: 'Georgia, serif',
+          background: 'linear-gradient(145deg, rgba(220, 38, 38, 0.05) 0%, rgba(220, 38, 38, 0.08) 30%, rgba(220, 38, 38, 0.04) 70%, rgba(220, 38, 38, 0.06) 100%)',
+          borderColor: isInitializing ? 'rgba(220, 38, 38, 0.6)' : 'rgba(220, 38, 38, 0.3)',
+          fontFamily: '"Chakra Petch", Georgia, serif',
           boxShadow: `
             0 4px 16px rgba(255, 215, 0, 0.12),
             0 0 0 1px rgba(255, 215, 0, 0.15),
@@ -306,7 +306,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-xl md:text-2xl font-bold mb-2"
             style={{
-              fontFamily: 'Georgia, serif',
+              fontFamily: '"Chakra Petch", Georgia, serif',
               color: 'rgba(255, 223, 0, 0.95)',
               textShadow: `0 0 ${isInitializing ? '12' : '8'}px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)`
             }}
@@ -326,7 +326,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         </div>
 
         {/* Content with staggered fade-in */}
-        <div className="space-y-2 md:space-y-3 relative z-10" style={{ fontFamily: 'Georgia, serif' }}>
+        <div className="space-y-2 md:space-y-3 relative z-10" style={{ fontFamily: '"Chakra Petch", Georgia, serif' }}>
           {contentLines.map((section, index) => {
             if (section.trim().endsWith(':')) {
               return (

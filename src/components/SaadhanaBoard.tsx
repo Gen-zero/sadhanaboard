@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ManifestationForm from './sadhana/ManifestationForm';
 import SadhanaHeader from './sadhana/SadhanaHeader';
 import SadhanaContent from './sadhana/SadhanaContent';
@@ -165,85 +165,67 @@ const SaadhanaBoard = () => {
             />
             
             {sadhanaState.hasStarted && sadhanaData && (
-              <div className="space-y-4">
-                {/* Sadhana Header with Progress - compact for mobile */}
-                <div className="backdrop-blur-sm bg-transparent p-4 rounded-lg border border-white md:p-6">
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3 md:mb-4">
-                    <div className="flex-1 mb-3 md:mb-0">
-                      <h2 className="text-xl font-bold text-foreground mb-2 md:text-2xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
-                        Your Sacred Sadhana
-                      </h2>
-                      <div className="flex flex-col md:flex-row md:items-center gap-2 text-xs md:text-sm mb-2 md:gap-4">
-                        <span className="flex items-center gap-1 text-foreground" style={{ color: 'hsl(210 40% 80%)' }}>
-                          <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-                          {format(new Date(sadhanaData.startDate), 'MMM dd')} - {format(new Date(sadhanaData.endDate), 'MMM dd, yyyy')}
-                        </span>
-                        <span className={getStatusColor()}>
-                          {getStatusMessage()}
-                        </span>
-                      </div>
-                      
-                      {/* Progress Bar - compact for mobile */}
-                      {sadhanaState.status === 'active' && (
-                        <div className="space-y-1 md:space-y-2">
-                          <Progress value={progress} className="h-1.5 md:h-2" />
-                          <p className="text-xs text-foreground" style={{ color: 'hsl(210 40% 80%)' }}>
-                            {Math.round(progress)}% complete
-                          </p>
-                        </div>
-                      )}
+              <div className="pt-4 border-t border-white/20">
+                {/* Minimal Sadhana Footer */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-sm">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2 text-foreground/80">
+                      <Calendar className="h-4 w-4" />
+                      <span>Day {daysCompleted} of {sadhanaData.durationDays}</span>
                     </div>
-                    
-                    {/* Action Buttons - responsive stacking for mobile */}
-                    <div className="flex flex-wrap gap-2 md:gap-2 shrink-0 md:ml-4">
-                      {sadhanaState.status === 'active' && (
-                        <>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex items-center gap-1 bg-amber-500/30 border-amber-500/50 hover:bg-amber-500/40 text-amber-900 text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
-                            onClick={handleEditToggle}
-                          >
-                            {isEditing ? <Eye className="h-3 w-3 md:h-4 md:w-4" /> : <Pencil className="h-3 w-3 md:h-4 md:w-4" />}
-                            <span className="hidden xs:inline">{isEditing ? 'View Paper' : 'Edit Details'}</span>
-                          </Button>
-                          
-                          {canComplete && (
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="flex items-center gap-1 bg-green-500/30 border-green-500/50 hover:bg-green-500/40 text-green-900 text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
-                              onClick={handleCompleteSadhana}
-                            >
-                              <CheckCircle className="h-3 w-3 md:h-4 md:w-4" />
-                              <span className="hidden xs:inline">Complete</span>
-                            </Button>
-                          )}
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="flex items-center gap-1 bg-destructive/30 border-destructive/50 hover:bg-destructive/40 text-destructive-foreground text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
-                            onClick={handleBreakSadhana}
-                          >
-                            <XCircle className="h-3 w-3 md:h-4 md:w-4" />
-                            <span className="hidden xs:inline">Break</span>
-                          </Button>
-                        </>
-                      )}
-                      
-                      {(sadhanaState.status === 'completed' || sadhanaState.status === 'broken') && (
+                    {sadhanaState.status === 'active' && (
+                      <div className="flex items-center gap-2 mt-1">
+                        <Progress value={progress} className="h-1.5 w-24" />
+                        <span className="text-xs text-foreground/60">{Math.round(progress)}%</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Minimal Action Buttons */}
+                  <div className="flex gap-2">
+                    {sadhanaState.status === 'active' && (
+                      <>
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="flex items-center gap-1 bg-secondary/30 border-secondary/50 hover:bg-secondary/40 text-secondary-foreground text-xs md:text-sm h-8 md:h-9 px-2 md:px-3 rounded-full"
-                          onClick={handleResetSadhana}
+                          className="h-8 px-2 text-xs bg-transparent border-white/30 hover:bg-white/10"
+                          onClick={handleEditToggle}
                         >
-                          <RotateCcw className="h-3 w-3 md:h-4 md:w-4" />
-                          <span className="hidden xs:inline">New Sadhana</span>
+                          {isEditing ? 'View' : 'Edit'}
                         </Button>
-                      )}
-                    </div>
+                        
+                        {canComplete && (
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8 px-2 text-xs bg-green-500/20 border-green-500/50 hover:bg-green-500/30 text-green-300"
+                            onClick={handleCompleteSadhana}
+                          >
+                            Complete
+                          </Button>
+                        )}
+                        
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-8 px-2 text-xs bg-destructive/20 border-destructive/50 hover:bg-destructive/30 text-destructive-foreground"
+                          onClick={handleBreakSadhana}
+                        >
+                          Break
+                        </Button>
+                      </>
+                    )}
+                    
+                    {(sadhanaState.status === 'completed' || sadhanaState.status === 'broken') && (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="h-8 px-2 text-xs bg-secondary/20 border-secondary/50 hover:bg-secondary/30 text-secondary-foreground"
+                        onClick={handleResetSadhana}
+                      >
+                        New
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>

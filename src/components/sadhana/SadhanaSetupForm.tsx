@@ -161,13 +161,13 @@ const SadhanaSetupForm = ({
           <div className="flex-1">
             <h2
               className="text-2xl md:text-3xl font-bold uppercase tracking-wide"
-              style={{ color: "hsl(45 100% 50%)" }}
+              style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
             >
               Create Your Sacred Sadhana
             </h2>
             <p
               className="text-sm md:text-base"
-              style={{ color: "hsl(210 40% 80%)" }}
+              style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }}
             >
               Fill in your spiritual intentions and divine commitments
             </p>
@@ -179,10 +179,10 @@ const SadhanaSetupForm = ({
           <div className="space-y-4 md:space-y-6">
             <Card className="bg-transparent border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
               <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)" }} className="text-lg md:text-xl uppercase tracking-wide">
+                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
                   Purpose & Goal
                 </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
                   Why you're on this spiritual journey
                 </CardDescription>
               </CardHeader>
@@ -248,12 +248,12 @@ const SadhanaSetupForm = ({
               <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
                 <CardTitle
                   className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
-                  style={{ color: "hsl(45 100% 50%)" }}
+                  style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
                 >
-                  <Calendar className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)" }} />
+                  <Calendar className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)", filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
                   <span>Duration & Timeline</span>
                 </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
                   Set your sadhana practice period
                 </CardDescription>
               </CardHeader>
@@ -325,12 +325,12 @@ const SadhanaSetupForm = ({
               <CardHeader className="bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-b border-pink-400/10 p-4 md:p-6">
                 <CardTitle
                   className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
-                  style={{ color: "hsl(45 100% 50%)" }}
+                  style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
                 >
-                  <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)" }} />
+                  <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)", filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
                   <span>Divine Connection</span>
                 </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
                   Your chosen deity or spiritual focus
                 </CardDescription>
               </CardHeader>
@@ -392,10 +392,10 @@ const SadhanaSetupForm = ({
 
             <Card className="bg-transparent border border-purple-400/20 hover:border-purple-400/40 transition-colors shadow-lg shadow-purple-500/10">
               <CardHeader className="bg-gradient-to-r from-purple-500/5 to-pink-500/5 border-b border-purple-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)" }} className="text-lg md:text-xl uppercase tracking-wide">
+                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
                   Offerings & Practices
                 </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)" }} className="text-xs md:text-sm">
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
                   What you'll be doing or offering for your spiritual practice
                 </CardDescription>
               </CardHeader>

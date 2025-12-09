@@ -61,7 +61,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-        <h3 className="text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
+        <h3 className="text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>
           Edit Sadhana Details
         </h3>
         <Button 
@@ -80,12 +80,12 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
         <div className="space-y-4 md:space-y-6">
           <Card className="bg-transparent">
             <CardHeader className="p-4 md:p-6">
-              <CardTitle style={{ color: 'hsl(45 100% 50%)' }} className="text-lg md:text-xl uppercase tracking-wide">Purpose & Goal</CardTitle>
-              <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">Why you're on this spiritual journey</CardDescription>
+              <CardTitle style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">Purpose & Goal</CardTitle>
+              <CardDescription style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">Why you're on this spiritual journey</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 p-4 md:p-6">
               <div className="space-y-2">
-                <Label htmlFor="purpose" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Purpose</Label>
+                <Label htmlFor="purpose" style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Purpose</Label>
                 <Textarea 
                   id="purpose" 
                   value={formData.purpose}
@@ -95,7 +95,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="goal" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Goal</Label>
+                <Label htmlFor="goal" style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Goal</Label>
                 <Textarea 
                   id="goal" 
                   value={formData.goal}
@@ -109,15 +109,15 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
 
           <Card className="bg-transparent">
             <CardHeader className="p-4 md:p-6">
-              <CardTitle className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)' }}>
-                <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: 'hsl(45 100% 50%)' }} />
+              <CardTitle className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>
+                <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: 'hsl(45 100% 50%)', filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
                 <span>Divine Connection</span>
               </CardTitle>
-              <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">Your chosen deity or spiritual focus</CardDescription>
+              <CardDescription style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">Your chosen deity or spiritual focus</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 p-4 md:p-6">
               <div className="space-y-2">
-                <Label htmlFor="deity" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Deity or Spiritual Focus</Label>
+                <Label htmlFor="deity" style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Deity or Spiritual Focus</Label>
                 <Input 
                   id="deity" 
                   value={formData.deity}
@@ -127,7 +127,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message" style={{ color: 'hsl(210 40% 80%)' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Your Message</Label>
+                <Label htmlFor="message" style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm md:text-base font-semibold uppercase tracking-wide">Your Message</Label>
                 <Textarea 
                   id="message" 
                   value={formData.message}
@@ -142,8 +142,8 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
 
         <Card className="bg-transparent">
           <CardHeader className="p-4 md:p-6">
-            <CardTitle style={{ color: 'hsl(45 100% 50%)' }} className="text-lg md:text-xl uppercase tracking-wide">Offerings & Practices</CardTitle>
-            <CardDescription style={{ color: 'hsl(210 40% 80%)' }} className="text-xs md:text-sm">What you'll be doing or offering for your spiritual practice</CardDescription>
+            <CardTitle style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">Offerings & Practices</CardTitle>
+            <CardDescription style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">What you'll be doing or offering for your spiritual practice</CardDescription>
           </CardHeader>
           <CardContent className="p-4 md:p-6">
             <div className="space-y-3">
