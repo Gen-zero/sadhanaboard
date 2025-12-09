@@ -890,27 +890,6 @@ const drawBamboo = (ctx: CanvasRenderingContext2D, x: number, y: number, height:
     ctx.stroke();
   }
   
-  // Draw bamboo leaves
-  const leafGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 20);
-  leafGradient.addColorStop(0, 'rgba(124, 252, 0, 0.8)'); // Lawn green
-  leafGradient.addColorStop(1, 'rgba(34, 139, 34, 0.4)'); // Forest green
-  
-  ctx.fillStyle = leafGradient;
-  
-  for (let i = 0; i < 6; i++) {
-    const leafY = (-height/2) + (height * i / 6) + Math.random() * 20 - 10;
-    const leafX = (i % 2 === 0 ? 1 : -1) * (15 + Math.random() * 10);
-    
-    ctx.save();
-    ctx.translate(leafX, leafY);
-    ctx.rotate((i * 0.3) + Math.random() * 0.4 - 0.2);
-    
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 25, 8, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-  
   ctx.restore();
 };
 
@@ -1198,8 +1177,9 @@ const drawZenLotus = (ctx: CanvasRenderingContext2D, x: number, y: number, size:
 
 // Function to draw mandala patterns based on theme
 const drawMandalaPattern = (ctx: CanvasRenderingContext2D, theme: string, width: number, height: number) => {
-  // Empty function to remove all triangle and leaf patterns from theme backgrounds
-  // All pattern drawing logic has been removed as per requirement
+  // Empty function - all mandala patterns removed
+  ctx.save();
+  ctx.restore();
 };
 
 interface ThemedBackgroundProps {
@@ -1298,7 +1278,10 @@ const ThemedBackground: React.FC<ThemedBackgroundProps> = ({ theme: initialTheme
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw additional elements based on theme (without mandala patterns)
+      // Draw mandala pattern
+      drawMandalaPattern(ctx, theme, canvas.width, canvas.height);
+      
+      // Draw additional elements based on theme
       if (theme === 'default') {
         drawOmSymbol(ctx, canvas.width / 2, canvas.height / 2, 100, 1);
         drawSriYantra(ctx, canvas.width / 2, canvas.height / 2, 150, 0, 1);
