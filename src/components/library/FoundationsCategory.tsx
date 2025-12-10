@@ -131,7 +131,7 @@ const FoundationsCategory = ({ onSadhanaSelect }: FoundationsCategoryProps) => {
           >
             <CardHeader className="pb-3 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
               <div className="flex justify-between items-start">
-                <CardTitle className="text-lg leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">
+                <CardTitle className="text-lg leading-tight text-yellow-400">
                   {sadhana.title}
                 </CardTitle>
                 {sadhana.isPremium && (
@@ -140,7 +140,7 @@ const FoundationsCategory = ({ onSadhanaSelect }: FoundationsCategoryProps) => {
                   </Badge>
                 )}
               </div>
-              <p className="text-sm mt-2 line-clamp-2 text-muted-foreground">
+              <p className="text-sm mt-2 line-clamp-2 text-yellow-600">
                 {sadhana.description}
               </p>
             </CardHeader>

@@ -282,76 +282,14 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       </div>
 
 
-      {/* Mobile Header */}
+      {/* Mobile Header - Simplified to only show hamburger menu */}
       {isMobile && (
-        <motion.header
-          initial={{ y: 0 }}
-          animate={{ y: 0 }}
-          className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/10 pt-safe mobile-header"
-        >
-          <div className="flex items-center justify-between px-4 py-3 mobile-header-content">
-            <div className="flex items-center space-x-3 min-w-0 flex-shrink-0">
-              {/* Mobile Navigation */}
-              <MobileNavigation
-                isOpen={isMobileMenuOpen}
-                onOpenChange={setIsMobileMenuOpen}
-              />
-
-              {/* Logo and Title Container */}
-              <div className="flex items-center space-x-2 min-w-0 flex-shrink-0 overflow-hidden mobile-header-logo-title">
-                {/* Logo */}
-                <div className="relative group flex-shrink-0">
-                  <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
-                    <button
-                      onClick={() => {
-                        navigate('/');
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          navigate('/');
-                        }
-                      }}
-                      aria-label="Navigate to home"
-                      className="h-full w-full object-contain cursor-pointer transition-all duration-500 hover:scale-110 logo-enhanced bg-transparent border-0 p-0"
-                    >
-                      <img
-                        src="/lovable-uploads/sadhanaboard_logo.png"
-                        alt="Saadhana Board Logo"
-                        className="h-full w-full object-contain"
-                      />
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  className="text-xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 whitespace-nowrap overflow-hidden text-ellipsis mobile-heading-scale flex-shrink-0 border-0 bg-transparent p-0"
-                  onClick={() => {
-                    navigate('/');
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      navigate('/');
-                    }
-                  }}
-                  tabIndex={0}
-                  role="button"
-                  aria-label="SadhanaBoard - Navigate to home"
-                >
-                  <h1>SadhanaBoard</h1>
-                </div>
-              </div>
-            </div>
-
-            {/* Ambient mantra display for mobile */}
-            <div className="overflow-hidden max-w-[100px] flex-shrink-0 ml-2">
-              <div className="text-center text-xs text-primary/60 font-sans animate-pulse-slow whitespace-nowrap truncate mobile-text-scale" aria-live="polite">
-                {hinduMantras[mantraIndex]}
-              </div>
-            </div>
-          </div>
-        </motion.header>
+        <div className="fixed top-4 left-4 z-50">
+          <MobileNavigation
+            isOpen={isMobileMenuOpen}
+            onOpenChange={setIsMobileMenuOpen}
+          />
+        </div>
       )}
 
       {/* Desktop Sidebar - Only shown on desktop */}
@@ -379,8 +317,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       <main
         id="main-content"
         tabIndex={-1}
-        className={`flex-1 transition-all duration-300 ${isMobile ? 'pt-mobile-header px-4 pb-24' : 'p-4 sm:p-6'
-          } ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
+        className={`flex-1 transition-all duration-300 ${isMobile ? 'pt-20 px-4 pb-24' : 'p-4 sm:p-6'} ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
       >
         <div className="max-w-screen-2xl mx-auto w-full">
           {children}

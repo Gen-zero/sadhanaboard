@@ -122,10 +122,10 @@ const SadhanaStore: React.FC = () => {
                 <Store className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+                <CardTitle className="text-2xl text-yellow-400">
                   Sadhana Store
                 </CardTitle>
-                <p className="text-muted-foreground">
+                <p className="text-yellow-600">
                   Discover and unlock spiritual practices for your journey
                 </p>
               </div>
@@ -175,9 +175,9 @@ const SadhanaStore: React.FC = () => {
         <CardContent className="pt-6">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="h-5 w-5 text-primary" />
-            <h3 className="font-medium text-lg">Unlock New Spiritual Paths</h3>
+            <h3 className="font-medium text-lg text-yellow-400">Unlock New Spiritual Paths</h3>
           </div>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-sm text-yellow-600 mb-4">
             Progress through your spiritual journey to unlock new genres and advanced practices. 
             Each completed sadhana earns you experience and spiritual points.
           </p>

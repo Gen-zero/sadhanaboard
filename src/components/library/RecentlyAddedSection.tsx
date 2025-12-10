@@ -60,14 +60,14 @@ const RecentlyAddedSection = ({ onSelectBook }: RecentlyAddedSectionProps) => {
           >
             <CardContent className="p-5">
               <div className="flex justify-between items-start mb-3">
-                <h3 className="font-semibold text-lg line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary">
+                <h3 className="font-semibold text-lg line-clamp-2 text-yellow-400">
                   {book.title}
                 </h3>
-                <Badge variant="secondary" className="bg-accent/20 text-accent">
+                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                   NEW
                 </Badge>
               </div>
-              <p className="text-sm mb-3 line-clamp-1 text-muted-foreground">
+              <p className="text-sm mb-3 line-clamp-1 text-yellow-600">
                 by {book.author}
               </p>
               

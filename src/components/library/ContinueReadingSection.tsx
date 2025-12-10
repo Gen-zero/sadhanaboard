@@ -98,11 +98,11 @@ const ContinueReadingSection = ({ onSelectBook }: ContinueReadingSectionProps) =
             >
               <CardContent className="p-5">
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-lg line-clamp-2 text-foreground">
+                  <h3 className="font-semibold text-lg line-clamp-2 text-yellow-400">
                     {book.title}
                   </h3>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3 line-clamp-1">
+                <p className="text-sm text-yellow-600 mb-3 line-clamp-1">
                   by {book.author}
                 </p>
                 

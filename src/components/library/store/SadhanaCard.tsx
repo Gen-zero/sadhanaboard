@@ -48,7 +48,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
         <CardHeader className="relative bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <CardTitle className={`text-lg ${isLocked ? 'text-muted-foreground' : ''}`}>
+              <CardTitle className={`text-lg ${isLocked ? 'text-yellow-600' : 'text-yellow-400'}`}>
                 {sadhana.title}
                 {isLocked && (
                   <Tooltip>
@@ -62,7 +62,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
                   </Tooltip>
                 )}
               </CardTitle>
-              <CardDescription className="mt-1">
+              <CardDescription className="mt-1 text-yellow-600">
                 {sadhana.description}
               </CardDescription>
             </div>
@@ -84,7 +84,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
         <CardContent className="pt-6">
           <div className="space-y-4">
             {/* Stats */}
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="flex items-center justify-between text-sm text-yellow-600">
               <div className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
                 <span>{sadhana.duration} days</span>
@@ -101,7 +101,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
 
             {/* Practices Preview */}
             <div>
-              <h4 className="text-sm font-medium mb-1 flex items-center gap-1">
+              <h4 className="text-sm font-medium mb-1 flex items-center gap-1 text-yellow-400">
                 <Sparkles className="h-4 w-4 text-purple-500" />
                 Practices Include:
               </h4>
@@ -130,7 +130,7 @@ const SadhanaCard: React.FC<SadhanaCardProps> = ({
                   </span>
                 )}
                 {isLocked && (
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-yellow-600">
                     Requires Level {sadhana.unlockLevel}
                   </span>
                 )}

@@ -25,10 +25,10 @@ const LibraryHeader = ({
           <BookOpen className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-yellow-400">
             Spiritual Library
           </h1>
-          <p className="text-xs md:text-sm text-muted-foreground">
+          <p className="text-xs md:text-sm text-yellow-600">
             Sacred Texts & Practices
           </p>
         </div>

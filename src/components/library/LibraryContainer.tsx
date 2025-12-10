@@ -334,7 +334,6 @@ const LibraryContainer = () => {
                   </div>
                 </div>
               )}
-              <RecommendedRow />
               <RecentlyAddedSection onSelectBook={handleSelectBook} />
               <FoundationsCategory onSadhanaSelect={handleFoundationsSadhanaSelect} />
             </>
