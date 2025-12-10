@@ -19,7 +19,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/useAuth';
 import { useSettings } from '@/hooks/useSettings';
 import { useUserProfile } from '@/hooks/useUserProfile';
-import { themeUtils } from '@/themes';
+import { themeUtils, getThemeById, listThemes } from '@/themes';
 import type { ThemeDefinition } from '@/themes/types';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -72,407 +72,41 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
 
   // Get the current theme
   const currentTheme = settings?.appearance?.colorScheme || 'default';
-  // Map themes to deity icons and names
-  const themeData: Record<string, { icon: React.ReactNode; name: string; element: string }> = {
-    default: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'default',
-          name: 'Default Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-16 w-16 rounded-full theme-icon-contain'),
-      name: 'Cosmic Energy',
-      element: 'Ether'
-    },
-    earth: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'earth',
-          name: 'Earth Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full'),
-      name: 'Lord Krishna',
-      element: 'Earth'
-    },
-    water: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'water',
-          name: 'Water Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full'),
-      name: 'Lord Vishnu',
-      element: 'Water'
-    },
-    fire: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'fire',
-          name: 'Fire Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full'),
-      name: 'Maa Durga',
-      element: 'Fire'
-    },
-    shiva: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'shiva',
-          name: 'Shiva Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full'),
-      name: 'Lord Shiva',
-      element: 'Air'
-    },
-    bhairava: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'bhairava',
-          name: 'Bhairava Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-16 w-16 rounded-full'),
-      name: 'Lord Bhairava',
-      element: 'Fire'
-    },
-    mahakali: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'mahakali',
-          name: 'Mahakali Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full'),
-      name: 'Maa Mahakali',
-      element: 'Fire'
-    },
-    ganesha: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'ganesha',
-          name: 'Ganesha Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-24 w-24 rounded-full'),
-      name: 'Lord Ganesha',
-      element: 'Earth'
-    },
-    serenity: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'serenity',
-          name: 'Serenity Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-16 w-16 rounded-full theme-icon-contain'),
-      name: 'Serenity',
-      element: 'Water'
-    },
-    neon: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'neon',
-          name: 'Neon Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-16 w-16 rounded-full theme-icon-contain'),
-      name: 'Neon Cyber',
-      element: 'Ether'
-    },
-    swamiji: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'swamiji',
-          name: 'Swamiji Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-20 w-20 rounded-full theme-icon-contain'),
-      name: 'Swamiji',
-      element: 'Fire'
-    },
-    lakshmi: {
-      icon: themeUtils.renderThemeIcon({ 
-        metadata: { 
-          id: 'lakshmi',
-          name: 'Lakshmi Theme',
-          category: 'color-scheme'
-        }, 
-        colors: {
-          background: '#000000',
-          foreground: '#ffffff',
-          card: '#1a1a1a',
-          cardForeground: '#ffffff',
-          popover: '#1a1a1a',
-          popoverForeground: '#ffffff',
-          primary: '#8b5cf6',
-          primaryForeground: '#ffffff',
-          secondary: '#7e22ce',
-          secondaryForeground: '#ffffff',
-          muted: '#27272a',
-          mutedForeground: '#a1a1aa',
-          accent: '#8b5cf6',
-          accentForeground: '#ffffff',
-          destructive: '#ef4444',
-          destructiveForeground: '#ffffff',
-          border: '#27272a',
-          input: '#27272a',
-          ring: '#8b5cf6'
-        }, 
-        assets: {} 
-      }, 'h-32 w-32 rounded-full'),
-      name: 'Lakshmi',
-      element: 'Earth'
+  
+  // Get actual theme data instead of hardcoded values
+  const getCurrentThemeData = () => {
+    const theme = getThemeById(currentTheme) || getThemeById('default');
+    if (!theme) {
+      // Fallback data
+      return {
+        icon: null,
+        name: 'Default Theme',
+        element: 'Ether'
+      };
     }
+    
+    // Get theme icon - either from assets or metadata
+    let icon = null;
+    const iconPath = theme.assets?.icon || theme.metadata?.icon;
+    if (iconPath) {
+      icon = themeUtils.renderThemeIcon(theme, 'h-20 w-20 rounded-full');
+    } else {
+      // Fallback to a simple div if no icon is available
+      icon = (
+        <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+          <span className="text-2xl">🎨</span>
+        </div>
+      );
+    }
+    
+    return {
+      icon,
+      name: theme.metadata?.name || theme.metadata?.id || 'Unknown Theme',
+      element: 'Spiritual'
+    };
   };
-
-  const currentThemeData = themeData[currentTheme as keyof typeof themeData] || themeData.default;
+  
+  const currentThemeData = getCurrentThemeData();
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
