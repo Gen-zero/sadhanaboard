@@ -88,8 +88,6 @@ const googleSheetsIntegrationSchema = new mongoose.Schema(
   }
 );
 
-googleSheetsIntegrationSchema.index({ userId: 1 });
-googleSheetsIntegrationSchema.index({ syncEnabled: 1 });
 
 googleSheetsIntegrationSchema.methods.enableSync = async function() {
   this.syncEnabled = true;

@@ -69,8 +69,6 @@ const activityLogSchema = new mongoose.Schema(
   }
 );
 
-activityLogSchema.index({ userId: 1 });
-activityLogSchema.index({ actionType: 1 });
 activityLogSchema.index({ userId: 1, createdAt: -1 });
 
 activityLogSchema.statics.findByUser = function(userId) {

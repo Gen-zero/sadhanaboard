@@ -213,19 +213,15 @@ const waitlistSchema = new mongoose.Schema(
 // ============================================================================
 
 // Email index (unique - can only be on waitlist once)
-waitlistSchema.index({ email: 1 }, { unique: true });
 
 // Status index (for filtering)
-waitlistSchema.index({ status: 1 });
 
 // Created date index (for chronological ordering)
 waitlistSchema.index({ createdAt: -1 });
 
 // Conversion tracking
-waitlistSchema.index({ isConverted: 1 });
 
 // Admin tracking
-waitlistSchema.index({ approvedBy: 1 });
 
 // Compound indexes
 waitlistSchema.index({ status: 1, priority: -1 }); // For prioritized queue

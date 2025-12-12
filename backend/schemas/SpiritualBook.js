@@ -281,11 +281,7 @@ const spiritualBookSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-spiritualBookSchema.index({ userId: 1 });
-spiritualBookSchema.index({ status: 1 });
 spiritualBookSchema.index({ createdAt: -1 });
-spiritualBookSchema.index({ isPublic: 1 });
-spiritualBookSchema.index({ isFeatured: 1 });
 
 // Compound indexes for common queries
 spiritualBookSchema.index({ userId: 1, createdAt: -1 });
@@ -297,8 +293,6 @@ spiritualBookSchema.index({ isFeatured: 1, createdAt: -1 }); // For featured vie
 spiritualBookSchema.index({ title: 'text', author: 'text', description: 'text' });
 
 // Category indexes
-spiritualBookSchema.index({ traditions: 1 });
-spiritualBookSchema.index({ readingLevel: 1 });
 
 // ============================================================================
 // VALIDATIONS & HOOKS

@@ -17,14 +17,14 @@ interface TechnoSpiritualFeatureCardProps {
     };
 }
 
-// Join Waitlist Button Gradient Theme for hover (amber-600 via yellow-500 to amber-500)
-const saffronHoverTheme = {
-    bg: '#d97706',      // amber-600
-    panel: '#eab308',   // yellow-500
-    accent: '#5C2218',
-    highlight: '#4A1C12',
-    text: '#5C2218',
-    glow: 'rgba(217, 119, 6, 0.4)',  // amber-600 glow
+// Crimson hover theme for cards
+const crimsonHoverTheme = {
+    bg: '#DC143C',      // crimson
+    panel: '#8B0000',   // dark red
+    accent: '#FFD700',  // gold accent for contrast
+    highlight: '#ffffff',
+    text: '#ffffff',
+    glow: 'rgba(220, 20, 60, 0.4)',  // crimson glow
 };
 
 const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
@@ -44,9 +44,9 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
-    // Use saffron theme on hover
+    // Use crimson theme on hover
     const computedHover = forcedHover ?? isHovered;
-    const activeTheme = computedHover ? saffronHoverTheme : theme;
+    const activeTheme = computedHover ? crimsonHoverTheme : theme;
 
     const handleMouseEnter = () => {
         if (forcedHover !== undefined) return;
@@ -65,7 +65,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
             onMouseLeave={handleMouseLeave}
             style={{
                 backgroundColor: activeTheme.bg,
-                boxShadow: computedHover ? `0 0 40px -10px ${saffronHoverTheme.glow}` : undefined
+                boxShadow: computedHover ? `0 0 40px -10px ${crimsonHoverTheme.glow}` : undefined
             }}
         >
             {/* --- Overlay Pattern: Circuit Mandala --- */}
@@ -170,7 +170,7 @@ const TechnoSpiritualFeatureCard: React.FC<TechnoSpiritualFeatureCardProps> = ({
                 className="absolute inset-0 pointer-events-none transition-opacity duration-500"
                 style={{
                     background: computedHover
-                        ? `radial-gradient(circle at 50% 0%, ${saffronHoverTheme.glow}, transparent 70%)`
+                        ? `radial-gradient(circle at 50% 0%, ${crimsonHoverTheme.glow}, transparent 70%)`
                         : `radial-gradient(circle at 50% 0%, ${theme.glow}, transparent 70%)`,
                     opacity: computedHover ? 1 : 0
                 }}

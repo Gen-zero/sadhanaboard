@@ -117,16 +117,13 @@ const schemaNameSchema = new mongoose.Schema(
 // ============================================================================
 
 // Single field indexes
-schemaNameSchema.index({ userId: 1 });
 schemaNameSchema.index({ createdAt: -1 });
-schemaNameSchema.index({ status: 1 });
 
 // Compound indexes for common query patterns
 schemaNameSchema.index({ userId: 1, createdAt: -1 });
 schemaNameSchema.index({ status: 1, isPublic: 1 });
 
 // Unique indexes
-schemaNameSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 // Text search indexes (for full-text search)
 schemaNameSchema.index({ title: 'text', description: 'text' });

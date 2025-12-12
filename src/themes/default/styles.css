@@ -2,44 +2,63 @@
 /* Complete styling to match landing page design */
 
 .theme-default {
-  /* Core Color Palette - Deep Purples & Golds */
-  --landing-purple-darkest: #1a0b2e;  /* Darkest purple from gradient */
-  --landing-purple-dark: #2a0a3e;     /* Medium dark purple */
-  --landing-purple-primary: #4b0753;  /* Primary purple */
-  --landing-gold: #FFD700;            /* Shiny gold */
-  --landing-gold-light: #FFD54A;      /* Light gold/amber */
-  --landing-amber: #FDBA3B;           /* Amber accent */
-  --landing-amber-dark: #F59E0B;      /* Dark amber */
-  
+  /* Core Color Palette - Crimson Reds & Golds */
+  --landing-purple-darkest: #1a0a0a;
+  /* Darkest red-black from gradient */
+  --landing-purple-dark: #3A0000;
+  /* Medium dark crimson */
+  --landing-purple-primary: #5C0000;
+  /* Primary dark red */
+  --landing-gold: #FFD700;
+  /* Shiny gold */
+  --landing-gold-light: #FFD54A;
+  /* Light gold/amber */
+  --landing-amber: #FDBA3B;
+  /* Amber accent */
+  --landing-amber-dark: #F59E0B;
+  /* Dark amber */
+
   /* Text Colors */
-  --landing-text-white: rgba(255, 255, 255, 0.9);      /* Primary white text */
-  --landing-text-white-60: rgba(255, 255, 255, 0.6);   /* Secondary white */
-  --landing-text-white-50: rgba(255, 255, 255, 0.5);   /* Tertiary white */
-  --landing-text-white-40: rgba(255, 255, 255, 0.4);   /* Muted white */
-  --landing-text-white-20: rgba(255, 255, 255, 0.2);   /* Very muted */
-  --landing-text-amber: #fbbf24;      /* Amber 400 */
-  --landing-text-amber-100: #fef3c7;  /* Light amber */
-  --landing-text-amber-200: #fde68a;  /* Amber 200 */
-  --landing-text-amber-300: #fcd34d;  /* Amber 300 */
-  --landing-text-amber-50: #fffbeb;   /* Very light amber */
-  --landing-text-yellow-300: #fde047; /* Yellow 300 */
-  --landing-text-yellow-400: #facc15; /* Yellow 400 */
-  
+  --landing-text-white: rgba(255, 255, 255, 0.9);
+  /* Primary white text */
+  --landing-text-white-60: rgba(255, 255, 255, 0.6);
+  /* Secondary white */
+  --landing-text-white-50: rgba(255, 255, 255, 0.5);
+  /* Tertiary white */
+  --landing-text-white-40: rgba(255, 255, 255, 0.4);
+  /* Muted white */
+  --landing-text-white-20: rgba(255, 255, 255, 0.2);
+  /* Very muted */
+  --landing-text-amber: #fbbf24;
+  /* Amber 400 */
+  --landing-text-amber-100: #fef3c7;
+  /* Light amber */
+  --landing-text-amber-200: #fde68a;
+  /* Amber 200 */
+  --landing-text-amber-300: #fcd34d;
+  /* Amber 300 */
+  --landing-text-amber-50: #fffbeb;
+  /* Very light amber */
+  --landing-text-yellow-300: #fde047;
+  /* Yellow 300 */
+  --landing-text-yellow-400: #facc15;
+  /* Yellow 400 */
+
   /* Background Gradients */
-  --landing-gradient-primary: linear-gradient(to bottom, #4b0753 0%, #2a0a3e 8%, #1a0b2e 16%, #2a0a3e 24%, #4b0753 32%, #2a0a3e 40%, #1a0b2e 48%, #2a0a3e 56%, #4b0753 64%, #2a0a3e 72%, #1a0b2e 80%, #2a0a3e 88%, #0a0a0a 100%);
+  --landing-gradient-primary: linear-gradient(to bottom, #5C0000 0%, #3A0000 8%, #1a0a0a 16%, #3A0000 24%, #5C0000 32%, #3A0000 40%, #1a0a0a 48%, #3A0000 56%, #5C0000 64%, #3A0000 72%, #1a0a0a 80%, #3A0000 88%, #0a0a0a 100%);
   --landing-gradient-gold: linear-gradient(to right, #fbbf24, #fde047, #fbbf24);
   --landing-gradient-purple-gold: linear-gradient(to right, #fde047, #a855f7, #d946ef);
-  
+
   /* Glass Effects */
   --landing-glass-bg: linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15));
   --landing-glass-border: rgba(255, 215, 0, 0.35);
   --landing-glass-shadow: 0 12px 40px rgba(139, 69, 19, 0.15), 0 0 0 1px rgba(255, 215, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  
+
   /* Font Families - Matching landing page */
   --font-sans: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Playfair Display', 'Lora', serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  
+
   /* Additional golden theme variables for adaptive coloring */
   --gold-light: 45 100% 70%;
   --gold-medium: 45 100% 50%;

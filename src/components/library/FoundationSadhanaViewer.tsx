@@ -101,7 +101,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sadhana Information */}
-        <Card className="backdrop-blur-sm bg-gradient-to-b from-background/70 to-secondary/10 border border-purple-500/20">
+        <Card className="backdrop-blur-md bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 border border-purple-500/20">
           <CardHeader className="bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10">
             <CardTitle className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-purple-500/10">
@@ -160,7 +160,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
         </Card>
 
         {/* Customization Form */}
-        <Card className="backdrop-blur-sm bg-gradient-to-b from-background/70 to-secondary/10 border border-purple-500/20">
+        <Card className="backdrop-blur-md bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 border border-purple-500/20">
           <CardHeader className="bg-gradient-to-r from-purple-500/10 via-fuchsia-500/10 to-purple-500/10">
             <CardTitle className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-purple-500/10">
@@ -177,7 +177,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                 value={customData.purpose}
                 onChange={(e) => setCustomData(prev => ({ ...prev, purpose: e.target.value }))}
                 placeholder="What is the purpose of your spiritual practice?"
-                className="min-h-[80px] border-purple-500/20 focus:border-purple-500/50"
+                className="min-h-[80px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
               />
             </div>
             
@@ -188,7 +188,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                 value={customData.goal}
                 onChange={(e) => setCustomData(prev => ({ ...prev, goal: e.target.value }))}
                 placeholder="What is your specific spiritual goal?"
-                className="min-h-[80px] border-purple-500/20 focus:border-purple-500/50"
+                className="min-h-[80px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
               />
             </div>
             
@@ -199,7 +199,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                 value={customData.message}
                 onChange={(e) => setCustomData(prev => ({ ...prev, message: e.target.value }))}
                 placeholder="What message would you like to share with the divine?"
-                className="min-h-[80px] border-purple-500/20 focus:border-purple-500/50"
+                className="min-h-[80px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
               />
             </div>
             
@@ -212,7 +212,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                       value={offering} 
                       onChange={(e) => handleOfferingChange(index, e.target.value)}
                       placeholder={`Offering or practice ${index + 1}`}
-                      className="border-purple-500/20 focus:border-purple-500/50"
+                      className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
                     />
                     {customData.offerings.length > 1 && (
                       <Button 
@@ -250,7 +250,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                     type="date" 
                     value={customData.startDate}
                     onChange={(e) => handleStartDateChange(e.target.value)}
-                    className="border-purple-500/20 focus:border-purple-500/50"
+                    className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
                   />
                 </div>
                 <div className="flex-1">
@@ -260,7 +260,7 @@ const FoundationSadhanaViewer = ({ sadhana, onClose, onStart }: FoundationSadhan
                     type="date" 
                     value={customData.endDate}
                     readOnly
-                    className="border-purple-500/20 focus:border-purple-500/50"
+                    className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/20 focus:border-purple-500/50"
                   />
                 </div>
               </div>

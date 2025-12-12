@@ -179,11 +179,6 @@ const sharedSadhanaSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-sharedSadhanaSchema.index({ sadhanaId: 1 });
-sharedSadhanaSchema.index({ userId: 1 });
-sharedSadhanaSchema.index({ privacyLevel: 1 });
-sharedSadhanaSchema.index({ isActive: 1 });
-sharedSadhanaSchema.index({ isFeatured: 1 });
 sharedSadhanaSchema.index({ createdAt: -1 });
 
 // Compound indexes for common queries

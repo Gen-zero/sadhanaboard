@@ -27,21 +27,21 @@ interface SadhanaCardProps {
     className?: string;
 }
 
-// Theme colors
+// Theme colors - Crimson theme for Mahakali
 const darkTheme = {
-    fieldBg: 'bg-amber-800/10',
-    fieldBorder: 'border-amber-600/20',
-    fieldBorderActive: 'border-amber-500/50',
-    iconBg: 'bg-amber-800/30',
-    iconBgFilled: 'bg-gradient-to-br from-amber-400 to-yellow-500',
-    iconColor: 'text-amber-400/60',
-    iconColorFilled: 'text-[#5C2218]',
-    labelColor: 'text-amber-400/50',
+    fieldBg: 'bg-[#8B0000]/20',
+    fieldBorder: 'border-[#DC143C]/30',
+    fieldBorderActive: 'border-[#DC143C]/60',
+    iconBg: 'bg-[#8B0000]/40',
+    iconBgFilled: 'bg-gradient-to-br from-[#DC143C] to-[#8B0000]',
+    iconColor: 'text-[#DC143C]/70',
+    iconColorFilled: 'text-white',
+    labelColor: 'text-[#DC143C]/60',
     textColor: 'text-white',
-    textColorMuted: 'text-white/30',
-    textColorTyping: 'text-amber-200',
-    checkColor: 'text-amber-400',
-    cursorColor: 'bg-amber-400',
+    textColorMuted: 'text-white/40',
+    textColorTyping: 'text-[#FF6B6B]',
+    checkColor: 'text-[#DC143C]',
+    cursorColor: 'bg-[#DC143C]',
 };
 
 const saffronTheme = {
@@ -1110,13 +1110,13 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                             'relative w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-sm md:text-base transition-all duration-500',
                                             activeStep === index
                                                 ? isStepComplete
-                                                    ? 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 text-[#5C2218] shadow-[0_0_30px_-5px_rgba(217,119,6,0.6)]'
-                                                    : 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 text-[#5C2218] shadow-lg shadow-amber-500/50'
+                                                    ? 'bg-gradient-to-br from-[#DC143C] via-[#8B0000] to-[#5C0000] text-white shadow-[0_0_30px_-5px_rgba(220,20,60,0.6)]'
+                                                    : 'bg-gradient-to-br from-[#DC143C] via-[#8B0000] to-[#5C0000] text-white shadow-lg shadow-[#DC143C]/50'
                                                 : isStepComplete
-                                                    ? 'bg-gradient-to-br from-amber-600/80 via-yellow-500/80 to-amber-500/80 text-[#5C2218] shadow-md shadow-amber-500/30'
+                                                    ? 'bg-gradient-to-br from-[#DC143C]/80 via-[#8B0000]/80 to-[#5C0000]/80 text-white shadow-md shadow-[#DC143C]/30'
                                                     : activeStep > index
-                                                        ? 'bg-amber-500/20 text-amber-400 border-2 border-amber-500/50'
-                                                        : 'bg-[#1a1a1a] text-amber-400/50 border-2 border-amber-600/30'
+                                                        ? 'bg-[#DC143C]/20 text-[#DC143C] border-2 border-[#DC143C]/50'
+                                                        : 'bg-[#1a1a1a] text-[#DC143C]/50 border-2 border-[#DC143C]/30'
                                         )}
                                     >
                                         {isStepComplete ? (
@@ -1127,7 +1127,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
 
                                         {activeStep === index && !isStepComplete && (
                                             <motion.div
-                                                className="absolute inset-0 rounded-full border-2 border-amber-400"
+                                                className="absolute inset-0 rounded-full border-2 border-[#DC143C]"
                                                 animate={{ scale: [1, 1.2, 1], opacity: [1, 0, 1] }}
                                                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                                             />
@@ -1138,10 +1138,10 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                         <p className={cn(
                                             'text-xs font-medium transition-colors duration-500',
                                             activeStep === index
-                                                ? 'text-amber-300'
+                                                ? 'text-[#FF6B6B]'
                                                 : isStepComplete
-                                                    ? 'text-amber-400/70'
-                                                    : 'text-amber-400/40'
+                                                    ? 'text-[#DC143C]/70'
+                                                    : 'text-[#DC143C]/40'
                                         )}>
                                             {step.title}
                                         </p>
@@ -1150,22 +1150,22 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                     {index < stepData.length - 1 && (
                                         <>
                                             <div className="md:hidden relative w-8 h-0.5 mx-2">
-                                                <div className="absolute inset-0 bg-amber-800/30 rounded-full" />
+                                                <div className="absolute inset-0 bg-[#8B0000]/30 rounded-full" />
                                                 <motion.div
                                                     initial={{ scaleX: 0 }}
                                                     animate={{ scaleX: stepCompleted[index] ? 1 : 0 }}
                                                     transition={{ duration: 0.4 }}
-                                                    className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full origin-left"
+                                                    className="absolute inset-0 bg-gradient-to-r from-[#DC143C] to-[#8B0000] rounded-full origin-left"
                                                 />
                                             </div>
 
                                             <div className="hidden md:block relative w-0.5 h-10">
-                                                <div className="absolute inset-0 bg-amber-800/30 rounded-full" />
+                                                <div className="absolute inset-0 bg-[#8B0000]/30 rounded-full" />
                                                 <motion.div
                                                     initial={{ scaleY: 0 }}
                                                     animate={{ scaleY: stepCompleted[index] ? 1 : 0 }}
                                                     transition={{ duration: 0.4 }}
-                                                    className="absolute inset-0 bg-gradient-to-b from-amber-400 to-yellow-500 rounded-full origin-top"
+                                                    className="absolute inset-0 bg-gradient-to-b from-[#DC143C] to-[#8B0000] rounded-full origin-top"
                                                 />
                                             </div>
                                         </>
@@ -1188,18 +1188,18 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                 'relative backdrop-blur-xl rounded-2xl p-6 md:p-8 h-full transition-all duration-500',
                                 allowPaperOverflow ? 'overflow-visible' : 'overflow-hidden',
                                 isCurrentStepComplete
-                                    ? 'bg-gradient-to-br from-amber-600 via-yellow-500 to-amber-500 border-2 border-[#5C2218]/40 shadow-[0_0_60px_-15px_rgba(217,119,6,0.6)]'
-                                    : 'bg-gradient-to-br from-[#0a0a0a]/90 to-[#1a1a1a]/90 border-2 border-amber-500/30 shadow-2xl shadow-amber-900/20'
+                                    ? 'bg-gradient-to-br from-[#DC143C] via-[#8B0000] to-[#5C0000] border-2 border-[#DC143C]/50 shadow-[0_0_60px_-15px_rgba(220,20,60,0.6)]'
+                                    : 'bg-gradient-to-br from-[#1a1a1a] via-[#121212] to-[#0a0a0a] border-2 border-[#DC143C]/30 shadow-2xl shadow-black/40'
                             )}
                         >
                             {/* Corner Brackets - Appear on completion */}
-                            <CornerBracket position="top-left" color="#5C2218" isVisible={isCurrentStepComplete} />
-                            <CornerBracket position="top-right" color="#5C2218" isVisible={isCurrentStepComplete} />
-                            <CornerBracket position="bottom-left" color="#5C2218" isVisible={isCurrentStepComplete} />
-                            <CornerBracket position="bottom-right" color="#5C2218" isVisible={isCurrentStepComplete} />
+                            <CornerBracket position="top-left" color="#FFD700" isVisible={isCurrentStepComplete} />
+                            <CornerBracket position="top-right" color="#FFD700" isVisible={isCurrentStepComplete} />
+                            <CornerBracket position="bottom-left" color="#FFD700" isVisible={isCurrentStepComplete} />
+                            <CornerBracket position="bottom-right" color="#FFD700" isVisible={isCurrentStepComplete} />
 
                             {/* Sacred Circuit Pattern - Appears on completion */}
-                            <SacredCircuitPattern color="#5C2218" isVisible={isCurrentStepComplete} />
+                            <SacredCircuitPattern color="#FFD700" isVisible={isCurrentStepComplete} />
 
                             {/* Tech border frame - changes on completion */}
                             <div className={cn(
@@ -1221,24 +1221,24 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                     <div className={cn(
                                         'p-3 rounded-xl border transition-all duration-500',
                                         isCurrentStepComplete
-                                            ? 'bg-[#5C2218] border-[#5C2218]/40'
+                                            ? 'bg-[#FFD700]/20 border-[#FFD700]/40'
                                             : 'bg-gradient-to-br from-amber-400/20 to-yellow-500/20 border-amber-500/30'
                                     )}>
                                         <ActiveIcon className={cn(
                                             'w-6 h-6 transition-colors duration-500',
-                                            isCurrentStepComplete ? 'text-[#FFCC80]' : 'text-amber-300'
+                                            isCurrentStepComplete ? 'text-[#FFD700]' : 'text-amber-300'
                                         )} />
                                     </div>
                                     <div className="flex-1">
                                         <h3 className={cn(
                                             'text-2xl font-serif font-bold mb-1 transition-colors duration-500',
-                                            isCurrentStepComplete ? 'text-[#4A1C12]' : 'text-white'
+                                            isCurrentStepComplete ? 'text-white' : 'text-white'
                                         )}>
                                             {stepData[activeStep].title}
                                         </h3>
                                         <p className={cn(
                                             'text-sm transition-colors duration-500',
-                                            isCurrentStepComplete ? 'text-[#5C2218]/70' : 'text-white/60'
+                                            isCurrentStepComplete ? 'text-white/70' : 'text-white/60'
                                         )}>
                                             {stepData[activeStep].description}
                                         </p>
@@ -1286,13 +1286,13 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                                 {/* Footer Status */}
                                 <div className={cn(
                                     'mt-6 flex justify-between items-center text-[9px] font-mono uppercase tracking-wider transition-colors duration-500',
-                                    isCurrentStepComplete ? 'text-[#5C2218]/60' : 'text-amber-400/40'
+                                    isCurrentStepComplete ? 'text-white/60' : 'text-amber-400/40'
                                 )}>
                                     <span>Step_{(activeStep + 1).toString().padStart(2, '0')}</span>
                                     <span className="flex items-center gap-1">
                                         <span className={cn(
                                             'w-1.5 h-1.5 rounded-full transition-colors duration-500',
-                                            isCurrentStepComplete ? 'bg-[#5C2218] animate-pulse' : 'bg-amber-400 animate-pulse'
+                                            isCurrentStepComplete ? 'bg-[#FFD700] animate-pulse' : 'bg-amber-400 animate-pulse'
                                         )} />
                                         {isCurrentStepComplete ? 'Complete' : 'Processing'}
                                     </span>

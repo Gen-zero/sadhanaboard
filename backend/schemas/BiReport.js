@@ -96,8 +96,6 @@ const biReportSchema = new mongoose.Schema(
   }
 );
 
-biReportSchema.index({ userId: 1 });
-biReportSchema.index({ type: 1 });
 
 biReportSchema.methods.setSchedule = async function(cronExpression) {
   this.schedule = cronExpression;

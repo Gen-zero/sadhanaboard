@@ -1,4 +1,4 @@
-/* Mahakali theme specific styles - premium fierce red-black aesthetic with enhanced mystical elements */
+/* Mahakali theme specific styles - premium fierce crimson-black aesthetic with enhanced mystical elements */
 
 .theme-mahakali {
   font-family: 'Times New Roman', 'Georgia', serif;
@@ -6,10 +6,10 @@
   background: var(--mahakali-night-gradient);
 }
 
-/* Enhanced card styling with fierce border effects */
+/* Enhanced card styling with crimson gradient backgrounds */
 .mahakali-card {
-  background: linear-gradient(180deg, rgba(20, 0, 0, 0.9), rgba(10, 0, 0, 0.95));
-  border: 1px solid rgba(255, 50, 50, 0.2);
+  background: linear-gradient(180deg, rgba(139, 0, 0, 0.85), rgba(92, 0, 0, 0.95));
+  border: 1px solid rgba(220, 20, 60, 0.4);
   box-shadow: var(--mahakali-fierce-shadow);
   backdrop-filter: blur(12px);
   position: relative;
@@ -23,36 +23,36 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 50, 50, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.8), transparent);
 }
 
 /* Enhanced text glow with multiple layers */
 .mahakali-text-glow {
-  color: hsl(0 100% 60%);
-  text-shadow: 
-    0 0 5px rgba(255, 0, 0, 0.6),
-    0 0 10px rgba(255, 0, 0, 0.4),
-    0 0 20px rgba(255, 0, 0, 0.3);
+  color: hsl(348 91% 55%);
+  text-shadow:
+    0 0 5px rgba(220, 20, 60, 0.6),
+    0 0 10px rgba(220, 20, 60, 0.4),
+    0 0 20px rgba(220, 20, 60, 0.3);
 }
 
 /* Stronger text glow for headings */
 .mahakali-text-glow-strong {
-  color: hsl(0 100% 70%);
-  text-shadow: 
-    0 0 8px rgba(255, 0, 0, 0.8),
-    0 0 15px rgba(255, 0, 0, 0.6),
-    0 0 30px rgba(255, 0, 0, 0.4);
+  color: hsl(348 91% 65%);
+  text-shadow:
+    0 0 8px rgba(220, 20, 60, 0.8),
+    0 0 15px rgba(220, 20, 60, 0.6),
+    0 0 30px rgba(220, 20, 60, 0.4);
 }
 
 /* Enhanced border styling */
 .mahakali-border {
-  border: 1px solid rgba(255, 50, 50, 0.25);
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+  border: 1px solid rgba(220, 20, 60, 0.35);
+  box-shadow: 0 0 15px rgba(220, 20, 60, 0.2);
 }
 
-/* Premium button styling */
+/* Premium button styling with crimson gradient */
 .mahakali-button {
-  background: linear-gradient(135deg, hsl(0 100% 45%), hsl(0 100% 30%));
+  background: linear-gradient(135deg, hsl(348 91% 47%), hsl(0 100% 27%));
   color: hsl(0 0% 98%);
   border: none;
   position: relative;
@@ -61,72 +61,96 @@
 }
 
 .mahakali-button:hover {
-  background: linear-gradient(135deg, hsl(0 100% 50%), hsl(0 100% 35%));
-  box-shadow: 
-    0 0 15px rgba(255, 0, 0, 0.5),
-    0 0 30px rgba(255, 0, 0, 0.3);
+  background: linear-gradient(135deg, hsl(348 91% 55%), hsl(0 100% 35%));
+  box-shadow:
+    0 0 15px rgba(220, 20, 60, 0.5),
+    0 0 30px rgba(220, 20, 60, 0.3);
   transform: translateY(-2px);
 }
 
 .mahakali-button:active {
   transform: translateY(0);
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(220, 20, 60, 0.4);
 }
 
 /* Mystical icon styling */
 .mahakali-icon {
-  color: #ff6666;
-  filter: drop-shadow(0 0 5px rgba(255, 100, 100, 0.6));
+  color: #dc143c;
+  filter: drop-shadow(0 0 5px rgba(220, 20, 60, 0.6));
 }
 
 /* Enhanced animations */
 
 @keyframes mahakali-pulse {
-  0%,100% { 
-    transform: scale(1); 
-    opacity: 1; 
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
     filter: brightness(1);
   }
-  50% { 
-    transform: scale(1.03); 
-    opacity: 0.95; 
+
+  50% {
+    transform: scale(1.03);
+    opacity: 0.95;
     filter: brightness(1.2);
   }
 }
 
 @keyframes mahakali-float {
-  0% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-10px) rotate(3deg); }
-  66% { transform: translateY(-5px) rotate(-2deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+
+  66% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 @keyframes mahakali-shimmer {
-  0% { 
-    background-position: 0% 50%; 
+  0% {
+    background-position: 0% 50%;
     opacity: 0.8;
   }
-  50% { 
-    background-position: 100% 50%; 
+
+  50% {
+    background-position: 100% 50%;
     opacity: 1;
   }
-  100% { 
-    background-position: 0% 50%; 
+
+  100% {
+    background-position: 0% 50%;
     opacity: 0.8;
   }
 }
 
 @keyframes mahakali-yantra-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes mahakali-glow-pulse {
-  0%,100% { 
-    box-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
   }
-  50% { 
-    box-shadow: 0 0 30px rgba(255, 50, 50, 0.8);
+
+  50% {
+    box-shadow: 0 0 30px rgba(220, 20, 60, 0.8);
   }
 }
 
@@ -153,45 +177,45 @@
 
 /* Shimmer effect for special elements */
 .mahakali-shimmer {
-  background: linear-gradient(90deg, 
-    rgba(255, 50, 50, 0.15),
-    rgba(255, 50, 50, 0.4),
-    rgba(255, 50, 50, 0.15));
+  background: linear-gradient(90deg,
+      rgba(220, 20, 60, 0.15),
+      rgba(220, 20, 60, 0.4),
+      rgba(220, 20, 60, 0.15));
   background-size: 200% 100%;
   animation: mahakali-shimmer 3s ease infinite;
 }
 
-/* Premium badge styling */
+/* Premium badge styling with crimson gradient */
 .mahakali-badge {
-  background: linear-gradient(135deg, 
-    rgba(40, 0, 0, 0.9),
-    rgba(20, 0, 0, 0.95));
-  border: 1px solid rgba(255, 50, 50, 0.4);
-  box-shadow: 
-    0 0 10px rgba(255, 0, 0, 0.3),
-    inset 0 0 10px rgba(255, 50, 50, 0.2);
-  color: #ff6666;
+  background: linear-gradient(135deg,
+      rgba(139, 0, 0, 0.9),
+      rgba(92, 0, 0, 0.95));
+  border: 1px solid rgba(220, 20, 60, 0.5);
+  box-shadow:
+    0 0 10px rgba(220, 20, 60, 0.3),
+    inset 0 0 10px rgba(220, 20, 60, 0.2);
+  color: #dc143c;
 }
 
-/* Enhanced tooltip styling */
+/* Enhanced tooltip styling with crimson */
 .mahakali-tooltip {
-  background: linear-gradient(135deg, 
-    rgba(20, 0, 0, 0.95),
-    rgba(10, 0, 0, 0.98));
-  border: 1px solid rgba(255, 50, 50, 0.5);
-  box-shadow: 
+  background: linear-gradient(135deg,
+      rgba(139, 0, 0, 0.95),
+      rgba(92, 0, 0, 0.98));
+  border: 1px solid rgba(220, 20, 60, 0.5);
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(255, 0, 0, 0.4);
-  color: #ff6666;
+    0 0 20px rgba(220, 20, 60, 0.4);
+  color: #dc143c;
 }
 
 /* Special highlight for important elements */
 .mahakali-highlight {
-  background: linear-gradient(90deg, 
-    rgba(40, 0, 0, 0.3),
-    rgba(80, 0, 0, 0.4),
-    rgba(40, 0, 0, 0.3));
-  border: 1px solid rgba(255, 50, 50, 0.3);
+  background: linear-gradient(90deg,
+      rgba(139, 0, 0, 0.3),
+      rgba(139, 0, 0, 0.5),
+      rgba(139, 0, 0, 0.3));
+  border: 1px solid rgba(220, 20, 60, 0.4);
   position: relative;
 }
 
@@ -202,10 +226,10 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 50, 50, 0.8), 
-    transparent);
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(220, 20, 60, 0.8),
+      transparent);
 }
 
 /* Skull symbol styling */

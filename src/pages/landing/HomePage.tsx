@@ -61,18 +61,18 @@ const HomePage = () => {
         <nav
           className="relative overflow-visible rounded-xl sm:rounded-2xl transition-all duration-500 shadow-2xl group flex items-center justify-between px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4"
           style={{
-            background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15))',
+            background: 'linear-gradient(135deg, rgba(40, 40, 45, 0.85), rgba(30, 30, 35, 0.9), rgba(40, 40, 45, 0.85))',
             backdropFilter: 'blur(24px) saturate(200%)',
             WebkitBackdropFilter: 'blur(24px) saturate(200%)',
-            border: '1px solid rgba(255, 215, 0, 0.35)',
-            boxShadow: '0 12px 40px rgba(139, 69, 19, 0.15), 0 0 0 1px rgba(255, 215, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}
         >
           {/* Subtle gradient overlay */}
           <div
             className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent, rgba(255, 165, 0, 0.1))'
+              background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.03), transparent, rgba(255, 255, 255, 0.03))'
             }}
           />
 
@@ -88,7 +88,7 @@ const HomePage = () => {
 
           {/* Animated border effect */}
           <div className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none border-2 border-transparent animate-border-pulse" style={{
-            background: 'linear-gradient(45deg, rgba(255, 215, 0, 0.4), rgba(138, 43, 226, 0.4), rgba(255, 215, 0, 0.4)) border-box',
+            background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(150, 150, 150, 0.1), rgba(255, 255, 255, 0.15)) border-box',
             WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
             WebkitMaskComposite: 'destination-out',
             maskComposite: 'exclude'
@@ -162,22 +162,22 @@ const HomePage = () => {
 
             <Button
               asChild
-              className="relative bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 backdrop-blur-sm border border-yellow-300/60 hover:border-yellow-200/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-110 rounded-full text-black font-bold"
+              className="relative bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] backdrop-blur-sm border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-110 rounded-full text-white font-bold"
               style={{
-                boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                boxShadow: '0 0 30px rgba(220, 20, 60, 0.4), 0 0 60px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
               }}
             >
               <Link to="/waitlist">
                 {/* Animated gradient background */}
                 <div
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-300/40 via-orange-300/30 to-yellow-300/40 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-r from-[#FF1744]/40 via-[#DC143C]/30 to-[#FF1744]/40 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
                 />
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                 {/* Floating sparkles */}
-                <div className="absolute top-1 right-2 w-1 h-1 bg-yellow-200 rounded-full animate-ping opacity-60 group-hover/cta:opacity-100" />
+                <div className="absolute top-1 right-2 w-1 h-1 bg-white rounded-full animate-ping opacity-60 group-hover/cta:opacity-100" />
                 <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-60 group-hover/cta:opacity-100" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-amber-300 rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.3s' }} />
+                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-[#FF6B6B] rounded-full animate-pulse opacity-0 group-hover/cta:opacity-100" style={{ animationDelay: '0.3s' }} />
 
                 <span className="relative z-10 flex items-center">
                   Join Waitlist
@@ -199,18 +199,18 @@ const HomePage = () => {
             background: `
               linear-gradient(
                 to bottom,
-                #4b0753 0%,
-                #2a0a3e 8%,
-                #1a0b2e 16%,
-                #2a0a3e 24%,
-                #4b0753 32%,
-                #2a0a3e 40%,
-                #1a0b2e 48%,
-                #2a0a3e 56%,
-                #4b0753 64%,
-                #2a0a3e 72%,
-                #1a0b2e 80%,
-                #2a0a3e 88%,
+                #5C0000 0%,
+                #3A0000 8%,
+                #1a0a0a 16%,
+                #3A0000 24%,
+                #5C0000 32%,
+                #3A0000 40%,
+                #1a0a0a 48%,
+                #3A0000 56%,
+                #5C0000 64%,
+                #3A0000 72%,
+                #1a0a0a 80%,
+                #3A0000 88%,
                 #0a0a0a 100%
               )
             `

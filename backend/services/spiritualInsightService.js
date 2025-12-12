@@ -1,4 +1,4 @@
-const { SpirtualInsight, SadhanaSession, SpirtualMilestone, SadhanaActivity } = require('../models');
+const { SpiritualInsight, SadhanaSession, SpiritualMilestone, SadhanaActivity } = require('../models');
 const biService = require('./biReportService');
 
 const insightService = {
@@ -7,7 +7,7 @@ const insightService = {
       // simple heuristics based on recent activity
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
       const sessions = await SadhanaSession.countDocuments({ userId, createdAt: { $gt: thirtyDaysAgo } });
-      const milestones = await SpirtualMilestone.countDocuments({ userId });
+      const milestones = await SpiritualMilestone.countDocuments({ userId });
       
       const insightData = {
         insightType: 'practice_recommendation',
@@ -17,7 +17,7 @@ const insightService = {
         generatedAt: new Date()
       };
       
-      const insight = new SpirtualInsight(insightData);
+      const insight = new SpiritualInsight(insightData);
       await insight.save();
       
       // emit realtime
@@ -45,7 +45,7 @@ const insightService = {
         generatedAt: new Date()
       };
       
-      const insight = new SpirtualInsight(insightData);
+      const insight = new SpiritualInsight(insightData);
       await insight.save();
       
       try { if (global.__ADMIN_IO__) global.__ADMIN_IO__.to('bi-insights').emit('bi:insight-generated', insight.toJSON()); } catch (e) {}
@@ -59,7 +59,7 @@ const insightService = {
   async getValidInsights(userId) {
     try {
       const now = new Date();
-      const insights = await SpirtualInsight.find({
+      const insights = await SpiritualInsight.find({
         $or: [
           { userId },
           { userId: null }

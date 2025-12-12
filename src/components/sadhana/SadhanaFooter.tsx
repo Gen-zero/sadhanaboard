@@ -5,7 +5,7 @@ const SadhanaFooter = () => {
   const { colors } = useThemeColors();
 
   return (
-    <div className="p-4 bg-transparent rounded-lg border border-white backdrop-blur-md">
+    <div className="p-4 bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md rounded-lg border border-white">
       <p className="text-center text-sm italic text-white font-light tracking-wide">
         "The universe is not outside of you. Look inside yourself; everything that you want, you already are." — Rumi
       </p>

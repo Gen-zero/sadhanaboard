@@ -63,14 +63,13 @@ sadhanaboard/
 ├── k8s/                          # Kubernetes configs
 ├── terraform/                    # Infrastructure as code
 ├── monitoring/                   # Monitoring configs
-├── frontend/                     # Frontend docker config
+├── frontend/                     # (legacy deployment artifacts removed)
 │
 └── Configuration files
     ├── vite.config.ts
     ├── tailwind.config.ts
     ├── tsconfig.json
     ├── package.json
-    ├── docker-compose.yml
     ├── nginx.conf
     └── vercel.json
 ```
@@ -87,8 +86,8 @@ sadhanaboard/
 - ✅ `postcss.config.js` - PostCSS configuration
 
 ### Deployment & Infrastructure
-- ✅ `Dockerfile.backend` - Docker image for backend
-- ✅ `docker-compose.yml` - Docker Compose configuration
+- ✅ `Dockerfile.backend` - Docker image for backend (removed as part of Atlas migration)
+- ✅ `docker-compose.yml` - Docker Compose configuration (removed in favor of direct Atlas usage)
 - ✅ `nginx.conf` - Nginx web server configuration
 - ✅ `vercel.json` - Vercel deployment configuration
 - ✅ `k8s/` - Kubernetes manifests
@@ -97,7 +96,7 @@ sadhanaboard/
 ### SDK & Public Assets
 - ✅ `sdk/` - Published client SDK package
 - ✅ `public/` - Static assets (images, fonts, themes)
-- ✅ `frontend/` - Frontend Docker configuration
+- ✅ `frontend/` - Frontend Docker configuration (deprecated)
 
 ### Core Application Code
 - ✅ `src/` - Frontend React/TypeScript source

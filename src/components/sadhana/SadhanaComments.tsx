@@ -35,8 +35,8 @@ const SadhanaComments: React.FC<{ sadhanaId: string | number }> = ({ sadhanaId }
   }, [user, text, sadhanaId, fetch]);
 
   return (
-    <div className="bg-card p-4 rounded">
-      <h4 className="font-medium mb-2">Comments</h4>
+    <div className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md p-4 rounded">
+      <h4 className="font-medium mb-2 text-white">Comments</h4>
       {loading && <div>Loading...</div>}
       <div className="space-y-2">
         {comments.map(c => (
@@ -48,7 +48,7 @@ const SadhanaComments: React.FC<{ sadhanaId: string | number }> = ({ sadhanaId }
       </div>
       {user ? (
         <div className="mt-3 flex gap-2">
-          <input className="flex-1 input" value={text} onChange={e => setText(e.target.value)} />
+          <input className="flex-1 input bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70" value={text} onChange={e => setText(e.target.value)} />
           <button className="btn" onClick={submit}>Post</button>
         </div>
       ) : (

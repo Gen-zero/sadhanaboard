@@ -36,7 +36,7 @@ const SadhanaHeader = ({
   };
 
   return (
-    <div className="backdrop-blur-sm bg-transparent p-4 rounded-xl border border-white relative overflow-hidden">
+    <div className="backdrop-blur-md bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 p-4 rounded-xl border border-white relative overflow-hidden">
       {/* Cosmic glow effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 opacity-50"></div>
       

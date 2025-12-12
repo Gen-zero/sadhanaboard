@@ -10,7 +10,7 @@ const Footer = () => {
             ref={sectionRef as React.RefObject<HTMLElement>}
             className="py-12 px-4 border-t border-white/5 relative overflow-hidden"
             style={{
-                background: 'radial-gradient(circle at center -60px, rgba(75, 7, 83, 0.85) 0%, rgba(42, 10, 62, 0.9) 35%, rgba(10, 10, 10, 0.95) 100%)'
+                background: 'radial-gradient(circle at center -60px, rgba(92, 0, 0, 0.85) 0%, rgba(58, 0, 0, 0.9) 35%, rgba(10, 10, 10, 0.95) 100%)'
             }}
         >
             {/* Mandala background to mirror Solution section */}

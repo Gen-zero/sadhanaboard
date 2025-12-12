@@ -78,7 +78,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
       {/* Mobile-optimized grid layout */}
       <div className="grid grid-cols-1 gap-4 md:gap-6">
         <div className="space-y-4 md:space-y-6">
-          <Card className="bg-transparent">
+          <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md">
             <CardHeader className="p-4 md:p-6">
               <CardTitle style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">Purpose & Goal</CardTitle>
               <CardDescription style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">Why you're on this spiritual journey</CardDescription>
@@ -91,7 +91,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                   value={formData.purpose}
                   onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
                   placeholder="What is the purpose of your spiritual practice?"
-                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70"
                 />
               </div>
               <div className="space-y-2">
@@ -101,13 +101,13 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                   value={formData.goal}
                   onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
                   placeholder="What is your specific spiritual goal?"
-                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70"
                 />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-transparent">
+          <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md">
             <CardHeader className="p-4 md:p-6">
               <CardTitle className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>
                 <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: 'hsl(45 100% 50%)', filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
@@ -123,7 +123,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                   value={formData.deity}
                   onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
                   placeholder="Who or what is your spiritual focus?"
-                  className="text-sm md:text-base"
+                  className="text-sm md:text-base bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70"
                 />
               </div>
               <div className="space-y-2">
@@ -133,14 +133,14 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   placeholder="What message would you like to share with your deity?"
-                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base"
+                  className="min-h-[80px] md:min-h-[100px] text-sm md:text-base bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70"
                 />
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-transparent">
+        <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md">
           <CardHeader className="p-4 md:p-6">
             <CardTitle style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">Offerings & Practices</CardTitle>
             <CardDescription style={{ color: 'hsl(210 40% 80%)', fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">What you'll be doing or offering for your spiritual practice</CardDescription>
@@ -153,7 +153,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                     value={offering} 
                     onChange={(e) => handleOfferingChange(index, e.target.value)}
                     placeholder={`Offering or practice ${index + 1}`}
-                    className="text-sm md:text-base"
+                    className="text-sm md:text-base bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70"
                   />
                   <Button 
                     variant="ghost" 

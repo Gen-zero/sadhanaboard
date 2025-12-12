@@ -116,9 +116,6 @@ const bugReportSchema = new mongoose.Schema(
   }
 );
 
-bugReportSchema.index({ reporterId: 1 });
-bugReportSchema.index({ status: 1 });
-bugReportSchema.index({ severity: 1 });
 
 bugReportSchema.methods.assignTo = async function(developerId) {
   this.assignedTo = developerId;

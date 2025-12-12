@@ -24,7 +24,7 @@ const SadhanaForm = <T extends SadhanaFormData>({ sadhana, setSadhana, isEditing
           placeholder="Sadhana title"
           value={sadhana.title}
           onChange={(e) => setSadhana({ ...sadhana, title: e.target.value })}
-          className="bg-background/70 border-purple-500/30 h-10"
+          className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/30 h-10"
         />
       </div>
       <div className="grid gap-2">
@@ -34,7 +34,7 @@ const SadhanaForm = <T extends SadhanaFormData>({ sadhana, setSadhana, isEditing
           placeholder="Sadhana description"
           value={sadhana.description || ''}
           onChange={(e) => setSadhana({ ...sadhana, description: e.target.value })}
-          className="bg-background/70 border-purple-500/30 min-h-[80px]"
+          className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-500/30 min-h-[80px]"
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -78,7 +78,7 @@ const SadhanaForm = <T extends SadhanaFormData>({ sadhana, setSadhana, isEditing
             type="date"
             value={sadhana.dueDate || ''}
             onChange={(e) => setSadhana({ ...sadhana, dueDate: e.target.value })}
-            className="bg-background/70 border-purple-500/30 h-10"
+            className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/30 h-10"
           />
         </div>
         <div className="grid gap-2">
@@ -88,7 +88,7 @@ const SadhanaForm = <T extends SadhanaFormData>({ sadhana, setSadhana, isEditing
             type="time"
             value={sadhana.time || ''}
             onChange={(e) => setSadhana({ ...sadhana, time: e.target.value })}
-            className="bg-background/70 border-purple-500/30 h-10"
+            className="bg-gradient-to-r from-[#8B0000] to-[#5C0000] text-white placeholder:text-white/70 border-purple-500/30 h-10"
           />
         </div>
       </div>

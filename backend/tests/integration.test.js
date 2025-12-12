@@ -74,7 +74,7 @@ describe('PHASE 3 - MONGODB MIGRATION INTEGRATION TESTS', () => {
           'User', 'Sadhana', 'Book', 'SadhanaSession', 'SadhanaProgress',
           'CommunityActivity', 'Achievement', 'Theme'
           // Skipping models that may not exist: 'Community', 'ContentApproval', 'AdminDashboard',
-          // 'SystemAlert', 'SpirtualInsight', 'Tag', 'Category'
+          // 'SystemAlert', 'SpiritualInsight', 'Tag', 'Category'
         ];
 
         const missingModels = models.filter(model => {

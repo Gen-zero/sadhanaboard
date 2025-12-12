@@ -133,23 +133,19 @@ const adminSessionSchema = new mongoose.Schema(
 
 // This index automatically deletes expired sessions
 // The expireAfterSeconds: 0 means delete at exactly expiresAt time
-adminSessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 // ============================================================================
 // INDEXES
 // ============================================================================
 
 // Admin ID index (for finding all sessions of an admin)
-adminSessionSchema.index({ adminId: 1 });
 
 // JWT token index (for validating sessions)
-adminSessionSchema.index({ jwtToken: 1 }, { unique: true });
 
 // Created date index (for finding recent sessions)
 adminSessionSchema.index({ createdAt: -1 });
 
 // Active sessions index
-adminSessionSchema.index({ isActive: 1 });
 
 // Compound indexes for common queries
 adminSessionSchema.index({ adminId: 1, isActive: 1 });

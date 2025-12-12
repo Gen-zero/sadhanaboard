@@ -119,9 +119,6 @@ const mentorshipGoalSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-mentorshipGoalSchema.index({ mentorshipId: 1 });
-mentorshipGoalSchema.index({ achieved: 1 });
-mentorshipGoalSchema.index({ targetDate: 1 });
 mentorshipGoalSchema.index({ createdAt: -1 });
 
 // Compound indexes

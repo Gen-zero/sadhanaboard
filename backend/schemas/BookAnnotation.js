@@ -211,7 +211,6 @@ bookAnnotationSchema.index({ userId: 1, createdAt: -1 });
 bookAnnotationSchema.index({ isPrivate: 1, isDeleted: 1 });
 
 // Linked to sadhana
-bookAnnotationSchema.index({ linkedSadhanaId: 1 });
 
 // Compound indexes
 bookAnnotationSchema.index({ userId: 1, bookId: 1, page: 1 });

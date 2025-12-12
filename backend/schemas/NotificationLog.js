@@ -97,7 +97,6 @@ const notificationLogSchema = new mongoose.Schema(
   }
 );
 
-notificationLogSchema.index({ userId: 1 });
 notificationLogSchema.index({ userId: 1, createdAt: -1 });
 
 notificationLogSchema.statics.findByUser = function(userId) {

@@ -114,9 +114,6 @@ const supportSchema = new mongoose.Schema(
   }
 );
 
-supportSchema.index({ userId: 1 });
-supportSchema.index({ status: 1 });
-supportSchema.index({ priority: 1 });
 
 supportSchema.methods.assignTo = async function(adminId) {
   this.assignedTo = adminId;
