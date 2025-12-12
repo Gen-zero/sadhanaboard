@@ -60,14 +60,47 @@ const themes = [
 // Export theme utilities
 export { themeUtils };
 
+// Filter options type for listThemes
+interface ThemeFilterOptions {
+  category?: 'landing' | 'color-scheme' | 'hybrid' | undefined;
+  available?: boolean;
+}
+
 // Export function to get theme by ID
 export function getThemeById(id: string) {
   return themes.find(theme => theme.metadata.id === id) || null;
 }
 
-// Export function to list all themes
-export function listThemes() {
-  return [...themes];
+// Export function to list all themes with optional filters
+export function listThemes(options?: ThemeFilterOptions) {
+  let result = [...themes];
+
+  if (options?.category) {
+    result = result.filter(theme => theme.metadata.category === options.category);
+  }
+
+  // For 'available' filter, we consider all themes available by default
+  // This could be extended to check for asset availability, etc.
+
+  return result;
+}
+
+// Export function to get themes by deity
+export function getThemesByDeity(deity?: string) {
+  if (!deity) {
+    return themes.filter(theme => theme.metadata.deity);
+  }
+  return themes.filter(theme => theme.metadata.deity === deity);
+}
+
+// Export function to get landing page themes
+export function getLandingPageThemes() {
+  return themes.filter(theme => theme.metadata.isLandingPage || theme.metadata.category === 'landing');
+}
+
+// Export function to get color scheme themes
+export function getColorSchemeThemes() {
+  return themes.filter(theme => theme.metadata.category === 'color-scheme' || theme.metadata.category === 'hybrid');
 }
 
 // Export function to get theme health status
