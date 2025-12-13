@@ -487,23 +487,30 @@
   /* Extremely dark background */
   --foreground: 0 0% 99%;
   /* Bright white foreground */
-  --primary: 0 100% 55%;
-  /* Vibrant red */
-  --secondary: 0 0% 100%;
-  /* Very dark secondary */
-  --accent: 0 100% 45%;
-  /* Fierce crimson accent */
-  --card: 0 0% 100%;
-  --popover: 0 0% 5%;
-  --border: 0 0 100%;
-  --input: 0 25% 8%;
-  --muted: 0 15% 10%;
-  --muted-foreground: 0 25% 75%;
-  --ring: 0 100% 55%;
+  --primary: 348 91% 47%;
+  /* Bright crimson (#DC143C) */
+  --secondary: 0 100% 27%;
+  /* Dark crimson (#8B0000) */
+  --accent: 348 91% 47%;
+  /* Bright crimson accent */
+  --card: 0 100% 18%;
+  /* Dark crimson card background */
+  --popover: 0 100% 22%;
+  /* Slightly lighter crimson popover */
+  --border: 0 70% 25%;
+  /* Crimson border */
+  --input: 0 80% 18%;
+  /* Dark crimson input */
+  --muted: 0 80% 15%;
+  /* Very dark crimson muted */
+  --muted-foreground: 0 40% 75%;
+  /* Light crimson text */
+  --ring: 348 91% 47%;
+  /* Crimson ring */
 
   /* Enhanced Mahakali-specific effects */
-  --mahakali-red-glow: 0 0 30px hsla(var(--primary), 0.6);
-  --mahakali-fierce-shadow: 0 8px 30px hsla(var(--primary), 0.5);
+  --mahakali-red-glow: 0 0 30px hsla(348, 91%, 47%, 0.6);
+  --mahakali-fierce-shadow: 0 8px 30px hsla(348, 91%, 47%, 0.5);
   --mahakali-night-gradient: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 50%, hsl(var(--background)) 100%);
   --mahakali-skull-glow: 0 0 20px hsla(var(--foreground), 0.5);
   --mahakali-cremation-fire: 0 0 25px hsla(var(--accent), 0.6);

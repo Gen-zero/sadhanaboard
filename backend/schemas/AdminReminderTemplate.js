@@ -36,7 +36,6 @@ const AdminReminderTemplateSchema = new mongoose.Schema({
 });
 
 // Add indexes
-AdminReminderTemplateSchema.index({ key: 1 });
 AdminReminderTemplateSchema.index({ enabled: 1, scheduleCron: 1 });
 
 module.exports = mongoose.model('AdminReminderTemplate', AdminReminderTemplateSchema);

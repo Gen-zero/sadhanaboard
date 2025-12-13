@@ -198,11 +198,11 @@ class UserProgressionService {
       const profile = await Profile.findOne({ userId });
       if (!profile) throw new Error('Profile not found');
 
-      const newProgress = Math.min((profile.sankalphaProgress || 0) + progressIncrement, 100.0);
+      const newProgress = Math.min((profile.sankalpaProgress || 0) + progressIncrement, 100.0);
 
       const updated = await Profile.findOneAndUpdate(
         { userId },
-        { sankalphaProgress: newProgress },
+        { sankalpaProgress: newProgress },
         { new: true }
       );
 

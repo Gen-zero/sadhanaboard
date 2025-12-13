@@ -56,7 +56,7 @@ class ProfileService {
         daily_streak,
         dailyStreak,
         sankalpa_progress,
-        sankalpProgress,
+        sankalpaProgress,
         chakra_balance,
         chakraBalance,
         energy_balance,
@@ -131,7 +131,7 @@ class ProfileService {
       if (spiritual_points !== undefined || spiritualPoints !== undefined) updateData.spiritualPoints = spiritual_points || spiritualPoints;
       if (level !== undefined) updateData.level = level;
       if (daily_streak !== undefined || dailyStreak !== undefined) updateData.dailyStreak = daily_streak || dailyStreak;
-      if (sankalpa_progress !== undefined || sankalpProgress !== undefined) updateData.sankalpProgress = sankalpa_progress || sankalpProgress;
+      if (sankalpa_progress !== undefined || sankalpaProgress !== undefined) updateData.sankalpaProgress = sankalpa_progress || sankalpaProgress;
       if (chakra_balance !== undefined || chakraBalance !== undefined) updateData.chakraBalance = chakra_balance || chakraBalance;
       if (energy_balance !== undefined || energyBalance !== undefined) updateData.energyBalance = energy_balance || energyBalance;
       
@@ -185,7 +185,7 @@ class ProfileService {
         spiritualPoints,
         level,
         dailyStreak,
-        sankalpProgress,
+        sankalpaProgress,
         chakraBalance,
         energyBalance
       } = metrics;
@@ -195,7 +195,7 @@ class ProfileService {
       if (spiritualPoints !== undefined) updateData.spiritualPoints = spiritualPoints;
       if (level !== undefined) updateData.level = level;
       if (dailyStreak !== undefined) updateData.dailyStreak = dailyStreak;
-      if (sankalpProgress !== undefined) updateData.sankalpProgress = sankalpProgress;
+      if (sankalpaProgress !== undefined) updateData.sankalpaProgress = sankalpaProgress;
       if (chakraBalance !== undefined) updateData.chakraBalance = chakraBalance;
       if (energyBalance !== undefined) updateData.energyBalance = energyBalance;
 

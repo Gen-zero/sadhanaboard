@@ -225,16 +225,12 @@ const adminUserSchema = new mongoose.Schema(
 // ============================================================================
 
 // Email index (for login, unique)
-adminUserSchema.index({ email: 1 }, { unique: true });
 
 // Role index (for filtering by role)
-adminUserSchema.index({ role: 1 });
 
 // Active status index (for finding active admins)
-adminUserSchema.index({ isActive: 1 });
 
 // Suspension status index
-adminUserSchema.index({ isSuspended: 1 });
 
 // Created date index
 adminUserSchema.index({ createdAt: -1 });

@@ -291,12 +291,7 @@ const sadhanaSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-sadhanaSchema.index({ userId: 1 });
-sadhanaSchema.index({ status: 1 });
 sadhanaSchema.index({ createdAt: -1 });
-sadhanaSchema.index({ dueDate: 1 });
-sadhanaSchema.index({ type: 1 });
-sadhanaSchema.index({ isPublic: 1 });
 sadhanaSchema.index({ userId: 1, status: 1 });
 sadhanaSchema.index({ userId: 1, createdAt: -1 });
 sadhanaSchema.index({ isPublic: 1, createdAt: -1 }); // For public feed

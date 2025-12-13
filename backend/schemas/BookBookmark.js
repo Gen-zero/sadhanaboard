@@ -112,10 +112,8 @@ const bookBookmarkSchema = new mongoose.Schema(
 bookBookmarkSchema.index({ userId: 1, bookId: 1 });
 
 // All bookmarks in book
-bookBookmarkSchema.index({ bookId: 1 });
 
 // User's all bookmarks
-bookBookmarkSchema.index({ userId: 1 });
 
 // Find by page
 bookBookmarkSchema.index({ bookId: 1, page: 1 });

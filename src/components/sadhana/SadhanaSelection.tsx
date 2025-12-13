@@ -30,7 +30,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
   const spiritualPoints = progression.spiritualPoints;
 
   return (
-    <div className={`rounded-lg p-6 ${isShivaTheme ? 'bg-transparent' : 'bg-transparent'}`}>
+    <div className={`rounded-lg p-6 ${isShivaTheme ? 'bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20' : 'bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20'}`}>
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">

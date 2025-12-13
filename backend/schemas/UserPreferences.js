@@ -105,7 +105,6 @@ const userPreferencesSchema = new mongoose.Schema(
   }
 );
 
-userPreferencesSchema.index({ userId: 1 });
 
 userPreferencesSchema.methods.updateNotificationPreferences = async function(prefs) {
   Object.assign(this.notifications, prefs);

@@ -146,7 +146,7 @@ const SadhanaSetupForm = ({
 
   return (
     <div
-      className={`rounded-lg p-4 md:p-6 ${isShivaTheme ? "bg-transparent" : "bg-transparent"}`}
+      className={`rounded-lg p-4 md:p-6 ${isShivaTheme ? "bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20" : "bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20"}`}
     >
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-6 md:mb-8 md:gap-4">
@@ -177,7 +177,7 @@ const SadhanaSetupForm = ({
         {/* Mobile-optimized grid layout */}
         <div className="grid grid-cols-1 gap-4 md:gap-6">
           <div className="space-y-4 md:space-y-6">
-            <Card className="bg-transparent border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
+            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
               <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
                 <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
                   Purpose & Goal
@@ -206,7 +206,7 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What is the purpose of your spiritual practice?"
-                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
+                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.purpose && (
                       <p className="text-xs md:text-sm text-destructive">
@@ -234,7 +234,7 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What is your specific spiritual goal?"
-                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
+                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.goal && (
                       <p className="text-xs md:text-sm text-destructive">{errors.goal}</p>
@@ -244,7 +244,7 @@ const SadhanaSetupForm = ({
               </CardContent>
             </Card>
 
-            <Card className="bg-transparent border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
+            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
               <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
                 <CardTitle
                   className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
@@ -321,7 +321,7 @@ const SadhanaSetupForm = ({
           </div>
 
           <div className="space-y-4 md:space-y-6">
-            <Card className="bg-transparent border border-pink-400/20 hover:border-pink-400/40 transition-colors shadow-lg shadow-pink-500/10">
+            <Card className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] border border-pink-400/20 hover:border-pink-400/40 transition-colors shadow-lg shadow-pink-500/10">
               <CardHeader className="bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-b border-pink-400/10 p-4 md:p-6">
                 <CardTitle
                   className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
@@ -353,7 +353,7 @@ const SadhanaSetupForm = ({
                       }))
                     }
                     placeholder="Who or what is your spiritual focus?"
-                    className="bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
+                    className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
                   />
                   {errors.deity && (
                     <p className="text-xs md:text-sm text-destructive">{errors.deity}</p>
@@ -378,7 +378,7 @@ const SadhanaSetupForm = ({
                         }))
                       }
                       placeholder="What message would you like to share with your deity?"
-                      className="min-h-[80px] md:min-h-[100px] bg-background/40 border-amber-400/30 focus:border-amber-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors text-sm md:text-base"
+                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
                     />
                     {errors.message && (
                       <p className="text-xs md:text-sm text-destructive">
@@ -390,7 +390,7 @@ const SadhanaSetupForm = ({
               </CardContent>
             </Card>
 
-            <Card className="bg-transparent border border-purple-400/20 hover:border-purple-400/40 transition-colors shadow-lg shadow-purple-500/10">
+            <Card className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] border border-purple-400/20 hover:border-purple-400/40 transition-colors shadow-lg shadow-purple-500/10">
               <CardHeader className="bg-gradient-to-r from-purple-500/5 to-pink-500/5 border-b border-purple-400/10 p-4 md:p-6">
                 <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
                   Offerings & Practices
@@ -409,7 +409,7 @@ const SadhanaSetupForm = ({
                           handleOfferingChange(index, e.target.value)
                         }
                         placeholder={`Offering or practice ${index + 1}`}
-                        className="bg-background/40 border-purple-400/30 focus:border-purple-400/60 text-black placeholder:text-gray-500 rounded-lg transition-colors group-hover:border-purple-400/50 text-sm md:text-base"
+                        className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-400/30 focus:border-purple-400/60 rounded-lg transition-colors group-hover:border-purple-400/50 text-sm md:text-base"
                       />
                       {formData.offerings.length > 1 && (
                         <Button

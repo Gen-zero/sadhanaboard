@@ -153,10 +153,8 @@ const groupMemberSchema = new mongoose.Schema(
 groupMemberSchema.index({ groupId: 1, userId: 1 }, { unique: true });
 
 // Find group members
-groupMemberSchema.index({ groupId: 1 });
 
 // Find user's groups
-groupMemberSchema.index({ userId: 1 });
 
 // Status queries
 groupMemberSchema.index({ groupId: 1, status: 1 });

@@ -1,4 +1,4 @@
-const { Sadhana, SadhanaSession, SadhanaProgress, SpirtualMilestone } = require('../models');
+const { Sadhana, SadhanaSession, SadhanaProgress, SpiritualMilestone } = require('../models');
 
 /**
  * userAnalyticsService
@@ -459,7 +459,7 @@ const userAnalyticsService = {
       }));
 
       // milestones
-      const milestones = await SpirtualMilestone.find({
+      const milestones = await SpiritualMilestone.find({
         userId,
         achievedAt: { $gte: sd, $lt: ed }
       }).lean().sort({ achievedAt: 1 });

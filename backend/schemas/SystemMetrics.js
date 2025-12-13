@@ -47,7 +47,6 @@ const systemMetricsSchema = new mongoose.Schema(
   }
 );
 
-systemMetricsSchema.index({ metricName: 1 });
 systemMetricsSchema.index({ metricName: 1, timestamp: -1 });
 
 systemMetricsSchema.statics.findByMetric = function(metricName) {

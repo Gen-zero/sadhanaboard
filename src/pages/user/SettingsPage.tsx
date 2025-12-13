@@ -401,7 +401,7 @@ const SettingsPage = () => {
                 transition={{ duration: 0.2 }}
                 className="hidden lg:block lg:w-64 flex-shrink-0"
               >
-                <Card className="h-full border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm">
+                <Card className="h-full border-primary/30 bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center justify-between gap-2 text-lg font-semibold text-foreground settings-header">
                       <div className="flex items-center gap-2">
@@ -513,7 +513,7 @@ const SettingsPage = () => {
 
           {/* Main Content */}
           <div className="flex-1 overflow-hidden">
-            <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm mobile-card-compact h-full flex flex-col">
+            <Card className="border-primary/30 bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md mobile-card-compact h-full flex flex-col">
               <CardHeader className="hidden lg:block pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg font-semibold text-foreground mobile-heading-scale settings-header">
                   {(() => {

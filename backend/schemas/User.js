@@ -204,16 +204,12 @@ const userSchema = new mongoose.Schema(
 // ============================================================================
 
 // Email index (for login, unique)
-userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 // Status index (for filtering active/inactive users)
-userSchema.index({ status: 1 });
 
 // Verification token index (for finding users by token)
-userSchema.index({ emailVerificationToken: 1 }, { sparse: true });
 
 // Password reset token index
-userSchema.index({ passwordResetToken: 1 }, { sparse: true });
 
 // Created date index (for user discovery)
 userSchema.index({ createdAt: -1 });

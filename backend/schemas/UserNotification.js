@@ -89,8 +89,6 @@ const userNotificationSchema = new mongoose.Schema(
   }
 );
 
-userNotificationSchema.index({ userId: 1 });
-userNotificationSchema.index({ isRead: 1 });
 userNotificationSchema.index({ userId: 1, isRead: 1, createdAt: -1 });
 
 userNotificationSchema.methods.markAsRead = async function() {

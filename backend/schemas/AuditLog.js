@@ -102,9 +102,6 @@ const auditLogSchema = new mongoose.Schema(
 );
 
 // Indexes
-auditLogSchema.index({ adminId: 1 });
-auditLogSchema.index({ entityType: 1 });
-auditLogSchema.index({ status: 1 });
 auditLogSchema.index({ adminId: 1, createdAt: -1 });
 
 // Static methods

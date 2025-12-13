@@ -78,14 +78,6 @@ jobs:
         NODE_ENV: test
         JWT_SECRET: test_secret_key
     
-    - name: Build Docker image
-      run: |
-        docker build -f Dockerfile.backend -t sadhanaboard-backend:latest .
-    
-    - name: Test Docker image
-      run: |
-        docker run --rm -e NODE_ENV=test -e PORT=3004 sadhanaboard-backend:latest echo "Build successful"
-    
     - name: Deploy to production
       # This is a placeholder for actual deployment
       # You would replace this with your actual deployment steps

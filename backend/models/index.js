@@ -8,6 +8,7 @@ const Sadhana = require('../schemas/Sadhana');
 const SadhanaSession = require('../schemas/SadhanaSession');
 const SadhanaProgress = require('../schemas/SadhanaProgress');
 const SpiritualMilestone = require('../schemas/SpiritualMilestone');
+const SpiritualInsight = require('../schemas/SpiritualInsight');
 const User = require('../schemas/User');
 const UserFollower = require('../schemas/UserFollower');
 const Book = require('../schemas/Book');
@@ -65,6 +66,7 @@ module.exports = {
   SadhanaSession,
   SadhanaProgress,
   SpiritualMilestone,
+  SpiritualInsight,
   User,
   UserFollower,
   

@@ -45,10 +45,10 @@ const FinalCTA = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         to="/waitlist"
-                        className={`w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 text-black font-bold text-lg shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 border border-yellow-300/60 hover:border-yellow-200/80 animate-rise-in group/cta overflow-hidden relative ${isVisible ? 'visible' : ''}`}
+                        className={`w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] text-white font-bold text-lg shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 border border-[#DC143C]/60 hover:border-[#FF1744]/80 animate-rise-in group/cta overflow-hidden relative ${isVisible ? 'visible' : ''}`}
                         style={{
                             transitionDelay: '0.3s',
-                            boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                            boxShadow: '0 0 30px rgba(220, 20, 60, 0.4), 0 0 60px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                         }}
                     >
                         {/* Shimmer effect */}

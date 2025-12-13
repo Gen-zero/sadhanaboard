@@ -199,17 +199,12 @@ const groupSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-groupSchema.index({ creatorId: 1 });
-groupSchema.index({ isPublic: 1 });
-groupSchema.index({ privacyLevel: 1 });
-groupSchema.index({ category: 1 });
 groupSchema.index({ createdAt: -1 });
 groupSchema.index({ lastActivityAt: -1 });
 
 // Compound indexes
 groupSchema.index({ isPublic: 1, createdAt: -1 });
 groupSchema.index({ category: 1, isPublic: 1 });
-groupSchema.index({ traditions: 1 });
 
 // Text search
 groupSchema.index({ name: 'text', description: 'text' });

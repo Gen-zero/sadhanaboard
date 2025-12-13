@@ -114,9 +114,6 @@ const experimentSchema = new mongoose.Schema(
   }
 );
 
-experimentSchema.index({ status: 1 });
-experimentSchema.index({ startDate: 1 });
-experimentSchema.index({ experimentName: 1 });
 
 experimentSchema.methods.start = async function() {
   this.status = 'running';

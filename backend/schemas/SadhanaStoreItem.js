@@ -105,7 +105,6 @@ const sadhanaStoreItemSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-sadhanaStoreItemSchema.index({ sadhanaId: 1 });
 sadhanaStoreItemSchema.index({ sadhanaId: 1, status: 1 });
 sadhanaStoreItemSchema.index({ createdAt: -1 });
 

@@ -136,19 +136,15 @@ const sadhanaCommentSchema = new mongoose.Schema(
 // ============================================================================
 
 // Find all comments for sadhana
-sadhanaCommentSchema.index({ sadhanaId: 1 });
 
 // Find user's comments
-sadhanaCommentSchema.index({ userId: 1 });
 
 // Find comment replies
-sadhanaCommentSchema.index({ parentCommentId: 1 });
 
 // Recent comments
 sadhanaCommentSchema.index({ createdAt: -1 });
 
 // Find comments by shared sadhana
-sadhanaCommentSchema.index({ sharedSadhanaId: 1 });
 
 // Compound indexes for common queries
 sadhanaCommentSchema.index({ sadhanaId: 1, createdAt: -1 }); // Thread view

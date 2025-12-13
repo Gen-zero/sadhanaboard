@@ -255,7 +255,6 @@ bookProgressSchema.index({ userId: 1, status: 1 });
 bookProgressSchema.index({ userId: 1, lastReadAt: -1 });
 
 // Status queries
-bookProgressSchema.index({ status: 1 });
 
 // Completed books
 bookProgressSchema.index({ status: 1, completedAt: -1 });

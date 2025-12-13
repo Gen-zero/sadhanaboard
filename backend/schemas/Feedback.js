@@ -96,9 +96,6 @@ const feedbackSchema = new mongoose.Schema(
   }
 );
 
-feedbackSchema.index({ userId: 1 });
-feedbackSchema.index({ status: 1 });
-feedbackSchema.index({ category: 1 });
 
 feedbackSchema.methods.respond = async function(response, adminId) {
   this.adminResponse = response;

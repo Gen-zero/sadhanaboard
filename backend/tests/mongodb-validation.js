@@ -86,7 +86,7 @@ async function validateMongooseModels() {
   const requiredModels = [
     'User', 'Sadhana', 'Book', 'SadhanaSession', 'SadhanaProgress',
     'Community', 'Achievement', 'ContentApproval', 'AdminDashboard',
-    'SystemAlert', 'SpirtualInsight', 'Theme', 'Tag', 'Category'
+    'SystemAlert', 'SpiritualInsight', 'Theme', 'Tag', 'Category'
   ];
 
   let loadedCount = 0;

@@ -78,16 +78,13 @@ const sadhanaLikeSchema = new mongoose.Schema(
 sadhanaLikeSchema.index({ sadhanaId: 1, userId: 1 }, { unique: true });
 
 // Finding all likes for sadhana
-sadhanaLikeSchema.index({ sadhanaId: 1 });
 
 // Finding user's likes
-sadhanaLikeSchema.index({ userId: 1 });
 
 // Recent likes
 sadhanaLikeSchema.index({ createdAt: -1 });
 
 // For shared sadhana engagement
-sadhanaLikeSchema.index({ sharedSadhanaId: 1 });
 
 // Compound indexes
 sadhanaLikeSchema.index({ sadhanaId: 1, createdAt: -1 });

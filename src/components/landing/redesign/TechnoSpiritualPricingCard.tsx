@@ -23,6 +23,7 @@ interface TechnoSpiritualPricingCardProps {
         highlight: string;
         text: string;
         glow: string;
+        patternColor?: string;
     };
 }
 
@@ -43,6 +44,7 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
         highlight: '#B45309', // Bronze/Gold (Active elements)
         text: '#4A1C12',     // Dark Brown text
         glow: 'rgba(92, 34, 24, 0.15)', // Maroon glow
+        patternColor: '#8B4513', // Default pattern color
     }
 }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -55,12 +57,12 @@ const TechnoSpiritualPricingCard: React.FC<TechnoSpiritualPricingCardProps> = ({
             style={{ backgroundColor: theme.bg }}
         >
             {/* --- Overlay Pattern: Circuit Mandala --- */}
-            <div className="absolute inset-0 opacity-15 pointer-events-none mix-blend-multiply">
-                <SacredCircuitPattern color={theme.accent} />
+            <div className="absolute inset-0 opacity-25 pointer-events-none mix-blend-soft-light">
+                <SacredCircuitPattern color={theme.patternColor || theme.highlight} />
             </div>
 
             {/* --- Tech-Border Frame --- */}
-            <div className="absolute inset-2 border-[1px] border-dashed opacity-40 pointer-events-none rounded-lg z-20" style={{ borderColor: theme.accent }}></div>
+            <div className="absolute inset-2 border-[1px] border-dashed opacity-50 pointer-events-none rounded-lg z-20" style={{ borderColor: theme.accent }}></div>
 
             {/* Corner Accents (Tech style but Maroon) */}
             <CornerBracket position="top-left" color={theme.accent} />

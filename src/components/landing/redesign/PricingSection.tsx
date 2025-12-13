@@ -24,7 +24,8 @@ const PricingSection = () => {
                 accent: '#a0a0a0',
                 highlight: '#ffffff',
                 text: '#e0e0e0',
-                glow: 'rgba(255, 255, 255, 0.1)'
+                glow: 'rgba(255, 255, 255, 0.1)',
+                patternColor: '#4a4a4a'
             }
         },
         {
@@ -34,15 +35,16 @@ const PricingSection = () => {
             features: ["Unlimited Sadhanas", "Advanced Metrics", "Full Library Access", "Priority Support"],
             buttonText: "INITIATE_PRO",
             isPopular: true,
-            buttonTextColor: "#FFB344",
-            chipColor: undefined,
+            buttonTextColor: "#ffffff",
+            chipColor: "#5C0000",
             theme: {
-                bg: '#FFB344',
-                panel: '#FFCC80',
-                accent: '#5C2218',
-                highlight: '#B45309',
-                text: '#4A1C12',
-                glow: 'rgba(92, 34, 24, 0.15)'
+                bg: '#DC143C',
+                panel: '#8B0000',
+                accent: '#FFD700',
+                highlight: '#ffffff',
+                text: '#ffffff',
+                glow: 'rgba(220, 20, 60, 0.15)',
+                patternColor: '#FFE4B3'
             }
         },
         {
@@ -59,7 +61,8 @@ const PricingSection = () => {
                 accent: '#FFD700',
                 highlight: '#FFA500',
                 text: '#E6E6FA',
-                glow: 'rgba(255, 215, 0, 0.15)'
+                glow: 'rgba(255, 215, 0, 0.15)',
+                patternColor: '#9370DB'
             }
         }
     ];
@@ -125,11 +128,10 @@ const PricingSection = () => {
                             <button
                                 key={index}
                                 onClick={() => handleDotClick(index)}
-                                className={`transition-all duration-300 rounded-full ${
-                                    currentSlide === index
-                                        ? 'w-10 h-3 bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.6)]'
-                                        : 'w-3 h-3 bg-white/30 hover:bg-white/50'
-                                }`}
+                                className={`transition-all duration-300 rounded-full ${currentSlide === index
+                                    ? 'w-10 h-3 bg-[#DC143C] shadow-[0_0_12px_rgba(220,20,60,0.6)]'
+                                    : 'w-3 h-3 bg-white/30 hover:bg-white/50'
+                                    }`}
                                 aria-label={`Go to ${pricingPlans[index].title} plan`}
                             />
                         ))}

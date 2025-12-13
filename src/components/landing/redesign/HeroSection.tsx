@@ -37,9 +37,9 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <Button
             size="lg"
-            className="w-full sm:w-auto bg-gradient-to-r from-amber-600 via-yellow-500 via-60% to-amber-500 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-400 text-black border border-yellow-300/60 hover:border-yellow-200/80 shadow-2xl hover:shadow-2xl transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full transform hover:scale-110 font-bold group/cta overflow-hidden relative"
+            className="w-full sm:w-auto bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] text-white border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full transform hover:scale-110 font-bold group/cta overflow-hidden relative"
             style={{
-              boxShadow: '0 0 30px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+              boxShadow: '0 0 30px rgba(220, 20, 60, 0.4), 0 0 60px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
             asChild
           >

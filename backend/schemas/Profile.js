@@ -95,11 +95,24 @@ const profileSchema = new mongoose.Schema(
       description: 'User\'s date of birth'
     },
 
+    time_of_birth: {
+      type: String,
+      trim: true,
+      default: null,
+      description: 'Time of birth (HH:MM format)'
+    },
+
     place_of_birth: {
       type: String,
       trim: true,
       default: null,
       description: 'User\'s place of birth'
+    },
+
+    availableForGuidance: {
+      type: Boolean,
+      default: false,
+      description: 'Whether the user is available for guidance/mentorship'
     },
 
     // Spiritual information
@@ -206,6 +219,86 @@ const profileSchema = new mongoose.Schema(
       }
     },
 
+    // Custom settings/preferences blob
+    settings: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+      description: 'Flexible user-level settings (stored as JSON)'
+    },
+
+    // Spiritual metrics and gamification fields
+    karmaBalance: {
+      type: Number,
+      default: 0,
+      min: 0,
+      description: 'Accumulated karma points'
+    },
+
+    spiritualPoints: {
+      type: Number,
+      default: 0,
+      min: 0,
+      description: 'Experience-like points for leveling'
+    },
+
+    level: {
+      type: Number,
+      default: 1,
+      min: 1,
+      description: 'Current spiritual level'
+    },
+
+    dailyStreak: {
+      type: Number,
+      default: 0,
+      min: 0,
+      description: 'Consecutive practice day streak'
+    },
+
+    sankalpaProgress: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+      description: 'Progress towards sankalpa goal (0-100)'
+    },
+
+    chakraBalance: {
+      type: {
+        root: { type: Number, default: 50, min: 0, max: 100 },
+        sacral: { type: Number, default: 50, min: 0, max: 100 },
+        solar: { type: Number, default: 50, min: 0, max: 100 },
+        heart: { type: Number, default: 50, min: 0, max: 100 },
+        throat: { type: Number, default: 50, min: 0, max: 100 },
+        thirdEye: { type: Number, default: 50, min: 0, max: 100 },
+        crown: { type: Number, default: 50, min: 0, max: 100 }
+      },
+      default: () => ({
+        root: 50,
+        sacral: 50,
+        solar: 50,
+        heart: 50,
+        throat: 50,
+        thirdEye: 50,
+        crown: 50
+      }),
+      description: 'Per-chakra balance readings'
+    },
+
+    energyBalance: {
+      type: {
+        sattva: { type: Number, default: 33, min: 0, max: 100 },
+        rajas: { type: Number, default: 33, min: 0, max: 100 },
+        tamas: { type: Number, default: 34, min: 0, max: 100 }
+      },
+      default: () => ({
+        sattva: 33,
+        rajas: 33,
+        tamas: 34
+      }),
+      description: 'Energy type distribution'
+    },
+
     // Profile completion
     profileCompleteness: {
       type: Number,
@@ -301,22 +394,18 @@ const profileSchema = new mongoose.Schema(
 // ============================================================================
 
 // User ID index (for finding profile by user, unique constraint)
-profileSchema.index({ userId: 1 }, { unique: true });
 
 // Created date index (for profile discovery)
 profileSchema.index({ createdAt: -1 });
 
 // Traditions index (for finding users by tradition)
-profileSchema.index({ traditions: 1 });
 
 // Interests index (for finding users by interest)
-profileSchema.index({ interests: 1 });
 
 // Location indexes (for geographic discovery)
 profileSchema.index({ country: 1, city: 1 });
 
 // Verification index
-profileSchema.index({ isVerified: 1 });
 
 // Compound index for common discovery queries
 profileSchema.index({ traditions: 1, country: 1, createdAt: -1 });
@@ -498,27 +587,57 @@ profileSchema.methods.removeInterest = async function(interest) {
  * @returns {Object} JSON safe profile data
  */
 profileSchema.methods.toJSON = function() {
+
   const obj = this.toObject();
+
   delete obj.__v;
-  
-  // Convert MongoDB field names to frontend field names for consistency
+
+
+
+  const fieldMap = {
+
+    avatar: 'avatar_url',
+
+    deity_preferences: 'deity_preferences',
+
+    energy_level_answers: 'energy_level_answers',
+
+    availableForGuidance: 'available_for_guidance',
+
+    karmaBalance: 'karma_balance',
+
+    spiritualPoints: 'spiritual_points',
+
+    dailyStreak: 'daily_streak',
+
+    sankalpaProgress: 'sankalpa_progress',
+
+    chakraBalance: 'chakra_balance',
+
+    energyBalance: 'energy_balance'
+
+  };
+
+
+
   const response = {};
+
   for (const [key, value] of Object.entries(obj)) {
-    if (key === 'avatar') {
-      response.avatar_url = value; // avatar in MongoDB → avatar_url in API
-    } else if (key === 'deity_preferences') {
-      response.deity_preferences = value; // Maintain field name consistency
-    } else if (key === 'energy_level_answers') {
-      response.energy_level_answers = value; // Maintain field name consistency
-    } else {
-      response[key] = value;
-    }
+
+    const mappedKey = fieldMap[key] || key;
+
+    response[mappedKey] = value;
+
   }
-  
+
+
+
   return response;
+
 };
 
-// ============================================================================
+
+
 // STATIC METHODS
 // ============================================================================
 

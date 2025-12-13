@@ -175,9 +175,6 @@ const mentorshipSchema = new mongoose.Schema(
 // INDEXES
 // ============================================================================
 
-mentorshipSchema.index({ mentorId: 1 });
-mentorshipSchema.index({ menteeId: 1 });
-mentorshipSchema.index({ status: 1 });
 mentorshipSchema.index({ createdAt: -1 });
 mentorshipSchema.index({ lastActivityAt: -1 });
 
