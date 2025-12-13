@@ -103,6 +103,47 @@ export function getColorSchemeThemes() {
   return themes.filter(theme => theme.metadata.category === 'color-scheme' || theme.metadata.category === 'hybrid');
 }
 
+// Export function to check theme health
+export interface ThemeHealth {
+  status: 'healthy' | 'missing-assets' | 'invalid-metadata' | 'error';
+  issues: string[];
+}
+
+export function getThemeHealth(theme: any): ThemeHealth {
+  const issues: string[] = [];
+  
+  // Check if theme has required metadata
+  if (!theme?.metadata) {
+    return {
+      status: 'invalid-metadata',
+      issues: ['Missing metadata']
+    };
+  }
+  
+  // Check required metadata fields
+  if (!theme.metadata.id) {
+    issues.push('Missing theme ID');
+  }
+  
+  if (!theme.metadata.name) {
+    issues.push('Missing theme name');
+  }
+  
+  // Check if theme has colors or CSS assets
+  const hasColors = theme.colors && Object.keys(theme.colors).length > 0;
+  const hasCSSAsset = theme.assets?.css;
+  
+  if (!hasColors && !hasCSSAsset) {
+    issues.push('Theme has no colors or CSS assets');
+  }
+  
+  // Return health status
+  return {
+    status: issues.length === 0 ? 'healthy' : 'missing-assets',
+    issues
+  };
+}
+
 // Export individual themes for backward compatibility
 export {
   defaultTheme,
