@@ -1,0 +1,38 @@
+VIDEO SCRIPT: THEMES FEATURE TUTORIAL
+Length: 1-2 minutes
+
+[INTRO - 0:00-0:10]
+Visual: App logo animation, then showcase various themed interfaces
+Voiceover: "Transform your spiritual practice experience with SadhanaBoard's powerful theming system."
+
+[SECTION 1: THEMING CONCEPT - 0:10-0:30]
+Visual: Cycle through different spiritual themes with smooth transitions
+Voiceover: "Our themes go beyond simple color changes, offering complete spiritual environments that enhance your practice."
+Visual: Show deity-themed interfaces with corresponding imagery
+Voiceover: "From cosmic nightscapes to deity-inspired designs, each theme creates a sacred digital space for your journey."
+
+[SECTION 2: BROWSING THEMES - 0:30-0:50]
+Visual: Open theme selector showing thumbnail previews
+Voiceover: "Explore our gallery of spiritual themes, each carefully crafted to inspire and support different aspects of practice."
+Visual: Highlight categories - cosmic, elemental, deity-specific themes
+Voiceover: "Browse by category: cosmic themes for universal connection, elemental themes for nature-based practices, or deity-specific themes for devoted worship."
+
+[SECTION 3: APPLYING THEMES - 0:50-1:15]
+Visual: Demonstrate one-click theme application
+Voiceover: "Apply any theme instantly with a single tap - no reloads or interruptions to your practice flow."
+Visual: Show immediate interface transformation with smooth animation
+Voiceover: "Watch as your entire interface transforms with coordinated colors, backgrounds, and spiritual imagery that aligns with your chosen theme."
+
+[SECTION 4: PERSONALIZATION - 1:15-1:35]
+Visual: Show theme customization options
+Voiceover: "Fine-tune your experience with adjustable brightness, contrast, and accent colors that match your personal preferences."
+Visual: Demonstrate creating a custom theme
+Voiceover: "Create custom themes by combining your favorite colors and spiritual symbols to reflect your unique spiritual path."
+
+[SECTION 5: AUTOMATIC ADAPTATION - 1:35-1:50]
+Visual: Show theme adapting to different times of day
+Voiceover: "Some themes automatically adapt to time of day or practice type, creating the perfect atmosphere for any spiritual activity."
+
+[OUTRO - 1:50-2:00]
+Visual: Multiple themes cycling rapidly, then settling on a serene cosmic theme, app logo
+Voiceover: "Find your sacred space with SadhanaBoard's transformative themes."

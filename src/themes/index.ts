@@ -70,16 +70,6 @@ export function listThemes() {
   return [...themes];
 }
 
-// Export function to get theme health status
-export function getThemeHealth(theme: any) {
-  // Simple implementation - all themes are considered healthy by default
-  // In a more complex implementation, this could check for missing assets, invalid configurations, etc.
-  return {
-    status: 'healthy',
-    issues: [] as string[]
-  };
-}
-
 // Export individual themes for backward compatibility
 export {
   defaultTheme,

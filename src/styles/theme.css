@@ -489,13 +489,13 @@
   /* Bright white foreground */
   --primary: 0 100% 55%;
   /* Vibrant red */
-  --secondary: 0 0% 7%;
+  --secondary: 0 0% 100%;
   /* Very dark secondary */
   --accent: 0 100% 45%;
   /* Fierce crimson accent */
-  --card: 0 0% 3%;
+  --card: 0 0% 100%;
   --popover: 0 0% 5%;
-  --border: 0 30% 12%;
+  --border: 0 0 100%;
   --input: 0 25% 8%;
   --muted: 0 15% 10%;
   --muted-foreground: 0 25% 75%;

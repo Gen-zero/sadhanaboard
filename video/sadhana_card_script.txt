@@ -1,0 +1,34 @@
+VIDEO SCRIPT: SADHANA CARD FEATURE TUTORIAL
+Length: 1-2 minutes
+
+[INTRO - 0:00-0:10]
+Visual: App logo animation, then main dashboard view
+Voiceover: "Welcome to SadhanaBoard, your spiritual practice tracker. Let's explore the Sadhana Card feature."
+
+[SECTION 1: WHAT IS A SADHANA CARD - 0:10-0:30]
+Visual: Highlight a sample Sadhana Card on screen with gentle animation
+Voiceover: "A Sadhana Card represents a single spiritual practice session. Think of it as a digital journal entry for your daily spiritual activities."
+Visual: Show examples - meditation, prayer, yoga, chanting, etc.
+Voiceover: "You can track various practices like meditation, prayer, yoga, chanting, or any spiritual activity that's meaningful to you."
+
+[SECTION 2: CREATING A SADHANA CARD - 0:30-1:10]
+Visual: Click the "+ New Sadhana" button with smooth transition
+Voiceover: "To create a new Sadhana Card, tap the plus button on your dashboard."
+Visual: Walk through form fields appearing one by one
+Voiceover: "Enter your practice name, set a duration, add personal notes, and choose a meaningful category."
+Visual: Show date/time auto-fill and optional reminder setting
+Voiceover: "The date and time auto-fill, but you can adjust them. You can also set gentle reminders for consistency."
+
+[SECTION 3: TRACKING AND REVIEW - 1:10-1:40]
+Visual: Show completed card with checkmark, then statistics panel
+Voiceover: "Mark your practice as complete with a simple tap. Your streak counter increases, encouraging consistency."
+Visual: Display calendar view with highlighted days
+Voiceover: "View your progress over time with our beautiful calendar visualization and insightful statistics."
+
+[SECTION 4: PERSONALIZATION - 1:40-1:55]
+Visual: Show theme selector changing card appearance
+Voiceover: "Personalize your cards with our spiritual themes that resonate with your practice path."
+
+[OUTRO - 1:55-2:00]
+Visual: Multiple cards animating together, app logo
+Voiceover: "Start your mindful journey today with SadhanaBoard."

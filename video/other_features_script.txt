@@ -1,0 +1,46 @@
+VIDEO SCRIPT: OTHER KEY FEATURES TUTORIAL
+Length: 1-2 minutes
+
+[INTRO - 0:00-0:10]
+Visual: App logo animation, then highlight multiple feature icons
+Voiceover: "SadhanaBoard offers many powerful features to support your spiritual journey. Let's explore some key capabilities."
+
+[SECTION 1: PROGRESS TRACKING - 0:10-0:30]
+Visual: Show statistics dashboard with charts and graphs
+Voiceover: "Track your spiritual growth with comprehensive analytics and beautiful visualizations of your practice patterns."
+Visual: Display streak counters and milestone celebrations
+Voiceover: "Celebrate your consistency with streak counters and milestone achievements that encourage continued dedication."
+
+[SECTION 2: COMMUNITY FEATURES - 0:30-0:45]
+Visual: Show community feed and group practice options
+Voiceover: "Connect with fellow practitioners through our community features. Join group practices and share your journey."
+Visual: Demonstrate sharing a completed sadhana
+Voiceover: "Share your completed practices and inspire others on their spiritual path."
+
+[SECTION 3: REMINDERS AND NOTIFICATIONS - 0:45-1:00]
+Visual: Show notification settings and reminder examples
+Voiceover: "Set gentle reminders to maintain your practice schedule without feeling pressured or overwhelmed."
+Visual: Display sample notifications with peaceful animations
+Voiceover: "Receive thoughtful notifications that support rather than interrupt your spiritual routine."
+
+[SECTION 4: INTEGRATIONS - 1:00-1:20]
+Visual: Show calendar integration and export options
+Voiceover: "Seamlessly integrate with your digital life through calendar syncing and data export capabilities."
+Visual: Demonstrate connecting with health apps
+Voiceover: "Connect with health and wellness apps to create a holistic view of your wellbeing journey."
+
+[SECTION 5: ACCESSIBILITY - 1:20-1:35]
+Visual: Show accessibility settings and various display options
+Voiceover: "Customize text sizes, contrast levels, and navigation methods to ensure SadhanaBoard is accessible to all practitioners."
+Visual: Demonstrate voice commands and simplified interface
+Voiceover: "Use voice commands or simplified interfaces for effortless navigation during meditation or prayer."
+
+[SECTION 6: PRIVACY AND SECURITY - 1:35-1:50]
+Visual: Show privacy settings and security features
+Voiceover: "Your spiritual journey is personal. We offer robust privacy controls and encryption to protect your sacred practice data."
+Visual: Display lock icons and privacy badges
+Voiceover: "Rest assured that your intimate spiritual reflections remain private and secure."
+
+[OUTRO - 1:50-2:00]
+Visual: All features coming together in harmony, app logo
+Voiceover: "Experience the complete SadhanaBoard ecosystem designed to nurture your spiritual evolution."

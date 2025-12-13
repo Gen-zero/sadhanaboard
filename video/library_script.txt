@@ -1,0 +1,38 @@
+VIDEO SCRIPT: LIBRARY FEATURE TUTORIAL
+Length: 1-2 minutes
+
+[INTRO - 0:00-0:10]
+Visual: App logo animation, then transition to library section
+Voiceover: "Discover wisdom and guidance in the SadhanaBoard Library. Let's explore this powerful resource."
+
+[SECTION 1: LIBRARY OVERVIEW - 0:10-0:30]
+Visual: Pan across the library interface showing categories
+Voiceover: "The Library houses curated spiritual texts, guided practices, and inspirational content to support your journey."
+Visual: Highlight different content types - articles, videos, audio guides
+Voiceover: "Browse through articles, listen to guided meditations, watch instructional videos, and access downloadable resources."
+
+[SECTION 2: NAVIGATION AND SEARCH - 0:30-0:55]
+Visual: Demonstrate category filtering and search functionality
+Voiceover: "Find what resonates with you using intuitive categories or our powerful search feature."
+Visual: Show filtering by tradition, practice type, or teacher
+Voiceover: "Filter content by spiritual tradition, practice type, or featured teachers to discover relevant materials."
+
+[SECTION 3: PERSONAL COLLECTION - 0:55-1:20]
+Visual: Show bookmarking and personal library creation
+Voiceover: "Save your favorite resources to your personal collection for easy access anytime."
+Visual: Demonstrate adding items to favorites and creating custom folders
+Voiceover: "Organize saved content into custom folders that reflect your spiritual interests and growth path."
+
+[SECTION 4: OFFLINE ACCESS - 1:20-1:40]
+Visual: Show download option and offline indicator
+Voiceover: "Download content for offline access, perfect for retreats or travel when internet isn't available."
+Visual: Demonstrate accessing downloaded content without connection
+Voiceover: "Access your downloaded materials anytime, even without an internet connection."
+
+[SECTION 5: COMMUNITY SHARING - 1:40-1:55]
+Visual: Show sharing options and community features
+Voiceover: "Share inspiring passages with your spiritual community or discover what others recommend."
+
+[OUTRO - 1:55-2:00]
+Visual: Library interface with glowing elements, app logo
+Voiceover: "Expand your spiritual horizons with SadhanaBoard Library."
