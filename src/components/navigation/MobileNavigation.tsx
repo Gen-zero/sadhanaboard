@@ -261,7 +261,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
 
           {/* Navigation Items with enhanced styling and animations */}
           <nav className="flex-1 p-4 overflow-y-auto sidebar-scrollbar" role="navigation" aria-label="Main navigation">
-            <div className="space-y-1">
+            <div className="space-y-2">
               <AnimatePresence>
                 {navItems.map((item, index) => {
                   const active = isActive(item.path);
@@ -307,7 +307,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
           </nav>
 
           {/* Profile and Sign Out Section - Positioned at the bottom */}
-          <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
+          <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg mx-2 mb-2">
             <div className="flex flex-col space-y-3">
               {user ? (
                 <div className="flex flex-col space-y-3">

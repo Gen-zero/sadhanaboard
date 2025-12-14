@@ -212,10 +212,8 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               );
             })}
           </div>
-        </nav>
-
-        {/* Profile and Sign Out Section - Positioned at the bottom */}
-        <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
+        </nav>        {/* Profile and Sign Out Section - Positioned at the bottom */}
+        <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg mx-2 mb-2">
           <div className="flex flex-col space-y-3">
             {user ? (
               <div className="flex flex-col space-y-3">
@@ -303,8 +301,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               </Button>
             )}
           </div>
-        </div>
-      </div>
+        </div>      </div>
     </TransparentGlassMorphismContainer>
   );
 };
