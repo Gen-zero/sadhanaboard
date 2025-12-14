@@ -85,40 +85,48 @@ export const GlassMorphismContainer = ({
         fontFamily: '"Chakra Petch", sans-serif'
       }}
     >
-      {/* Stable blur layer */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: transparent ? 'transparent' : 'rgba(10, 10, 12, 0.55)',
-          backdropFilter: 'blur(16px) saturate(140%)',
-          WebkitBackdropFilter: 'blur(16px) saturate(140%)',
-          willChange: 'backdrop-filter, transform',
-          transform: 'translateZ(0)'
-        }}
-      />
+      {/* Stable blur layer - only shown when not transparent */}
+      {!transparent && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'rgba(10, 10, 12, 0.55)',
+            backdropFilter: 'blur(16px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(16px) saturate(140%)',
+            willChange: 'backdrop-filter, transform',
+            transform: 'translateZ(0)'
+          }}
+        />
+      )}
       
-      {/* Background Effects */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(${theme.primary} 1px, transparent 1px), linear-gradient(90deg, ${theme.primary} 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-        }}
-      />
+      {/* Background Effects - only shown when not transparent */}
+      {!transparent && (
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(${theme.primary} 1px, transparent 1px), linear-gradient(90deg, ${theme.primary} 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      )}
       
-      {/* Circuit Pattern Overlay */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <SacredCircuitPattern color={theme.primary} />
-      </div>
+      {/* Circuit Pattern Overlay - only shown when not transparent */}
+      {!transparent && (
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <SacredCircuitPattern color={theme.primary} />
+        </div>
+      )}
       
-      {/* Tech Border Frame */}
-      <div
-        className="absolute inset-3 border-[1px] border-dashed pointer-events-none rounded-xl z-20 transition-all duration-500"
-        style={{
-          borderColor: theme.border,
-          opacity: 0.2
-        }}
-      />
+      {/* Tech Border Frame - only shown when not transparent */}
+      {!transparent && (
+        <div
+          className="absolute inset-3 border-[1px] border-dashed pointer-events-none rounded-xl z-20 transition-all duration-500"
+          style={{
+            borderColor: theme.border,
+            opacity: 0.2
+          }}
+        />
+      )}
       
       {/* Corner Brackets */}
       <CornerBracket position="top-left" color={theme.accent} />
@@ -132,7 +140,6 @@ export const GlassMorphismContainer = ({
     </div>
   );
 };
-
 // Transparent Glass Morphism Container Component
 export const TransparentGlassMorphismContainer = ({ 
   children,

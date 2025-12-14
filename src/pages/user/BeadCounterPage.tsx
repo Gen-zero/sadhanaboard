@@ -107,8 +107,8 @@ const BeadCounterPage = () => {
 
   return (
     <Layout>
-      <div className={`h-[calc(100vh-4rem)] w-full flex flex-col overflow-hidden relative ${getBgStyle()} transition-colors duration-500 rounded-xl`}>
-        <TransparentGlassMorphismContainer className="h-full flex flex-col">
+      <div className={`w-full flex flex-col overflow-hidden relative ${getBgStyle()} transition-colors duration-500 rounded-xl flex-1`}>
+        <TransparentGlassMorphismContainer className="flex-1 flex flex-col">
           {/* --- Top Bar --- */}
           <header className="flex justify-between items-center p-6 z-10 relative">
             <div className="flex items-center space-x-2">
