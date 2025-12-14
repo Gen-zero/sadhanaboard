@@ -12,7 +12,9 @@ import {
   LogOut,
   LogIn,
   X,
-  ChevronRight
+  ChevronRight,
+  Calendar,
+  Beaker
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -23,6 +25,7 @@ import { themeUtils, getThemeById, listThemes } from '@/themes';
 import type { ThemeDefinition } from '@/themes/types';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TransparentGlassMorphismContainer, SacredCircuitPattern, CornerBracket } from '@/components/design/SadhanaDesignComponents';
 
 interface MobileNavigationProps {
   isOpen: boolean;
@@ -37,14 +40,16 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
   const { settings } = useSettings();
   const { profile } = useUserProfile();
 
-  // Navigation items with enhanced icons and features
+  // Navigation items matching desktop version
   const navItems = [
-    { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana', badge: true },
-    { name: t('library'), icon: BookHeart, path: '/library', badge: false },
-    { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas', badge: true },
-    // Hidden in mobile: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra', badge: false },
-    // Hidden in mobile: { name: t('store'), icon: ShoppingCart, path: '/store', badge: false },
-    { name: t('settings'), icon: Settings, path: '/settings', badge: false }
+    { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
+    { name: t('library'), icon: BookHeart, path: '/library' },
+    // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
+    // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
+    // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
+    { name: 'Your Calendar', icon: Calendar, path: '/calendar' },
+    { name: 'Your Beads', icon: Beaker, path: '/beads' },
+    { name: t('settings'), icon: Settings, path: '/settings' }
   ];
 
   const isActive = (path: string) => {
@@ -135,12 +140,31 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
       </SheetTrigger>
       <SheetContent 
         side="left" 
-        className="w-80 p-0 mobile-sheet-content bg-gradient-to-b from-background/90 to-purple-900/20 backdrop-blur-xl border-r border-purple-500/20"
+        className="w-80 p-0 mobile-sheet-content"
         data-sidebar="true"
       >
-        <div className="flex flex-col h-full">
+        <TransparentGlassMorphismContainer className="flex flex-col h-full relative">
+          {/* Sacred Circuit Pattern Overlay */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none">
+            <SacredCircuitPattern color="#DC143C" />
+          </div>
+          
+          {/* Corner Brackets */}
+          <CornerBracket position="top-left" color="#FFD700" />
+          <CornerBracket position="top-right" color="#FFD700" />
+          <CornerBracket position="bottom-left" color="#FFD700" />
+          <CornerBracket position="bottom-right" color="#FFD700" />
+          
+          {/* Ambient mantra display */}
+          <div className="absolute inset-x-0 top-0 h-8 overflow-hidden z-10">
+            <div className="text-center text-xs text-primary/60 font-sans animate-pulse-slow whitespace-nowrap">
+              {/* This would be connected to a mantra cycling system in a full implementation */}
+              &nbsp;
+            </div>
+          </div>
+
           {/* Menu Header with enhanced styling */}
-          <div className="p-6 border-b border-purple-500/20 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent">
+          <div className="p-6 border-b border-primary/10 pt-12 sidebar-header-wide relative z-10">
             <div className="flex items-center justify-between">
               <motion.div 
                 className="flex items-center space-x-3"
@@ -149,7 +173,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
                 transition={{ duration: 0.5 }}
               >
                 <div className="relative group">
-                  <div className="h-12 w-12 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
+                  <div className="h-20 w-20 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
                     <ResponsiveImage
                       src="/lovable-uploads/sadhanaboard_logo.png"
                       alt="Saadhana Board Logo"
@@ -162,30 +186,29 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
                       }}
                     />
                   </div>
-                  <motion.div 
-                    className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-background"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.5, type: "spring", stiffness: 500, damping: 30 }}
-                  />
+                  {/* Enhanced glow effect on hover with gentle pulsing animation */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-secondary blur-2xl scale-125 opacity-0 group-hover:opacity-70 transition-all duration-500 -z-10 logo-glow-effect deity-glow-pulse"></div>
+                  {/* Sacred geometry overlay in header */}
+                  <div className="absolute inset-0 pointer-events-none sacred-geometry-overlay -z-20"></div>
                 </div>
-                <div>
-                  <motion.h2 
-                    className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    SadhanaBoard
-                  </motion.h2>
-                  <motion.p 
-                    className="text-xs text-primary/60"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    {currentThemeData.name}
-                  </motion.p>
+                <div
+                  className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600"
+                  onClick={() => {
+                    navigate('/');
+                    onOpenChange(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate('/');
+                      onOpenChange(false);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label="SadhanaBoard - Navigate to home"
+                >
+                  SadhanaBoard
                 </div>
               </motion.div>
               <motion.div
@@ -195,25 +218,23 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="p-2 touch-target-large mobile-focus-visible hover:bg-purple-500/10"
+                  className="p-2 mobile-focus-visible bg-red-900/30 hover:bg-red-800/50 border border-red-900/50 rounded-lg"
                   onClick={() => onOpenChange(false)}
                   aria-label="Close menu"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-yellow-400" />
                 </Button>
               </motion.div>
             </div>
           </div>
 
-          {/* Theme deity display with enhanced animations */}
-          <div className="flex flex-col items-center justify-center p-4 space-y-3 border-b border-purple-500/20 flex-shrink-0 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent">
-            <motion.div 
-              className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer"
+          {/* Theme deity display */}
+          <div className="flex flex-col items-center justify-center p-6 space-y-3 border-b border-red-900/30 flex-shrink-0 relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
+            <button className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer deity-icon-wrapper"
               onClick={() => {
                 navigate('/settings');
                 onOpenChange(false);
               }}
-              role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -221,31 +242,21 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
                   onOpenChange(false);
                 }
               }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {currentThemeData.icon}
-            </motion.div>
-            <motion.div 
-              className="text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <h3 className="text-lg font-medium text-sidebar-foreground bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-cyan-300">
-                {currentThemeData.name}
-              </h3>
-              <p className="text-xs text-sidebar-foreground/70">{currentThemeData.element} Element</p>
-            </motion.div>
-            <motion.div 
-              className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            />
+              <div className="deity-glow-container hover:animate-float-gentle overflow-visible relative">
+                {currentThemeData.icon}
+                <div className="absolute -bottom-2 text-xs text-yellow-500/70 om-symbol-divider font-bold">ॐ</div>
+                {/* Glow effect for the deity icon */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 to-yellow-500 blur-md scale-125 opacity-30 -z-10"></div>
+              </div>
+            </button>
+            <>
+              <div className="text-center">
+                <h3 className="text-lg font-medium text-white">{currentThemeData.name}</h3>
+                <p className="text-xs text-yellow-500/80 mantra-gradient-text font-semibold">{currentThemeData.element} Element</p>
+              </div>
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-red-600/50 to-transparent"></div>
+            </>
           </div>
 
           {/* Navigation Items with enhanced styling and animations */}
@@ -267,45 +278,26 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
                     >
                       <Link
                         to={item.path}
-                        className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 touch-target-large mobile-nav-item ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 nav-item touch-target-large mobile-focus-visible relative overflow-hidden ${
                           active 
-                            ? 'bg-gradient-to-r from-purple-600/30 to-cyan-600/30 text-foreground shadow-lg transform scale-[1.02]' 
-                            : 'text-muted-foreground hover:bg-purple-500/10 hover:text-foreground'
+                            ? 'bg-red-900/40 text-white shadow-lg transform scale-105 border border-red-800/50' 
+                            : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-105 border border-red-900/20'
                         }`}
                         onClick={() => onOpenChange(false)}
                         aria-current={active ? 'page' : undefined}
                       >
-                        <motion.span 
-                          className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${
-                            active 
-                              ? 'bg-gradient-to-br from-purple-600 to-cyan-600 text-white shadow-lg' 
-                              : 'bg-purple-500/10 text-muted-foreground'
-                          }`}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <Icon size={20} />
-                        </motion.span>
-                        <span className="truncate flex-1 font-medium">{item.name}</span>
-                        {item.badge && (
-                          <motion.span 
-                            className="flex items-center justify-center h-5 w-5 rounded-full bg-purple-500 text-white text-xs"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            whileHover={{ scale: 1.2 }}
-                          >
-                            3
-                          </motion.span>
-                        )}
+                        {/* Background glow effect for active items */}
                         {active && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            whileHover={{ scale: 1.2 }}
-                          >
-                            <ChevronRight size={16} className="text-purple-400" />
-                          </motion.div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-yellow-900/10 blur-xl -z-10"></div>
                         )}
+                        
+                        <span className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-300 ${
+                          active ? 'bg-red-800/50 text-yellow-400 scale-110 shadow-lg' : 'text-gray-400 bg-black/20'
+                        }`}>
+                          <Icon size={20} />
+                        </span>
+                        <span className="truncate flex-1 font-medium">{item.name}</span>
+                        {active && <ChevronRight size={16} className="text-yellow-400 flex-shrink-0 animate-pulse" />}
                       </Link>
                     </motion.div>
                   );
@@ -314,88 +306,90 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
             </div>
           </nav>
 
-          {/* User Actions with enhanced styling */}
-          <div className="p-4 border-t border-purple-500/20 flex-shrink-0 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent">
-            <div className="flex flex-col space-y-2">
+          {/* Profile and Sign Out Section - Positioned at the bottom */}
+          <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
+            <div className="flex flex-col space-y-3">
               {user ? (
-                <div className="flex flex-col space-y-2">
-                  <motion.div 
-                    className="flex items-center gap-2 text-sm text-sidebar-foreground/90 px-3 py-2 rounded-lg bg-purple-500/10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <User size={16} className="text-purple-400 flex-shrink-0" />
-                    <span className="truncate font-medium">{user.display_name || user.email}</span>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    <Link
-                      to="/profile"
-                      className={`flex items-center rounded-xl transition-all duration-300 px-3 py-3 touch-target-large mobile-focus-visible ${
-                        isActive('/profile')
-                          ? 'bg-gradient-to-r from-purple-600/30 to-cyan-600/30 text-foreground shadow-lg transform scale-[1.02]'
-                          : 'text-muted-foreground hover:bg-purple-500/10 hover:text-foreground'
-                      }`}
-                      onClick={() => onOpenChange(false)}
-                      aria-current={isActive('/profile') ? 'page' : undefined}
-                    >
+                <div className="flex flex-col space-y-3">
+                  {/* User Info Display */}
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-red-900/30 to-black/40 border border-red-800/40 backdrop-blur-sm">
+                    <div className="relative">
                       {profile?.avatar_url ? (
                         <img 
                           src={profile.avatar_url} 
                           alt="Profile" 
-                          className="w-5 h-5 rounded-full object-cover flex-shrink-0"
+                          className="w-10 h-10 rounded-full object-cover border-2 border-yellow-500/50 shadow-lg"
                         />
                       ) : (
-                        <User 
-                          size={20} 
-                          className={`transition-transform duration-300 ${
-                            isActive('/profile') ? 'text-purple-400' : 'text-muted-foreground'
-                          } flex-shrink-0`} 
-                        />
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center border-2 border-yellow-500/50 shadow-lg">
+                          <User size={20} className="text-yellow-300" />
+                        </div>
                       )}
-                      <span className="ml-3 font-medium">Profile</span>
-                    </Link>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
+                      {/* Online indicator */}
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-medium truncate text-sm">{user.display_name || user.email}</p>
+                      <p className="text-yellow-500/80 text-xs truncate">Connected to SadhanaBoard</p>
+                    </div>
+                  </div>
+                  
+                  {/* Profile Link */}
+                  <Link
+                    to="/profile"
+                    className={`flex items-center rounded-xl transition-all duration-300 px-4 py-3 touch-target-large mobile-focus-visible relative overflow-hidden border ${
+                      isActive('/profile')
+                        ? 'bg-gradient-to-r from-red-900/50 to-yellow-900/20 text-white shadow-lg transform scale-105 border-yellow-500/50' 
+                        : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-[1.02] border-red-900/30'
+                    }`}
+                    aria-current={isActive('/profile') ? 'page' : undefined}
+                    onClick={() => onOpenChange(false)}
                   >
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-full justify-start hover:bg-gradient-to-r hover:from-red-500/20 hover:to-orange-500/20 px-3 py-3 touch-target-large mobile-focus-visible rounded-xl"
-                      onClick={handleLogout}
-                    >
-                      <LogOut size={20} className="mr-2 text-red-500 flex-shrink-0" />
-                      <span className="text-red-500/90 font-medium">Sign Out</span>
-                    </Button>
-                  </motion.div>
-                </div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
+                    {/* Background glow effect for active items */}
+                    {isActive('/profile') && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-yellow-900/10 blur-xl -z-10"></div>
+                    )}
+                    
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-black/30 mr-3">
+                      {profile?.avatar_url ? (
+                        <img 
+                          src={profile.avatar_url} 
+                          alt="Profile" 
+                          className="w-5 h-5 rounded-full object-cover"
+                        />
+                      ) : (
+                        <User size={18} className="text-yellow-400" />
+                      )}
+                    </div>
+                    <span className="font-medium flex-1">My Profile</span>
+                    <ChevronRight size={16} className={`${isActive('/profile') ? 'text-yellow-400' : 'text-gray-500'} flex-shrink-0`} />
+                  </Link>
+                  
+                  {/* Sign Out Button */}
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-cyan-500/20 px-3 py-3 touch-target-large mobile-focus-visible rounded-xl"
-                    onClick={handleLoginNavigation}
+                    className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-4 py-3 touch-target-large mobile-focus-visible rounded-xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
+                    onClick={handleLogout}
                   >
-                    <LogIn size={20} className="mr-2 text-purple-400 flex-shrink-0" />
-                    <span className="text-purple-400/90 font-medium">Sign In</span>
+                    <LogOut size={18} className="mr-3 text-red-400 group-hover:text-red-300 flex-shrink-0" />
+                    <span className="text-red-300 font-medium group-hover:text-red-200">Disconnect</span>
                   </Button>
-                </motion.div>
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-4 py-3 touch-target-large mobile-focus-visible rounded-xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
+                  onClick={handleLoginNavigation}
+                >
+                  <LogIn size={18} className="mr-3 text-yellow-500 group-hover:text-yellow-400 flex-shrink-0" />
+                  <span className="text-yellow-300 font-medium group-hover:text-yellow-200">Connect Account</span>
+                </Button>
               )}
             </div>
           </div>
-        </div>
+        </TransparentGlassMorphismContainer>
       </SheetContent>
     </Sheet>
   );

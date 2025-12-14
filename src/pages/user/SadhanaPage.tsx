@@ -2,17 +2,13 @@
 import Layout from "@/components/Layout";
 import SaadhanaBoard from "@/components/SaadhanaBoard";
 import { useSettings } from "@/hooks/useSettings";
-
-
+import { TransparentGlassMorphismContainer } from "@/components/design/SadhanaDesignComponents";
 
 const SadhanaPage = () => {
   const { settings } = useSettings();
   const [hasVisited, setHasVisited] = useState(false);
 
-
   useEffect(() => {
-
-
     // Play ethereal sound on first visit
     if (!localStorage.getItem('visited-sadhana')) {
       localStorage.setItem('visited-sadhana', 'true');
@@ -38,8 +34,10 @@ const SadhanaPage = () => {
       {/* Cosmic particles removed per user request */}
 
       {/* Entrance animation */}
-      <div className={`transition-all duration-1000 transform relative z-10 bg-transparent ${hasVisited ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <SaadhanaBoard />
+      <div className={`transition-all duration-1000 transform relative z-10 ${hasVisited ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <TransparentGlassMorphismContainer className="p-6">
+          <SaadhanaBoard />
+        </TransparentGlassMorphismContainer>
       </div>
 
       {/* Custom styles for cosmic animations */}

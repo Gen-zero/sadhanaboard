@@ -3,6 +3,7 @@ import { MoonStar, Sparkles, LayoutDashboard, CheckSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface SadhanaHeaderProps {
   showManifestationForm: boolean;
@@ -36,36 +37,29 @@ const SadhanaHeader = ({
   };
 
   return (
-    <div className="backdrop-blur-md bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 p-4 rounded-xl border border-white relative overflow-hidden">
-      {/* Cosmic glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 opacity-50"></div>
-      
+    <TransparentGlassMorphismContainer className="p-4 rounded-xl">
       <div className="relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2 bg-gradient-to-l from-white to-yellow-300 bg-clip-text text-transparent">
-              <MoonStar className="h-7 w-7 text-primary animate-pulse" />
-              <span>Saadhana Board</span>
+              <MoonStar className="h-8 w-8 text-primary" />
+              <span className="font-heading">Sadhana Board</span>
             </h1>
-            <p className="font-light tracking-wide mt-1" style={{ color: 'white' }}>
-              Your celestial yantra for divine manifestation and spiritual growth
+            <p className="text-sm text-muted-foreground mt-1">
+              Your sacred spiritual practice tracker
             </p>
           </div>
           
           <div className="flex flex-wrap gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center gap-1 bg-transparent border border-white hover:from-primary/30 hover:to-secondary/30 text-primary-foreground"
-              onClick={() => setShowManifestationForm(!showManifestationForm)}
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 bg-transparent border border-white hover:from-secondary/30 hover:to-accent/30 text-secondary-foreground"
+              onClick={() => setShowManifestationForm(true)}
+              title="Set Intention"
             >
               <Sparkles className="h-4 w-4" />
-              <span className="hidden sm:inline">Manifest Intention</span>
-              <span className="sm:hidden">Manifest</span>
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-              </span>
+              <span className="hidden sm:inline">Set Intention</span>
             </Button>
             
             <Button
@@ -79,6 +73,8 @@ const SadhanaHeader = ({
               <span className="hidden sm:inline">View Progress</span>
             </Button>
             
+            {/* Hidden: View All Sadhanas button */}
+            {/* 
             <Button
               variant="outline"
               size="sm"
@@ -89,10 +85,11 @@ const SadhanaHeader = ({
               <CheckSquare className="h-4 w-4" />
               <span className="hidden sm:inline">View All Sadhanas</span>
             </Button>
+            */}
           </div>
         </div>
       </div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Sparkles, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface ManifestationFormProps {
   onClose: () => void;
@@ -41,7 +42,7 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
   };
 
   return (
-    <div className="relative">
+    <TransparentGlassMorphismContainer className="p-6 rounded-lg">
       <Card className="border border-white bg-transparent backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2" style={{ color: 'hsl(45 100% 50%)' }}>
@@ -94,7 +95,7 @@ const ManifestationForm = ({ onClose }: ManifestationFormProps) => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

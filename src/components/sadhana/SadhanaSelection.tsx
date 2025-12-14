@@ -10,6 +10,7 @@ import { useUserProgression } from '@/hooks/useUserProgression';
 import { useSettings } from '@/hooks/useSettings';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { StoreSadhana } from '@/types/store';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface SadhanaSelectionProps {
   onSelectStoreSadhana: (sadhana: StoreSadhana) => void;
@@ -30,7 +31,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
   const spiritualPoints = progression.spiritualPoints;
 
   return (
-    <div className={`rounded-lg p-6 ${isShivaTheme ? 'bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20' : 'bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20'}`}>
+    <TransparentGlassMorphismContainer className="rounded-lg p-6">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -58,20 +59,20 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
               </p>
               
               {/* Features */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                 <div className="flex flex-col items-center text-center space-y-2">
                   <Sparkles className="h-8 w-8 text-primary" />
-                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Personalization</h4>
+                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Personalized Intentions</h4>
                   <p className="text-sm" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
-                    Choose your spiritual purpose & goals
+                    Customize purpose, deity, and offerings
                   </p>
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-2">
                   <Heart className="h-8 w-8 text-primary" />
-                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Divine Focus</h4>
+                  <h4 className="font-semibold" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>Devotional Connection</h4>
                   <p className="text-sm" style={{ color: 'white', fontFamily: '"Chakra Petch", sans-serif' }}>
-                    Select your spiritual focus or deity
+                    Strengthen your bond with the divine
                   </p>
                 </div>
                 
@@ -98,7 +99,7 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
           </Card>
         </div>
       </div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

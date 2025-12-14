@@ -50,6 +50,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Layout from '@/components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 // Section icon mapping
 const sectionIcons = {
@@ -308,7 +309,8 @@ const SettingsPage = () => {
 
   return (
     <Layout headerActions={headerActions}>
-      <div className="container mx-auto px-4 py-6 animate-fade-in mobile-container overflow-hidden">
+      {/* Apply the glass morphism container to the entire page */}
+      <TransparentGlassMorphismContainer className="container mx-auto px-4 py-6 animate-fade-in mobile-container overflow-hidden">
         {/* Mobile Header with Menu Toggle */}
         <div className="lg:hidden w-full mb-6">
           <div className="flex items-center justify-between">
@@ -401,7 +403,7 @@ const SettingsPage = () => {
                 transition={{ duration: 0.2 }}
                 className="hidden lg:block lg:w-64 flex-shrink-0"
               >
-                <Card className="h-full border-primary/30 bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md">
+                <Card className="h-full border border-white/20 bg-transparent">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center justify-between gap-2 text-lg font-semibold text-foreground settings-header">
                       <div className="flex items-center gap-2">
@@ -513,7 +515,7 @@ const SettingsPage = () => {
 
           {/* Main Content */}
           <div className="flex-1 overflow-hidden">
-            <Card className="border-primary/30 bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md mobile-card-compact h-full flex flex-col">
+            <Card className="border border-white/20 bg-transparent h-full flex flex-col">
               <CardHeader className="hidden lg:block pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg font-semibold text-foreground mobile-heading-scale settings-header">
                   {(() => {
@@ -584,7 +586,7 @@ const SettingsPage = () => {
             )}
           </Button>
         </div>
-      </div>
+      </TransparentGlassMorphismContainer>
     </Layout>
   );
 };

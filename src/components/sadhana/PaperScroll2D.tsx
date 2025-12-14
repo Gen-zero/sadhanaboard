@@ -1,4 +1,5 @@
 import React from 'react';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface PaperScroll2DProps {
   content: string;
@@ -10,18 +11,7 @@ const PaperScroll2D: React.FC<PaperScroll2DProps> = ({ content, onClick }) => {
   const contentLines = content.trim().split('\n').filter(line => line.trim() !== '');
   
   return (
-    <div 
-      className="relative w-full max-w-2xl mx-auto cursor-pointer hover-lift"
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick?.();
-        }
-      }}
-      tabIndex={0}
-      role="button"
-    >
+    <TransparentGlassMorphismContainer className="relative w-full max-w-2xl mx-auto cursor-pointer hover-lift p-6">
       {/* Paper background with parchment texture */}
       <div className="relative overflow-hidden rounded-lg shadow-xl">
         <div 
@@ -78,7 +68,7 @@ const PaperScroll2D: React.FC<PaperScroll2DProps> = ({ content, onClick }) => {
       
       {/* Soft glow effect */}
       <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-lg blur-xl opacity-70 -z-10 group-hover:opacity-100 transition-opacity"></div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

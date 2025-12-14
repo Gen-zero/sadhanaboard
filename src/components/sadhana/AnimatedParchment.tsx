@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface AnimatedParchmentProps {
   content: string;
@@ -142,7 +143,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
   }
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem]">
+    <TransparentGlassMorphismContainer className="w-full max-w-2xl mx-auto min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] p-4 md:p-6">
       {/* Scanning beam effect */}
       {isInitializing && (
         <div
@@ -214,7 +215,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`relative p-4 md:p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${
+        className={`relative rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${
           isUnrolled ? 'parchment-unroll' : ''
         }`}
         style={{
@@ -438,7 +439,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
       >
         ✨
       </motion.div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

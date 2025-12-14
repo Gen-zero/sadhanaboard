@@ -9,127 +9,61 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ArrowLeft, Calendar, Heart, Sparkles } from "lucide-react";
-import { useSettings } from "@/hooks/useSettings";
-import { useThemeColors } from "@/hooks/useThemeColors";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import { SadhanaData } from "@/hooks/useSadhanaData";
+import { TransparentGlassMorphismContainer } from "@/components/design/SadhanaDesignComponents";
 
 interface SadhanaSetupFormProps {
   onCreateSadhana: (data: SadhanaData) => void;
   onCancel: () => void;
 }
 
-const SadhanaSetupForm = ({
-  onCreateSadhana,
-  onCancel,
-}: SadhanaSetupFormProps) => {
-  const { settings } = useSettings();
-  const { colors } = useThemeColors();
-  const today = new Date().toISOString().split("T")[0];
-
+const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) => {
   const [formData, setFormData] = useState({
     purpose: "",
     goal: "",
-    startDate: today,
-    durationDays: 40,
+    deity: "",
+    message: "",
+    offerings: [''] as string[],
+    startDate: new Date().toISOString().split("T")[0],
     endDate: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    deity: "",
-    message: "",
-    offerings: [""],
+    durationDays: 40,
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Check if Shiva theme is active
-  const isShivaTheme = settings?.appearance?.colorScheme === "shiva";
+  const addOffering = () => {
+    setFormData(prev => ({
+      ...prev,
+      offerings: [...prev.offerings, ""],
+    }));
+  };
+
+  const removeOffering = (index: number) => {
+    if (formData.offerings.length <= 1) return;
+    setFormData(prev => ({
+      ...prev,
+      offerings: prev.offerings.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateOffering = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      offerings: prev.offerings.map((offering, i) =>
+        i === index ? value : offering
+      ),
+    }));
+  };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.purpose.trim()) {
-      newErrors.purpose = "Purpose is required";
-    }
-
-    if (!formData.goal.trim()) {
-      newErrors.goal = "Goal is required";
-    }
-
-    if (!formData.startDate) {
-      newErrors.startDate = "Start date is required";
-    }
-
-    if (!formData.deity.trim()) {
-      newErrors.deity = "Deity or spiritual focus is required";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-
-    const hasOfferings = formData.offerings.some(
-      (offering) => offering.trim() !== "",
-    );
-    if (!hasOfferings) {
-      newErrors.offerings = "At least one offering is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return formData.purpose.trim() !== "" && formData.goal.trim() !== "";
   };
 
-  const handleStartDateChange = (date: string) => {
-    const startDate = new Date(date);
-    const endDate = new Date(
-      startDate.getTime() + formData.durationDays * 24 * 60 * 60 * 1000,
-    );
-
-    setFormData((prev) => ({
-      ...prev,
-      startDate: date,
-      endDate: endDate.toISOString().split("T")[0],
-    }));
-  };
-
-  const handleDurationChange = (days: number) => {
-    const startDate = new Date(formData.startDate);
-    const endDate = new Date(startDate.getTime() + days * 24 * 60 * 60 * 1000);
-
-    setFormData((prev) => ({
-      ...prev,
-      durationDays: days,
-      endDate: endDate.toISOString().split("T")[0],
-    }));
-  };
-
-  const handleOfferingChange = (index: number, value: string) => {
-    const newOfferings = [...formData.offerings];
-    newOfferings[index] = value;
-    setFormData((prev) => ({ ...prev, offerings: newOfferings }));
-  };
-
-  const handleAddOffering = () => {
-    setFormData((prev) => ({ ...prev, offerings: [...prev.offerings, ""] }));
-  };
-
-  const handleRemoveOffering = (index: number) => {
-    if (formData.offerings.length <= 1) return;
-
-    const newOfferings = [...formData.offerings];
-    newOfferings.splice(index, 1);
-    setFormData((prev) => ({ ...prev, offerings: newOfferings }));
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (validateForm()) {
       onCreateSadhana({
         purpose: formData.purpose,
@@ -145,9 +79,7 @@ const SadhanaSetupForm = ({
   };
 
   return (
-    <div
-      className={`rounded-lg p-4 md:p-6 ${isShivaTheme ? "bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20" : "bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-white/20"}`}
-    >
+    <TransparentGlassMorphismContainer className="rounded-lg p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-6 md:mb-8 md:gap-4">
           <Button
@@ -186,271 +118,200 @@ const SadhanaSetupForm = ({
                   Why you're on this spiritual journey
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 p-4 md:p-6">
-                <div className="space-y-3">
-                  <Label
-                    htmlFor="purpose"
-                    style={{ color: "hsl(210 40% 80%)" }}
-                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
-                  >
-                    Purpose *
+              <CardContent className="p-4 md:p-6 space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="purpose" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Sacred Purpose
                   </Label>
-                  <div className="space-y-3">
-                    <Textarea
-                      id="purpose"
-                      value={formData.purpose}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          purpose: e.target.value,
-                        }))
-                      }
-                      placeholder="What is the purpose of your spiritual practice?"
-                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
-                    />
-                    {errors.purpose && (
-                      <p className="text-xs md:text-sm text-destructive">
-                        {errors.purpose}
-                      </p>
-                    )}
-                  </div>
+                  <Textarea
+                    id="purpose"
+                    value={formData.purpose}
+                    onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
+                    placeholder="What divine intention drives this practice?"
+                    className="min-h-[100px] bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                  />
                 </div>
-                <div className="space-y-3 pt-3 md:pt-4 border-t border-white/10">
-                  <Label
-                    htmlFor="goal"
-                    style={{ color: "hsl(210 40% 80%)" }}
-                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
-                  >
-                    Goal *
+                <div className="space-y-2">
+                  <Label htmlFor="goal" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Spiritual Goal
                   </Label>
-                  <div className="space-y-3">
-                    <Textarea
-                      id="goal"
-                      value={formData.goal}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          goal: e.target.value,
-                        }))
-                      }
-                      placeholder="What is your specific spiritual goal?"
-                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
-                    />
-                    {errors.goal && (
-                      <p className="text-xs md:text-sm text-destructive">{errors.goal}</p>
-                    )}
-                  </div>
+                  <Input
+                    id="goal"
+                    value={formData.goal}
+                    onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
+                    placeholder="What transformation do you seek?"
+                    className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                  />
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
               <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle
-                  className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
-                  style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
-                >
-                  <Calendar className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)", filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
-                  <span>Duration & Timeline</span>
+                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
+                  Divine Connection
                 </CardTitle>
                 <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  Set your sadhana practice period
+                  Your spiritual focal point
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 p-4 md:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <CardContent className="p-4 md:p-6 space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="deity" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Deity or Focus
+                  </Label>
+                  <Input
+                    id="deity"
+                    value={formData.deity}
+                    onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
+                    placeholder="Which divine presence guides this practice?"
+                    className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Personal Message
+                  </Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                    placeholder="A heartfelt note to your divine self..."
+                    className="min-h-[80px] bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
+              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
+                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
+                  Sacred Offerings
+                </CardTitle>
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
+                  What you dedicate to the divine
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4 md:p-6 space-y-3">
+                {formData.offerings.map((offering, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={offering}
+                      onChange={(e) => updateOffering(index, e.target.value)}
+                      placeholder={`Offering #${index + 1} (e.g., flowers, incense, silence)`}
+                      className="flex-1 bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                    />
+                    {formData.offerings.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => removeOffering(index)}
+                        className="border-amber-400/30 hover:bg-amber-400/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={addOffering}
+                  className="w-full border-amber-400/30 hover:bg-amber-400/10"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Offering
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
+              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
+                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
+                  Practice Duration
+                </CardTitle>
+                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
+                  How long you commit to this sacred journey
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4 md:p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate" style={{ color: "hsl(210 40% 80%)" }} className="text-sm md:text-base font-semibold uppercase tracking-wide">
-                      Start Date *
+                    <Label htmlFor="startDate" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                      Start Date
                     </Label>
                     <Input
                       id="startDate"
                       type="date"
                       value={formData.startDate}
-                      onChange={(e) => handleStartDateChange(e.target.value)}
-                      min={today}
-                      className="text-sm md:text-base"
+                      onChange={(e) => {
+                        const startDate = e.target.value;
+                        const endDate = new Date(startDate);
+                        endDate.setDate(endDate.getDate() + formData.durationDays);
+                        setFormData(prev => ({
+                          ...prev,
+                          startDate,
+                          endDate: endDate.toISOString().split('T')[0]
+                        }));
+                      }}
+                      className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
                     />
-                    {errors.startDate && (
-                      <p className="text-xs md:text-sm text-destructive">
-                        {errors.startDate}
-                      </p>
-                    )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="duration" style={{ color: "hsl(210 40% 80%)" }} className="text-sm md:text-base font-semibold uppercase tracking-wide">
-                      Duration
+                    <Label htmlFor="duration" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                      Duration (Days)
                     </Label>
-                    <Select
-                      value={formData.durationDays.toString()}
-                      onValueChange={(value) =>
-                        handleDurationChange(parseInt(value))
-                      }
-                    >
-                      <SelectTrigger className="text-sm md:text-base">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="7">7 days (1 week)</SelectItem>
-                        <SelectItem value="14">14 days (2 weeks)</SelectItem>
-                        <SelectItem value="21">21 days (3 weeks)</SelectItem>
-                        <SelectItem value="30">30 days (1 month)</SelectItem>
-                        <SelectItem value="40">40 days</SelectItem>
-                        <SelectItem value="60">60 days (2 months)</SelectItem>
-                        <SelectItem value="90">90 days (3 months)</SelectItem>
-                        <SelectItem value="108">
-                          108 days (Traditional)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {errors.duration && (
-                      <p className="text-xs md:text-sm text-destructive">
-                        {errors.duration}
-                      </p>
-                    )}
+                    <Input
+                      id="duration"
+                      type="number"
+                      min="1"
+                      max="365"
+                      value={formData.durationDays}
+                      onChange={(e) => {
+                        const durationDays = parseInt(e.target.value) || 1;
+                        const endDate = new Date(formData.startDate);
+                        endDate.setDate(endDate.getDate() + durationDays);
+                        setFormData(prev => ({
+                          ...prev,
+                          durationDays,
+                          endDate: endDate.toISOString().split('T')[0]
+                        }));
+                      }}
+                      className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                    />
                   </div>
                 </div>
-                <div className="text-xs md:text-sm" style={{ color: "white" }}>
-                  <p>
-                    End Date:{" "}
-                    {format(new Date(formData.endDate), "MMMM dd, yyyy")}
+                <div className="mt-4 pt-4 border-t border-amber-400/20">
+                  <p className="text-sm" style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }}>
+                    End Date: {new Date(formData.endDate).toLocaleDateString()}
                   </p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <div className="space-y-4 md:space-y-6">
-            <Card className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] border border-pink-400/20 hover:border-pink-400/40 transition-colors shadow-lg shadow-pink-500/10">
-              <CardHeader className="bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-b border-pink-400/10 p-4 md:p-6">
-                <CardTitle
-                  className="flex items-center gap-2 text-lg md:text-xl uppercase tracking-wide"
-                  style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
-                >
-                  <Heart className="h-4 w-4 md:h-5 md:w-5" style={{ color: "hsl(45 100% 50%)", filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))' }} />
-                  <span>Divine Connection</span>
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  Your chosen deity or spiritual focus
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 md:space-y-6 p-4 md:p-6">
-                <div className="space-y-3">
-                  <Label
-                    htmlFor="deity"
-                    style={{ color: "hsl(210 40% 80%)" }}
-                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
-                  >
-                    Deity or Spiritual Focus *
-                  </Label>
-                  <Input
-                    id="deity"
-                    value={formData.deity}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        deity: e.target.value,
-                      }))
-                    }
-                    placeholder="Who or what is your spiritual focus?"
-                    className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
-                  />
-                  {errors.deity && (
-                    <p className="text-xs md:text-sm text-destructive">{errors.deity}</p>
-                  )}
-                </div>
-                <div className="space-y-3 pt-3 md:pt-4 border-t border-white/10">
-                  <Label
-                    htmlFor="message"
-                    style={{ color: "hsl(210 40% 80%)" }}
-                    className="text-sm md:text-base font-semibold uppercase tracking-wide"
-                  >
-                    Your Message *
-                  </Label>
-                  <div className="space-y-3">
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          message: e.target.value,
-                        }))
-                      }
-                      placeholder="What message would you like to share with your deity?"
-                      className="min-h-[80px] md:min-h-[100px] bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-amber-400/30 focus:border-amber-400/60 rounded-lg transition-colors text-sm md:text-base"
-                    />
-                    {errors.message && (
-                      <p className="text-xs md:text-sm text-destructive">
-                        {errors.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] border border-purple-400/20 hover:border-purple-400/40 transition-colors shadow-lg shadow-purple-500/10">
-              <CardHeader className="bg-gradient-to-r from-purple-500/5 to-pink-500/5 border-b border-purple-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
-                  Offerings & Practices
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  What you'll be doing or offering for your spiritual practice
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6">
-                <div className="space-y-3">
-                  {formData.offerings.map((offering, index) => (
-                    <div key={index} className="flex gap-2 group">
-                      <Input
-                        value={offering}
-                        onChange={(e) =>
-                          handleOfferingChange(index, e.target.value)
-                        }
-                        placeholder={`Offering or practice ${index + 1}`}
-                        className="bg-[radial-gradient(ellipse_at_top_left,#8B0000,#5C0000)] text-white placeholder:text-white/70 border-purple-400/30 focus:border-purple-400/60 rounded-lg transition-colors group-hover:border-purple-400/50 text-sm md:text-base"
-                      />
-                      {formData.offerings.length > 1 && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="shrink-0 text-purple-400/60 hover:text-purple-300 hover:bg-purple-500/10 h-9 w-9 md:h-10 md:w-10"
-                          onClick={() => handleRemoveOffering(index)}
-                        >
-                          ×
-                        </Button>
-                      )}
-                    </div>
-                  ))}
-                  {errors.offerings && (
-                    <p className="text-xs md:text-sm text-destructive">
-                      {errors.offerings}
-                    </p>
-                  )}
-
-                  <Button
-                    variant="outline"
-                    className="w-full mt-3 md:mt-4 bg-purple-500/10 border-purple-400/30 hover:bg-purple-500/20 hover:border-purple-400/50 text-purple-300 hover:text-purple-200 transition-colors text-sm md:text-base h-9 md:h-10"
-                    onClick={handleAddOffering}
-                  >
-                    + Add New Offering
-                  </Button>
-
-                  <Button
-                    className="w-full mt-4 md:mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold shadow-lg transition-all hover:shadow-amber-500/50 text-sm md:text-base h-10 md:h-12 rounded-full"
-                    onClick={handleSubmit}
-                  >
-                    <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                    Begin Sacred Sadhana
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              className="flex-1 border-amber-400/30 hover:bg-amber-400/10"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={!validateForm()}
+              className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
+            >
+              Create Sacred Commitment
+            </Button>
           </div>
         </div>
       </div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

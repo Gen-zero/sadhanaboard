@@ -1,0 +1,5 @@
+{
+  "name": "Mala - Digital Bead Counter",
+  "description": "A spiritual mindfulness application for tracking Japa Mala mantras with support for various bead types like Tulsi, Rudraksha, and Sphatik. Features haptic feedback and sound.",
+  "requestFramePermissions": []
+}

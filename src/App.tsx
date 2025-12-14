@@ -25,7 +25,9 @@ import {
   WalkthroughPage,
   HelpDemoPage,
   EnergyLevelPage,
-  CosmosThemePage
+  CosmosThemePage,
+  CalendarPage,
+  BeadCounterPage
 } from "./pages";
 import { ThemesShowcasePage } from "./pages";
 import { Toaster } from "@/components/ui/toaster";
@@ -253,6 +255,8 @@ const AppRoutes = () => {
       <Route path="/psychological-levers" element={<OnboardingRoute><EnergyLevelPage /></OnboardingRoute>} />
       <Route path="/cosmos-theme" element={<OnboardingRoute><CosmosThemePage /></OnboardingRoute>} />
       <Route path="/themes" element={<ThemesShowcasePage />} />
+      <Route path="/calendar" element={<OnboardingRoute><CalendarPage /></OnboardingRoute>} />
+      <Route path="/beads" element={<OnboardingRoute><BeadCounterPage /></OnboardingRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -8,6 +8,7 @@ import { Heart, Save, Eye } from 'lucide-react';
 import { SadhanaData } from '@/hooks/useSadhanaData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Dispatch, SetStateAction } from 'react';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface SadhanaDetailsProps {
   sadhanaData: SadhanaData | null;
@@ -59,7 +60,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
   };
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <TransparentGlassMorphismContainer className="space-y-4 md:space-y-6 p-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <h3 className="text-lg md:text-xl font-semibold uppercase tracking-wide" style={{ color: 'hsl(45 100% 50%)', fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}>
           Edit Sadhana Details
@@ -179,7 +180,7 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
           </CardContent>
         </Card>
       </div>
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 

@@ -6,6 +6,7 @@ import ViewerFooter from './ViewerFooter';
 import CosmicBackground from './CosmicBackground';
 import { SadhanaData } from '@/hooks/useSadhanaData';
 import { Dispatch, SetStateAction } from 'react';
+import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
 
 interface SadhanaViewerProps {
   sadhanaData: SadhanaData | null;
@@ -75,7 +76,7 @@ ${data.offerings.map((o, i) => `${i+1}. ${o}`).join('\n')}
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 rounded-lg overflow-hidden shadow-2xl relative h-[600px]">
+    <TransparentGlassMorphismContainer className="w-full rounded-lg overflow-hidden shadow-2xl relative h-[600px]">
       <CosmicBackground />
       
       <ViewerControls 
@@ -100,7 +101,7 @@ ${data.offerings.map((o, i) => `${i+1}. ${o}`).join('\n')}
       </Canvas>
       
       <ViewerFooter />
-    </div>
+    </TransparentGlassMorphismContainer>
   );
 };
 
