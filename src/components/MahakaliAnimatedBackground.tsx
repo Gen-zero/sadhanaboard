@@ -1,6 +1,6 @@
-import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Html, useTexture, Sparkles, Text } from '@react-three/drei';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Sparkles, Text } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
 import { KernelSize, BlendFunction } from 'postprocessing';
 import { createMahakaliYantraTexture, createFallbackTexture, validateTextureLoading } from '@/utils/textureUtils';
@@ -17,13 +17,12 @@ export interface MahakaliAnimatedBackgroundProps {
   className?: string;
 }
 
-// Add new component for floating mantras
+// Floating mantra text
 const FloatingMantra: React.FC<{ text: string; position: [number, number, number]; intensity: number }> = ({ text, position, intensity }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (meshRef.current) {
-      // Gentle rotation and floating
       const time = state.clock.elapsedTime;
       meshRef.current.rotation.z = Math.sin(time * 0.5) * 0.3;
       meshRef.current.position.y = position[1] + Math.sin(time * 0.7) * 0.6;
@@ -53,9 +52,10 @@ const GlowingSymbol: React.FC<{ position: [number, number, number]; size: number
 
   useFrame((state, delta) => {
     if (meshRef.current) {
-      // Gentle pulsing glow
       const pulse = Math.sin(state.clock.elapsedTime * 2) * 0.2 + 0.9;
-      (meshRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.6 * intensity * pulse;
+      const material = meshRef.current.material as THREE.MeshStandardMaterial;
+      material.emissiveIntensity = 0.6 * intensity * pulse;
+      material.opacity = 0.8;
     }
   });
 
@@ -283,30 +283,21 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
 
     useFrame(({ clock }) => {
       const t = clock.getElapsedTime();
-      if (smokeRef.current) {
-        smokeRef.current.position.y = Math.sin(t * 0.2) * 0.05;
-      }
-      if (embersRef.current) {
-        embersRef.current.rotation.z = Math.sin(t * 0.6) * 0.1;
-      }
-      if (ashRef.current) {
-        ashRef.current.position.x = Math.sin(t * 0.15) * 0.02;
-      }
-      // Animate floating skulls with slow rotation and drift
+      if (smokeRef.current) smokeRef.current.position.y = Math.sin(t * 0.2) * 0.05;
+      if (embersRef.current) embersRef.current.rotation.z = Math.sin(t * 0.6) * 0.1;
+      if (ashRef.current) ashRef.current.position.x = Math.sin(t * 0.15) * 0.02;
       if (skullsRef.current) {
-        skullsRef.current.rotation.y = t * 0.08; // Slower, more ominous rotation
+        skullsRef.current.rotation.y = t * 0.08;
         skullsRef.current.position.y = Math.sin(t * 0.25) * 0.1;
         skullsRef.current.position.x = Math.cos(t * 0.15) * 0.05;
       }
-      // Animate hibiscus flowers with gentle swaying
       if (hibiscusRef.current) {
         hibiscusRef.current.rotation.z = Math.sin(t * 0.3) * 0.12;
         hibiscusRef.current.position.x = Math.cos(t * 0.22) * 0.08;
         hibiscusRef.current.position.y = Math.sin(t * 0.18) * 0.04;
       }
-      // Animate bones with tumbling motion
       if (bonesRef.current) {
-        bonesRef.current.rotation.x = t * 0.06; // Slower tumbling
+        bonesRef.current.rotation.x = t * 0.06;
         bonesRef.current.rotation.z = t * 0.09;
         bonesRef.current.position.y = Math.cos(t * 0.16) * 0.07;
         bonesRef.current.position.x = Math.sin(t * 0.12) * 0.03;
@@ -318,51 +309,43 @@ const MahakaliScene: React.FC<{ intensity: number; enableParticles: boolean; ena
     return (
       <>
         <group ref={smokeRef} position={[0, -0.2, -2]} renderOrder={-2}>
-          <Sparkles count={1000} scale={20} size={1.5} speed={0.2} color="#0a0a0a" noise={2.0} opacity={0.7} /> {/* Increased smoke intensity */}
+          <Sparkles count={1000} scale={20} size={1.5} speed={0.2} color="#0a0a0a" noise={2.0} opacity={0.7} />
         </group>
         <group ref={embersRef} position={[0, -0.1, -1]} renderOrder={0}>
-          <Sparkles count={600} scale={12} size={0.7} speed={0.8} color="#ff2200" noise={3.0} opacity={1.0} /> {/* More intense embers */}
+          <Sparkles count={600} scale={12} size={0.7} speed={0.8} color="#ff2200" noise={3.0} opacity={1.0} />
         </group>
         <group ref={ashRef} position={[0, 0.2, -1.5]} renderOrder={-1}>
-          <Sparkles count={700} scale={18} size={0.3} speed={0.1} color="#5a5a5a" noise={1.5} opacity={0.6} /> {/* More ash particles */}
+          <Sparkles count={700} scale={18} size={0.3} speed={0.1} color="#5a5a5a" noise={1.5} opacity={0.6} />
         </group>
-        {/* Add fierce flame sparks */}
         <group position={[0, 0, -0.5]} renderOrder={1}>
-          <Sparkles count={500} scale={15} size={1.0} speed={1.0} color="#ff3300" noise={4.0} opacity={0.9} /> {/* More intense flame sparks */}
+          <Sparkles count={500} scale={15} size={1.0} speed={1.0} color="#ff3300" noise={4.0} opacity={0.9} />
         </group>
-        {/* Add dark spiritual energy */}
-        <group position={[0, 0.3, -2.5]} renderOrder={-3}>
-          <Sparkles count={800} scale={25} size={0.5} speed={0.07} color="#220000" noise={1.0} opacity={0.5} /> {/* More dark energy */}
-        </group>
-        {/* Floating skulls for cremation ground atmosphere - multiple layers */}
         <group ref={skullsRef} position={[0, 1, -3]} renderOrder={2}>
-          <Sparkles count={80} scale={30} size={2.2} speed={0.015} color="#ffffff" noise={0.2} opacity={0.9} /> {/* Larger, more prominent skulls */}
+          <Sparkles count={80} scale={30} size={2.2} speed={0.015} color="#ffffff" noise={0.2} opacity={0.9} />
         </group>
         <group position={[2, 0.5, -4]} renderOrder={2}>
-          <Sparkles count={50} scale={25} size={1.5} speed={0.02} color="#f0f0f0" noise={0.3} opacity={0.7} /> {/* Medium distant skulls */}
+          <Sparkles count={50} scale={25} size={1.5} speed={0.02} color="#f0f0f0" noise={0.3} opacity={0.7} />
         </group>
         <group position={[-1.8, 1.2, -3.5]} renderOrder={2}>
-          <Sparkles count={40} scale={20} size={1.2} speed={0.025} color="#e0e0e0" noise={0.4} opacity={0.6} /> {/* Small scattered skulls */}
+          <Sparkles count={40} scale={20} size={1.2} speed={0.025} color="#e0e0e0" noise={0.4} opacity={0.6} />
         </group>
-        {/* Hibiscus flowers - traditional cremation ground offering - layered */}
         <group ref={hibiscusRef} position={[0, -0.5, -1.8]} renderOrder={1}>
-          <Sparkles count={120} scale={25} size={1.3} speed={0.04} color="#ff0000" noise={0.7} opacity={0.8} /> {/* More vibrant red hibiscus */}
+          <Sparkles count={120} scale={25} size={1.3} speed={0.04} color="#ff0000" noise={0.7} opacity={0.8} />
         </group>
         <group position={[1.5, -0.2, -2.2]} renderOrder={1}>
-          <Sparkles count={60} scale={20} size={0.9} speed={0.045} color="#cc0000" noise={1.0} opacity={0.6} /> {/* Darker red hibiscus */}
+          <Sparkles count={60} scale={20} size={0.9} speed={0.045} color="#cc0000" noise={1.0} opacity={0.6} />
         </group>
         <group position={[-1.2, -0.8, -2.5]} renderOrder={1}>
-          <Sparkles count={50} scale={18} size={0.7} speed={0.05} color="#990000" noise={1.2} opacity={0.5} /> {/* Deep maroon hibiscus */}
+          <Sparkles count={50} scale={18} size={0.7} speed={0.05} color="#990000" noise={1.2} opacity={0.5} />
         </group>
-        {/* Floating bones scattered around - multiple bone types */}
         <group ref={bonesRef} position={[0, 0.5, -2.2]} renderOrder={0}>
-          <Sparkles count={60} scale={22} size={2.5} speed={0.01} color="#ffffff" noise={0.3} opacity={0.7} /> {/* Larger bones */}
+          <Sparkles count={60} scale={22} size={2.5} speed={0.01} color="#ffffff" noise={0.3} opacity={0.7} />
         </group>
         <group position={[1.8, 0.2, -2.8]} renderOrder={0}>
-          <Sparkles count={50} scale={15} size={1.8} speed={0.015} color="#f8f8f8" noise={0.5} opacity={0.6} /> {/* Rib bones */}
+          <Sparkles count={50} scale={15} size={1.8} speed={0.015} color="#f8f8f8" noise={0.5} opacity={0.6} />
         </group>
         <group position={[-1.5, 0.8, -3.2]} renderOrder={0}>
-          <Sparkles count={40} scale={12} size={1.2} speed={0.02} color="#f0f0f0" noise={0.7} opacity={0.5} /> {/* Small bone fragments */}
+          <Sparkles count={40} scale={12} size={1.2} speed={0.02} color="#f0f0f0" noise={0.7} opacity={0.5} />
         </group>
       </>
     );

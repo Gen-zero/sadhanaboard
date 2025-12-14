@@ -6,8 +6,8 @@ const MahakaliBackground: React.FC = (props) => {
     <MahakaliAnimatedBackground 
       {...props} 
       intensity={2.0}           // Increased intensity for even fiercer effect
+      enableParticles={true}    // Restore particles for original effect
       enableBloom={true}        // Enable bloom by default
-      enableParticles={true}    // Enable particles by default
       enablePostFX={true}       // Enable post-processing effects
     />
   );
