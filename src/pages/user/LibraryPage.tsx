@@ -6,9 +6,9 @@ const LibraryPage = () => {
   return (
     <Layout>
       <div className="space-y-6 animate-fade-in w-full">
-        <TransparentGlassMorphismContainer className="p-6">
+        <div className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl p-6">
           <SpiritualLibrary />
-        </TransparentGlassMorphismContainer>
+        </div>
       </div>
     </Layout>
   );

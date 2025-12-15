@@ -49,7 +49,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
     { name: 'Your Calendar', icon: Calendar, path: '/calendar' },
-    { name: 'Your Beads', icon: Beaker, path: '/beads' },
+    // Hidden: { name: 'Your Beads', icon: Beaker, path: '/beads' },
     { name: t('settings'), icon: Settings, path: '/settings' }
   ];
 
