@@ -1,5 +1,5 @@
 import React from 'react';
-import { MoonStar, Sparkles, LayoutDashboard, CheckSquare } from 'lucide-react';
+import { Sparkles, LayoutDashboard, CheckSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -42,7 +42,11 @@ const SadhanaHeader = ({
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2 bg-gradient-to-l from-white to-yellow-300 bg-clip-text text-transparent">
-              <MoonStar className="h-8 w-8 text-primary" />
+              <img 
+                src="/lovable-uploads/sadhanaboard_logo.png" 
+                alt="SadhanaBoard Logo" 
+                className="h-14 w-14 object-contain"
+              />
               <span className="font-heading">Sadhana Board</span>
             </h1>
             <p className="text-sm text-muted-foreground mt-1">

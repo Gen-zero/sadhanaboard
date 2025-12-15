@@ -14,8 +14,6 @@ import {
   TrendingUp,
   Star,
   ChevronRight,
-  Coins,
-  ShoppingCart,
   Check
 } from "lucide-react";
 import { useEffect } from "react";
@@ -89,7 +87,6 @@ const DashboardPage = () => {
     e.currentTarget.classList.add('shadow-lg');
   };
 
-  const handleBuySP = () => {
     navigate("/store");
   };
 
@@ -127,7 +124,6 @@ const DashboardPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <Flame className="h-5 w-5 sm:h-6 sm:w-6 text-accent animate-pulse flex-shrink-0" />
-              <span className="font-bold text-lg sm:text-xl cosmic-pulse">{userStats.streak} day streak</span>
             </div>
           </div>
           
@@ -139,86 +135,67 @@ const DashboardPage = () => {
 
         {/* Stats Overview - Moved to top as per user request */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card 
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
-            <CardContent className="p-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">Today's Progress</p>
                   <p className="text-2xl font-bold truncate">{userStats.todayProgress}%</p>
                 </div>
-                <Target className="h-8 w-8 text-purple-500 cosmic-pulse flex-shrink-0" />
               </div>
               <Progress value={userStats.todayProgress} className="mt-2 cosmic-progress" />
             </CardContent>
-          </Card>
           
-          <Card 
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5"></div>
-            <CardContent className="p-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">Weekly Goal</p>
                   <p className="text-2xl font-bold truncate">{userStats.weeklyGoal}%</p>
                 </div>
-                <TrendingUp className="h-8 w-8 text-green-500 cosmic-pulse flex-shrink-0" />
               </div>
               <Progress value={userStats.weeklyGoal} className="mt-2 cosmic-progress" />
             </CardContent>
-          </Card>
           
-          <Card 
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5"></div>
-            <CardContent className="p-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">Total Hours</p>
                   <p className="text-2xl font-bold truncate">{userStats.totalHours}</p>
                 </div>
-                <Clock className="h-8 w-8 text-blue-500 cosmic-pulse flex-shrink-0" />
               </div>
             </CardContent>
-          </Card>
           
-          <Card 
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5"></div>
-            <CardContent className="p-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">Current Streak</p>
                   <p className="text-2xl font-bold truncate">{userStats.streak} days</p>
                 </div>
-                <Flame className="h-8 w-8 text-orange-500 cosmic-pulse animate-pulse flex-shrink-0" />
               </div>
             </CardContent>
-          </Card>
         </div>
 
         {/* Today's Sadhana with Enhanced Visual Hierarchy */}
-        <Card 
           className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5"></div>
-          <CardHeader className="flex flex-row items-center justify-between relative z-10 flex-wrap gap-2">
-            <CardTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-gold flex-shrink-0" />
               Today's Sadhana
             </CardTitle>
@@ -231,7 +208,6 @@ const DashboardPage = () => {
               <span className="hidden xs:inline">Add</span>
             </Button>
           </CardHeader>
-          <CardContent className="space-y-3 relative z-10">
             {todaySadhana.length > 0 ? (
               <div className="space-y-3">
                 {todaySadhana.map((sadhana) => (
@@ -267,7 +243,6 @@ const DashboardPage = () => {
                       <div className="flex items-center justify-between flex-wrap gap-2">
                         <p className="font-medium truncate">{sadhana.title}</p>
                         {sadhana.completed && (
-                          <Badge variant="default" className="bg-green-500 cosmic-pulse animate-pulse ml-2 flex-shrink-0">
                             Completed
                           </Badge>
                         )}
@@ -316,22 +291,17 @@ const DashboardPage = () => {
               </div>
             )}
           </CardContent>
-        </Card>
 
         {/* Achievements with Enhanced 3D Effects */}
-        <Card 
           className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5"></div>
-          <CardHeader className="relative z-10">
-            <CardTitle className="flex items-center gap-2">
               <Award className="h-5 w-5 text-gold flex-shrink-0" />
               Recent Achievements
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
             {achievements.map((achievement) => {
               const IconComponent = achievement.icon;
               return (
@@ -374,14 +344,10 @@ const DashboardPage = () => {
               );
             })}
           </CardContent>
-        </Card>
 
-        {/* SP Balance Card - Moved to bottom as per user request */}
-        {/* Spiritual Points card has been moved to the bottom of the dashboard */}
 
         {/* Current Practice Section */}
         {sadhanaState.hasStarted && sadhanaData && (
-          <Card 
             className="border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
@@ -389,16 +355,11 @@ const DashboardPage = () => {
             {/* 3D floating effect container */}
             <div className="absolute inset-0 float-3d"></div>
             
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-gold yantra-rotate flex-shrink-0" />
                 Current Practice
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4 relative z-10">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <h3 className="text-xl font-semibold truncate">{sadhanaData.deity} Sadhana</h3>
-                <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 cosmic-pulse px-3 py-1 text-base flex-shrink-0">
                   Day {daysCompleted} of {sadhanaData.durationDays}
                 </Badge>
               </div>
@@ -430,7 +391,6 @@ const DashboardPage = () => {
                 )}
               </div>
             </CardContent>
-          </Card>
         )}
 
         {/* Daily Quest - Hidden as per user request */}
@@ -442,19 +402,15 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Weekly Progress with Enhanced Cosmic Styling */}
           <div className="lg:col-span-2 space-y-6">
-            <Card 
               className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
               onMouseEnter={handleCardHover}
               onMouseLeave={handleCardLeave}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5"></div>
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-gold flex-shrink-0" />
                   Weekly Progress
                 </CardTitle>
               </CardHeader>
-              <CardContent className="relative z-10">
                 <div className="flex items-end justify-between h-32">
                   {weeklyProgress.map((day, index) => (
                     <div 
@@ -500,24 +456,19 @@ const DashboardPage = () => {
                   ))}
                 </div>
               </CardContent>
-            </Card>
           </div>
 
           {/* Quick Actions with Enhanced Button Styling */}
           <div className="space-y-6">
-            <Card 
               className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
               onMouseEnter={handleCardHover}
               onMouseLeave={handleCardLeave}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5"></div>
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-2">
                   <Star className="h-5 w-5 text-gold flex-shrink-0" />
                   Quick Actions
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 relative z-10">
                 <Button 
                   className="w-full justify-start interactive hover:scale-105 transition-transform shimmer-effect button-hover-effect group" 
                   variant="outline"
@@ -547,15 +498,52 @@ const DashboardPage = () => {
                   variant="outline"
                   onClick={() => navigate("/store")}
                 >
-                  <ShoppingCart className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
-                  <span className="group-hover:text-purple-300 transition-colors truncate">Buy Spiritual Points</span>
                 </Button>
               </CardContent>
-            </Card>
           </div>
         </div>
 
+        {/* Analytics Preview Card */}
+          </CardHeader>
+            {analyticsLoading ? (
+              <div className="text-center text-sm text-muted-foreground py-6">Loading analytics...</div>
+            ) : analyticsError ? (
+              <div className="text-center text-sm text-destructive py-6">Unable to load analytics</div>
+            ) : (
+              <PracticeTrendsChart data={Array.isArray(practiceTrends) ? practiceTrends.slice(-14) : []} />
+            )}
+          </CardContent>
 
+          onMouseEnter={handleCardHover}
+          onMouseLeave={handleCardLeave}
+        >
+          {/* Animated background effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary/5 to-accent/5 animate-gradient-shift"></div>
+          
+              <div className="flex items-center gap-2">
+              </div>
+              <Button 
+                size="sm" 
+                className="bg-gradient-to-r from-secondary to-accent hover:from-secondary/90 hover:to-accent/90 shimmer-effect button-hover-effect"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <span className="hidden xs:inline">Buy More</span>
+                <span className="xs:hidden">Buy</span>
+              </Button>
+            </CardTitle>
+          </CardHeader>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-center sm:text-left">
+                <p className="text-muted-foreground text-sm sm:text-base">Available to spend</p>
+              </div>
+              <div className="text-center sm:text-right">
+                <p className="text-sm text-muted-foreground">Level {progression.level}</p>
+                <p className="text-sm text-muted-foreground">Unlock premium content</p>
+              </div>
+            </div>
+          </CardContent>
       </div>
     </Layout>
   );

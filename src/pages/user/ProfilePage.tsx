@@ -44,6 +44,9 @@ import BadgeGallery from '@/components/profile/BadgeGallery';
 import { useBadges } from '@/hooks/useBadges';
 import { useSettings } from '@/hooks/useSettings';
 import { useProfile } from '@/hooks/useProfile';
+import { useAuth } from '@/lib/auth-context';
+import { useUserAnalytics } from '@/hooks/useUserAnalytics';
+import PracticeTrendsChart from '@/components/analytics/PracticeTrendsChart';
 import EditProfileModal from '@/components/EditProfileModal';
 
 // Types for our profile data
@@ -198,9 +201,17 @@ const ProfilePage = () => {
   const { settings } = useSettings();
   const queryClient = useQueryClient();
   const { data: profile, isLoading, error, refetch } = useProfile();
+  const { user } = useAuth();
+  const { practiceTrends, fetchPracticeTrends, loading: analyticsLoading, error: analyticsError } = useUserAnalytics(user?.id || '');
 
   // Get current theme to adapt colors
   const currentTheme = settings?.appearance?.colorScheme || 'default';
+
+  // Fetch a short-range practice trend for the profile page (last 14 days)
+  useEffect(() => {
+    if (!user?.id) return;
+    fetchPracticeTrends('14d').catch(() => {});
+  }, [user?.id, fetchPracticeTrends]);
 
   // Handle profile refresh after edits
   const handleEditModalClose = (wasEdited: boolean) => {
@@ -251,7 +262,7 @@ const ProfilePage = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
-              <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+              <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full">
                 <CardHeader>
                   <Skeleton className="h-6 w-40" />
                 </CardHeader>
@@ -273,7 +284,7 @@ const ProfilePage = () => {
             </div>
             
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+              <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl">
                 <CardHeader>
                   <Skeleton className="h-6 w-40" />
                 </CardHeader>
@@ -287,7 +298,7 @@ const ProfilePage = () => {
                 </CardContent>
               </Card>
               
-              <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+              <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl">
                 <CardHeader>
                   <Skeleton className="h-6 w-40" />
                 </CardHeader>
@@ -311,7 +322,7 @@ const ProfilePage = () => {
     return (
       <Layout>
         <div className="p-4 md:p-8 flex items-center justify-center min-h-screen">
-        <Card className="max-w-md w-full backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+        <Card className="max-w-md w-full backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-400">
               <AlertCircle className="h-5 w-5" />
@@ -376,7 +387,7 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Card */}
           <motion.div variants={itemVariants} className="lg:col-span-1">
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5 text-purple-300" />
@@ -450,7 +461,7 @@ const ProfilePage = () => {
 
           {/* Spiritual Journey */}
           <motion.div variants={itemVariants} className="lg:col-span-2">
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Leaf className="h-5 w-5 text-purple-300" />
@@ -537,7 +548,7 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Spiritual Stats */}
           <motion.div variants={itemVariants}>
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-purple-300" />
@@ -605,7 +616,7 @@ const ProfilePage = () => {
 
           {/* Practice Streak */}
           <motion.div variants={itemVariants}>
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Flame className="h-5 w-5 text-orange-400" />
@@ -656,7 +667,7 @@ const ProfilePage = () => {
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full overflow-hidden">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full overflow-hidden">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5 text-purple-300" />
@@ -703,7 +714,7 @@ const ProfilePage = () => {
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl h-full overflow-hidden">
+            <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl h-full overflow-hidden">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="h-5 w-5 text-purple-300" />
@@ -825,9 +836,31 @@ const ProfilePage = () => {
           </Card>
         </motion.div>
 
+        {/* Recent Practice Section */}
+        <motion.div variants={itemVariants}>
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-purple-300" />
+                Your Recent Practice (Preview)
+              </CardTitle>
+              <CardDescription>See your practice trends over the last two weeks</CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 h-80">
+              {analyticsLoading ? (
+                <div className="text-center text-sm text-muted-foreground py-6">Loading analytics...</div>
+              ) : analyticsError ? (
+                <div className="text-center text-sm text-destructive py-6">Unable to load analytics</div>
+              ) : (
+                <PracticeTrendsChart data={Array.isArray(practiceTrends) ? practiceTrends.slice(-14) : []} />
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+
         {/* Badges Earned */}
         <motion.div variants={itemVariants}>
-          <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-600/10 to-fuchsia-500/10 border border-purple-500/20 rounded-2xl shadow-xl">
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Award className="h-5 w-5 text-purple-300" />

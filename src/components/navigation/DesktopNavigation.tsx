@@ -43,7 +43,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 
   // Navigation items
   const navItems = [
-    { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
+    { name: t('saadhana_board'), icon: null, path: '/sadhana', showLogo: true },
     { name: t('library'), icon: BookHeart, path: '/library' },
     // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
@@ -74,7 +74,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
       <div 
         className="flex flex-col h-full relative"
         style={{ 
-          width: isSidebarOpen ? 360 : 0, 
+          width: isSidebarOpen ? 380 : 0, 
           willChange: 'width'
         }}
       >
@@ -97,56 +97,9 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between p-6 border-b border-primary/10 pt-12 sidebar-header-wide relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="relative group">
-              <div className="h-20 w-20 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
-                <ResponsiveImage
-                  src="/lovable-uploads/sadhanaboard_logo.png"
-                  alt="Saadhana Board Logo"
-                  className="h-full w-full object-contain cursor-pointer transition-all duration-500 hover:scale-110 logo-enhanced"
-                  quality="high"
-                  lazy={false}
-                  onClick={handleNavigation}
-                />
-              </div>
-              {/* Enhanced glow effect on hover with gentle pulsing animation */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-secondary blur-2xl scale-125 opacity-0 group-hover:opacity-70 transition-all duration-500 -z-10 logo-glow-effect deity-glow-pulse"></div>
-              {/* Sacred geometry overlay in header */}
-              <div className="absolute inset-0 pointer-events-none sacred-geometry-overlay -z-20"></div>
-            </div>
-            <div
-              className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600"
-              onClick={handleNavigation}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleNavigation();
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label="SadhanaBoard - Navigate to home"
-            >
-              SadhanaBoard
-            </div>
-          </div>
-          
-          {/* Collapse button for desktop */}
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="p-2 mobile-focus-visible bg-red-900/30 hover:bg-red-800/50 border border-red-900/50 rounded-lg"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-          >
-            <X className="h-4 w-4 text-yellow-400" />
-          </Button>
-        </div>
-        
         {/* Theme deity display */}
-        <div className="flex flex-col items-center justify-center p-6 space-y-3 border-b border-red-900/30 flex-shrink-0 relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
-          <button className="flex items-center justify-center transition-transform duration-500 hover:scale-105 cursor-pointer deity-icon-wrapper"
+        <div className="flex flex-col items-center justify-center p-10 space-y-5 border-b border-red-900/30 flex-shrink-0 relative z-10 bg-black/20 backdrop-blur-sm rounded-lg m-2">
+          <button className="flex items-center justify-center transition-transform duration-500 hover:scale-110 cursor-pointer deity-icon-wrapper"
             onClick={handleNavigation}
             tabIndex={0}
             onKeyDown={(e) => {
@@ -155,34 +108,36 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
               }
             }}
           >
-            <div className="deity-glow-container hover:animate-float-gentle overflow-visible relative">
-              {currentThemeData.icon}
-              <div className="absolute -bottom-2 text-xs text-yellow-500/70 om-symbol-divider font-bold">ॐ</div>
+            <div className="deity-glow-container hover:animate-float-gentle overflow-visible relative w-32 h-32 flex items-center justify-center">
+              <div className="w-28 h-28 flex items-center justify-center">
+                {currentThemeData.icon}
+              </div>
+              <div className="absolute -bottom-2 text-sm text-yellow-500/70 om-symbol-divider font-bold">ॐ</div>
               {/* Glow effect for the deity icon */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 to-yellow-500 blur-md scale-125 opacity-30 -z-10"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 to-yellow-500 blur-xl scale-150 opacity-50 -z-10"></div>
             </div>
           </button>
           <>
             <div className="text-center">
-              <h3 className="text-lg font-medium text-white">{currentThemeData.name}</h3>
-              <p className="text-xs text-yellow-500/80 mantra-gradient-text font-semibold">{currentThemeData.element} Element</p>
+              <h3 className="text-2xl font-medium text-white">{currentThemeData.name}</h3>
+              <p className="text-base text-yellow-500/80 mantra-gradient-text font-semibold">{currentThemeData.element} Element</p>
             </div>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-red-600/50 to-transparent"></div>
           </>
         </div>
         
-        <nav className="flex-1 p-4 overflow-y-auto sidebar-scrollbar nav-scrollable-area relative z-10" role="navigation" aria-label="Main navigation">
-          <div className="space-y-2">
+        <nav className="flex-1 p-5 overflow-y-auto sidebar-scrollbar nav-scrollable-area relative z-10" role="navigation" aria-label="Main navigation">
+          <div className="space-y-3">
             {navItems.map((item) => {
               const active = isActive(item.path);
               return (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 nav-item touch-target-large mobile-focus-visible relative overflow-hidden ${
+                  className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 nav-item touch-target-large mobile-focus-visible relative overflow-hidden ${
                     active 
-                      ? 'bg-red-900/40 text-white shadow-lg transform scale-105 border border-red-800/50' 
-                      : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-105 border border-red-900/20'
+                      ? 'bg-red-900/40 text-white shadow-lg transform scale-[1.02] border border-red-800/50' 
+                      : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-[1.02] border border-red-900/20'
                   }`}
                   onClick={(e) => {
                     // small ripple effect handled by CSS
@@ -201,51 +156,59 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-yellow-900/10 blur-xl -z-10"></div>
                   )}
                   
-                  <span className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-300 ${
+                  <span className={`flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 ${
                     active ? 'bg-red-800/50 text-yellow-400 scale-110 shadow-lg' : 'text-gray-400 bg-black/20'
                   }`}>
-                    <item.icon size={20} />
+                    {item.showLogo ? (
+                      <img 
+                        src="/lovable-uploads/sadhanaboard_logo.png" 
+                        alt="SadhanaBoard Logo" 
+                        className="h-10 w-10 object-contain"
+                      />
+                    ) : item.icon ? (
+                      <item.icon size={24} />
+                    ) : null}
                   </span>
-                  <span className="truncate flex-1 font-medium">{item.name}</span>
-                  {active && <ChevronRight size={16} className="text-yellow-400 flex-shrink-0 animate-pulse" />}
+                  <span className="truncate flex-1 font-medium text-lg">{item.name}</span>
+                  {active && <ChevronRight size={18} className="text-yellow-400 flex-shrink-0 animate-pulse" />}
                 </Link>
               );
             })}
           </div>
         </nav>        {/* Profile and Sign Out Section - Positioned at the bottom */}
-        <div className="mt-auto p-4 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-lg mx-2 mb-2">
-          <div className="flex flex-col space-y-3">
+        <div className="mt-auto p-5 border-t border-red-900/30 flex-shrink-0 sidebar-footer relative z-10 bg-black/20 backdrop-blur-sm rounded-xl mx-3 mb-3">
+          <div className="flex flex-col space-y-4">
             {user ? (
-              <div className="flex flex-col space-y-3">
+              <div className="flex flex-col space-y-4">
                 {/* User Info Display */}
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-red-900/30 to-black/40 border border-red-800/40 backdrop-blur-sm">
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-red-900/30 to-black/40 border border-red-800/40 backdrop-blur-sm">
                   <div className="relative">
                     {profile?.avatar_url ? (
                       <img 
                         src={profile.avatar_url} 
                         alt="Profile" 
-                        className="w-10 h-10 rounded-full object-cover border-2 border-yellow-500/50 shadow-lg"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-yellow-500/50 shadow-lg"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center border-2 border-yellow-500/50 shadow-lg">
-                        <User size={20} className="text-yellow-300" />
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center border-2 border-yellow-500/50 shadow-lg">
+                        <User size={24} className="text-yellow-300" />
                       </div>
                     )}
                     {/* Online indicator */}
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
+                    <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-black"></div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium truncate text-sm">{user.display_name || user.email}</p>
-                    <p className="text-yellow-500/80 text-xs truncate">Connected to SadhanaBoard</p>
+                    <p className="text-white font-medium truncate text-base">{user.display_name || user.email}</p>
+                    <p className="text-yellow-500/80 text-sm truncate">Connected to SadhanaBoard</p>
                   </div>
                 </div>
                 
                 {/* Profile Link */}
                 <Link
                   to="/profile"
-                  className={`flex items-center rounded-xl transition-all duration-300 px-4 py-3 touch-target-large mobile-focus-visible relative overflow-hidden border ${
+                  className={`flex items-center rounded-2xl transition-all duration-300 px-5 py-4 touch-target-large mobile-focus-visible relative overflow-hidden border ${
                     isActive('/profile')
-                      ? 'bg-gradient-to-r from-red-900/50 to-yellow-900/20 text-white shadow-lg transform scale-105 border-yellow-500/50' 
+                      ? 'bg-gradient-to-r from-red-900/50 to-yellow-900/20 text-white shadow-lg transform scale-[1.02] border-yellow-500/50' 
                       : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-[1.02] border-red-900/30'
                   }`}
                   aria-current={isActive('/profile') ? 'page' : undefined}
@@ -256,26 +219,26 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-yellow-900/10 blur-xl -z-10"></div>
                   )}
                   
-                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-black/30 mr-3">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/30 mr-4">
                     {profile?.avatar_url ? (
                       <img 
                         src={profile.avatar_url} 
                         alt="Profile" 
-                        className="w-5 h-5 rounded-full object-cover"
+                        className="w-6 h-6 rounded-full object-cover"
                       />
                     ) : (
-                      <User size={18} className="text-yellow-400" />
+                      <User size={20} className="text-yellow-400" />
                     )}
                   </div>
-                  <span className="font-medium flex-1">My Profile</span>
-                  <ChevronRight size={16} className={`${isActive('/profile') ? 'text-yellow-400' : 'text-gray-500'} flex-shrink-0`} />
+                  <span className="font-medium flex-1 text-lg">My Profile</span>
+                  <ChevronRight size={18} className={`${isActive('/profile') ? 'text-yellow-400' : 'text-gray-500'} flex-shrink-0`} />
                 </Link>
                 
                 {/* Sign Out Button */}
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-4 py-3 touch-target-large mobile-focus-visible rounded-xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
+                  className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-5 py-4 touch-target-large mobile-focus-visible rounded-2xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
                   onClick={async () => {
                     try {
                       await signOut();
@@ -285,19 +248,19 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     }
                   }}
                 >
-                  <LogOut size={18} className="mr-3 text-red-400 group-hover:text-red-300 flex-shrink-0" />
-                  <span className="text-red-300 font-medium group-hover:text-red-200">Disconnect</span>
+                  <LogOut size={20} className="mr-4 text-red-400 group-hover:text-red-300 flex-shrink-0" />
+                  <span className="text-red-300 font-medium group-hover:text-red-200 text-lg">Disconnect</span>
                 </Button>
               </div>
             ) : (
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-4 py-3 touch-target-large mobile-focus-visible rounded-xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
+                className="w-full justify-start hover:bg-gradient-to-r hover:from-red-900/50 hover:to-red-950/50 px-5 py-4 touch-target-large mobile-focus-visible rounded-2xl border border-red-900/40 hover:border-red-700/60 transition-all duration-300 group"
                 onClick={handleNavigation}
               >
-                <LogIn size={18} className="mr-3 text-yellow-500 group-hover:text-yellow-400 flex-shrink-0" />
-                <span className="text-yellow-300 font-medium group-hover:text-yellow-200">Connect Account</span>
+                <LogIn size={20} className="mr-4 text-yellow-500 group-hover:text-yellow-400 flex-shrink-0" />
+                <span className="text-yellow-300 font-medium group-hover:text-yellow-200 text-lg">Connect Account</span>
               </Button>
             )}
           </div>
