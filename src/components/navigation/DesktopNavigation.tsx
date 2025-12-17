@@ -45,7 +45,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   const navItems = [
     { name: t('saadhana_board'), icon: null, path: '/sadhana', showLogo: true },
     { name: t('library'), icon: BookHeart, path: '/library' },
-    // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
+    { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
     { name: 'Your Calendar', icon: Calendar, path: '/calendar' },
@@ -72,7 +72,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
       }`}
     >
       <div 
-        className="flex flex-col h-full relative"
+        className="flex flex-col h-full relative transition-all duration-300 ease-in-out"
         style={{ 
           width: isSidebarOpen ? 380 : 0, 
           willChange: 'width'
@@ -131,26 +131,26 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
             {navItems.map((item) => {
               const active = isActive(item.path);
               return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 nav-item touch-target-large mobile-focus-visible relative overflow-hidden ${
-                    active 
-                      ? 'bg-red-900/40 text-white shadow-lg transform scale-[1.02] border border-red-800/50' 
-                      : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-[1.02] border border-red-900/20'
-                  }`}
-                  onClick={(e) => {
-                    // small ripple effect handled by CSS
-                    const el = e.currentTarget as HTMLElement;
-                    if (el) {
-                      el.classList.remove('ripple-animate');
-                      void el.offsetWidth;
-                      el.classList.add('ripple-animate');
-                    }
-                    handleNavigation();
-                  }}
-                  aria-current={active ? 'page' : undefined}
-                >
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 nav-item touch-target-large mobile-focus-visible relative overflow-hidden ${
+                active 
+                  ? 'bg-red-900/40 text-white shadow-lg transform scale-[1.02] border border-red-800/50' 
+                  : 'text-gray-300 hover:bg-red-900/30 hover:text-white hover:scale-[1.02] border border-red-900/20'
+              }`}
+              onClick={(e) => {
+                // small ripple effect handled by CSS
+                const el = e.currentTarget as HTMLElement;
+                if (el) {
+                  el.classList.remove('ripple-animate');
+                  void el.offsetWidth;
+                  el.classList.add('ripple-animate');
+                }
+                handleNavigation();
+              }}
+              aria-current={active ? 'page' : undefined}
+            >
                   {/* Background glow effect for active items */}
                   {active && (
                     <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-yellow-900/10 blur-xl -z-10"></div>

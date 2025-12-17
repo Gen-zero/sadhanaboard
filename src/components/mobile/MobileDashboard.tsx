@@ -252,7 +252,7 @@ const MobileDashboard = () => {
 
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-      <div className="space-y-6 pb-24 pt-16"> {/* Extra padding for bottom nav and top spacing */}
+      <div className="space-y-6 pt-16"> {/* Top spacing */}
         {/* Android App Bar */}
         <AndroidAppBar 
           title="SadhanaBoard" 
@@ -561,35 +561,6 @@ const MobileDashboard = () => {
             <span className="text-xs">Library</span>
           </Button>
         </motion.div>
-        
-        {/* Android Bottom Navigation */}
-        <AndroidBottomNav
-          items={[
-            { id: 'home', label: 'Home', icon: <Home size={24} /> },
-            { id: 'sadhana', label: 'Sadhana', icon: <CheckSquare size={24} /> },
-            { id: 'library', label: 'Library', icon: <BookOpen size={24} /> },
-            { id: 'profile', label: 'Profile', icon: <User size={24} /> }
-          ]}
-          activeItem="home"
-          onItemClick={(id) => {
-            switch (id) {
-              case 'home':
-                navigate('/dashboard');
-                break;
-              case 'sadhana':
-                navigate('/sadhana');
-                break;
-              case 'library':
-                navigate('/library');
-                break;
-              case 'profile':
-                navigate('/profile');
-                break;
-              default:
-                break;
-            }
-          }}
-        />
         
         {/* Android Floating Action Button */}
         <FloatingActionButton 

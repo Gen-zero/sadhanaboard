@@ -52,6 +52,7 @@ const AndroidMobileLayout: React.FC<AndroidMobileLayoutProps> = ({
   const navItems = [
     { id: 'dashboard', label: 'Home', icon: <Home size={24} />, path: '/dashboard' },
     { id: 'sadhana', label: 'Sadhana', icon: <Check size={24} />, path: '/sadhana' },
+    { id: 'saadhanas', label: 'Saadhanas', icon: <Check size={24} />, path: '/saadhanas' },
     { id: 'library', label: 'Library', icon: <BookOpen size={24} />, path: '/library' },
     { id: 'profile', label: 'Profile', icon: <User size={24} />, path: '/profile' }
   ];
@@ -59,7 +60,8 @@ const AndroidMobileLayout: React.FC<AndroidMobileLayoutProps> = ({
   // Determine active navigation item based on current path
   const getActiveNavItem = () => {
     const path = location.pathname;
-    if (path.startsWith('/sadhana')) return 'sadhana';
+    if (path.startsWith('/sadhana') && !path.startsWith('/saadhanas')) return 'sadhana';
+    if (path.startsWith('/saadhanas')) return 'saadhanas';
     if (path.startsWith('/library')) return 'library';
     if (path.startsWith('/profile')) return 'profile';
     return 'dashboard';
@@ -99,17 +101,10 @@ const AndroidMobileLayout: React.FC<AndroidMobileLayoutProps> = ({
         onMoreClick={() => setDialogOpen(true)}
       />
       
-      {/* Main Content Area with bottom padding for navigation */}
-      <main className="flex-1 overflow-y-auto pb-24 pt-16">
+      {/* Main Content Area with top spacing */}
+      <main className="flex-1 overflow-y-auto pt-16">
         {children}
       </main>
-      
-      {/* Android Bottom Navigation */}
-      <AndroidBottomNav
-        items={navItems}
-        activeItem={getActiveNavItem()}
-        onItemClick={handleNavItemClick}
-      />
       
       {/* Android Floating Action Button */}
       <FloatingActionButton 

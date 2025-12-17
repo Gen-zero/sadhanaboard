@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <circle cx="100" cy="100" r="95" stroke="#D4AF37" stroke-width="2"/>
-  <path d="M70 80 Q100 60 130 80" fill="none" stroke="#E8B4A8" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="70" cy="100" r="12" fill="#20B2AA"/>
-  <circle cx="130" cy="100" r="12" fill="#20B2AA"/>
-  <path d="M85 120 Q100 140 115 120" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="100" cy="100" r="20" fill="none" stroke="#E8B4A8" stroke-width="2"/>
-  <text x="100" y="180" font-size="11" text-anchor="middle" fill="#B8860B" font-weight="bold">CHAITANYA</text>
-</svg>

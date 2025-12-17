@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <circle cx="100" cy="100" r="95" stroke="#E8863F" stroke-width="2"/>
-  <path d="M100 40 L100 60 M60 100 L80 100 M120 100 L140 100 M100 140 L100 160" stroke="#E8863F" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="100" cy="100" r="35" fill="none" stroke="#D4AF37" stroke-width="2"/>
-  <path d="M85 85 L115 115 M115 85 L85 115" stroke="#C41E3A" stroke-width="2" stroke-linecap="round"/>
-  <text x="100" y="180" font-size="12" text-anchor="middle" fill="#E8863F" font-weight="bold">HANUMAN</text>
-</svg>

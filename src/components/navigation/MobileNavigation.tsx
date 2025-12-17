@@ -44,7 +44,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
   const navItems = [
     { name: t('saadhana_board'), icon: BookHeart, path: '/sadhana' },
     { name: t('library'), icon: BookHeart, path: '/library' },
-    // Hidden: { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
+    { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
     { name: 'Your Calendar', icon: Calendar, path: '/calendar' },

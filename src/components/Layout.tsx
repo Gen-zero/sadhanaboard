@@ -307,9 +307,9 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
         <button
           onClick={() => setIsSidebarOpen(true)}
           aria-label="Open sidebar"
-          className="fixed left-2 top-2 z-50 h-10 w-10 rounded-full bg-primary/10 backdrop-blur-md flex items-center justify-center hover:bg-primary/20 transition-all mobile-focus-visible"
+          className="fixed left-4 top-4 z-50 h-12 w-12 rounded-full bg-red-900/80 backdrop-blur-md flex items-center justify-center hover:bg-red-800/90 transition-all duration-300 ease-in-out mobile-focus-visible border border-red-700/50 shadow-lg"
         >
-          <Menu className="h-5 w-5 text-primary" />
+          <Menu className="h-6 w-6 text-yellow-400" />
         </button>
       )}
 
@@ -317,15 +317,12 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       <main
         id="main-content"
         tabIndex={-1}
-        className={`flex-1 transition-all duration-300 ${isMobile ? 'pt-20 px-4 pb-24' : 'p-4 sm:p-6'} ${!isMobile && isSidebarOpen ? 'ml-[360px]' : ''} ${isMobile ? 'px-responsive py-responsive' : ''}`}
+        className={`flex-1 transition-all duration-300 ease-in-out ${isMobile ? 'pt-20 px-4' : 'p-4 sm:p-6'} ${!isMobile && isSidebarOpen ? 'ml-[380px]' : 'ml-0'} ${isMobile ? 'px-responsive py-responsive' : ''}`}
       >
         <div className="max-w-screen-2xl mx-auto w-full">
           {children}
         </div>
       </main>
-
-      {/* Bottom Navigation for Mobile */}
-      {isMobile && <BottomNavigationBar />}
     </div>
   );
 };

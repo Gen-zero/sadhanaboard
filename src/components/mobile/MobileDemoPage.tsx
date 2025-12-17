@@ -154,7 +154,7 @@ const MobileDemoPage: React.FC = () => {
         />
         
         {/* Main Content */}
-        <div className="pb-24 pt-16 px-4 space-y-6">
+        <div className="pt-16 px-4 space-y-6">
           {/* Welcome Card */}
           <AndroidCard className="p-6">
             <h1 className="text-2xl font-bold mb-2">Mobile UI Demo</h1>
@@ -439,18 +439,6 @@ const MobileDemoPage: React.FC = () => {
             />
           </AndroidCard>
         </div>
-        
-        {/* Android Bottom Navigation */}
-        <AndroidBottomNav
-          items={[
-            { id: 'home', label: 'Home', icon: <Home size={24} /> },
-            { id: 'sadhana', label: 'Sadhana', icon: <Check size={24} /> },
-            { id: 'library', label: 'Library', icon: <BookOpen size={24} /> },
-            { id: 'profile', label: 'Profile', icon: <User size={24} /> }
-          ]}
-          activeItem={activeTab}
-          onItemClick={handleNavItemClick}
-        />
         
         {/* Android Floating Action Button */}
         <FloatingActionButton 

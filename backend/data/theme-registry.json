@@ -13,28 +13,6 @@
       }
     },
     {
-      "id": "android",
-      "metadata": {
-        "id": "android",
-        "name": "Android",
-        "description": "Material Design inspired theme for mobile devices",
-        "category": "color-scheme",
-        "deity": "None",
-        "isLandingPage": false
-      }
-    },
-    {
-      "id": "ayyappan",
-      "metadata": {
-        "id": "ayyappan",
-        "name": "Swami Ayyappan",
-        "description": "🙏 💙 Swami Ayyappan theme - The deity of Sabarimala, symbolizing purity, unity, and peaceful devotion",
-        "deity": "Swami Ayyappan (The Unifying Deity)",
-        "category": "color-scheme",
-        "gradient": "from-blue-900 via-blue-700 to-cyan-800"
-      }
-    },
-    {
       "id": "bhairava",
       "metadata": {
         "id": "bhairava",
@@ -44,17 +22,6 @@
         "category": "color-scheme",
         "isLandingPage": false,
         "gradient": "from-red-900 to-red-700"
-      }
-    },
-    {
-      "id": "chaitanya",
-      "metadata": {
-        "id": "chaitanya",
-        "name": "Chaitanya Mahaprabhu",
-        "description": "🎵 💕 Chaitanya theme - Saint-avatar of Krishna representing ecstatic devotion and universal love",
-        "deity": "Chaitanya Mahaprabhu (The Divine Lover)",
-        "category": "color-scheme",
-        "gradient": "from-yellow-100 via-rose-200 to-green-100"
       }
     },
     {
@@ -116,17 +83,6 @@
       }
     },
     {
-      "id": "hanuman",
-      "metadata": {
-        "id": "hanuman",
-        "name": "Lord Hanuman",
-        "description": "💪 🧡 Hanuman theme - The mighty devotee symbolizing strength, courage, and unwavering devotion",
-        "deity": "Lord Hanuman (The Divine Devotee)",
-        "category": "color-scheme",
-        "gradient": "from-orange-900 via-orange-700 to-red-800"
-      }
-    },
-    {
       "id": "krishna",
       "metadata": {
         "id": "krishna",
@@ -146,17 +102,6 @@
         "deity": "Goddess Lakshmi",
         "category": "color-scheme",
         "gradient": "from-amber-400 via-yellow-500 to-orange-600"
-      }
-    },
-    {
-      "id": "library-light",
-      "metadata": {
-        "id": "library-light",
-        "name": "Library Light",
-        "description": "Clean, white and light color scheme for the library to make it more impressive and readable",
-        "category": "color-scheme",
-        "isLandingPage": false,
-        "gradient": "from-white to-blue-50"
       }
     },
     {
@@ -184,17 +129,6 @@
       }
     },
     {
-      "id": "narasimha",
-      "metadata": {
-        "id": "narasimha",
-        "name": "Lord Narasimha",
-        "description": "⚡ 🔥 Narasimha theme - The fierce avatar of Vishnu representing divine protection and transformative power",
-        "deity": "Lord Narasimha (The Divine Protector)",
-        "category": "color-scheme",
-        "gradient": "from-orange-900 via-red-700 to-black-800"
-      }
-    },
-    {
       "id": "neon",
       "metadata": {
         "id": "neon",
@@ -203,17 +137,6 @@
         "category": "color-scheme",
         "isLandingPage": false,
         "gradient": "from-cyan-400 via-purple-500 to-green-400"
-      }
-    },
-    {
-      "id": "premanand",
-      "metadata": {
-        "id": "premanand",
-        "name": "Premanand Ji Maharaj",
-        "description": "🕯️ 🎶 Premanand Ji theme - Folk saint representing simple bhakti, devotion without pretense, and heartfelt spirituality",
-        "deity": "Premanand Ji Maharaj (The Folk Saint)",
-        "category": "color-scheme",
-        "gradient": "from-amber-100 via-amber-300 to-orange-200"
       }
     },
     {

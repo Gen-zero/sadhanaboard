@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <circle cx="100" cy="100" r="95" stroke="#FF6B35" stroke-width="2"/>
-  <path d="M100 50 L110 80 L140 80 L115 105 L125 135 L100 110 L75 135 L85 105 L60 80 L90 80 Z" fill="#FF6B35"/>
-  <path d="M85 70 Q100 50 115 70" fill="none" stroke="#FFD700" stroke-width="2"/>
-  <path d="M70 90 L130 110" stroke="#DC143C" stroke-width="2" stroke-linecap="round"/>
-  <text x="100" y="180" font-size="12" text-anchor="middle" fill="#FF6B35" font-weight="bold">NARASIMHA</text>
-</svg>

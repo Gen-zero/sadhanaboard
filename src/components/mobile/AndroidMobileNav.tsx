@@ -80,6 +80,7 @@ const AndroidMobileNav = ({
     { id: 'home', label: 'Home', icon: <Home size={24} />, path: '/' },
     { id: 'dashboard', label: 'Dashboard', icon: <Calendar size={24} />, path: '/dashboard' },
     { id: 'sadhana', label: 'Sadhana', icon: <CheckSquare size={24} />, path: '/sadhana' },
+    { id: 'saadhanas', label: 'Saadhanas', icon: <CheckSquare size={24} />, path: '/saadhanas' },
     { id: 'library', label: 'Library', icon: <BookOpen size={24} />, path: '/library' },
     { id: 'community', label: 'Community', icon: <Users size={24} />, path: '/community' },
     { id: 'profile', label: 'Profile', icon: <User size={24} />, path: '/profile' },
