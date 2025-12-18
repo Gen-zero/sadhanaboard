@@ -86,7 +86,6 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         <CornerBracket position="top-left" color="#FFD700" />
         <CornerBracket position="top-right" color="#FFD700" />
         <CornerBracket position="bottom-left" color="#FFD700" />
-        <CornerBracket position="bottom-right" color="#FFD700" />
         
         {/* Ambient mantra display */}
         <div className="absolute inset-x-0 top-0 h-8 overflow-hidden z-10">

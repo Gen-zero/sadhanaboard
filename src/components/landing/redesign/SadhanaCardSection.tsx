@@ -169,10 +169,10 @@ const defaultSteps: Step[] = [
 
 // Form field data
 const formFields = [
-    { id: 'deity', label: 'Deity Name', icon: User, value: 'Lord Ganesha', placeholder: 'Select deity...' },
-    { id: 'intention', label: 'Intention', icon: Heart, value: 'Success & Clarity', placeholder: 'Your intention...' },
-    { id: 'goal', label: 'Goal', icon: Target, value: 'Get 1000 subscribers on YouTube', placeholder: 'What do you want to achieve...' },
-    { id: 'offerings', label: 'Offerings', icon: Gift, value: 'Modak, Red Flowers, Durva Grass', placeholder: 'Offerings...' },
+    { id: 'deity', label: 'Deity Name', icon: User, value: 'Maa Kaali', placeholder: 'Select deity...' },
+    { id: 'intention', label: 'Intention', icon: Heart, value: 'Strength & Protection', placeholder: 'Your intention...' },
+    { id: 'goal', label: 'Goal', icon: Target, value: 'Conquer Inner Obstacles', placeholder: 'What do you want to achieve...' },
+    { id: 'offerings', label: 'Offerings', icon: Gift, value: 'Red Hibiscus, Neem Leaves, Sweets', placeholder: 'Offerings...' },
 ];
 
 // Animated Auto-Fill Form Component
@@ -400,16 +400,16 @@ function AutoFillForm({ isActive, onComplete, isComplete, hasStarted }: { isActi
 
 // Static data for Sadhana Tracker Card
 const trackerSadhanaData = {
-    deity: 'Lord Ganesha',
-    mantra: 'Om Gam Ganapataye Namaha',
-    intent: 'Success & Clarity',
-    goalName: 'Get 1000 subscribers on YouTube',
+    deity: 'Maa Kaali',
+    mantra: 'Om Kreem Kalikaye Namah',
+    intent: 'Strength & Protection',
+    goalName: 'Conquer Inner Obstacles',
     durationDays: 21,
     offerings: [
         { id: 1, name: 'Chant Mantra 108 Times', icon: Sparkles },
-        { id: 2, name: 'Offer Modak', icon: Gift },
-        { id: 3, name: 'Red Flowers', icon: Flower },
-        { id: 4, name: 'Durva Grass', icon: Leaf }
+        { id: 2, name: 'Offer Red Hibiscus', icon: Gift },
+        { id: 3, name: 'Neem Leaves', icon: Flower },
+        { id: 4, name: 'Offer Sweets', icon: Leaf }
     ]
 };
 
@@ -426,21 +426,21 @@ function AnimatedSadhanaParchment({ isActive, onComplete, isComplete, hasStarted
     const { colors } = useThemeColors();
 
     const sadhanaContent = `Your Sadhana:
-Deity: Lord Ganesha
-Mantra: Om Gam Ganapataye Namaha
-Intention: Success & Clarity
+Deity: Maa Kaali
+Mantra: Om Kreem Kalikaye Namah
+Intention: Strength & Protection
 
 Goal:
-Get 1000 subscribers on YouTube
+Conquer Inner Obstacles
 
 Duration:
 21 Days
 
 Daily Practices:
 Chant Mantra 108 Times
-Offer Modak
-Red Flowers
-Durva Grass`;
+Offer Red Hibiscus
+Neem Leaves
+Offer Sweets`;
 
     const contentLines = sadhanaContent.trim().split('\n').filter(line => line.trim() !== '');
 

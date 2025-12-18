@@ -35,9 +35,7 @@ const SadhanaPage = () => {
 
       {/* Entrance animation */}
       <div className={`transition-all duration-1000 transform relative z-10 ${hasVisited ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl p-6">
-          <SaadhanaBoard />
-        </div>
+        <SaadhanaBoard />
       </div>
 
       {/* Custom styles for cosmic animations */}

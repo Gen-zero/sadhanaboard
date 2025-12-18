@@ -42,16 +42,16 @@ const DashboardPage = () => {
   // Fetch a short-range practice trend for the dashboard preview (last 14 days)
   useEffect(() => {
     if (!user?.id) return;
-    fetchPracticeTrends('14d').catch(() => {});
+    fetchPracticeTrends('14d').catch(() => { });
   }, [user?.id, fetchPracticeTrends]);
 
   // Get today's date in a readable format
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  
+
   // Use real user data for stats
   const userStats = {
     streak: stats.completedSadhanas, // Using completed sadhanas as streak for now
-    todayProgress: groupedSaadhanas.today.filter(s => s.completed).length > 0 ? 
+    todayProgress: groupedSaadhanas.today.filter(s => s.completed).length > 0 ?
       Math.round((groupedSaadhanas.today.filter(s => s.completed).length / groupedSaadhanas.today.length) * 100) : 0,
     weeklyGoal: stats.successRate,
     totalHours: stats.totalPracticeDays * 2 // Estimating 2 hours per day
@@ -97,7 +97,7 @@ const DashboardPage = () => {
     <Layout>
       <div className="space-y-6 bg-transparent mobile-container">
         {/* Welcome Section with Enhanced Cosmic Effects */}
-        <div 
+        <div
           className="backdrop-blur-sm bg-background/30 p-6 rounded-lg border border-primary/20 transition-all duration-300 hover:shadow-lg cosmic-glow relative overflow-hidden mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
@@ -105,7 +105,7 @@ const DashboardPage = () => {
           {/* Cosmic particle effects */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {[...Array(15)].map((_, i) => (
-              <div 
+              <div
                 key={i}
                 className="absolute rounded-full bg-primary/30 animate-pulse"
                 style={{
@@ -119,7 +119,7 @@ const DashboardPage = () => {
               ></div>
             ))}
           </div>
-          
+
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
             <div className="min-w-0">
               <h1 className="text-2xl sm:text-3xl font-bold cosmic-text animate-fadeIn truncate">Welcome back, {profile.name}</h1>
@@ -130,7 +130,7 @@ const DashboardPage = () => {
               <span className="font-bold text-lg sm:text-xl cosmic-pulse">{userStats.streak} day streak</span>
             </div>
           </div>
-          
+
           {/* Enhanced Mood Check-in */}
           {/* <div className="mt-6 relative z-10">
             <MoodCheckin />
@@ -139,7 +139,7 @@ const DashboardPage = () => {
 
         {/* Stats Overview - Moved to top as per user request */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card 
+          <Card
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
@@ -156,8 +156,8 @@ const DashboardPage = () => {
               <Progress value={userStats.todayProgress} className="mt-2 cosmic-progress" />
             </CardContent>
           </Card>
-          
-          <Card 
+
+          <Card
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
@@ -174,8 +174,8 @@ const DashboardPage = () => {
               <Progress value={userStats.weeklyGoal} className="mt-2 cosmic-progress" />
             </CardContent>
           </Card>
-          
-          <Card 
+
+          <Card
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
@@ -191,8 +191,8 @@ const DashboardPage = () => {
               </div>
             </CardContent>
           </Card>
-          
-          <Card 
+
+          <Card
             className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
@@ -211,7 +211,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Today's Sadhana with Enhanced Visual Hierarchy */}
-        <Card 
+        <Card
           className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
@@ -222,8 +222,8 @@ const DashboardPage = () => {
               <Calendar className="h-5 w-5 text-gold flex-shrink-0" />
               Today's Sadhana
             </CardTitle>
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               onClick={() => navigate("/saadhanas")}
               className="interactive shimmer-effect button-hover-effect"
             >
@@ -235,13 +235,12 @@ const DashboardPage = () => {
             {todaySadhana.length > 0 ? (
               <div className="space-y-3">
                 {todaySadhana.map((sadhana) => (
-                  <div 
-                    key={sadhana.id} 
-                    className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] relative overflow-hidden ${
-                      sadhana.completed 
-                        ? "bg-green-500/10 border-green-500/30" 
+                  <div
+                    key={sadhana.id}
+                    className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] relative overflow-hidden ${sadhana.completed
+                        ? "bg-green-500/10 border-green-500/30"
                         : "bg-muted/20 border-muted hover:border-purple-500/30"
-                    } card-hover-effect`}
+                      } card-hover-effect`}
                     onClick={() => navigate(`/saadhanas/${sadhana.id}`)}
                     onMouseEnter={(e) => {
                       e.currentTarget.classList.add('scale-[1.01]', 'shadow-lg');
@@ -262,7 +261,7 @@ const DashboardPage = () => {
                   >
                     {/* Inner glow effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                    
+
                     <div className="relative z-10 flex-1 min-w-0">
                       <div className="flex items-center justify-between flex-wrap gap-2">
                         <p className="font-medium truncate">{sadhana.title}</p>
@@ -306,8 +305,8 @@ const DashboardPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
                 <BookOpen className="h-12 w-12 mx-auto mb-3 text-purple-500/20 relative z-10" />
                 <p className="mb-2 relative z-10">No practices scheduled for today</p>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => navigate("/saadhanas")}
                   className="interactive relative z-10 button-hover-effect"
                 >
@@ -319,7 +318,7 @@ const DashboardPage = () => {
         </Card>
 
         {/* Achievements with Enhanced 3D Effects */}
-        <Card 
+        <Card
           className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
           onMouseEnter={handleCardHover}
           onMouseLeave={handleCardLeave}
@@ -335,8 +334,8 @@ const DashboardPage = () => {
             {achievements.map((achievement) => {
               const IconComponent = achievement.icon;
               return (
-                <div 
-                  key={achievement.id} 
+                <div
+                  key={achievement.id}
                   className="flex items-center gap-3 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-all duration-300 cursor-pointer floating transform hover:scale-[1.02] hover:shadow-lg relative overflow-hidden card-3d card-hover-effect group"
                   onClick={() => navigate("/profile")}
                   onMouseEnter={(e) => {
@@ -356,18 +355,18 @@ const DashboardPage = () => {
                 >
                   {/* 3D effect container */}
                   <div className="absolute inset-0 float-3d"></div>
-                  
+
                   {/* Enhanced icon container with glow and 3D effect */}
                   <div className="p-2 rounded-full bg-gold/20 cosmic-glow transition-all duration-300 hover:scale-110 relative z-10 transform group-hover:rotate-12 flex-shrink-0">
                     <IconComponent className="h-5 w-5 text-gold" />
                   </div>
-                  
+
                   {/* Achievement content with enhanced styling */}
                   <div className="flex-1 min-w-0 relative z-10">
                     <p className="font-medium group-hover:text-purple-300 transition-colors truncate">{achievement.name}</p>
                     <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors truncate">{achievement.date}</p>
                   </div>
-                  
+
                   {/* Animated chevron with hover effect */}
                   <ChevronRight className="h-4 w-4 text-muted-foreground relative z-10 transform group-hover:translate-x-1 transition-transform flex-shrink-0" />
                 </div>
@@ -381,14 +380,14 @@ const DashboardPage = () => {
 
         {/* Current Practice Section */}
         {sadhanaState.hasStarted && sadhanaData && (
-          <Card 
+          <Card
             className="border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
             onMouseEnter={handleCardHover}
             onMouseLeave={handleCardLeave}
           >
             {/* 3D floating effect container */}
             <div className="absolute inset-0 float-3d"></div>
-            
+
             <CardHeader className="relative z-10">
               <CardTitle className="flex items-center gap-2">
                 <Star className="h-5 w-5 sm:h-6 sm:w-6 text-gold yantra-rotate flex-shrink-0" />
@@ -411,17 +410,17 @@ const DashboardPage = () => {
                 <Progress value={progress} className="h-3 cosmic-progress" />
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   onClick={() => navigate("/sadhana")}
                   className="interactive shimmer-effect button-hover-effect"
                 >
                   View Practice
                 </Button>
                 {daysRemaining === 0 && (
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => navigate("/sadhana")}
                     className="shimmer cosmic-button button-hover-effect"
                   >
@@ -439,10 +438,10 @@ const DashboardPage = () => {
         {/* Stats Overview - Removed as it's been moved to top */}
         {/* Stats cards have been moved to the top of the dashboard as requested */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {/* Weekly Progress with Enhanced Cosmic Styling */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card 
+          <div className="w-full space-y-6">
+            <Card
               className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
               onMouseEnter={handleCardHover}
               onMouseLeave={handleCardLeave}
@@ -457,8 +456,8 @@ const DashboardPage = () => {
               <CardContent className="relative z-10">
                 <div className="flex items-end justify-between h-32">
                   {weeklyProgress.map((day, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className="flex flex-col items-center gap-2 group"
                       onMouseEnter={(e) => {
                         const bar = e.currentTarget.querySelector('.progress-bar') as HTMLElement;
@@ -474,14 +473,14 @@ const DashboardPage = () => {
                       }}
                     >
                       <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">{day.day}</div>
-                      <div 
+                      <div
                         className="w-6 sm:w-8 bg-gradient-to-t from-purple-500 to-fuchsia-500 rounded-t-sm transition-all duration-300 progress-bar cosmic-progress relative overflow-hidden"
                         style={{ height: `${day.progress}%` }}
                       >
                         {/* Animated particles inside the progress bar */}
                         <div className="absolute inset-0 animate-pulse">
                           {[...Array(3)].map((_, i) => (
-                            <div 
+                            <div
                               key={i}
                               className="absolute rounded-full bg-white/30"
                               style={{
@@ -503,56 +502,7 @@ const DashboardPage = () => {
             </Card>
           </div>
 
-          {/* Quick Actions with Enhanced Button Styling */}
-          <div className="space-y-6">
-            <Card 
-              className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
-              onMouseEnter={handleCardHover}
-              onMouseLeave={handleCardLeave}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5"></div>
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-gold flex-shrink-0" />
-                  Quick Actions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 relative z-10">
-                <Button 
-                  className="w-full justify-start interactive hover:scale-105 transition-transform shimmer-effect button-hover-effect group" 
-                  variant="outline"
-                  onClick={() => navigate("/sadhana")}
-                >
-                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
-                  <span className="group-hover:text-purple-300 transition-colors truncate">Start New Sadhana</span>
-                </Button>
-                <Button 
-                  className="w-full justify-start interactive hover:scale-105 transition-transform shimmer-effect button-hover-effect group" 
-                  variant="outline"
-                  onClick={() => navigate("/library")}
-                >
-                  <BookOpen className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
-                  <span className="group-hover:text-purple-300 transition-colors truncate">Browse Library</span>
-                </Button>
-                <Button 
-                  className="w-full justify-start interactive hover:scale-105 transition-transform shimmer-effect button-hover-effect group" 
-                  variant="outline"
-                  onClick={() => navigate("/settings")}
-                >
-                  <Target className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
-                  <span className="group-hover:text-purple-300 transition-colors truncate">Set Daily Goals</span>
-                </Button>
-                <Button 
-                  className="w-full justify-start interactive hover:scale-105 transition-transform shimmer-effect button-hover-effect group" 
-                  variant="outline"
-                  onClick={() => navigate("/store")}
-                >
-                  <ShoppingCart className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform flex-shrink-0 text-gold" />
-                  <span className="group-hover:text-purple-300 transition-colors truncate">Buy Spiritual Points</span>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+
         </div>
 
 
