@@ -55,7 +55,7 @@
   --landing-glass-shadow: 0 12px 40px rgba(139, 69, 19, 0.15), 0 0 0 1px rgba(255, 215, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
   /* Font Families - Matching landing page */
-  --font-sans: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Chakra Petch', 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Playfair Display', 'Lora', serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 

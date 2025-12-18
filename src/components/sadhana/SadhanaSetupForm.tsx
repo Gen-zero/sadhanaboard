@@ -11,9 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { ArrowLeft, Plus, Trash2, Zap, Sparkles, Target, Calendar as CalendarIcon, Flame, Heart, Hexagon } from "lucide-react";
 import { SadhanaData } from "@/hooks/useSadhanaData";
-import { TransparentGlassMorphismContainer } from "@/components/design/SadhanaDesignComponents";
+import { motion, AnimatePresence } from "framer-motion";
+import { PulsingOMSymbol } from "@/components/design/SadhanaDesignComponents";
+
 
 interface SadhanaSetupFormProps {
   onCreateSadhana: (data: SadhanaData) => void;
@@ -33,6 +36,19 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
       .split("T")[0],
     durationDays: 40,
   });
+
+  const [activeStep, setActiveStep] = useState(0);
+
+
+  const getDurationPreset = (days: number) => {
+    if (days <= 7) return "Sprint";
+    if (days <= 21) return "Challenge";
+    if (days <= 40) return "Discipline";
+    if (days <= 90) return "Mastery";
+    return "Legendary";
+  };
+
+
 
   const addOffering = () => {
     setFormData(prev => ({
@@ -79,29 +95,45 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
   };
 
   return (
-    <TransparentGlassMorphismContainer className="rounded-lg p-4 md:p-6">
+    <div className="w-full max-w-4xl mx-auto backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-amber-500/20 rounded-2xl shadow-xl p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
+        {/* Top Identifier Badge */}
+        <div className="flex items-center justify-center mb-6">
+          <div
+            className="flex items-center gap-2 px-3 py-1 rounded-full border"
+            style={{
+              borderColor: 'rgba(255, 215, 0, 0.25)',
+              backgroundColor: 'rgba(139, 0, 0, 0.25)'
+            }}
+          >
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#FFD700' }} />
+            <span className="text-[10px] uppercase tracking-widest" style={{ color: '#FFFFFF' }}>
+              Interface::Sadhana_Configuration
+            </span>
+          </div>
+        </div>
         <div className="flex items-center gap-2 mb-6 md:mb-8 md:gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={onCancel}
-            className="hover:bg-white/10 h-8 w-8 p-0 md:h-9 md:w-9"
+            className="hover:bg-white/10 h-8 w-8 p-0 md:h-9 md:w-9 text-amber-500 hover:text-amber-400 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <div className="flex-1">
+          <div className="flex-1 text-center">
+            <PulsingOMSymbol size="text-2xl" className="mb-4 mt-2" />
             <h2
               className="text-2xl md:text-3xl font-bold uppercase tracking-wide"
-              style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }}
+              style={{ color: "#FFFFFF", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 255, 255, 0.4)' }}
             >
               Create Your Sacred Sadhana
             </h2>
             <p
-              className="text-sm md:text-base"
-              style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }}
+              className="text-sm md:text-base mt-2"
+              style={{ color: "rgba(255,255,255,0.7)", fontFamily: '"Chakra Petch", sans-serif' }}
             >
-              Fill in your spiritual intentions and divine commitments
+              Configure your spiritual practice parameters
             </p>
           </div>
         </div>
@@ -109,136 +141,274 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
         {/* Mobile-optimized grid layout */}
         <div className="grid grid-cols-1 gap-4 md:gap-6">
           <div className="space-y-4 md:space-y-6">
-            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
-                  Purpose & Goal
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  Why you're on this spiritual journey
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6 space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="purpose" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
-                    Sacred Purpose
-                  </Label>
-                  <Textarea
-                    id="purpose"
-                    value={formData.purpose}
-                    onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
-                    placeholder="What divine intention drives this practice?"
-                    className="min-h-[100px] bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="goal" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
-                    Spiritual Goal
-                  </Label>
-                  <Input
-                    id="goal"
-                    value={formData.goal}
-                    onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
-                    placeholder="What transformation do you seek?"
-                    className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            {/* Purpose & Goal Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="relative group/quote"
+            >
+              <div
+                className="relative p-6 rounded-lg border backdrop-blur-md transition-all duration-300 transform hover:scale-[1.01]"
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderColor: 'rgba(255, 215, 0, 0.19)'
+                }}
+              >
+                <Hexagon className="absolute -top-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -top-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
 
-            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
-                  Divine Connection
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  Your spiritual focal point
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6 space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="deity" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
-                    Deity or Focus
-                  </Label>
-                  <Input
-                    id="deity"
-                    value={formData.deity}
-                    onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
-                    placeholder="Which divine presence guides this practice?"
-                    className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
-                    Personal Message
-                  </Label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                    placeholder="A heartfelt note to your divine self..."
-                    className="min-h-[80px] bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
-                  Sacred Offerings
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  What you dedicate to the divine
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6 space-y-3">
-                {formData.offerings.map((offering, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Input
-                      value={offering}
-                      onChange={(e) => updateOffering(index, e.target.value)}
-                      placeholder={`Offering #${index + 1} (e.g., flowers, incense, silence)`}
-                      className="flex-1 bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                    />
-                    {formData.offerings.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => removeOffering(index)}
-                        className="border-amber-400/30 hover:bg-amber-400/10"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
+                <div className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide" style={{ color: '#FFFFFF' }}>
+                      Purpose & Goal
+                    </h3>
+                    <p className="text-xs text-white/60">Define your spiritual destination</p>
                   </div>
-                ))}
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={addOffering}
-                  className="w-full border-amber-400/30 hover:bg-amber-400/10"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Offering
-                </Button>
-              </CardContent>
-            </Card>
 
-            <Card className="bg-gradient-to-r from-[#DC143C]/50 to-[#8B0000]/50 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 transition-colors shadow-lg shadow-amber-500/10">
-              <CardHeader className="bg-gradient-to-r from-amber-500/5 to-yellow-500/5 border-b border-amber-400/10 p-4 md:p-6">
-                <CardTitle style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif', textShadow: '0 0 8px rgba(255, 215, 0, 0.6)' }} className="text-lg md:text-xl uppercase tracking-wide">
-                  Practice Duration
-                </CardTitle>
-                <CardDescription style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-xs md:text-sm">
-                  How long you commit to this sacred journey
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    <Label htmlFor="purpose" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      Sacred Purpose
+                    </Label>
+                    <Textarea
+                      id="purpose"
+                      value={formData.purpose}
+                      onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
+                      placeholder="What divine intention drives this practice?"
+                      className="min-h-[100px] bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white placeholder:text-white/30 transition-all"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="goal" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium flex items-center gap-2">
+                      <Zap className="w-4 h-4" />
+                      Spiritual Goal
+                    </Label>
+                    <Input
+                      id="goal"
+                      value={formData.goal}
+                      onChange={(e) => setFormData(prev => ({ ...prev, goal: e.target.value }))}
+                      placeholder="What transformation do you seek?"
+                      className="bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white placeholder:text-white/30 transition-all"
+                    />
+                  </div>
+                </div>
+
+                <Hexagon className="absolute -bottom-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -bottom-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+              </div>
+            </motion.div>
+
+            {/* Divine Connection Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="relative group/quote"
+            >
+              <div
+                className="relative p-6 rounded-lg border backdrop-blur-md transition-all duration-300 transform hover:scale-[1.01]"
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderColor: 'rgba(255, 215, 0, 0.19)'
+                }}
+              >
+                <Hexagon className="absolute -top-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -top-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+
+                <div className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide" style={{ color: '#FFFFFF' }}>
+                      Divine Connection
+                    </h3>
+                    <p className="text-xs text-white/60">Your spiritual focal point</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="deity" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                      Deity or Focus
+                    </Label>
+                    <Input
+                      id="deity"
+                      value={formData.deity}
+                      onChange={(e) => setFormData(prev => ({ ...prev, deity: e.target.value }))}
+                      placeholder="Which divine presence guides this practice?"
+                      className="bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white placeholder:text-white/30 transition-all"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                      Personal Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      value={formData.message}
+                      onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                      placeholder="A heartfelt note to your divine self..."
+                      className="min-h-[80px] bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white placeholder:text-white/30 transition-all"
+                    />
+                  </div>
+                </div>
+
+                <Hexagon className="absolute -bottom-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -bottom-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+              </div>
+            </motion.div>
+
+            {/* Sacred Offerings Card - Matching design */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              className="relative group/quote"
+            >
+              <div
+                className="relative p-6 rounded-lg border backdrop-blur-md transition-all duration-300 transform hover:scale-[1.01]"
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderColor: 'rgba(255, 215, 0, 0.19)'
+                }}
+              >
+                <Hexagon className="absolute -top-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -top-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+
+                <div className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide" style={{ color: '#FFFFFF' }}>
+                      Sacred Offerings
+                    </h3>
+                    <p className="text-xs text-white/60">What you dedicate to the divine</p>
+                  </div>
+
+                  {formData.offerings.map((offering, index) => (
+                    <div key={index} className="flex gap-2">
+                      <Input
+                        value={offering}
+                        onChange={(e) => updateOffering(index, e.target.value)}
+                        placeholder={`Offering #${index + 1} (e.g., flowers, incense, silence)`}
+                        className="flex-1 bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white placeholder:text-white/30 transition-all"
+                      />
+                      {formData.offerings.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => removeOffering(index)}
+                          className="bg-black/20 border-red-400/20 hover:bg-red-500/20 hover:border-red-500/50 text-white"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addOffering}
+                    className="w-full bg-black/20 border-amber-500/20 hover:bg-amber-500/10 text-amber-500 hover:text-amber-400 mt-2"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Offering
+                  </Button>
+                </div>
+
+                <Hexagon className="absolute -bottom-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -bottom-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+              </div>
+            </motion.div>
+
+            {/* Practice Duration Card - WITH SLIDERS */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="relative group/quote"
+            >
+              <div
+                className="relative p-6 rounded-lg border backdrop-blur-md transition-all duration-300 transform hover:scale-[1.01]"
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  borderColor: 'rgba(255, 215, 0, 0.19)'
+                }}
+              >
+                <Hexagon className="absolute -top-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -top-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+
+                <div className="space-y-6">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide" style={{ color: '#FFFFFF' }}>
+                      Practice Duration
+                    </h3>
+                    <p className="text-xs text-white/60">Configure your sacred journey timeline</p>
+                  </div>
+
+                  {/* Duration Slider */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium flex items-center gap-2">
+                        <Flame className="w-4 h-4" />
+                        Duration
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        <motion.span
+                          key={formData.durationDays}
+                          initial={{ scale: 1.3, color: "#FFFFFF" }}
+                          animate={{ scale: 1, color: "#FFFFFF" }}
+                          className="text-2xl font-bold"
+                          style={{ fontFamily: '"Chakra Petch", sans-serif' }}
+                        >
+                          {formData.durationDays}
+                        </motion.span>
+                        <span className="text-sm text-white/60">days</span>
+                      </div>
+                    </div>
+
+                    {/* Interactive Slider */}
+                    <div className="relative">
+                      <Slider
+                        value={[formData.durationDays]}
+                        onValueChange={(value) => {
+                          const durationDays = value[0];
+                          const endDate = new Date(formData.startDate);
+                          endDate.setDate(endDate.getDate() + durationDays);
+                          setFormData(prev => ({
+                            ...prev,
+                            durationDays,
+                            endDate: endDate.toISOString().split('T')[0]
+                          }));
+                        }}
+                        min={1}
+                        max={365}
+                        step={1}
+                        className="w-full"
+                      />
+                      {/* Preset markers */}
+                      <div className="flex justify-between mt-2 text-xs" style={{ color: "rgba(255,255,255,0.4)", fontFamily: '"Chakra Petch", sans-serif' }}>
+                        <span>1d</span>
+                        <span>40d</span>
+                        <span>90d</span>
+                        <span>180d</span>
+                        <span>365d</span>
+                      </div>
+                    </div>
+
+                    {/* Duration Preset Badge */}
+                    <motion.div
+                      key={getDurationPreset(formData.durationDays)}
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400/30"
+                    >
+                      <Zap className="w-4 h-4 text-amber-400" />
+                      <span className="text-sm font-bold" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }}>
+                        {getDurationPreset(formData.durationDays)}
+                      </span>
+                    </motion.div>
+                  </div>
+
+                  {/* Start Date */}
+                  <div className="space-y-2">
+                    <Label htmlFor="startDate" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
                       Start Date
                     </Label>
                     <Input
@@ -255,63 +425,74 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
                           endDate: endDate.toISOString().split('T')[0]
                         }));
                       }}
-                      className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
+                      className="bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white color-scheme-dark transition-all"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="duration" style={{ color: "hsl(45 100% 50%)", fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
-                      Duration (Days)
-                    </Label>
-                    <Input
-                      id="duration"
-                      type="number"
-                      min="1"
-                      max="365"
-                      value={formData.durationDays}
-                      onChange={(e) => {
-                        const durationDays = parseInt(e.target.value) || 1;
-                        const endDate = new Date(formData.startDate);
-                        endDate.setDate(endDate.getDate() + durationDays);
-                        setFormData(prev => ({
-                          ...prev,
-                          durationDays,
-                          endDate: endDate.toISOString().split('T')[0]
-                        }));
-                      }}
-                      className="bg-background/50 border-amber-400/30 focus:border-amber-400/60 focus:ring-amber-400/30"
-                    />
+
+                  {/* End Date Display */}
+                  <div className="p-4 rounded-lg bg-gradient-to-r from-amber-500/10 to-red-500/10 border border-amber-400/20">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm" style={{ color: "rgba(255,255,255,0.6)", fontFamily: '"Chakra Petch", sans-serif' }}>
+                        End Date:
+                      </span>
+                      <span className="text-lg font-bold" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }}>
+                        {new Date(formData.endDate).toLocaleDateString()}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-amber-400/20">
-                  <p className="text-sm" style={{ color: "hsl(210 40% 80%)", fontFamily: '"Chakra Petch", sans-serif' }}>
-                    End Date: {new Date(formData.endDate).toLocaleDateString()}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+
+                <Hexagon className="absolute -bottom-3 -left-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+                <Hexagon className="absolute -bottom-3 -right-3 w-6 h-6 fill-black" style={{ color: '#FFD700' }} />
+              </div>
+            </motion.div>
+
+
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onCancel}
-              className="flex-1 border-amber-400/30 hover:bg-amber-400/10"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={!validateForm()}
-              className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
-            >
-              Create Sacred Commitment
-            </Button>
-          </div>
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="pt-10 space-y-4"
+          >
+            <p className="text-sm uppercase tracking-widest animate-pulse text-center" style={{ color: '#FFFFFF' }}>
+              Ready to manifest your spiritual intentions?
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                className="flex-1 border-amber-400/30 hover:bg-red-500/10 hover:border-red-400/50 text-white bg-black/20 transition-all"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={!validateForm()}
+                size="lg"
+                className="flex-1 relative overflow-hidden group/btn px-10 py-6 rounded-none clip-path-polygon disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  background: 'linear-gradient(135deg, #DC143C 0%, #8B0000 100%)',
+                  border: '1px solid rgba(255, 215, 0, 0.31)'
+                }}
+              >
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-center gap-3 relative z-10">
+                  <Zap className="w-5 h-5 fill-current" />
+                  <span className="text-lg font-bold tracking-wider">CREATE_SADHANA</span>
+                  <Sparkles className="w-5 h-5 fill-current" />
+                </div>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </TransparentGlassMorphismContainer>
+    </div>
   );
 };
 

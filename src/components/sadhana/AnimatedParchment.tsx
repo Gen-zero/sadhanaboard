@@ -9,8 +9,8 @@ interface AnimatedParchmentProps {
   isCompleted?: boolean;
 }
 
-const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({ 
-  content, 
+const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
+  content,
   onComplete,
   isCompleted = false
 }) => {
@@ -70,7 +70,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
     unrollTimeoutRef.current = setTimeout(() => {
       setIsUnrolled(true);
     }, 100);
-    
+
     return () => {
       if (unrollTimeoutRef.current) {
         clearTimeout(unrollTimeoutRef.current);
@@ -160,7 +160,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
 
       {/* Burning effect overlay */}
       {isBurning && (
-        <div 
+        <div
           className="absolute inset-0 rounded-lg pointer-events-none z-20"
           style={{
             background: `linear-gradient(to top, 
@@ -215,9 +215,8 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`relative rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${
-          isUnrolled ? 'parchment-unroll' : ''
-        }`}
+        className={`relative rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${isUnrolled ? 'parchment-unroll' : ''
+          }`}
         style={{
           background: 'linear-gradient(145deg, rgba(220, 38, 38, 0.05) 0%, rgba(220, 38, 38, 0.08) 30%, rgba(220, 38, 38, 0.04) 70%, rgba(220, 38, 38, 0.06) 100%)',
           borderColor: isInitializing ? 'rgba(220, 38, 38, 0.6)' : 'rgba(220, 38, 38, 0.3)',
@@ -249,7 +248,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         )}
 
         {/* Metallic overlay gradient */}
-        <div 
+        <div
           className="absolute inset-0 rounded-2xl pointer-events-none"
           style={{
             background: `
@@ -264,9 +263,9 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             opacity: 0.5
           }}
         />
-        
+
         {/* Enhanced ornate corners with initialization glow */}
-        <div 
+        <div
           className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
           style={{
             borderColor: 'rgba(255, 215, 0, 0.8)',
@@ -274,7 +273,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             transition: 'filter 0.3s'
           }}
         />
-        <div 
+        <div
           className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
           style={{
             borderColor: 'rgba(255, 215, 0, 0.8)',
@@ -282,7 +281,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             transition: 'filter 0.3s'
           }}
         />
-        <div 
+        <div
           className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
           style={{
             borderColor: 'rgba(255, 215, 0, 0.8)',
@@ -290,7 +289,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             transition: 'filter 0.3s'
           }}
         />
-        <div 
+        <div
           className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
           style={{
             borderColor: 'rgba(255, 215, 0, 0.8)',
@@ -298,7 +297,7 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             transition: 'filter 0.3s'
           }}
         />
-        
+
         {/* Header */}
         <div className="text-center mb-4 relative z-10">
           <motion.h3
@@ -404,19 +403,9 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
           </div>
         )}
       </motion.div>
-      
+
       {/* Floating spiritual elements */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.8, scale: 1 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute -top-2 md:-top-3 -right-2 md:-right-3 text-xl md:text-2xl animate-pulse"
-        style={{
-          filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))'
-        }}
-      >
-        🌸
-      </motion.div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 0.8, scale: 1 }}

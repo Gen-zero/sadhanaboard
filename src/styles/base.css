@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-apple;
+    @apply bg-background text-foreground font-chakra;
     /* cursor: none; */
     /* Hide default cursor for custom cursor - commented out to show normal cursor */
     overflow-x: hidden;
@@ -48,6 +48,10 @@
 
 .font-apple {
   font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.font-chakra {
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 /* Cosmic background for the entire app */

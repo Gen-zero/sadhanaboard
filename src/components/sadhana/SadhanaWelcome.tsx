@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Hexagon, ArrowRight, Zap } from 'lucide-react';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { TransparentGlassMorphismContainer, PulsingOMSymbol, StatusIndicator } from '@/components/design/SadhanaDesignComponents';
+import { PulsingOMSymbol, StatusIndicator } from '@/components/design/SadhanaDesignComponents';
 
 interface SadhanaWelcomeProps {
   onStartSadhana: () => void;
@@ -12,7 +12,7 @@ const SadhanaWelcome = ({ onStartSadhana }: SadhanaWelcomeProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <TransparentGlassMorphismContainer className="w-full max-w-4xl mx-auto p-4 md:p-8">
+    <div className="w-full max-w-4xl mx-auto backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-amber-500/20 rounded-2xl shadow-xl p-4 md:p-8">
       <div className="flex flex-col items-center text-center px-6 py-12 md:py-16">
         {/* Top Identifier Badge */}
         <div
@@ -33,20 +33,22 @@ const SadhanaWelcome = ({ onStartSadhana }: SadhanaWelcomeProps) => {
           {/* Animated Icon - Using our new component */}
           <PulsingOMSymbol size="text-4xl" />
 
-          {/* Typography */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
-              Begin Your Sacred
-            </span>
-            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
-              Journey
-            </span>
-          </h1>
+          {/* Typography with localized blur */}
+          <div className="backdrop-blur-md bg-black/20 rounded-xl p-6 border border-white/5 relative overflow-hidden transition-all hover:bg-black/30">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
+                Begin Your Sacred
+              </span>
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
+                Journey
+              </span>
+            </h1>
 
-          <p className="text-lg md:text-xl font-light leading-relaxed max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.7)' }}>
-            A Sadhana is a spiritual practice that connects you with the divine.
-            Create your personal sacred commitment and let the universe guide your path.
-          </p>
+            <p className="text-lg md:text-xl font-light leading-relaxed max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              A Sadhana is a spiritual practice that connects you with the divine.
+              Create your personal sacred commitment and let the universe guide your path.
+            </p>
+          </div>
 
           {/* Quote Box - Tech Style */}
           <div className="relative mt-8 group/quote">
@@ -100,7 +102,7 @@ const SadhanaWelcome = ({ onStartSadhana }: SadhanaWelcomeProps) => {
         {/* Footer Status Line - Using our new component */}
         <StatusIndicator />
       </div>
-    </TransparentGlassMorphismContainer>
+    </div>
   );
 };
 

@@ -20,13 +20,13 @@ export const SacredCircuitPattern = ({ color = theme.primary }: { color?: string
         <path d="M30 0 L30 10 M30 50 L30 60 M0 30 L10 30 M50 30 L60 30" stroke={color} strokeWidth="1" />
         <rect x="25" y="25" width="10" height="10" transform="rotate(45 30 30)" fill="none" stroke={color} strokeWidth="1" />
         <circle cx="30" cy="30" r="2" fill={color} />
-        
+
         {/* Connecting dots */}
         <circle cx="30" cy="10" r="1.5" fill={color} opacity="0.5" />
         <circle cx="30" cy="50" r="1.5" fill={color} opacity="0.5" />
         <circle cx="10" cy="30" r="1.5" fill={color} opacity="0.5" />
         <circle cx="50" cy="30" r="1.5" fill={color} opacity="0.5" />
-        
+
         {/* Diagonal Lines */}
         <path d="M10 10 L20 20" stroke={color} strokeWidth="0.5" opacity="0.4" />
         <path d="M50 10 L40 20" stroke={color} strokeWidth="0.5" opacity="0.4" />
@@ -39,10 +39,10 @@ export const SacredCircuitPattern = ({ color = theme.primary }: { color?: string
 );
 
 // Corner Bracket Component
-export const CornerBracket = ({ 
-  position, 
-  color = theme.accent 
-}: { 
+export const CornerBracket = ({
+  position,
+  color = theme.accent
+}: {
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   color?: string;
 }) => {
@@ -66,14 +66,16 @@ export const CornerBracket = ({
 };
 
 // Glass Morphism Container Component
-export const GlassMorphismContainer = ({ 
+export const GlassMorphismContainer = ({
   children,
   className = '',
-  transparent = false
-}: { 
+  transparent = false,
+  simple = false
+}: {
   children: React.ReactNode;
   className?: string;
   transparent?: boolean;
+  simple?: boolean;
 }) => {
   return (
     <div
@@ -88,19 +90,16 @@ export const GlassMorphismContainer = ({
       {/* Stable blur layer - only shown when not transparent */}
       {!transparent && (
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none backdrop-blur-2xl"
           style={{
             background: 'rgba(10, 10, 12, 0.55)',
-            backdropFilter: 'blur(16px) saturate(140%)',
-            WebkitBackdropFilter: 'blur(16px) saturate(140%)',
-            willChange: 'backdrop-filter, transform',
             transform: 'translateZ(0)'
           }}
         />
       )}
-      
-      {/* Background Effects - only shown when not transparent */}
-      {!transparent && (
+
+      {/* Background Effects - only shown when not transparent AND not simple */}
+      {!transparent && !simple && (
         <div
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
@@ -109,14 +108,14 @@ export const GlassMorphismContainer = ({
           }}
         />
       )}
-      
-      {/* Circuit Pattern Overlay - only shown when not transparent */}
-      {!transparent && (
+
+      {/* Circuit Pattern Overlay - only shown when not transparent AND not simple */}
+      {!transparent && !simple && (
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <SacredCircuitPattern color={theme.primary} />
         </div>
       )}
-      
+
       {/* Tech Border Frame - only shown when not transparent */}
       {!transparent && (
         <div
@@ -127,13 +126,13 @@ export const GlassMorphismContainer = ({
           }}
         />
       )}
-      
+
       {/* Corner Brackets */}
       <CornerBracket position="top-left" color={theme.accent} />
       <CornerBracket position="top-right" color={theme.accent} />
       <CornerBracket position="bottom-left" color={theme.accent} />
       <CornerBracket position="bottom-right" color={theme.accent} />
-      
+
       <div className="relative z-30">
         {children}
       </div>
@@ -141,10 +140,10 @@ export const GlassMorphismContainer = ({
   );
 };
 // Transparent Glass Morphism Container Component
-export const TransparentGlassMorphismContainer = ({ 
+export const TransparentGlassMorphismContainer = ({
   children,
   className = ''
-}: { 
+}: {
   children: React.ReactNode;
   className?: string;
 }) => {
@@ -156,54 +155,54 @@ export const TransparentGlassMorphismContainer = ({
 };
 
 // Pulsing OM Symbol Component
-export const PulsingOMSymbol = ({ size = 'text-4xl' }: { size?: string }) => {
+export const PulsingOMSymbol = ({ size = 'text-4xl', className = '' }: { size?: string; className?: string }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
-    <div 
-      className="relative mx-auto flex items-center justify-center"
+    <div
+      className={`relative mx-auto w-fit flex items-center justify-center ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        className="absolute inset-0 rounded-full animate-ping opacity-20" 
+      <div
+        className="absolute inset-0 rounded-full animate-ping opacity-20"
         style={{ backgroundColor: theme.primary }}
       />
-      <div 
-        className="relative z-10 p-5 rounded-full border border-white/10 flex items-center justify-center"
+      <div
+        className="relative z-10 p-4 rounded-full border border-white/10 flex items-center justify-center"
         style={{ backgroundColor: `${theme.bg}80` }}
       >
-        <span 
+        <span
           className={`${size} leading-none transition-all duration-300`}
-          style={{ 
-            color: theme.accent,
+          style={{
+            color: '#FFFFFF',
             transform: isHovered ? 'scale(1.1)' : 'scale(1)'
           }}
         >
           ॐ
         </span>
       </div>
-      
+
       {/* Orbital Rings */}
-      <div 
+      <div
         className="absolute inset-0 border border-white/5 rounded-full animate-spin-slow-reverse transition-all duration-500"
-        style={{ 
-          width: '140%', 
-          height: '140%', 
-          left: '-20%', 
-          top: '-20%',
+        style={{
+          width: '130%',
+          height: '130%',
+          left: '-15%',
+          top: '-15%',
           opacity: isHovered ? 0.7 : 0.4
-        }} 
+        }}
       />
     </div>
   );
 };
 
 // Status Indicator Component
-export const StatusIndicator = ({ 
+export const StatusIndicator = ({
   status = 'System_Online',
   version = 'v2.0.4_Stable'
-}: { 
+}: {
   status?: string;
   version?: string;
 }) => {
