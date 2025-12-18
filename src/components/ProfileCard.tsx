@@ -8,7 +8,7 @@ import {
   User, 
   Users, 
   MapPin, 
-  Calendar, 
+
   TrendingUp, 
   PawPrint, 
   Award,
@@ -157,7 +157,7 @@ const ProfileCard = () => {
 
             {profileData.date_of_birth && (
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-amber-500" />
+
                 <span className="text-sm">
                   {new Date(profileData.date_of_birth).toLocaleDateString()}
                 </span>

@@ -23,7 +23,6 @@ interface AndroidMobileComponents {
   AndroidButton: typeof AndroidButton;
   AndroidCard: typeof AndroidCard;
   AndroidAppBar: typeof AndroidAppBar;
-  AndroidBottomNav: typeof AndroidBottomNav;
   AndroidListItem: typeof AndroidListItem;
   AndroidSwitch: typeof AndroidSwitch;
   AndroidCheckbox: typeof AndroidCheckbox;
@@ -153,65 +152,7 @@ export const AndroidAppBar = ({
   );
 };
 
-// Android-like Bottom Navigation Component
-interface BottomNavItem {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  activeIcon?: React.ReactNode;
-}
 
-interface AndroidBottomNavProps {
-  items: BottomNavItem[];
-  activeItem: string;
-  onItemClick: (id: string) => void;
-  className?: string;
-}
-
-export const AndroidBottomNav = ({
-  items,
-  activeItem,
-  onItemClick,
-  className = ''
-}: AndroidBottomNavProps) => {
-  const { colors } = useThemeColors();
-  
-  return (
-    <div className={`bottom-nav ${className}`} 
-      style={{
-        background: `linear-gradient(135deg, hsl(${colors.primary}/0.85), hsl(${colors.secondary}/0.95))`,
-        border: `1px solid hsl(${colors.accent}/0.3)`
-      }}>
-      {items.map((item) => (
-        <button
-          key={item.id}
-          className={`bottom-nav-item ${activeItem === item.id ? 'active' : ''}`}
-          onClick={() => onItemClick(item.id)}
-          aria-label={item.label}
-          style={{
-            color: activeItem === item.id 
-              ? `hsl(${colors.accent})` 
-              : `hsl(${colors.foreground}/0.7)`
-          }}
-        >
-          <div className="bottom-nav-item-icon flex items-center justify-center mx-auto">
-            {activeItem === item.id && item.activeIcon ? item.activeIcon : item.icon}
-          </div>
-          <div className="bottom-nav-item-label flex items-center justify-center mx-auto text-center w-full">{item.label}</div>
-          {activeItem === item.id && (
-            <div 
-              className="absolute -top-1 w-6 h-1 rounded-full shadow-lg mx-auto left-1/2 transform -translate-x-1/2"
-              style={{
-                background: `linear-gradient(90deg, hsl(${colors.accent}), hsl(${colors.accent}/0.8))`,
-                boxShadow: `0 0 8px hsl(${colors.accent}/0.5)`
-              }}
-            />
-          )}
-        </button>
-      ))}
-    </div>
-  );
-};
 
 // Android-like List Item Component
 interface AndroidListItemProps {
@@ -715,7 +656,6 @@ const AndroidMobileComponents = {
   AndroidButton,
   AndroidCard,
   AndroidAppBar,
-  AndroidBottomNav,
   AndroidListItem,
   AndroidSwitch,
   AndroidCheckbox,

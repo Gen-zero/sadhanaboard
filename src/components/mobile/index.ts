@@ -20,7 +20,6 @@ export {
   AndroidButton,
   AndroidCard,
   AndroidAppBar,
-  AndroidBottomNav,
   AndroidListItem,
   AndroidSwitch,
   AndroidCheckbox,

@@ -11,7 +11,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { Eye, Pencil, RotateCcw, CheckCircle, XCircle, Calendar, AlertTriangle } from 'lucide-react';
+import { Eye, Pencil, RotateCcw, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 
 const SaadhanaBoard = () => {
@@ -170,7 +170,6 @@ const SaadhanaBoard = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-sm">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 text-foreground/80">
-                      <Calendar className="h-4 w-4" />
                       <span>Day {daysCompleted} of {sadhanaData.durationDays}</span>
                     </div>
                     {sadhanaState.status === 'active' && (

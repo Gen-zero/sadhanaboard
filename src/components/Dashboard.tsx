@@ -13,7 +13,7 @@ import {
   RefreshCw, 
   Target, 
   Flame, 
-  Calendar, 
+
   CheckCircle, 
   BookOpen, 
   TrendingUp, 
@@ -493,7 +493,7 @@ const Dashboard = () => {
             <div className="space-y-4">
               <div className="bg-secondary/30 p-4 rounded-lg">
                 <h3 className="font-medium flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
+                  
                   Today's Intention
                 </h3>
                 <p className="text-muted-foreground mt-1 italic">

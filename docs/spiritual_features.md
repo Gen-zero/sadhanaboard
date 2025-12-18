@@ -65,11 +65,9 @@ SadhanaBoard is a comprehensive spiritual productivity and mindfulness applicati
 - **Visualization Techniques**: Guided visualization for deeper meditation states
 - **Practice Recommendations**: Personalized meditation suggestions based on progress
 
-### 11. Divine Calendar
-- **Festival Tracking**: Never miss important spiritual festivals and observances
-- **Practice Scheduling**: Plan spiritual practices around significant dates
+### 11. Practice Scheduling
+- **Practice Planning**: Plan spiritual practices around significant dates
 - **Reminder System**: Receive notifications for important spiritual events
-- **Cultural Integration**: Connect with traditions from various spiritual paths
 
 ### 12. Gamification Elements
 - **Achievement System**: Earn recognition for spiritual milestones

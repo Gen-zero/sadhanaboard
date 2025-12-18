@@ -5,7 +5,7 @@ import {
   Mail, 
   Lock, 
   Phone, 
-  Calendar, 
+
   Globe, 
   Settings,
   CheckCircle2,
@@ -245,7 +245,7 @@ const ValidationDemo: React.FC = () => {
                 type="text"
                 placeholder="YYYY-MM-DD"
                 required
-                icon={<Calendar />}
+
                 helpText="You must be at least 13 years old"
                 {...getFieldProps('dateOfBirth')}
               />

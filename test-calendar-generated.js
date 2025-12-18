@@ -1,17 +1,21 @@
-import { MonthData, PanchangDay } from "../types";
+
+const mockLocalStorage = {"data":{}};
+const console = { log: (...args) => process.stdout.write(args.join(' ') + '\n'), warn: (...args) => process.stderr.write(args.join(' ') + '\n'), error: (...args) => process.stderr.write(args.join(' ') + '\n') };
+
+
 
 const CACHE_PREFIX = 'kali_panchang_data_v2_';
 
 // Helper to determine day of week for the 1st of the month to pad the grid
-export const getStartPadding = (year: number, monthIndex: number): number => {
+const getStartPadding = (year, monthIndex) => {
   return new Date(year, monthIndex, 1).getDay();
 };
 
-export const getDaysInMonth = (year: number, monthIndex: number): number => {
+const getDaysInMonth = (year, monthIndex) => {
   return new Date(year, monthIndex + 1, 0).getDate();
 };
 
-const getCacheKey = (year: number, monthIndex: number): string => {
+const getCacheKey = (year, monthIndex) => {
   return `${CACHE_PREFIX}${year}_${monthIndex}`;
 };
 
@@ -49,7 +53,7 @@ const MOON_SIGNS = [
 ];
 
 // Major Hindu festivals (simplified)
-const MAJOR_FESTIVALS: Record<string, string[]> = {
+const MAJOR_FESTIVALS<string, string[]> = {
   "01-01": ["New Year"],
   "01-14": ["Makar Sankranti"],
   "01-15": ["Pongal"],
@@ -74,67 +78,82 @@ const MAJOR_FESTIVALS: Record<string, string[]> = {
 };
 
 // Approximate sunrise/sunset times for New Delhi (hours:minutes)
-const getSunTimes = (month: number, day: number): { sunrise: string; sunset: string } => {
+const getSunTimes = (month, day): { sunrise; sunset } => {
   // Approximate values based on seasonal variations
+  // Note is 0-indexed, so this mapping is correct
   const sunTimes = [
-    { rise: "07:10", set: "17:45" }, // January
-    { rise: "06:55", set: "18:15" }, // February
-    { rise: "06:25", set: "18:35" }, // March
-    { rise: "05:55", set: "18:50" }, // April
-    { rise: "05:25", set: "19:05" }, // May
-    { rise: "05:10", set: "19:20" }, // June
-    { rise: "05:20", set: "19:15" }, // July
-    { rise: "05:40", set: "18:55" }, // August
-    { rise: "06:00", set: "18:25" }, // September
-    { rise: "06:20", set: "17:50" }, // October
-    { rise: "06:45", set: "17:30" }, // November
-    { rise: "07:05", set: "17:35" }  // December
+    { rise: "07:10", set: "17:45" }, // January (month 0)
+    { rise: "06:55", set: "18:15" }, // February (month 1)
+    { rise: "06:25", set: "18:35" }, // March (month 2)
+    { rise: "05:55", set: "18:50" }, // April (month 3)
+    { rise: "05:25", set: "19:05" }, // May (month 4)
+    { rise: "05:10", set: "19:20" }, // June (month 5)
+    { rise: "05:20", set: "19:15" }, // July (month 6)
+    { rise: "05:40", set: "18:55" }, // August (month 7)
+    { rise: "06:00", set: "18:25" }, // September (month 8)
+    { rise: "06:20", set: "17:50" }, // October (month 9)
+    { rise: "06:45", set: "17:30" }, // November (month 10)
+    { rise: "07:05", set: "17:35" }  // December (month 11)
   ];
   
+  // Ensure month is within bounds
+  const normalizedMonth = Math.max(0, Math.min(11, month));
+  
   return {
-    sunrise: sunTimes[month].rise,
-    sunset: sunTimes[month].set
+    sunrise[normalizedMonth].rise,
+    sunset[normalizedMonth].set
   };
 };
 
 // Calculate approximate Tithi for a given date
-const calculateTithi = (year: number, month: number, day: number): { name: string; paksha: 'Shukla' | 'Krishna' } => {
-  // Simplified calculation based on lunar cycle
+const calculateTithi = (year, month, day): { name; paksha: 'Shukla' | 'Krishna' } => {
+  // Improved calculation based on lunar cycle
   // In reality, this would require complex astronomical calculations
   const daysSinceEpoch = Math.floor((new Date(year, month, day).getTime() - new Date(2024, 0, 1).getTime()) / (1000 * 60 * 60 * 24));
-  const lunarPhase = (daysSinceEpoch % 29.5 + 29.5) % 29.5; // 0-29.5 day cycle
   
-  const tithiIndex = Math.floor(lunarPhase / (29.5 / 30)); // Scale to 0-29
+  // Calculate lunar phase (0-359 degrees)
+  const lunarPhase = ((daysSinceEpoch * 12.195) % 360 + 360) % 360; // ~12.195 degrees per day
   
-  if (tithiIndex < 15) {
+  // Convert to tithi index (0-29)
+  const tithiIndex = Math.floor(lunarPhase / 12); // Each tithi is ~12 degrees
+  
+  // Ensure tithiIndex is within bounds
+  const normalizedTithiIndex = tithiIndex % 30;
+  
+  if (normalizedTithiIndex < 15) {
     return {
-      name: SHUKLA_TITHIS[tithiIndex],
+      name[normalizedTithiIndex],
       paksha: 'Shukla'
     };
   } else {
     return {
-      name: KRISHNA_TITHIS[tithiIndex - 15],
+      name[normalizedTithiIndex - 15],
       paksha: 'Krishna'
     };
   }
 };
 
 // Calculate approximate Nakshatra for a given date
-const calculateNakshatra = (year: number, month: number, day: number): string => {
+const calculateNakshatra = (year, month, day) => {
   const daysSinceEpoch = Math.floor((new Date(year, month, day).getTime() - new Date(2024, 0, 1).getTime()) / (1000 * 60 * 60 * 24));
-  const nakshatraIndex = daysSinceEpoch % 27;
-  return NAKSHATRAS[nakshatraIndex];
+  // Each nakshatra is approximately 13.33 degrees, and the moon moves ~13.17 degrees per day
+  const nakshatraProgress = (daysSinceEpoch * 13.17) % 360;
+  const nakshatraIndex = Math.floor(nakshatraProgress / (360 / 27));
+  return NAKSHATRAS[nakshatraIndex % 27];
 };
 
 // Calculate approximate Moon Sign for a given date
-const calculateMoonSign = (year: number, month: number, day: number): string => {
+const calculateMoonSign = (year, month, day) => {
   const daysSinceEpoch = Math.floor((new Date(year, month, day).getTime() - new Date(2024, 0, 1).getTime()) / (1000 * 60 * 60 * 24));
-  const moonSignIndex = daysSinceEpoch % 12;
-  return MOON_SIGNS[moonSignIndex];
+  // The moon spends approximately 2.5 days in each sign (30°/12.195° per day)
+  const moonSignProgress = (daysSinceEpoch * 12.195) % 360;
+  const moonSignIndex = Math.floor(moonSignProgress / 30);
+  return MOON_SIGNS[moonSignIndex % 12];
 };
 
 // Get festivals for a given date
-const getFestivals = (month: number, day: number): string[] => {
+const getFestivals = (month, day)[] => {
+  // Month is 0-indexed, so we need to add 1 for the lookup
   const monthStr = (month + 1).toString().padStart(2, '0');
   const dayStr = day.toString().padStart(2, '0');
   const key = `${monthStr}-${dayStr}`;
@@ -143,7 +162,7 @@ const getFestivals = (month: number, day: number): string[] => {
 };
 
 // Generate a single day's panchang data
-const generateDayData = (year: number, month: number, day: number): PanchangDay => {
+const generateDayData = (year, month, day) => {
   const dateObj = new Date(year, month, day);
   const dayOfWeek = dayNames[dateObj.getDay()];
   
@@ -157,11 +176,13 @@ const generateDayData = (year: number, month: number, day: number): PanchangDay 
   const isHoliday = dayOfWeek === "Sunday" || festivals.length > 0;
   
   return {
-    date: day,
+    date,
+    month,
+    year,
     dayOfWeek,
     tithi,
     nakshatra: {
-      name: nakshatra
+      name
     },
     sunrise,
     sunset,
@@ -176,27 +197,35 @@ const generateDayData = (year: number, month: number, day: number): PanchangDay 
 };
 
 // Convert Gregorian year to Vikram Samvat
-const toVikramSamvat = (year: number): number => {
+const toVikramSamvat = (year) => {
   // Vikram Samvat is approximately 57 years ahead of Gregorian calendar
   return year + 57;
 };
 
-export const generatePanchangData = async (year: number, monthIndex: number): Promise<MonthData> => {
+const generatePanchangData = (year, monthIndex)<MonthData> => {
   // 1. Check Local Storage Cache
   const cacheKey = getCacheKey(year, monthIndex);
   try {
-    const cachedData = localStorage.getItem(cacheKey);
+    const cachedData = mockLocalStorage.getItem(cacheKey);
     if (cachedData) {
-      const parsed = JSON.parse(cachedData) as MonthData;
-      // Simple validation to ensure it's not a corrupt empty object
-      if (parsed.year === year && parsed.days && parsed.days.length > 0) {
-        // Return a promise that resolves immediately to mimic async behavior
+      const parsed = JSON.parse(cachedData) ;
+      // Robust validation to ensure it's properly structured data
+      if (parsed.year === year && 
+          parsed.monthName && 
+          parsed.days && 
+          Array.isArray(parsed.days) && 
+          parsed.days.length > 0 &&
+          parsed.days[0].date !== undefined) {
+        // Return a promise that resolves immediately to mimic behavior
         return Promise.resolve(parsed);
+      } else {
+        // Invalid cache data, remove it
+        mockLocalStorage.removeItem(cacheKey);
       }
     }
   } catch (e) {
     console.warn("Failed to read from cache", e);
-    localStorage.removeItem(cacheKey); // Clear corrupt data
+    mockLocalStorage.removeItem(cacheKey); // Clear corrupt data
   }
 
   // 2. Generate data locally without external API calls
@@ -205,12 +234,12 @@ export const generatePanchangData = async (year: number, monthIndex: number): Pr
     const samvat = toVikramSamvat(year).toString();
     const daysInMonth = getDaysInMonth(year, monthIndex);
     
-    const days: PanchangDay[] = [];
+    const days[] = [];
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(generateDayData(year, monthIndex, day));
     }
     
-    const data: MonthData = {
+    const data = {
       monthName,
       year,
       samvat,
@@ -219,7 +248,7 @@ export const generatePanchangData = async (year: number, monthIndex: number): Pr
     
     // 3. Save to Local Storage
     try {
-      localStorage.setItem(cacheKey, JSON.stringify(data));
+      mockLocalStorage.setItem(cacheKey, JSON.stringify(data));
     } catch (e) {
       console.error("LocalStorage full or disabled", e);
     }
@@ -239,11 +268,11 @@ export const generatePanchangData = async (year: number, monthIndex: number): Pr
  * @param range The number of years before and after (e.g. 2 means [center-2, center+2])
  * @param onProgress Callback for UI updates
  */
-export const prefetchRange = async (
-  centerYear: number, 
-  range: number, 
-  onProgress: (status: string, progress: number) => void
-): Promise<void> => {
+const prefetchRange = (
+  centerYear, 
+  range, 
+  onProgress: (status, progress) => void
+)<void> => {
   const startYear = centerYear - range;
   const endYear = centerYear + range;
   const totalMonths = (endYear - startYear + 1) * 12;
@@ -258,7 +287,7 @@ export const prefetchRange = async (
       processed++;
       const percent = Math.round((processed / totalMonths) * 100);
       
-      if (localStorage.getItem(cacheKey)) {
+      if (mockLocalStorage.getItem(cacheKey)) {
         onProgress(`Verified ${monthName} ${y}`, percent);
         // Small delay to allow UI to update even if cached
         await new Promise(r => setTimeout(r, 10));
@@ -278,3 +307,17 @@ export const prefetchRange = async (
     }
   }
 };
+
+// Test the function
+generatePanchangData(2025, 11) // December 2025
+  .then(data => {
+    console.log('Generated data for December 2025:');
+    console.log('Month:', data.monthName);
+    console.log('Year:', data.year);
+    console.log('Number of days:', data.days.length);
+    console.log('First day:', JSON.stringify(data.days[0], null, 2));
+    console.log('Last day:', JSON.stringify(data.days[data.days.length - 1], null, 2));
+  })
+  .catch(err => {
+    console.error('Error:', err.message);
+  });

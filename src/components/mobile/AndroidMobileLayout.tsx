@@ -20,7 +20,6 @@ import {
   AndroidButton,
   AndroidCard,
   AndroidAppBar,
-  AndroidBottomNav,
   AndroidListItem,
   FloatingActionButton,
   AndroidDialog,
@@ -48,32 +47,7 @@ const AndroidMobileLayout: React.FC<AndroidMobileLayoutProps> = ({
   const { snackbar, showSnackbar, hideSnackbar } = useSnackbar();
   const { toast, showToast } = useToast();
   
-  // Navigation items for bottom navigation
-  const navItems = [
-    { id: 'dashboard', label: 'Home', icon: <Home size={24} />, path: '/dashboard' },
-    { id: 'sadhana', label: 'Sadhana', icon: <Check size={24} />, path: '/sadhana' },
-    { id: 'saadhanas', label: 'Saadhanas', icon: <Check size={24} />, path: '/saadhanas' },
-    { id: 'library', label: 'Library', icon: <BookOpen size={24} />, path: '/library' },
-    { id: 'profile', label: 'Profile', icon: <User size={24} />, path: '/profile' }
-  ];
-  
-  // Determine active navigation item based on current path
-  const getActiveNavItem = () => {
-    const path = location.pathname;
-    if (path.startsWith('/sadhana') && !path.startsWith('/saadhanas')) return 'sadhana';
-    if (path.startsWith('/saadhanas')) return 'saadhanas';
-    if (path.startsWith('/library')) return 'library';
-    if (path.startsWith('/profile')) return 'profile';
-    return 'dashboard';
-  };
-  
-  // Handle navigation item click
-  const handleNavItemClick = (id: string) => {
-    const item = navItems.find(navItem => navItem.id === id);
-    if (item) {
-      navigate(item.path);
-    }
-  };
+
   
   // Show a sample snackbar
   const showSampleSnackbar = () => {

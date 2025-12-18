@@ -24,5 +24,4 @@ export { default as HelpDemoPage } from './user/HelpDemoPage';
 export { default as EnergyLevelPage } from './user/EnergyLevelPage'; // Add this export
 export { default as CosmosThemePage } from './CosmosThemePage';
 export { default as ThemesShowcasePage } from './ThemesShowcasePage';
-export { default as CalendarPage } from './user/CalendarPage';
 export { default as BeadCounterPage } from './user/BeadCounterPage';

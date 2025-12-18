@@ -23,7 +23,7 @@ const cmsRoutes = require('./routes/cms');
 const biReportsRoutes = require('./routes/biReports');
 const csvExportRoutes = require('./routes/csvExport');
 const googleSheetsRoutes = require('./routes/googleSheets');
-const panchangRoutes = require('./routes/panchang');
+// const panchangRoutes = require('./routes/panchang'); // Removed calendar feature
 
 // Import database
 const { connectMongoDB } = require('./config/mongodb');
@@ -133,7 +133,7 @@ app.use('/api/cms', cmsRoutes);
 app.use('/api/bi-reports', biReportsRoutes);
 app.use('/api/csv-export', csvExportRoutes);
 app.use('/api/google-sheets', googleSheetsRoutes);
-app.use('/api/panchang', panchangRoutes);
+// app.use('/api/panchang', panchangRoutes); // Removed calendar feature
 
 // Static files
 app.use(express.static(path.join(__dirname, '../public')));
@@ -158,7 +158,7 @@ app.get('/api/docs', (req, res) => {
       'bi-reports': '/api/bi-reports',
       'csv-export': '/api/csv-export',
       'google-sheets': '/api/google-sheets',
-      panchang: '/api/panchang'
+      // panchang: '/api/panchang' // Removed calendar feature
     }
   });
 });

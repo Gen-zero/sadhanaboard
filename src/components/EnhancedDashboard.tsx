@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlarmClock, CheckSquare, BookOpen, Lightbulb, Calendar, PieChart, RotateCw, TrendingUp, Target, Award } from 'lucide-react';
+import { AlarmClock, CheckSquare, BookOpen, Lightbulb, PieChart, RotateCw, TrendingUp, Target, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -570,7 +570,7 @@ const EnhancedDashboard = () => {
               <div className="space-y-4">
                 <div className="bg-secondary/30 p-4 rounded-lg">
                   <h3 className="font-medium flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-primary" />
+
                     Today's Intention
                   </h3>
                   <p className="text-muted-foreground mt-1 italic">

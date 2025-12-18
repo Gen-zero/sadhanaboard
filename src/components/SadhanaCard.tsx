@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Edit, Trash2, MessageSquare, Clock, Calendar, Sparkles, Flame } from 'lucide-react';
+import { MoreHorizontal, Edit, Trash2, MessageSquare, Clock, Sparkles, Flame } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -32,7 +32,7 @@ const SadhanaCard = ({ sadhana, onUpdate, onDelete, onToggleCompletion }: Sadhan
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'daily': return <Clock className="h-3 w-3" />;
-      case 'goal': return <Calendar className="h-3 w-3" />;
+      case 'goal': return null;
       default: return null;
     }
   };

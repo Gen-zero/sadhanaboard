@@ -26,7 +26,6 @@ import {
   HelpDemoPage,
   EnergyLevelPage,
   CosmosThemePage,
-  CalendarPage,
   BeadCounterPage
 } from "./pages";
 import { ThemesShowcasePage } from "./pages";
@@ -255,7 +254,6 @@ const AppRoutes = () => {
       <Route path="/psychological-levers" element={<OnboardingRoute><EnergyLevelPage /></OnboardingRoute>} />
       <Route path="/cosmos-theme" element={<OnboardingRoute><CosmosThemePage /></OnboardingRoute>} />
       <Route path="/themes" element={<ThemesShowcasePage />} />
-      <Route path="/calendar" element={<OnboardingRoute><CalendarPage /></OnboardingRoute>} />
       <Route path="/beads" element={<OnboardingRoute><BeadCounterPage /></OnboardingRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
