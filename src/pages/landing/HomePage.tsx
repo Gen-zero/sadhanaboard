@@ -41,7 +41,10 @@ const HomePage = () => {
   }, [audioOn]);
 
   return (
-    <div className="min-h-screen bg-transparent text-white font-sans selection:bg-amber-500/30">
+    <div
+      className="min-h-screen bg-transparent text-white font-sans selection:bg-amber-500/30 landing-page"
+      style={{ fontFamily: '"Inter", sans-serif' }}
+    >
       {/* Ambient Audio */}
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src="/audio/ambient-temple.mp3" />

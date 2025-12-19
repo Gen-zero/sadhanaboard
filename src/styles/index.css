@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @import './base.css';
+@import './typography.css';
 @import './animations.css';
 @import './cosmic.css';
 @import './enhanced-effects.css';

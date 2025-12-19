@@ -198,7 +198,7 @@ const KrishnaBackground: React.FC<{ className?: string }> = ({ className = '' })
     const drawOm = (ctx: CanvasRenderingContext2D, x: number, y: number, size: number) => {
       ctx.save();
       ctx.translate(x, y);
-      ctx.font = `${Math.max(12, size * 0.7)}px Georgia, serif`;
+      ctx.font = `${Math.max(12, size * 0.7)}px "Source Serif 4", serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('ॐ', 0, 0);

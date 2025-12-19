@@ -1,0 +1,277 @@
+/**
+ * SadhanaBoard Typography System
+ * 
+ * Font Hierarchy:
+ * - Eyebrow/Section Label: Chakra Petch 500-600 (ALL CAPS, letter-spaced)
+ * - Hero Headline: Chakra Petch 600-700 (taller line-height)
+ * - Subheading/Emphasis: Source Serif 4 500 (optional italic)
+ * - Body Text: Inter 400
+ * - UI Labels/Diagram Text: Chakra Petch 500 (ALL CAPS)
+ */
+
+/* ===== BASE TYPOGRAPHY RESET ===== */
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Override Tailwind's default font */
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ===== EYEBROW / SECTION LABEL ===== */
+.eyebrow,
+.section-label,
+[class*="eyebrow"],
+[class*="section-label"] {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+}
+
+.eyebrow-bold {
+  font-weight: 600;
+}
+
+/* ===== HERO HEADLINE ===== */
+h1,
+.hero-headline,
+.headline {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hero-headline-bold,
+h1.bold {
+  font-weight: 700;
+}
+
+/* ===== SUBHEADING / EMPHASIS ===== */
+h2,
+h3,
+h4,
+.subheading,
+.emphasis,
+.subtitle {
+  font-family: 'Source Serif 4', serif !important;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.subheading-italic,
+.emphasis-italic {
+  font-style: italic;
+}
+
+/* ===== BODY TEXT ===== */
+p,
+.body-text,
+.text-body,
+article,
+.prose {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ===== Landing Page Overrides ===== */
+.landing-page {
+  font-family: 'Inter', sans-serif !important;
+}
+.landing-page h1,
+.landing-page .hero-headline,
+.landing-page .headline {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+.landing-page h2,
+.landing-page h3,
+.landing-page .subheading,
+.landing-page .emphasis {
+  font-family: 'Source Serif 4', serif !important;
+  font-weight: 500 !important;
+}
+.landing-page .eyebrow,
+.landing-page .section-label,
+.landing-page .ui-label,
+.landing-page .diagram-text {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ===== UI LABELS / DIAGRAM TEXT ===== */
+.ui-label,
+.diagram-text,
+label,
+button,
+.button-text,
+[role="button"],
+.nav-item,
+.menu-item {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Font Family Utilities */
+.font-chakra {
+  font-family: 'Chakra Petch', sans-serif !important;
+}
+
+.font-source-serif {
+  font-family: 'Source Serif 4', serif !important;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Weight Utilities */
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Specific Typography Combinations */
+.chakra-caps {
+  font-family: 'Chakra Petch', sans-serif !important;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.chakra-headline {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.serif-subheading {
+  font-family: 'Source Serif 4', serif !important;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.inter-body {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ===== RESPONSIVE TYPOGRAPHY ===== */
+
+/* Mobile */
+@media (max-width: 640px) {
+  h1,
+  .hero-headline {
+    line-height: 1.2;
+  }
+  
+  .eyebrow,
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  h1,
+  .hero-headline {
+    line-height: 1.3;
+  }
+  
+  .eyebrow,
+  .section-label {
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  h1,
+  .hero-headline {
+    line-height: 1.25;
+  }
+}
+
+/* ===== COMPONENT-SPECIFIC OVERRIDES ===== */
+
+/* Card Titles */
+.card-title,
+[class*="CardTitle"] {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 600;
+}
+
+/* Card Descriptions */
+.card-description,
+[class*="CardDescription"] {
+  font-family: 'Source Serif 4', serif !important;
+  font-weight: 500;
+}
+
+/* Navigation */
+nav a,
+nav button {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 500;
+}
+
+/* Form Elements */
+input,
+textarea,
+select {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* Badge/Tag Elements */
+.badge,
+.tag,
+[class*="Badge"] {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+/* Modal/Dialog Headers */
+.dialog-title,
+.modal-title,
+[class*="DialogTitle"] {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-weight: 600;
+}
+
+.dialog-description,
+.modal-description,
+[class*="DialogDescription"] {
+  font-family: 'Source Serif 4', serif !important;
+  font-weight: 500;
+}

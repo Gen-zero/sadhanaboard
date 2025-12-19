@@ -1,7 +1,7 @@
 /* Tara theme specific styles - premium blue-black aesthetic with enhanced mystical elements */
 
 .theme-tara {
-  font-family: 'Georgia', 'Garamond', serif;
+  font-family: 'Source Serif 4', serif;
   color: hsl(210 20% 98%);
   background: var(--tara-night-gradient);
 }

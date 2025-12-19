@@ -317,7 +317,7 @@ const Layout: React.FC<LayoutProps> = ({ children, headerActions }) => {
       <main
         id="main-content"
         tabIndex={-1}
-        className={`flex-1 transition-all duration-300 ease-in-out ${isMobile ? 'pt-20 px-4' : 'p-4 sm:p-6'} ${!isMobile && isSidebarOpen ? 'ml-[380px]' : 'ml-0'} ${isMobile ? 'px-responsive py-responsive' : ''}`}
+        className={`flex-1 transition-all duration-300 ease-in-out ${isMobile ? 'pt-20 px-4' : 'p-4 sm:p-6'} ${!isMobile && isSidebarOpen ? 'ml-[320px]' : 'ml-0'} ${isMobile ? 'px-responsive py-responsive' : ''}`}
       >
         <div className="max-w-screen-2xl mx-auto w-full">
           {children}

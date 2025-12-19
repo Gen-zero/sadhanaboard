@@ -16,8 +16,20 @@ import {
   ChevronRight,
   Coins,
   ShoppingCart,
-  Check
+  ShoppingCart,
+  Check,
+  Activity
 } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfileData } from "@/hooks/useProfileData";
@@ -93,6 +105,14 @@ const DashboardPage = () => {
     navigate("/store");
   };
 
+  // Check if task is a chanting or meditation task
+  const isChantingOrMeditationTask = (title: string): boolean => {
+    const keywords = ['chant', 'meditate'];
+    return keywords.some(keyword =>
+      title.toLowerCase().includes(keyword)
+    );
+  };
+
   return (
     <Layout>
       <div className="space-y-6 bg-transparent mobile-container">
@@ -138,299 +158,369 @@ const DashboardPage = () => {
         </div>
 
         {/* Stats Overview - Moved to top as per user request */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card
-            className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
-            onMouseEnter={handleCardHover}
-            onMouseLeave={handleCardLeave}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
-            <CardContent className="p-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-sm text-muted-foreground">Today's Progress</p>
-                  <p className="text-2xl font-bold truncate">{userStats.todayProgress}%</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4">
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact group"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
+              <CardContent className="p-5 relative z-10 flex flex-col justify-between h-full">
+                <div className="flex justify-between items-start">
+                  <p className="text-sm font-medium text-muted-foreground group-hover:text-purple-300 transition-colors">Today's Progress</p>
+                  <div className="p-2 rounded-lg bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors">
+                    <Target className="h-5 w-5 text-purple-500 cosmic-pulse" />
+                  </div>
                 </div>
-                <Target className="h-8 w-8 text-purple-500 cosmic-pulse flex-shrink-0" />
-              </div>
-              <Progress value={userStats.todayProgress} className="mt-2 cosmic-progress" />
-            </CardContent>
-          </Card>
+                <div className="mt-2">
+                  <p className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">{userStats.todayProgress}%</p>
+                  <Progress value={userStats.todayProgress} className="mt-3 h-1.5 cosmic-progress" />
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card
-            className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
-            onMouseEnter={handleCardHover}
-            onMouseLeave={handleCardLeave}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5"></div>
-            <CardContent className="p-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-sm text-muted-foreground">Weekly Goal</p>
-                  <p className="text-2xl font-bold truncate">{userStats.weeklyGoal}%</p>
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact group"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5"></div>
+              <CardContent className="p-5 relative z-10 flex flex-col justify-between h-full">
+                <div className="flex justify-between items-start">
+                  <p className="text-sm font-medium text-muted-foreground group-hover:text-green-300 transition-colors">Weekly Goal</p>
+                  <div className="p-2 rounded-lg bg-green-500/10 group-hover:bg-green-500/20 transition-colors">
+                    <TrendingUp className="h-5 w-5 text-green-500 cosmic-pulse" />
+                  </div>
                 </div>
-                <TrendingUp className="h-8 w-8 text-green-500 cosmic-pulse flex-shrink-0" />
-              </div>
-              <Progress value={userStats.weeklyGoal} className="mt-2 cosmic-progress" />
-            </CardContent>
-          </Card>
+                <div className="mt-2">
+                  <p className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-green-200">{userStats.weeklyGoal}%</p>
+                  <Progress value={userStats.weeklyGoal} className="mt-3 h-1.5 cosmic-progress" />
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card
-            className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
-            onMouseEnter={handleCardHover}
-            onMouseLeave={handleCardLeave}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5"></div>
-            <CardContent className="p-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-sm text-muted-foreground">Total Hours</p>
-                  <p className="text-2xl font-bold truncate">{userStats.totalHours}</p>
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact group"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5"></div>
+              <CardContent className="p-5 relative z-10 flex flex-col justify-between h-full">
+                <div className="flex justify-between items-start">
+                  <p className="text-sm font-medium text-muted-foreground group-hover:text-blue-300 transition-colors">Total Hours</p>
+                  <div className="p-2 rounded-lg bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors">
+                    <Clock className="h-5 w-5 text-blue-500 cosmic-pulse" />
+                  </div>
                 </div>
-                <Clock className="h-8 w-8 text-blue-500 cosmic-pulse flex-shrink-0" />
-              </div>
-            </CardContent>
-          </Card>
+                <div className="mt-2">
+                  <p className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">{userStats.totalHours}</p>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card
-            className="transition-all duration-300 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact"
-            onMouseEnter={handleCardHover}
-            onMouseLeave={handleCardLeave}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5"></div>
-            <CardContent className="p-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-sm text-muted-foreground">Current Streak</p>
-                  <p className="text-2xl font-bold truncate">{userStats.streak} days</p>
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer transform hover:-translate-y-1 relative overflow-hidden card-3d card-hover-effect mobile-card-compact group"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5"></div>
+              <CardContent className="p-5 relative z-10 flex flex-col justify-between h-full">
+                <div className="flex justify-between items-start">
+                  <p className="text-sm font-medium text-muted-foreground group-hover:text-orange-300 transition-colors">Current Streak</p>
+                  <div className="p-2 rounded-lg bg-orange-500/10 group-hover:bg-orange-500/20 transition-colors">
+                    <Flame className="h-5 w-5 text-orange-500 cosmic-pulse animate-pulse flex-shrink-0" />
+                  </div>
                 </div>
-                <Flame className="h-8 w-8 text-orange-500 cosmic-pulse animate-pulse flex-shrink-0" />
-              </div>
-            </CardContent>
-          </Card>
+                <div className="mt-2">
+                  <p className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-200">{userStats.streak} days</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Daily Sadhana Section - Conditionally rendered based on sadhana active state */}
+          {!sadhanaState.hasStarted ? (
+            /* Start New Sadhana Prompt */
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-amber-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl relative overflow-hidden card-hover-effect mobile-card-compact group"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-red-500/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+
+              <CardContent className="p-8 relative z-10 flex flex-col items-center justify-center text-center space-y-6 min-h-[300px]">
+                <div className="p-4 rounded-full bg-amber-500/10 border border-amber-500/30 shadow-[0_0_15px_rgba(255,215,0,0.3)] animate-pulse">
+                  <Target className="h-10 w-10 text-gold" />
+                </div>
+
+                <div className="space-y-2 max-w-md">
+                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200" style={{ fontFamily: '"Chakra Petch", sans-serif' }}>
+                    Begin Your Sacred Journey
+                  </h3>
+                  <p className="text-muted-foreground">
+                    You are not currently observing a Sadhana. Set a powerful intention and start a 40-day transformative practice today.
+                  </p>
+                </div>
+
+                <Button
+                  size="lg"
+                  onClick={() => navigate("/sadhana")}
+                  className="interactive shimmer-effect button-hover-effect px-8 py-6 text-lg relative overflow-hidden group/btn"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(220, 20, 60, 0.2) 0%, rgba(139, 0, 0, 0.2) 100%)',
+                    border: '1px solid rgba(255, 215, 0, 0.4)'
+                  }}
+                >
+                  <div className="absolute inset-0 bg-amber-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                  <span className="relative z-10 flex items-center gap-2 text-gold font-bold tracking-wider">
+                    <Flame className="w-5 h-5 fill-current" />
+                    START SADHANA
+                  </span>
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            /* Existing Daily Sadhana List */
+            <Card
+              className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl relative overflow-hidden card-hover-effect mobile-card-compact"
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5"></div>
+              <CardHeader className="flex flex-row items-center justify-between relative z-10 flex-wrap gap-2">
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-gold flex-shrink-0" />
+                  Daily Sadhana
+                </CardTitle>
+                <Button
+                  size="sm"
+                  onClick={() => navigate("/saadhanas")}
+                  className="interactive shimmer-effect button-hover-effect"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  <span className="hidden xs:inline">Add</span>
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-3 relative z-10">
+                {todaySadhana.length > 0 ? (
+                  <div className="space-y-3">
+                    {todaySadhana.map((sadhana) => (
+                      <div
+                        key={sadhana.id}
+                        className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] relative overflow-hidden ${sadhana.completed
+                          ? "bg-green-500/10 border-green-500/30"
+                          : "bg-muted/20 border-muted hover:border-purple-500/30"
+                          } card-hover-effect`}
+                        onClick={() => navigate(`/saadhanas/${sadhana.id}`)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.classList.add('scale-[1.01]', 'shadow-lg');
+                          e.currentTarget.classList.remove('hover:shadow-lg');
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.classList.remove('scale-[1.01]', 'shadow-lg');
+                          e.currentTarget.classList.add('hover:shadow-lg');
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            navigate(`/saadhanas/${sadhana.id}`);
+                          }
+                        }}
+                      >
+                        {/* Inner glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+
+                        <div className="relative z-10 flex-1 min-w-0">
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <p className="font-medium truncate">{sadhana.title}</p>
+                            {sadhana.completed && (
+                              <Badge variant="default" className="bg-green-500 cosmic-pulse animate-pulse ml-2 flex-shrink-0">
+                                Completed
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2 mt-2">
+                            <span className="text-sm text-muted-foreground flex items-center gap-1">
+                              <Clock className="h-3 w-3 flex-shrink-0 text-gold" />
+                              <span className="truncate">{sadhana.time || "Any time"}</span>
+                            </span>
+                            <Badge variant="secondary" className="text-xs">
+                              {sadhana.category}
+                            </Badge>
+                            {sadhana.priority === 'high' && (
+                              <Badge variant="destructive" className="text-xs">
+                                High Priority
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 relative z-10">
+                          {!sadhana.completed ? (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="floating hover:scale-105 transition-transform button-hover-effect bg-gold text-black hover:bg-yellow-500 font-bold"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isChantingOrMeditationTask(sadhana.title)) {
+                                  navigate('/beads');
+                                } else {
+                                  navigate(`/saadhanas/${sadhana.id}`);
+                                }
+                              }}
+                            >
+                              Start
+                            </Button>
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                              <Check className="h-4 w-4 text-gold" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground backdrop-blur-sm bg-background/10 rounded-lg relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
+                    <BookOpen className="h-12 w-12 mx-auto mb-3 text-purple-500/20 relative z-10" />
+                    <p className="mb-2 relative z-10">No practices scheduled for today</p>
+                    <Button
+                      variant="outline"
+                      onClick={() => navigate("/saadhanas")}
+                      className="interactive relative z-10 button-hover-effect"
+                    >
+                      Add a practice
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
-        {/* Today's Sadhana with Enhanced Visual Hierarchy */}
-        <Card
-          className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
-          onMouseEnter={handleCardHover}
-          onMouseLeave={handleCardLeave}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5"></div>
-          <CardHeader className="flex flex-row items-center justify-between relative z-10 flex-wrap gap-2">
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-gold flex-shrink-0" />
-              Today's Sadhana
-            </CardTitle>
-            <Button
-              size="sm"
-              onClick={() => navigate("/saadhanas")}
-              className="interactive shimmer-effect button-hover-effect"
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              <span className="hidden xs:inline">Add</span>
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-3 relative z-10">
-            {todaySadhana.length > 0 ? (
-              <div className="space-y-3">
-                {todaySadhana.map((sadhana) => (
+        {/* Weekly Progress & Recent Achievements Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Weekly Progress Chart */}
+          <Card
+            className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl relative overflow-hidden card-hover-effect mobile-card-compact"
+            onMouseEnter={handleCardHover}
+            onMouseLeave={handleCardLeave}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5"></div>
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-gold flex-shrink-0" />
+                Weekly Progress
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 h-80 relative z-10">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={weeklyProgress}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#7c3aed" strokeOpacity={0.3} />
+                  <XAxis dataKey="day" stroke="#c084fc" />
+                  <YAxis stroke="#c084fc" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                      borderColor: '#7c3aed',
+                      backdropFilter: 'blur(10px)',
+                      borderRadius: '0.75rem',
+                      color: '#fff'
+                    }}
+                  />
+                  <Bar
+                    dataKey="progress"
+                    fill="url(#barGradient)"
+                    radius={[4, 4, 0, 0]}
+                  >
+                    {weeklyProgress.map((entry, index) => (
+                      <motion.rect
+                        key={`rect-${index}`}
+                        initial={{ height: 0 }}
+                        animate={{ height: '100%' }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                      />
+                    ))}
+                  </Bar>
+                  <defs>
+                    <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8b5cf6" />
+                      <stop offset="95%" stopColor="#d946ef" />
+                    </linearGradient>
+                  </defs>
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Achievements with Enhanced 3D Effects */}
+          <Card
+            className="backdrop-blur-xl bg-gradient-to-br from-gray-900/70 to-black/70 border border-purple-500/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl relative overflow-hidden card-hover-effect mobile-card-compact"
+            onMouseEnter={handleCardHover}
+            onMouseLeave={handleCardLeave}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5"></div>
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-2">
+                <Award className="h-5 w-5 text-gold flex-shrink-0" />
+                Recent Achievements
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 relative z-10">
+              {achievements.map((achievement) => {
+                const IconComponent = achievement.icon;
+                return (
                   <div
-                    key={sadhana.id}
-                    className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] relative overflow-hidden ${sadhana.completed
-                        ? "bg-green-500/10 border-green-500/30"
-                        : "bg-muted/20 border-muted hover:border-purple-500/30"
-                      } card-hover-effect`}
-                    onClick={() => navigate(`/saadhanas/${sadhana.id}`)}
+                    key={achievement.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-all duration-300 cursor-pointer floating transform hover:scale-[1.02] hover:shadow-lg relative overflow-hidden card-3d card-hover-effect group"
+                    onClick={() => navigate("/profile")}
                     onMouseEnter={(e) => {
-                      e.currentTarget.classList.add('scale-[1.01]', 'shadow-lg');
-                      e.currentTarget.classList.remove('hover:shadow-lg');
+                      e.currentTarget.classList.add('bg-muted/30', 'scale-[1.02]', 'shadow-lg');
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.classList.remove('scale-[1.01]', 'shadow-lg');
-                      e.currentTarget.classList.add('hover:shadow-lg');
+                      e.currentTarget.classList.remove('bg-muted/30', 'scale-[1.02]', 'shadow-lg');
                     }}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        navigate(`/saadhanas/${sadhana.id}`);
+                        navigate("/profile");
                       }
                     }}
                   >
-                    {/* Inner glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    {/* 3D effect container */}
+                    <div className="absolute inset-0 float-3d"></div>
 
-                    <div className="relative z-10 flex-1 min-w-0">
-                      <div className="flex items-center justify-between flex-wrap gap-2">
-                        <p className="font-medium truncate">{sadhana.title}</p>
-                        {sadhana.completed && (
-                          <Badge variant="default" className="bg-green-500 cosmic-pulse animate-pulse ml-2 flex-shrink-0">
-                            Completed
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2 mt-2">
-                        <span className="text-sm text-muted-foreground flex items-center gap-1">
-                          <Clock className="h-3 w-3 flex-shrink-0 text-gold" />
-                          <span className="truncate">{sadhana.time || "Any time"}</span>
-                        </span>
-                        <Badge variant="secondary" className="text-xs">
-                          {sadhana.category}
-                        </Badge>
-                        {sadhana.priority === 'high' && (
-                          <Badge variant="destructive" className="text-xs">
-                            High Priority
-                          </Badge>
-                        )}
-                      </div>
+                    {/* Enhanced icon container with glow and 3D effect */}
+                    <div className="p-2 rounded-full bg-gold/20 cosmic-glow transition-all duration-300 hover:scale-110 relative z-10 transform group-hover:rotate-12 flex-shrink-0">
+                      <IconComponent className="h-5 w-5 text-gold" />
                     </div>
-                    <div className="flex items-center gap-2 relative z-10">
-                      {!sadhana.completed ? (
-                        <Button size="sm" variant="outline" className="floating hover:scale-105 transition-transform button-hover-effect bg-gold text-black hover:bg-yellow-500 font-bold">
-                          Start
-                        </Button>
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
-                          <Check className="h-4 w-4 text-gold" />
-                        </div>
-                      )}
+
+                    {/* Achievement content with enhanced styling */}
+                    <div className="flex-1 min-w-0 relative z-10">
+                      <p className="font-medium group-hover:text-purple-300 transition-colors truncate">{achievement.name}</p>
+                      <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors truncate">{achievement.date}</p>
                     </div>
+
+                    {/* Animated chevron with hover effect */}
+                    <ChevronRight className="h-4 w-4 text-muted-foreground relative z-10 transform group-hover:translate-x-1 transition-transform flex-shrink-0" />
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-muted-foreground backdrop-blur-sm bg-background/10 rounded-lg relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-fuchsia-500/5"></div>
-                <BookOpen className="h-12 w-12 mx-auto mb-3 text-purple-500/20 relative z-10" />
-                <p className="mb-2 relative z-10">No practices scheduled for today</p>
-                <Button
-                  variant="outline"
-                  onClick={() => navigate("/saadhanas")}
-                  className="interactive relative z-10 button-hover-effect"
-                >
-                  Add a practice
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Achievements with Enhanced 3D Effects */}
-        <Card
-          className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
-          onMouseEnter={handleCardHover}
-          onMouseLeave={handleCardLeave}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-yellow-500/5"></div>
-          <CardHeader className="relative z-10">
-            <CardTitle className="flex items-center gap-2">
-              <Award className="h-5 w-5 text-gold flex-shrink-0" />
-              Recent Achievements
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 relative z-10">
-            {achievements.map((achievement) => {
-              const IconComponent = achievement.icon;
-              return (
-                <div
-                  key={achievement.id}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-all duration-300 cursor-pointer floating transform hover:scale-[1.02] hover:shadow-lg relative overflow-hidden card-3d card-hover-effect group"
-                  onClick={() => navigate("/profile")}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.classList.add('bg-muted/30', 'scale-[1.02]', 'shadow-lg');
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.classList.remove('bg-muted/30', 'scale-[1.02]', 'shadow-lg');
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      navigate("/profile");
-                    }
-                  }}
-                >
-                  {/* 3D effect container */}
-                  <div className="absolute inset-0 float-3d"></div>
-
-                  {/* Enhanced icon container with glow and 3D effect */}
-                  <div className="p-2 rounded-full bg-gold/20 cosmic-glow transition-all duration-300 hover:scale-110 relative z-10 transform group-hover:rotate-12 flex-shrink-0">
-                    <IconComponent className="h-5 w-5 text-gold" />
-                  </div>
-
-                  {/* Achievement content with enhanced styling */}
-                  <div className="flex-1 min-w-0 relative z-10">
-                    <p className="font-medium group-hover:text-purple-300 transition-colors truncate">{achievement.name}</p>
-                    <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors truncate">{achievement.date}</p>
-                  </div>
-
-                  {/* Animated chevron with hover effect */}
-                  <ChevronRight className="h-4 w-4 text-muted-foreground relative z-10 transform group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+                );
+              })}
+            </CardContent>
+          </Card>
+        </div>
 
         {/* SP Balance Card - Moved to bottom as per user request */}
         {/* Spiritual Points card has been moved to the bottom of the dashboard */}
 
-        {/* Current Practice Section */}
-        {sadhanaState.hasStarted && sadhanaData && (
-          <Card
-            className="border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
-            onMouseEnter={handleCardHover}
-            onMouseLeave={handleCardLeave}
-          >
-            {/* 3D floating effect container */}
-            <div className="absolute inset-0 float-3d"></div>
+        {/* Current Practice Section - Removed as per user request */}
 
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-gold yantra-rotate flex-shrink-0" />
-                Current Practice
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 relative z-10">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                <h3 className="text-xl font-semibold truncate">{sadhanaData.deity} Sadhana</h3>
-                <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 cosmic-pulse px-3 py-1 text-base flex-shrink-0">
-                  Day {daysCompleted} of {sadhanaData.durationDays}
-                </Badge>
-              </div>
-              <p className="text-muted-foreground">{sadhanaData.purpose}</p>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Progress</span>
-                  <span>{Math.round(progress)}%</span>
-                </div>
-                <Progress value={progress} className="h-3 cosmic-progress" />
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  size="sm"
-                  onClick={() => navigate("/sadhana")}
-                  className="interactive shimmer-effect button-hover-effect"
-                >
-                  View Practice
-                </Button>
-                {daysRemaining === 0 && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => navigate("/sadhana")}
-                    className="shimmer cosmic-button button-hover-effect"
-                  >
-                    Complete Practice
-                  </Button>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Daily Quest - Hidden as per user request */}
         {/* <DailyQuest /> */}
@@ -438,72 +528,7 @@ const DashboardPage = () => {
         {/* Stats Overview - Removed as it's been moved to top */}
         {/* Stats cards have been moved to the top of the dashboard as requested */}
 
-        <div className="space-y-6">
-          {/* Weekly Progress with Enhanced Cosmic Styling */}
-          <div className="w-full space-y-6">
-            <Card
-              className="transition-all duration-300 hover:shadow-lg relative overflow-hidden card-hover-effect mobile-card-compact"
-              onMouseEnter={handleCardHover}
-              onMouseLeave={handleCardLeave}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5"></div>
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-gold flex-shrink-0" />
-                  Weekly Progress
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-10">
-                <div className="flex items-end justify-between h-32">
-                  {weeklyProgress.map((day, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center gap-2 group"
-                      onMouseEnter={(e) => {
-                        const bar = e.currentTarget.querySelector('.progress-bar') as HTMLElement;
-                        if (bar) {
-                          bar.classList.add('glow-primary');
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        const bar = e.currentTarget.querySelector('.progress-bar') as HTMLElement;
-                        if (bar) {
-                          bar.classList.remove('glow-primary');
-                        }
-                      }}
-                    >
-                      <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">{day.day}</div>
-                      <div
-                        className="w-6 sm:w-8 bg-gradient-to-t from-purple-500 to-fuchsia-500 rounded-t-sm transition-all duration-300 progress-bar cosmic-progress relative overflow-hidden"
-                        style={{ height: `${day.progress}%` }}
-                      >
-                        {/* Animated particles inside the progress bar */}
-                        <div className="absolute inset-0 animate-pulse">
-                          {[...Array(3)].map((_, i) => (
-                            <div
-                              key={i}
-                              className="absolute rounded-full bg-white/30"
-                              style={{
-                                width: '4px',
-                                height: '4px',
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                                animationDelay: `${i * 0.5}s`
-                              }}
-                            ></div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="text-xs font-medium group-hover:font-bold transition-all">{day.progress}%</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
 
-
-        </div>
 
 
       </div>

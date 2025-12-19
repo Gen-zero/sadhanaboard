@@ -887,7 +887,7 @@
   /* Sacred number and symbol styling */
   .sacred-number, .mystical-symbol {
     color: hsl(43, 100%, 85%) !important;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Source Serif 4', serif;
     font-weight: 800;
     text-shadow: 
       0 0 10px rgba(255, 215, 0, 0.6),
@@ -1611,7 +1611,7 @@
   /* Sacred number and symbol styling */
   .sacred-number, .mystical-symbol {
     color: hsl(43, 100%, 85%) !important;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Source Serif 4', serif;
     font-weight: 800;
     text-shadow: 
       0 0 10px rgba(255, 215, 0, 0.6),
