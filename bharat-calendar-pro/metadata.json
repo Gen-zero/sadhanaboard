@@ -1,0 +1,7 @@
+{
+  "name": "Bharat Calendar Pro",
+  "description": "A comprehensive Indian regional calendar featuring Malayalam, Tamil, and North Indian systems with Tithi, Nakshatra, Ekadashi, Pournami, and local festivals powered by AI.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Heart, Save, Eye } from 'lucide-react';
+import { Heart, Save, Eye, CheckCircle, Circle } from 'lucide-react';
 import { SadhanaData } from '@/hooks/useSadhanaData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Dispatch, SetStateAction } from 'react';
 import { TransparentGlassMorphismContainer } from '@/components/design/SadhanaDesignComponents';
+import { useSadhanaData } from '@/hooks/useSadhanaData';
 
 interface SadhanaDetailsProps {
   sadhanaData: SadhanaData | null;
@@ -28,6 +29,8 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
     endDate: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     durationDays: 40
   });
+  
+  const { markDateAsCompleted, isDateCompletedForCurrentSadhana } = useSadhanaData();
   const { colors } = useThemeColors();
 
   const handleAddOffering = () => {
@@ -174,6 +177,32 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
                 <Button variant="outline" className="w-full mt-2 md:mt-3 text-sm md:text-base h-9 md:h-10" onClick={handleAddOffering}>
                   + Add New Offering
                 </Button>
+                
+                {/* Mark Today as Completed Section */}
+                <div className="pt-4 border-t border-amber-900/50">
+                  <Button 
+                    className={`w-full mt-2 md:mt-3 text-sm md:text-base h-10 md:h-12 rounded-full flex items-center justify-center gap-2 ${isDateCompletedForCurrentSadhana(new Date().toISOString().split('T')[0]) ? 'bg-green-700 hover:bg-green-800' : 'bg-amber-700 hover:bg-amber-800'} text-white font-semibold shadow-lg transition-all`} 
+                    onClick={() => markDateAsCompleted(new Date().toISOString().split('T')[0], !isDateCompletedForCurrentSadhana(new Date().toISOString().split('T')[0]))}
+                  >
+                    {isDateCompletedForCurrentSadhana(new Date().toISOString().split('T')[0]) ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 md:h-5 md:w-5" />
+                        Marked as Completed Today
+                      </>
+                    ) : (
+                      <>
+                        <Circle className="h-4 w-4 md:h-5 md:w-5" />
+                        Mark as Completed Today
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-xs md:text-sm text-center mt-2 text-amber-200/80">
+                    {isDateCompletedForCurrentSadhana(new Date().toISOString().split('T')[0]) 
+                      ? 'You have completed your Sadhana practice for today!' 
+                      : 'Complete your Sadhana practice for today to track your progress.'}
+                  </p>
+                </div>
+                
                 <Button 
                   className="w-full mt-4 md:mt-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold shadow-lg transition-all hover:shadow-amber-500/50 text-sm md:text-base h-10 md:h-12 rounded-full" 
                   onClick={handleSave}

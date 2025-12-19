@@ -25,3 +25,4 @@ export { default as EnergyLevelPage } from './user/EnergyLevelPage'; // Add this
 export { default as CosmosThemePage } from './CosmosThemePage';
 export { default as ThemesShowcasePage } from './ThemesShowcasePage';
 export { default as BeadCounterPage } from './user/BeadCounterPage';
+export { default as CalendarPage } from './user/CalendarPage';

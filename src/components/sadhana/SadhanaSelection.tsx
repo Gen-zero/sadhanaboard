@@ -4,11 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Sparkles,
   Heart,
-  Wand2
+  Wand2,
+  BookOpen,
+  Clock,
+  AlertTriangle
 } from 'lucide-react';
 import { useUserProgression } from '@/hooks/useUserProgression';
 import { useSettings } from '@/hooks/useSettings';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { useCustomSadhanas } from '@/hooks/useCustomSadhanas';
 import { StoreSadhana } from '@/types/store';
 
 
@@ -22,7 +26,11 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
   const { progression } = useUserProgression();
   const { settings } = useSettings();
   const { colors } = useThemeColors();
+  const { customSadhanas, loading, error } = useCustomSadhanas();
   const [activeTab, setActiveTab] = useState('create');
+
+  // Debug: Log custom sadhanas
+  console.log('Custom Sadhanas:', customSadhanas);
 
   // Check if Shiva theme is active
   const isShivaTheme = settings?.appearance?.colorScheme === 'shiva';
@@ -99,6 +107,70 @@ const SadhanaSelection = ({ onSelectStoreSadhana, onCreateCustomSadhana, onCance
                   Start Your Sadhana Journey
                 </Button>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Saved Custom Sadhanas */}
+          <Card className="backdrop-blur-md bg-black/20 border border-white/5 rounded-xl transition-all hover:bg-black/30 hover:border-blue-500/30">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-center gap-2 text-2xl" style={{ fontFamily: '"Chakra Petch", sans-serif' }}>
+                <div className="p-2 rounded-full bg-blue-500/10 border border-blue-500/20">
+                  <BookOpen className="h-6 w-6 text-blue-400" />
+                </div>
+                Your Saved Practices
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                  <p className="text-white/60">Loading your saved practices...</p>
+                </div>
+              ) : error ? (
+                <div className="text-center py-8">
+                  <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+                  <p className="text-white/60 mb-2">Failed to load saved practices</p>
+                  <p className="text-sm text-white/40">{error}</p>
+                </div>
+              ) : customSadhanas.length > 0 ? (
+                <div className="space-y-4">
+                  {customSadhanas.map((sadhana) => (
+                    <div 
+                      key={sadhana.id}
+                      className="p-4 rounded-lg bg-black/20 hover:bg-black/40 transition-colors border border-white/5 hover:border-white/10 cursor-pointer"
+                      onClick={() => onSelectStoreSadhana({
+                        id: sadhana.id,
+                        title: sadhana.name || 'Unnamed Practice',
+                        deity: sadhana.deity || '',
+                        benefits: [sadhana.goal || ''],
+                        practices: sadhana.offerings || [],
+                        duration: sadhana.durationDays || 40,
+                        description: sadhana.description || ''
+                      } as any)}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold text-lg" style={{ color: 'hsl(210 100% 70%)' }}>{sadhana.name || 'Unnamed Practice'}</h3>
+                          <p className="text-sm text-white/60 mt-1">{sadhana.description || 'No description provided'}</p>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-white/50">
+                          <Clock className="h-3 w-3" />
+                          <span>{sadhana.durationDays} days</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2 text-xs text-white/50">
+                        <span>Created: {new Date(sadhana.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <BookOpen className="h-12 w-12 text-blue-400/50 mx-auto mb-4" />
+                  <p className="text-white/60 mb-2">No saved practices yet</p>
+                  <p className="text-sm text-white/40">Create a custom sadhana and save it as a draft to see it here</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

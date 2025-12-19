@@ -26,7 +26,8 @@ import {
   HelpDemoPage,
   EnergyLevelPage,
   CosmosThemePage,
-  BeadCounterPage
+  BeadCounterPage,
+  CalendarPage
 } from "./pages";
 import { ThemesShowcasePage } from "./pages";
 import { Toaster } from "@/components/ui/toaster";
@@ -39,6 +40,7 @@ import ThemedBackground from "./components/ThemedBackground";
 import FocusVisible from "./components/FocusVisible";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
+import { SadhanaProgressProvider } from "./contexts/SadhanaProgressContext";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { AuthProvider } from "@/lib/auth-context";
 import { HelpProvider } from "./contexts/HelpContext";
@@ -255,6 +257,7 @@ const AppRoutes = () => {
       <Route path="/cosmos-theme" element={<OnboardingRoute><CosmosThemePage /></OnboardingRoute>} />
       <Route path="/themes" element={<ThemesShowcasePage />} />
       <Route path="/beads" element={<OnboardingRoute><BeadCounterPage /></OnboardingRoute>} />
+      <Route path="/calendar" element={<OnboardingRoute><CalendarPage /></OnboardingRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -294,35 +297,37 @@ const App = () => {
               <SocketProvider>
                 <HelpProvider>
                   <ScrollAnimationProvider>
-                  <div className="relative">
-                    <ThemedBackground theme={backgroundTheme} />
-                    <div className="relative z-10">
-                      <DemoBanner />
-                      <FocusVisible />
-                      <SmoothScroll />
-                      <Toaster />
-                      <Sonner />
-                      <CustomCursor />
-                      <BrowserRouter future={{
-                        v7_startTransition: true,
-                        v7_relativeSplatPath: true
-                      }}>
-                        <PageTransition>
-                          {settings ? (
-                            <ThemeProvider settings={settings}>
-                              <ErrorBoundary context="app-routes" isolate={true}>
-                                <AppRoutes />
-                              </ErrorBoundary>
-                            </ThemeProvider>
-                          ) : (
-                            <ErrorBoundary context="app-routes" isolate={true}>
-                              <AppRoutes />
-                            </ErrorBoundary>
-                          )}
-                        </PageTransition>
-                      </BrowserRouter>
-                    </div>
-                  </div>
+                    <SadhanaProgressProvider>
+                      <div className="relative">
+                        <ThemedBackground theme={backgroundTheme} />
+                        <div className="relative z-10">
+                          <DemoBanner />
+                          <FocusVisible />
+                          <SmoothScroll />
+                          <Toaster />
+                          <Sonner />
+                          <CustomCursor />
+                          <BrowserRouter future={{
+                            v7_startTransition: true,
+                            v7_relativeSplatPath: true
+                          }}>
+                            <PageTransition>
+                              {settings ? (
+                                <ThemeProvider settings={settings}>
+                                  <ErrorBoundary context="app-routes" isolate={true}>
+                                    <AppRoutes />
+                                  </ErrorBoundary>
+                                </ThemeProvider>
+                              ) : (
+                                <ErrorBoundary context="app-routes" isolate={true}>
+                                  <AppRoutes />
+                                </ErrorBoundary>
+                              )}
+                            </PageTransition>
+                          </BrowserRouter>
+                        </div>
+                      </div>
+                    </SadhanaProgressProvider>
                   </ScrollAnimationProvider>
                 </HelpProvider>
               </SocketProvider>

@@ -21,9 +21,10 @@ import { PulsingOMSymbol } from "@/components/design/SadhanaDesignComponents";
 interface SadhanaSetupFormProps {
   onCreateSadhana: (data: SadhanaData) => void;
   onCancel: () => void;
+  onSaveAsDraft?: (data: SadhanaData) => void;
 }
 
-const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) => {
+const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaSetupFormProps) => {
   const [formData, setFormData] = useState({
     purpose: "",
     goal: "",
@@ -36,6 +37,9 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
       .split("T")[0],
     durationDays: 40,
   });
+
+  const [draftName, setDraftName] = useState("");
+  const [draftDescription, setDraftDescription] = useState("");
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -450,6 +454,43 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
 
           </div>
 
+          {/* Draft Name and Description */}
+          {onSaveAsDraft && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+              className="pt-6 space-y-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="draftName" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Draft Name *
+                  </Label>
+                  <Input
+                    id="draftName"
+                    value={draftName}
+                    onChange={(e) => setDraftName(e.target.value)}
+                    placeholder="Give your draft a name"
+                    className="bg-black/20 border-blue-400/20 focus:border-blue-400/60 focus:ring-2 focus:ring-blue-400/30 text-white placeholder:text-white/30 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="draftDescription" style={{ color: '#FFFFFF', fontFamily: '"Chakra Petch", sans-serif' }} className="text-sm font-medium">
+                    Description
+                  </Label>
+                  <Input
+                    id="draftDescription"
+                    value={draftDescription}
+                    onChange={(e) => setDraftDescription(e.target.value)}
+                    placeholder="Brief description of your practice"
+                    className="bg-black/20 border-blue-400/20 focus:border-blue-400/60 focus:ring-2 focus:ring-blue-400/30 text-white placeholder:text-white/30 transition-all"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -470,6 +511,27 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel }: SadhanaSetupFormProps) 
               >
                 Cancel
               </Button>
+              
+              {onSaveAsDraft && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    if (onSaveAsDraft && draftName.trim() !== "") {
+                      onSaveAsDraft({
+                        ...formData,
+                        name: draftName,
+                        description: draftDescription
+                      } as any);
+                    }
+                  }}
+                  disabled={draftName.trim() === ""}
+                  className="flex-1 border-blue-400/30 hover:bg-blue-500/10 hover:border-blue-400/50 text-white bg-black/20 transition-all"
+                >
+                  Save as Draft
+                </Button>
+              )}
+              
               <Button
                 type="submit"
                 onClick={handleSubmit}

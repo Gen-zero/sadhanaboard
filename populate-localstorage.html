@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Populate LocalStorage</title>
+</head>
+<body>
+    <h1>Populate LocalStorage for Custom Sadhanas</h1>
+    <button onclick="populateLocalStorage()">Populate LocalStorage</button>
+    <button onclick="clearLocalStorage()">Clear LocalStorage</button>
+    <div id="output"></div>
+
+    <script>
+        function populateLocalStorage() {
+            const testData = [{
+                id: 'test1',
+                name: 'Test Practice',
+                description: 'Test Description',
+                purpose: 'Test Purpose',
+                goal: 'Test Goal',
+                deity: 'Test Deity',
+                offerings: ['Test Offering'],
+                startDate: '2025-12-18',
+                endDate: '2026-01-27',
+                durationDays: 40,
+                createdAt: '2025-12-18T10:00:00.000Z'
+            }];
+            
+            localStorage.setItem('custom-sadhanas', JSON.stringify(testData));
+            document.getElementById('output').innerHTML = '<p>LocalStorage populated with test data</p>';
+        }
+        
+        function clearLocalStorage() {
+            localStorage.removeItem('custom-sadhanas');
+            document.getElementById('output').innerHTML = '<p>LocalStorage cleared</p>';
+        }
+    </script>
+</body>
+</html>

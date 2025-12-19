@@ -7,6 +7,7 @@ import AnimatedParchment from './AnimatedParchment';
 import SadhanaWelcome from './SadhanaWelcome';
 import SadhanaSetupForm from './SadhanaSetupForm';
 import SadhanaSelection from './SadhanaSelection';
+import SadhanaCompletionMarker from '../SadhanaCompletionMarker';
 import { SadhanaData } from '@/hooks/useSadhanaData';
 import { StoreSadhana } from '@/types/store';
 import { useSettings } from '@/hooks/useSettings';
@@ -28,6 +29,7 @@ interface SadhanaContentProps {
   onUpdateSadhana: (data: SadhanaData) => void;
   onSelectStoreSadhana: (sadhana: StoreSadhana) => void;
   onCreateCustomSadhana: () => void;
+  onSaveAsDraft?: (data: SadhanaData) => void;
   status?: 'active' | 'completed' | 'broken'; // Add status prop
 }
 
@@ -46,6 +48,7 @@ const SadhanaContent = ({
   onUpdateSadhana,
   onSelectStoreSadhana,
   onCreateCustomSadhana,
+  onSaveAsDraft,
   status = 'active' // Default to active
 }: SadhanaContentProps) => {
   const { settings } = useSettings();
@@ -70,6 +73,7 @@ const SadhanaContent = ({
       <SadhanaSetupForm 
         onCreateSadhana={onCreateSadhana}
         onCancel={onCancelSadhana}
+        onSaveAsDraft={onSaveAsDraft}
       />
     );
   }
@@ -100,6 +104,17 @@ const SadhanaContent = ({
             content={paperContent} 
             isCompleted={status === 'completed'}
           />
+        )}
+        
+        {/* Completion Marker - Visible when viewing Sadhana paper (both 2D and 3D) */}
+        {!isEditing && sadhanaData && (
+          <div className="mt-6 pt-4 border-t border-amber-900/50">
+            <SadhanaCompletionMarker 
+              sadhanaId={sadhanaData.id || ''}
+              date={new Date().toISOString().split('T')[0]}
+              showLabel={true}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "source": "converted_from_festivals_txt",
+    "years": [
+      "2025",
+      "2026"
+    ]
+  },
+  "festivals_by_year_month": {
+    "2025": {
+      "January": {
+        "Pausha Putrada Ekadashi": "January 10, 2025, Friday",
+        "Pausha Purnima": "January 13, 2025, Monday",
+        "Makara Sankranti": "January 14, 2025, Tuesday",
+        "Pongal": "January 14, 2025, Tuesday",
+        "Purna Kumbha @Prayagraj": "January 14, 2025, Tuesday",
+        "Sakat Chauth": "January 17, 2025, Friday",
+        "Shattila Ekadashi": "January 25, 2025, Saturday",
+        "Mauni Amavas": "January 29, 2025, Wednesday"
+      }
+    },
+    "2026": {
+      "January": {
+        "Pausha Purnima": "January 3, 2026, Saturday",
+        "Sakat Chauth": "January 6, 2026, Tuesday",
+        "Makara Sankranti": "January 14, 2026, Wednesday",
+        "Pongal": "January 14, 2026, Wednesday",
+        "Shattila Ekadashi": "January 14, 2026, Wednesday",
+        "Mauni Amavas": "January 18, 2026, Sunday",
+        "Vasant Panchami": "January 23, 2026, Friday",
+        "Ratha Saptami": "January 25, 2026, Sunday",
+        "Bhishma Ashtami": "January 26, 2026, Monday",
+        "Jaya Ekadashi": "January 29, 2026, Thursday"
+      }
+    }
+  },
+  "festivals_by_date": {
+    "2025-01-14": [
+      "Makara Sankranti",
+      "Pongal",
+      "Purna Kumbha @Prayagraj"
+    ],
+    "2025-01-26": [
+      "Maha Shivaratri"
+    ],
+    "2025-03-14": [
+      "Holi",
+      "Phalguna Purnima",
+      "Meena Sankranti",
+      "Chandra Grahan (Purna)"
+    ],
+    "2025-08-15": [
+      "Janmashtami (Smarta)"
+    ],
+    "2025-08-16": [
+      "Janmashtami (ISKCON)"
+    ],
+    "2025-10-20": [
+      "Diwali",
+      "Lakshmi Puja",
+      "Narak Chaturdashi"
+    ],
+    "2025-10-22": [
+      "Govardhan Puja"
+    ],
+    "2025-10-23": [
+      "Bhaiya Dooj"
+    ],
+    "2025-11-05": [
+      "Kartika Purnima"
+    ]
+  }
+}

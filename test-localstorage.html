@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test LocalStorage</title>
+</head>
+<body>
+    <h1>Test LocalStorage for Custom Sadhanas</h1>
+    <button onclick="saveTestData()">Save Test Data</button>
+    <button onclick="loadTestData()">Load Test Data</button>
+    <button onclick="clearTestData()">Clear Test Data</button>
+    <div id="output"></div>
+
+    <script>
+        const CUSTOM_SADHANAS_STORAGE_KEY = 'custom-sadhanas';
+        
+        function saveTestData() {
+            const testData = [{
+                id: 'test1',
+                name: 'Test Practice',
+                description: 'Test Description',
+                purpose: 'Test Purpose',
+                goal: 'Test Goal',
+                deity: 'Test Deity',
+                offerings: ['Test Offering'],
+                startDate: new Date().toISOString().split("T")[0],
+                endDate: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                durationDays: 40,
+                createdAt: new Date().toISOString()
+            }];
+            
+            localStorage.setItem(CUSTOM_SADHANAS_STORAGE_KEY, JSON.stringify(testData));
+            document.getElementById('output').innerHTML = '<p>Test data saved to localStorage</p>';
+        }
+        
+        function loadTestData() {
+            const stored = localStorage.getItem(CUSTOM_SADHANAS_STORAGE_KEY);
+            if (stored) {
+                const data = JSON.parse(stored);
+                document.getElementById('output').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } else {
+                document.getElementById('output').innerHTML = '<p>No data found in localStorage</p>';
+            }
+        }
+        
+        function clearTestData() {
+            localStorage.removeItem(CUSTOM_SADHANAS_STORAGE_KEY);
+            document.getElementById('output').innerHTML = '<p>Test data cleared from localStorage</p>';
+        }
+    </script>
+</body>
+</html>

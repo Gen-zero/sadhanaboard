@@ -178,9 +178,30 @@ CREATE TABLE IF NOT EXISTS sadhanas (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Custom Sadhanas table: User-created spiritual practice templates
+CREATE TABLE IF NOT EXISTS custom_sadhanas (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  purpose TEXT,
+  goal TEXT,
+  deity TEXT,
+  message TEXT,
+  offerings TEXT[],
+  duration_days INTEGER DEFAULT 40,
+  is_draft BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_sadhanas_user_id ON sadhanas(user_id);
 CREATE INDEX IF NOT EXISTS idx_sadhanas_assigned_by ON sadhanas(assigned_by);
 CREATE INDEX IF NOT EXISTS idx_sadhanas_created_at ON sadhanas(created_at);
+
+CREATE INDEX IF NOT EXISTS idx_custom_sadhanas_user_id ON custom_sadhanas(user_id);
+CREATE INDEX IF NOT EXISTS idx_custom_sadhanas_is_draft ON custom_sadhanas(is_draft);
+CREATE INDEX IF NOT EXISTS idx_custom_sadhanas_created_at ON custom_sadhanas(created_at);
 
 -- Sadhana progress table: Daily progress tracking for sadhanas
 CREATE TABLE IF NOT EXISTS sadhana_progress (

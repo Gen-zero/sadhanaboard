@@ -13,7 +13,8 @@ import {
   LogIn,
   ChevronRight,
   X,
-  Beaker
+  Beaker,
+  Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
@@ -47,7 +48,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
     { name: t('sadhanas'), icon: CheckSquare, path: '/saadhanas' },
     // Hidden: { name: t('your_yantras'), icon: Sparkles, path: '/your-atma-yantra' },
     // Hidden: { name: t('store'), icon: ShoppingCart, path: '/store' },
-    // Hidden: { name: 'Your Calendar', icon: Calendar, path: '/calendar' },
+    { name: 'Your Calendar', icon: Calendar, path: '/calendar' },
     // Hidden: { name: 'Your Beads', icon: Beaker, path: '/beads' },
     { name: t('settings'), icon: Settings, path: '/settings' }
   ];

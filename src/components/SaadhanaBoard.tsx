@@ -8,6 +8,7 @@ import { useSadhanaData } from '@/hooks/useSadhanaData';
 import { useManifestationForm } from '@/hooks/useManifestationForm';
 import { useSadhanaView } from '@/hooks/useSadhanaView';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { useCustomSadhanas } from '@/hooks/useCustomSadhanas';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -34,9 +35,23 @@ const SaadhanaBoard = () => {
     progress
   } = useSadhanaData();
   
+  const { saveCustomSadhana, loading: customSadhanasLoading, error: customSadhanasError } = useCustomSadhanas();
+  
   const { isEditing, view3D, setIsEditing, setView3D } = useSadhanaView();
   const { showManifestationForm, setShowManifestationForm } = useManifestationForm();
   const { colors } = useThemeColors();
+  
+  const handleSaveAsDraft = async (data: any) => {
+    try {
+      console.log('Saving custom sadhana draft:', data);
+      await saveCustomSadhana(data);
+      // Show a toast or notification that the draft was saved
+      console.log('Custom Sadhana draft saved');
+    } catch (error) {
+      console.error('Failed to save custom sadhana draft:', error);
+      // Show error notification
+    }
+  };
   
   // State for confirmation dialogs
   const [showCompleteDialog, setShowCompleteDialog] = useState(false);
@@ -161,6 +176,7 @@ const SaadhanaBoard = () => {
               onUpdateSadhana={updateSadhana}
               onSelectStoreSadhana={selectStoreSadhana}
               onCreateCustomSadhana={createCustomSadhana}
+              onSaveAsDraft={handleSaveAsDraft}
               status={sadhanaState.status}
             />
             

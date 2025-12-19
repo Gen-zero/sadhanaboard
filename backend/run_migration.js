@@ -1,3 +1,7 @@
+console.log('Loading environment...');
+require('dotenv').config({ path: '.env.development' });
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
+
 const db = require('./config/db');
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +15,7 @@ async function run() {
       process.exit(1);
     }
     
-    const migrationPath = path.join(__dirname, '..', 'backend', 'migrations', migrationFileName);
+    const migrationPath = path.join(__dirname, 'migrations', migrationFileName);
     console.log('Reading migration file:', migrationPath);
     const sql = fs.readFileSync(migrationPath, 'utf8');
     console.log('Executing migration...');

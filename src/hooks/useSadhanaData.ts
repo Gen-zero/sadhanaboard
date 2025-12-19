@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { addDays, format, isAfter, isSameDay } from 'date-fns';
 import { StoreSadhana } from '@/types/store';
+import { useSadhanaProgressContext } from '@/contexts/SadhanaProgressContext';
 
 export interface SadhanaData {
   purpose: string;
@@ -107,6 +108,7 @@ const removeSadhanaTasksFromLocalStorage = (sadhanaId: number) => {
 
 export const useSadhanaData = () => {
   const [sadhanaState, setSadhanaState] = useState<SadhanaState>(getInitialState);
+  const { isDateCompleted, getProgressForDate } = useSadhanaProgressContext();
 
   useEffect(() => {
     try {
@@ -158,6 +160,8 @@ export const useSadhanaData = () => {
   };
 
   const createSadhana = (data: SadhanaData) => {
+    // In a real implementation, this would create a sadhana on the backend
+    // For now, we'll generate a mock ID
     const sadhanaId = Date.now();
     
     setSadhanaState({
@@ -170,6 +174,8 @@ export const useSadhanaData = () => {
       sadhanaId
     });
     
+    // In a real implementation, we would create tasks on the backend
+    // For now, we'll keep the existing local storage approach
     createOrRefreshDailySadhanaTasks(data, sadhanaId);
   };
 
@@ -199,6 +205,43 @@ export const useSadhanaData = () => {
       completedAt: new Date().toISOString(),
       status: 'completed'
     }));
+  };
+
+  // Mark a specific date as completed for the current sadhana
+  const markDateAsCompleted = async (date: string, completed: boolean = true) => {
+    if (!sadhanaState.sadhanaId) return;
+    
+    try {
+      // In a real implementation, this would call our progress service
+      // For now, we'll just dispatch an event to simulate the behavior
+      window.dispatchEvent(
+        new CustomEvent('sadhana-progress-updated', {
+          detail: { 
+            sadhanaId: sadhanaState.sadhanaId, 
+            progress: { 
+              progressDate: date, 
+              completed 
+            } 
+          }
+        })
+      );
+      
+      console.log(`Marked date ${date} as ${completed ? 'completed' : 'not completed'} for sadhana ${sadhanaState.sadhanaId}`);
+    } catch (error) {
+      console.error('Failed to update progress:', error);
+    }
+  };
+
+  // Check if a specific date is completed for the current sadhana
+  const isDateCompletedForCurrentSadhana = (date: string): boolean => {
+    if (!sadhanaState.sadhanaId) return false;
+    return isDateCompleted(sadhanaState.sadhanaId.toString(), date);
+  };
+
+  // Get progress for a specific date for the current sadhana
+  const getProgressForCurrentSadhanaDate = (date: string) => {
+    if (!sadhanaState.sadhanaId) return undefined;
+    return getProgressForDate(sadhanaState.sadhanaId.toString(), date);
   };
 
   const breakSadhana = () => {
@@ -311,6 +354,9 @@ ${data.offerings.map((o, i) => `${i+1}. ${o}`).join('\n')}
     completeSadhana,
     breakSadhana,
     resetSadhana,
+    markDateAsCompleted,
+    isDateCompletedForCurrentSadhana,
+    getProgressForCurrentSadhanaDate,
     canComplete: canComplete(),
     daysRemaining: getDaysRemaining(),
     daysCompleted: getDaysCompleted(),
