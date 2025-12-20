@@ -27,11 +27,8 @@ const SadhanaGroup = ({
     return null;
   }
 
-  const handleToggleCompletion = (id: number) => {
-    const sadhana = sadhanas.find(s => s.id === id);
-    if (sadhana) {
-      onToggleCompletion(sadhana);
-    }
+  const handleToggleCompletion = (sadhana: Sadhana) => {
+    onToggleCompletion(sadhana);
   };
 
   const content = (

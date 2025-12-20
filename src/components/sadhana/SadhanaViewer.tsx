@@ -21,6 +21,14 @@ const SadhanaViewer = ({ sadhanaData, setView3D }: SadhanaViewerProps) => {
   const formatPaperContent = (data: SadhanaData | null): string => {
     if (!data) return '';
     
+    // Format duration based on unit
+    let durationText = '';
+    if (data.durationUnit === 'minutes') {
+      durationText = `${data.durationMinutes} minute${data.durationMinutes && data.durationMinutes > 1 ? 's' : ''}`;
+    } else {
+      durationText = `${data.durationDays} days`;
+    }
+    
     return `
 Purpose:
 ${data.purpose}
@@ -32,7 +40,7 @@ Divine Focus:
 ${data.deity}
 
 Duration:
-${data.durationDays} days
+${durationText}
 
 Message:
 "${data.message}"

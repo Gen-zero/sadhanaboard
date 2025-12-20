@@ -31,6 +31,7 @@ export const useCustomSadhanas = () => {
           deity: sadhana.deity,
           message: sadhana.message,
           offerings: sadhana.offerings,
+          tasks: [],
           startDate: new Date().toISOString().split('T')[0], // Default to today
           endDate: new Date(Date.now() + sadhana.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
           durationDays: sadhana.duration_days,
@@ -78,6 +79,7 @@ export const useCustomSadhanas = () => {
         deity: createdSadhana.deity,
         message: createdSadhana.message,
         offerings: createdSadhana.offerings,
+        tasks: [],
         startDate: new Date().toISOString().split('T')[0],
         endDate: new Date(Date.now() + createdSadhana.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         durationDays: createdSadhana.duration_days,
@@ -131,6 +133,7 @@ export const useCustomSadhanas = () => {
         deity: updatedApiSadhana.deity,
         message: updatedApiSadhana.message,
         offerings: updatedApiSadhana.offerings,
+        tasks: [],
         startDate: new Date().toISOString().split('T')[0],
         endDate: new Date(Date.now() + updatedApiSadhana.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         durationDays: updatedApiSadhana.duration_days,

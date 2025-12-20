@@ -1,3 +1,13 @@
+export enum Region {
+  MALAYALAM = 'Malayalam',
+  TAMIL = 'Tamil',
+  KANNADA = 'Kannada',
+  TELUGU = 'Telugu',
+  NORTH_INDIAN = 'North Indian (Hindi)',
+  BENGALI = 'Bengali',
+  MARATHI = 'Marathi'
+}
+
 export interface CalendarDay {
   date: string; // ISO format date (YYYY-MM-DD)
   dayNumber: number; // Day of the month (1-31)

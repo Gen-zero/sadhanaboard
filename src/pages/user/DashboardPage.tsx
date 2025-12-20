@@ -16,7 +16,6 @@ import {
   ChevronRight,
   Coins,
   ShoppingCart,
-  ShoppingCart,
   Check,
   Activity
 } from "lucide-react";

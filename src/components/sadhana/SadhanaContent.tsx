@@ -8,7 +8,7 @@ import SadhanaWelcome from './SadhanaWelcome';
 import SadhanaSetupForm from './SadhanaSetupForm';
 import SadhanaSelection from './SadhanaSelection';
 import SadhanaCompletionMarker from '../SadhanaCompletionMarker';
-import { SadhanaData } from '@/hooks/useSadhanaData';
+import { SadhanaData, SadhanaState } from '@/hooks/useSadhanaData';
 import { StoreSadhana } from '@/types/store';
 import { useSettings } from '@/hooks/useSettings';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -21,6 +21,7 @@ interface SadhanaContentProps {
   isCreating: boolean;
   isSelecting: boolean;
   sadhanaData: SadhanaData | null;
+  sadhanaState: SadhanaState;
   paperContent: string;
   setView3D: Dispatch<SetStateAction<boolean>>;
   onStartSadhana: () => void;
@@ -40,6 +41,7 @@ const SadhanaContent = ({
   isCreating,
   isSelecting,
   sadhanaData,
+  sadhanaState,
   paperContent,
   setView3D,
   onStartSadhana,
@@ -107,10 +109,10 @@ const SadhanaContent = ({
         )}
         
         {/* Completion Marker - Visible when viewing Sadhana paper (both 2D and 3D) */}
-        {!isEditing && sadhanaData && (
+        {!isEditing && sadhanaData && sadhanaState.sadhanaId && (
           <div className="mt-6 pt-4 border-t border-amber-900/50">
             <SadhanaCompletionMarker 
-              sadhanaId={sadhanaData.id || ''}
+              sadhanaId={sadhanaState.sadhanaId.toString()}
               date={new Date().toISOString().split('T')[0]}
               showLabel={true}
             />

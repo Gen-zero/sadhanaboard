@@ -22,7 +22,7 @@ const CalendarPage: React.FC = () => {
       const data = await generateCalendarMonth(
         currentDate.getMonth(),
         currentDate.getFullYear(),
-        user.id
+        user.id.toString()
       );
       setCalendarData(data);
     } catch (error) {

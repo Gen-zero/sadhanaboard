@@ -25,9 +25,12 @@ const SadhanaDetails = ({ sadhanaData, onUpdateSadhana, setView3D, view3D }: Sad
     deity: '',
     message: '',
     offerings: [''],
+    tasks: [],
     startDate: new Date().toISOString().split('T')[0],
     endDate: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    durationDays: 40
+    durationDays: 40,
+    durationMinutes: 1,
+    durationUnit: 'days'
   });
   
   const { markDateAsCompleted, isDateCompletedForCurrentSadhana } = useSadhanaData();

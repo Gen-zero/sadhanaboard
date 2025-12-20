@@ -20,6 +20,8 @@ export interface SadhanaData {
   startDate: string;
   endDate: string;
   durationDays: number;
+  durationMinutes?: number;
+  durationUnit?: 'days' | 'minutes';
 }
 
 export interface SadhanaState {
@@ -358,6 +360,14 @@ export const useSadhanaData = () => {
   };
 
   const formatPaperContent = (data: SadhanaData): string => {
+    // Format duration based on unit
+    let durationText = '';
+    if (data.durationUnit === 'minutes') {
+      durationText = `${data.durationMinutes} minute${data.durationMinutes && data.durationMinutes > 1 ? 's' : ''}`;
+    } else {
+      durationText = `${data.durationDays} days (${format(new Date(data.startDate), 'MMM dd, yyyy')} - ${format(new Date(data.endDate), 'MMM dd, yyyy')})`;
+    }
+    
     return `
 Purpose:
 ${data.purpose}
@@ -369,7 +379,7 @@ Divine Focus:
 ${data.deity}
 
 Duration:
-${data.durationDays} days (${format(new Date(data.startDate), 'MMM dd, yyyy')} - ${format(new Date(data.endDate), 'MMM dd, yyyy')})
+${durationText}
 
 Message:
 "${data.message}"

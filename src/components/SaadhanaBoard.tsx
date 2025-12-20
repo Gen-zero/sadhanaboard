@@ -168,6 +168,7 @@ const SaadhanaBoard = () => {
               isCreating={sadhanaState.isCreating}
               isSelecting={sadhanaState.isSelecting}
               sadhanaData={sadhanaData}
+              sadhanaState={sadhanaState}
               paperContent={paperContent}
               setView3D={setView3D}
               onStartSadhana={startSadhanaCreation}

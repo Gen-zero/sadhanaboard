@@ -78,13 +78,15 @@ const WaitlistPage = () => {
         {/* Fixed Back Button */}
         <div className="fixed top-4 left-4 z-50">
           <Button 
-            onClick={() => navigate('/')}
-            variant="ghost"
-            className="flex items-center text-white hover:text-white bg-transparent backdrop-blur-sm border border-amber-400/50 touch-target-large"
+            onClick={() => navigate('/')} 
+            variant="ghost" 
+            className="flex items-center text-white hover:text-white bg-transparent backdrop-blur-sm border border-white/20 touch-target-large rounded-full transition-all duration-300 group/btn overflow-hidden px-4 py-2 text-sm transform hover:scale-105"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Back to Homepage</span>
-            <span className="sm:hidden">Back</span>
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <ArrowLeft className="mr-2 h-4 w-4 relative z-10" />
+            <span className="hidden sm:inline relative z-10">Back to Homepage</span>
+            <span className="sm:hidden relative z-10">Back</span>
           </Button>
         </div>
 

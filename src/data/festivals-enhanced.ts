@@ -5,7 +5,7 @@ export interface Festival {
   month: string;
   day: number;
   year: number;
-  type?: 'major' | 'minor' | 'regional'; // Festival importance level
+  type?: 'major' | 'minor' | 'regional' | 'astronomical'; // Festival importance level
   description?: string; // Brief description of the festival
 }
 

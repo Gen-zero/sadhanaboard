@@ -37,6 +37,8 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
       .toISOString()
       .split("T")[0],
     durationDays: 40,
+    durationMinutes: 1,
+    durationUnit: 'days' as 'days' | 'minutes', // New field to toggle between days and minutes
   });
 
   const [draftName, setDraftName] = useState("");
@@ -50,6 +52,14 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
     if (days <= 40) return "Discipline";
     if (days <= 90) return "Mastery";
     return "Legendary";
+  };
+  
+  const getMinutesPreset = (minutes: number) => {
+    if (minutes <= 1) return "Moment";
+    if (minutes <= 5) return "Brief";
+    if (minutes <= 15) return "Focused";
+    if (minutes <= 30) return "Extended";
+    return "Deep Session";
   };
 
   const addOffering = () => {
@@ -111,9 +121,10 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
         goal: formData.goal,
         startDate: formData.startDate,
         durationDays: formData.durationDays,
+        durationMinutes: formData.durationMinutes,
+        durationUnit: formData.durationUnit,
         endDate: formData.endDate,
         deity: formData.deity,
-        message: formData.message,
         message: formData.message,
         offerings: formData.offerings.filter((o) => o.trim() !== ""),
         tasks: formData.tasks.filter(t => t.description.trim() !== "").map(t => ({
@@ -473,57 +484,102 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
                       </Label>
                       <div className="flex items-center gap-2">
                         <motion.span
-                          key={formData.durationDays}
+                          key={formData.durationUnit === 'days' ? formData.durationDays : formData.durationMinutes}
                           initial={{ scale: 1.3, color: "#FFD700" }}
                           animate={{ scale: 1, color: "#FFFFFF" }}
                           className="text-2xl font-bold"
                           style={{ fontFamily: '"Chakra Petch", sans-serif' }}
                         >
-                          {formData.durationDays}
+                          {formData.durationUnit === 'days' ? formData.durationDays : formData.durationMinutes}
                         </motion.span>
-                        <span className="text-sm text-white/60">days</span>
+                        <span className="text-sm text-white/60">{formData.durationUnit === 'days' ? 'days' : 'minutes'}</span>
                       </div>
+                    </div>
+                    
+                    {/* Toggle between days and minutes */}
+                    <div className="flex justify-center gap-2">
+                      <Button
+                        type="button"
+                        variant={formData.durationUnit === 'days' ? 'default' : 'outline'}
+                        onClick={() => setFormData(prev => ({ ...prev, durationUnit: 'days' }))}
+                        className={`px-4 py-2 text-sm ${formData.durationUnit === 'days' 
+                          ? 'bg-amber-500 hover:bg-amber-600 text-white' 
+                          : 'bg-black/20 border-amber-500/20 text-amber-500 hover:bg-amber-500/10'}`}
+                      >
+                        Days
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={formData.durationUnit === 'minutes' ? 'default' : 'outline'}
+                        onClick={() => setFormData(prev => ({ ...prev, durationUnit: 'minutes' }))}
+                        className={`px-4 py-2 text-sm ${formData.durationUnit === 'minutes' 
+                          ? 'bg-amber-500 hover:bg-amber-600 text-white' 
+                          : 'bg-black/20 border-amber-500/20 text-amber-500 hover:bg-amber-500/10'}`}
+                      >
+                        Minutes
+                      </Button>
                     </div>
 
                     {/* Interactive Slider */}
                     <div className="relative">
                       <Slider
-                        value={[formData.durationDays]}
+                        value={[formData.durationUnit === 'days' ? formData.durationDays : formData.durationMinutes]}
                         onValueChange={(value) => {
-                          const durationDays = value[0];
-                          const endDate = new Date(formData.startDate);
-                          endDate.setDate(endDate.getDate() + durationDays);
-                          setFormData(prev => ({
-                            ...prev,
-                            durationDays,
-                            endDate: endDate.toISOString().split('T')[0]
-                          }));
+                          const newValue = value[0];
+                          if (formData.durationUnit === 'days') {
+                            const endDate = new Date(formData.startDate);
+                            endDate.setDate(endDate.getDate() + newValue);
+                            setFormData(prev => ({
+                              ...prev,
+                              durationDays: newValue,
+                              endDate: endDate.toISOString().split('T')[0]
+                            }));
+                          } else {
+                            setFormData(prev => ({
+                              ...prev,
+                              durationMinutes: newValue
+                            }));
+                          }
                         }}
-                        min={1}
-                        max={365}
+                        min={formData.durationUnit === 'days' ? 1 : 1}
+                        max={formData.durationUnit === 'days' ? 365 : 1440} // Max 1440 minutes (24 hours)
                         step={1}
                         className="w-full"
                       />
                       {/* Preset markers */}
                       <div className="flex justify-between mt-2 text-xs" style={{ color: "rgba(255,255,255,0.4)", fontFamily: '"Chakra Petch", sans-serif' }}>
-                        <span>1d</span>
-                        <span>40d</span>
-                        <span>90d</span>
-                        <span>180d</span>
-                        <span>365d</span>
+                        {formData.durationUnit === 'days' ? (
+                          <>
+                            <span>1d</span>
+                            <span>40d</span>
+                            <span>90d</span>
+                            <span>180d</span>
+                            <span>365d</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>1m</span>
+                            <span>5m</span>
+                            <span>15m</span>
+                            <span>30m</span>
+                            <span>60m</span>
+                          </>
+                        )}
                       </div>
                     </div>
 
                     {/* Duration Preset Badge */}
                     <motion.div
-                      key={getDurationPreset(formData.durationDays)}
+                      key={formData.durationUnit === 'days' ? getDurationPreset(formData.durationDays) : `Minutes_${formData.durationMinutes}`}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400/30"
                     >
                       <Zap className="w-4 h-4 text-amber-400" />
                       <span className="text-sm font-bold" style={{ color: '#FFD700', fontFamily: '"Chakra Petch", sans-serif' }}>
-                        {getDurationPreset(formData.durationDays)}
+                        {formData.durationUnit === 'days' 
+                          ? getDurationPreset(formData.durationDays) 
+                          : getMinutesPreset(formData.durationMinutes)}
                       </span>
                     </motion.div>
                   </div>
@@ -539,13 +595,21 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
                       value={formData.startDate}
                       onChange={(e) => {
                         const startDate = e.target.value;
-                        const endDate = new Date(startDate);
-                        endDate.setDate(endDate.getDate() + formData.durationDays);
-                        setFormData(prev => ({
-                          ...prev,
-                          startDate,
-                          endDate: endDate.toISOString().split('T')[0]
-                        }));
+                        if (formData.durationUnit === 'days') {
+                          const endDate = new Date(startDate);
+                          endDate.setDate(endDate.getDate() + formData.durationDays);
+                          setFormData(prev => ({
+                            ...prev,
+                            startDate,
+                            endDate: endDate.toISOString().split('T')[0]
+                          }));
+                        } else {
+                          // For minutes, we keep the same start date
+                          setFormData(prev => ({
+                            ...prev,
+                            startDate
+                          }));
+                        }
                       }}
                       className="bg-black/20 border-amber-400/20 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30 text-white color-scheme-dark transition-all"
                     />
@@ -555,10 +619,12 @@ const SadhanaSetupForm = ({ onCreateSadhana, onCancel, onSaveAsDraft }: SadhanaS
                   <div className="p-4 rounded-lg bg-gradient-to-r from-amber-500/10 to-red-500/10 border border-amber-400/20">
                     <div className="flex items-center justify-between">
                       <span className="text-sm" style={{ color: "rgba(255,255,255,0.6)", fontFamily: '"Chakra Petch", sans-serif' }}>
-                        End Date:
+                        {formData.durationUnit === 'days' ? 'End Date:' : 'Duration:'}
                       </span>
                       <span className="text-lg font-bold" style={{ color: '#FFD700', fontFamily: '"Chakra Petch", sans-serif' }}>
-                        {new Date(formData.endDate).toLocaleDateString()}
+                        {formData.durationUnit === 'days' 
+                          ? new Date(formData.endDate).toLocaleDateString()
+                          : `${formData.durationMinutes} minute${formData.durationMinutes > 1 ? 's' : ''}`}
                       </span>
                     </div>
                   </div>

@@ -14,7 +14,7 @@ interface SadhanaCardProps {
   sadhana: Sadhana;
   onUpdate?: (sadhana: Sadhana) => void;
   onDelete?: (id: number) => void;
-  onToggleCompletion?: (id: number) => void;
+  onToggleCompletion?: (sadhana: Sadhana) => void;
 }
 
 const SadhanaCard = ({ sadhana, onUpdate, onDelete, onToggleCompletion }: SadhanaCardProps) => {
@@ -72,7 +72,7 @@ const SadhanaCard = ({ sadhana, onUpdate, onDelete, onToggleCompletion }: Sadhan
                 <motion.div whileTap={{ scale: 0.9 }} className="mt-0.5">
                   <Checkbox
                     checked={sadhana.completed}
-                    onCheckedChange={() => onToggleCompletion?.(sadhana.id)}
+                    onCheckedChange={() => onToggleCompletion?.(sadhana)}
                     className="h-6 w-6 rounded-full border-2 border-purple-500/50 data-[state=checked]:bg-purple-500/80 data-[state=checked]:border-purple-500"
                   />
                 </motion.div>

@@ -8,7 +8,7 @@ export interface Festival {
 }
 
 // Festival data for 2025 and 2026
-export const festivalData: Record<string, Record<string, string>> = {
+export const festivalData: any = {
   "2025": {
     "January": {
       "Pausha Putrada Ekadashi": "January 10, 2025, Friday",
@@ -351,11 +351,13 @@ export const getFestivalsForDate = (year: number, month: string, day: number): s
     
     Object.entries(festivals).forEach(([name, dateStr]) => {
       // Parse the date string to extract the day
-      const parts = dateStr.split(', ')[0].split(' ');
-      const dayStr = parts[1]; // Get the day part
-      
-      if (parseInt(dayStr) === day) {
-        festivalNames.push(name);
+      if (typeof dateStr === 'string') {
+        const parts = dateStr.split(', ')[0].split(' ');
+        const dayStr = parts[1]; // Get the day part
+        
+        if (parseInt(dayStr) === day) {
+          festivalNames.push(name);
+        }
       }
     });
     
@@ -375,14 +377,16 @@ export const getFestivalsForMonth = (year: number, month: string): Record<number
     
     Object.entries(monthFestivals).forEach(([name, dateStr]) => {
       // Parse the date string to extract the day
-      const parts = dateStr.split(', ')[0].split(' ');
-      const day = parseInt(parts[1]); // Get the day part
-      
-      if (!festivals[day]) {
-        festivals[day] = [];
+      if (typeof dateStr === 'string') {
+        const parts = dateStr.split(', ')[0].split(' ');
+        const day = parseInt(parts[1]); // Get the day part
+        
+        if (!festivals[day]) {
+          festivals[day] = [];
+        }
+        
+        festivals[day].push(name);
       }
-      
-      festivals[day].push(name);
     });
   }
   

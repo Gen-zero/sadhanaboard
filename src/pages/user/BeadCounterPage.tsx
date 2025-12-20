@@ -209,6 +209,15 @@ const BeadCounterPage = () => {
   useEffect(() => localStorage.setItem('mala-vibration-duration', vibrationDuration.toString()), [vibrationDuration]);
   useEffect(() => localStorage.setItem('mala-target-count', targetCount.toString()), [targetCount]);
 
+  // Cleanup audio context on unmount
+  useEffect(() => {
+    return () => {
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
+
   // Audio functions
   const initAudio = useCallback(() => {
     if (soundEnabled && !audioContextRef.current) {
@@ -615,7 +624,7 @@ const BeadCounterPage = () => {
                       fill={isGuru ? currentStyle.guruColor : currentStyle.baseColor}
                       stroke={currentStyle.stroke}
                       strokeWidth={isGuru ? 0 : 0.5}
-                      filter={isGuru && beadType !== 'karungali' ? undefined : currentStyle.filter}
+                      filter={currentStyle.filter}
                     />
 
                     {/* Tassel for Guru Bead */}
