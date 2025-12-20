@@ -1,9 +1,12 @@
-import { 
-  CheckSquare, 
-  Filter, 
+import {
+  CheckSquare,
+  Filter,
   Search,
   ChevronDown,
-  Plus
+  Plus,
+  Target,
+  Flame,
+  Clock
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -23,17 +26,17 @@ import { Badge } from '@/components/ui/badge';
 
 const CosmicParticle = ({ delay }: { delay: number }) => {
   return (
-    <div 
+    <div
       className="absolute rounded-full opacity-0"
       style={{
         backgroundColor: 'hsl(var(--primary) / 0.5)', // Use theme primary color with opacity
-        width: `${Math.random() * 3 + 1}px`,
-        height: `${Math.random() * 3 + 1}px`,
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        animation: `float ${Math.random() * 5 + 3}s ease-in-out infinite, 
-                    cosmic-pulse ${Math.random() * 4 + 2}s ease-in-out infinite`,
-        animationDelay: `${delay}s`,
+        width: `${Math.random() * 3 + 1} px`,
+        height: `${Math.random() * 3 + 1} px`,
+        top: `${Math.random() * 100}% `,
+        left: `${Math.random() * 100}% `,
+        animation: `float ${Math.random() * 5 + 3}s ease -in -out infinite,
+  cosmic - pulse ${Math.random() * 4 + 2}s ease -in -out infinite`,
+        animationDelay: `${delay} s`,
         opacity: Math.random() * 0.5 + 0.2
       }}
     ></div>
@@ -47,6 +50,8 @@ const Saadhanas = () => {
     reflectingSadhana, setReflectingSadhana,
     reflectionText, setReflectionText,
     groupedSaadhanas,
+    dailyRituals,
+    goalTasks,
     handleAddSadhana,
     handleUpdateSadhana,
     handleDeleteSadhana,
@@ -59,7 +64,7 @@ const Saadhanas = () => {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [isDesktopFiltersOpen, setIsDesktopFiltersOpen] = useState(false);
   const isMobile = useIsMobile();
-  
+
   useEffect(() => {
     // Create cosmic particles
     const particles = Array.from({ length: 50 }, (_, i) => i);
@@ -98,14 +103,14 @@ const Saadhanas = () => {
   return (
     <div className="space-y-6 animate-fade-in cosmic-nebula-bg relative bg-transparent">
       <CosmicBackgroundSimple />
-      
+
       {/* Cosmic particles - hidden for Shiva theme */}
-      <div className={`fixed inset-0 pointer-events-none overflow-hidden ${isShivaTheme ? 'hidden' : ''}`}>
+      <div className={`fixed inset - 0 pointer - events - none overflow - hidden ${isShivaTheme ? 'hidden' : ''} `}>
         {cosmicParticles.map((_, index) => (
           <CosmicParticle key={index} delay={index * 0.1} />
         ))}
       </div>
-      
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-primary/20">
         <div className="flex items-center gap-3">
@@ -128,18 +133,18 @@ const Saadhanas = () => {
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input 
+            <Input
               placeholder="Search saadhanas..."
               className="pl-9 glass-effect"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          
+
           <div className="flex gap-2">
             {/* Filter Button */}
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="flex items-center gap-2 bg-background/70 border-primary/30 hover:bg-primary/10"
               onClick={() => isMobile ? setIsMobileFiltersOpen(true) : setIsDesktopFiltersOpen(!isDesktopFiltersOpen)}
             >
@@ -153,7 +158,7 @@ const Saadhanas = () => {
             </Button>
           </div>
         </div>
-        
+
         {/* Mobile Filter Sheet */}
         {isMobile && (
           <Sheet open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
@@ -183,7 +188,7 @@ const Saadhanas = () => {
             </SheetContent>
           </Sheet>
         )}
-        
+
         {/* Desktop Filter Panel */}
         {!isMobile && isDesktopFiltersOpen && (
           <CollapsibleContent className="pt-4 border-t border-primary/20 mt-4">
@@ -207,88 +212,147 @@ const Saadhanas = () => {
         )}
       </div>
 
-      <div className="mt-6 space-y-8">
-        {totalSaadhanas === 0 ? (
-          <div className="backdrop-blur-sm bg-background/70 p-8 rounded-xl border border-primary/20">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <CheckSquare className="h-16 w-16 text-primary/30 mb-4" />
-              <h3 className="text-xl font-medium mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">No saadhanas found</h3>
-              <p className="text-muted-foreground max-w-md">
-                {searchQuery || filter !== 'all' 
-                  ? "Try changing your search or filter settings." 
-                  : "Create your first sadhana by clicking the 'Add Sadhana' button."}
-              </p>
-              <div className="mt-4">
-                <AddSadhana 
-                  onAddSadhana={handleAddSadhanaWrapper} 
-                  triggerButton={
-                    <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/30">
-                      <Plus className="mr-2 h-4 w-4" />
-                      Add Your First Sadhana
-                    </Button>
-                  }
-                />
+      <div className="mt-6">
+        {/* Add Sadhana Button */}
+        <div className="flex justify-end mb-6">
+          <AddSadhana
+            onAddSadhana={handleAddSadhanaWrapper}
+            triggerButton={
+              <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/30">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Sadhana
+              </Button>
+            }
+          />
+        </div>
+
+        {/* Two-Column Layout: Goal Tasks (left) & Daily Rituals (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Goal Tasks Section (Left) - Search applies here only */}
+          <div className="backdrop-blur-sm bg-background/70 p-6 rounded-xl border border-purple-500/20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-purple-500/20">
+                <Target className="h-5 w-5 text-purple-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-foreground">Goal Tasks</h2>
+                <p className="text-xs text-muted-foreground">Searchable • {goalTasks.length} tasks</p>
               </div>
             </div>
-          </div>
-        ) : (
-          <>
-            {/* Add Sadhana Button for when there are existing saadhanas */}
-            <div className="flex justify-end">
-              <AddSadhana 
-                onAddSadhana={handleAddSadhanaWrapper} 
-                triggerButton={
-                  <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/30">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Sadhana
-                  </Button>
-                }
-              />
+
+            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+              {goalTasks.length > 0 ? (
+                goalTasks.map((task) => (
+                  <div
+                    key={task.id}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-muted/20 border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{task.title}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        {task.time && (
+                          <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            {task.time}
+                          </span>
+                        )}
+                        <Badge variant={task.priority === 'high' ? 'destructive' : 'secondary'} className="text-xs">
+                          {task.priority}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 ml-4">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border-purple-500/30"
+                        onClick={() => handleToggleCompletion(task)}
+                      >
+                        Complete
+                      </Button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Target className="h-12 w-12 mx-auto mb-3 opacity-20" />
+                  <p className="text-sm">{searchQuery ? 'No matching goals found' : 'No goal tasks yet'}</p>
+                  <p className="text-xs mt-2">Add tasks with category "goal" to see them here</p>
+                </div>
+              )}
             </div>
-            
-            <SadhanaGroup 
-              title="Overdue" 
-              sadhanas={groupedSaadhanas.overdue}
-              onUpdate={handleUpdateSadhana}
-              onDelete={handleDeleteSadhana}
-              onToggleCompletion={handleToggleCompletion}
-            />
-            <SadhanaGroup 
-              title="Daily Rituals"
-              sadhanas={groupedSaadhanas.today}
-              onUpdate={handleUpdateSadhana}
-              onDelete={handleDeleteSadhana}
-              onToggleCompletion={handleToggleCompletion}
-            />
-            <SadhanaGroup 
-              title="Upcoming"
-              sadhanas={groupedSaadhanas.upcoming}
-              onUpdate={handleUpdateSadhana}
-              onDelete={handleDeleteSadhana}
-              onToggleCompletion={handleToggleCompletion}
-            />
-            <SadhanaGroup 
-              title="Goals & Aspirations"
-              sadhanas={groupedSaadhanas.noDueDate}
-              onUpdate={handleUpdateSadhana}
-              onDelete={handleDeleteSadhana}
-              onToggleCompletion={handleToggleCompletion}
-            />
-            
-            <SadhanaGroup
-              title="Completed"
-              isCollapsible={true}
-              defaultOpen={false}
-              sadhanas={groupedSaadhanas.completed}
-              onUpdate={handleUpdateSadhana}
-              onDelete={handleDeleteSadhana}
-              onToggleCompletion={handleToggleCompletion}
-            />
-          </>
-        )}
+          </div>
+
+          {/* Daily Rituals Section (Right) - No search filter */}
+          <div className="backdrop-blur-sm bg-background/70 p-6 rounded-xl border border-amber-500/20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-amber-500/20">
+                <Flame className="h-5 w-5 text-amber-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-foreground">Daily Rituals</h2>
+                <p className="text-xs text-muted-foreground">Today's practices • {dailyRituals.length} rituals</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+              {dailyRituals.length > 0 ? (
+                dailyRituals.map((ritual) => (
+                  <div
+                    key={ritual.id}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-muted/20 border-amber-500/20 hover:border-amber-500/40 transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{ritual.title}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        {ritual.time && (
+                          <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-amber-400" />
+                            {ritual.time}
+                          </span>
+                        )}
+                        <Badge variant="secondary" className="text-xs bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                          daily
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 ml-4">
+                      <Button
+                        size="sm"
+                        className="bg-amber-500 hover:bg-amber-600 text-black font-bold"
+                        onClick={() => handleToggleCompletion(ritual)}
+                      >
+                        Complete
+                      </Button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Flame className="h-12 w-12 mx-auto mb-3 opacity-20" />
+                  <p className="text-sm">No daily rituals for today</p>
+                  <p className="text-xs mt-2">Add tasks with category "daily" to see them here</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Completed Section - Collapsible */}
+        <div className="mt-8">
+          <SadhanaGroup
+            title="Completed"
+            isCollapsible={true}
+            defaultOpen={false}
+            sadhanas={groupedSaadhanas.completed}
+            onUpdate={handleUpdateSadhana}
+            onDelete={handleDeleteSadhana}
+            onToggleCompletion={handleToggleCompletion}
+          />
+        </div>
       </div>
 
-      <ReflectionDialog 
+      <ReflectionDialog
         reflectingSadhana={reflectingSadhana}
         setReflectingSadhana={setReflectingSadhana}
         reflectionText={reflectionText}

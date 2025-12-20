@@ -356,8 +356,8 @@ const BeadCounterPage = () => {
           <div className="space-y-4">
             {/* Bead Material */}
             <div>
-              <label className="block text-sm font-semibold text-muted-foreground mb-2">Bead Material</label>
-              <div className="grid grid-cols-2 gap-2">
+              <label htmlFor="beadMaterial" className="block text-sm font-semibold text-muted-foreground mb-2">Bead Material</label>
+              <div id="beadMaterial" className="grid grid-cols-2 gap-2">
                 {(Object.entries(beadStyles) as [BeadStyleKey, typeof beadStyles[BeadStyleKey]][]).map(([key, style]) => (
                   <button
                     key={key}
@@ -379,10 +379,11 @@ const BeadCounterPage = () => {
 
             {/* Target Count */}
             <div className="pt-2 border-t border-purple-500/20">
-              <label className="block text-sm font-semibold text-muted-foreground mb-2">Target Count</label>
+              <label htmlFor="targetCount" className="block text-sm font-semibold text-muted-foreground mb-2">Target Count</label>
               <div className="flex items-center gap-2">
                 <Target size={18} className="text-purple-400" />
                 <select
+                  id="targetCount"
                   value={targetCount}
                   onChange={(e) => setTargetCount(parseInt(e.target.value))}
                   className="flex-1 bg-muted/30 border border-purple-500/20 rounded-lg px-3 py-2 text-sm text-black focus:ring-2 focus:ring-purple-400 focus:border-purple-500"
@@ -400,7 +401,7 @@ const BeadCounterPage = () => {
             <div className="flex items-center justify-between pt-2 border-t border-purple-500/20">
               <div className="flex items-center gap-2">
                 {soundEnabled ? <Volume2 size={18} className="text-purple-400" /> : <VolumeX size={18} className="text-muted-foreground" />}
-                <label className="text-sm font-semibold text-muted-foreground">Sound Effects</label>
+                <span className="text-sm font-semibold text-muted-foreground">Sound Effects</span>
               </div>
               <button
                 onClick={() => setSoundEnabled(!soundEnabled)}
@@ -418,7 +419,7 @@ const BeadCounterPage = () => {
             <div className="flex items-center justify-between pt-2 border-t border-purple-500/20">
               <div className="flex items-center gap-2">
                 <Smartphone size={18} className={hapticEnabled ? "text-purple-400" : "text-muted-foreground"} />
-                <label className="text-sm font-semibold text-muted-foreground">Haptic Feedback</label>
+                <span className="text-sm font-semibold text-muted-foreground">Haptic Feedback</span>
               </div>
               <button
                 onClick={() => setHapticEnabled(!hapticEnabled)}
@@ -435,8 +436,9 @@ const BeadCounterPage = () => {
             {/* Vibration Duration Slider */}
             {hapticEnabled && (
               <div className="space-y-2 pl-2">
-                <label className="text-xs font-medium text-muted-foreground">Vibration Duration</label>
+                <label htmlFor="vibrationDuration" className="text-xs font-medium text-muted-foreground">Vibration Duration</label>
                 <input
+                  id="vibrationDuration"
                   type="range"
                   min="5"
                   max="50"
@@ -540,6 +542,10 @@ const BeadCounterPage = () => {
           <div
             className="relative w-full h-[300px] cursor-pointer active:cursor-grabbing group overflow-visible"
             onClick={handleIncrement}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleIncrement(); } }}
+            role="button"
+            tabIndex={0}
+            aria-label="Click or press Enter to count bead"
           >
             {/* Center Marker - Subtle Sacred */}
             <div className="absolute top-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-amber-500/5 blur-2xl pointer-events-none" />
