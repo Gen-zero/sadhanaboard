@@ -40,19 +40,19 @@ export const useSaadhanas = () => {
     const loadSaadhanas = () => {
       try {
         let allSaadhanas: Sadhana[] = [];
-        
+
         // Load regular saadhanas
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsedSaadhanas = JSON.parse(stored);
           allSaadhanas = [...parsedSaadhanas];
         }
-        
+
         // Load and convert sadhana tasks to saadhana format
         const tasksStored = localStorage.getItem(TASKS_STORAGE_KEY);
         if (tasksStored) {
           const tasks: Task[] = JSON.parse(tasksStored);
-          
+
           // Filter for sadhana tasks and convert to Sadhana format
           const sadhanaTasksConverted = tasks
             .filter(task => task.sadhanaId && task.category === 'daily')
@@ -69,10 +69,10 @@ export const useSaadhanas = () => {
               sadhanaId: task.sadhanaId,
               isSadhanaTask: true // Mark as sadhana task
             } as Sadhana & { isSadhanaTask: boolean }));
-          
+
           allSaadhanas = [...allSaadhanas, ...sadhanaTasksConverted];
         }
-        
+
         setSaadhanas(allSaadhanas);
       } catch (error) {
         console.log('Could not load saadhanas from localStorage');
@@ -87,7 +87,7 @@ export const useSaadhanas = () => {
         loadSaadhanas();
       }
     };
-    
+
     // Listen for sadhana task refresh events
     const handleTasksRefreshed = () => {
       loadSaadhanas();
@@ -95,7 +95,7 @@ export const useSaadhanas = () => {
 
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('sadhana-tasks-refreshed', handleTasksRefreshed);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('sadhana-tasks-refreshed', handleTasksRefreshed);
@@ -121,8 +121,8 @@ export const useSaadhanas = () => {
   };
 
   const handleUpdateSadhana = (updatedSadhana: Sadhana) => {
-    setSaadhanas(prev => 
-      prev.map(sadhana => 
+    setSaadhanas(prev =>
+      prev.map(sadhana =>
         sadhana.id === updatedSadhana.id ? updatedSadhana : sadhana
       )
     );
@@ -134,15 +134,15 @@ export const useSaadhanas = () => {
 
   const handleToggleCompletion = (sadhana: Sadhana) => {
     const updatedSadhana = { ...sadhana, completed: !sadhana.completed };
-    
+
     // If this is a sadhana task, update it in the tasks storage as well
     if ('isSadhanaTask' in sadhana && (sadhana as Record<string, unknown>).isSadhanaTask) {
       try {
         const tasksStored = localStorage.getItem(TASKS_STORAGE_KEY);
         if (tasksStored) {
           const tasks: Task[] = JSON.parse(tasksStored);
-          const updatedTasks = tasks.map(task => 
-            task.id === sadhana.id 
+          const updatedTasks = tasks.map(task =>
+            task.id === sadhana.id
               ? { ...task, completed: updatedSadhana.completed }
               : task
           );
@@ -152,9 +152,9 @@ export const useSaadhanas = () => {
         console.log('Could not update task completion in tasks storage');
       }
     }
-    
+
     handleUpdateSadhana(updatedSadhana);
-    
+
     if (updatedSadhana.completed) {
       setReflectingSadhana(updatedSadhana);
       setReflectionText(updatedSadhana.reflection || '');
@@ -173,11 +173,11 @@ export const useSaadhanas = () => {
   // Filter and search saadhanas
   const filteredSaadhanas = saadhanas.filter(sadhana => {
     const matchesSearch = sadhana.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         sadhana.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         sadhana.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+      sadhana.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sadhana.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
     const matchesFilter = filter === 'all' || sadhana.priority === filter;
-    
+
     return matchesSearch && matchesFilter;
   });
 
@@ -209,6 +209,31 @@ export const useSaadhanas = () => {
     }
   );
 
+  // Separate daily rituals and goal tasks
+  // Daily rituals: category='daily', no search filter - always show all for today
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  const dailyRituals = saadhanas.filter(sadhana =>
+    sadhana.category === 'daily' &&
+    !sadhana.completed &&
+    (!sadhana.dueDate || sadhana.dueDate === todayStr || isToday(parseISO(sadhana.dueDate)))
+  );
+
+  // Goal tasks: category='goal', search filter applies
+  const goalTasks = saadhanas.filter(sadhana => {
+    const isGoal = sadhana.category === 'goal';
+    if (!isGoal) return false;
+
+    // Apply search filter only to goal tasks
+    const matchesSearch = !searchQuery ||
+      sadhana.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sadhana.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sadhana.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesFilter = filter === 'all' || sadhana.priority === filter;
+
+    return matchesSearch && matchesFilter && !sadhana.completed;
+  });
+
   return {
     searchQuery,
     setSearchQuery,
@@ -219,6 +244,8 @@ export const useSaadhanas = () => {
     reflectionText,
     setReflectionText,
     groupedSaadhanas,
+    dailyRituals,
+    goalTasks,
     handleAddSadhana,
     handleUpdateSadhana,
     handleDeleteSadhana,

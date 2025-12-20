@@ -35,7 +35,7 @@ function App() {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [animateBead, setAnimateBead] = useState(false); // Trigger for slide animation
-  
+
   // Audio Hook
   const { playClick, playChime } = useAudio(settings.soundEnabled);
 
@@ -109,21 +109,21 @@ function App() {
 
   return (
     <div className={`h-[100dvh] w-full flex flex-col overflow-hidden relative ${getBgStyle()} transition-colors duration-500`}>
-      
+
       {/* --- Top Bar --- */}
       <header className="flex justify-between items-center p-6 z-10 relative">
         <div className="flex items-center space-x-2">
-           {/* Mini badge for rounds */}
-           <div className="flex flex-col">
-             <span className="text-xs font-semibold tracking-widest opacity-60 uppercase">Rounds</span>
-             <div className="flex items-center space-x-1">
-               <Award size={18} className="text-amber-500" />
-               <span className="text-xl font-bold font-mono">{malaCompleted}</span>
-             </div>
-           </div>
+          {/* Mini badge for rounds */}
+          <div className="flex flex-col">
+            <span className="text-xs font-semibold tracking-widest opacity-60 uppercase">Rounds</span>
+            <div className="flex items-center space-x-1">
+              <Award size={18} className="text-amber-500" />
+              <span className="text-xl font-bold font-mono">{malaCompleted}</span>
+            </div>
+          </div>
         </div>
-        
-        <button 
+
+        <button
           onClick={() => setIsSettingsOpen(true)}
           className="p-3 rounded-full hover:bg-black/5 transition-colors"
           aria-label="Settings"
@@ -134,14 +134,15 @@ function App() {
 
       {/* --- Main Interactive Area --- */}
       {/* We make this entire area clickable for ease of use on mobile */}
-      <main 
+      <div
         className="flex-1 flex flex-col items-center justify-center relative touch-manipulation cursor-pointer"
         onClick={handleIncrement}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleIncrement(); } }}
         role="button"
         tabIndex={0}
         aria-label="Tap to count bead"
       >
-        
+
         {/* Background Decorative String */}
         <div className="absolute top-1/2 left-0 w-full h-1 bg-amber-900/10 -translate-y-1/2 -z-0"></div>
 
@@ -150,24 +151,24 @@ function App() {
 
         {/* Previous Bead (Ghost) - Visual cue for movement */}
         <div className={`absolute left-1/2 -translate-x-1/2 -translate-y-[180%] opacity-30 scale-50 transition-transform duration-300 ${animateBead ? 'translate-y-[250%] opacity-0' : ''}`}>
-           <Bead config={currentBeadConfig} size="md" />
+          <Bead config={currentBeadConfig} size="md" />
         </div>
 
         {/* THE MAIN BEAD */}
         <div className="relative z-10 p-8">
-           <div className={`transform transition-all duration-150 ease-out ${animateBead ? 'translate-y-[20%] scale-95' : 'translate-y-0 scale-100'}`}>
-              <Bead 
-                config={currentBeadConfig} 
-                size="xl" 
-                isCenter={true} 
-                className="shadow-2xl"
-              />
-           </div>
+          <div className={`transform transition-all duration-150 ease-out ${animateBead ? 'translate-y-[20%] scale-95' : 'translate-y-0 scale-100'}`}>
+            <Bead
+              config={currentBeadConfig}
+              size="xl"
+              isCenter={true}
+              className="shadow-2xl"
+            />
+          </div>
         </div>
 
         {/* Next Bead (Ghost) */}
         <div className={`absolute left-1/2 -translate-x-1/2 translate-y-[180%] opacity-30 scale-50 transition-transform duration-300 ${animateBead ? 'translate-y-[80%] opacity-100' : ''}`}>
-           <Bead config={currentBeadConfig} size="md" />
+          <Bead config={currentBeadConfig} size="md" />
         </div>
 
         {/* Count Display */}
@@ -182,16 +183,16 @@ function App() {
 
         {/* Tap Prompt (Only shows if count is 0) */}
         {count === 0 && malaCompleted === 0 && (
-           <div className="absolute bottom-[10%] text-sm opacity-40 animate-pulse pointer-events-none">
-             Tap anywhere to start
-           </div>
+          <div className="absolute bottom-[10%] text-sm opacity-40 animate-pulse pointer-events-none">
+            Tap anywhere to start
+          </div>
         )}
 
-      </main>
+      </div>
 
       {/* --- Bottom Controls --- */}
       <footer className="p-6 flex justify-between items-center relative z-10 bg-gradient-to-t from-white/80 to-transparent">
-        <button 
+        <button
           onClick={(e) => { e.stopPropagation(); handleReset(); }}
           className="flex items-center space-x-2 px-4 py-2 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 text-sm font-medium transition-colors"
         >
@@ -207,7 +208,7 @@ function App() {
       </footer>
 
       {/* --- Modals --- */}
-      <SettingsModal 
+      <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         selectedBead={selectedBeadType}
@@ -215,7 +216,7 @@ function App() {
         settings={settings}
         onUpdateSettings={setSettings}
       />
-      
+
     </div>
   );
 }

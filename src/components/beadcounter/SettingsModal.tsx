@@ -26,7 +26,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-        
+
         {/* Header */}
         <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-orange-50/50">
           <h2 className="text-xl font-bold text-orange-900">Bead Settings</h2>
@@ -34,7 +34,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             <X size={24} />
           </button>
         </div>
-        
+
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
           {/* Sound Toggle */}
@@ -52,14 +52,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               </div>
               <button
                 onClick={() => onUpdateSettings({ ...settings, soundEnabled: !settings.soundEnabled })}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.soundEnabled ? 'bg-orange-500' : 'bg-gray-300'
-                }`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.soundEnabled ? 'bg-orange-500' : 'bg-gray-300'
+                  }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    settings.soundEnabled ? 'translate-x-6' : 'translate-x-1'
-                  }`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${settings.soundEnabled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
                 />
               </button>
             </div>
@@ -80,22 +78,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               </div>
               <button
                 onClick={() => onUpdateSettings({ ...settings, hapticEnabled: !settings.hapticEnabled })}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.hapticEnabled ? 'bg-orange-500' : 'bg-gray-300'
-                }`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${settings.hapticEnabled ? 'bg-orange-500' : 'bg-gray-300'
+                  }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    settings.hapticEnabled ? 'translate-x-6' : 'translate-x-1'
-                  }`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${settings.hapticEnabled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
                 />
               </button>
             </div>
-            
+
             {settings.hapticEnabled && (
               <div className="space-y-2 pl-2">
-                <label className="text-xs font-medium text-gray-500">Vibration Duration (ms)</label>
+                <label htmlFor="vibrationDuration" className="text-xs font-medium text-gray-500">Vibration Duration (ms)</label>
                 <input
+                  id="vibrationDuration"
                   type="range"
                   min="5"
                   max="50"
@@ -147,11 +144,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 <button
                   key={bead.type}
                   onClick={() => onSelectBead(bead.type)}
-                  className={`flex items-center p-3 rounded-2xl border-2 transition-all text-left ${
-                    selectedBead === bead.type
+                  className={`flex items-center p-3 rounded-2xl border-2 transition-all text-left ${selectedBead === bead.type
                       ? 'border-orange-500 bg-orange-50 ring-2 ring-orange-200 ring-offset-1'
                       : 'border-gray-100 hover:border-orange-200 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <div className="flex-shrink-0 mr-4">
                     <Bead config={bead} size="sm" />
