@@ -283,6 +283,9 @@ const DashboardPage = () => {
                         key={ritual.id}
                         className="flex items-center justify-between p-2 rounded-lg border bg-muted/20 border-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer"
                         onClick={() => navigate(`/saadhanas/${ritual.id}`)}
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/saadhanas/${ritual.id}`); } }}
+                        role="button"
+                        tabIndex={0}
                       >
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate text-sm">{ritual.title}</p>
@@ -348,6 +351,9 @@ const DashboardPage = () => {
                       key={achievement.id}
                       className="flex items-center gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/30 transition-all cursor-pointer group"
                       onClick={() => navigate("/profile")}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate("/profile"); } }}
+                      role="button"
+                      tabIndex={0}
                     >
                       <div className="p-1.5 rounded-full bg-gold/20 flex-shrink-0">
                         <IconComponent className="h-4 w-4 text-gold" />
@@ -462,6 +468,9 @@ const DashboardPage = () => {
                       key={task.id}
                       className="flex items-center justify-between p-3 rounded-lg border bg-muted/20 border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:shadow-md cursor-pointer group"
                       onClick={() => navigate(`/saadhanas/${task.id}`)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/saadhanas/${task.id}`); } }}
+                      role="button"
+                      tabIndex={0}
                     >
                       <div className="flex-1 min-w-0">
                         <p className="font-medium truncate text-sm group-hover:text-purple-300">{task.title}</p>

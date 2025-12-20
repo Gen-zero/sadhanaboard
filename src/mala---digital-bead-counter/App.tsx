@@ -134,7 +134,7 @@ function App() {
 
       {/* --- Main Interactive Area --- */}
       {/* We make this entire area clickable for ease of use on mobile */}
-      <main
+      <div
         className="flex-1 flex flex-col items-center justify-center relative touch-manipulation cursor-pointer"
         onClick={handleIncrement}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleIncrement(); } }}
@@ -188,7 +188,7 @@ function App() {
           </div>
         )}
 
-      </main>
+      </div>
 
       {/* --- Bottom Controls --- */}
       <footer className="p-6 flex justify-between items-center relative z-10 bg-gradient-to-t from-white/80 to-transparent">
