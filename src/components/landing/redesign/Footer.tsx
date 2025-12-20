@@ -62,21 +62,21 @@ const Footer = () => {
                             </div>
 
                             <div className="flex flex-col">
-                                <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                                <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200 font-chakra">
                                     SadhanaBoard
                                 </span>
-                                <span className="text-xs text-yellow-400/80 font-medium tracking-wider transition-all duration-300 group-hover/logo:text-yellow-300">
+                                <span className="text-xs text-yellow-400/80 font-chakra font-medium tracking-wider uppercase transition-all duration-300 group-hover/logo:text-yellow-300">
                                     ✨ Your Digital Yantra
                                 </span>
                             </div>
                         </Link>
 
                         {/* Spiritual OS Tagline - Below Logo */}
-                        <p className="text-sm text-white/50 font-medium tracking-wide">The Spiritual Operating System</p>
+                        <p className="text-sm text-white/50 font-chakra font-medium tracking-wide uppercase">The Spiritual Operating System</p>
                     </div>
 
                     {/* Navigation Links */}
-                    <div className="flex flex-wrap justify-center gap-8 text-sm text-white/60">
+                    <div className="flex flex-wrap justify-center gap-8 text-sm text-white/60 font-inter">
                         <Link to="/about" className="hover:text-white transition-colors">About</Link>
                         <Link to="/manifesto" className="hover:text-white transition-colors">Manifesto</Link>
                         <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
@@ -91,7 +91,7 @@ const Footer = () => {
                         <span>Terms of Service</span>
                     </div>
 
-                    <div className="flex items-center gap-4 font-medium tracking-wide">
+                    <div className="flex items-center gap-4 font-chakra font-medium tracking-wide uppercase">
                         <span>Structure is devotion.</span>
                         <span className="w-1 h-1 rounded-full bg-white/20" />
                         <span>Discipline is liberation.</span>

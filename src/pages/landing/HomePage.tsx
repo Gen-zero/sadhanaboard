@@ -130,10 +130,10 @@ const HomePage = () => {
               </div>
 
               <div className="flex flex-col">
-                <span className="text-base sm:text-lg md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                <span className="text-base sm:text-lg md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200 font-chakra">
                   SadhanaBoard
                 </span>
-                <span className="text-[9px] sm:text-[10px] md:text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block transition-all duration-300 group-hover/logo:text-yellow-300">
+                <span className="text-[9px] sm:text-[10px] md:text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block transition-all duration-300 group-hover/logo:text-yellow-300 font-chakra uppercase">
                   ✨ Your Digital Yantra
                 </span>
               </div>
@@ -154,7 +154,7 @@ const HomePage = () => {
             <Button
               variant="ghost"
               asChild
-              className="relative border-white/20 text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-300 group/btn overflow-hidden px-4 py-2 text-sm transform hover:scale-105 rounded-full border"
+              className="relative border-white/20 text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-300 group/btn overflow-hidden px-4 py-2 text-sm transform hover:scale-105 rounded-full border font-chakra"
             >
               <Link to="/login">
                 {/* Shimmer effect */}
@@ -165,7 +165,7 @@ const HomePage = () => {
 
             <Button
               asChild
-              className="relative bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] backdrop-blur-sm border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-110 rounded-full text-white font-bold"
+              className="relative bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] backdrop-blur-sm border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 group/cta overflow-hidden px-6 py-2 text-sm transform hover:scale-110 rounded-full text-white font-bold font-chakra"
               style={{
                 boxShadow: '0 0 30px rgba(220, 20, 60, 0.4), 0 0 60px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
               }}

@@ -134,13 +134,13 @@ const FeaturesSection = () => {
                 <div className="text-center mb-20">
                     <div className="inline-flex items-center justify-center p-2 mb-6 rounded-full bg-amber-400/10 border border-amber-400/20">
                         <Sparkles className="w-4 h-4 text-amber-400 mr-2" />
-                        <span className="text-xs font-mono uppercase tracking-widest text-amber-300">System Capabilities</span>
+                        <span className="text-xs font-chakra uppercase tracking-widest text-amber-300">System Capabilities</span>
                     </div>
 
-                    <h2 className="text-4xl md:text-5xl font-serif leading-tight text-white/90 mb-6">
+                    <h2 className="text-4xl md:text-5xl font-source-serif font-medium leading-tight text-white/90 mb-6">
                         Everything You Need for <span className="text-amber-400">Serious Practice</span>
                     </h2>
-                    <p className="text-xl text-white/50 font-light max-w-2xl mx-auto">
+                    <p className="text-xl text-white/50 font-inter max-w-2xl mx-auto">
                         All in one clean, powerful interface. Designed for the modern ascetic.
                     </p>
                 </div>

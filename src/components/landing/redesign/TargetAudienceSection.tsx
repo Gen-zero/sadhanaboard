@@ -25,10 +25,10 @@ const TargetAudienceSection = () => {
         <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-24 px-6 border-y border-white/5 bg-white/[0.02]">
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
                 <div className={`space-y-6 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
-                    <h2 className={`font-serif text-3xl animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
+                    <h2 className={`font-source-serif font-medium text-3xl animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
                         Built for individual depth.<br />Designed for collective guidance.
                     </h2>
-                    <p className={`text-white/60 font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.15s' }}>
+                    <p className={`text-white/60 font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.15s' }}>
                         Spirituality is personal. Structure is universal.
                     </p>
                 </div>
@@ -40,10 +40,10 @@ const TargetAudienceSection = () => {
                             className={`animate-fade-in-up ${isVisible ? 'visible' : ''}`}
                             style={{ transitionDelay: `${0.2 + index * 0.1}s` }}
                         >
-                            <h3 className={`${audience.color} text-sm font-medium uppercase tracking-widest mb-2`}>
+                            <h3 className={`${audience.color} text-sm font-chakra font-medium uppercase tracking-widest mb-2`}>
                                 {audience.label}
                             </h3>
-                            <p className="text-white/60 font-light">{audience.copy}</p>
+                            <p className="text-white/60 font-inter">{audience.copy}</p>
                         </div>
                     ))}
                 </div>

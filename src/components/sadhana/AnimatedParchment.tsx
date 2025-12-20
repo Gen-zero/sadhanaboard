@@ -262,32 +262,32 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         <div
           className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.6)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.6)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.6)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.6)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
+            borderColor: 'rgba(255, 215, 0, 0.8)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
             transition: 'filter 0.3s'
           }}
         />
