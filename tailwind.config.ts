@@ -30,10 +30,12 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Chakra Petch', 'Inter', 'Manrope', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-				serif: ['Playfair Display', 'Lora', 'serif'],
-				handwritten: ['Caveat', 'Patrick Hand', 'Kalam', 'Comic Sans MS', 'cursive', 'sans-serif'],
+				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+				serif: ['Source Serif 4', 'serif'],
 				chakra: ['Chakra Petch', 'sans-serif'],
+				body: ['Inter', 'sans-serif'],
+				heading: ['Chakra Petch', 'sans-serif'],
+				subheading: ['Source Serif 4', 'serif'],
 			},
 			spacing: {
 				'safe-top': 'env(safe-area-inset-top)',

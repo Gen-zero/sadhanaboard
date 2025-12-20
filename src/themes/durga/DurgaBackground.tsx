@@ -181,7 +181,7 @@ const DurgaBackground: React.FC<{ className?: string }> = ({ className = '' }) =
             display: inline-block;
             animation: durga-text-giggle 2.5s ease-in-out infinite;
             color: #ff6347;
-            font-family: 'Devanagari MT', 'Noto Sans Devanagari', sans-serif;
+            font-family: 'Source Serif 4', serif;
           }
           
           .durga-animated-text:nth-child(2n) {

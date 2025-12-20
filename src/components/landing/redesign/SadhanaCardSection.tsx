@@ -521,7 +521,7 @@ Offer Sweets`;
                 style={{
                     background: 'linear-gradient(145deg, rgba(255, 223, 0, 0.05) 0%, rgba(255, 215, 0, 0.08) 30%, rgba(255, 207, 0, 0.04) 70%, rgba(255, 199, 0, 0.06) 100%)',
                     borderColor: isInitializing ? 'rgba(255, 215, 0, 0.6)' : 'rgba(255, 215, 0, 0.3)',
-                    fontFamily: 'Georgia, serif',
+                    fontFamily: '"Source Serif 4", serif',
                     boxShadow: `
                         0 8px 32px rgba(255, 215, 0, 0.12),
                         0 0 0 1px rgba(255, 215, 0, 0.15),
@@ -606,7 +606,7 @@ Offer Sweets`;
                         transition={{ delay: 0.3, duration: 0.5 }}
                         className="text-xl md:text-2xl font-bold mb-2"
                         style={{
-                            fontFamily: 'Georgia, serif',
+                            fontFamily: '"Source Serif 4", serif',
                             color: 'rgba(255, 223, 0, 0.95)',
                             textShadow: `0 0 ${isInitializing ? '12' : '8'}px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)`,
                             transition: 'text-shadow 0.3s'
@@ -627,7 +627,7 @@ Offer Sweets`;
                 </div>
 
                 {/* Content with staggered fade-in */}
-                <div className="space-y-2 md:space-y-3 relative z-10 max-h-none overflow-visible md:max-h-[60vh] md:overflow-y-auto" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="space-y-2 md:space-y-3 relative z-10 max-h-none overflow-visible md:max-h-[60vh] md:overflow-y-auto" style={{ fontFamily: '"Source Serif 4", serif' }}>
                     {contentLines.map((section, index) => {
                         if (section.trim().endsWith(':')) {
                             return (

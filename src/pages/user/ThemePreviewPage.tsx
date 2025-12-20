@@ -35,7 +35,7 @@ const ThemePreviewPage = () => {
       </div>
 
       <div className="border rounded overflow-hidden">
-        <iframe title="theme-preview" style={{ width: '100%', height: 480, border: 'none' }} srcDoc={`<!doctype html><html><head><meta charset="utf-8"><style>${css}</style><style>body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; padding:20px}</style></head><body><h1>Preview Area</h1><p>This is a small preview area to validate colors, borders and typographic scale.</p><button>Primary</button><button style="margin-left:8px;background:var(--accent);color:white;padding:8px;border-radius:6px">Accent</button><div style="margin-top:12px;padding:12px;border:1px solid var(--border)">Border example</div></body></html>`} />
+        <iframe title="theme-preview" style={{ width: '100%', height: 480, border: 'none' }} srcDoc={`<!doctype html><html><head><meta charset="utf-8"><style>${css}</style><style>body{font-family:'Inter','Chakra Petch',sans-serif; padding:20px}</style></head><body><h1>Preview Area</h1><p>This is a small preview area to validate colors, borders and typographic scale.</p><button>Primary</button><button style=\"margin-left:8px;background:var(--accent);color:white;padding:8px;border-radius:6px\">Accent</button><div style=\"margin-top:12px;padding:12px;border:1px solid var(--border)\">Border example</div></body></html>`} />
       </div>
     </div>
   );

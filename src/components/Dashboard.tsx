@@ -4,6 +4,7 @@ import { useToast } from '../hooks/use-toast';
 import { useDailySadhanaRefresh } from '../hooks/useDailySadhanaRefresh';
 import MobileDashboard from '../components/mobile/MobileDashboard';
 import ProfileCard from '../components/ProfileCard';
+import DailySadhanaChecklist from '../components/dashboard/DailySadhanaChecklist';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -420,9 +421,12 @@ const Dashboard = () => {
       </Card>
 
       {/* Enhanced Progress and Focus Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Daily Sadhana Checklist - Takes full width on mobile, 1/3 on desktop */}
+        <DailySadhanaChecklist className="lg:col-span-1" />
+        
         {/* Today's Progress Card */}
-        <Card>
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-xl font-medium flex items-center gap-2">
               <PieChart className="h-5 w-5 text-primary" />

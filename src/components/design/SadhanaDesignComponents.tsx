@@ -46,23 +46,48 @@ export const CornerBracket = ({
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   color?: string;
 }) => {
-  const style: React.CSSProperties = {
-    borderColor: color,
-    width: '24px',
-    height: '24px',
+  const base: React.CSSProperties = {
+    width: '20px',
+    height: '20px',
     position: 'absolute',
     zIndex: 20,
     transition: 'all 0.3s ease',
+    color
   };
 
-  const props = {
-    'top-left': { top: '8px', left: '8px', borderTopWidth: '2px', borderLeftWidth: '2px' },
-    'top-right': { top: '8px', right: '8px', borderTopWidth: '2px', borderRightWidth: '2px' },
-    'bottom-left': { bottom: '8px', left: '8px', borderBottomWidth: '2px', borderLeftWidth: '2px' },
-    'bottom-right': { bottom: '8px', right: '8px', borderBottomWidth: '2px', borderRightWidth: '2px' },
+  // Draw only one corner and mirror via transform so each bracket is single-corner
+  const transforms: Record<typeof position, string> = {
+    'top-left': '',
+    'top-right': 'translate(20 0) scale(-1 1)',
+    'bottom-left': 'translate(0 20) scale(1 -1)',
+    'bottom-right': 'translate(20 20) scale(-1 -1)'
   };
 
-  return <div style={{ ...style, ...props[position] }} className="opacity-80" />;
+  const positions: Record<typeof position, React.CSSProperties> = {
+    'top-left': { top: '6px', left: '6px' },
+    'top-right': { top: '6px', right: '6px' },
+    'bottom-left': { bottom: '6px', left: '6px' },
+    'bottom-right': { bottom: '6px', right: '6px' }
+  };
+
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      style={{ ...base, ...positions[position] }}
+      className="opacity-80"
+    >
+      <g transform={transforms[position]}>
+        <path
+          d="M16 4 Q4 4 4 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
 };
 
 // Glass Morphism Container Component
@@ -175,7 +200,7 @@ export const PulsingOMSymbol = ({ size = 'text-4xl', className = '' }: { size?: 
         <span
           className={`${size} leading-none transition-all duration-300`}
           style={{
-            color: '#FFFFFF',
+            color: theme.accent,
             transform: isHovered ? 'scale(1.1)' : 'scale(1)'
           }}
         >

@@ -1,0 +1,492 @@
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Settings, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+
+const MantraCounter = () => {
+  const [totalCount, setTotalCount] = useState(0);
+  const [beadType, setBeadType] = useState('rudraksha');
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [isResetConfirming, setIsResetConfirming] = useState(false);
+  const [target] = useState(108);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Derived state
+  const currentBeadIndex = totalCount % 108;
+  const round = Math.floor(totalCount / 108);
+
+  // Constants for geometry
+  const BEAD_COUNT = 108;
+  const BEAD_SIZE = 28; 
+  const BEAD_SPACING = 70; 
+  const VISIBLE_BEADS = 6; 
+  const CURVE_INTENSITY = 9;
+  
+  const audioContextRef = useRef(null);
+
+  const initAudio = () => {
+    if (soundEnabled && !audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  };
+
+  const playClickSound = () => {
+    if (soundEnabled && audioContextRef.current) {
+      try {
+        const osc = audioContextRef.current.createOscillator();
+        const gainNode = audioContextRef.current.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioContextRef.current.destination);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioContextRef.current.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, audioContextRef.current.currentTime + 0.05);
+        
+        gainNode.gain.setValueAtTime(0.3, audioContextRef.current.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.05);
+        
+        osc.start();
+        osc.stop(audioContextRef.current.currentTime + 0.05);
+      } catch (e) {
+        console.error("Audio error", e);
+      }
+    }
+  };
+
+  const handleIncrement = () => {
+    if (isResetConfirming) setIsResetConfirming(false); 
+    initAudio();
+    playClickSound();
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 150);
+    setTotalCount(prev => prev + 1);
+  };
+
+  const handleReset = () => {
+    if (isResetConfirming) {
+      setTotalCount(0);
+      setIsResetConfirming(false);
+    } else {
+      setIsResetConfirming(true);
+      setTimeout(() => setIsResetConfirming(false), 3000);
+    }
+  };
+
+  // Unified Geometry Function
+  const getPosition = (offset) => {
+    const absOffset = Math.abs(offset);
+    const direction = Math.sign(offset);
+    
+    const spacingCompression = 1 - (absOffset * 0.06); 
+    
+    const x = direction * absOffset * BEAD_SPACING * spacingCompression;
+    const y = Math.pow(absOffset, 1.9) * CURVE_INTENSITY;
+    const rot = offset * 18;
+    
+    return { x, y, rot };
+  };
+
+  // Generate the string path dynamically
+  const stringPathData = useMemo(() => {
+    let d = "";
+    const steps = 60; 
+    const range = VISIBLE_BEADS + 1.5; 
+    
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const offset = -range + t * (range * 2);
+      const pos = getPosition(offset);
+      
+      if (i === 0) {
+        d += `M ${pos.x} ${pos.y}`;
+      } else {
+        d += ` L ${pos.x} ${pos.y}`;
+      }
+    }
+    return d;
+  }, []);
+
+  const beadStyles = {
+    rudraksha: {
+      name: 'Rudraksha',
+      baseColor: '#8B4513',
+      filter: 'url(#rudraksha3D)',
+      guruColor: '#A0522D',
+      stroke: '#3e1b05'
+    },
+    karungali: {
+      name: 'Karungali',
+      baseColor: '#1a1a1a',
+      filter: 'url(#karungaliEbony)',
+      guruColor: '#000000',
+      stroke: '#000'
+    },
+    spatik: {
+      name: 'Spatik',
+      baseColor: '#e0f7fa',
+      filter: 'url(#spatikCrystal)',
+      guruColor: '#ffffff',
+      stroke: '#b2ebf2'
+    },
+    tulsi: {
+      name: 'Tulsi',
+      baseColor: '#DEB887',
+      filter: 'url(#tulsiGrain)',
+      guruColor: '#cd853f',
+      stroke: '#8b4513'
+    },
+    redSandal: {
+      name: 'Red Sandal',
+      baseColor: '#800000',
+      filter: 'url(#redSandalFiber)',
+      guruColor: '#800000',
+      stroke: '#400000'
+    }
+  };
+
+  const currentStyle = beadStyles[beadType];
+
+  const getVisibleBeads = () => {
+    const beads = [];
+    for (let i = -VISIBLE_BEADS; i <= VISIBLE_BEADS; i++) {
+      const sequenceIndex = totalCount + i;
+      let beadId = sequenceIndex % BEAD_COUNT;
+      if (beadId < 0) beadId += BEAD_COUNT;
+
+      beads.push({
+        offset: i,
+        id: beadId,
+        key: sequenceIndex 
+      });
+    }
+    return beads;
+  };
+
+  const RealisticFilters = () => (
+    <svg width="0" height="0" className="absolute">
+      <defs>
+        {/* Thread Fiber Texture */}
+        <filter id="threadFiber" x="-20%" y="-20%" width="140%" height="140%">
+           <feTurbulence type="fractalNoise" baseFrequency="0.8 0.1" numOctaves="3" result="noise"/>
+           <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.6  0 0 0 0 0.4  0 0 0 1 0" in="noise" result="coloredNoise"/>
+           <feComposite operator="in" in="coloredNoise" in2="SourceGraphic" result="texturedString"/>
+           <feBlend mode="multiply" in="texturedString" in2="SourceGraphic"/>
+        </filter>
+
+        {/* 1. Rudraksha 3D */}
+        <filter id="rudraksha3D" x="-50%" y="-50%" width="200%" height="200%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="4" result="noise" />
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 7 -3" in="noise" result="bumpyNoise" />
+          <feDiffuseLighting in="bumpyNoise" lightingColor="#ffdbac" surfaceScale="3" diffuseConstant="1.2">
+            <feDistantLight azimuth="45" elevation="60" />
+          </feDiffuseLighting>
+          <feComposite operator="arithmetic" k1="1" k2="0" k3="0" k4="0" in2="SourceGraphic" result="lighted" />
+          <feComposite operator="in" in="lighted" in2="SourceGraphic" />
+          <feBlend mode="multiply" in2="SourceGraphic" />
+        </filter>
+
+        {/* 2. Karungali (Ebony) */}
+        <filter id="karungaliEbony" x="-50%" y="-50%" width="200%" height="200%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.5 0.05" numOctaves="3" result="grain" />
+          <feSpecularLighting in="grain" surfaceScale="1" specularConstant="0.5" specularExponent="15" lightingColor="#555" result="spec">
+            <feDistantLight azimuth="90" elevation="60" />
+          </feSpecularLighting>
+          <feComposite in="spec" in2="SourceGraphic" operator="in" result="specIn" />
+          <feComposite in="SourceGraphic" in2="specIn" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litWood" />
+          <feFlood floodColor="black" floodOpacity="0.4" result="darkness" />
+          <feComposite in="darkness" in2="litWood" operator="in" result="darkWood" />
+          
+          {/* FINAL CLIP: Ensure result stays in circle */}
+          <feBlend mode="multiply" in="darkWood" in2="litWood" result="finalUnclipped" />
+          <feComposite operator="in" in="finalUnclipped" in2="SourceGraphic" />
+        </filter>
+
+        {/* 3. Spatik (Crystal/Quartz) */}
+        <filter id="spatikReal" x="-50%" y="-50%" width="200%" height="200%">
+           <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+           <feFlood floodColor="#d1f2fb" floodOpacity="0.8" result="glowColor" />
+           <feComposite in="glowColor" in2="blur" operator="in" result="glow" />
+           <feComposite in="glow" in2="SourceGraphic" operator="in" result="innerGlow" />
+           
+           <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="sharpBlur" />
+           <feSpecularLighting in="sharpBlur" surfaceScale="8" specularConstant="1.6" specularExponent="55" lightingColor="white" result="spec">
+             <fePointLight x="-150" y="-150" z="300" />
+           </feSpecularLighting>
+           <feComposite in="spec" in2="SourceAlpha" operator="in" result="specShape" />
+           
+           <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise" />
+           <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.05 0" in="noise" result="subtleNoise" />
+           
+           <feBlend mode="screen" in="innerGlow" in2="SourceGraphic" result="base" />
+           <feBlend mode="multiply" in="subtleNoise" in2="base" result="texturedBase" />
+           
+           {/* FINAL CLIP */}
+           <feComposite in="specShape" in2="texturedBase" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="finalUnclipped" />
+           <feComposite operator="in" in="finalUnclipped" in2="SourceGraphic" />
+        </filter>
+
+        {/* 4. Tulsi (Holy Basil Wood) */}
+        <filter id="tulsiGrain" x="-50%" y="-50%" width="200%" height="200%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.03 0.15" numOctaves="5" seed="1" result="woodNoise" />
+          <feDisplacementMap in="woodNoise" in2="woodNoise" scale="4" xChannelSelector="R" yChannelSelector="G" result="warpedNoise" />
+          <feDiffuseLighting in="warpedNoise" lightingColor="#F5DEB3" surfaceScale="1.5" diffuseConstant="1.1" result="diffuse">
+             <feDistantLight azimuth="45" elevation="35" />
+          </feDiffuseLighting>
+          
+          <feComposite in="diffuse" in2="SourceGraphic" operator="in" result="textured" />
+          
+          <feFlood floodColor="#8B4513" floodOpacity="0.2" result="warmFlood" />
+          <feBlend mode="overlay" in="warmFlood" in2="textured" result="blended" />
+          
+          {/* FINAL CLIP: Ensure no flood leakage */}
+          <feComposite operator="in" in="blended" in2="SourceGraphic" />
+        </filter>
+        
+        {/* 5. Red Sandalwood */}
+        <filter id="redSandalFiber" x="-50%" y="-50%" width="200%" height="200%">
+           <feTurbulence type="turbulence" baseFrequency="0.08 0.5" numOctaves="5" result="fibers" />
+           <feDiffuseLighting in="fibers" lightingColor="#b34d4d" surfaceScale="2.5" diffuseConstant="1.3">
+              <feDistantLight azimuth="120" elevation="50" />
+           </feDiffuseLighting>
+           <feComposite in2="SourceGraphic" operator="in" result="litFibers" />
+           
+           <feFlood floodColor="#4a0e0e" floodOpacity="0.6" result="deepRed" />
+           <feBlend mode="multiply" in="deepRed" in2="litFibers" result="blended" />
+           
+           {/* FINAL CLIP: Ensure no flood leakage */}
+           <feComposite operator="in" in="blended" in2="SourceGraphic" />
+        </filter>
+
+        <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+          <feOffset dx="0" dy="5" result="offsetblur" />
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.4" />
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+  );
+
+  return (
+    <div className="min-h-screen bg-stone-100 text-stone-800 font-sans flex flex-col items-center overflow-hidden touch-none select-none">
+      <RealisticFilters />
+      
+      {/* Header */}
+      <header className="w-full max-w-md p-4 flex justify-between items-center z-10 bg-white/60 backdrop-blur-md shadow-sm sticky top-0">
+        <h1 className="text-xl font-bold text-stone-700 tracking-wide">Mantra Sadhana</h1>
+        <button 
+          onClick={() => setShowSettings(!showSettings)}
+          className="p-2 rounded-full hover:bg-white/50 transition-colors"
+        >
+          <Settings className="w-6 h-6 text-stone-600" />
+        </button>
+      </header>
+
+      {/* Settings Panel */}
+      {showSettings && (
+        <div className="absolute top-16 z-30 w-full max-w-md bg-white/95 backdrop-blur-xl shadow-xl rounded-b-2xl p-6 border-t border-stone-100 animate-in slide-in-from-top-4 duration-200">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-stone-500 mb-2">Bead Material</label>
+              <div className="grid grid-cols-2 gap-2">
+                {Object.entries(beadStyles).map(([key, style]) => (
+                  <button
+                    key={key}
+                    onClick={() => setBeadType(key)}
+                    className={`p-3 text-left text-sm rounded-lg border transition-all flex items-center gap-2
+                      ${beadType === key 
+                        ? 'border-orange-500 bg-orange-50 text-orange-700 font-medium ring-1 ring-orange-200' 
+                        : 'border-stone-200 hover:border-stone-300 text-stone-600 bg-stone-50'}`}
+                  >
+                    <div 
+                      className="w-5 h-5 rounded-full shadow-sm" 
+                      style={{ backgroundColor: style.baseColor }}
+                    />
+                    {style.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+               <label className="text-sm font-semibold text-stone-500">Sound Effects</label>
+               <button
+                onClick={() => setSoundEnabled(!soundEnabled)}
+                className={`p-2 rounded-lg flex items-center gap-2 transition-colors ${soundEnabled ? 'bg-green-100 text-green-700' : 'bg-stone-100 text-stone-500'}`}
+               >
+                 {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+                 <span className="text-xs font-bold">{soundEnabled ? 'ON' : 'OFF'}</span>
+               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Interaction Area */}
+      <main className="flex-1 w-full max-w-lg relative flex flex-col items-center justify-center">
+        
+        {/* Stats Display */}
+        <div className="w-full px-8 flex justify-between items-center mb-4 opacity-80">
+           <div className="text-center">
+             <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Rounds</div>
+             <div className="text-2xl font-bold text-stone-600">{round}</div>
+           </div>
+           
+           <div className="flex flex-col items-center">
+              <span className="text-6xl font-serif font-bold text-stone-800 drop-shadow-sm tabular-nums">
+                {currentBeadIndex}
+              </span>
+              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">
+                / {108}
+              </span>
+           </div>
+
+           <div className="text-center">
+             <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Remaining</div>
+             <div className="text-2xl font-bold text-stone-600">
+                {target - (currentBeadIndex) === target ? 0 : target - (currentBeadIndex)}
+             </div>
+           </div>
+        </div>
+
+        {/* Curve Mala Visualization */}
+        <div 
+          className="relative w-full h-[400px] cursor-pointer active:cursor-grabbing group overflow-visible"
+          onClick={handleIncrement}
+        >
+           {/* Center Marker / Focus Area */}
+           <div className="absolute top-8 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full border border-orange-300/30 bg-orange-500/5 blur-xl pointer-events-none" />
+
+           <svg 
+              width="100%" 
+              height="100%" 
+              className="overflow-visible"
+              viewBox="-200 -50 400 300" 
+           >
+              {/* String Core (Shadow) */}
+              <path 
+                d={stringPathData} 
+                stroke="#5d4037" 
+                strokeWidth="4" 
+                fill="none" 
+                strokeLinecap="round"
+                opacity="0.8"
+              />
+              
+              {/* String Texture (Twisted Look) */}
+              <path 
+                d={stringPathData} 
+                stroke="#d7ccc8" 
+                strokeWidth="3" 
+                fill="none" 
+                strokeDasharray="3 3"
+                opacity="0.9"
+                filter="url(#threadFiber)"
+              />
+              
+              {/* String Highlight (Top Twist) */}
+               <path 
+                d={stringPathData} 
+                stroke="#efebe9" 
+                strokeWidth="1" 
+                fill="none" 
+                strokeDasharray="2 4"
+                strokeDashoffset="1"
+                opacity="0.6"
+              />
+
+              {/* Render Beads */}
+              {getVisibleBeads().map((bead) => {
+                const isGuru = bead.id === 0;
+                const pos = getPosition(bead.offset);
+
+                // Scale for Depth of Field
+                const dist = Math.abs(bead.offset);
+                const scale = Math.max(0.6, 1 - (dist * 0.12));
+                const zIndex = 100 - dist; 
+
+                return (
+                  <g 
+                    key={bead.id} 
+                    transform={`translate(${pos.x}, ${pos.y}) rotate(${pos.rot}) scale(${scale})`}
+                    style={{
+                      transition: 'transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1)',
+                      zIndex: zIndex
+                    }}
+                  >
+                     {/* Shadow for realism - MOVED BEHIND BEAD */}
+                    <circle
+                       cx={0} cy={0} r={BEAD_SIZE}
+                       fill="black" opacity="0.1"
+                       transform="translate(2, 4)"
+                       filter="url(#dropShadow)"
+                    />
+
+                    {/* Bead Body */}
+                    <circle
+                      cx={0}
+                      cy={0}
+                      r={isGuru ? BEAD_SIZE + 4 : BEAD_SIZE}
+                      fill={isGuru ? currentStyle.guruColor : currentStyle.baseColor}
+                      stroke={currentStyle.stroke}
+                      strokeWidth={isGuru ? 0 : 0.5}
+                      filter={isGuru && beadType !== 'karungali' ? undefined : currentStyle.filter}
+                    />
+
+                    {/* Tassel for Guru Bead */}
+                    {isGuru && (
+                       <g transform="translate(0, 30) rotate(-10)">
+                         <path 
+                          d="M -6 -5 Q 0 5 6 -5 L 10 25 Q 0 35 -10 25 Z" 
+                          fill="#d62828"
+                         />
+                         <circle cy="-5" r="5" fill={currentStyle.guruColor} />
+                         <line x1="-3" y1="25" x2="-4" y2="35" stroke="#d62828" strokeWidth="1" />
+                         <line x1="0" y1="25" x2="0" y2="38" stroke="#d62828" strokeWidth="1" />
+                         <line x1="3" y1="25" x2="4" y2="34" stroke="#d62828" strokeWidth="1" />
+                       </g>
+                    )}
+                  </g>
+                );
+              })}
+           </svg>
+           
+           {/* Touch Feedback */}
+           <div className={`absolute top-[45px] left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-white/30 blur-md pointer-events-none transition-opacity duration-200 ${isAnimating ? 'opacity-100' : 'opacity-0'}`} />
+        </div>
+
+        {/* Instructions */}
+        <div className="text-center space-y-2 -mt-10 mb-8">
+           <p className="text-stone-400/80 text-sm font-medium">Tap to pull</p>
+        </div>
+
+      </main>
+
+      {/* Footer Controls */}
+      <footer className="w-full max-w-md p-6 pb-8 bg-white border-t border-stone-100 flex justify-between items-center z-10 sticky bottom-0 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+        <div className="flex flex-col">
+          <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider">Total Count</span>
+          <span className="text-xl font-bold text-stone-700 font-mono">{totalCount}</span>
+        </div>
+
+        <button 
+          onClick={handleReset}
+          className={`p-4 rounded-full transition-all duration-200 active:scale-95 ${
+            isResetConfirming 
+              ? 'bg-red-500 text-white shadow-md scale-110' 
+              : 'bg-stone-50 text-stone-500 hover:bg-red-50 hover:text-red-500'
+          }`}
+          title={isResetConfirming ? "Tap again to confirm" : "Reset Counter"}
+        >
+          <RotateCcw className={`w-5 h-5 ${isResetConfirming ? 'animate-spin' : ''}`} />
+        </button>
+      </footer>
+    </div>
+  );
+};
+
+export default MantraCounter;

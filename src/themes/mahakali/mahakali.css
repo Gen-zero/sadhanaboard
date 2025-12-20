@@ -1,9 +1,101 @@
 /* Mahakali theme specific styles - premium fierce crimson-black aesthetic with enhanced mystical elements */
 
 .theme-mahakali {
-  font-family: 'Times New Roman', 'Georgia', serif;
+  --mahakali-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mahakali-font-serif: 'Source Serif 4', serif;
+  --mahakali-font-display: 'Chakra Petch', sans-serif;
+  font-family: var(--mahakali-font-sans);
   color: hsl(0 0% 98%);
   background: var(--mahakali-night-gradient);
+}
+
+.theme-mahakali h1,
+.theme-mahakali .hero-headline,
+.theme-mahakali .headline {
+  font-family: var(--mahakali-font-display);
+}
+
+.theme-mahakali h2,
+.theme-mahakali h3,
+.theme-mahakali h4,
+.theme-mahakali .subheading,
+.theme-mahakali .emphasis,
+.theme-mahakali .subtitle {
+  font-family: var(--mahakali-font-serif);
+}
+
+.theme-mahakali p,
+.theme-mahakali .body-text,
+.theme-mahakali .text-body,
+.theme-mahakali article,
+.theme-mahakali .prose {
+  font-family: var(--mahakali-font-sans);
+}
+
+.theme-mahakali .eyebrow,
+.theme-mahakali .section-label,
+.theme-mahakali .ui-label,
+.theme-mahakali .diagram-text,
+.theme-mahakali label,
+.theme-mahakali button,
+.theme-mahakali .button-text,
+.theme-mahakali [role="button"],
+.theme-mahakali .nav-item,
+.theme-mahakali .menu-item {
+  font-family: var(--mahakali-font-display);
+}
+
+/* Landing page typography system */
+.theme-mahakali .landing-page {
+  font-family: var(--mahakali-font-sans);
+}
+
+.theme-mahakali .landing-page h1,
+.theme-mahakali .landing-page .hero-headline,
+.theme-mahakali .landing-page .headline {
+  font-family: var(--mahakali-font-display) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+.theme-mahakali .landing-page h2,
+.theme-mahakali .landing-page h3,
+.theme-mahakali .landing-page .subheading,
+.theme-mahakali .landing-page .emphasis {
+  font-family: var(--mahakali-font-serif) !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+}
+
+.theme-mahakali .landing-page p,
+.theme-mahakali .landing-page .body-text,
+.theme-mahakali .landing-page .text-body,
+.theme-mahakali .landing-page article,
+.theme-mahakali .landing-page .prose {
+  font-family: var(--mahakali-font-sans) !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+
+.theme-mahakali .landing-page .eyebrow,
+.theme-mahakali .landing-page .section-label,
+.theme-mahakali .landing-page .ui-label,
+.theme-mahakali .landing-page .diagram-text {
+  font-family: var(--mahakali-font-display) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  line-height: 1.4 !important;
+}
+
+.theme-mahakali .landing-page label,
+.theme-mahakali .landing-page button,
+.theme-mahakali .landing-page [role="button"],
+.theme-mahakali .landing-page .nav-item,
+.theme-mahakali .landing-page .menu-item {
+  font-family: var(--mahakali-font-display) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.05em !important;
 }
 
 /* Enhanced card styling with crimson gradient backgrounds */

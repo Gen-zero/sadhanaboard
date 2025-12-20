@@ -210,105 +210,99 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
         </div>
       )}
 
-      {/* Paper Container - Optimized for mobile */}
+      {/* Paper Container - Optimized for mobile - Updated to Glass/Cosmic Aesthetic */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`relative rounded-2xl border-2 backdrop-blur-md transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${isUnrolled ? 'parchment-unroll' : ''
-          }`}
+        className={`relative rounded-2xl border backdrop-blur-xl transition-all duration-1000 min-h-[20rem] sm:min-h-[24rem] md:min-h-[26rem] flex flex-col ${isUnrolled ? 'parchment-unroll' : ''
+          } bg-gradient-to-br from-gray-900/70 to-black/70 border-purple-500/20 shadow-xl`}
         style={{
-          background: 'linear-gradient(145deg, rgba(220, 38, 38, 0.05) 0%, rgba(220, 38, 38, 0.08) 30%, rgba(220, 38, 38, 0.04) 70%, rgba(220, 38, 38, 0.06) 100%)',
-          borderColor: isInitializing ? 'rgba(220, 38, 38, 0.6)' : 'rgba(220, 38, 38, 0.3)',
-          fontFamily: '"Chakra Petch", Georgia, serif',
+          fontFamily: '"Chakra Petch", sans-serif',
           boxShadow: `
-            0 4px 16px rgba(255, 215, 0, 0.12),
-            0 0 0 1px rgba(255, 215, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15),
-            inset 0 -1px 0 rgba(255, 215, 0, 0.08),
-            ${isInitializing ? '0 0 30px rgba(255, 215, 0, 0.4)' : 'none'}
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            ${isInitializing ? '0 0 30px rgba(124, 58, 237, 0.2)' : 'none'}
           `,
-          backdropFilter: 'blur(10px) saturate(140%)',
-          WebkitBackdropFilter: 'blur(10px) saturate(140%)',
           transform: isBurning ? `scale(${1 - burnProgress / 200})` : 'scale(1)',
           filter: glitchActive ? 'hue-rotate(20deg) contrast(1.2)' : (isBurning ? `blur(${burnProgress / 50}px)` : 'none'),
-          transition: 'filter 0.1s, box-shadow 0.3s, border-color 0.3s'
+          transition: 'filter 0.1s, box-shadow 0.3s'
         }}
       >
-        {/* Tech grid overlay */}
+        {/* Tech grid overlay - Cosmic Purple */}
         {isInitializing && (
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none opacity-20"
             style={{
-              backgroundImage: 'linear-gradient(rgba(255, 215, 0, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 215, 0, 0.3) 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px)',
               backgroundSize: '20px 20px',
               animation: 'pulse 2s ease-in-out infinite'
             }}
           />
         )}
 
-        {/* Metallic overlay gradient */}
+        {/* Space/Cosmic overlay gradient */}
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none"
           style={{
             background: `
               linear-gradient(135deg, 
-                rgba(255, 255, 200, 0.08) 0%, 
+                rgba(139, 92, 246, 0.05) 0%, 
                 transparent 25%, 
-                rgba(255, 223, 0, 0.05) 50%, 
+                rgba(236, 72, 153, 0.05) 50%, 
                 transparent 75%, 
-                rgba(255, 255, 180, 0.03) 100%
+                rgba(59, 130, 246, 0.05) 100%
               )
             `,
             opacity: 0.5
           }}
         />
 
-        {/* Enhanced ornate corners with initialization glow */}
+        {/* Enhanced ornate corners with initialization glow - Cosmic Gold */}
         <div
           className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.8)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
+            borderColor: 'rgba(255, 215, 0, 0.6)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.8)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
+            borderColor: 'rgba(255, 215, 0, 0.6)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.8)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
+            borderColor: 'rgba(255, 215, 0, 0.6)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
             transition: 'filter 0.3s'
           }}
         />
         <div
           className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br-lg"
           style={{
-            borderColor: 'rgba(255, 215, 0, 0.8)',
-            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.4))`,
+            borderColor: 'rgba(255, 215, 0, 0.6)',
+            filter: `drop-shadow(0 0 ${isInitializing ? '8' : '4'}px rgba(255, 215, 0, 0.3))`,
             transition: 'filter 0.3s'
           }}
         />
 
         {/* Header */}
-        <div className="text-center mb-4 relative z-10">
+        <div className="text-center mb-6 relative z-10 pt-4">
           <motion.h3
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-xl md:text-2xl font-bold mb-2"
+            className="text-xl md:text-2xl font-bold mb-3"
             style={{
-              fontFamily: '"Chakra Petch", Georgia, serif',
-              color: 'rgba(255, 223, 0, 0.95)',
-              textShadow: `0 0 ${isInitializing ? '12' : '8'}px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3)`
+              fontFamily: '"Chakra Petch", sans-serif',
+              color: 'rgba(255, 223, 0, 1)',
+              textShadow: `0 0 ${isInitializing ? '12' : '8'}px rgba(255, 215, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3)`
             }}
           >
             🕉️ Sacred Sadhana
@@ -317,16 +311,12 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="w-16 md:w-20 h-0.5 mx-auto"
-            style={{
-              background: 'linear-gradient(to right, transparent, rgba(255, 215, 0, 0.8), transparent)',
-              filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))'
-            }}
+            className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-purple-500 to-transparent"
           />
         </div>
 
-        {/* Content with staggered fade-in */}
-        <div className="space-y-2 md:space-y-3 relative z-10" style={{ fontFamily: '"Chakra Petch", Georgia, serif' }}>
+        {/* Content with staggered fade-in and better spacing */}
+        <div className="space-y-4 px-4 md:px-8 relative z-10 pb-6" style={{ fontFamily: '"Chakra Petch", sans-serif' }}>
           {contentLines.map((section, index) => {
             if (section.trim().endsWith(':')) {
               return (
@@ -335,15 +325,16 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
+                  className="mt-4 first:mt-0"
                 >
                   <div
-                    className="font-semibold mb-1 text-sm md:text-base"
+                    className="font-bold mb-2 text-base md:text-lg tracking-wide border-b border-purple-500/20 pb-1 w-fit"
                     style={{
-                      color: 'rgba(255, 223, 0, 0.95)',
-                      textShadow: '0 0 4px rgba(255, 215, 0, 0.4)'
+                      color: 'rgba(192, 132, 252, 1)', // Purple-300 like
+                      textShadow: '0 0 10px rgba(168, 85, 247, 0.3)'
                     }}
                   >
-                    {section}
+                    {section.replace(':', '')}
                   </div>
                 </motion.div>
               );
@@ -354,10 +345,9 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
-                className="text-xs md:text-sm leading-relaxed pl-2"
+                className="text-sm md:text-base leading-relaxed pl-2 font-light"
                 style={{
-                  color: 'rgba(255, 255, 255, 0.85)',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                  color: 'rgba(255, 255, 255, 0.9)',
                 }}
               >
                 {section}
@@ -366,16 +356,13 @@ const AnimatedParchment: React.FC<AnimatedParchmentProps> = ({
           })}
         </div>
 
-        {/* Metallic texture overlay */}
+        {/* Subtle Cosmic Background Texture */}
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none"
           style={{
             background: `
-              radial-gradient(circle at 20% 30%, rgba(255, 223, 0, 0.05) 0%, transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.04) 0%, transparent 40%),
-              radial-gradient(circle at 40% 80%, rgba(255, 207, 0, 0.03) 0%, transparent 30%)
+              radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 60%)
             `,
-            opacity: 0.4
           }}
         />
 

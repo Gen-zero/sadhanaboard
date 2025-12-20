@@ -1,7 +1,7 @@
 /* Vishnu theme specific styles - divine blue aesthetic */
 
 .theme-vishnu {
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: 'Source Serif 4', serif;
   color: hsl(210 100% 96%);
   background: var(--vishnu-ocean-gradient);
 }
