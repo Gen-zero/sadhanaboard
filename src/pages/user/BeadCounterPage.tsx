@@ -320,7 +320,7 @@ const BeadCounterPage = () => {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden touch-none select-none">
       {/* Themed Background */}
-      <ThemedBackground theme={currentTheme as any} />
+      <ThemedBackground theme={currentTheme as any} slowMode={true} />
 
       {/* SVG Filters */}
       <RealisticFilters />

@@ -23,7 +23,6 @@ import { useSettings } from '@/hooks/useSettings';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { themeUtils, getThemeById, listThemes } from '@/themes';
 import type { ThemeDefinition } from '@/themes/types';
-import ResponsiveImage from '@/components/ui/ResponsiveImage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TransparentGlassMorphismContainer, SacredCircuitPattern, CornerBracket } from '@/components/design/SadhanaDesignComponents';
 
@@ -163,54 +162,9 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onOpenChang
             </div>
           </div>
 
-          {/* Menu Header with enhanced styling */}
-          <div className="p-6 border-b border-primary/10 pt-12 sidebar-header-wide relative z-10">
-            <div className="flex items-center justify-between">
-              <motion.div 
-                className="flex items-center space-x-3"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="relative group">
-                  <div className="h-20 w-20 rounded-full overflow-hidden flex items-center justify-center bg-transparent logo-wrapper">
-                    <ResponsiveImage
-                      src="/lovable-uploads/sadhanaboard_logo.png"
-                      alt="Saadhana Board Logo"
-                      className="h-full w-full object-contain cursor-pointer transition-all duration-500 hover:scale-110 logo-enhanced"
-                      quality="high"
-                      lazy={false}
-                      onClick={() => {
-                        navigate('/');
-                        onOpenChange(false);
-                      }}
-                    />
-                  </div>
-                  {/* Enhanced glow effect on hover with gentle pulsing animation */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-secondary blur-2xl scale-125 opacity-0 group-hover:opacity-70 transition-all duration-500 -z-10 logo-glow-effect deity-glow-pulse"></div>
-                  {/* Sacred geometry overlay in header */}
-                  <div className="absolute inset-0 pointer-events-none sacred-geometry-overlay -z-20"></div>
-                </div>
-                <div
-                  className="text-2xl sm:text-3xl font-bold cursor-pointer transition-all duration-300 hover:text-primary text-primary bg-clip-text text-primary bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600"
-                  onClick={() => {
-                    navigate('/');
-                    onOpenChange(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      navigate('/');
-                      onOpenChange(false);
-                    }
-                  }}
-                  tabIndex={0}
-                  role="button"
-                  aria-label="SadhanaBoard - Navigate to home"
-                >
-                  SadhanaBoard
-                </div>
-              </motion.div>
+          {/* Menu Header with close button */}
+          <div className="p-4 border-b border-primary/10 relative z-10">
+            <div className="flex items-center justify-end">
               <motion.div
                 whileTap={{ rotate: 90 }}
                 transition={{ duration: 0.3 }}

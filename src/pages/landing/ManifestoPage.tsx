@@ -34,7 +34,7 @@ const ManifestoPage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                <span className="text-2xl font-bold text-yellow-300">
                   SadhanaBoard
                 </span>
                 <span className="text-xs text-yellow-400/70 font-medium tracking-wider">
@@ -503,7 +503,7 @@ const ManifestoPage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                  <span className="text-xl font-bold text-yellow-300">
                     SadhanaBoard
                   </span>
                   <span className="text-xs text-yellow-400/70 font-medium tracking-wider">

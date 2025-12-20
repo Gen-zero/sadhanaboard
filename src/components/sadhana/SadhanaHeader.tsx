@@ -89,7 +89,7 @@ const SadhanaHeader = ({
               />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-yellow-300">
                 <span className="font-heading">Sadhana Board</span>
               </h1>
               <p className="text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block">

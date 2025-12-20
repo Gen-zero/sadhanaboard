@@ -251,7 +251,7 @@ const HomePage = () => {
               </div>
               
               <div className="flex flex-col">
-                <span className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                <span className="text-lg sm:text-2xl font-bold text-yellow-300 transition-all duration-300 group-hover/logo:text-yellow-200">
                   SadhanaBoard
                 </span>
                 <span className="text-[10px] sm:text-xs text-yellow-400/80 font-medium tracking-wider hidden xs:block transition-all duration-300 group-hover/logo:text-yellow-300">
@@ -387,7 +387,7 @@ const HomePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200">
+                <span className="text-lg font-bold text-yellow-300 transition-all duration-300 group-hover/logo:text-yellow-200">
                   SadhanaBoard
                 </span>
                 <span className="text-xs text-yellow-400/80 font-medium tracking-wider flex items-center transition-all duration-300 group-hover/logo:text-yellow-300">
@@ -1072,7 +1072,7 @@ const HomePage = () => {
                     </div>
                     
                     <div className="flex flex-col">
-                      <span className="text-xl sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                      <span className="text-xl sm:text-xl font-bold text-yellow-300">
                         SadhanaBoard
                       </span>
                       <span className="text-xs sm:text-xs text-yellow-400/70 font-medium tracking-wider">
