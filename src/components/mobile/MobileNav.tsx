@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Sparkles, Flame, User, Scroll, Users, Zap } from 'lucide-react';
-import ResponsiveImage from '@/components/ui/ResponsiveImage';
 
 interface MobileNavProps {
   isMahakaliTheme?: boolean;
@@ -142,41 +141,9 @@ const MobileNav = ({ isMahakaliTheme = false, showHamburger = true, showLoginBut
           </div>
 
           <div className="flex flex-col h-full relative">
-            {/* Header with logo and enhanced styling */}
-            <div className={`p-5 border-b ${isMahakaliTheme ? 'border-red-800/50' : 'border-amber-800/50'} backdrop-blur-sm bg-black/20`}>
-              <div className="flex items-center justify-between">
-                <Link 
-                  to="/" 
-                  className="flex items-center space-x-3"
-                  onClick={closeMenu}
-                >
-                  <div className="relative">
-                    <div className={`absolute -inset-1 rounded-full ${glowColor} opacity-30 blur`}></div>
-                    <ResponsiveImage
-                      src="/lovable-uploads/sadhanaboard_logo.png"
-                      alt="SadhanaBoard Logo"
-                      className="h-12 w-12 rounded-full cursor-pointer relative z-10"
-                      quality="high"
-                      lazy={false}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
-                      SadhanaBoard
-                    </span>
-                    {isMahakaliTheme ? (
-                      <span className="text-xs text-red-400/80 font-medium tracking-wider flex items-center">
-                        <Flame className="mr-1 h-3 w-3" />
-                        Destroyer of Illusions
-                      </span>
-                    ) : (
-                      <span className="text-xs text-yellow-400/80 font-medium tracking-wider flex items-center">
-                        <Sparkles className="mr-1 h-3 w-3" />
-                        Your Digital Yantra
-                      </span>
-                    )}
-                  </div>
-                </Link>
+            {/* Header with close button */}
+            <div className={`p-4 border-b ${isMahakaliTheme ? 'border-red-800/50' : 'border-amber-800/50'} backdrop-blur-sm bg-black/20`}>
+              <div className="flex items-center justify-end">
                 <Button
                   variant="ghost"
                   size="icon"

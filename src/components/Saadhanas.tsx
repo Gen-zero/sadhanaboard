@@ -100,7 +100,7 @@ const Saadhanas = () => {
       <CosmicBackgroundSimple />
       
       {/* Cosmic particles - hidden for Shiva theme */}
-      <div className={`fixed inset-0 pointer-events-none overflow-hidden ${isShivaTheme ? 'hidden' : ''}`}>
+      <div className={`absolute inset-0 pointer-events-none overflow-hidden ${isShivaTheme ? 'hidden' : ''}`}>
         {cosmicParticles.map((_, index) => (
           <CosmicParticle key={index} delay={index * 0.1} />
         ))}

@@ -46,47 +46,72 @@ export const CornerBracket = ({
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   color?: string;
 }) => {
+  const toGlowColor = (value: string, alpha: number) => {
+    if (value.startsWith('#')) {
+      const hex = value.slice(1);
+      const normalized = hex.length === 3
+        ? hex.split('').map((char) => char + char).join('')
+        : hex;
+      const r = parseInt(normalized.slice(0, 2), 16);
+      const g = parseInt(normalized.slice(2, 4), 16);
+      const b = parseInt(normalized.slice(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    if (value.startsWith('rgb(')) {
+      return value.replace('rgb(', 'rgba(').replace(')', `, ${alpha})`);
+    }
+    if (value.startsWith('rgba(')) {
+      return value;
+    }
+    return value;
+  };
+
   const base: React.CSSProperties = {
     width: '20px',
     height: '20px',
     position: 'absolute',
     zIndex: 20,
     transition: 'all 0.3s ease',
-    color
-  };
-
-  // Draw only one corner and mirror via transform so each bracket is single-corner
-  const transforms: Record<typeof position, string> = {
-    'top-left': '',
-    'top-right': 'translate(20 0) scale(-1 1)',
-    'bottom-left': 'translate(0 20) scale(1 -1)',
-    'bottom-right': 'translate(20 20) scale(-1 -1)'
+    borderColor: color,
+    borderStyle: 'solid',
+    borderWidth: 0,
+    filter: `drop-shadow(0 0 4px ${toGlowColor(color, 0.4)})`,
+    opacity: 0.8
   };
 
   const positions: Record<typeof position, React.CSSProperties> = {
-    'top-left': { top: '6px', left: '6px' },
-    'top-right': { top: '6px', right: '6px' },
-    'bottom-left': { bottom: '6px', left: '6px' },
-    'bottom-right': { bottom: '6px', right: '6px' }
+    'top-left': {
+      top: '6px',
+      left: '6px',
+      borderTopWidth: '2px',
+      borderLeftWidth: '2px',
+      borderTopLeftRadius: '0.5rem'
+    },
+    'top-right': {
+      top: '6px',
+      right: '6px',
+      borderTopWidth: '2px',
+      borderRightWidth: '2px',
+      borderTopRightRadius: '0.5rem'
+    },
+    'bottom-left': {
+      bottom: '6px',
+      left: '6px',
+      borderBottomWidth: '2px',
+      borderLeftWidth: '2px',
+      borderBottomLeftRadius: '0.5rem'
+    },
+    'bottom-right': {
+      bottom: '6px',
+      right: '6px',
+      borderBottomWidth: '2px',
+      borderRightWidth: '2px',
+      borderBottomRightRadius: '0.5rem'
+    }
   };
 
   return (
-    <svg
-      viewBox="0 0 20 20"
-      style={{ ...base, ...positions[position] }}
-      className="opacity-80"
-    >
-      <g transform={transforms[position]}>
-        <path
-          d="M16 4 Q4 4 4 16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-    </svg>
+    <div style={{ ...base, ...positions[position] }} />
   );
 };
 

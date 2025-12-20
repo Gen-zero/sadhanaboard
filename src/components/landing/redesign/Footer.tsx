@@ -62,7 +62,7 @@ const Footer = () => {
                             </div>
 
                             <div className="flex flex-col">
-                                <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300 transition-all duration-300 group-hover/logo:from-yellow-200 group-hover/logo:via-purple-200 group-hover/logo:to-fuchsia-200 font-chakra">
+                                <span className="text-xl md:text-2xl font-bold text-yellow-300 transition-all duration-300 group-hover/logo:text-yellow-200 font-chakra">
                                     SadhanaBoard
                                 </span>
                                 <span className="text-xs text-yellow-400/80 font-chakra font-medium tracking-wider uppercase transition-all duration-300 group-hover/logo:text-yellow-300">

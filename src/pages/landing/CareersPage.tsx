@@ -79,7 +79,7 @@ const CareersPage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-lg sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                <span className="text-lg sm:text-2xl font-bold text-yellow-300">
                   SadhanaBoard
                 </span>
                 <span className="text-[10px] sm:text-xs text-yellow-400/70 font-medium tracking-wider hidden xs:block">
@@ -234,7 +234,7 @@ const CareersPage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-purple-300 to-fuchsia-300">
+                  <span className="text-lg sm:text-xl font-bold text-yellow-300">
                     SadhanaBoard
                   </span>
                   <span className="text-[10px] sm:text-xs text-yellow-400/70 font-medium tracking-wider">
