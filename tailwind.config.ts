@@ -36,6 +36,8 @@ export default {
 				body: ['Inter', 'sans-serif'],
 				heading: ['Chakra Petch', 'sans-serif'],
 				subheading: ['Source Serif 4', 'serif'],
+				inter: ['Inter', 'sans-serif'],
+				'source-serif': ['Source Serif 4', 'serif'],
 			},
 			spacing: {
 				'safe-top': 'env(safe-area-inset-top)',

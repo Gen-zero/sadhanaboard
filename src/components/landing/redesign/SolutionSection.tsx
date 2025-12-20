@@ -100,15 +100,15 @@ const SolutionSection = () => {
 
                 {/* Right Column: Copy */}
                 <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-left space-y-8">
-                    <h3 className={`text-3xl md:text-[34px] font-serif leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
+                    <h3 className={`text-3xl md:text-[34px] font-source-serif font-medium leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         A Unified System for <br /> Your Spiritual Path
                     </h3>
 
-                    <p className={`text-lg text-white/60 leading-relaxed font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                    <p className={`text-lg text-white/60 leading-relaxed font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         SadhanaBoard brings clarity, structure, and continuity into one sacred workspace.
                     </p>
 
-                    <div className={`flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70 animate-fade-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
+                    <div className={`flex flex-wrap gap-4 md:gap-6 py-4 text-sm uppercase tracking-widest text-amber-100/70 animate-fade-in font-chakra font-medium ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
                         <span>Intention</span>
                         <span className="text-white/20">•</span>
                         <span>Rituals</span>
@@ -118,7 +118,7 @@ const SolutionSection = () => {
                         <span>Progress</span>
                     </div>
 
-                    <p className={`font-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6 animate-slide-in-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
+                    <p className={`font-source-serif italic text-xl text-white/80 border-l-2 border-white/10 pl-6 animate-slide-in-right ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
                         All aligned inside a single, integrated system—<br />
                         quiet, elegant, and built for real discipline.
                     </p>

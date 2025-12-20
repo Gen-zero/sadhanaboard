@@ -18,8 +18,8 @@ const HeroSection = () => {
       {/* Content Container */}
       <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
 
-        {/* Main Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+        {/* Main Headline - Chakra Petch 600-700 */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-chakra">
           <span className="block text-white drop-shadow-lg">
             Your Daily Sadhana.
           </span>
@@ -28,16 +28,16 @@ const HeroSection = () => {
           </span>
         </h1>
 
-        {/* Subheadline */}
-        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-amber-50/90 leading-relaxed font-light">
+        {/* Subheadline - Source Serif 4 500 */}
+        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-amber-50/90 leading-relaxed font-source-serif font-medium">
           Build disciplined spiritual practice with a personalized Sadhana Card, real progress metrics, and a workspace designed around your chosen deity.
         </p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - Chakra Petch 500 */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <Button
             size="lg"
-            className="w-full sm:w-auto bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] text-white border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full transform hover:scale-110 font-bold group/cta overflow-hidden relative"
+            className="w-full sm:w-auto bg-gradient-to-r from-[#DC143C] via-[#B01030] to-[#8B0000] hover:from-[#FF1744] hover:via-[#DC143C] hover:to-[#B01030] text-white border border-[#DC143C]/60 hover:border-[#FF1744]/80 shadow-2xl hover:shadow-2xl transition-all duration-300 text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full transform hover:scale-110 font-bold group/cta overflow-hidden relative font-chakra uppercase tracking-wide"
             style={{
               boxShadow: '0 0 30px rgba(220, 20, 60, 0.4), 0 0 60px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
@@ -53,15 +53,15 @@ const HeroSection = () => {
           <Button
             size="lg"
             variant="outline"
-            className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full group"
+            className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-sm sm:text-base md:text-lg px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 h-auto rounded-full group font-chakra"
           >
             <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 fill-current opacity-80 group-hover:scale-110 transition-transform" />
             Watch Demo (45s)
           </Button>
         </div>
 
-        {/* Micro-Trust Strip */}
-        <div className="flex items-center justify-center gap-2 text-sm text-amber-200/60 pt-8 font-medium tracking-wide">
+        {/* Micro-Trust Strip - Chakra Petch 500 ALL CAPS */}
+        <div className="flex items-center justify-center gap-2 text-sm text-amber-200/60 pt-8 font-medium tracking-wider font-chakra uppercase">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4" />
             Private Beta

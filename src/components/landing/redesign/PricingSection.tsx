@@ -89,10 +89,10 @@ const PricingSection = () => {
         <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-24 px-4 relative overflow-hidden bg-cosmic">
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className={`text-center mb-16`}>
-                    <h2 className={`text-3xl md:text-5xl font-serif leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
+                    <h2 className={`text-3xl md:text-5xl font-source-serif font-medium leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
                         Invest in Your Evolution
                     </h2>
-                    <p className={`text-xl text-white/60 font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
+                    <p className={`text-xl text-white/60 font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         Simple pricing. No hidden fees. Cancel anytime.
                     </p>
                 </div>
@@ -139,7 +139,7 @@ const PricingSection = () => {
 
                     {/* Plan Indicator Text */}
                     <div className="text-center mt-4">
-                        <p className="text-sm text-white/60 font-mono">
+                        <p className="text-sm text-white/60 font-chakra">
                             {currentSlide + 1} / {pricingPlans.length} - {pricingPlans[currentSlide].title}
                         </p>
                     </div>

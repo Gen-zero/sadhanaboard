@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Settings, RotateCcw, Volume2, VolumeX, X, Smartphone, Target } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
 import ThemedBackground from '@/components/ThemedBackground';
 import { useSettings } from '@/hooks/useSettings';
 
@@ -196,10 +195,9 @@ const BeadCounterPage = () => {
   const [isResetConfirming, setIsResetConfirming] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Derived state
+  // Derived state - single atomic count
   const currentBeadIndex = totalCount % targetCount;
   const round = Math.floor(totalCount / targetCount);
-  const remaining = targetCount - currentBeadIndex;
 
   const currentStyle = beadStyles[beadType];
 
@@ -387,7 +385,7 @@ const BeadCounterPage = () => {
                 <select
                   value={targetCount}
                   onChange={(e) => setTargetCount(parseInt(e.target.value))}
-                  className="flex-1 bg-muted/30 border border-purple-500/20 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400 focus:border-purple-500"
+                  className="flex-1 bg-muted/30 border border-purple-500/20 rounded-lg px-3 py-2 text-sm text-black focus:ring-2 focus:ring-purple-400 focus:border-purple-500"
                 >
                   <option value={27}>27 (¼ Mala)</option>
                   <option value={54}>54 (½ Mala)</option>
@@ -453,6 +451,28 @@ const BeadCounterPage = () => {
                 </div>
               </div>
             )}
+
+            {/* Reset Section */}
+            <div className="pt-4 border-t border-purple-500/20">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className="text-sm font-semibold text-muted-foreground">Total Offerings</p>
+                  <p className="text-xl font-source-serif text-foreground">{totalCount}</p>
+                </div>
+                <button
+                  onClick={handleReset}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isResetConfirming
+                    ? 'bg-red-500 text-white'
+                    : 'bg-muted/30 text-muted-foreground hover:bg-red-500/20 hover:text-red-400'
+                    }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <RotateCcw className={`w-4 h-4 ${isResetConfirming ? 'animate-spin' : ''}`} />
+                    {isResetConfirming ? 'Confirm Reset' : 'Reset'}
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -460,64 +480,57 @@ const BeadCounterPage = () => {
       {/* Main Interactive Area */}
       <main className="flex-1 flex flex-col items-center justify-between pt-20 pb-4 px-4">
 
-        {/* Top Section - Stats */}
-        <div className="w-full max-w-lg space-y-4">
-          {/* Stats Cards - Profile Card Styling */}
-          <div className="grid grid-cols-3 gap-4">
-            {/* Rounds Card */}
-            <Card className="backdrop-blur-sm bg-background/70 border border-purple-500/20 hover-lift">
-              <CardContent className="p-4 text-center">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Rounds</p>
-                <p className="text-3xl font-bold text-foreground">{round}</p>
-              </CardContent>
-            </Card>
 
-            {/* Current Count Card */}
-            <Card className="backdrop-blur-sm bg-background/70 border border-purple-500/20 hover-lift">
-              <CardContent className="p-4 text-center">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Current</p>
-                <p className="text-3xl font-bold text-foreground">{currentBeadIndex}</p>
-                <p className="text-xs text-muted-foreground">/ {targetCount}</p>
-              </CardContent>
-            </Card>
+        {/* Consecrated Count Unit - Temple Plaque Style */}
+        <div className="w-full max-w-lg flex flex-col items-center">
+          <div
+            className="relative px-12 py-8 text-center"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.03) 0%, transparent 70%)',
+            }}
+          >
+            {/* Subtle gold line accent above */}
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent)',
+              }}
+            />
 
-            {/* Remaining Card */}
-            <Card className="backdrop-blur-sm bg-background/70 border border-purple-500/20 hover-lift">
-              <CardContent className="p-4 text-center">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Remaining</p>
-                <p className="text-3xl font-bold text-foreground">{remaining === targetCount ? 0 : remaining}</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Total Count & Reset */}
-          <div className="flex items-center justify-between px-4">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Total Count</span>
-              <span className="text-2xl font-bold text-foreground font-mono">{totalCount}</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {/* Current Bead Badge */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-sm bg-background/70 border border-purple-500/20">
-                <div
-                  className="w-3 h-3 rounded-full border border-white/20"
-                  style={{ backgroundColor: currentStyle.baseColor }}
-                />
-                <span className="text-xs font-semibold text-muted-foreground">{currentStyle.name}</span>
-              </div>
-
-              <button
-                onClick={(e) => { e.stopPropagation(); handleReset(); }}
-                className={`p-4 rounded-full transition-all duration-200 active:scale-95 ${isResetConfirming
-                  ? 'bg-red-500 text-white shadow-md scale-110'
-                  : 'backdrop-blur-sm bg-background/70 border border-purple-500/20 text-muted-foreground hover:bg-red-500/20 hover:text-red-400'
-                  }`}
-                title={isResetConfirming ? "Tap again to confirm" : "Reset Counter"}
+            {/* Primary Count - Consecrated Fraction */}
+            <div
+              className="flex items-baseline justify-center gap-1 transition-opacity duration-700"
+              style={{ opacity: isAnimating ? 0.6 : 1 }}
+            >
+              <span
+                className="text-5xl sm:text-6xl font-source-serif font-normal text-white/90 tracking-tight"
+                style={{ fontVariantNumeric: 'tabular-nums' }}
               >
-                <RotateCcw className={`w-5 h-5 ${isResetConfirming ? 'animate-spin' : ''}`} />
-              </button>
+                {currentBeadIndex}
+              </span>
+              <span className="text-3xl sm:text-4xl font-source-serif font-light text-white/30 tracking-wider mx-1">
+                /
+              </span>
+              <span className="text-3xl sm:text-4xl font-source-serif font-light text-white/40 tracking-wide">
+                {targetCount}
+              </span>
             </div>
+
+            {/* Secondary - Round Indicator (Whispered) */}
+            <p
+              className="mt-4 text-sm font-source-serif font-normal text-white/20 tracking-widest uppercase"
+              style={{ fontVariantNumeric: 'tabular-nums' }}
+            >
+              Round {round}
+            </p>
+
+            {/* Subtle gold line accent below */}
+            <div
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-px"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent)',
+              }}
+            />
           </div>
         </div>
 
@@ -528,8 +541,8 @@ const BeadCounterPage = () => {
             className="relative w-full h-[300px] cursor-pointer active:cursor-grabbing group overflow-visible"
             onClick={handleIncrement}
           >
-            {/* Center Marker / Focus Area */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full border border-orange-300/30 bg-orange-500/5 blur-xl pointer-events-none" />
+            {/* Center Marker - Subtle Sacred */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-amber-500/5 blur-2xl pointer-events-none" />
 
             <svg
               width="100%"
@@ -623,12 +636,12 @@ const BeadCounterPage = () => {
               })}
             </svg>
 
-            {/* Touch Feedback */}
-            <div className={`absolute top-[45px] left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-white/30 blur-md pointer-events-none transition-opacity duration-200 ${isAnimating ? 'opacity-100' : 'opacity-0'}`} />
+            {/* Touch Feedback - Subtle Breath */}
+            <div className={`absolute top-[45px] left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-amber-200/10 blur-xl pointer-events-none transition-opacity duration-500 ${isAnimating ? 'opacity-100' : 'opacity-0'}`} />
           </div>
 
-          {/* Tap to pull instruction */}
-          <p className="text-muted-foreground/60 text-sm font-medium">Tap to pull</p>
+          {/* Instruction - Whispered */}
+          <p className="text-white/15 text-sm font-source-serif italic tracking-wide">Tap to offer</p>
         </div>
       </main>
     </div>

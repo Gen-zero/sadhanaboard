@@ -60,14 +60,37 @@ const saffronTheme = {
     cursorColor: 'bg-[#5C2218]',
 };
 
+const toGlowColor = (color: string, alpha: number) => {
+    if (color.startsWith('#')) {
+        const hex = color.slice(1);
+        const normalized = hex.length === 3
+            ? hex.split('').map((char) => char + char).join('')
+            : hex;
+        const r = parseInt(normalized.slice(0, 2), 16);
+        const g = parseInt(normalized.slice(2, 4), 16);
+        const b = parseInt(normalized.slice(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    if (color.startsWith('rgb(')) {
+        return color.replace('rgb(', 'rgba(').replace(')', `, ${alpha})`);
+    }
+    if (color.startsWith('rgba(')) {
+        return color;
+    }
+    return color;
+};
+
 // Corner Bracket Component
 const CornerBracket = ({ position, color, isVisible }: {
     position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     color: string;
     isVisible: boolean;
 }) => {
+    const glowColor = toGlowColor(color, 0.4);
     const style: React.CSSProperties = {
         borderColor: color,
+        borderStyle: 'solid',
+        borderWidth: 0,
         width: '20px',
         height: '20px',
         position: 'absolute',
@@ -75,13 +98,38 @@ const CornerBracket = ({ position, color, isVisible }: {
         transition: 'all 0.5s ease',
         opacity: isVisible ? 0.8 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.5)',
+        filter: isVisible ? `drop-shadow(0 0 4px ${glowColor})` : 'none',
     };
 
     const props = {
-        'top-left': { top: '12px', left: '12px', borderTopWidth: '2px', borderLeftWidth: '2px' },
-        'top-right': { top: '12px', right: '12px', borderTopWidth: '2px', borderRightWidth: '2px' },
-        'bottom-left': { bottom: '12px', left: '12px', borderBottomWidth: '2px', borderLeftWidth: '2px' },
-        'bottom-right': { bottom: '12px', right: '12px', borderBottomWidth: '2px', borderRightWidth: '2px' },
+        'top-left': {
+            top: '12px',
+            left: '12px',
+            borderTopWidth: '2px',
+            borderLeftWidth: '2px',
+            borderTopLeftRadius: '0.5rem'
+        },
+        'top-right': {
+            top: '12px',
+            right: '12px',
+            borderTopWidth: '2px',
+            borderRightWidth: '2px',
+            borderTopRightRadius: '0.5rem'
+        },
+        'bottom-left': {
+            bottom: '12px',
+            left: '12px',
+            borderBottomWidth: '2px',
+            borderLeftWidth: '2px',
+            borderBottomLeftRadius: '0.5rem'
+        },
+        'bottom-right': {
+            bottom: '12px',
+            right: '12px',
+            borderBottomWidth: '2px',
+            borderRightWidth: '2px',
+            borderBottomRightRadius: '0.5rem'
+        },
     };
 
     return <div style={{ ...style, ...props[position] }} />;
@@ -869,6 +917,10 @@ function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
     hasStarted: boolean;
 }) {
     const shouldReduceMotion = useReducedMotion();
+    const promiseCornerStyle: React.CSSProperties = {
+        borderColor: 'rgba(62, 39, 35, 0.3)',
+        filter: 'drop-shadow(0 0 4px rgba(62, 39, 35, 0.2))'
+    };
 
     useEffect(() => {
         if (!isActive || !hasStarted || isComplete) return;
@@ -904,10 +956,10 @@ function DailyPracticeView({ isActive, onComplete, isComplete, hasStarted }: {
                     }} />
 
                     {/* Corner decorations */}
-                    <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#3E2723]/30" />
-                    <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#3E2723]/30" />
-                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#3E2723]/30" />
-                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#3E2723]/30" />
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 rounded-tl-lg" style={promiseCornerStyle} />
+                    <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 rounded-tr-lg" style={promiseCornerStyle} />
+                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 rounded-bl-lg" style={promiseCornerStyle} />
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 rounded-br-lg" style={promiseCornerStyle} />
 
                     <div className="relative z-10">
                         {/* Header */}
