@@ -55,17 +55,21 @@ export const useSaadhanas = () => {
 
           // Filter for sadhana tasks and convert to Sadhana format
           const sadhanaTasksConverted = tasks
-            .filter(task => task.sadhanaId && task.category === 'daily')
+            .filter(task => task.sadhanaId && (task.category === 'daily' || task.category === 'goal'))
             .map(task => ({
               id: task.id,
               title: task.title,
-              description: task.description || `🙏 Daily sadhana practice - ${task.title}`,
+              description: task.description || (task.category === 'daily'
+                ? `🙏 Daily sadhana practice - ${task.title}`
+                : `Goal task for your sadhana - ${task.title}`),
               completed: task.completed,
               category: task.category,
-              dueDate: task.dueDate || format(new Date(), 'yyyy-MM-dd'),
+              dueDate: task.category === 'daily'
+                ? (task.dueDate || format(new Date(), 'yyyy-MM-dd'))
+                : task.dueDate,
               time: task.time,
               priority: task.priority,
-              tags: [...(task.tags || []), 'sadhana', 'daily-practice'],
+              tags: [...(task.tags || []), 'sadhana', task.category === 'daily' ? 'daily-practice' : 'goal-task'],
               sadhanaId: task.sadhanaId,
               isSadhanaTask: true // Mark as sadhana task
             } as Sadhana & { isSadhanaTask: boolean }));

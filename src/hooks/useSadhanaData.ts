@@ -96,6 +96,10 @@ const createOrRefreshDailySadhanaTasks = (sadhanaData: SadhanaData, sadhanaId: n
     const allTasks = [...filteredTasks, ...todayTasks];
     localStorage.setItem('saadhanaTasks', JSON.stringify(allTasks));
 
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('sadhana-tasks-refreshed'));
+    }
+
     console.log(`Created/refreshed ${todayTasks.length} sadhana tasks for today (${todayStr})`);
   } catch (error) {
     console.log('Could not create/refresh daily sadhana tasks:', error);
@@ -137,6 +141,10 @@ const createOneTimeSadhanaTasks = (sadhanaData: SadhanaData, sadhanaId: number) 
 
     const allTasks = [...existingTasks, ...goalTasks];
     localStorage.setItem('saadhanaTasks', JSON.stringify(allTasks));
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('sadhana-tasks-refreshed'));
+    }
 
     console.log(`Created ${goalTasks.length} goal tasks for sadhanaId: ${sadhanaId}`);
   } catch (error) {
