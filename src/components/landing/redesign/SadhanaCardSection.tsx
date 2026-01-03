@@ -1131,7 +1131,7 @@ export function SadhanaCard({ steps = defaultSteps, className }: SadhanaCardProp
                         <Sparkles className="w-3 h-3 text-amber-300" />
                         <span className="text-xs text-amber-200 font-medium tracking-wide font-mono uppercase">Sacred Technology</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">
+                    <h2 className="text-3xl md:text-4xl font-chakra font-bold text-white mb-2">
                         The <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400">Sadhana Card</span>
                     </h2>
                     <p className="text-white/50 text-sm max-w-md mx-auto">

@@ -14,7 +14,7 @@ const OriginStorySection = () => {
                     Authenticity & Trust
                 </h2>
 
-                <div className={`font-serif text-2xl md:text-3xl leading-relaxed animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.25s' }}>
+                <div className={`font-chakra text-2xl md:text-3xl leading-relaxed animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.25s' }}>
                     Created by practitioners. Designed with discipline.<br />
                     Built by two brothers from a Tantric lineage and a self-taught technical genius devoted to Maa Kali—<br />
                     <span className="text-white/40">not for entertainment, but for committed seekers who value depth.</span>

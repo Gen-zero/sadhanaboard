@@ -100,7 +100,7 @@ const SolutionSection = () => {
 
                 {/* Right Column: Copy */}
                 <div ref={contentRef as React.RefObject<HTMLDivElement>} className="text-left space-y-8">
-                    <h3 className={`text-3xl md:text-[34px] font-source-serif font-medium leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
+                    <h3 className={`text-3xl md:text-[34px] font-chakra font-medium leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
                         A Unified System for <br /> Your Spiritual Path
                     </h3>
 

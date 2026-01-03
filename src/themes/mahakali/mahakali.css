@@ -59,7 +59,12 @@
 }
 
 .theme-mahakali .landing-page h2,
-.theme-mahakali .landing-page h3,
+.theme-mahakali .landing-page h3 {
+  font-family: var(--mahakali-font-display) !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+}
+
 .theme-mahakali .landing-page .subheading,
 .theme-mahakali .landing-page .emphasis {
   font-family: var(--mahakali-font-serif) !important;

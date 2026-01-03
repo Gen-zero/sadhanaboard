@@ -89,7 +89,7 @@ const PricingSection = () => {
         <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-24 px-4 relative overflow-hidden bg-cosmic">
             <div className="max-w-[1300px] mx-auto relative z-10">
                 <div className={`text-center mb-16`}>
-                    <h2 className={`text-3xl md:text-5xl font-source-serif font-medium leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
+                    <h2 className={`text-3xl md:text-5xl font-chakra font-medium leading-tight text-white/90 mb-4 animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
                         Invest in Your Evolution
                     </h2>
                     <p className={`text-xl text-white/60 font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>

@@ -137,7 +137,7 @@ const FeaturesSection = () => {
                         <span className="text-xs font-chakra uppercase tracking-widest text-amber-300">System Capabilities</span>
                     </div>
 
-                    <h2 className="text-4xl md:text-5xl font-source-serif font-medium leading-tight text-white/90 mb-6">
+                    <h2 className="text-4xl md:text-5xl font-chakra font-medium leading-tight text-white/90 mb-6">
                         Everything You Need for <span className="text-amber-400">Serious Practice</span>
                     </h2>
                     <p className="text-xl text-white/50 font-inter max-w-2xl mx-auto">

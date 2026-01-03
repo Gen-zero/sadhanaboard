@@ -25,7 +25,7 @@ const TargetAudienceSection = () => {
         <section ref={sectionRef as React.RefObject<HTMLElement>} className="py-24 px-6 border-y border-white/5 bg-white/[0.02]">
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
                 <div className={`space-y-6 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>
-                    <h2 className={`font-source-serif font-medium text-3xl animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
+                    <h2 className={`font-chakra font-medium text-3xl animate-fade-in-up ${isVisible ? 'visible' : ''}`}>
                         Built for individual depth.<br />Designed for collective guidance.
                     </h2>
                     <p className={`text-white/60 font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.15s' }}>

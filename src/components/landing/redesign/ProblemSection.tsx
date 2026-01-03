@@ -302,7 +302,7 @@ const ProblemSection = () => {
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
                 <div ref={contentRef as React.RefObject<HTMLDivElement>} className="space-y-8">
                     <h2 className={`text-sm uppercase tracking-[0.2em] text-amber-200/60 animate-fade-in-up font-chakra font-medium ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.1s' }}>Why Discipline Breaks</h2>
-                    <h3 className={`font-source-serif text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up font-medium ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                    <h3 className={`font-chakra text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up font-medium ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                         When your spiritual tools are scattered, your practice becomes fragile.
                     </h3>
                     <p className={`text-white/60 leading-relaxed font-inter animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>

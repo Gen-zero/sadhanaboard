@@ -112,8 +112,8 @@ const WorkspaceSection = () => {
                                     <div className="h-full w-full rounded-2xl overflow-hidden card-glass border-2 border-white/10 shadow-2xl">
                                         {/* Deity Image Background */}
                                         <div className="absolute inset-0">
-                                            <img 
-                                                src={theme.image} 
+                                            <img
+                                                src={theme.image}
                                                 alt={theme.name}
                                                 className={`w-full h-full object-cover ${imageErrors[theme.name] ? 'hidden' : 'block'}`}
                                                 style={theme.imagePosition ? { objectPosition: theme.imagePosition } : undefined}
@@ -166,8 +166,8 @@ const WorkspaceSection = () => {
                                                             <div
                                                                 key={i}
                                                                 className={`h-1.5 rounded-full transition-all duration-300 ${i === currentSlide
-                                                                        ? 'w-8 bg-white'
-                                                                        : 'w-1.5 bg-white/30'
+                                                                    ? 'w-8 bg-white'
+                                                                    : 'w-1.5 bg-white/30'
                                                                     }`}
                                                             />
                                                         ))}
@@ -190,7 +190,7 @@ const WorkspaceSection = () => {
                             <Palette className="inline w-4 h-4 mr-2" />
                             Your Sacred Interface
                         </h2>
-                        <h3 className={`font-serif text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                        <h3 className={`font-chakra text-3xl md:text-4xl leading-tight text-white/90 animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                             Every deity has its own energy. Your workspace should too.
                         </h3>
                         <p className={`text-white/60 leading-relaxed font-light animate-fade-in-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
